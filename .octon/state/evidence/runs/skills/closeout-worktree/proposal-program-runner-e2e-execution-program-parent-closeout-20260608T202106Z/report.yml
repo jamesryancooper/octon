@@ -1,0 +1,70 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: proposal-program-runner-e2e-execution-program-parent-closeout-20260608T202106Z
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: original_source_branch_cleaned
+initial_inventory_ref: source branch chore/program-closeout-archive-cleanup was clean and tracking origin/chore/program-closeout-archive-cleanup at ee99df6de84646f076f489bdb6bfad95c7f78047 before hosted landing.
+residue_classification_ref: proposal-program-runner-e2e-execution-program hygiene classification passed with 6 in-scope paths and 0 foreign paths before parent closeout.
+final_inventory_ref: local main, origin/main, and landed ref all resolved to ee99df6de84646f076f489bdb6bfad95c7f78047 after governed cleanup; local and remote source branch refs were absent.
+selected_candidate_id: proposal-program-runner-archive-cleanup-branch
+observed_change_set_count: 1
+next_route_condition: none
+repo_hygiene_cleanup_outcome: not-applicable
+candidates:
+  - candidate_id: proposal-program-runner-archive-cleanup-branch
+    disposition: closed
+    ownership: current proposal program closeout/archive cleanup branch
+    route_hint: closeout-change branch-no-pr
+    target_lifecycle_outcome: cleaned
+    residue_routing_class: publishable_change
+    rollback_or_discard_posture: governed revert of main range 9ba0e7db2a953d8ff533d8573796eccdc265a96f..ee99df6de84646f076f489bdb6bfad95c7f78047; do not force-push
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-parent-closeout-20260608T202106Z/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-*/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficient-proposal-program-controller/
+        - .octon/generated/proposals/registry.yml
+        - .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+        - .octon/state/evidence/validation/analysis/2026-06-08-promote-proposal-1.md
+      exclude_paths: []
+retained_residue: []
+blockers: []
+final_candidate_dispositions:
+  proposal-program-runner-archive-cleanup-branch:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-parent-closeout-20260608T202106Z/change-receipt.json
+iterations:
+  - iteration_id: branch-no-pr-program-closeout-archive-cleanup
+    pre_inventory_ref: source branch, remote source branch, and HEAD aligned at ee99df6de84646f076f489bdb6bfad95c7f78047; local main and origin/main aligned at 9ba0e7db2a953d8ff533d8573796eccdc265a96f.
+    pre_classification_ref: all E2E parent closeout validators passed; route-neutral GitHub checks passed at the exact source SHA before hosted landing.
+    selected_candidate_id: proposal-program-runner-archive-cleanup-branch
+    include_paths:
+      - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-*/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficient-proposal-program-controller/
+      - .octon/generated/proposals/registry.yml
+      - .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+      - .octon/state/evidence/validation/analysis/2026-06-08-promote-proposal-1.md
+    exclude_paths: []
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-parent-closeout-20260608T202106Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: local branch chore/program-closeout-archive-cleanup deleted; remote branch origin/chore/program-closeout-archive-cleanup deleted; main synced to origin/main at ee99df6de84646f076f489bdb6bfad95c7f78047.
+    post_classification_ref: gh pr list --head chore/program-closeout-archive-cleanup --state open returned 0 after cleanup.
+    next_selection_reason: no original source branch cleanup remained after governed local and remote branch deletion.
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+  ignored: 0
+created_at: "2026-06-08T20:21:06Z"
