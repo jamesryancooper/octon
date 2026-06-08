@@ -1,6 +1,6 @@
 # Child Packet Index
 
-All child packets are required, active, sibling proposal packets. Parent
+All child packets are required, archived sibling proposal packets. Parent
 evidence coordinates only and never satisfies child receipts.
 
 | Order | Child | Focus | Dependencies |

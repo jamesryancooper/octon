@@ -3,7 +3,7 @@ execution_mode: "gated-parallel"
 default_child_lifecycle_id: "proposal-packet"
 children:
   - child_id: "lifecycle-postmortem-meta-workflow"
-    path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-meta-workflow"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-postmortem-meta-workflow"
     required: true
     deferred: false
     dependencies: []
@@ -16,7 +16,7 @@ children:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
     seed_role: "first-child"
   - child_id: "lifecycle-postmortem-evaluator-template"
-    path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-evaluator-template"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-postmortem-evaluator-template"
     required: true
     deferred: false
     dependencies:
@@ -30,7 +30,7 @@ children:
       - ".octon/framework/constitution/contracts/assurance/"
     seed_role: "follow-on"
   - child_id: "lifecycle-postmortem-validator"
-    path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-validator"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-postmortem-validator"
     required: true
     deferred: false
     dependencies:

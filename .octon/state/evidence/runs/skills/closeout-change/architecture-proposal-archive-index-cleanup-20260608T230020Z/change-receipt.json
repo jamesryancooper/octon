@@ -1,0 +1,108 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "architecture-proposal-archive-index-cleanup-20260608T230020Z",
+  "selected_route": "branch-no-pr",
+  "initial_route": "direct-main",
+  "route_transition_reason": "Direct push to origin/main was rejected by GitHub repository rules requiring four expected status checks; hosted branch-no-pr landing is required for route-neutral closeout.",
+  "route_transition_authority": "GitHub repository rules",
+  "route_transition_evidence_refs": [
+    "git push origin main: remote rejected refs/heads/main with GH013 and '4 of 4 required status checks are expected'"
+  ],
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Clean stale active-tree references from archived architecture proposal program child indexes after the final architecture proposal lifecycle audit.",
+  "scope": {
+    "summary": "Archived parent child indexes now point child paths and parent artifact references at archived proposal locations, and archived index prose no longer describes archived children as active.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/child-packet-index.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/child-packet-index.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-postmortem-evaluation-program/resources/child-packet-index.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-postmortem-evaluation-program/resources/child-packet-index.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/child-packet-index.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/child-packet-index.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/token-efficient-proposal-program-controller/resources/child-packet-index.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/token-efficient-proposal-program-controller/resources/child-packet-index.yml",
+      ".octon/state/evidence/runs/skills/closeout-change/architecture-proposal-archive-index-cleanup-20260608T230020Z/change-receipt.json"
+    ],
+    "diff_refs": [
+      "5db711b8f9a4c1bd0bd257c67d3d03f6e93017cf..direct-main-archive-index-cleanup-commit"
+    ]
+  },
+  "source_branch_ref": "chore/archive-index-cleanup@branch-no-pr-source-commit",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/archive-index-cleanup@branch-no-pr-source-commit before governed cleanup deletion",
+  "landing_authorization_ref": "/private/tmp/archive-index-cleanup-branch-landing-authorization.json",
+  "cleanup_authorization_ref": "/private/tmp/archive-index-cleanup-branch-cleanup-authorization.json",
+  "landed_ref": "branch-no-pr-source-commit",
+  "main_alignment": {
+    "local_main_ref": "5db711b8f9a4c1bd0bd257c67d3d03f6e93017cf",
+    "origin_main_ref": "5db711b8f9a4c1bd0bd257c67d3d03f6e93017cf",
+    "landed_ref": "branch-no-pr-source-commit",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "pre-closeout git rev-parse HEAD main origin/main all returned 5db711b8f9a4c1bd0bd257c67d3d03f6e93017cf; concrete post-landing alignment is reported by the final closeout result.",
+    "local_main_sync_evidence_ref": "branch-no-pr closeout starts from local main synchronized with origin/main.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "final branch-no-pr closeout verification resolves the concrete landed commit after hosted landing and cleanup."
+  },
+  "integration_method": "fast-forward hosted no-PR landing",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "/private/tmp/archive-index-cleanup-branch-landing-authorization.json",
+    "/private/tmp/archive-index-cleanup-branch-cleanup-authorization.json",
+    "No stash or destructive cleanup is required."
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch showed local main aligned with origin/main before the cleanup edit.",
+    "residue_classification_ref": "branch-no-pr proposal archive-index hygiene after direct-main publication was blocked by hosted rules; no implementation or active proposal lifecycle mutation.",
+    "phase_exit_refs": [
+      "inventory: local HEAD, main, and origin/main were aligned at 5db711b8f9a4c1bd0bd257c67d3d03f6e93017cf before this closeout.",
+      "route-resolution: direct-main was initially selected because the change is narrow archived proposal metadata cleanup on synchronized main with no PR-required predicate.",
+      "route-transition: direct push was rejected by GitHub repository rules requiring expected checks, so closeout transitioned to branch-no-pr hosted landing.",
+      "validation: archived child-index resolution, active proposal registry/status checks, active child parent resolution, stale active-path/prose sweeps, and git diff checks passed."
+    ],
+    "cleanup_decision_refs": [
+      "Archived child index path fields were rewritten from .octon/inputs/exploratory/proposals/architecture/ to .octon/inputs/exploratory/proposals/.archive/architecture/ only inside archived proposal child indexes.",
+      "Archived index prose was updated from active child wording to archived child wording."
+    ],
+    "safe_cleanup_evidence_class": "not-applicable",
+    "hosted_landing_refs": [
+      "/private/tmp/archive-index-cleanup-branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      "/private/tmp/archive-index-cleanup-branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": "post-landing and post-cleanup final verification reported by the closeout result."
+  },
+  "validation_evidence_refs": [
+    "archived child index resolution: every child path declared by archived architecture program child-packet-index.yml files resolves directly to an archived proposal manifest with status archived",
+    "rg -uu for .octon/inputs/exploratory/proposals/architecture/ under archived child-packet-index.yml/md: no matches",
+    "rg -uu for stale active wording under archived child-packet-index.md: no matches",
+    "active architecture proposal manifests: no status implemented matches",
+    "generated proposal registry active architecture entries: no active path has status implemented or archived",
+    "active architecture child parent resolution: no active child points to a missing active parent",
+    "active architecture closeout receipts: only change-closeout-state-machine and repo-hygiene-cleanup-authorization-receipts exist, both blocked with archive_authorized no",
+    "git diff --check: passed",
+    "git push origin main: blocked by repository rules requiring expected checks, triggering branch-no-pr route transition"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because provider rules did not require pull_request during hosted branch-no-pr preflight and this route-neutral cleanup has no PR-required predicate."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "branch-no-pr-source-commit",
+    "branch": "chore/archive-index-cleanup"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "origin/main pre-closeout ref 5db711b8f9a4c1bd0bd257c67d3d03f6e93017cf",
+    "instructions": "Use a governed follow-up Change to revert the branch-no-pr landed archive-index cleanup commit if this metadata cleanup must be undone."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-08T23:00:20Z",
+  "updated_at": "2026-06-08T23:03:55Z"
+}

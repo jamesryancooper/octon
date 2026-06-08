@@ -1,6 +1,6 @@
 # Child Packet Index
 
-All child packets are required, active, sibling architecture proposal packets. Parent evidence coordinates only and never satisfies child receipts.
+All child packets are required, archived sibling architecture proposal packets. Parent evidence coordinates only and never satisfies child receipts.
 
 Dependent child packets use the contract-valid `verification` dependency gate: downstream implementation waits for dependency implementation, conformance, drift verification, and required evidence while child acceptance, implementation, closeout, and archive remain owned by each child lifecycle.
 

@@ -3,7 +3,7 @@ execution_mode: "gated-parallel"
 default_child_lifecycle_id: "proposal-packet"
 children:
   - child_id: "proposal-program-runner-terminal-gap-map"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-gap-map"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-gap-map"
     required: true
     deferred: false
     dependencies: []
@@ -13,16 +13,16 @@ children:
     rollback_posture: "manual"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
   - child_id: "proposal-program-runner-workflow-retry-ids"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-workflow-retry-ids"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-workflow-retry-ids"
     required: true
     deferred: false
     dependencies: ["proposal-program-runner-terminal-gap-map"]
@@ -32,10 +32,10 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
@@ -51,10 +51,10 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
@@ -62,7 +62,7 @@ children:
       - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
   - child_id: "proposal-program-runner-aggregate-terminal-blockers"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-aggregate-terminal-blockers"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-aggregate-terminal-blockers"
     required: true
     deferred: false
     dependencies: ["proposal-program-runner-terminal-gap-map"]
@@ -72,10 +72,10 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/spec/"
@@ -91,16 +91,16 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml"
   - child_id: "proposal-program-runner-publication-freshness-preflight"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-publication-freshness-preflight"
     required: true
     deferred: false
     dependencies: ["proposal-program-runner-terminal-gap-map"]
@@ -110,17 +110,17 @@ children:
     rollback_posture: "rollback-route"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/assurance/runtime/_ops/scripts/"
       - ".octon/framework/assurance/runtime/_ops/tests/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
   - child_id: "proposal-program-runner-parent-review-churn"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-parent-review-churn"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-parent-review-churn"
     required: true
     deferred: false
     dependencies: ["proposal-program-runner-terminal-gap-map"]
@@ -130,16 +130,16 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
   - child_id: "proposal-program-runner-archive-observation-recovery"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-archive-observation-recovery"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-archive-observation-recovery"
     required: true
     deferred: false
     dependencies:
@@ -151,17 +151,17 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/observer.rs"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
       - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
   - child_id: "proposal-program-runner-terminal-routing-tests"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-tests"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-tests"
     required: true
     deferred: false
     dependencies:
@@ -178,10 +178,10 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/crates/kernel/tests/"

@@ -3,7 +3,7 @@ execution_mode: "gated-parallel"
 default_child_lifecycle_id: "proposal-packet"
 children:
   - child_id: "autonomous-blocker-taxonomy"
-    path: ".octon/inputs/exploratory/proposals/architecture/autonomous-blocker-taxonomy"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-blocker-taxonomy"
     required: true
     deferred: false
     dependencies: []
@@ -13,17 +13,17 @@ children:
     rollback_posture: "manual"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md"
   - child_id: "token-efficiency-preservation"
-    path: ".octon/inputs/exploratory/proposals/architecture/token-efficiency-preservation"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-preservation"
     required: true
     deferred: false
     dependencies: []
@@ -33,17 +33,17 @@ children:
     rollback_posture: "manual"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/"
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
   - child_id: "validator-affordances"
-    path: ".octon/inputs/exploratory/proposals/architecture/validator-affordances"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/validator-affordances"
     required: true
     deferred: false
     dependencies:
@@ -55,16 +55,16 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/assurance/runtime/_ops/scripts/"
       - ".octon/framework/assurance/runtime/_ops/tests/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
   - child_id: "cleanup-routing"
-    path: ".octon/inputs/exploratory/proposals/architecture/cleanup-routing"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/cleanup-routing"
     required: true
     deferred: false
     dependencies:
@@ -76,10 +76,10 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/"
       - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/"
@@ -88,7 +88,7 @@ children:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/"
   - child_id: "evidence-and-receipt-hardening"
-    path: ".octon/inputs/exploratory/proposals/architecture/evidence-and-receipt-hardening"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/evidence-and-receipt-hardening"
     required: true
     deferred: false
     dependencies:
@@ -101,10 +101,10 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/constitution/contracts/retention/"
@@ -112,7 +112,7 @@ children:
       - ".octon/framework/assurance/runtime/_ops/scripts/"
       - ".octon/framework/assurance/runtime/_ops/tests/"
   - child_id: "runner-recovery-behavior"
-    path: ".octon/inputs/exploratory/proposals/architecture/runner-recovery-behavior"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/runner-recovery-behavior"
     required: true
     deferred: false
     dependencies:
@@ -127,10 +127,10 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
@@ -142,7 +142,7 @@ children:
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/"
   - child_id: "escalation-policy-update"
-    path: ".octon/inputs/exploratory/proposals/architecture/escalation-policy-update"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/escalation-policy-update"
     required: true
     deferred: false
     dependencies:
@@ -155,10 +155,10 @@ children:
     rollback_posture: "staged-commit"
     required_metadata: ["change_profile"]
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"

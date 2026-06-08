@@ -13,5 +13,5 @@ not nest children and does not satisfy child-owned lifecycle receipts.
 | `runner-recovery-behavior` | phase-3 | runner | yes | Autonomous repair, retry, refresh, rerun, resume, and hard-stop behavior. |
 | `escalation-policy-update` | phase-4 | policy | yes | Updated escalation policy and examples limiting operator escalation to hard blockers. |
 
-All children are active proposal packets under
-`.octon/inputs/exploratory/proposals/architecture/`.
+All children are archived proposal packets under
+`.octon/inputs/exploratory/proposals/.archive/architecture/`.
