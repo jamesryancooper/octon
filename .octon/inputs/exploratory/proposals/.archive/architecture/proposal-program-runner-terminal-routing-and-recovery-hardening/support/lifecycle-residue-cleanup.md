@@ -37,7 +37,7 @@ worktree_hygiene_in_scope_path_count: 0
 worktree_hygiene_foreign_path_count: 0
 worktree_hygiene_foreign_fingerprint: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 cleanup_authorization_receipt: "operator-approved cleanup-local-run-artifacts.sh --confirm for unreferenced local lifecycle run artifacts"
-local_only_recovery_branch_or_commit_refs: "stash@{0}"
+local_only_recovery_branch_or_commit_refs: "stash:b3e32d9e7a6b1b788daecf7e083236ec93af8505"
 published_cleanup_branch_refs: "none"
 ```
 
@@ -52,7 +52,8 @@ control files were then reclassified after the run was no longer active and
 removed through the same helper approval path. The subsequent archive workflow
 left 65 unreferenced raw control/evidence records that the helper classified
 as manual-review rather than cleanup-safe. Those local records were preserved
-without publishing in `stash@{0}`.
+without publishing in stash commit
+`b3e32d9e7a6b1b788daecf7e083236ec93af8505`.
 
 Post-cleanup dry-run evidence:
 
