@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow
-generated_at: '2026-06-08T20:33:42Z'
+generated_at: '2026-06-08T20:43:04Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:d696b5f56d10f8cc7b22a996d302728266a56dac6f81af197e7d911e38239b84
-  checked_at: '2026-06-08T20:33:42Z'
+  combined_source_digest: sha256:f5f2f887793d6578a07e4e38f2a012a77bb8d5a3589ea94e4d351d505f712923
+  checked_at: '2026-06-08T20:43:04Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:46b7d22665d53e8e550d2eef5106fc2142713f07ce8afdf0b6aa38905c4f180f
+    digest: sha256:e8f87ddd428e0cf5b2171560e821101ebdf12bb769efcbbf6518a51de2ced5c0
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow/handoff.yml

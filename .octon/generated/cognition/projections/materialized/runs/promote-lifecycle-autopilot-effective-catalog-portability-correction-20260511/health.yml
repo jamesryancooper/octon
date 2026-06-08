@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
-generated_at: '2026-06-08T20:33:42Z'
+generated_at: '2026-06-08T20:43:04Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:2270781f8f111a0427be532e3d5ec27b70c9bdd925762a8505652b491f181a46
-  checked_at: '2026-06-08T20:33:42Z'
+  combined_source_digest: sha256:19532fd2c01c3c9fa6554da66f60237d24bd84b332606c2fab6dd6fbd808f27f
+  checked_at: '2026-06-08T20:43:04Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:46b7d22665d53e8e550d2eef5106fc2142713f07ce8afdf0b6aa38905c4f180f
+    digest: sha256:e8f87ddd428e0cf5b2171560e821101ebdf12bb769efcbbf6518a51de2ced5c0
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/handoff.yml

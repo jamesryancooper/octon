@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal
-generated_at: '2026-06-08T20:33:42Z'
+generated_at: '2026-06-08T20:43:04Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:8f10d48af84ff73fe7f1a8416aab748e5cd562460445bc3c9933c15d868fe24a
-  checked_at: '2026-06-08T20:33:42Z'
+  combined_source_digest: sha256:50370a68d2fdafb30ddba4f1e326694a8ea6adc249c55a3967cd9f3a555ee3bd
+  checked_at: '2026-06-08T20:43:04Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:46b7d22665d53e8e550d2eef5106fc2142713f07ce8afdf0b6aa38905c4f180f
+    digest: sha256:e8f87ddd428e0cf5b2171560e821101ebdf12bb769efcbbf6518a51de2ced5c0
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal/handoff.yml
