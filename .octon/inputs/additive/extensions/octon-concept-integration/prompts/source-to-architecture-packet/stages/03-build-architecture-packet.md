@@ -232,6 +232,13 @@ language or old assumptions. If live repo inspection materially changes a
 packetization assumption, record a **Repository Drift Note** and proceed from
 the observed repo.
 
+For architecture recommendations, also apply
+`../../shared/architecture-review-method.md`. The packet must show that
+first-principles decomposition was paired with current architecture
+steelmanning, current reality maps, constraint and complexity ledgers,
+bottleneck analysis, failure-mode analysis, quality attributes, hardening,
+rollback, and Octon-fit gates before selecting the implementation path.
+
 ---
 
 ## WHAT MAKES A CONCEPT ACTUALLY USABLE IN OCTON

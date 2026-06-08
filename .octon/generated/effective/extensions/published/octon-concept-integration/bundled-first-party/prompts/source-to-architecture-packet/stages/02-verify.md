@@ -115,6 +115,8 @@ Before making any current-state, usefulness, mapping, or completeness claim:
 - inspect the base repo anchors declared in the bundle `manifest.yml`
   `required_repo_anchors`,
 - apply `../../shared/repository-grounding.md`,
+- apply `../../shared/architecture-review-method.md` for architecture-producing
+  recommendations,
 - inspect any repo surfaces directly implicated by the extracted or newly
   discovered concepts,
 - and assume the repository may have changed since the extraction run.

@@ -43,6 +43,8 @@ shared_references:
     path: "shared/architecture-packet-contract.md"
   - ref_id: "architecture-revision-contract"
     path: "shared/architecture-revision-contract.md"
+  - ref_id: "architecture-review-method"
+    path: "shared/architecture-review-method.md"
   - ref_id: "packet-execution-contract"
     path: "shared/packet-execution-contract.md"
 required_repo_anchors:

@@ -7,12 +7,17 @@ concepts integrable without changing Octon's constitutional kernel.
 
 - apply `../../shared/repository-grounding.md`
 - apply `../../shared/architecture-revision-contract.md`
+- apply `../../shared/architecture-review-method.md`
 
 ## Output
 
 Produce a revised architecture design that:
 
 - defines the preferred change path and narrower fallback where needed,
+- compares keep, improve, refactor, wrap or isolate, partial replacement, full
+  redesign, and staged or hybrid options,
+- analyzes tradeoffs, failure modes, second-order effects, quality attributes,
+  hardening gates, reversibility, rollback, and migration risk,
 - identifies affected framework, instance, validator, publication, and
   migration surfaces,
 - explains why the revision remains inside the current kernel,
