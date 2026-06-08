@@ -1,0 +1,154 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: lifecycle-postmortem-evidence-hardening-worktree-closeout-20260605T210300Z
+default_work_unit: Change
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: >-
+  git status on main showed four unstaged tracked lifecycle-postmortem
+  hardening files plus retained closeout and hygiene evidence residue.
+residue_classification_ref: >-
+  classify-change-closeout-residue.sh before delegation reported
+  publishable_change=4, publishable_closeout_evidence=35,
+  local_private_retained=101, unsafe ignored=5972, ambiguous=0.
+final_inventory_ref: >-
+  git status after branch-no-pr closeout showed local main aligned with
+  origin/main at 989e6b7d486b737f93bc1575ba3fc6e276e060cf, no staged or
+  unstaged tracked files, retained evidence residue, and ignored local residue.
+selected_candidate_id: lifecycle-postmortem-evidence-hardening
+observed_change_set_count: 3
+next_route_condition: retained-evidence-residue-documented
+repo_hygiene_cleanup_outcome: not-applicable
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+candidates:
+  - candidate_id: lifecycle-postmortem-evidence-hardening
+    disposition: closed
+    residue_routing_class: publishable_change
+    ownership: current closeout-worktree run
+    route_hint: closeout-change branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: >-
+      governed rollback by reverting landed commit
+      989e6b7d486b737f93bc1575ba3fc6e276e060cf
+    boundaries:
+      include_paths:
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+        - .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/01-bind-evidence.md
+        - .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/04-final-report.md
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-change
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup
+        - .octon/state/evidence/validation/analysis
+        - .octon/generated/.tmp
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/change-receipt.json
+  - candidate_id: retained-closeout-evidence-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: local retained evidence from prior and current closeout runs
+    route_hint: retained evidence / manual review
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: >-
+      retain evidence; deletion would require separate repo-hygiene cleanup
+      authorization and is outside this wrapper-owned material action.
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup
+        - .octon/state/evidence/validation/analysis
+      exclude_paths:
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+        - .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/01-bind-evidence.md
+        - .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/04-final-report.md
+  - candidate_id: ignored-local-build-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: ignored local build and test residue under existing ignore policy
+    route_hint: ignored local residue retained
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: >-
+      retain ignored local build residue; cleanup would require a separate
+      cleanup route if desired.
+    boundaries:
+      include_paths:
+        - .octon/generated/.tmp
+      exclude_paths:
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+        - .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/01-bind-evidence.md
+        - .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/04-final-report.md
+retained_residue:
+  - candidate_id: retained-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change
+    disposition: local retained closeout evidence from previous and current closeout runs retained for manual review
+  - candidate_id: retained-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/repo-hygiene-cleanup
+    disposition: local retained repo-hygiene evidence from previous lifecycle cleanup retained for manual review
+  - candidate_id: retained-closeout-evidence-residue
+    path: .octon/state/evidence/validation/analysis
+    disposition: local retained analysis and wrapper reports retained for manual review
+  - candidate_id: ignored-local-build-residue
+    path: .octon/generated/.tmp
+    disposition: ignored local build and test residue retained under existing ignore policy
+blockers: []
+iterations:
+  - iteration_id: closeout-lifecycle-postmortem-evidence-hardening
+    pre_inventory_ref: >-
+      main and origin/main aligned at
+      46268eafdb42de5c84d6bc9cb29c921c70713954 with four tracked
+      implementation/doc changes and retained evidence residue excluded.
+    pre_classification_ref: >-
+      classify-change-closeout-residue.sh identified the four tracked files as
+      publishable_change and retained evidence roots as separate evidence
+      residue.
+    selected_candidate_id: lifecycle-postmortem-evidence-hardening
+    include_paths:
+      - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+      - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+      - .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/01-bind-evidence.md
+      - .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/04-final-report.md
+    exclude_paths:
+      - .octon/state/evidence/runs/skills/closeout-change
+      - .octon/state/evidence/runs/skills/repo-hygiene-cleanup
+      - .octon/state/evidence/validation/analysis
+      - .octon/generated/.tmp
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: >-
+      local main, origin/main, and landed ref aligned at
+      989e6b7d486b737f93bc1575ba3fc6e276e060cf; source branch removed locally
+      and remotely; retained evidence residue remained documented.
+    post_classification_ref: >-
+      final classify-change-closeout-residue.sh reported staged=0,
+      unstaged-tracked=0, untracked=26, retained-evidence=38,
+      publishable_change=0, publishable_closeout_evidence=39, ambiguous=0.
+    next_selection_reason: >-
+      no additional source candidate remained; retained evidence and ignored
+      local residue were documented as foreign retained residue rather than
+      deleted by this wrapper.
+final_candidate_dispositions:
+  lifecycle-postmortem-evidence-hardening:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/change-receipt.json
+  retained-closeout-evidence-residue:
+    state: foreign
+  ignored-local-build-residue:
+    state: foreign
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 26
+  ignored: 6074
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 38
+  state_control: 0
+  release_version: 0
+  input_surface: 0

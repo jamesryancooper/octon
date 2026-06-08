@@ -1,0 +1,149 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: 20260608T133051Z-octon-concept-integration-closeout-worktree
+observed_change_set_count: 5
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: "git status --porcelain=v1 --untracked-files=all before repo-hygiene cleanup; 2039 status lines"
+residue_classification_ref: "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh before repo-hygiene cleanup"
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260608T133051Z/authorization.json
+repo_hygiene_cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260608T133051Z/authorization.json
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260608T133051Z/authorization.json
+repo_hygiene_cleanup_outcome: delegated-cleaned
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 46
+  manual_review: 42
+repo_hygiene_next_route_condition: "Resolve protected referenced and manual-review repo-hygiene residue through operator scope resolution or another receipt-backed repo-hygiene cleanup classification; do not delete or fold into packet closeout."
+selected_candidate_id: packet-implementation-closeout
+candidates:
+  - candidate_id: packet-implementation-closeout
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: target-owned proposal and octon-concept-integration implementation candidate
+    route_hint: closeout-change branch-no-pr after proposal closeout hygiene passes
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: preserve; no discard, reset, archive, branch landing, or source-branch cleanup authorized from this wrapper state
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/octon-concept-integration-architecture-review-refinement
+        - .octon/inputs/additive/extensions/octon-concept-integration
+      exclude_paths:
+        - .codex/skills/closeout-pr/SKILL.md
+        - .octon/generated/effective
+        - .octon/generated/proposals/registry.yml
+        - .octon/inputs/additive/extensions/octon-decision-drafter
+        - .octon/state
+  - candidate_id: generated-publication-refresh
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: generated/effective publication and control residue requiring governed publisher or lifecycle authority
+    route_hint: governed publisher refresh or operator scope resolution before closeout-change delegation
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: preserve generated and control residue; do not hand-edit generated/effective outputs or host projections
+    boundaries:
+      include_paths:
+        - .octon/generated/effective
+        - .octon/generated/proposals/registry.yml
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/control/extensions/quarantine.yml
+        - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+        - .octon/state/evidence/validation/compatibility/extensions/2026-06-08T13-05-04Z-extensions-e539e7c8b239.yml
+        - .octon/state/evidence/validation/extensions/prompt-alignment
+        - .octon/state/evidence/validation/publication
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/octon-concept-integration-architecture-review-refinement
+        - .octon/inputs/additive/extensions/octon-concept-integration
+        - .octon/inputs/additive/extensions/octon-decision-drafter
+        - .codex/skills/closeout-pr/SKILL.md
+  - candidate_id: ancillary-fixture-and-closeout-skill-edits
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: ancillary local edits not safely included in the packet closeout without operator scope resolution
+    route_hint: operator scope resolution, then closeout-worktree may delegate a singular closeout-change if accepted
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: preserve; do not silently include unrelated residue in packet closeout
+    boundaries:
+      include_paths:
+        - .codex/skills/closeout-pr/SKILL.md
+        - .octon/inputs/additive/extensions/octon-decision-drafter/validation/tests/test-routing-behavior.sh
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/octon-concept-integration-architecture-review-refinement
+        - .octon/inputs/additive/extensions/octon-concept-integration
+        - .octon/generated/effective
+        - .octon/state
+  - candidate_id: closeout-and-hygiene-evidence-residue
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: closeout, hygiene, validation, and prior lifecycle evidence residue needing candidate-specific retention or publication decision
+    route_hint: operator scope resolution or delegated closeout-change for an explicit evidence candidate
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: preserve evidence; do not delete or publish without governed evidence route
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-create-packet/2026-06-06-octon-concept-integration-architecture-review-refinement.md
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup
+        - .octon/state/evidence/validation/analysis
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/octon-concept-integration-architecture-review-refinement
+        - .octon/inputs/additive/extensions/octon-concept-integration
+        - .octon/generated/effective
+        - .octon/state/control
+  - candidate_id: local-ignored-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: local ignored build or tool residue outside the packet closeout
+    route_hint: retain as local ignored residue unless operator requests a separate hygiene cleanup route
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: retain; ignored residue is not deletion authority
+    boundaries:
+      include_paths:
+        - .octon/framework/engine/runtime/target
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/octon-concept-integration-architecture-review-refinement
+        - .octon/inputs/additive/extensions
+        - .octon/generated/effective
+        - .octon/state
+iterations: []
+final_candidate_dispositions:
+  packet-implementation-closeout:
+    state: blocked
+  generated-publication-refresh:
+    state: blocked
+  ancillary-fixture-and-closeout-skill-edits:
+    state: blocked
+  closeout-and-hygiene-evidence-residue:
+    state: blocked
+  local-ignored-residue:
+    state: foreign
+retained_residue:
+  - candidate_id: local-ignored-residue
+    path: .octon/framework/engine/runtime/target
+    disposition: foreign ignored local build residue retained; not part of packet closeout
+blockers:
+  - candidate_id: packet-implementation-closeout
+    blocker: "Proposal hygiene remains blocked: worktree_hygiene_foreign_path_count=115 and worktree_hygiene_foreign_fingerprint=sha256:cba286b1463dc5ea7b9bf36c16037f21237b31d912c1fec80c4490b98e910080. support/proposal-closeout.md is not pass/archive_authorized yet, so archive-proposal and branch-no-pr closeout are not authorized."
+  - candidate_id: generated-publication-refresh
+    blocker: "Generated/effective, proposal registry, extension control, and publication evidence residue remain mixed with the packet work. These paths need governed publisher/lifecycle authority or explicit operator scope resolution before they can be delegated as a singular closeout-change candidate."
+  - candidate_id: ancillary-fixture-and-closeout-skill-edits
+    blocker: "The closeout-pr skill wording edit and octon-decision-drafter fixture correction are not part of the packet hygiene classifier's declared in-scope set and must not be silently folded into this packet closeout."
+  - candidate_id: closeout-and-hygiene-evidence-residue
+    blocker: "Prior closeout-change, archive/proposal analysis, prompt-alignment, publication, and repo-hygiene evidence remains untracked or unresolved. It requires candidate-specific retention, publication, or operator scope resolution before terminal worktree closeout can be claimed."
+final_inventory_ref: "git status --porcelain=v1 --untracked-files=all after delegated repo-hygiene cleanup"
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 41
+  untracked: 79
+  ignored: 6200
+  generated_effective_output: 22
+  host_projection: 1
+  retained_evidence: 89
+  state_control: 2
+  release_version: 0
+  input_surface: 50
+worktree_terminal_state: nonterminal
+next_route_condition: "Resolve packet closeout hygiene and non-packet residue through closeout-worktree candidate partitioning, operator scope resolution, governed publisher refresh, or delegated closeout-change with explicit include/exclude paths; do not archive, land, or claim cleaned until proposal closeout passes and foreign residue is dispositioned."

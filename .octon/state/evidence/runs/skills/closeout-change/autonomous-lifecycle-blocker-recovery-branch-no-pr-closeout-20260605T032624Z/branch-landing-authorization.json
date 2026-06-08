@@ -1,0 +1,28 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-autonomous-lifecycle-blocker-recovery-closeout-ca1bb562f4c1",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/autonomous-lifecycle-blocker-recovery-closeout",
+  "source_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+  "remote_source_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+  "target_pre_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "route_neutral_closeout_validation@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "branch_naming_validation@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "route_aware_autonomy_validation@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "exact_source_sha_validation@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "empty-check-set-explicitly-allowed@ca1bb562f4c1f9e920aecc86038a3c457d8357ef"
+  ],
+  "allow_empty_check_set": true,
+  "rollback_handle": "rollback origin/main from ca1bb562f4c1f9e920aecc86038a3c457d8357ef to ba7455b6ff8da362384e6d9632fda839fc410da5 or revert ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-06-05T03:26:44Z"
+}

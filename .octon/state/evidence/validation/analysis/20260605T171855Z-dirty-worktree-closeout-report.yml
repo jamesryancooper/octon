@@ -1,0 +1,191 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: nonterminal
+run_id: dirty-worktree-reconcile-20260605T163441Z
+initial_inventory_ref: git status --short --branch at baseline showed main behind origin/main with staged archive move, unstaged runtime/publication/control changes, generated projections, and local state/evidence residue.
+residue_classification_ref: classify-change-closeout-residue.sh at baseline classified staged, unstaged tracked, generated-effective, retained-evidence, state-control, input-surface, and ignored residue before any deletion authority was considered.
+final_inventory_ref: git status --short --branch after archive closeout and delegated repo-hygiene cleanup showed branch chore/publish-effective-state-refresh with 11 unstaged publication/control files and retained untracked evidence.
+selected_candidate_id: effective-publication-state-refresh
+next_route_condition: remediate or repartition the validate-runtime-effective-state input non-authority blocker before resuming closeout-change for chore/publish-effective-state-refresh
+repo_hygiene_cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/dirty-worktree-reconcile-20260605T171517Z/cleanup-authorization.json
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/dirty-worktree-reconcile-20260605T171517Z/cleanup-authorization.json
+repo_hygiene_cleanup_outcome: delegated-cleaned
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 45
+  manual_review: 25
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/dirty-worktree-reconcile-20260605T171517Z/cleanup-authorization.json
+repo_hygiene_next_route_condition: protected referenced and manual-review evidence remains retained unless a future explicit cleanup route authorizes narrower deletion
+observed_change_set_count: 4
+candidate_execution_summary:
+  exact_upstream_reconciliation: closed by hash-equality duplicate cleanup, backup manifest retention under /private/tmp/octon-worktree-reconcile-20260605T163441Z, and fast-forward of local main to origin/main at 0c61152e633a74ffd303114774f87328d1357d46 before branch work began.
+  archive_move_and_generated_proposals: closed through branch-no-pr with landed commit ec822bc30b4dab242ea94bcf78000698b212a0a0 and governed local/remote source branch cleanup.
+  kernel_runtime_review_routing: resolved as non-candidate because lifecycle.rs, main.rs, and review-routing.yml matched current origin/main after exact-upstream reconciliation.
+  effective_publication_bundle: blocked after regeneration because the required validate-runtime-effective-state gate still failed on pre-existing input non-authority findings outside the publication candidate.
+  repo_hygiene_residue: cleanup-safe files were removed only through delegated repo-hygiene cleanup; protected referenced, manual-review, and ignored residue were retained.
+candidates:
+  - candidate_id: archive-autonomous-lifecycle-blocker-recovery
+    disposition: closed
+    residue_routing_class: publishable_change
+    ownership: autonomous lifecycle blocker recovery proposal archive move
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: revert ec822bc30b4dab242ea94bcf78000698b212a0a0 through a governed follow-up Change if rollback is required
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-archive-closeout-20260605T165935Z/change-receipt.json
+    lifecycle_closeout_authority:
+      completed_program_run_id: lifecycle-proposal-program-1780585581804-afdb21bb
+      program_target: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery
+      completed_program_summary_ref: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/lifecycle-residue-cleanup.md
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/child-packet-index.yml
+        - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/lifecycle-residue-cleanup.md
+        - .octon/generated/proposals/registry.yml
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/
+        - .octon/generated/proposals/artifacts/architecture/autonomous-lifecycle-blocker-recovery/
+        - .octon/generated/proposals/registry.yml
+      exclude_paths:
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+        - .octon/generated/effective/
+  - candidate_id: effective-publication-state-refresh
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: generated effective publication and extension control refresh
+    route_hint: closeout-change branch-no-pr after validation blocker resolution
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: leave unstaged on chore/publish-effective-state-refresh until validation can prove the publication bundle; discard only through explicit governed instruction
+    boundaries:
+      include_paths:
+        - .octon/generated/effective/capabilities/artifact-map.yml
+        - .octon/generated/effective/capabilities/generation.lock.yml
+        - .octon/generated/effective/capabilities/routing.effective.yml
+        - .octon/generated/effective/extensions/artifact-map.yml
+        - .octon/generated/effective/extensions/catalog.effective.yml
+        - .octon/generated/effective/extensions/generation.lock.yml
+        - .octon/generated/effective/runtime/route-bundle.lock.yml
+        - .octon/generated/effective/runtime/route-bundle.yml
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/control/extensions/quarantine.yml
+        - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+        - .octon/state/evidence/validation/compatibility/extensions/
+        - .octon/state/evidence/validation/extensions/prompt-alignment/
+        - .octon/state/evidence/validation/publication/capabilities/
+        - .octon/state/evidence/validation/publication/extensions/
+        - .octon/state/evidence/validation/publication/runtime/
+      exclude_paths:
+        - .octon/generated/proposals/
+        - .octon/inputs/
+        - .octon/state/control/execution/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+  - candidate_id: retained-closeout-and-hygiene-evidence
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: local retained closeout, repo-hygiene, and analysis evidence
+    route_hint: retain-local-evidence
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain local manual-review evidence unless a future explicit cleanup route classifies and authorizes it
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/
+        - .octon/state/evidence/validation/analysis/
+      exclude_paths:
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+  - candidate_id: ignored-local-residue
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: ignored local residue retained outside publishable closeout scope
+    route_hint: retain-local-ignored-residue
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain ignored local residue unless a later governed cleanup explicitly authorizes a specific ignored path family
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/local/
+      exclude_paths:
+        - .git/
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+retained_residue:
+  - candidate_id: retained-closeout-and-hygiene-evidence
+    path: .octon/state/evidence/runs/skills/closeout-change/
+    disposition: local manual retained closeout-change evidence
+  - candidate_id: retained-closeout-and-hygiene-evidence
+    path: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/
+    disposition: local manual retained repo-hygiene cleanup evidence
+  - candidate_id: retained-closeout-and-hygiene-evidence
+    path: .octon/state/evidence/validation/analysis/
+    disposition: local manual retained validation analysis evidence, including this wrapper report
+  - candidate_id: ignored-local-residue
+    path: .octon/state/evidence/local/
+    disposition: local ignored residue retained without deletion authority
+blockers:
+  - candidate_id: effective-publication-state-refresh
+    blocker: validate-runtime-effective-state.sh fails because validate-input-non-authority reports pre-existing raw input authority leak findings outside the publication candidate; publication-specific freshness and state validators pass after regeneration, but the required umbrella gate is not clean.
+    evidence_refs:
+      - validate-extension-publication-state.sh after regeneration: errors=0
+      - validate-capability-publication-state.sh after regeneration: errors=0 warnings=0
+      - validate-runtime-effective-route-bundle.sh after regeneration: errors=0
+      - validate-publication-freshness-gates.sh after regeneration: errors=0
+      - validate-runtime-effective-state.sh after regeneration: failed through validate-input-non-authority with 331 findings outside the dirty publication/control bundle
+final_candidate_dispositions:
+  archive-autonomous-lifecycle-blocker-recovery:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-archive-closeout-20260605T165935Z/change-receipt.json
+  effective-publication-state-refresh:
+    state: blocked
+  retained-closeout-and-hygiene-evidence:
+    state: foreign
+  ignored-local-residue:
+    state: retained
+final_residue_classes:
+  ignored: 6074
+  staged: 0
+  unstaged_tracked: 11
+  untracked: 65
+  generated_effective_output: 8
+  host_projection: 0
+  retained_evidence: 72
+  state_control: 2
+  release_version: 0
+  input_surface: 0
+iterations:
+  - iteration_id: branch-no-pr-archive-autonomous-lifecycle-blocker-recovery-cleaned
+    pre_inventory_ref: git status --short --branch before archive candidate showed the archive move isolated after exact-upstream reconciliation and local main fast-forward to origin/main.
+    pre_classification_ref: archive candidate included only the autonomous-lifecycle-blocker-recovery archive move, generated proposal artifacts, and generated proposal registry refresh.
+    selected_candidate_id: archive-autonomous-lifecycle-blocker-recovery
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-archive-closeout-20260605T165935Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: git status --short --branch after branch cleanup showed local main and origin/main at ec822bc30b4dab242ea94bcf78000698b212a0a0, with unrelated publication/control and evidence residue still present.
+    post_classification_ref: classify-change-closeout-residue.sh after archive closeout reported staged=0, unstaged-tracked=11, generated-effective-output=8, retained-evidence present, state-control present, and input-surface=0.
+    next_selection_reason: generated effective publication/control bundle remained as the next coherent candidate, but required validation exposed an umbrella input non-authority blocker before closeout-change could proceed.
+    include_paths:
+      - .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/
+      - .octon/generated/proposals/artifacts/architecture/autonomous-lifecycle-blocker-recovery/
+      - .octon/generated/proposals/registry.yml
+    exclude_paths:
+      - .octon/state/control/
+      - .octon/state/continuity/
+      - .octon/state/evidence/control/
+      - .octon/state/evidence/external-index/
+      - .octon/generated/effective/

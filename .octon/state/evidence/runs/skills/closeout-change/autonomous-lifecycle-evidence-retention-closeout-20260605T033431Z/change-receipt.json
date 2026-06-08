@@ -1,0 +1,150 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Land and clean up the referenced closeout evidence retention follow-up branch without opening a PR.",
+  "scope": {
+    "summary": "Retained evidence files referenced by the landed autonomous lifecycle blocker recovery packet and generated extension publication state.",
+    "touched_paths": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/",
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/",
+      ".octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-1.md",
+      ".octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-2.md",
+      ".octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-3.md",
+      ".octon/state/evidence/validation/analysis/20260604T145000Z-closeout-worktree-final-report.yml",
+      ".octon/state/evidence/validation/compatibility/extensions/2026-06-04T22-43-44Z-extensions-e539e7c8b239.yml"
+    ],
+    "diff_refs": [
+      "29256c825ad75f3f5761377808c018d2d59a4abe..dbcfec8de2b3597e0ad1a59f5ac8d69b30476107"
+    ]
+  },
+  "source_branch_ref": "chore/autonomous-lifecycle-evidence-retention-closeout",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/autonomous-lifecycle-evidence-retention-closeout@dbcfec8de2b3597e0ad1a59f5ac8d69b30476107 before governed cleanup deletion",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "target_ref": "origin/main@dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh passed for source dbcfec8de2b3597e0ad1a59f5ac8d69b30476107 and target pre-ref 29256c825ad75f3f5761377808c018d2d59a4abe.",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1 for source dbcfec8de2b3597e0ad1a59f5ac8d69b30476107.",
+      "git-branch-land-hosted-no-pr.sh fast-forwarded origin/main to dbcfec8de2b3597e0ad1a59f5ac8d69b30476107."
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/autonomous-lifecycle-evidence-retention-closeout",
+    "source_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "target_pre_ref": "29256c825ad75f3f5761377808c018d2d59a4abe",
+    "target_post_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "validated_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+      "branch_naming_validation@dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+      "route_aware_autonomy_validation@dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+      "exact_source_sha_validation@dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+      "empty-check-set-explicitly-allowed@dbcfec8de2b3597e0ad1a59f5ac8d69b30476107"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/autonomous-lifecycle-evidence-retention-closeout",
+    "source_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "landed_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "origin_main_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git-branch-authorize-cleanup.sh proved local and remote source branch refs were contained in origin/main before cleanup.",
+      "git ls-remote --heads origin chore/autonomous-lifecycle-evidence-retention-closeout returned no ref after cleanup."
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "origin_main_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "landed_ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git-branch-cleanup.sh fetched origin and validated origin/main before branch cleanup.",
+    "local_main_sync_evidence_ref": "git-branch-cleanup.sh switched to main and reported local main was synced to origin/main at dbcfec8de2b3597e0ad1a59f5ac8d69b30476107.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main returned dbcfec8de2b3597e0ad1a59f5ac8d69b30476107 for all refs after cleanup."
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-authorize-cleanup.sh approved cleanup for local and remote branch refs at dbcfec8de2b3597e0ad1a59f5ac8d69b30476107.",
+    "git-branch-cleanup.sh deleted local branch chore/autonomous-lifecycle-evidence-retention-closeout.",
+    "git-branch-cleanup.sh deleted remote branch origin/chore/autonomous-lifecycle-evidence-retention-closeout.",
+    "git ls-remote --heads origin chore/autonomous-lifecycle-evidence-retention-closeout returned no ref."
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/autonomous-lifecycle-evidence-retention-closeout",
+    "remote_branch": "origin/chore/autonomous-lifecycle-evidence-retention-closeout",
+    "evidence_refs": [
+      "Deleted branch chore/autonomous-lifecycle-evidence-retention-closeout (was dbcfec8de).",
+      "git push origin --delete chore/autonomous-lifecycle-evidence-retention-closeout completed.",
+      "git ls-remote --heads origin chore/autonomous-lifecycle-evidence-retention-closeout returned no ref."
+    ]
+  },
+  "validation_evidence_refs": [
+    "git diff --cached --check: passed before evidence-retention commit.",
+    "git diff --check origin/main..HEAD: passed after rebase onto current origin/main.",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh: errors=0.",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh: errors=0.",
+    "git-branch-hosted-preflight.sh --allow-empty-check-set: passed for exact source SHA dbcfec8de2b3597e0ad1a59f5ac8d69b30476107.",
+    "git-branch-authorize-cleanup.sh and git-branch-cleanup.sh --delete-remote --confirm: passed."
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because the operator selected branch-no-pr closeout and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "branch": "chore/autonomous-lifecycle-evidence-retention-closeout"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "rollback origin/main from dbcfec8de2b3597e0ad1a59f5ac8d69b30476107 to 29256c825ad75f3f5761377808c018d2d59a4abe or revert dbcfec8de2b3597e0ad1a59f5ac8d69b30476107",
+    "instructions": "Use a governed follow-up Change to revert dbcfec8de2b3597e0ad1a59f5ac8d69b30476107 if rollback is required; do not force-push main."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch before second hosted landing showed chore/autonomous-lifecycle-evidence-retention-closeout tracking origin/chore/autonomous-lifecycle-evidence-retention-closeout with no staged or unstaged tracked changes.",
+    "residue_classification_ref": "cleanup-local-run-artifacts.sh dry-run after the first cleanup showed 15 protected referenced evidence files; these were retained in dbcfec8de2b3597e0ad1a59f5ac8d69b30476107.",
+    "phase_exit_refs": [
+      "inventory: source branch was rebased onto origin/main 29256c825ad75f3f5761377808c018d2d59a4abe after main advanced.",
+      "hosted-no-pr-checks-and-landing: provider rules allowed route-neutral no-PR landing and origin/main fast-forwarded to dbcfec8de2b3597e0ad1a59f5ac8d69b30476107.",
+      "branch-cleanup: cleanup authorization proved containment, no open PR, rollback posture, and source branch non-protection before local and remote branch deletion.",
+      "final-verification: local main, origin/main, and landed_ref aligned at dbcfec8de2b3597e0ad1a59f5ac8d69b30476107 after cleanup."
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/validation/analysis/20260605T032624Z-autonomous-lifecycle-blocker-recovery-closeout-worktree-report.yml"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-05T03:34:31Z"
+}

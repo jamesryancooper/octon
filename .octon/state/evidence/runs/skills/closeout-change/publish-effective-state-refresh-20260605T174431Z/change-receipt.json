@@ -1,0 +1,153 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "publish-effective-state-refresh-20260605T174431Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Land and clean up the generated effective publication and extension control refresh after splitting out the input non-authority validator blocker.",
+  "scope": {
+    "summary": "Refreshed generated effective extension, capability, and runtime route-bundle publication state plus the publication, compatibility, prompt-alignment, and capability decision evidence produced by the owning publishers.",
+    "touched_paths": [
+      ".octon/generated/effective/capabilities/",
+      ".octon/generated/effective/extensions/",
+      ".octon/generated/effective/runtime/",
+      ".octon/state/control/extensions/active.yml",
+      ".octon/state/control/extensions/quarantine.yml",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/evidence/validation/compatibility/extensions/2026-06-05T17-09-50Z-extensions-e539e7c8b239.yml",
+      ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-05T17-09-50Z-*.yml",
+      ".octon/state/evidence/validation/publication/capabilities/2026-06-05T17-12-46Z-capabilities-c4e59d58a3d8.yml",
+      ".octon/state/evidence/validation/publication/extensions/2026-06-05T17-09-50Z-extensions-e539e7c8b239.yml",
+      ".octon/state/evidence/validation/publication/runtime/2026-06-05T17-12-56Z-runtime-route-bundle-d832aab6f332.yml"
+    ],
+    "diff_refs": [
+      "428b84f0e10ebdd7583be3006be9614db34736d6..5a401a189e1dd4f02a0c66ae585e94ee62c2e539"
+    ]
+  },
+  "source_branch_ref": "chore/publish-effective-state-refresh",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/publish-effective-state-refresh@5a401a189e1dd4f02a0c66ae585e94ee62c2e539 before governed cleanup deletion",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "target_ref": "origin/main@5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh --allow-empty-check-set passed for source 5a401a189e1dd4f02a0c66ae585e94ee62c2e539 and target pre-ref 428b84f0e10ebdd7583be3006be9614db34736d6.",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1 for source 5a401a189e1dd4f02a0c66ae585e94ee62c2e539.",
+      "git-branch-land-hosted-no-pr.sh fast-forwarded origin/main to 5a401a189e1dd4f02a0c66ae585e94ee62c2e539."
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/publish-effective-state-refresh",
+    "source_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "target_pre_ref": "428b84f0e10ebdd7583be3006be9614db34736d6",
+    "target_post_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "validated_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@5a401a189e1dd4f02a0c66ae585e94ee62c2e539"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/publish-effective-state-refresh",
+    "source_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "landed_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "origin_main_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git-branch-authorize-cleanup.sh proved local and remote source branch refs were contained in origin/main before cleanup.",
+      "git ls-remote --heads origin chore/publish-effective-state-refresh returned no ref after cleanup."
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "origin_main_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "landed_ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin refreshed origin/main after hosted landing.",
+    "local_main_sync_evidence_ref": "git branch -f main origin/main followed by git checkout main aligned local main with origin/main before branch cleanup.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD origin/main main returned 5a401a189e1dd4f02a0c66ae585e94ee62c2e539 for all refs."
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-authorize-cleanup.sh approved cleanup for local and remote branch refs at 5a401a189e1dd4f02a0c66ae585e94ee62c2e539.",
+    "git-branch-cleanup.sh deleted local branch chore/publish-effective-state-refresh.",
+    "git-branch-cleanup.sh deleted remote branch origin/chore/publish-effective-state-refresh.",
+    "git ls-remote --heads origin chore/publish-effective-state-refresh returned no ref."
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/publish-effective-state-refresh",
+    "remote_branch": "origin/chore/publish-effective-state-refresh",
+    "evidence_refs": [
+      "Local source branch is absent from /Users/jamesryancooper/Projects/octon.",
+      "Remote source branch deletion completed through git-branch-cleanup.sh --delete-remote --confirm.",
+      "git ls-remote --heads origin chore/publish-effective-state-refresh returned no ref."
+    ]
+  },
+  "validation_evidence_refs": [
+    "input-non-authority-validation after split fix: errors=0.",
+    "extension-publication-state-validation@5a401a189e1dd4f02a0c66ae585e94ee62c2e539: errors=0.",
+    "capability-publication-state-validation@5a401a189e1dd4f02a0c66ae585e94ee62c2e539: errors=0 warnings=0.",
+    "runtime-effective-route-bundle-validation@5a401a189e1dd4f02a0c66ae585e94ee62c2e539: errors=0.",
+    "runtime-effective-state-validation@5a401a189e1dd4f02a0c66ae585e94ee62c2e539: errors=0.",
+    "publication-freshness-gates-validation@5a401a189e1dd4f02a0c66ae585e94ee62c2e539: errors=0.",
+    "diff-whitespace-check@5a401a189e1dd4f02a0c66ae585e94ee62c2e539: passed.",
+    "hosted-no-pr-preflight@5a401a189e1dd4f02a0c66ae585e94ee62c2e539: passed with empty check set explicitly allowed.",
+    "governed-branch-cleanup@5a401a189e1dd4f02a0c66ae585e94ee62c2e539: passed."
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because branch-no-pr closeout was selected and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "5a401a189e1dd4f02a0c66ae585e94ee62c2e539",
+    "branch": "chore/publish-effective-state-refresh"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": ".octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/branch-landing-authorization.json",
+    "instructions": "Use a governed follow-up Change to revert 5a401a189e1dd4f02a0c66ae585e94ee62c2e539 if rollback is required; do not force-push main. Target pre-ref before landing was 428b84f0e10ebdd7583be3006be9614db34736d6."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "Candidate 5 resumed on chore/publish-effective-state-refresh after the split validator fix 428b84f0e10ebdd7583be3006be9614db34736d6 landed and local branch state fast-forwarded over origin/main.",
+    "residue_classification_ref": "Candidate 5 scope contained generated effective outputs, extension control files, capability decision evidence, and referenced publication receipts; unrelated closeout and hygiene evidence remained untracked and excluded.",
+    "phase_exit_refs": [
+      "blocker-repartition: validate-input-non-authority blocker was split into assurance fix 428b84f0e10ebdd7583be3006be9614db34736d6 before resuming Candidate 5.",
+      "validation: validate-input-non-authority.sh, validate-extension-publication-state.sh, validate-capability-publication-state.sh, validate-runtime-effective-route-bundle.sh, validate-runtime-effective-state.sh, validate-publication-freshness-gates.sh, and git diff --check passed.",
+      "landing: branch-no-pr hosted preflight, landing authorization, and hosted fast-forward landing passed.",
+      "cleanup: cleanup authorization proved origin/main containment and no open PR before local and remote source branch deletion."
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": "git rev-parse HEAD origin/main main and git ls-remote --heads origin chore/publish-effective-state-refresh after branch cleanup"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-05T17:47:30Z"
+}

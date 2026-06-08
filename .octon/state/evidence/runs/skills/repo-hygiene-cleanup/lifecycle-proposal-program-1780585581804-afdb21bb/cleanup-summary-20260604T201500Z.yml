@@ -1,0 +1,37 @@
+schema_version: repo-hygiene-cleanup-summary-v1
+run_id: lifecycle-proposal-program-1780585581804-afdb21bb
+route: authorization-receipt
+authorization_receipt_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/cleanup-authorization-20260604T201500Z.json
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+schema_ref: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+pre_cleanup:
+  cleanup_candidates: 152
+  protected_referenced: 449
+  manual_review: 6
+  git_status_digest: sha256:d2a86ad949ea83e067602974b7cc086c26f7af99b978d094e6c969a61d3c7583
+  classification_digest: sha256:ad3c20271f54a9d264488bd9b742720714aea68b33533873ec0cd11231639e23
+  cleanup_path_set_digest: sha256:39fc1aa06fe84f9072cd8a7023af1a82b1ce49ff5e588d0789fde2aa3466b97b
+  protected_paths_digest: sha256:c18f14d0d05ca58bf7ca552008cd31b95af5962fc1493b00e59aa784a66c494b
+  manual_review_paths_digest: sha256:653f47b5afaa32d0afc2e203178b2f9c728d99756d59d1c996768ad4034922c7
+cleanup_result:
+  deleted_count: 152
+  active_run_state_protected: true
+  protected_and_manual_review_retained: true
+  raw_path_lists_published: false
+post_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 450
+  manual_review: 6
+  git_status_digest: sha256:0c71afbbb5c16e7f13b56aade48e946ae1f0cbde47696efa7d0c4c065101419f
+  classification_digest: sha256:70624855ed6701dfb2fec2e013b2432d5a3269a6005276a4ae2f64540cbaf677
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:5270e0b7442016cb3bb3ad56a1b8f0d9ebe1ef1e503c4a2b5b7b718fe6258e1b
+  manual_review_paths_digest: sha256:653f47b5afaa32d0afc2e203178b2f9c728d99756d59d1c996768ad4034922c7
+validation:
+  authorization_revalidated_before_deletion: true
+  final_summary_command: bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only --active-run-id lifecycle-proposal-program-1780585581804-afdb21bb --root /Users/jamesryancooper/Projects/octon --octon-dir /Users/jamesryancooper/Projects/octon/.octon
+  final_summary_result: errors=0 cleanup_candidates=0
+blocker_resolution:
+  lifecycle_residue_cleanup_needed: resolved
+  next_lifecycle_action: resume proposal-program lifecycle run

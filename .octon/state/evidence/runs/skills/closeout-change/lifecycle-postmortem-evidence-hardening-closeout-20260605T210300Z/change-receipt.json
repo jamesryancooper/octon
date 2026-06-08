@@ -1,0 +1,153 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "initial_route": "branch-no-pr",
+  "route_transition_authority": "none",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Land lifecycle postmortem evidence hardening while preserving non-authority postmortem semantics.",
+  "scope": {
+    "summary": "Lifecycle postmortem evidence-map and known-limits v2, workflow substitute evidence, terminal and diagnostic evidence binding, retained program checkpoint snapshots, compact source-ref durability, and workflow documentation updates.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/01-bind-evidence.md",
+      ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/04-final-report.md"
+    ],
+    "diff_refs": [
+      "origin/main pre-landing 46268eafdb42de5c84d6bc9cb29c921c70713954",
+      "landed commit 989e6b7d486b737f93bc1575ba3fc6e276e060cf"
+    ]
+  },
+  "source_branch_ref": "chore/OCTON-0-lifecycle-postmortem-evidence-hardening",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/OCTON-0-lifecycle-postmortem-evidence-hardening@989e6b7d486b737f93bc1575ba3fc6e276e060cf before governed cleanup deletion",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "target_ref": "origin/main@989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh --allow-empty-check-set passed for source 989e6b7d486b737f93bc1575ba3fc6e276e060cf and target pre-ref 46268eafdb42de5c84d6bc9cb29c921c70713954.",
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-landing-authorization.json",
+      "git-branch-land-hosted-no-pr.sh fast-forwarded origin/main to 989e6b7d486b737f93bc1575ba3fc6e276e060cf."
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/OCTON-0-lifecycle-postmortem-evidence-hardening",
+    "source_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "target_pre_ref": "46268eafdb42de5c84d6bc9cb29c921c70713954",
+    "target_post_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "validated_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@989e6b7d486b737f93bc1575ba3fc6e276e060cf"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "989e6b7d486b737f93bc1575ba3fc6e276e060cf:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/OCTON-0-lifecycle-postmortem-evidence-hardening",
+    "source_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "landed_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "origin_main_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git-branch-authorize-cleanup.sh proved local and remote source branch refs were contained in origin/main before cleanup.",
+      "git-branch-cleanup.sh deleted local and remote source branch refs after authorization."
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "origin_main_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "landed_ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git-branch-cleanup.sh fetched origin before cleanup authorization validation.",
+    "local_main_sync_evidence_ref": "git merge --ff-only origin/main aligned local main before branch cleanup; git-branch-cleanup.sh reported local main synced to origin/main.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main returned 989e6b7d486b737f93bc1575ba3fc6e276e060cf for all refs."
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-cleanup-authorization.json",
+    "git-branch-cleanup.sh deleted local branch chore/OCTON-0-lifecycle-postmortem-evidence-hardening.",
+    "git-branch-cleanup.sh deleted remote branch origin/chore/OCTON-0-lifecycle-postmortem-evidence-hardening."
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/OCTON-0-lifecycle-postmortem-evidence-hardening",
+    "remote_branch": "origin/chore/OCTON-0-lifecycle-postmortem-evidence-hardening",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-cleanup-authorization.json",
+      "Deleted branch chore/OCTON-0-lifecycle-postmortem-evidence-hardening (was 989e6b7d4).",
+      "git push origin --delete chore/OCTON-0-lifecycle-postmortem-evidence-hardening completed."
+    ]
+  },
+  "validation_evidence_refs": [
+    "cargo test -p octon_kernel lifecycle_postmortem: 2 passed, 0 failed.",
+    "cargo test -p octon_kernel retained_checkpoint_snapshot: 1 passed, 0 failed.",
+    "cargo test -p octon_kernel program_compact_artifacts_verify_after_control_cleanup: 1 passed, 0 failed.",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh: passed=27 failed=0.",
+    ".octon/framework/engine/runtime/run lifecycle postmortem --run-id lifecycle-proposal-program-1780585581804-afdb21bb: status prepared.",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh --run-id lifecycle-proposal-program-1780585581804-afdb21bb: errors=0.",
+    "git diff --check: passed.",
+    "git-branch-hosted-preflight.sh --allow-empty-check-set: passed.",
+    "git-branch-authorize-cleanup.sh: passed.",
+    "git-branch-cleanup.sh --delete-remote --confirm: passed."
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because closeout selected branch-no-pr for a branch-isolated worktree candidate and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "git revert 989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+    "instructions": "Use a governed follow-up Change to revert landed commit 989e6b7d486b737f93bc1575ba3fc6e276e060cf. Do not force-push main unless a separate rollback authority requires it."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "closeout-worktree inventory: local main and origin/main aligned at 46268eafdb42de5c84d6bc9cb29c921c70713954 with one publishable tracked lifecycle hardening candidate and separate retained evidence residue.",
+    "residue_classification_ref": "classify-change-closeout-residue.sh before delegation: publishable_change=4, publishable_closeout_evidence=35, local_private_retained=101, unsafe ignored=5972, ambiguous=0.",
+    "phase_exit_refs": [
+      "branch-created: chore/OCTON-0-lifecycle-postmortem-evidence-hardening",
+      "branch-commit: 989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+      "source-branch-pushed: origin/chore/OCTON-0-lifecycle-postmortem-evidence-hardening@989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+      "hosted-no-pr-preflight: passed",
+      "landing-authorization: .octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-landing-authorization.json",
+      "hosted-landing: origin/main fast-forwarded to 989e6b7d486b737f93bc1575ba3fc6e276e060cf",
+      "branch-cleanup: local and remote source branch deleted after governed cleanup authorization"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-hardening-closeout-20260605T210300Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": "local main, origin/main, and landed_ref aligned at 989e6b7d486b737f93bc1575ba3fc6e276e060cf; source branch refs deleted."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-05T21:03:00Z",
+  "updated_at": "2026-06-05T21:05:00Z"
+}

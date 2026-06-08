@@ -1,0 +1,158 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Land and clean up the autonomous lifecycle blocker recovery proposal program implementation branch without opening a PR.",
+  "scope": {
+    "summary": "Completed proposal-program lifecycle recovery, autonomous blocker handling hardening, child packet closeout, publication refresh, and generated projection updates.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs",
+      ".octon/framework/engine/runtime/crates/kernel/tests/proposal_program_cli.rs",
+      ".octon/framework/assurance/runtime/_ops/scripts/",
+      ".octon/framework/assurance/runtime/_ops/tests/",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/",
+      ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/",
+      ".octon/generated/effective/",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/state/evidence/validation/extensions/",
+      ".octon/state/evidence/validation/publication/"
+    ],
+    "diff_refs": [
+      "ba7455b6ff8da362384e6d9632fda839fc410da5..ca1bb562f4c1f9e920aecc86038a3c457d8357ef"
+    ]
+  },
+  "source_branch_ref": "chore/autonomous-lifecycle-blocker-recovery-closeout",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/autonomous-lifecycle-blocker-recovery-closeout@ca1bb562f4c1f9e920aecc86038a3c457d8357ef before governed cleanup deletion",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "target_ref": "origin/main@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh passed for source ca1bb562f4c1f9e920aecc86038a3c457d8357ef and target pre-ref ba7455b6ff8da362384e6d9632fda839fc410da5.",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1 for source ca1bb562f4c1f9e920aecc86038a3c457d8357ef.",
+      "git-branch-land-hosted-no-pr.sh fast-forwarded origin/main to ca1bb562f4c1f9e920aecc86038a3c457d8357ef."
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/autonomous-lifecycle-blocker-recovery-closeout",
+    "source_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "target_pre_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "target_post_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "validated_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+      "branch_naming_validation@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+      "route_aware_autonomy_validation@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+      "exact_source_sha_validation@ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+      "empty-check-set-explicitly-allowed@ca1bb562f4c1f9e920aecc86038a3c457d8357ef"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/autonomous-lifecycle-blocker-recovery-closeout",
+    "source_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "landed_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "origin_main_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git-branch-authorize-cleanup.sh proved local and remote source branch refs were contained in origin/main before cleanup.",
+      "git ls-remote --heads origin chore/autonomous-lifecycle-blocker-recovery-closeout returned no ref after cleanup."
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "origin_main_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "landed_ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git-branch-cleanup.sh fetched origin and validated origin/main before branch cleanup.",
+    "local_main_sync_evidence_ref": "git-branch-cleanup.sh switched to main and reported local main was synced to origin/main at ca1bb562f4c1f9e920aecc86038a3c457d8357ef.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main returned ca1bb562f4c1f9e920aecc86038a3c457d8357ef for all refs immediately after cleanup."
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-authorize-cleanup.sh approved cleanup for local and remote branch refs at ca1bb562f4c1f9e920aecc86038a3c457d8357ef.",
+    "git-branch-cleanup.sh deleted local branch chore/autonomous-lifecycle-blocker-recovery-closeout.",
+    "git-branch-cleanup.sh deleted remote branch origin/chore/autonomous-lifecycle-blocker-recovery-closeout.",
+    "git ls-remote --heads origin chore/autonomous-lifecycle-blocker-recovery-closeout returned no ref."
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/autonomous-lifecycle-blocker-recovery-closeout",
+    "remote_branch": "origin/chore/autonomous-lifecycle-blocker-recovery-closeout",
+    "evidence_refs": [
+      "Deleted branch chore/autonomous-lifecycle-blocker-recovery-closeout (was ca1bb562f).",
+      "git push origin --delete chore/autonomous-lifecycle-blocker-recovery-closeout completed.",
+      "git ls-remote --heads origin chore/autonomous-lifecycle-blocker-recovery-closeout returned no ref."
+    ]
+  },
+  "validation_evidence_refs": [
+    "cargo test -p octon_kernel: 283 passed; 0 failed.",
+    "cargo test -p octon_kernel --test proposal_program_cli program_run_execute_routes_dispatches_child_route_and_writes_child_receipt: passed.",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh: Passed: 206 Failed: 0.",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh: errors=0.",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh: errors=0.",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check: Registry generation summary: errors=0.",
+    "git diff --cached --check: passed before commit.",
+    "git-branch-hosted-preflight.sh --allow-empty-check-set: passed for exact source SHA ca1bb562f4c1f9e920aecc86038a3c457d8357ef.",
+    "git-branch-authorize-cleanup.sh and git-branch-cleanup.sh --delete-remote --confirm: passed."
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because the operator selected branch-no-pr closeout and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "branch": "chore/autonomous-lifecycle-blocker-recovery-closeout"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "rollback origin/main from ca1bb562f4c1f9e920aecc86038a3c457d8357ef to ba7455b6ff8da362384e6d9632fda839fc410da5 or revert ca1bb562f4c1f9e920aecc86038a3c457d8357ef",
+    "instructions": "Use a governed follow-up Change to revert ca1bb562f4c1f9e920aecc86038a3c457d8357ef or the range ba7455b6ff8da362384e6d9632fda839fc410da5..ca1bb562f4c1f9e920aecc86038a3c457d8357ef if rollback is required; do not force-push main."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch before first hosted landing showed chore/autonomous-lifecycle-blocker-recovery-closeout tracking origin/chore/autonomous-lifecycle-blocker-recovery-closeout with no staged or unstaged tracked changes.",
+    "residue_classification_ref": "cleanup-local-run-artifacts.sh dry-run after branch cleanup classified local lifecycle runner residue separately from retained evidence; cleanup candidates were delegated through repo-hygiene cleanup.",
+    "phase_exit_refs": [
+      "inventory: source branch and origin/source branch aligned at ca1bb562f4c1f9e920aecc86038a3c457d8357ef; origin/main pre-ref was ba7455b6ff8da362384e6d9632fda839fc410da5.",
+      "hosted-no-pr-checks-and-landing: provider rules allowed route-neutral no-PR landing and origin/main fast-forwarded to ca1bb562f4c1f9e920aecc86038a3c457d8357ef.",
+      "branch-cleanup: cleanup authorization proved containment, no open PR, rollback posture, and source branch non-protection before local and remote branch deletion.",
+      "final-verification: local main, origin/main, and landed_ref aligned at ca1bb562f4c1f9e920aecc86038a3c457d8357ef after cleanup."
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/validation/analysis/20260605T032624Z-autonomous-lifecycle-blocker-recovery-closeout-worktree-report.yml"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-05T03:26:24Z"
+}

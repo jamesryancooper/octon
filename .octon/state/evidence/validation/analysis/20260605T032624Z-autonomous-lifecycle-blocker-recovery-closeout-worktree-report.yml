@@ -1,0 +1,211 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+run_id: autonomous-lifecycle-blocker-recovery-closeout-20260605T032624Z
+initial_inventory_ref: git status --short --branch before branch-no-pr closeout showed the autonomous lifecycle blocker recovery implementation staged as one publishable Change with raw run residue excluded.
+residue_classification_ref: cleanup-local-run-artifacts.sh dry-run initially classified 981 cleanup candidates, 15 protected referenced files, and 14 manual-review files; cleanup candidates were delegated to repo-hygiene cleanup.
+final_inventory_ref: git status --short --branch after both branch cleanups showed main tracking origin/main at dbcfec8de2b3597e0ad1a59f5ac8d69b30476107 with only retained manual-review evidence residue.
+selected_candidate_id: autonomous-lifecycle-program-closeout
+next_route_condition: completed
+repo_hygiene_cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/autonomous-lifecycle-blocker-recovery-closeout-20260605T032624Z/cleanup-authorization.json
+repo_hygiene_cleanup_outcome: delegated-cleaned
+observed_change_set_count: 3
+candidates:
+  - candidate_id: autonomous-lifecycle-program-closeout
+    disposition: closed
+    residue_routing_class: publishable_change
+    ownership: proposal-program lifecycle closeout
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: revert ca1bb562f4c1f9e920aecc86038a3c457d8357ef through governed follow-up Change if required
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/change-receipt.json
+    lifecycle_closeout_authority:
+      completed_program_run_id: lifecycle-proposal-program-1780585581804-afdb21bb
+      program_target: .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery
+      completed_program_summary_ref: .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/support/lifecycle-residue-cleanup.md
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/child-packet-index.yml
+        - .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/support/lifecycle-residue-cleanup.md
+        - .octon/generated/proposals/registry.yml
+    boundaries:
+      include_paths:
+        - .octon/framework/engine/runtime/crates/kernel/
+        - .octon/framework/assurance/runtime/_ops/scripts/
+        - .octon/framework/assurance/runtime/_ops/tests/
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle/
+        - .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-blocker-taxonomy/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-preservation/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/validator-affordances/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/cleanup-routing/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/evidence-and-receipt-hardening/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/runner-recovery-behavior/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/escalation-policy-update/
+        - .octon/generated/effective/
+        - .octon/generated/proposals/registry.yml
+        - .octon/state/evidence/validation/extensions/
+        - .octon/state/evidence/validation/publication/
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/control/extensions/quarantine.yml
+        - .claude/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+        - .codex/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+        - .cursor/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+      exclude_paths:
+        - .octon/state/control/execution/
+        - .octon/state/continuity/runs/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+        - .octon/state/evidence/runs/workflows/
+  - candidate_id: referenced-closeout-evidence-retention
+    disposition: closed
+    residue_routing_class: publishable_closeout_evidence
+    ownership: closeout evidence retention
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: revert dbcfec8de2b3597e0ad1a59f5ac8d69b30476107 through governed follow-up Change if required
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/
+        - .octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-1.md
+        - .octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-2.md
+        - .octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-3.md
+        - .octon/state/evidence/validation/analysis/20260604T145000Z-closeout-worktree-final-report.yml
+      exclude_paths:
+        - .octon/state/control/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+  - candidate_id: retained-manual-closeout-evidence
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: local manual retained evidence
+    route_hint: retain-local-evidence
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain local manual-review evidence unless a future explicit cleanup route classifies it
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/
+        - .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/autonomous-lifecycle-blocker-recovery-closeout-20260605T032624Z/
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/cleanup-authorization-20260604T162152Z.json
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/cleanup-authorization-20260604T201500Z.json
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/cleanup-authorization.json
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/cleanup-summary-20260604T201500Z.yml
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/cleanup-summary-20260604T215150Z.yml
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/cleanup-summary-20260604T2208Z.yml
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/cleanup-summary-20260604T231819Z.yml
+        - .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-7.md
+        - .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-8.md
+        - .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-9.md
+        - .octon/state/evidence/validation/analysis/2026-06-05-archive-proposal-1.md
+        - .octon/state/evidence/validation/analysis/2026-06-05-archive-proposal.md
+        - .octon/state/evidence/validation/analysis/20260605T032624Z-autonomous-lifecycle-blocker-recovery-closeout-worktree-report.yml
+      exclude_paths:
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+retained_residue:
+  - candidate_id: retained-manual-closeout-evidence
+    path: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/
+    disposition: local manual retained closeout evidence
+  - candidate_id: retained-manual-closeout-evidence
+    path: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/
+    disposition: local manual retained closeout evidence
+  - candidate_id: retained-manual-closeout-evidence
+    path: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/autonomous-lifecycle-blocker-recovery-closeout-20260605T032624Z/
+    disposition: local manual retained repo-hygiene evidence
+  - candidate_id: retained-manual-closeout-evidence
+    path: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/
+    disposition: local manual retained repo-hygiene evidence
+  - candidate_id: retained-manual-closeout-evidence
+    path: .octon/state/evidence/validation/analysis/
+    disposition: local manual retained validation analysis evidence
+blockers: []
+final_candidate_dispositions:
+  autonomous-lifecycle-program-closeout:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/change-receipt.json
+  referenced-closeout-evidence-retention:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/change-receipt.json
+  retained-manual-closeout-evidence:
+    state: foreign
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 20
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 20
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+iterations:
+  - iteration_id: branch-no-pr-program-closeout-cleaned
+    pre_inventory_ref: git status --short --branch before first branch landing
+    pre_classification_ref: lifecycle closeout candidate partition excluded raw run-state residue
+    selected_candidate_id: autonomous-lifecycle-program-closeout
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-branch-no-pr-closeout-20260605T032624Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: git status after first branch cleanup and before repo-hygiene cleanup
+    post_classification_ref: cleanup-local-run-artifacts.sh classified 981 cleanup candidates after first branch cleanup
+    next_selection_reason: referenced retained evidence required a narrow follow-up branch after cleanup
+    include_paths:
+      - .octon/framework/engine/runtime/crates/kernel/
+      - .octon/framework/assurance/runtime/_ops/scripts/
+      - .octon/framework/assurance/runtime/_ops/tests/
+      - .octon/inputs/additive/extensions/octon-proposal-lifecycle/
+      - .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-blocker-taxonomy/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-preservation/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/validator-affordances/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/cleanup-routing/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/evidence-and-receipt-hardening/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/runner-recovery-behavior/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/escalation-policy-update/
+      - .octon/generated/effective/
+      - .octon/generated/proposals/registry.yml
+      - .octon/state/evidence/validation/extensions/
+      - .octon/state/evidence/validation/publication/
+      - .octon/state/control/extensions/active.yml
+      - .octon/state/control/extensions/quarantine.yml
+      - .claude/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+      - .codex/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+      - .cursor/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+    exclude_paths:
+      - .octon/state/control/execution/
+      - .octon/state/continuity/runs/
+      - .octon/state/evidence/control/
+      - .octon/state/evidence/external-index/
+      - .octon/state/evidence/runs/workflows/
+  - iteration_id: branch-no-pr-referenced-evidence-cleaned
+    pre_inventory_ref: cleanup-local-run-artifacts.sh dry-run after repo-hygiene cleanup showed 15 protected referenced files and 15 manual-review files
+    pre_classification_ref: protected referenced evidence was selected for retention because tracked files referenced it
+    selected_candidate_id: referenced-closeout-evidence-retention
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-evidence-retention-closeout-20260605T033431Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: git status after second branch cleanup showed main aligned with origin/main and only retained manual-review evidence
+    post_classification_ref: cleanup-local-run-artifacts.sh final dry-run reported cleanup_candidates=0 protected_referenced=0 manual_review=17 before final receipt/report creation
+    next_selection_reason: no cleanup candidates or protected untracked evidence remained; only local retained manual evidence remained
+    include_paths:
+      - .octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/
+      - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780585581804-afdb21bb/
+      - .octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-1.md
+      - .octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-2.md
+      - .octon/state/evidence/validation/analysis/2026-06-04-promote-proposal-3.md
+      - .octon/state/evidence/validation/analysis/20260604T145000Z-closeout-worktree-final-report.yml
+    exclude_paths:
+      - .octon/state/control/
+      - .octon/state/evidence/control/
+      - .octon/state/evidence/external-index/

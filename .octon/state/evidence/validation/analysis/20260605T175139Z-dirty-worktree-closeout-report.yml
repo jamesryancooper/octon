@@ -1,0 +1,234 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+run_id: dirty-worktree-reconcile-20260605T163441Z
+initial_inventory_ref: git status --short --branch at baseline showed local main behind origin/main with staged archive movement, unstaged publication/control changes, generated projections, and local state/evidence residue.
+residue_classification_ref: classify-change-closeout-residue.sh at baseline classified staged, unstaged tracked, generated-effective, retained-evidence, state-control, input-surface, and ignored residue before any deletion authority was considered.
+final_inventory_ref: git status --short --branch after Candidate 5 closeout showed local main aligned with origin/main at 5a401a189e1dd4f02a0c66ae585e94ee62c2e539, no tracked dirty files, and retained untracked evidence only.
+selected_candidate_id: effective-publication-state-refresh
+next_route_condition: complete
+repo_hygiene_cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/dirty-worktree-reconcile-20260605T171517Z/cleanup-authorization.json
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/dirty-worktree-reconcile-20260605T171517Z/cleanup-authorization.json
+repo_hygiene_cleanup_outcome: delegated-cleaned
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/dirty-worktree-reconcile-20260605T171517Z/cleanup-authorization.json
+repo_hygiene_next_route_condition: retained local closeout, hygiene, analysis, and ignored residue is covered by retained-residue candidates; no further cleanup is authorized in this closeout.
+observed_change_set_count: 4
+candidate_execution_summary:
+  exact_upstream_reconciliation: closed by hash-equality duplicate cleanup, backup manifest retention under /private/tmp/octon-worktree-reconcile-20260605T163441Z, and fast-forward of local main to origin/main at 0c61152e633a74ffd303114774f87328d1357d46 before branch work began.
+  archive_move_and_generated_proposals: closed through branch-no-pr with landed commit ec822bc30b4dab242ea94bcf78000698b212a0a0 and governed local/remote source branch cleanup.
+  kernel_runtime_review_routing: resolved as non-candidate because lifecycle.rs, main.rs, and review-routing.yml matched current origin/main after exact-upstream reconciliation.
+  input_non_authority_blocker: explicitly repartitioned from Candidate 5 into a separate assurance fix branch, chore/fix-input-non-authority-generated-proposal-refs, landed as 428b84f0e10ebdd7583be3006be9614db34736d6, and cleaned before Candidate 5 resumed.
+  effective_publication_bundle: closed through branch-no-pr with landed commit 5a401a189e1dd4f02a0c66ae585e94ee62c2e539 and governed local/remote source branch cleanup.
+  repo_hygiene_residue: cleanup-safe files were removed only through delegated repo-hygiene cleanup; remaining local evidence and ignored residue are retained without deletion authority.
+external_split_candidate_summary:
+  candidate_id: input-non-authority-generated-proposal-refs
+  disposition: closed
+  branch: chore/fix-input-non-authority-generated-proposal-refs
+  landed_ref: 428b84f0e10ebdd7583be3006be9614db34736d6
+  closeout_change_ref: /private/tmp/octon-input-non-authority-validator-fix/.octon/state/evidence/runs/skills/closeout-change/input-non-authority-generated-proposal-refs-20260605T173000Z/change-receipt.json
+  rationale: Kept outside Candidate 5 because the validate-input-non-authority findings were validator false positives on generated proposal handles, not publication/control output drift.
+candidates:
+  - candidate_id: archive-autonomous-lifecycle-blocker-recovery
+    disposition: closed
+    residue_routing_class: publishable_change
+    ownership: autonomous lifecycle blocker recovery proposal archive move
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: revert ec822bc30b4dab242ea94bcf78000698b212a0a0 through a governed follow-up Change if rollback is required
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-archive-closeout-20260605T165935Z/change-receipt.json
+    lifecycle_closeout_authority:
+      completed_program_run_id: lifecycle-proposal-program-1780585581804-afdb21bb
+      program_target: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery
+      completed_program_summary_ref: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/lifecycle-residue-cleanup.md
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/resources/child-packet-index.yml
+        - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/lifecycle-residue-cleanup.md
+        - .octon/generated/proposals/registry.yml
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/
+        - .octon/generated/proposals/artifacts/architecture/autonomous-lifecycle-blocker-recovery/
+        - .octon/generated/proposals/registry.yml
+      exclude_paths:
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+        - .octon/generated/effective/
+  - candidate_id: effective-publication-state-refresh
+    disposition: closed
+    residue_routing_class: publishable_change
+    ownership: generated effective publication and extension control refresh
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: revert 5a401a189e1dd4f02a0c66ae585e94ee62c2e539 through a governed follow-up Change if rollback is required
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/change-receipt.json
+    lifecycle_closeout_authority:
+      completed_program_run_id: publish-effective-state-refresh-20260605T174431Z
+      program_target: .octon/generated/effective/
+      completed_program_summary_ref: .octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/change-receipt.json
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/generated/effective/capabilities/generation.lock.yml
+        - .octon/generated/effective/extensions/generation.lock.yml
+        - .octon/generated/effective/runtime/route-bundle.lock.yml
+        - .octon/state/evidence/validation/publication/capabilities/2026-06-05T17-12-46Z-capabilities-c4e59d58a3d8.yml
+        - .octon/state/evidence/validation/publication/extensions/2026-06-05T17-09-50Z-extensions-e539e7c8b239.yml
+        - .octon/state/evidence/validation/publication/runtime/2026-06-05T17-12-56Z-runtime-route-bundle-d832aab6f332.yml
+    boundaries:
+      include_paths:
+        - .octon/generated/effective/capabilities/artifact-map.yml
+        - .octon/generated/effective/capabilities/generation.lock.yml
+        - .octon/generated/effective/capabilities/routing.effective.yml
+        - .octon/generated/effective/extensions/artifact-map.yml
+        - .octon/generated/effective/extensions/catalog.effective.yml
+        - .octon/generated/effective/extensions/generation.lock.yml
+        - .octon/generated/effective/runtime/route-bundle.lock.yml
+        - .octon/generated/effective/runtime/route-bundle.yml
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/control/extensions/quarantine.yml
+        - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+        - .octon/state/evidence/validation/extensions/prompt-alignment/
+        - .octon/state/evidence/validation/publication/capabilities/
+        - .octon/state/evidence/validation/publication/extensions/
+        - .octon/state/evidence/validation/publication/runtime/
+      exclude_paths:
+        - .octon/generated/proposals/
+        - .octon/inputs/
+        - .octon/state/control/execution/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+  - candidate_id: retained-closeout-and-hygiene-evidence
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: local retained closeout, repo-hygiene, and analysis evidence
+    route_hint: retain-local-evidence
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain local manual-review evidence unless a future explicit cleanup route classifies and authorizes it
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/
+        - .octon/state/evidence/validation/analysis/
+      exclude_paths:
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+  - candidate_id: ignored-local-residue
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: ignored local residue retained outside publishable closeout scope
+    route_hint: retain-local-ignored-residue
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain ignored local residue unless a later governed cleanup explicitly authorizes a specific ignored path family
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/local/
+      exclude_paths:
+        - .git/
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+retained_residue:
+  - candidate_id: retained-closeout-and-hygiene-evidence
+    path: .octon/state/evidence/runs/skills/closeout-change/
+    disposition: local manual retained closeout-change evidence
+  - candidate_id: retained-closeout-and-hygiene-evidence
+    path: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/
+    disposition: local manual retained repo-hygiene cleanup evidence
+  - candidate_id: retained-closeout-and-hygiene-evidence
+    path: .octon/state/evidence/validation/analysis/
+    disposition: local manual retained validation analysis evidence, including this wrapper report
+  - candidate_id: ignored-local-residue
+    path: .octon/state/evidence/local/
+    disposition: local ignored residue retained without deletion authority
+blockers: []
+final_candidate_dispositions:
+  archive-autonomous-lifecycle-blocker-recovery:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-archive-closeout-20260605T165935Z/change-receipt.json
+  effective-publication-state-refresh:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/change-receipt.json
+  retained-closeout-and-hygiene-evidence:
+    state: foreign
+  ignored-local-residue:
+    state: retained
+final_residue_classes:
+  ignored: 6074
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 22
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 30
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+iterations:
+  - iteration_id: branch-no-pr-archive-autonomous-lifecycle-blocker-recovery-cleaned
+    pre_inventory_ref: git status --short --branch before archive candidate showed the archive move isolated after exact-upstream reconciliation and local main fast-forward to origin/main.
+    pre_classification_ref: archive candidate included only the autonomous-lifecycle-blocker-recovery archive move, generated proposal artifacts, and generated proposal registry refresh.
+    selected_candidate_id: archive-autonomous-lifecycle-blocker-recovery
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/autonomous-lifecycle-blocker-recovery-archive-closeout-20260605T165935Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: git status --short --branch after branch cleanup showed local main and origin/main at ec822bc30b4dab242ea94bcf78000698b212a0a0, with unrelated publication/control and evidence residue still present.
+    post_classification_ref: classify-change-closeout-residue.sh after archive closeout reported staged=0, unstaged-tracked=11, generated-effective-output=8, retained-evidence present, state-control present, and input-surface=0.
+    next_selection_reason: generated effective publication/control bundle remained as the next coherent candidate, but required validation exposed an umbrella input non-authority blocker before closeout-change could proceed.
+    include_paths:
+      - .octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/
+      - .octon/generated/proposals/artifacts/architecture/autonomous-lifecycle-blocker-recovery/
+      - .octon/generated/proposals/registry.yml
+    exclude_paths:
+      - .octon/state/control/
+      - .octon/state/continuity/
+      - .octon/state/evidence/control/
+      - .octon/state/evidence/external-index/
+      - .octon/generated/effective/
+  - iteration_id: branch-no-pr-effective-publication-state-refresh-cleaned
+    pre_inventory_ref: git status --short --branch before Candidate 5 closeout showed chore/publish-effective-state-refresh with generated effective publication/control changes and retained untracked closeout evidence.
+    pre_classification_ref: classify-change-closeout-residue.sh before Candidate 5 closeout reported the publication/control files as generated-effective-output and state-control residue, with unrelated retained evidence excluded.
+    selected_candidate_id: effective-publication-state-refresh
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/publish-effective-state-refresh-20260605T174431Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: git status --short --branch after Candidate 5 branch cleanup showed main aligned with origin/main at 5a401a189e1dd4f02a0c66ae585e94ee62c2e539, no tracked dirty files, and retained untracked evidence only.
+    post_classification_ref: classify-change-closeout-residue.sh after Candidate 5 closeout reported staged=0, unstaged-tracked=0, generated-effective-output=0, state-control=0, input-surface=0, untracked retained evidence, and ignored local residue.
+    next_selection_reason: all publishable source, generated, and control candidates are closed; only retained closeout/hygiene evidence and ignored local residue remain without deletion authority.
+    include_paths:
+      - .octon/generated/effective/capabilities/artifact-map.yml
+      - .octon/generated/effective/capabilities/generation.lock.yml
+      - .octon/generated/effective/capabilities/routing.effective.yml
+      - .octon/generated/effective/extensions/artifact-map.yml
+      - .octon/generated/effective/extensions/catalog.effective.yml
+      - .octon/generated/effective/extensions/generation.lock.yml
+      - .octon/generated/effective/runtime/route-bundle.lock.yml
+      - .octon/generated/effective/runtime/route-bundle.yml
+      - .octon/state/control/extensions/active.yml
+      - .octon/state/control/extensions/quarantine.yml
+      - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+      - .octon/state/evidence/validation/extensions/prompt-alignment/
+      - .octon/state/evidence/validation/publication/capabilities/
+      - .octon/state/evidence/validation/publication/extensions/
+      - .octon/state/evidence/validation/publication/runtime/
+    exclude_paths:
+      - .octon/generated/proposals/
+      - .octon/inputs/
+      - .octon/state/control/execution/
+      - .octon/state/continuity/
+      - .octon/state/evidence/control/
+      - .octon/state/evidence/external-index/
