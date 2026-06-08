@@ -3,7 +3,7 @@ execution_mode: "gated-parallel"
 default_child_lifecycle_id: "proposal-packet"
 children:
   - child_id: "proposal-program-runner-current-state-gap-map"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-current-state-gap-map"
     required: true
     deferred: false
     dependencies:
@@ -15,10 +15,10 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src"
@@ -28,7 +28,7 @@ children:
       - ".octon/framework/assurance/runtime/_ops/tests/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
   - child_id: "proposal-program-runner-planning-replan-loop"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-planning-replan-loop"
     required: true
     deferred: false
     dependencies:
@@ -40,17 +40,17 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
   - child_id: "proposal-program-runner-executor-delegation-gates"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-executor-delegation-gates"
     required: true
     deferred: false
     dependencies:
@@ -63,10 +63,10 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
@@ -74,7 +74,7 @@ children:
       - ".octon/framework/engine/runtime/adapters/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
   - child_id: "proposal-program-runner-evidence-run-control"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-evidence-run-control"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-evidence-run-control"
     required: true
     deferred: false
     dependencies:
@@ -87,10 +87,10 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/spec/"
@@ -99,7 +99,7 @@ children:
       - ".octon/framework/assurance/runtime/_ops/scripts/"
       - ".octon/framework/assurance/runtime/_ops/tests/"
   - child_id: "proposal-program-runner-child-scheduling-recovery"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-child-scheduling-recovery"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-child-scheduling-recovery"
     required: true
     deferred: false
     dependencies:
@@ -113,17 +113,17 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/crates/kernel/tests/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
       - ".octon/framework/engine/runtime/spec/"
   - child_id: "proposal-program-runner-verification-correction-routing"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-verification-correction-routing"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-verification-correction-routing"
     required: true
     deferred: false
     dependencies:
@@ -136,10 +136,10 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
@@ -147,7 +147,7 @@ children:
       - ".octon/framework/assurance/runtime/_ops/tests/"
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
   - child_id: "proposal-program-runner-cleanup-hygiene"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-cleanup-hygiene"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-cleanup-hygiene"
     required: true
     deferred: false
     dependencies:
@@ -160,10 +160,10 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/"
@@ -172,7 +172,7 @@ children:
       - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
       - ".octon/instance/governance/policies/repo-hygiene.yml"
   - child_id: "proposal-program-runner-closeout-archive-policy"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-closeout-archive-policy"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-closeout-archive-policy"
     required: true
     deferred: false
     dependencies:
@@ -186,10 +186,10 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
@@ -198,7 +198,7 @@ children:
       - ".octon/framework/assurance/runtime/_ops/tests/"
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
   - child_id: "proposal-program-runner-generated-state-publication"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-generated-state-publication"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-generated-state-publication"
     required: true
     deferred: false
     dependencies:
@@ -211,10 +211,10 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
       - ".octon/framework/orchestration/runtime/_ops/scripts/"
@@ -224,7 +224,7 @@ children:
       - ".octon/generated/effective/capabilities/"
       - ".octon/generated/assurance/"
   - child_id: "proposal-program-runner-tests-fixtures"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-tests-fixtures"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-tests-fixtures"
     required: true
     deferred: false
     dependencies:
@@ -243,10 +243,10 @@ children:
     required_metadata:
       - "change_profile"
     source_lineage_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
     parent_contract_refs:
-      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
     write_scopes:
       - ".octon/framework/engine/runtime/crates/kernel/tests/"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
