@@ -1,0 +1,29 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-tests-fixtures
+title: Proposal Program Runner Tests And Fixtures
+summary: Add comprehensive tests, fixtures, negative controls, and validation receipts for every acceptance criterion and edge case in the lifecycle improvement source text.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/framework/engine/runtime/crates/kernel/tests/
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/tests/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/scenarios/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Implement through the existing proposal-packet lifecycle only after this packet is executed by a later proposal-program run. Close out or archive only after child-owned implementation, conformance, drift/churn, closeout, and archive gates pass.
+related_proposals:
+  - proposal-program-runner-e2e-execution-program
+archive:
+  archived_at: "2026-06-02"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-tests-fixtures
+  promotion_evidence:
+    - .octon/framework/engine/runtime/crates/kernel/tests/
+    - .octon/framework/engine/runtime/crates/lifecycle_executor/tests/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/scenarios/

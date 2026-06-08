@@ -1,0 +1,29 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-closeout-archive-policy
+title: Proposal Program Runner Closeout And Archive Policy
+summary: Enforce active program closeout policy, child terminal outcome requirements, child archive workflow delegation when required, blocked closeout/archive receipts, and workflow-owned parent archival.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-program/
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/generate-program-closeout-prompt/
+  - .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Implement through the existing proposal-packet lifecycle only after this packet is executed by a later proposal-program run. Close out or archive only after child-owned implementation, conformance, drift/churn, closeout, and archive gates pass.
+related_proposals:
+  - proposal-program-runner-e2e-execution-program
+archive:
+  archived_at: "2026-06-02"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-closeout-archive-policy
+  promotion_evidence:
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-program/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/generate-program-closeout-prompt/
+    - .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs

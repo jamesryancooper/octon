@@ -1,0 +1,29 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-cleanup-hygiene
+title: Proposal Program Runner Cleanup And Hygiene Routing
+summary: Keep implementation hygiene, publication hygiene, archive hygiene, cleanup predicates, residue fingerprints, and blocked hygiene receipts inside existing repo-hygiene and lifecycle-residue ownership.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/
+  - .octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh
+  - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+  - .octon/instance/governance/policies/repo-hygiene.yml
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Implement through the existing proposal-packet lifecycle only after this packet is executed by a later proposal-program run. Close out or archive only after child-owned implementation, conformance, drift/churn, closeout, and archive gates pass.
+related_proposals:
+  - proposal-program-runner-e2e-execution-program
+archive:
+  archived_at: "2026-06-02"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-cleanup-hygiene
+  promotion_evidence:
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/
+    - .octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh
+    - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+    - .octon/instance/governance/policies/repo-hygiene.yml

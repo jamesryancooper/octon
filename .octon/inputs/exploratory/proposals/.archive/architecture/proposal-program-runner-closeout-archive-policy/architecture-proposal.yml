@@ -1,0 +1,25 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "proposal-program-runner-closeout-archive-policy"
+title: "Proposal Program Runner Closeout And Archive Policy"
+architecture_scope: "closeout and archive policy enforcement"
+decision_type: "surface-refactor"
+status: "accepted"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: >-
+    The repository profile defaults to atomic in pre-1.0. This packet proposes
+    one bounded implementation slice and does not require long-lived
+    compatibility coexistence.
+owned_surfaces:
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+authority_boundary: >-
+  The implementation route may update only the child-owned target surfaces
+  declared by this packet and must not move route, validator, publication,
+  registry, promotion, closeout, cleanup, archive, or run-lifecycle ownership
+  into the generic runner.

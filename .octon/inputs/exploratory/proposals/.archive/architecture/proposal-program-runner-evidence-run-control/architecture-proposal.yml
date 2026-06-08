@@ -1,0 +1,25 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "proposal-program-runner-evidence-run-control"
+title: "Proposal Program Runner Evidence And Run Control"
+architecture_scope: "evidence tiers, checkpoints, replay, cancellation, resume, and locks"
+decision_type: "surface-refactor"
+status: "accepted"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: >-
+    The repository profile defaults to atomic in pre-1.0. This packet proposes
+    one bounded implementation slice and does not require long-lived
+    compatibility coexistence.
+owned_surfaces:
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/contracts/retention/"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+authority_boundary: >-
+  The implementation route may update only the child-owned target surfaces
+  declared by this packet and must not move route, validator, publication,
+  registry, promotion, closeout, cleanup, archive, or run-lifecycle ownership
+  into the generic runner.

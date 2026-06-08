@@ -1,0 +1,27 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-executor-delegation-gates
+title: Proposal Program Runner Executor Delegation Gates
+summary: Route all parent, child, extension, and workflow dispatch through the shared lifecycle executor adapter with retained delegation proof, route-declared gates, invocation authority checks, and human exception handling.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/engine/runtime/adapters/
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Implement through the existing proposal-packet lifecycle only after this packet is executed by a later proposal-program run. Close out or archive only after child-owned implementation, conformance, drift/churn, closeout, and archive gates pass.
+related_proposals:
+  - proposal-program-runner-e2e-execution-program
+archive:
+  archived_at: "2026-06-02"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+  promotion_evidence:
+    - .octon/framework/engine/runtime/crates/lifecycle_executor/src
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/engine/runtime/adapters/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
