@@ -15,7 +15,18 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/"
   - ".octon/framework/assurance/functional/suites/lifecycle-postmortem-integrity.yml"
   - ".octon/instance/assurance/runtime/lifecycle-postmortem.yml"
-status: "implemented"
+status: "archived"
+archive:
+  archived_at: "2026-06-08"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-validator"
+  promotion_evidence:
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+    - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh"
+    - ".octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/"
+    - ".octon/framework/assurance/functional/suites/lifecycle-postmortem-integrity.yml"
+    - ".octon/instance/assurance/runtime/lifecycle-postmortem.yml"
 lifecycle:
   temporary: true
   exit_expectation: >-

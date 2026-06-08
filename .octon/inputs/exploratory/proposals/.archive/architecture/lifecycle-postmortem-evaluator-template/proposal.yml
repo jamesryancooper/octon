@@ -15,7 +15,17 @@ promotion_targets:
   - ".octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md"
   - ".octon/framework/assurance/evaluators/review-routing.yml"
   - ".octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v1.schema.json"
-status: "implemented"
+status: "archived"
+archive:
+  archived_at: "2026-06-08"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-evaluator-template"
+  promotion_evidence:
+    - ".octon/framework/assurance/evaluators/lifecycle-postmortem/"
+    - ".octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md"
+    - ".octon/framework/assurance/evaluators/review-routing.yml"
+    - ".octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v1.schema.json"
 lifecycle:
   temporary: true
   exit_expectation: >-

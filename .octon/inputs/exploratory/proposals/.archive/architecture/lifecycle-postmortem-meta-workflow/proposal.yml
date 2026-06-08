@@ -13,7 +13,16 @@ promotion_targets:
   - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
   - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
   - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
-status: "implemented"
+status: "archived"
+archive:
+  archived_at: "2026-06-08"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-meta-workflow"
+  promotion_evidence:
+    - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
+    - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+    - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
 lifecycle:
   temporary: true
   exit_expectation: >-
