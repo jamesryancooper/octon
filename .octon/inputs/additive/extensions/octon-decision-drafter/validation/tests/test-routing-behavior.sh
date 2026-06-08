@@ -226,11 +226,17 @@ EOF
   copy_file "$root" ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
   copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
 
+  cat >"$root/.octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh" <<'EOF'
+#!/usr/bin/env bash
+enter_publication_runtime_boundary() { :; }
+EOF
+
   chmod +x \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh" \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh" \
     "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh" \
     "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh" \
     "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-local-tests.sh" \
