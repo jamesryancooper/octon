@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-2-workflow-validate-proposal
-generated_at: '2026-06-02T12:48:48Z'
+generated_at: '2026-06-08T20:33:42Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:51e29d6bd4c50f5b5ccc891da0a6276652ffae145adf15c031b8692e027a4f90
-  checked_at: '2026-06-02T12:48:48Z'
+  combined_source_digest: sha256:a281991fff6d555d82de9e695a823a4fa6f3f022e26b57dcc8d70f72cfa6c75e
+  checked_at: '2026-06-08T20:33:42Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-2-workflow-validate-proposal/events.manifest.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:50b9c4853155f5e139eacb99f95fa10d780bd13b3b4d5175eca8a2d6c6c53133
+    digest: sha256:0bb3444cc84e8526818b6f3f31d78409ad070ae6d10a138d0ef59d553e0efce9
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:bfbc8f59ef3e02954b658650cba9e797f0a5681e917517e6a8987601d5dff381
+    digest: sha256:5d8eda17c550a061a339cd23535112ca702917219479706a3ec7c362d9d3f0c1
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
@@ -149,7 +149,7 @@ source_digests:
     status: present
   operator_read_model_contract:
     ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:f8ae18c2553b3a7eb5e80c11935fdc83eb84c4a49497ba76943d5e2bc3b5972f
+    digest: sha256:24d6782aea0da4074cd7c70f408b5889ff323576ba2ee8837b817b903e256659
     status: present
 health:
   status: stale
