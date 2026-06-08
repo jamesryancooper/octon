@@ -22,4 +22,9 @@ This catalog lists visible proposal-local files for validator inventory.
 - `support/implementation-grade-completeness-review.md`
 - `support/proposal-review.md`
 - `support/program-implementation-orchestration-prompt.md`
+- `support/lifecycle-residue-cleanup.md`
+- `support/program-implementation-orchestration-run.md`
+- `support/program-implementation-orchestration-conformance-review.md`
+- `support/program-post-implementation-orchestration-drift-churn-review.md`
+- `support/proposal-closeout.md`
 - `support/validation/source-coverage-checks.md`
