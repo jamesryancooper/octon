@@ -737,6 +737,7 @@ LIFECYCLE_CLOSEOUT_PUBLISHABLE_PREFIXES = (
     ".octon/generated/proposals/",
     ".octon/state/evidence/decisions/",
     ".octon/state/evidence/validation/extensions/",
+    ".octon/state/evidence/validation/compatibility/extensions/",
     ".octon/state/evidence/validation/publication/",
 )
 LIFECYCLE_CLOSEOUT_PUBLISHABLE_EXACT_PATHS = {
