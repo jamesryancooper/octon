@@ -3075,7 +3075,7 @@ YAML
     cat >>"$report" <<'YAML'
     lifecycle_closeout_authority:
       completed_program_run_id: lifecycle-proposal-program-fixture
-      program_target: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller
+      program_target: proposal-program:token-efficient-proposal-program-controller
       completed_program_summary_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-fixture/summary.md
       child_authority_preserved: true
       parent_summary_not_child_receipt: true
@@ -3088,7 +3088,6 @@ YAML
   cat >>"$report" <<YAML
     boundaries:
       include_paths:
-        - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
         - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-token-measurement-ledger/
         - .octon/generated/effective/runtime/
         - .octon/generated/proposals/
@@ -3103,7 +3102,6 @@ iterations:
     pre_classification_ref: evidence://worktree/classification-001
     selected_candidate_id: candidate-lifecycle
     include_paths:
-      - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
       - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-token-measurement-ledger/
       - .octon/generated/effective/runtime/
       - .octon/generated/proposals/
