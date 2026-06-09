@@ -1,0 +1,4 @@
+command	outcome
+validate-proposal-review-gate --require-implementation-authorization	pass errors=0 warnings=0
+validate-compatibility-retirement-readiness	pass errors=0
+validate-compatibility-retirement-cutover	pass errors=0

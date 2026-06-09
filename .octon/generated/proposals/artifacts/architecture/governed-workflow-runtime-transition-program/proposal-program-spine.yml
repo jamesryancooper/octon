@@ -1,0 +1,209 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:e82b6a2cf4ba6f6a3724f3b384d30df3a684561f7596752f154f4849e20e6bbc",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Coordinate, create, review, implement, validate, close out, defer, reject, supersede, or archive child proposal packets; retain aggregate program evidence; then archive or remove this parent packet after all required children reach allowed terminal outcomes and durable promotion evidence exists outside the proposal workspace.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/governed-workflow-runtime-transition-program/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/cognition/_meta/terminology/naming-constitution.md",
+    ".octon/framework/cognition/_meta/terminology/glossary.md",
+    ".octon/framework/cognition/_meta/architecture/specification.md",
+    ".octon/framework/engine/runtime/spec/",
+    ".octon/framework/constitution/contracts/runtime/",
+    ".octon/framework/constitution/obligations/fail-closed.yml",
+    ".octon/framework/constitution/obligations/evidence.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/",
+    ".octon/instance/governance/support-targets.yml",
+    ".octon/instance/governance/connector-admissions/"
+  ],
+  "proposal_id": "governed-workflow-runtime-transition-program",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 846,
+      "estimated_tokens": 212,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/custom-program-closeout-prompt.md",
+      "sha256": "sha256:04f0ba772044ac461e053f3cd1b4ef6c57342d159062bf8d7de480ab4e89d99d"
+    },
+    {
+      "byte_size": 2450,
+      "estimated_tokens": 613,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/deferred-evaluation-child-disposition.md",
+      "sha256": "sha256:8f9090d982bb6ffdb875ed74ae181b8f4bcc72da59d0f156d776709a25697085"
+    },
+    {
+      "byte_size": 1622,
+      "estimated_tokens": 406,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/follow-up-program-verification-prompt.md",
+      "sha256": "sha256:aa7a3b903477fe4b768e03b43430b3082228614a9eb32f7303c3c23472283da0"
+    },
+    {
+      "byte_size": 2539,
+      "estimated_tokens": 635,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-conformance-review.md",
+      "sha256": "sha256:80fdee69945acdb02ed8fd533c3e83a3f4ff47b4007415d4c55b0234170375f2"
+    },
+    {
+      "byte_size": 2626,
+      "estimated_tokens": 657,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:c98a65501702b31e7f7d842efc43dd6d3e7a3c60e0b81f168b0a16150b2c3e98"
+    },
+    {
+      "byte_size": 2847,
+      "estimated_tokens": 712,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/lifecycle-residue-cleanup.md",
+      "sha256": "sha256:d76613aa6d9c98c00fb39609736a6f45ae4a5982c5c40765e3be71057750f823"
+    },
+    {
+      "byte_size": 2392,
+      "estimated_tokens": 598,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:454eed3af5f44839a9a98f7c07e5817ca61d077db041a97e379aac3a70bd22af"
+    },
+    {
+      "byte_size": 1339,
+      "estimated_tokens": 335,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-creation.md",
+      "sha256": "sha256:a8b93fb93fa71970f810b384dc3b31b635f74c5a511a40e7311ff0b8867322a8"
+    },
+    {
+      "byte_size": 2012,
+      "estimated_tokens": 503,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-conformance-review.md",
+      "sha256": "sha256:01bba0a6e284b2a02e338f5ef5d675f5e845672e901051883ca20ed9503dd7ed"
+    },
+    {
+      "byte_size": 12947,
+      "estimated_tokens": 3237,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-prompt.md",
+      "sha256": "sha256:b9dedb1051ef5ed9c7b51f8c5086de4a8d7dfabfeb9fe111c04ef8fadcc70c92"
+    },
+    {
+      "byte_size": 2970,
+      "estimated_tokens": 743,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-run.md",
+      "sha256": "sha256:c4efd9f34c3b4e921b8aca56c69db8ae62417f12f7874db6158b8668d3415d54"
+    },
+    {
+      "byte_size": 2324,
+      "estimated_tokens": 581,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "sha256": "sha256:814927890905ec29d3b3cc08411a38b1ab4f3537d2de3df8f1c620491d14d6d2"
+    },
+    {
+      "byte_size": 3604,
+      "estimated_tokens": 901,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-closeout.md",
+      "sha256": "sha256:f535312d3bfb355dba7073eba761c5bc508b76c4637942f3d63d22cfecab938c"
+    },
+    {
+      "byte_size": 3577,
+      "estimated_tokens": 895,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-review.md",
+      "sha256": "sha256:664d57fc742c46ab68083f203eccefed366277f4b9affd62c7b981b9125efd77"
+    }
+  ],
+  "related_proposals": [
+    "foundational-entry-artifact-canonical-framing-update",
+    "framing-boundary-and-terminology-guardrails",
+    "workflow-statechart-task-specific-execution-harness",
+    "agent-node-model-call-contract",
+    "workflow-history-replay-idempotency-compensation",
+    "effect-token-enforcement-coverage",
+    "evidence-provenance-hardening",
+    "connector-operation-admission",
+    "migration-cutover-compatibility-retirement",
+    "durable-coordination-adapter-evaluation",
+    "mcp-integration-evaluation",
+    "external-workflow-engine-adapter-evaluation"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture-proposal.yml": "sha256:a8361b7ac81ae7a450bb7acc49e3fc51bf9ba88f4c86e1889932e0933dfc3d93",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/acceptance-criteria.md": "sha256:df20e9085079f314e2d9b758cfceaaed854976b4dc19dabc25736445ca199b0b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/implementation-plan.md": "sha256:9a4aaf3b06559f116f7543f8cd2d6cdcc59c5975693de7b320cd631b058c6dd5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/artifact-catalog.md": "sha256:831730f66824a46f95ab526fb87b2d354f4ab73d18749ebba58f11350108a439",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/source-of-truth-map.md": "sha256:62fe77f2cd47a5db76e5aed8c30c2fa4353309608520ee9838bfefd28a86b419",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/proposal.yml": "sha256:7353aa7f70408ef4582bec72b4623f3ced0f27f0f3c1e8212fc4c6259b5852a1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-grade-completeness-review.md": "sha256:c98a65501702b31e7f7d842efc43dd6d3e7a3c60e0b81f168b0a16150b2c3e98",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-review.md": "sha256:664d57fc742c46ab68083f203eccefed366277f4b9affd62c7b981b9125efd77"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

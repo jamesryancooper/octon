@@ -1,9 +1,9 @@
 schema_version: connector-drift-record-v1
 connector_id: mcp
 operation_id: observe-context
-checked_at: "2026-04-28T00:00:00Z"
-current_digest: dd4a1e598e2a99152ecbc662577ab0b59cdbfbc39ae29d3a6bf3414d9ac96da7
-previous_digest: daf904009987e9818069f3d790adbe57e47d9dd2e48194fb056b4848a40150af
+checked_at: "2026-06-09T00:19:43Z"
+current_digest: f6cc609a3b89ffd3aaf85bfdecccc63cca40525b2b9d8c0203889741fe2c61f7
+previous_digest: dd4a1e598e2a99152ecbc662577ab0b59cdbfbc39ae29d3a6bf3414d9ac96da7
 drift_detected: false
 route: current
 quarantine_required: false

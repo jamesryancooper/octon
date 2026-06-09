@@ -1,0 +1,6 @@
+command	status	errors	warnings
+validate-proposal-review-gate.sh --require-implementation-authorization	pass	0	0
+validate-evidence-obligation-ids.sh	pass	0	0
+validate-evidence-disclosure-tiers.sh	pass	0	0
+validate-evidence-completeness.sh	pass	0	0
+validate-disclosure-wording-coherence.sh	pass	0	0

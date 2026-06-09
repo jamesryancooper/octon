@@ -1,0 +1,699 @@
+{
+  "artifact_count": 32,
+  "artifacts": [
+    {
+      "byte_size": 2236,
+      "estimated_tokens": 559,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "README.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/README.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "overview",
+      "sha256": "sha256:29affd139bc7c177abad987967ce46b6031c119e2bf430151fbc3e2c9a378bfa",
+      "stage_relevance": [
+        "orientation"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2904,
+      "estimated_tokens": 726,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "RISK-REGISTER.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/RISK-REGISTER.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:53ae076720afe71a32f093b86c2e9a26342b59f7568bd9ad5a7f4d048800460a",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 6404,
+      "estimated_tokens": 1601,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "SHA256SUMS.txt",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/SHA256SUMS.txt",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:c266d79e2cbfc8aa8e8c4c3503f775bd79d242655086992c4bba8e73019fc9e2",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 1201,
+      "estimated_tokens": 301,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/acceptance-criteria.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "acceptance-criteria",
+      "sha256": "sha256:df20e9085079f314e2d9b758cfceaaed854976b4dc19dabc25736445ca199b0b",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 3432,
+      "estimated_tokens": 858,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/child-packet-contract.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/child-packet-contract.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "child-packet-contract",
+      "sha256": "sha256:6828b5870fe14741cd02171399278d9ac54df2a6d447e0ccd7dee0c1c6d79b48",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 1221,
+      "estimated_tokens": 306,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/implementation-plan.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-plan",
+      "sha256": "sha256:9a4aaf3b06559f116f7543f8cd2d6cdcc59c5975693de7b320cd631b058c6dd5",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 3500,
+      "estimated_tokens": 875,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/packet-sequence.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/packet-sequence.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-sequence",
+      "sha256": "sha256:bb03657d5483d2367aecdf55557b7ebd8ed2ca52fabf81333e0ac0b2c5b37bc9",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2252,
+      "estimated_tokens": 563,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/program-closeout-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/program-closeout-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "program-closeout-plan",
+      "sha256": "sha256:750d9e68370e62c79e61d4f12f089af53a36fa7aa85988fee62023a6cf61d5b8",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 1444,
+      "estimated_tokens": 361,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/target-architecture.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "target-architecture",
+      "sha256": "sha256:9ba865fe666cbf48e53c06c559d08e3e9cd86438f29910b14a4cede1b7534d74",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 1769,
+      "estimated_tokens": 443,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture-proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "subtype-manifest",
+      "sha256": "sha256:a8361b7ac81ae7a450bb7acc49e3fc51bf9ba88f4c86e1889932e0933dfc3d93",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 1828,
+      "estimated_tokens": 457,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "deferred-and-rejected-scope.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/deferred-and-rejected-scope.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:89696474cb44b867cfed50cb688d048b80b0d35367a58b0e1d67f097a959ad3f",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 1503,
+      "estimated_tokens": 376,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/artifact-catalog.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "artifact-catalog",
+      "sha256": "sha256:831730f66824a46f95ab526fb87b2d354f4ab73d18749ebba58f11350108a439",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 1399,
+      "estimated_tokens": 350,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/source-of-truth-map.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "source-of-truth-map",
+      "sha256": "sha256:62fe77f2cd47a5db76e5aed8c30c2fa4353309608520ee9838bfefd28a86b419",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 6503,
+      "estimated_tokens": 1626,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "proposal-manifest",
+      "sha256": "sha256:7353aa7f70408ef4582bec72b4623f3ced0f27f0f3c1e8212fc4c6259b5852a1",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 4662,
+      "estimated_tokens": 1166,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/child-packet-index.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/resources/child-packet-index.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:185cf24bc5331e4fb819dc3d5c646247e11e7bc1ab168f00fbcb5b5adbfd69ad",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 9493,
+      "estimated_tokens": 2374,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/child-packet-index.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/resources/child-packet-index.yml",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:5668b4f67b37e6f1f9441bfefb062f0d6df1b9c2912449f674ad5e4ef5ee0ef1",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 846,
+      "estimated_tokens": 212,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/custom-program-closeout-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/custom-program-closeout-prompt.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "custom-program-closeout-prompt",
+      "sha256": "sha256:04f0ba772044ac461e053f3cd1b4ef6c57342d159062bf8d7de480ab4e89d99d",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2450,
+      "estimated_tokens": 613,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/deferred-evaluation-child-disposition.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/deferred-evaluation-child-disposition.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "deferred-evaluation-child-disposition",
+      "sha256": "sha256:8f9090d982bb6ffdb875ed74ae181b8f4bcc72da59d0f156d776709a25697085",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 1622,
+      "estimated_tokens": 406,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/follow-up-program-verification-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/follow-up-program-verification-prompt.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "follow-up-program-verification-prompt",
+      "sha256": "sha256:aa7a3b903477fe4b768e03b43430b3082228614a9eb32f7303c3c23472283da0",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2539,
+      "estimated_tokens": 635,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-conformance-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-conformance-review",
+      "sha256": "sha256:80fdee69945acdb02ed8fd533c3e83a3f4ff47b4007415d4c55b0234170375f2",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 2626,
+      "estimated_tokens": 657,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-grade-completeness-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "implementation-grade-completeness-review",
+      "sha256": "sha256:c98a65501702b31e7f7d842efc43dd6d3e7a3c60e0b81f168b0a16150b2c3e98",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2847,
+      "estimated_tokens": 712,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/lifecycle-residue-cleanup.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/lifecycle-residue-cleanup.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "lifecycle-residue-cleanup",
+      "sha256": "sha256:d76613aa6d9c98c00fb39609736a6f45ae4a5982c5c40765e3be71057750f823",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2392,
+      "estimated_tokens": 598,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/post-implementation-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/post-implementation-drift-churn-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "post-implementation-drift-churn-review",
+      "sha256": "sha256:454eed3af5f44839a9a98f7c07e5817ca61d077db041a97e379aac3a70bd22af",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 1339,
+      "estimated_tokens": 335,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-creation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-creation.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-creation",
+      "sha256": "sha256:a8b93fb93fa71970f810b384dc3b31b635f74c5a511a40e7311ff0b8867322a8",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2012,
+      "estimated_tokens": 503,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-implementation-orchestration-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-conformance-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-implementation-orchestration-conformance-review",
+      "sha256": "sha256:01bba0a6e284b2a02e338f5ef5d675f5e845672e901051883ca20ed9503dd7ed",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 12947,
+      "estimated_tokens": 3237,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-implementation-orchestration-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-prompt.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-implementation-orchestration-prompt",
+      "sha256": "sha256:b9dedb1051ef5ed9c7b51f8c5086de4a8d7dfabfeb9fe111c04ef8fadcc70c92",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2970,
+      "estimated_tokens": 743,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-implementation-orchestration-run.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-run.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-implementation-orchestration-run",
+      "sha256": "sha256:c4efd9f34c3b4e921b8aca56c69db8ae62417f12f7874db6158b8668d3415d54",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2324,
+      "estimated_tokens": 581,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-post-implementation-orchestration-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-post-implementation-orchestration-drift-churn-review",
+      "sha256": "sha256:814927890905ec29d3b3cc08411a38b1ab4f3537d2de3df8f1c620491d14d6d2",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 3604,
+      "estimated_tokens": 901,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:f535312d3bfb355dba7073eba761c5bc508b76c4637942f3d63d22cfecab938c",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 3577,
+      "estimated_tokens": 895,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-review",
+      "sha256": "sha256:664d57fc742c46ab68083f203eccefed366277f4b9affd62c7b981b9125efd77",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2743,
+      "estimated_tokens": 686,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/validation/program-aggregate-evidence.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/validation/program-aggregate-evidence.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-aggregate-evidence",
+      "sha256": "sha256:cfa9a859c4a7c47659feb7d54acfad4c3735b1d97056d0d084142ae58381e394",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 12079,
+      "estimated_tokens": 3020,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "validation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/validation-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:01110846b99618955ac1acede47435f2b563b1427d1799f86a582a9933e8d584",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    }
+  ],
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "compact_outputs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/governed-workflow-runtime-transition-program/proposal-artifact-index.yml",
+      "artifact_role": "proposal-artifact-index",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/governed-workflow-runtime-transition-program/proposal-program-spine.yml",
+      "artifact_role": "proposal-program-spine",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/governed-workflow-runtime-transition-program/proposal-artifact-index.yml",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_id": "governed-workflow-runtime-transition-program",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "schema_version": "octon-proposal-artifact-index-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture-proposal.yml": "sha256:a8361b7ac81ae7a450bb7acc49e3fc51bf9ba88f4c86e1889932e0933dfc3d93",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/acceptance-criteria.md": "sha256:df20e9085079f314e2d9b758cfceaaed854976b4dc19dabc25736445ca199b0b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/implementation-plan.md": "sha256:9a4aaf3b06559f116f7543f8cd2d6cdcc59c5975693de7b320cd631b058c6dd5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/artifact-catalog.md": "sha256:831730f66824a46f95ab526fb87b2d354f4ab73d18749ebba58f11350108a439",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/source-of-truth-map.md": "sha256:62fe77f2cd47a5db76e5aed8c30c2fa4353309608520ee9838bfefd28a86b419",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/proposal.yml": "sha256:7353aa7f70408ef4582bec72b4623f3ced0f27f0f3c1e8212fc4c6259b5852a1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-grade-completeness-review.md": "sha256:c98a65501702b31e7f7d842efc43dd6d3e7a3c60e0b81f168b0a16150b2c3e98",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-review.md": "sha256:664d57fc742c46ab68083f203eccefed366277f4b9affd62c7b981b9125efd77"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/proposal-review.md"
+  ],
+  "validation": {
+    "negative_controls": [
+      "generated-registry-cannot-replace-manifest",
+      "source-digest-mismatch-fails-closed",
+      "missing-child-handoff-fails-when-parent-program-present"
+    ],
+    "validator": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+  }
+}
