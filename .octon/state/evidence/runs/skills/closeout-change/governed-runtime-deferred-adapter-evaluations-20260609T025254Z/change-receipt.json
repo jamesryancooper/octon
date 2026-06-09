@@ -1,0 +1,60 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "governed-runtime-deferred-adapter-evaluations",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Implement and archive the three deferred Governed Workflow Runtime evaluation children as child-owned architecture packets with lab-only evaluation records, non-authorizing connector-admission records, retained proof, and boundary validation.",
+  "scope": {
+    "summary": "Deferred adapter evaluation child implementation and archive closeout.",
+    "touched_paths": [
+      ".octon/framework/lab/adapter-evaluations/**",
+      ".octon/framework/constitution/contracts/adapters/deferred-adapter-evaluation-boundaries-v1.yml",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh",
+      ".octon/instance/governance/connector-admissions/mcp/integration-evaluation/admission.yml",
+      ".octon/instance/governance/connector-admissions/durable-coordination-adapter/evaluate-adapter/admission.yml",
+      ".octon/instance/governance/connector-admissions/external-workflow-engine-adapter/evaluate-adapter/admission.yml",
+      ".octon/state/evidence/lab/adapter-evaluations/**",
+      ".octon/state/evidence/validation/proposals/*-adapter-evaluation/**",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/mcp-integration-evaluation/**",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/durable-coordination-adapter-evaluation/**",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/external-workflow-engine-adapter-evaluation/**",
+      ".octon/generated/proposals/registry.yml"
+    ]
+  },
+  "validation_evidence_refs": [
+    "git diff --cached --check: passed",
+    "validate-deferred-adapter-evaluation-boundaries.sh: errors=0",
+    "validate-proposal-standard.sh --package <each archived evaluation child> --skip-registry-check: errors=0 warnings=0",
+    "validate-architecture-proposal.sh --package <each archived evaluation child>: errors=0; archived executable-prompt warnings only",
+    "validate-proposal-implementation-conformance.sh --package <each archived evaluation child>: errors=0 warnings=0",
+    "validate-proposal-post-implementation-drift.sh --package <each archived evaluation child>: errors=0 warnings=0",
+    "generate-proposal-registry.sh --check: errors=0",
+    "active deferred child packet path residue check: passed",
+    "archived parent child-packet-index stale active-path check: passed"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "branch commit on chore/deferred-adapter-evaluations",
+    "branch": "chore/deferred-adapter-evaluations"
+  },
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "deferred",
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "discard branch commit before landing or revert the eventual landed commit",
+    "instructions": "Before landing, rollback is deletion or reset of chore/deferred-adapter-evaluations. After landing, use a normal revert of the landed commit unless a deeper governance rollback is required."
+  },
+  "landing_evaluation": {
+    "status": "not-attempted",
+    "reason": "No hosted no-PR landing authorization was emitted in this turn."
+  },
+  "not_landed_reason": "Branch-no-PR local checkpoint only; origin/main was not updated.",
+  "landing_stop_reason": "hosted-landing-authorization-not-created",
+  "not_cleaned_reason": "Source branch remains required to carry the validated branch-local checkpoint.",
+  "cleanup_stop_reason": "branch-publication-or-hosted-landing-needed-before-branch-cleanup",
+  "created_at": "2026-06-09T02:52:54Z",
+  "closeout_outcome": "continued"
+}

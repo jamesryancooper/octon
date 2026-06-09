@@ -1,0 +1,27 @@
+schema_version: "adapter-evaluation-registry-v1"
+registry_id: "adapter-evaluations"
+status: "active"
+authority_boundary:
+  live_support_claim_authorized: false
+  adapter_availability_is_authority: false
+  external_state_is_authority: false
+  retained_evidence_root: ".octon/state/evidence/lab/adapter-evaluations/"
+evaluations:
+  - evaluation_id: "mcp-integration-evaluation"
+    surface: "mcp"
+    evaluation_ref: ".octon/framework/lab/adapter-evaluations/mcp-integration-evaluation.yml"
+    retained_evidence_ref: ".octon/state/evidence/lab/adapter-evaluations/mcp-integration-evaluation/evaluation-proof.yml"
+    admission_ref: ".octon/instance/governance/connector-admissions/mcp/integration-evaluation/admission.yml"
+    disposition: "implemented-lab-evaluation"
+  - evaluation_id: "durable-coordination-adapter-evaluation"
+    surface: "durable-coordination-adapter"
+    evaluation_ref: ".octon/framework/lab/adapter-evaluations/durable-coordination-adapter-evaluation.yml"
+    retained_evidence_ref: ".octon/state/evidence/lab/adapter-evaluations/durable-coordination-adapter-evaluation/evaluation-proof.yml"
+    admission_ref: ".octon/instance/governance/connector-admissions/durable-coordination-adapter/evaluate-adapter/admission.yml"
+    disposition: "implemented-lab-evaluation"
+  - evaluation_id: "external-workflow-engine-adapter-evaluation"
+    surface: "external-workflow-engine-adapter"
+    evaluation_ref: ".octon/framework/lab/adapter-evaluations/external-workflow-engine-adapter-evaluation.yml"
+    retained_evidence_ref: ".octon/state/evidence/lab/adapter-evaluations/external-workflow-engine-adapter-evaluation/evaluation-proof.yml"
+    admission_ref: ".octon/instance/governance/connector-admissions/external-workflow-engine-adapter/evaluate-adapter/admission.yml"
+    disposition: "implemented-lab-evaluation"

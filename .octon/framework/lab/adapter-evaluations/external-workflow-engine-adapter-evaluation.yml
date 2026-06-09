@@ -1,0 +1,38 @@
+schema_version: "deferred-adapter-evaluation-v1"
+evaluation_id: "external-workflow-engine-adapter-evaluation"
+title: "External Workflow Engine Adapter Evaluation"
+surface: "external-workflow-engine-adapter"
+status: "implemented-lab-evaluation"
+live_support_claim_authorized: false
+adapter_availability_is_authority: false
+external_state_is_authority: false
+descriptor_or_tool_listing_is_authority: false
+admission_authorizes_execution: false
+canonical_control_truth_owner: "octon-local"
+canonical_evidence_owner: "octon-local"
+closeout_truth_owner: "octon-local"
+allowed_use:
+  - "stage-only external execution observation"
+  - "adapter evaluation when local Octon workflow/run truth remains authoritative"
+forbidden_use:
+  - "workflow truth"
+  - "run truth"
+  - "authorization decisions"
+  - "support claims"
+  - "closeout truth"
+positive_scenario:
+  scenario_id: "external-engine-stage-only-observation"
+  expected_result: "External workflow engine traces may be reconciled into Octon evidence without becoming Octon evidence or workflow truth."
+negative_controls:
+  - control_id: "external-engine-not-workflow-truth"
+    assertion: "External engine state cannot own Octon workflow state."
+    expected_result: "pass"
+  - control_id: "external-engine-not-run-truth"
+    assertion: "External engine state cannot own Octon run state."
+    expected_result: "pass"
+  - control_id: "external-engine-not-authorization"
+    assertion: "External engine state cannot authorize Octon execution."
+    expected_result: "pass"
+admission_ref: ".octon/instance/governance/connector-admissions/external-workflow-engine-adapter/evaluate-adapter/admission.yml"
+retained_evidence_ref: ".octon/state/evidence/lab/adapter-evaluations/external-workflow-engine-adapter-evaluation/evaluation-proof.yml"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh"

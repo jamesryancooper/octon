@@ -1,0 +1,33 @@
+schema_version: "deferred-adapter-evaluation-boundaries-v1"
+contract_id: "deferred-adapter-evaluation-boundaries"
+status: "active"
+release_state: "pre-1.0"
+change_profile: "atomic"
+scope: >-
+  Boundary contract for lab/evaluation implementation of optional governed
+  runtime adapter candidates that were deferred from the Governed Workflow
+  Runtime Transition Program.
+non_authority_rule: >-
+  Deferred adapter evaluations may produce lab evidence, connector admission
+  candidate records, and conformance criteria. They do not admit live support,
+  authorize execution, store canonical Octon truth, or replace local retained
+  evidence.
+required_boundaries:
+  live_support_claim_authorized: false
+  adapter_availability_is_authority: false
+  external_state_is_authority: false
+  admission_authorizes_execution: false
+  canonical_control_truth_owner: "octon-local"
+  canonical_evidence_owner: "octon-local"
+  closeout_truth_owner: "octon-local"
+evaluation_records_root: ".octon/framework/lab/adapter-evaluations/"
+retained_evidence_root: ".octon/state/evidence/lab/adapter-evaluations/"
+admission_candidate_root: ".octon/instance/governance/connector-admissions/"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh"
+candidates:
+  - evaluation_id: "mcp-integration-evaluation"
+    boundary: "MCP is connector/protocol input only; descriptors, servers, tools, prompts, and resources are never permission, support admission, runtime policy, retained evidence, or authority."
+  - evaluation_id: "durable-coordination-adapter-evaluation"
+    boundary: "Durable coordination adapters are replaceable coordination support only; they cannot own control truth, retained evidence, authority decisions, support claims, or closeout truth."
+  - evaluation_id: "external-workflow-engine-adapter-evaluation"
+    boundary: "External workflow engines are adapters, executors, or lab targets only; they cannot own workflow truth, run truth, closeout truth, support claims, or authorization decisions."

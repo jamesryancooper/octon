@@ -1,0 +1,27 @@
+schema_version: "deferred-adapter-evaluation-proof-v1"
+evaluation_id: "mcp-integration-evaluation"
+verdict: "pass"
+recorded_at: "2026-06-09T01:51:38Z"
+proof_class:
+  - "boundary proof"
+  - "behavior proof"
+  - "negative control"
+live_support_claim_authorized: false
+positive_scenario_result:
+  scenario_id: "mcp-stage-only-context-observation"
+  result: "pass"
+  evidence: "MCP is retained as stage-only connector/protocol input; Octon run contracts, connector admissions, and evidence roots remain authoritative."
+negative_controls:
+  - control_id: "mcp-descriptor-not-authority"
+    result: "pass"
+  - control_id: "mcp-availability-not-support"
+    result: "pass"
+  - control_id: "mcp-output-not-evidence-store"
+    result: "pass"
+authority_boundary:
+  canonical_control_truth_owner: "octon-local"
+  canonical_evidence_owner: "octon-local"
+  closeout_truth_owner: "octon-local"
+  adapter_availability_is_authority: false
+  external_state_is_authority: false
+validation_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh"

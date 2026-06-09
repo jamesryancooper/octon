@@ -1,0 +1,83 @@
+schema_version: "proposal-v1"
+proposal_id: "durable-coordination-adapter-evaluation"
+title: "Durable Coordination Adapter Evaluation"
+summary: >-
+  Implement the formerly deferred durable coordination adapter evaluation as a
+  child-owned architecture packet with lab evidence, stage-only admission
+  boundaries, and validator coverage proving durable adapter state remains
+  replaceable support rather than Octon truth.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/lab/adapter-evaluations/"
+  - ".octon/instance/governance/connector-admissions/durable-coordination-adapter/evaluate-adapter/admission.yml"
+  - ".octon/state/evidence/lab/adapter-evaluations/durable-coordination-adapter-evaluation/"
+  - ".octon/framework/constitution/contracts/adapters/deferred-adapter-evaluation-boundaries-v1.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh"
+status: "archived"
+archive:
+  archived_at: "2026-06-09T01:51:38Z"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/durable-coordination-adapter-evaluation"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/durable-coordination-adapter-evaluation/2026-06-09T01-51-38Z/command-summary.tsv"
+    - ".octon/state/evidence/validation/proposals/durable-coordination-adapter-evaluation/2026-06-09T01-51-38Z/validation.md"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote lab/evaluation boundary artifacts and retained evidence, prove
+    durable coordination adapters cannot own canonical Octon truth, then
+    archive after closeout.
+related_proposals:
+  - "governed-workflow-runtime-transition-program"
+  - "workflow-history-replay-idempotency-compensation"
+  - "effect-token-enforcement-coverage"
+  - "connector-operation-admission"
+program_parent: "governed-workflow-runtime-transition-program"
+scope_statement: >-
+  Child-owned implementation of the deferred durable coordination adapter
+  evaluation only. This packet does not implement a Durable Object adapter or
+  move control truth, retained evidence, authority decisions, support claims,
+  or closeout truth out of local Octon surfaces.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/deferred-evaluation-child-disposition.md"
+  - ".octon/state/evidence/validation/proposals/governed-workflow-runtime-transition-program/deferred-evaluation-child-disposition-2026-06-09.md"
+authority_class_impact:
+  framework: "Adds lab evaluation records, adapter boundary contract, and validator coverage."
+  instance: "Adds a non-live durable coordination adapter evaluation admission boundary record."
+  state_control: "No control truth mutation."
+  state_evidence: "Adds retained lab proof under state/evidence/lab."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet remains proposal-local input."
+runtime_behavior_impact: "None; durable coordination is evaluated as replaceable stage-only support only."
+generated_input_authority_impact: "Generated projections and external durable state remain non-authority."
+evidence_requirements:
+  - "Retained lab proof for positive stage-only coordination handoff."
+  - "Negative controls for control truth, evidence truth, and closeout truth boundaries."
+  - "Validator output for deferred adapter evaluation boundaries."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "proposal review gate"
+  - "implementation-readiness validation"
+  - "deferred adapter evaluation boundary validation"
+  - "implementation conformance validation"
+  - "post-implementation drift/churn validation"
+acceptance_criteria_summary: >-
+  Durable coordination adapter evaluation is implemented only when lab records,
+  retained proof, admission boundary records, and validator checks prove
+  durable state cannot become Octon control, evidence, authority, support, or
+  closeout truth.
+rollback_summary: >-
+  Remove durable coordination adapter lab/admission records and retained proof,
+  then rerun registry and boundary validators.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-09"
+explicit_runtime_non_implementation_statement: >-
+  This packet does not implement Durable Object adapter behavior, live
+  coordination support admission, or any external durable state ownership of
+  Octon control, evidence, authorization, support, or closeout truth.

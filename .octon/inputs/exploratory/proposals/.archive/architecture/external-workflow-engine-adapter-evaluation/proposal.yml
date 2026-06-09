@@ -1,0 +1,83 @@
+schema_version: "proposal-v1"
+proposal_id: "external-workflow-engine-adapter-evaluation"
+title: "External Workflow Engine Adapter Evaluation"
+summary: >-
+  Implement the formerly deferred external workflow engine adapter evaluation
+  as a child-owned architecture packet with lab evidence, stage-only admission
+  boundaries, and validator coverage proving external engines remain adapters
+  or executors rather than Octon workflow authority.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/lab/adapter-evaluations/"
+  - ".octon/instance/governance/connector-admissions/external-workflow-engine-adapter/evaluate-adapter/admission.yml"
+  - ".octon/state/evidence/lab/adapter-evaluations/external-workflow-engine-adapter-evaluation/"
+  - ".octon/framework/constitution/contracts/adapters/deferred-adapter-evaluation-boundaries-v1.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh"
+status: "archived"
+archive:
+  archived_at: "2026-06-09T01:51:38Z"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/external-workflow-engine-adapter-evaluation"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/external-workflow-engine-adapter-evaluation/2026-06-09T01-51-38Z/command-summary.tsv"
+    - ".octon/state/evidence/validation/proposals/external-workflow-engine-adapter-evaluation/2026-06-09T01-51-38Z/validation.md"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote lab/evaluation boundary artifacts and retained evidence, prove
+    external workflow engines cannot own Octon workflow or run truth, then
+    archive after closeout.
+related_proposals:
+  - "governed-workflow-runtime-transition-program"
+  - "workflow-history-replay-idempotency-compensation"
+  - "effect-token-enforcement-coverage"
+  - "connector-operation-admission"
+program_parent: "governed-workflow-runtime-transition-program"
+scope_statement: >-
+  Child-owned implementation of the deferred external workflow engine adapter
+  evaluation only. This packet does not integrate an external workflow engine
+  as Octon workflow truth, run truth, support authority, authorization, or
+  closeout truth.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-workflow-runtime-transition-program/support/deferred-evaluation-child-disposition.md"
+  - ".octon/state/evidence/validation/proposals/governed-workflow-runtime-transition-program/deferred-evaluation-child-disposition-2026-06-09.md"
+authority_class_impact:
+  framework: "Adds lab evaluation records, adapter boundary contract, and validator coverage."
+  instance: "Adds a non-live external workflow engine adapter evaluation admission boundary record."
+  state_control: "No control truth mutation."
+  state_evidence: "Adds retained lab proof under state/evidence/lab."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet remains proposal-local input."
+runtime_behavior_impact: "None; external workflow engines are evaluated as replaceable stage-only adapters only."
+generated_input_authority_impact: "Generated projections and external workflow dashboards remain non-authority."
+evidence_requirements:
+  - "Retained lab proof for positive stage-only external engine observation."
+  - "Negative controls for workflow truth, run truth, and authorization boundaries."
+  - "Validator output for deferred adapter evaluation boundaries."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "proposal review gate"
+  - "implementation-readiness validation"
+  - "deferred adapter evaluation boundary validation"
+  - "implementation conformance validation"
+  - "post-implementation drift/churn validation"
+acceptance_criteria_summary: >-
+  External workflow engine adapter evaluation is implemented only when lab
+  records, retained proof, admission boundary records, and validator checks
+  prove external engines cannot become Octon workflow truth, run truth,
+  authorization, support, or closeout truth.
+rollback_summary: >-
+  Remove external workflow engine adapter lab/admission records and retained
+  proof, then rerun registry and boundary validators.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-09"
+explicit_runtime_non_implementation_statement: >-
+  This packet does not implement external workflow-engine runtime integration,
+  live engine support admission, or external ownership of Octon workflow, run,
+  authorization, support, evidence, or closeout truth.

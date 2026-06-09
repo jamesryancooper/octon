@@ -1,0 +1,27 @@
+schema_version: "deferred-adapter-evaluation-proof-v1"
+evaluation_id: "durable-coordination-adapter-evaluation"
+verdict: "pass"
+recorded_at: "2026-06-09T01:51:38Z"
+proof_class:
+  - "boundary proof"
+  - "behavior proof"
+  - "negative control"
+live_support_claim_authorized: false
+positive_scenario_result:
+  scenario_id: "durable-coordination-stage-only-handoff"
+  result: "pass"
+  evidence: "Durable coordination is retained as replaceable stage-only handoff support; local Octon control and evidence roots remain authoritative."
+negative_controls:
+  - control_id: "durable-state-not-control-truth"
+    result: "pass"
+  - control_id: "durable-state-not-evidence"
+    result: "pass"
+  - control_id: "durable-state-not-closeout"
+    result: "pass"
+authority_boundary:
+  canonical_control_truth_owner: "octon-local"
+  canonical_evidence_owner: "octon-local"
+  closeout_truth_owner: "octon-local"
+  adapter_availability_is_authority: false
+  external_state_is_authority: false
+validation_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh"

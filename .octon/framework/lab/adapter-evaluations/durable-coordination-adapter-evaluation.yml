@@ -1,0 +1,38 @@
+schema_version: "deferred-adapter-evaluation-v1"
+evaluation_id: "durable-coordination-adapter-evaluation"
+title: "Durable Coordination Adapter Evaluation"
+surface: "durable-coordination-adapter"
+status: "implemented-lab-evaluation"
+live_support_claim_authorized: false
+adapter_availability_is_authority: false
+external_state_is_authority: false
+descriptor_or_tool_listing_is_authority: false
+admission_authorizes_execution: false
+canonical_control_truth_owner: "octon-local"
+canonical_evidence_owner: "octon-local"
+closeout_truth_owner: "octon-local"
+allowed_use:
+  - "stage-only coordination handoff evaluation"
+  - "observation support when local Octon control and evidence roots remain authoritative"
+forbidden_use:
+  - "canonical run control"
+  - "authority decisions"
+  - "retained evidence"
+  - "support claims"
+  - "closeout truth"
+positive_scenario:
+  scenario_id: "durable-coordination-stage-only-handoff"
+  expected_result: "Durable coordination may be observed as replaceable handoff support while local Octon state remains canonical."
+negative_controls:
+  - control_id: "durable-state-not-control-truth"
+    assertion: "Durable adapter state cannot replace .octon/state/control execution roots."
+    expected_result: "pass"
+  - control_id: "durable-state-not-evidence"
+    assertion: "Durable adapter state cannot replace .octon/state/evidence retained evidence roots."
+    expected_result: "pass"
+  - control_id: "durable-state-not-closeout"
+    assertion: "Durable adapter state cannot close or archive Octon work."
+    expected_result: "pass"
+admission_ref: ".octon/instance/governance/connector-admissions/durable-coordination-adapter/evaluate-adapter/admission.yml"
+retained_evidence_ref: ".octon/state/evidence/lab/adapter-evaluations/durable-coordination-adapter-evaluation/evaluation-proof.yml"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh"

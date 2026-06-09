@@ -1,0 +1,38 @@
+schema_version: "deferred-adapter-evaluation-v1"
+evaluation_id: "mcp-integration-evaluation"
+title: "MCP Integration Evaluation"
+surface: "mcp"
+status: "implemented-lab-evaluation"
+live_support_claim_authorized: false
+adapter_availability_is_authority: false
+external_state_is_authority: false
+descriptor_or_tool_listing_is_authority: false
+admission_authorizes_execution: false
+canonical_control_truth_owner: "octon-local"
+canonical_evidence_owner: "octon-local"
+closeout_truth_owner: "octon-local"
+allowed_use:
+  - "stage-only connector/protocol input evaluation"
+  - "read-only context observation when a bound run contract separately authorizes it"
+forbidden_use:
+  - "permission"
+  - "support admission"
+  - "runtime policy"
+  - "retained evidence"
+  - "execution authority"
+positive_scenario:
+  scenario_id: "mcp-stage-only-context-observation"
+  expected_result: "MCP may provide stage-only context input while Octon run contracts, admissions, and retained evidence remain authoritative."
+negative_controls:
+  - control_id: "mcp-descriptor-not-authority"
+    assertion: "MCP descriptors, prompts, resources, and tool listings cannot authorize execution."
+    expected_result: "pass"
+  - control_id: "mcp-availability-not-support"
+    assertion: "MCP server or tool availability cannot widen support targets."
+    expected_result: "pass"
+  - control_id: "mcp-output-not-evidence-store"
+    assertion: "MCP output cannot substitute for Octon retained evidence roots."
+    expected_result: "pass"
+admission_ref: ".octon/instance/governance/connector-admissions/mcp/integration-evaluation/admission.yml"
+retained_evidence_ref: ".octon/state/evidence/lab/adapter-evaluations/mcp-integration-evaluation/evaluation-proof.yml"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-deferred-adapter-evaluation-boundaries.sh"

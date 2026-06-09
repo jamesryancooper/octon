@@ -1,0 +1,8 @@
+command	outcome
+validate-proposal-review-gate.sh --require-implementation-authorization	pass
+validate-proposal-implementation-readiness.sh	pass
+validate-deferred-adapter-evaluation-boundaries.sh	pass
+validate-proposal-standard.sh	pass
+validate-architecture-proposal.sh	pass
+validate-proposal-implementation-conformance.sh	pass
+validate-proposal-post-implementation-drift.sh	pass
