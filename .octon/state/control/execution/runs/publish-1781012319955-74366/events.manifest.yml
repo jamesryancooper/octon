@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: publish-1781012319955-74366
+ledger_ref: .octon/state/control/execution/runs/publish-1781012319955-74366/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/publish-1781012319955-74366/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:651bfb82f5e8c4892bfea18dff3d9bcb9c239d0115814c3511e790b2d8d8f1b4
+event_count: 37
+first_event_ref:
+  event_id: evt-001-run-created-publish-1781012319955-74366
+  sequence: 1
+  event_hash: sha256:fd1ac01b2623d29434f449452cd0d26f461809f6a6eee85a2356a3efb547593b
+last_event_ref:
+  event_id: evt-run-closed-publish-1781012319955-74366
+  sequence: 37
+  event_hash: sha256:3d0e234e4983d9c1c88d43bc3f8245844e7a078bd256c697f5f93b31fbff9eaa
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:fd1ac01b2623d29434f449452cd0d26f461809f6a6eee85a2356a3efb547593b
+  tail_event_hash: sha256:3d0e234e4983d9c1c88d43bc3f8245844e7a078bd256c697f5f93b31fbff9eaa
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-publish-1781012319955-74366
+  context_pack_ref: evt-context-pack-bound-publish-1781012319955-74366
+  disclosure_ref: evt-run-closed-publish-1781012319955-74366
+  evidence_snapshot_ref: evt-evidence-snapshot-created-publish-1781012319955-74366
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-0d6c02b395ad
+  run_contract_ref: evt-001-run-created-publish-1781012319955-74366
+  run_manifest_ref: evt-002-run-bound-publish-1781012319955-74366
+  runtime_state_ref: evt-run-closed-publish-1781012319955-74366
+  stage_attempt_ref: evt-stage-started-publish-1781012319955-74366
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/publish-1781012319955-74366/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/publish-1781012319955-74366/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/publish-1781012319955-74366/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/publish-1781012319955-74366/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/publish-1781012319955-74366/runtime-state.yml
+  last_applied_event_id: evt-run-closed-publish-1781012319955-74366
+  last_applied_sequence: 37
+  last_applied_event_hash: sha256:3d0e234e4983d9c1c88d43bc3f8245844e7a078bd256c697f5f93b31fbff9eaa
+  materialized_at: 2026-06-09T13:38:42.812531Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-09T13:38:43.126669Z
