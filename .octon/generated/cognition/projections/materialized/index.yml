@@ -27,3 +27,6 @@ files:
   - id: run-health-index
     path: runs/index.yml
     summary: Generated non-authoritative per-run health read-model index.
+  - id: governed-cross-surface-mechanisms-operator-map
+    path: governed-cross-surface-mechanisms/operator-map.md
+    summary: Generated non-authoritative operator map for governed cross-surface mechanism boundaries.

@@ -12,6 +12,9 @@ self-approve; it does not mint authority, widen scope, bypass human-only
 boundaries, or treat generated outputs, proposal-local receipts, host state,
 chat state, tool availability, or model memory as authority.
 
+For architecture/governance boundary detail, see
+`.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/governed-lifecycle-orchestration.md`.
+
 The proposal packet lifecycle is the first concrete single-target pilot. It
 exercises packet creation, review, revision, re-review, acceptance or rejection,
 implementation prompt generation, implementation, promotion,

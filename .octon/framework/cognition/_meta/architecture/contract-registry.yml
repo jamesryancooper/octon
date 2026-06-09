@@ -246,6 +246,40 @@ path_families:
       - "architecture_specification"
       - "bootstrap_start"
       - "ingress_surface"
+  governed_cross_surface_mechanisms:
+    class_root: "framework"
+    related_class_roots:
+      - "state"
+      - "generated"
+      - "inputs"
+    canonical_paths:
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/**"
+    authority_class: "architecture-boundary-documentation"
+    role: >-
+      Human and machine-readable architecture/governance index for governed
+      cross-surface mechanisms and their authority/non-authority boundaries.
+      It is documentation and navigation only; it does not mint runtime,
+      policy, support, closeout, cleanup, generated-effective, retained
+      evidence, mutable-control, or proposal-child authority.
+    allowed_consumers:
+      - "docs"
+      - "validators"
+      - "operators"
+    forbidden_consumers:
+      - "runtime route selection"
+      - "policy authority"
+      - "support proof"
+      - "closeout proof"
+      - "cleanup authorization"
+      - "retained evidence replacement"
+      - "child proposal receipt replacement"
+      - "generated projections as authority substitutes"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh"
+    doc_target_refs:
+      - "architecture_specification"
   default_work_unit_policy:
     class_root: "framework"
     related_class_roots:
@@ -1830,6 +1864,7 @@ execution:
     - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
     - ".octon/framework/cognition/_meta/terminology/glossary.md"
     - ".octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md"
+    - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md"
     - ".octon/framework/cognition/governance/principles/mission-scoped-reversible-autonomy.md"
     - ".octon/instance/bootstrap/START.md"
     - ".octon/framework/engine/README.md"
@@ -1872,6 +1907,7 @@ execution:
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement-cutover.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"

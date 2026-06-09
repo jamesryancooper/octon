@@ -18,6 +18,11 @@ Feature catalog entries do not mint authority, support claims, runtime routes,
 or generated-effective state. They point to the surfaces that already own those
 responsibilities.
 
+Architecture and governance boundary detail for cross-surface mechanisms lives
+in `.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/`.
+Product docs keep using `product features`; the architecture index uses
+`governed cross-surface mechanisms`.
+
 Roadmap entries are planning/navigation records only. They do not create work
 queues, support commitments, runtime routes, generated-effective state, or
 durable execution evidence.

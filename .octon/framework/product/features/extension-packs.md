@@ -11,6 +11,8 @@ Raw extension pack files under `.octon/inputs/additive/extensions/**` are
 authoring and publication inputs only. Runtime discovery uses generated
 effective outputs under `.octon/generated/effective/extensions/**`, validated
 against the generation lock and publication receipts.
+For architecture/governance boundary detail, see
+`.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/`.
 
 Capability profiles do not create mutually exclusive extension types. They
 make artifact dependencies explicit and let validators and resolvers fail

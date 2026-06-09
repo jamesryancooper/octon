@@ -1,0 +1,279 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+default_child_lifecycle_id: "proposal-packet"
+registry_posture: "canonical-child-packets"
+canonical_child_packets_created: true
+child_packet_policy:
+  child_paths_are_sibling_locations: true
+  child_paths_are_canonical_after_manifest_exists: true
+  required_children_have_accepted_reviews_before_implementation_prompt: true
+  required_children_have_accepted_reviews_before_closeout: true
+  optional_children_may_remain_deferred_after_creation: true
+  parent_revision_receipts_do_not_satisfy_child_receipts: true
+  parent_review_receipts_do_not_satisfy_child_receipts: true
+children:
+  - child_id: "mechanism-index-foundation"
+    path: ".octon/inputs/exploratory/proposals/architecture/mechanism-index-foundation"
+    required: true
+    deferred: false
+    child_packet_status: "accepted"
+    canonical_child_packet_exists: true
+    program_required_for_implementation: true
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "foundation"
+    rollback_posture: "manual"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/resources/source-context.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+    readiness_requirements:
+      - requirement_id: "mechanism-index-non-authority"
+        summary: "The architecture mechanism index must declare its own non-runtime-authority role."
+        review_must_mention:
+          - "mechanism index not runtime authority"
+          - "governed cross-surface mechanisms"
+    write_scopes:
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+      - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+    seed_role: "first-child"
+  - child_id: "authority-class-schema-alignment"
+    path: ".octon/inputs/exploratory/proposals/architecture/authority-class-schema-alignment"
+    required: true
+    deferred: false
+    child_packet_status: "accepted"
+    canonical_child_packet_exists: true
+    program_required_for_implementation: true
+    dependencies:
+      - "mechanism-index-foundation"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "contracts"
+    rollback_posture: "manual"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+      - ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+    readiness_requirements:
+      - requirement_id: "surface-class-vocabulary"
+        summary: "Catalog and mechanism index authority classes must align with the topology registry."
+        review_must_mention:
+          - "state/control"
+          - "mutable operational truth"
+          - "generated operator read model"
+    predecessor_constraints:
+      - predecessor_child_id: "mechanism-index-foundation"
+        constraint: "The index shape must exist before schema alignment changes are promoted."
+    write_scopes:
+      - ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+      - ".octon/framework/product/features/catalog.yml"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+    seed_role: "follow-on"
+  - child_id: "mechanism-index-validator-guards"
+    path: ".octon/inputs/exploratory/proposals/architecture/mechanism-index-validator-guards"
+    required: true
+    deferred: false
+    child_packet_status: "accepted"
+    canonical_child_packet_exists: true
+    program_required_for_implementation: true
+    dependencies:
+      - "mechanism-index-foundation"
+      - "authority-class-schema-alignment"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "validation"
+    rollback_posture: "manual"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+    readiness_requirements:
+      - requirement_id: "negative-authority-controls"
+        summary: "Validators must reject authority-class confusion across product, generated, input, control, evidence, and receipt surfaces."
+        review_must_mention:
+          - "state/control not retained evidence"
+          - "lifecycle interaction receipts not authorization"
+          - "feature catalog navigation-only"
+    predecessor_constraints:
+      - predecessor_child_id: "authority-class-schema-alignment"
+        constraint: "Validator rules must enforce the aligned surface-class vocabulary."
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+    seed_role: "follow-on"
+  - child_id: "product-doc-boundary-crosslinks"
+    path: ".octon/inputs/exploratory/proposals/architecture/product-doc-boundary-crosslinks"
+    required: true
+    deferred: false
+    child_packet_status: "accepted"
+    canonical_child_packet_exists: true
+    program_required_for_implementation: true
+    dependencies:
+      - "mechanism-index-foundation"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "product-docs"
+    rollback_posture: "manual"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/framework/product/README.md"
+      - ".octon/framework/product/features/README.md"
+      - ".octon/framework/product/features/catalog.yml"
+      - ".octon/framework/product/features/change-closeout-lifecycle.md"
+      - ".octon/framework/product/features/governed-lifecycle-orchestration.md"
+      - ".octon/framework/product/features/governed-incoming-intake-routing.md"
+      - ".octon/framework/product/features/extension-packs.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+    readiness_requirements:
+      - requirement_id: "product-navigation-boundary"
+        summary: "Product docs must link to the architecture mechanism index while preserving navigation-only catalog posture."
+        review_must_mention:
+          - "product features"
+          - "navigation-only"
+          - "governed cross-surface mechanisms"
+    predecessor_constraints:
+      - predecessor_child_id: "mechanism-index-foundation"
+        constraint: "Product cross-links must point to an accepted mechanism index location."
+    write_scopes:
+      - ".octon/framework/product/README.md"
+      - ".octon/framework/product/features/"
+      - ".octon/framework/product/contracts/"
+    seed_role: "follow-on"
+  - child_id: "retired-terminology-guardrails"
+    path: ".octon/inputs/exploratory/proposals/architecture/retired-terminology-guardrails"
+    required: true
+    deferred: false
+    child_packet_status: "accepted"
+    canonical_child_packet_exists: true
+    program_required_for_implementation: true
+    dependencies:
+      - "mechanism-index-validator-guards"
+      - "product-doc-boundary-crosslinks"
+    dependency_gate: "verification"
+    phase_id: "phase-4"
+    group_id: "terminology"
+    rollback_posture: "manual"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/framework/product/features/lifecycle-autopilot.md"
+      - ".octon/framework/product/roadmap/lifecycle-autopilot.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+    readiness_requirements:
+      - requirement_id: "retired-term-containment"
+        summary: "Retired Lifecycle Autopilot terminology must remain only in explicit compatibility notes or historical lineage."
+        review_must_mention:
+          - "Lifecycle Autopilot"
+          - "compatibility notes"
+          - "Governed Lifecycle Orchestration"
+    predecessor_constraints:
+      - predecessor_child_id: "mechanism-index-validator-guards"
+        constraint: "Retired-term validation must exist before cleanup claims close."
+    write_scopes:
+      - ".octon/framework/product/features/lifecycle-autopilot.md"
+      - ".octon/framework/product/roadmap/lifecycle-autopilot.md"
+      - ".octon/framework/cognition/_meta/architecture/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    seed_role: "follow-on"
+  - child_id: "program-closeout-coverage-evidence"
+    path: ".octon/inputs/exploratory/proposals/architecture/program-closeout-coverage-evidence"
+    required: true
+    deferred: false
+    child_packet_status: "accepted"
+    canonical_child_packet_exists: true
+    program_required_for_implementation: true
+    dependencies:
+      - "authority-class-schema-alignment"
+      - "mechanism-index-validator-guards"
+      - "product-doc-boundary-crosslinks"
+      - "retired-terminology-guardrails"
+      - "mechanism-detail-pages-and-operator-map"
+    dependency_gate: "closeout"
+    phase_id: "phase-6"
+    group_id: "closeout"
+    rollback_posture: "rollback-route"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/validation-plan.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/program-closeout-plan.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/program-closeout-plan.md"
+    readiness_requirements:
+      - requirement_id: "aggregate-doc-coverage"
+        summary: "Final closeout must prove every required mechanism has an accepted surface map and boundary review."
+        review_must_mention:
+          - "aggregate closeout"
+          - "child_authority_preserved"
+          - "mechanism coverage"
+    predecessor_constraints:
+      - predecessor_child_id: "retired-terminology-guardrails"
+        constraint: "Closeout coverage must run after retired terminology guardrails."
+    cutover_constraints:
+      canonical_runtime_support_requires_predecessor_evidence: true
+      required_predecessor_child_ids:
+        - "authority-class-schema-alignment"
+        - "mechanism-index-validator-guards"
+        - "product-doc-boundary-crosslinks"
+        - "retired-terminology-guardrails"
+        - "mechanism-detail-pages-and-operator-map"
+      forbidden_claims_until_ready:
+        - "mechanism-index-complete"
+        - "product-catalog-authority-clean"
+    write_scopes:
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    seed_role: "follow-on"
+  - child_id: "mechanism-detail-pages-and-operator-map"
+    path: ".octon/inputs/exploratory/proposals/architecture/mechanism-detail-pages-and-operator-map"
+    required: true
+    deferred: false
+    child_packet_status: "accepted"
+    canonical_child_packet_exists: true
+    program_required_for_implementation: true
+    dependencies:
+      - "mechanism-index-foundation"
+      - "product-doc-boundary-crosslinks"
+      - "retired-terminology-guardrails"
+    dependency_gate: "verification"
+    phase_id: "phase-5"
+    group_id: "later-refinement"
+    rollback_posture: "manual"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+      - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+    readiness_requirements:
+      - requirement_id: "operator-map-non-authority"
+        summary: "Optional operator maps and detail pages must remain navigation and visibility only."
+        review_must_mention:
+          - "operator read models"
+          - "navigation only"
+          - "non-authority"
+    write_scopes:
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+      - ".octon/generated/cognition/projections/materialized/"
+    seed_role: "optional-refinement"

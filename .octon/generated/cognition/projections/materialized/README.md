@@ -16,6 +16,7 @@ Derived runtime projection artifacts remain non-authoritative.
 - `architecture-map.md`
 - `authorization-coverage-map.md`
 - `compatibility-retirement-map.md`
+- `governed-cross-surface-mechanisms/operator-map.md`
 - `support-cards/**`
 - `runs/<run-id>/health.yml`
 

@@ -180,12 +180,16 @@
               "runtime-spec",
               "runtime-implementation",
               "runtime-command",
+              "mutable-operational-truth",
               "publication-input-only",
+              "exploratory-raw-input",
               "generated-effective-non-authority",
+              "generated-operator-read-model",
               "retained-evidence",
               "retained-evidence-pattern",
               "validation",
-              "navigation-only"
+              "navigation-only",
+              "compatibility-only"
             ]
           }
         }

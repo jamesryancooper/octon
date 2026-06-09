@@ -1,0 +1,99 @@
+schema_version: "proposal-v1"
+proposal_id: "mechanism-detail-pages-and-operator-map"
+title: "Mechanism Detail Pages And Operator Map"
+summary: >-
+  Intentionally selected child proposal for per-mechanism detail pages and
+  generated operator maps that remain navigation, visibility, and non-authority
+  only.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/generated/cognition/projections/materialized/"
+status: "archived"
+archive:
+  archived_at: "2026-06-09T12:50:00Z"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/mechanism-detail-pages-and-operator-map"
+  promotion_evidence:
+    - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+    - ".octon/generated/cognition/projections/materialized/"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote because this formerly optional child has been intentionally
+    selected by the parent program run, and only after child-owned
+    implementation authorization, validation, conformance, post-implementation
+    drift/churn review, and durable promotion evidence exist outside
+    proposal-local inputs. Otherwise reject, supersede, or archive this child
+    packet with explicit child-owned terminal evidence.
+related_proposals:
+  - "governed-cross-surface-mechanisms-documentation-architecture"
+  - "mechanism-index-foundation"
+  - "product-doc-boundary-crosslinks"
+program_parent: "governed-cross-surface-mechanisms-documentation-architecture"
+program_phase: "phase-5"
+program_group: "selected-implementation"
+optional_child: true
+selected_for_implementation: true
+program_required_for_selected_run: true
+deferred: false
+dependencies:
+  - "mechanism-index-foundation"
+  - "product-doc-boundary-crosslinks"
+  - "retired-terminology-guardrails"
+source_lineage:
+  - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/resources/source-context.md"
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+selected_implementation_target: "Optional Mechanism Detail Pages And Operator Map"
+scope_statement: >-
+  Implement selected detail pages and generated operator maps after the
+  mandatory index, product crosslinks, validator guards, and retired
+  terminology guardrails are stable. Operator read models remain navigation
+  only, visibility only, and non-authority.
+non_goals:
+  - "No default mandatory closeout dependency outside this accepted selected-run scope."
+  - "No runtime behavior implementation."
+  - "No generated operator read model authority."
+  - "No generated-effective publication."
+authority_class_impact:
+  framework: "May propose optional detail pages under the mechanism index."
+  instance: "No instance authority changes from this child packet."
+  state_control: "No mutable operational truth changes."
+  state_evidence: "No retained evidence is created by this proposal-local packet."
+  generated: "May propose generated cognition operator maps as visibility-only non-authority outputs."
+  inputs: "This child packet remains non-authoritative exploratory proposal input."
+runtime_behavior_impact: "None from this child packet."
+generated_input_authority_impact: >-
+  Operator read models remain navigation only, visibility only, and
+  non-authority. Generated maps cannot be consumed as runtime, policy, support,
+  authority, or closure input.
+evidence_requirements:
+  - "Implementation receipt proving this formerly optional child was selected for this program run."
+  - "Operator read-model publication evidence with non-authority notice."
+  - "Traceability from generated operator maps to authored source refs."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "operator read-model validation"
+  - "generated non-authority validation"
+acceptance_criteria_summary: >-
+  Accepted as selected for this program run when the packet can add detail pages
+  and operator maps without becoming generated authority and without allowing
+  parent aggregate evidence to satisfy child-owned receipts.
+rollback_summary: >-
+  Revert or skip optional generated maps if they lack source traceability,
+  freshness metadata, or explicit non-authority classification.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-27"
+explicit_runtime_non_implementation_statement: >-
+  This selected child packet implements durable detail pages and generated maps
+  only through child-owned validation and promotion evidence outside
+  proposal-local inputs. It does not implement runtime behavior.

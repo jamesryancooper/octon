@@ -49,6 +49,8 @@ receipts, and returns.
 Raw intake, proposal packets, generated outputs, host state, chat history,
 model memory, tool availability, and lifecycle interaction receipts are not
 runtime, policy, closeout, cleanup, or retained-evidence authority.
+For architecture/governance boundary detail, see
+`.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/`.
 
 ## Evidence Model
 

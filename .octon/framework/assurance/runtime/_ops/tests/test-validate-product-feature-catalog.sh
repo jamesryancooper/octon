@@ -34,6 +34,8 @@ new_fixture_repo() {
   mkdir -p "$root/.octon/framework/engine/runtime/spec"
   mkdir -p "$root/.octon/inputs/additive/extensions/example/context"
   mkdir -p "$root/.octon/generated/effective/extensions"
+  mkdir -p "$root/.octon/generated/cognition/projections/materialized"
+  mkdir -p "$root/.octon/state/control/execution/runs/example"
 
   touch "$root/.octon/framework/constitution/CHARTER.md"
   touch "$root/.octon/framework/constitution/obligations/fail-closed.yml"
@@ -45,6 +47,8 @@ new_fixture_repo() {
   touch "$root/.octon/framework/assurance/runtime/_ops/tests/example-test.sh"
   touch "$root/.octon/inputs/additive/extensions/example/context/lifecycle.contract.yml"
   touch "$root/.octon/generated/effective/extensions/catalog.effective.yml"
+  touch "$root/.octon/generated/cognition/projections/materialized/example-map.md"
+  touch "$root/.octon/state/control/execution/runs/example/lifecycle-checkpoint.yml"
   touch "$root/.octon/framework/product/features/example-feature.md"
 
   printf '%s\n' "$root"
@@ -88,7 +92,13 @@ features:
       - path: ".octon/generated/effective/extensions/catalog.effective.yml"
         role: "generated effective projection"
         authority_class: "generated-effective-non-authority"
+      - path: ".octon/generated/cognition/projections/materialized/example-map.md"
+        role: "generated operator read model"
+        authority_class: "generated-operator-read-model"
     evidence_surfaces:
+      - path: ".octon/state/control/execution/runs/example/lifecycle-checkpoint.yml"
+        role: "mutable checkpoint control truth"
+        authority_class: "mutable-operational-truth"
       - path_pattern: ".octon/state/evidence/runs/workflows/<run-id>/"
         role: "run evidence pattern"
         authority_class: "retained-evidence-pattern"
@@ -156,6 +166,16 @@ main() {
   write_valid_catalog "$root"
   yq -i '.features[0].generated_effective_surfaces[0].authority_class = "authored-authority"' "$root/.octon/framework/product/features/catalog.yml"
   assert_failure "generated path marked as authority fails" "$root"
+
+  root="$(new_fixture_repo generated-cognition-effective)"
+  write_valid_catalog "$root"
+  yq -i '.features[0].generated_effective_surfaces[1].authority_class = "generated-effective-non-authority"' "$root/.octon/framework/product/features/catalog.yml"
+  assert_failure "generated cognition path marked as generated-effective fails" "$root"
+
+  root="$(new_fixture_repo control-retained-evidence)"
+  write_valid_catalog "$root"
+  yq -i '.features[0].evidence_surfaces[0].authority_class = "retained-evidence-pattern"' "$root/.octon/framework/product/features/catalog.yml"
+  assert_failure "state control path marked as retained evidence fails" "$root"
 
   root="$(new_fixture_repo input-authority)"
   write_valid_catalog "$root"

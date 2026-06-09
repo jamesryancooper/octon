@@ -22,6 +22,11 @@ publication authority, support-target admission, policy authority, or durable
 execution evidence. Generated outputs remain derived-only, raw inputs remain
 non-authoritative, and proposal-local receipts remain evidence only.
 
+For authority-class and cross-surface boundary detail, use
+`.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/`.
+That architecture index uses `governed cross-surface mechanisms`; this product
+catalog continues to use `product features`.
+
 ## Update Rule
 
 When adding or changing a cross-surface feature entry, update `catalog.yml`,

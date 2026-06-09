@@ -8,6 +8,8 @@ evidence, and repo-hygiene handoff.
 
 This feature page is navigation-only. The source of truth remains the linked
 contracts, skill definitions, validators, receipts, and repo-hygiene policy.
+For architecture/governance boundary detail, see
+`.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/change-closeout-and-repo-hygiene.md`.
 
 ## Boundary
 

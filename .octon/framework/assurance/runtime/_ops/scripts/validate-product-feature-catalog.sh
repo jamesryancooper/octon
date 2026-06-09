@@ -83,7 +83,7 @@ valid_rel_path() {
 
 is_safe_non_authority_class() {
   case "$1" in
-    publication-input-only|generated-effective-non-authority|retained-evidence|retained-evidence-pattern|validation|navigation-only)
+    publication-input-only|exploratory-raw-input|generated-effective-non-authority|generated-operator-read-model|retained-evidence|retained-evidence-pattern|validation|navigation-only|compatibility-only)
       return 0
       ;;
     *)
@@ -96,18 +96,46 @@ validate_authority_class_for_path() {
   local path="$1" authority_class="$2" label="$3"
 
   case "$path" in
-    .octon/generated/*)
+    .octon/generated/cognition/*)
+      if [[ "$authority_class" == "generated-operator-read-model" ]]; then
+        pass "generated cognition path is operator read model: $label"
+      else
+        fail "generated cognition path must be classified as generated-operator-read-model: $label -> $path"
+      fi
+      ;;
+    .octon/generated/effective/*)
       if [[ "$authority_class" == "generated-effective-non-authority" ]]; then
         pass "generated path is non-authority: $label"
       else
         fail "generated path must be classified as generated-effective-non-authority: $label -> $path"
       fi
       ;;
+    .octon/generated/*)
+      if is_safe_non_authority_class "$authority_class"; then
+        pass "generated path is non-authority: $label"
+      else
+        fail "generated path must use a non-authority class: $label -> $path"
+      fi
+      ;;
     .octon/inputs/*)
-      if [[ "$authority_class" == "publication-input-only" ]]; then
+      if [[ "$authority_class" == "publication-input-only" || "$authority_class" == "exploratory-raw-input" ]]; then
         pass "input path is publication-input-only: $label"
       else
         fail "input path must be classified as publication-input-only: $label -> $path"
+      fi
+      ;;
+    .octon/state/control/*)
+      if [[ "$authority_class" == "mutable-operational-truth" ]]; then
+        pass "state/control path is mutable operational truth: $label"
+      else
+        fail "state/control path must be classified as mutable-operational-truth: $label -> $path"
+      fi
+      ;;
+    .octon/state/evidence/*)
+      if [[ "$authority_class" == "retained-evidence" || "$authority_class" == "retained-evidence-pattern" ]]; then
+        pass "state/evidence path is retained evidence: $label"
+      else
+        fail "state/evidence path must be classified as retained-evidence or retained-evidence-pattern: $label -> $path"
       fi
       ;;
     */support/*|support/*)
