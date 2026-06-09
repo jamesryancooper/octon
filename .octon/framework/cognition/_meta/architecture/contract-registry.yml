@@ -1962,6 +1962,7 @@ documentation:
         - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
         - ".octon/framework/cognition/_meta/terminology/glossary.md"
         - ".octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md"
+        - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md"
         - ".octon/framework/cognition/governance/principles/mission-scoped-reversible-autonomy.md"
         - ".octon/instance/bootstrap/START.md"
         - ".octon/framework/engine/README.md"
