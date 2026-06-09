@@ -1,0 +1,75 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "governed-cross-surface-mechanisms-documentation-architecture-20260609",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "Land the completed proposal-program implementation on origin/main and clean the source branch.",
+  "intent": "Implement and archive the governed cross-surface mechanisms documentation architecture proposal program with child-owned receipts preserved.",
+  "scope": [
+    ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+    ".octon/framework/cognition/_meta/architecture/contract-registry.yml",
+    ".octon/framework/product/",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-validate-governed-cross-surface-mechanisms.sh",
+    ".octon/generated/cognition/projections/materialized/",
+    ".octon/generated/proposals/registry.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/mechanism-index-foundation",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/authority-class-schema-alignment",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/mechanism-index-validator-guards",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-doc-boundary-crosslinks",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retired-terminology-guardrails",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/mechanism-detail-pages-and-operator-map",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/program-closeout-coverage-evidence"
+  ],
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/workflows/governed-cross-surface-mechanisms-preflight-20260609T114437Z/",
+    ".octon/state/evidence/runs/workflows/governed-cross-surface-mechanisms-manual-20260609T122000Z/",
+    ".octon/state/evidence/runs/workflows/governed-cross-surface-mechanisms-archive-20260609T125000Z/",
+    "github-checks@6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91:route_neutral_closeout_validation,branch_naming_validation,route_aware_autonomy_validation,exact_source_sha_validation"
+  ],
+  "review_evidence_refs_or_waiver": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/*/support/proposal-review.md"
+  ],
+  "durable_history": {
+    "kind": "branch-no-pr",
+    "branch": "chore/governed-cross-surface-mechanisms-docs",
+    "commit": "6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+    "message": "feat(architecture): add governed mechanism documentation",
+    "remote_branch_published": true,
+    "pr_url": ""
+  },
+  "integration_status": {
+    "status": "landed",
+    "method": "hosted-no-pr-fast-forward",
+    "target_branch": "main",
+    "target_pre_ref": "2a57ed15a35a1893c24babe832c85a2b6915f65f",
+    "landed_ref": "6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+    "origin_main_ref": "6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+    "local_main_ref": "6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91"
+  },
+  "publication_status": {
+    "source_branch_pushed": true,
+    "origin_branch_ref": "origin/chore/governed-cross-surface-mechanisms-docs@6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+    "origin_main_updated": true,
+    "pull_request_opened": false,
+    "no_pr_reason": "Live main ruleset did not require pull_request; route-neutral no-PR landing preflight and exact-SHA checks passed."
+  },
+  "cleanup_status": {
+    "source_local_branch_deleted": true,
+    "source_remote_branch_deleted": true,
+    "worktree_cleanup": "completed for tracked branch route; retained local evidence and protected control-state residue remain outside the branch route",
+    "repo_hygiene_receipt_ref": ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/governed-cross-surface-mechanisms-repo-hygiene-20260609T130500Z/cleanup-retention-receipt.yml"
+  },
+  "rollback_handle": "git revert 6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-09T13:20:00Z",
+  "stateful_closeout": {
+    "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/landing-authorization.json",
+    "branch_cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/branch-cleanup-authorization.json",
+    "branch_cleanup_completed": true,
+    "local_main_origin_main_landed_ref_aligned": true
+  }
+}

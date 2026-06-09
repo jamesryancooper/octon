@@ -1,0 +1,25 @@
+schema_version: "repo-hygiene-cleanup-summary-v1"
+receipt_id: "governed-cross-surface-mechanisms-repo-hygiene-20260609T130500Z"
+created_at: "2026-06-09T13:05:00Z"
+route: "dry-run-classification"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+classification_summary_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/governed-cross-surface-mechanisms-repo-hygiene-20260609T130500Z/classification-summary.log"
+local_raw_evidence_ref: ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/governed-cross-surface-mechanisms-repo-hygiene-20260609T130500Z/classification.log"
+local_raw_evidence_digest: "sha256:99247f6265d2331c36ce2618723a0161bb1c1e0fa3a84eb401f9a7b5bac19dc0"
+summary:
+  cleanup_candidates: 0
+  deleted_count: 0
+  protected_referenced_count: 0
+  manual_review_count: 4
+  git_status_digest: "sha256:bbea8da5d8462c46b1b65895415de0a8d8262ee7a5029d42bef60b93cc60ea7a"
+  classification_digest: "sha256:56b6673cd554db29b769d31699c100f3d32a203c25567899607a159613f96cd9"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  manual_review_paths_digest: "sha256:fecd2739d201366261d96acd120075b2b4500cea0f9efffdf6be25debe5e58bb"
+retention_decision:
+  retained: true
+  reason: "The helper classified the untracked lifecycle-run control files as active_control_state/manual_review; no cleanup-safe candidates were available."
+  deletion_authorized: false
+  blocker: "Repo hygiene cleanup cannot delete active control state through the receipt route."
+raw_payload_published: false

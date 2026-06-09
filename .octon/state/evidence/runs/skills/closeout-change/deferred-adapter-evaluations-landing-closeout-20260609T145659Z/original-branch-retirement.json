@@ -1,0 +1,49 @@
+{
+  "schema_version": "superseded-branch-retirement-v1",
+  "retirement_id": "superseded-branch-retirement-chore-deferred-adapter-evaluations-20260609T153450Z",
+  "created_at": "2026-06-09T15:34:50Z",
+  "operator_request": "Do not leave the original origin/chore/deferred-adapter-evaluations branch hanging around after its durable content was landed through the governed landing branch.",
+  "branch": "chore/deferred-adapter-evaluations",
+  "remote": "origin",
+  "remote_ref_before_deletion": "15315e90336e318ae8cee2944463f6748f9856aa",
+  "local_ref_before_deletion": "15315e90336e318ae8cee2944463f6748f9856aa",
+  "landed_ref": "864d71b7f55c7103d99b1d3eed12f5ea8d173244",
+  "main_ref_at_decision": "864d71b7f55c7103d99b1d3eed12f5ea8d173244",
+  "normal_cleanup_helper_applicability": "not_applicable",
+  "normal_cleanup_blocker": "The original branch tip is not an ancestor of origin/main and git cherry reports the original commit as not patch-equivalent because .octon/generated/proposals/registry.yml was conflict-resolved against newer main state.",
+  "supersession_basis": {
+    "content_landed": true,
+    "original_touched_file_count": 77,
+    "only_original_touched_path_with_branch_vs_main_delta": ".octon/generated/proposals/registry.yml",
+    "registry_delta_disposition": "Expected conflict-resolution delta: origin/main keeps the deferred adapter proposal registry entries and also preserves newer governed mechanism archive entries from current main.",
+    "verified_registry_entries": [
+      "durable-coordination-adapter-evaluation",
+      "external-workflow-engine-adapter-evaluation",
+      "mcp-integration-evaluation"
+    ]
+  },
+  "safety_controls": {
+    "no_force_push": true,
+    "no_rebase": true,
+    "no_history_rewrite": true,
+    "no_open_pr_for_branch": true,
+    "main_and_origin_main_synced": true,
+    "host_controls_not_bypassed": true
+  },
+  "deletion_authorization": {
+    "authorization_result": "approved_by_operator_request",
+    "reason": "The branch is superseded by landed commit 864d71b7f55c7103d99b1d3eed12f5ea8d173244 and retaining the obsolete ref creates misleading residue.",
+    "delete_local_branch": true,
+    "delete_remote_branch": true
+  },
+  "rollback_handle": {
+    "restore_remote_branch_command": "git push origin 15315e90336e318ae8cee2944463f6748f9856aa:refs/heads/chore/deferred-adapter-evaluations",
+    "restore_local_branch_command": "git branch chore/deferred-adapter-evaluations 15315e90336e318ae8cee2944463f6748f9856aa",
+    "source_commit_retained_by_landed_commit_provenance": true
+  },
+  "post_delete_verification_required": [
+    "git ls-remote --heads origin chore/deferred-adapter-evaluations returns no refs",
+    "git branch --list chore/deferred-adapter-evaluations returns no refs",
+    "main, origin/main, and HEAD remain at 864d71b7f55c7103d99b1d3eed12f5ea8d173244"
+  ]
+}

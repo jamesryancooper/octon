@@ -1,0 +1,82 @@
+{
+  "schema_version": "repo-hygiene-retention-cleanup-receipt-v1",
+  "receipt_id": "evidence-retention-cleanup-20260609T155455Z",
+  "created_at": "2026-06-09T15:54:55Z",
+  "operator_request": "Clean the worktree using a small separate evidence-retention/cleanup change.",
+  "policy_ref": ".octon/instance/governance/policies/repo-hygiene.yml",
+  "helper_ref": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+  "branch": "chore/evidence-retention-cleanup",
+  "head_ref": "864d71b7f55c7103d99b1d3eed12f5ea8d173244",
+  "main_ref": "864d71b7f55c7103d99b1d3eed12f5ea8d173244",
+  "origin_main_ref": "864d71b7f55c7103d99b1d3eed12f5ea8d173244",
+  "pre_cleanup_helper_summary": {
+    "cleanup_candidates": 0,
+    "protected_referenced": 0,
+    "manual_review": 25,
+    "git_status_digest": "sha256:4cbea2561a918c28e56d80b60aabb439e84c4b484b987941606f5a7c9eb07394",
+    "classification_digest": "sha256:ec6d8e82369358178266c1c6805ea6b72f05b029f04095ca2a49829975e8da9a",
+    "cleanup_path_set_digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "manual_review_paths_digest": "sha256:bd4cecb322e8c02dac3fb4fc73e20fc343ffd4a5a566b628ef8c714e0a975a4a"
+  },
+  "retained_publishable_evidence": {
+    "disposition": "track_as_retained_evidence",
+    "reason": "These files are closeout, branch landing, branch cleanup, branch retirement, and repo hygiene receipts for recently landed or cleaned changes. Deleting them would remove proof needed to explain those outcomes.",
+    "file_count": 19,
+    "roots": [
+      ".octon/state/evidence/runs/skills/closeout-change/deferred-adapter-evaluations-landing-closeout-20260609T145659Z/",
+      ".octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/",
+      ".octon/state/evidence/runs/skills/closeout-change/governed-mechanism-ci-fix-closeout-20260609T131813Z/",
+      ".octon/state/evidence/runs/skills/closeout-change/release-runtime-effective-refresh-closeout-20260609T133037Z/",
+      ".octon/state/evidence/runs/skills/closeout-change/run-health-digest-refresh-closeout-20260609T135500Z/",
+      ".octon/state/evidence/runs/skills/closeout-change/runtime-route-bundle-refresh-closeout-20260609T134500Z/",
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/governed-cross-surface-mechanisms-repo-hygiene-20260609T130500Z/"
+    ]
+  },
+  "removed_unreferenced_raw_logs": {
+    "disposition": "discard_unreferenced_raw_logs",
+    "reason": "The compact closeout receipt and projection do not reference these raw logs. Retaining the compact receipts keeps the outcome proof while avoiding an oversized evidence-retention cleanup commit.",
+    "removed_files": [
+      {
+        "path": ".octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/final-hygiene-summary.log",
+        "sha256": "25aa4eb8562c12ed166ca1d3b794ccafc047078a99926b8901746d913e36ec91"
+      },
+      {
+        "path": ".octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/final-main-validation.log",
+        "sha256": "a6e9f8e5ae2ec58e33ba295974e8bcea03d8cd7f82d68383df8ce2a1d85f1dab"
+      }
+    ]
+  },
+  "removed_local_control_state": {
+    "disposition": "remove_untracked_stale_control_checkpoint",
+    "reason": "The untracked program control state records a nonterminal executor-preflight-blocked checkpoint for an earlier governed cross-surface program run. It is not referenced by tracked files, is not durable closeout evidence, and retaining it keeps stale local control residue in the worktree after the program artifacts and closeout evidence were landed separately.",
+    "run_id": "governed-cross-surface-mechanisms-program-20260609T114437Z",
+    "checkpoint_final_verdict": "executor-preflight-blocked",
+    "checkpoint_terminal_outcome": null,
+    "removed_files": [
+      {
+        "path": ".octon/state/control/execution/runs/governed-cross-surface-mechanisms-program-20260609T114437Z/parent/context/active-context-pack.yml",
+        "sha256": "745f10b63090e46b639e5425ff0022892ce3ca1911687d92317a262dce868d62"
+      },
+      {
+        "path": ".octon/state/control/execution/runs/governed-cross-surface-mechanisms-program-20260609T114437Z/parent/context/status.yml",
+        "sha256": "76bbe4b191b765a50629cb2fb4d7f1724a7ccdffdd05fe13e9ab1c4146c020aa"
+      },
+      {
+        "path": ".octon/state/control/execution/runs/governed-cross-surface-mechanisms-program-20260609T114437Z/program-events.ndjson",
+        "sha256": "3e987bb3a484d0a154cc30d3f5f030339c93abdae2054e1f900dfc6655f78605"
+      },
+      {
+        "path": ".octon/state/control/execution/runs/governed-cross-surface-mechanisms-program-20260609T114437Z/program-lifecycle-checkpoint.yml",
+        "sha256": "9861be64859d7a19e9fcdaf665c1d7c64f3aeb4313422b36883329d2c3c97522"
+      }
+    ]
+  },
+  "safety_controls": {
+    "tracked_files_preserved": true,
+    "input_surfaces_preserved": true,
+    "generated_authority_preserved": true,
+    "branch_refs_preserved": true,
+    "durable_closeout_evidence_retained": true,
+    "host_controls_not_bypassed": true
+  }
+}

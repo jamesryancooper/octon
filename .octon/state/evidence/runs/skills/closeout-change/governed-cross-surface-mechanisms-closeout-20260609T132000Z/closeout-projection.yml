@@ -1,0 +1,66 @@
+schema_version: closeout-projection-v1
+artifact_kind: closeout-projection
+artifact_id: governed-cross-surface-mechanisms-closeout-20260609T132000Z
+authority_status: retained-evidence-aid non-authoritative
+producer:
+  id: closeout-change
+  produced_at: "2026-06-09T13:20:00Z"
+consumer:
+  default_reader: closeout-change
+  model_route: compact-default
+reader_preference:
+  default: compact
+  raw_default: false
+model_visible_token_estimate: 1200
+source_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/change-receipt.json
+  - .octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/landing-authorization.json
+  - .octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/branch-cleanup-authorization.json
+source_digests:
+  - source_ref: .octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/change-receipt.json
+    sha256: sha256:c4a759aade5e82c4544204b451f66978ed3666a0a3bd0c8a25913505885e1ed7
+  - source_ref: .octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/landing-authorization.json
+    sha256: sha256:df7d12a6ebd79ca275dca8592325b2264244c6b43482e20de960c81b9f71412c
+  - source_ref: .octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/branch-cleanup-authorization.json
+    sha256: sha256:614bd8b1c789754a80bcc56642bf6c9ec7b52404a80261371d83d05a08210341
+evidence_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/governed-cross-surface-mechanisms-closeout-20260609T132000Z/change-receipt.json
+  - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/governed-cross-surface-mechanisms-repo-hygiene-20260609T130500Z/cleanup-retention-receipt.yml
+validation:
+  status: valid
+  validator: validate-structured-receipt-artifacts.sh
+  validation_refs:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh
+freshness:
+  state: fresh
+  landed_ref: 6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91
+failure_behavior:
+  on_missing_source: fail_closed
+  on_digest_mismatch: fail_closed
+  on_stale_freshness: fail_closed
+  on_authority_conflict: fail_closed
+authority_boundary:
+  proposal_inputs_authoritative: false
+  generated_outputs_authoritative: false
+  raw_evidence_replaced: false
+  engine_authorization_bypassed: false
+gate_state:
+  selected_route: branch-no-pr
+  target_lifecycle_outcome: cleaned
+  lifecycle_outcome: cleaned
+  landing_authorization: retained
+  branch_cleanup_authorization: retained
+blockers:
+  - "Full git-clean terminal is not claimed because repo hygiene classified untracked runner control files as protected active control state."
+unresolved_questions: []
+changed_files:
+  - .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/
+  - .octon/framework/product/
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh
+  - .octon/generated/proposals/registry.yml
+  - .octon/inputs/exploratory/proposals/.archive/architecture/
+rollback_refs:
+  - "git revert 6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91"
+exclusions:
+  - "Compact projection is not closeout authority."
+  - "Child-owned archive and validation receipts remain child-owned."

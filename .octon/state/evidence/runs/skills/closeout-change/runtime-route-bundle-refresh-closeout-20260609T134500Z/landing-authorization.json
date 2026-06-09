@@ -1,0 +1,29 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-runtime-route-bundle-refresh-4b73c432e6fb",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/runtime-route-bundle-refresh",
+  "source_ref": "4b73c432e6fb7c8f2eacac1860a20f74cf3154ee",
+  "remote_source_ref": "4b73c432e6fb7c8f2eacac1860a20f74cf3154ee",
+  "target_pre_ref": "2e984cd26f060d77ca0834241de9190906adbadc",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "Validate branch naming@4b73c432e6fb7c8f2eacac1860a20f74cf3154ee",
+    "route_neutral_closeout_validation@4b73c432e6fb7c8f2eacac1860a20f74cf3154ee",
+    "branch_naming_validation@4b73c432e6fb7c8f2eacac1860a20f74cf3154ee",
+    "route_aware_autonomy_validation@4b73c432e6fb7c8f2eacac1860a20f74cf3154ee",
+    "exact_source_sha_validation@4b73c432e6fb7c8f2eacac1860a20f74cf3154ee",
+    "Validate autonomy policy@4b73c432e6fb7c8f2eacac1860a20f74cf3154ee"
+  ],
+  "allow_empty_check_set": false,
+  "rollback_handle": "origin/main pre-ref retained in authorization; revert landed commit 4b73c432e6fb7c8f2eacac1860a20f74cf3154ee or restore target_pre_ref through governed rollback",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-06-09T13:42:26Z"
+}

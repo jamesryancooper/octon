@@ -1,0 +1,27 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-governed-cross-surface-mechanisms-docs-6cf7764b9c1b",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/governed-cross-surface-mechanisms-docs",
+  "source_ref": "6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+  "remote_source_ref": "6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+  "target_pre_ref": "2a57ed15a35a1893c24babe832c85a2b6915f65f",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "route_neutral_closeout_validation@6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+    "branch_naming_validation@6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+    "route_aware_autonomy_validation@6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+    "exact_source_sha_validation@6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91"
+  ],
+  "allow_empty_check_set": false,
+  "rollback_handle": "git revert 6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-06-09T12:51:04Z"
+}
