@@ -1,0 +1,32 @@
+schema_version: "octon-proposal-worktree-hygiene-v1"
+target: ".octon/inputs/exploratory/proposals/architecture/delegated-governance-inventory-and-vocabulary"
+lifecycle: "proposal-program"
+run_id: "lifecycle-proposal-program-1781044709943-8b260950"
+worktree_hygiene_verdict: "pass"
+worktree_hygiene_blocker_class: ""
+worktree_hygiene_owned_path_count: 7
+worktree_hygiene_in_scope_path_count: 1
+worktree_hygiene_foreign_path_count: 0
+worktree_hygiene_foreign_fingerprint: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"
+next_route_condition: "continue proposal closeout validation and archive authorization checks"
+owned_by_this_lifecycle_run:
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950/children/delegated-governance-inventory-and-vocabulary/context/active-context-pack.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950/children/delegated-governance-inventory-and-vocabulary/context/status.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950/locks/delegated-governance-inventory-and-vocabulary.lock"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950/parent/context/active-context-pack.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950/parent/context/status.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950/program-events.ndjson"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950/program-lifecycle-checkpoint.yml"
+declared_in_scope_change:
+  - status: " M"
+    path: ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration/support/lifecycle-residue-cleanup.md"
+foreign_or_ambiguous:
+  []
