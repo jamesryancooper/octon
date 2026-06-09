@@ -1,0 +1,87 @@
+{
+  "agent_node_id": "agent-node-demo",
+  "authority_boundary": {
+    "agent_node_admits_connectors": false,
+    "agent_node_authorizes_execution": false,
+    "agent_node_closes_run": false,
+    "agent_node_consumes_effect_tokens": false,
+    "agent_node_may_queue_work": false,
+    "agent_node_may_schedule_work": false,
+    "agent_node_may_transition_workflow": false,
+    "agent_node_mints_grants": false,
+    "agent_node_mutates_policy": false,
+    "agent_node_owns_workflow_state": false,
+    "agent_node_widens_support_claims": false
+  },
+  "budget_refs": {
+    "context_budget_ref": ".octon/instance/governance/policies/context-packing.yml",
+    "cost_budget_ref": ".octon/instance/governance/policies/execution-budgets.yml",
+    "retry_budget_ref": ".octon/framework/constitution/contracts/runtime/retry-record-v1.schema.json",
+    "token_budget_ref": ".octon/instance/governance/policies/execution-budgets.yml"
+  },
+  "connector_refs": [
+    ".octon/instance/governance/connectors/registry.yml"
+  ],
+  "context_binding": {
+    "context_pack_receipt_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/context/context-pack-receipt.json",
+    "context_pack_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/context/context-pack.json",
+    "model_visible_context_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/context/model-visible-context.json",
+    "model_visible_context_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "created_at": "2026-05-15T00:00:00Z",
+  "fail_closed_policy": {
+    "default_route": "deny",
+    "reason_code_refs": [
+      "FCR-004",
+      "FCR-013"
+    ]
+  },
+  "fallback_policy": {
+    "fallback_allowed": true,
+    "fallback_attempts_consumed": 0,
+    "fallback_requires_budget": true,
+    "fallback_violation_route": "deny",
+    "max_fallback_attempts": 1
+  },
+  "forbidden_authority_claims": [],
+  "harness_ref": ".octon/state/control/execution/runs/run-agent-node-model-call-fixture/harness/agent-node-demo.json",
+  "input_refs": [
+    ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"
+  ],
+  "model_call_policy_ref": ".octon/instance/governance/policies/model-call-routing.yml",
+  "model_call_receipt_refs": [
+    ".octon/state/evidence/runs/run-agent-node-model-call-fixture/receipts/model-calls/model-call-demo.json"
+  ],
+  "output_schema_ref": ".octon/framework/engine/runtime/spec/model-call-receipt-v1.schema.json",
+  "output_validation_evidence_refs": [
+    ".octon/state/evidence/runs/run-agent-node-model-call-fixture/assurance/model-call-demo-output-validation.json"
+  ],
+  "retained_evidence_refs": [
+    ".octon/state/evidence/runs/run-agent-node-model-call-fixture/receipts/model-calls/model-call-demo.json"
+  ],
+  "retry_policy": {
+    "attempts_consumed": 0,
+    "max_attempts": 1,
+    "retry_exhaustion_route": "deny",
+    "retryable_failure_classes": [
+      "transient-provider-error"
+    ]
+  },
+  "revocation_policy": {
+    "revocation_ref_required": true,
+    "revoked_route": "deny"
+  },
+  "run_id": "run-agent-node-model-call-fixture",
+  "run_root_ref": ".octon/state/control/execution/runs/run-agent-node-model-call-fixture",
+  "schema_version": "agent-node-v1",
+  "statechart_ref": ".octon/framework/engine/runtime/spec/workflow-statechart-v1.md",
+  "terminal_state": "succeeded",
+  "timeout_policy": {
+    "timeout_route": "stage_only",
+    "timeout_seconds": 60
+  },
+  "tool_allowlist_refs": [
+    ".octon/instance/governance/capability-packs/repo.yml"
+  ],
+  "workflow_state_ref": ".octon/state/control/execution/runs/run-agent-node-model-call-fixture/runtime-state.yml"
+}

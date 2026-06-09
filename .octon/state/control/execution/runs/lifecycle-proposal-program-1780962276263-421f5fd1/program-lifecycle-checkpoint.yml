@@ -1,0 +1,366 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: lifecycle-proposal-program-1780962276263-421f5fd1
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program
+executor: auto
+invocation_authority: unattended
+timeout_seconds: 600
+max_steps: 1
+max_child_concurrency: 1
+child_registry_digest: sha256:9c85fdcc0207214e2c3e54d9a4a25af3234a304ec6e4ac298b945dd5b7fa03c6
+execution_mode: gated-parallel
+run_inputs: {}
+scheduler_decision: []
+child_states:
+  agent-node-model-call-contract:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/agent-node-model-call-contract
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:54a0832e8ab81afb24a55c61f60cd6fd6f53bc07c0ef212860b0bb02f70233ec
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status:
+      workflow-statechart-task-specific-execution-harness:
+        dependency_id: workflow-statechart-task-specific-execution-harness
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/agent-node-model-call-contract
+    - .octon/instance/governance/policies/
+  connector-operation-admission:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/connector-operation-admission
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:f3b77a2abfb00d92681d14ba4904af530ae8d67fe3f1d9c8c1ea3d89117985b4
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      effect-token-enforcement-coverage:
+        dependency_id: effect-token-enforcement-coverage
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      evidence-provenance-hardening:
+        dependency_id: evidence-provenance-hardening
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/adapters/
+    - .octon/inputs/exploratory/proposals/architecture/connector-operation-admission
+    - .octon/instance/governance/connector-admissions/
+    - .octon/instance/governance/connectors/
+  durable-coordination-adapter-evaluation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/durable-coordination-adapter-evaluation
+    current_state: null
+    final_verdict: deferred
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/lab/
+    - .octon/inputs/exploratory/proposals/architecture/durable-coordination-adapter-evaluation
+    - .octon/instance/governance/connector-admissions/
+    - .octon/state/evidence/lab/
+  effect-token-enforcement-coverage:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/effect-token-enforcement-coverage
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:b2f904a2cafcaa90ca4dea36dd8c436e1a9a564caff78e741272474d4adea31b
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status:
+      workflow-statechart-task-specific-execution-harness:
+        dependency_id: workflow-statechart-task-specific-execution-harness
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/engine/runtime/crates/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/effect-token-enforcement-coverage
+  evidence-provenance-hardening:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/evidence-provenance-hardening
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:42640d2e2b63fe5ecd4ecc0c9682f8c96d4795da36c20b06c74e412d985440db
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      agent-node-model-call-contract:
+        dependency_id: agent-node-model-call-contract
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      effect-token-enforcement-coverage:
+        dependency_id: effect-token-enforcement-coverage
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      workflow-history-replay-idempotency-compensation:
+        dependency_id: workflow-history-replay-idempotency-compensation
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/disclosure/
+    - .octon/framework/constitution/contracts/retention/
+    - .octon/framework/constitution/obligations/evidence.yml
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/architecture/evidence-provenance-hardening
+  external-workflow-engine-adapter-evaluation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/external-workflow-engine-adapter-evaluation
+    current_state: null
+    final_verdict: deferred
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/lab/
+    - .octon/inputs/exploratory/proposals/architecture/external-workflow-engine-adapter-evaluation
+    - .octon/instance/governance/connector-admissions/
+    - .octon/state/evidence/lab/
+  foundational-entry-artifact-canonical-framing-update:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:ce6c31bedd2aeddf8d41ccc63e56e429861fd5e8c478a643eed95803d44b13bd
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/AGENTS.md
+    - .octon/README.md
+    - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+    - .octon/framework/cognition/_meta/architecture/specification.md
+    - .octon/framework/cognition/_meta/terminology/glossary.md
+    - .octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update
+    - .octon/instance/bootstrap/START.md
+    - .octon/instance/ingress/AGENTS.md
+  framing-boundary-and-terminology-guardrails:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/framing-boundary-and-terminology-guardrails
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:e29d6e55614a5a8c07136a27ab2901fa2e9d373cb08168d4016ac7f376fd8429
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status:
+      foundational-entry-artifact-canonical-framing-update:
+        dependency_id: foundational-entry-artifact-canonical-framing-update
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/AGENTS.md
+    - .octon/README.md
+    - .octon/framework/cognition/_meta/architecture/specification.md
+    - .octon/framework/cognition/_meta/terminology/glossary.md
+    - .octon/framework/cognition/_meta/terminology/naming-constitution.md
+    - .octon/inputs/exploratory/proposals/.archive/architecture/framing-boundary-and-terminology-guardrails
+    - .octon/instance/ingress/AGENTS.md
+  mcp-integration-evaluation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/mcp-integration-evaluation
+    current_state: null
+    final_verdict: deferred
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/lab/
+    - .octon/inputs/exploratory/proposals/architecture/mcp-integration-evaluation
+    - .octon/instance/governance/connector-admissions/
+    - .octon/state/evidence/lab/
+  migration-cutover-compatibility-retirement:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/migration-cutover-compatibility-retirement
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:4bfc7c09b964796799d8e6ebc16ac0b8cbf36a3b8d363eb19fcf1815fca07afe
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      agent-node-model-call-contract:
+        dependency_id: agent-node-model-call-contract
+        required_gate: closeout
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      connector-operation-admission:
+        dependency_id: connector-operation-admission
+        required_gate: closeout
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      effect-token-enforcement-coverage:
+        dependency_id: effect-token-enforcement-coverage
+        required_gate: closeout
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      evidence-provenance-hardening:
+        dependency_id: evidence-provenance-hardening
+        required_gate: closeout
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      framing-boundary-and-terminology-guardrails:
+        dependency_id: framing-boundary-and-terminology-guardrails
+        required_gate: closeout
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      workflow-history-replay-idempotency-compensation:
+        dependency_id: workflow-history-replay-idempotency-compensation
+        required_gate: closeout
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      workflow-statechart-task-specific-execution-harness:
+        dependency_id: workflow-statechart-task-specific-execution-harness
+        required_gate: closeout
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/AGENTS.md
+    - .octon/README.md
+    - .octon/framework/cognition/_meta/architecture/specification.md
+    - .octon/framework/cognition/_meta/terminology/glossary.md
+    - .octon/framework/cognition/_meta/terminology/naming-constitution.md
+    - .octon/inputs/exploratory/proposals/architecture/migration-cutover-compatibility-retirement
+    - .octon/instance/bootstrap/START.md
+    - .octon/instance/ingress/AGENTS.md
+  workflow-history-replay-idempotency-compensation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/workflow-history-replay-idempotency-compensation
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:59fe5addc37d54879b7c684766f2195f123de56815823f695232fcd84862494d
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status:
+      workflow-statechart-task-specific-execution-harness:
+        dependency_id: workflow-statechart-task-specific-execution-harness
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/workflow-history-replay-idempotency-compensation
+    - .octon/state/evidence/
+  workflow-statechart-task-specific-execution-harness:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/workflow-statechart-task-specific-execution-harness
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:61d578e3f68da602c8d9c0d0ac67f6355b9e92c57655c966875d21d4c4f9df6a
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status:
+      framing-boundary-and-terminology-guardrails:
+        dependency_id: framing-boundary-and-terminology-guardrails
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/generated/cognition/projections/materialized/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/workflow-statechart-task-specific-execution-harness
+recovery_attempts: {}
+program_recovery_action_attempts: {}
+recovery_progress_fingerprints: {}
+closeout_hygiene_suppressions: {}
+aggregate_terminal_blockers:
+  path: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780962276263-421f5fd1/aggregate-terminal-blockers.yml
+  digest: sha256:af04967c3305a2d1ca65eb5878fb4e6b9697728591cd3c77606f3ed77400b9da
+  blocked_required_child_count: 3
+  authority_boundary: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+residue_cleanup_attempts: {}
+interaction_request_refs: []
+interaction_return_refs: []
+approvals: []
+program_recovery_recipe_validation_status: null
+program_recovery_recipe_validation_failures: []
+program_recovery_recipe_blocker_class: null
+program_recovery_recipe_route_id: null
+program_recovery_recipe_delegation_contract_basis: null
+latest_event_offset: 8
+latest_event_index: 8
+latest_event_sha256: sha256:8983cee7e475f0129bda04fc7afd3cc83454e2045f8dace561db3174bcabd061
+event_log_sha256: sha256:14e9489a60cc1fb0dcf4323c78f24beb090e6d64f1c060125e7de67ce4522016
+derived_from_event_index: 8
+atomic_barrier_state: null
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: step-budget-exhausted-continuable
+resume_instruction: octon lifecycle resume --run-id lifecycle-proposal-program-1780962276263-421f5fd1

@@ -1,0 +1,24 @@
+{
+  "builder_version": "context-pack-builder-v1",
+  "context_pack_id": "context-pack-agent-node-model-call",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "freshness": {
+    "freshness_status": "valid"
+  },
+  "omission_manifest": [],
+  "redaction_manifest": [],
+  "replay_pointers": [],
+  "run_id": "run-agent-node-model-call-fixture",
+  "schema_version": "model-visible-context-v1",
+  "serialization_format": "context-pack-builder-v1/model-visible-context-json",
+  "source_manifest": [
+    ".octon/framework/engine/runtime/spec/agent-node-v1.md"
+  ],
+  "sources": [
+    {
+      "authority_label": "authoritative",
+      "inclusion_mode": "digest-only",
+      "path": ".octon/framework/engine/runtime/spec/agent-node-v1.md"
+    }
+  ]
+}

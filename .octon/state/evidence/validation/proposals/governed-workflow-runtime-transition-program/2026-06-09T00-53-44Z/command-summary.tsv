@@ -1,0 +1,6 @@
+command	outcome
+validate-proposal-program-structure	pass errors=0 warnings=0
+validate-proposal-program-child-readiness	pass errors=0 warnings=0
+archived-child-current-state-reverification	pass
+required-active-child-closeout	pass
+deferred-evaluation-child-disposition	pass

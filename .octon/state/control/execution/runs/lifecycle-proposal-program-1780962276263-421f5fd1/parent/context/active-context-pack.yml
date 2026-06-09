@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780962276263-421f5fd1/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780962276263-421f5fd1/parent/context/context-pack.json
+context_pack_sha256: sha256:e593248060df59d4116450735bf9963071841b3583a5c3a51c22269654526432
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780962276263-421f5fd1/parent/context/model-visible-context.json
+model_visible_context_sha256: sha256:1027e94ba186a02e1ba774b485e558333dbaba6357d9f21967dfd496f818d6a8
+receipt_sha256: sha256:0fd5c34c125d0df28c314fc6476b67a2e95cce49f63d28686400a3c24778d988
+route_id: cleanup-lifecycle-residue
+run_id: lifecycle-proposal-program-1780962276263-421f5fd1
+schema_version: active-context-pack-v1
+updated_at: 2026-06-08T23:44:42.995077Z
+validity_state: valid
