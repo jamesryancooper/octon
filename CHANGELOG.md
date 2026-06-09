@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.6.89](https://github.com/jamesryancooper/octon/compare/octon-v0.6.88...octon-v0.6.89) (2026-06-09)
+
+
+### Features
+
+* **architecture:** add governed mechanism documentation ([6cf7764](https://github.com/jamesryancooper/octon/commit/6cf7764b9c1b6732b91a58dcb7a81160c1ed9d91))
+* **assurance:** complete lifecycle postmortem fidelity ([46268ea](https://github.com/jamesryancooper/octon/commit/46268eafdb42de5c84d6bc9cb29c921c70713954))
+* **concept-integration:** refine architecture review prompts ([8b31290](https://github.com/jamesryancooper/octon/commit/8b312901eb6b2f1577195202a9efb8f26fa42ebf))
+* **lifecycle:** add postmortem evaluation workflow ([bc615f8](https://github.com/jamesryancooper/octon/commit/bc615f8782c0a909256c21626d085ba35e428fa2))
+
+
+### Bug Fixes
+
+* **architecture:** classify governed mechanism docs ([1b9a771](https://github.com/jamesryancooper/octon/commit/1b9a77101ef6adcdedcb0a22ee0ec339e95e3be7))
+* **assurance:** allow generated proposal handles ([428b84f](https://github.com/jamesryancooper/octon/commit/428b84f0e10ebdd7583be3006be9614db34736d6))
+* **assurance:** stabilize proposal registry discovery ([0c61152](https://github.com/jamesryancooper/octon/commit/0c61152e633a74ffd303114774f87328d1357d46))
+* **decision-drafter:** repair routing test fixture ([e225f4a](https://github.com/jamesryancooper/octon/commit/e225f4aaa107df9bdc7d87b07bc42b6fd4068b81))
+* **lifecycle:** harden postmortem evidence binding ([989e6b7](https://github.com/jamesryancooper/octon/commit/989e6b7d486b737f93bc1575ba3fc6e276e060cf))
+
 ## [0.6.88](https://github.com/jamesryancooper/octon/compare/octon-v0.6.87...octon-v0.6.88) (2026-06-05)
 
 
