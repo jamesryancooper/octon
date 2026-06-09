@@ -1,0 +1,33 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: delegated-governance-raw-lifecycle-state-20260609T223545Z
+target: octon-wide-delegated-governance-migration
+created_at: "2026-06-09T22:37:00Z"
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/delegated-governance-raw-lifecycle-state-20260609T223545Z/cleanup-authorization.json
+authorization_id: repo-hygiene-cleanup-a39884a5471b4b0e
+route: authorization
+cleanup_outcome: pass
+deleted_count: 126
+retained_protected_count: 6
+retained_manual_review_count: 0
+redaction_posture: summary-counts-and-digests-only
+git_status_digest: sha256:8a1970937d7217e78833cd2964201a720d05da12650f21e603d320944a6e03e4
+classification_digest: sha256:399d1a06d80cf4833150de25c9b5112681917a57f66b8aeeeda86cb9ef596f9e
+cleanup_path_set_digest: sha256:964717b5d04e5accf01d66d2e83316e9b6f97dcbba30b11ab78d8bf648351ae7
+protected_paths_digest: sha256:e01718453991ce0633689ddb75319856c42ff923e86c15920e8c61d5b7af485b
+manual_review_paths_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+authorization_digest: sha256:c31e37ea5ee417617d052ad93e5090843f3f5db49bd29da2bf2af2c0a550ab54
+local_private_evidence_ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/delegated-governance-raw-lifecycle-state-20260609T223545Z/
+local_private_evidence:
+  dry_run_summary_digest: sha256:60134ff8ef30f86269357aefb3bff532e246d5aa1f22a2e7a04320eb0f947b3c
+  deletion_output_digest: sha256:9a85be6db56930f7fcde1d16854c66343a5ebe0bdcfb29499e167ff91a0e8630
+retained_protected_summary: >-
+  Six rollback-posture files under proposal-packet workflow control run
+  directories were retained because the helper classified them as referenced
+  active control state. They were not deleted, and this receipt does not claim
+  a fully clean worktree.
+non_authority_notice: >-
+  This receipt records repo-hygiene cleanup only. It does not authorize
+  proposal closeout, archive, promotion, branch cleanup, or generated output
+  authority.
