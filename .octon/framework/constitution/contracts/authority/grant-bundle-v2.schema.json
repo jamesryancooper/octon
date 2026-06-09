@@ -20,6 +20,53 @@
     "route_outcome": { "type": "string", "enum": ["allow", "stage_only", "escalate", "deny"] },
     "budget_ledger_ref": { "type": "string", "minLength": 1 },
     "support_target": { "type": "object" },
+    "typed_exception_boundary": { "$ref": "#/$defs/typed_exception_boundary" },
+    "authority_provenance_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "grant_consumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "consumes_bound_grant_only",
+        "mints_fresh_authority"
+      ],
+      "properties": {
+        "mode": {
+          "type": ["string", "null"],
+          "enum": ["delegated-execution", null]
+        },
+        "consumes_bound_grant_only": { "type": "boolean" },
+        "mints_fresh_authority": { "const": false },
+        "approval_grant_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "authority_provenance_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "consumption_receipt_ref": { "type": "string", "minLength": 1 }
+      }
+    },
     "generated_at": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "typed_exception_boundary": {
+      "type": ["string", "null"],
+      "enum": [
+        "scope-expansion",
+        "policy-override",
+        "unresolved-risk-acceptance",
+        "governance-mutation",
+        "contradictory-evidence-resolution",
+        "stale-evidence-acceptance",
+        "authority-ambiguity",
+        "unsafe-resume",
+        "external-irreversible-effect",
+        null
+      ]
+    }
   }
 }

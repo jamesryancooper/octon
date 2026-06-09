@@ -1,0 +1,42 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+run_id: "lifecycle-proposal-program-1781029326147-1a061c9f"
+skill_id: "repo-hygiene-cleanup"
+created_at: "2026-06-09T18:25:01Z"
+route: "receipt-backed-authorization"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781029326147-1a061c9f/cleanup-authorization.json"
+authorization_digest: "sha256:f19e65ee05c7f279a471073f2e6034a7853993f7ca10cce5d97d7984f2b6ae93"
+authorization_result: "approved"
+redaction_posture: "publish summary counts, digests, and refs only; raw helper path logs stay local-private"
+local_evidence_ref: ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781029326147-1a061c9f/raw-helper-output.md"
+local_evidence_digest: "sha256:2d93922faaae50d447ac725837cd060c10b1897bc79fedc2404c08492bf4a67c"
+initial_helper_summary:
+  mode: "dry-run"
+  cleanup_candidates: 8
+  protected_referenced: 4
+  manual_review: 18
+  git_status_digest: "sha256:ef547cdd5b192ea7516e4b37f8abf7ff97739d8e8f375bff7c031a6fe83be373"
+  classification_digest: "sha256:2c7887be5de5296b35d2f40cf2ed52a4a59a32f84174eec8292b9696b477e41d"
+  cleanup_path_set_digest: "sha256:239ea0e44469b02452215ae83ae6c8e1e41e9bde0613084a046dd704bfea71a8"
+  protected_paths_digest: "sha256:d03eef5076f341b9e0e9620080026aad0a5299fdd05ffe2dc6886f22b27d5c34"
+  manual_review_paths_digest: "sha256:7c6b26f2f4734ddbe2519f1ac0d10ddf59322ee5531f3f5991a3da6912e93ec9"
+cleanup_outcome:
+  deleted_count: 8
+  deleted_class: "local_run_residue"
+  deletion_route: "validating repo-hygiene-cleanup authorization receipt"
+  confirm_used: false
+  protected_retained: true
+  manual_review_retained: true
+final_helper_summary:
+  mode: "dry-run"
+  cleanup_candidates: 0
+  protected_referenced: 6
+  manual_review: 18
+  git_status_digest: "sha256:b1fcea4aa9e488191d5c30945dd5b4a2a00335f068e983d0cc7b8bfc1ed1737d"
+  classification_digest: "sha256:dcb789e70c0ea9e12dc6c0fdfa80be9da13ef946b482f4eae369d681747f9ba8"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:3b0f7da75fe482893e52d563ccb4e5dd07b275ad5fc779d453817e9cc5e983af"
+  manual_review_paths_digest: "sha256:7c6b26f2f4734ddbe2519f1ac0d10ddf59322ee5531f3f5991a3da6912e93ec9"
+blocker: "none-for-cleanup-candidates"
+next_route_condition: "return to cleanup-lifecycle-residue for target receipt and final proposal worktree hygiene classification"

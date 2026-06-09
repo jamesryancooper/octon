@@ -1,0 +1,47 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+run_id: "lifecycle-proposal-program-1781036227031-576f5d6a"
+created_at: "2026-06-09T20:20:26Z"
+route: "receipt-backed-authorization"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781036227031-576f5d6a/cleanup-authorization.json"
+authorization_digest: "sha256:d9221ad07c21c6b41d50f78920ec01f50083bd663a5ef27f0bceb54f66a04acb"
+authorization_id: "repo-hygiene-cleanup-e838a6e26848d554"
+authorization_result: "approved"
+redaction_posture: "publishable summary only; raw helper path lists are not embedded here"
+deleted_count: 6
+retained_protected_count_after_cleanup: 5
+retained_manual_review_count_after_cleanup: 54
+initial_helper_summary:
+  mode: "authorize"
+  cleanup_candidates: 6
+  protected_referenced: 4
+  manual_review: 54
+  git_status_digest: "sha256:037a0ae354d5bdae1c4d705f8fea73d9da6ced4d3db1a7affa5ae45a0ddaf0ab"
+  classification_digest: "sha256:095e7970830802b54d3535c09f07c1a5f5c80d513d04bbeea1730304a71636ad"
+  cleanup_path_set_digest: "sha256:d27846dfe9c13f353ed8b02bbca44ff47044e24c45aa6ffb775cd60301942268"
+  protected_paths_digest: "sha256:242ea9caa9304fdfc241827e6023d4a9eabd703e2bff1d3700c7c77d0248cc68"
+  manual_review_paths_digest: "sha256:0b922f836871ed8697b4c634aa132e9cb60b474892460471a9dcb9e1d81434b7"
+authorization_helper_summary:
+  mode: "authorization"
+  cleanup_candidates: 6
+  protected_referenced: 4
+  manual_review: 54
+  git_status_digest: "sha256:037a0ae354d5bdae1c4d705f8fea73d9da6ced4d3db1a7affa5ae45a0ddaf0ab"
+  classification_digest: "sha256:095e7970830802b54d3535c09f07c1a5f5c80d513d04bbeea1730304a71636ad"
+  cleanup_path_set_digest: "sha256:d27846dfe9c13f353ed8b02bbca44ff47044e24c45aa6ffb775cd60301942268"
+  protected_paths_digest: "sha256:242ea9caa9304fdfc241827e6023d4a9eabd703e2bff1d3700c7c77d0248cc68"
+  manual_review_paths_digest: "sha256:0b922f836871ed8697b4c634aa132e9cb60b474892460471a9dcb9e1d81434b7"
+post_cleanup_helper_summary:
+  mode: "dry-run"
+  cleanup_candidates: 0
+  protected_referenced: 5
+  manual_review: 54
+  git_status_digest: "sha256:58f5938a9cff04d5820a2c084114c81e67d58d3863c40197bd3fd9cb2b4281fc"
+  classification_digest: "sha256:fd51fed7f3e1b74adf077f5550e3829b458ea9371dd1cdbd528147dc43dd3000"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:2a8e3ba6a804555c449de194cfab4e173553dd129096e4557cef8719236b4328"
+  manual_review_paths_digest: "sha256:0b922f836871ed8697b4c634aa132e9cb60b474892460471a9dcb9e1d81434b7"
+cleanup_outcome: "pass"
+blocker: "none for helper-authorized cleanup candidates; retained manual-review evidence remains outside this cleanup route"

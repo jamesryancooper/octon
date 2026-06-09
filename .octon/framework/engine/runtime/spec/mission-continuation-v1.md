@@ -13,8 +13,15 @@ Mission continuation is the post-v1 governed runtime sequence:
 8. Emit or reuse a mission-aware Decision Request.
 9. Emit a Continuation Decision.
 10. Hand off to `octon run start --contract` only when Decision Requests are
-    resolved.
+    resolved and retained authorization or delegation proof exists for the
+    selected dispatch.
 
 Continuation Decisions record whether the Mission Runner should continue,
 pause, stage, escalate, revoke, close, or fail. They are evidence-bearing mission
 control decisions, not execution approvals.
+
+Generated mission views and Continuation Decision summaries may report proof
+state but cannot authorize dispatch. Unsafe resume, contradictory evidence,
+stale proof, missing proof, unsupported invocation mode, or scope mismatch must
+route to `authorization-proof-failed` or `human-boundary-blocked` instead of a
+generic approval-required posture.

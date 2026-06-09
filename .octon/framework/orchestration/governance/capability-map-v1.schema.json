@@ -11,6 +11,7 @@
     "map_version",
     "owner",
     "approved_by",
+    "classification_policy",
     "workflows"
   ],
   "properties": {
@@ -59,6 +60,59 @@
         }
       }
     },
+    "classification_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "proof_first",
+        "generated_capability_index_authority_allowed",
+        "approval_derivation_denials",
+        "classes"
+      ],
+      "properties": {
+        "policy_id": {
+          "type": "string",
+          "const": "workflow-capability-human-boundary-classification-v1"
+        },
+        "proof_first": {
+          "const": true
+        },
+        "generated_capability_index_authority_allowed": {
+          "const": false
+        },
+        "approval_derivation_denials": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "route-shape",
+              "workflow-shape",
+              "extension-shape",
+              "generic-importance",
+              "generated-capability-index"
+            ]
+          },
+          "contains": { "const": "route-shape" },
+          "minItems": 5,
+          "uniqueItems": true
+        },
+        "classes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "execution-role-ready",
+            "role-mediated",
+            "human-only"
+          ],
+          "properties": {
+            "execution-role-ready": { "$ref": "#/$defs/classificationClass" },
+            "role-mediated": { "$ref": "#/$defs/classificationClass" },
+            "human-only": { "$ref": "#/$defs/classificationClass" }
+          }
+        }
+      }
+    },
     "workflows": {
       "type": "array",
       "minItems": 1,
@@ -93,7 +147,122 @@
               "minLength": 1
             },
             "uniqueItems": true
+          },
+          "typed_human_boundary": {
+            "$ref": "#/$defs/typedHumanBoundary"
           }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "classification": { "const": "human-only" }
+              },
+              "required": ["classification"]
+            },
+            "then": {
+              "required": ["typed_human_boundary"],
+              "properties": {
+                "autonomous_allowed": { "const": false }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "classification": { "const": "execution-role-ready" }
+              },
+              "required": ["classification"]
+            },
+            "then": {
+              "properties": {
+                "autonomous_allowed": { "const": true }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "classification": { "const": "role-mediated" }
+              },
+              "required": ["classification"]
+            },
+            "then": {
+              "properties": {
+                "autonomous_allowed": { "const": false }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "classificationClass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_class",
+        "autonomous_allowed",
+        "required_proof",
+        "posture"
+      ],
+      "properties": {
+        "decision_class": {
+          "type": "string",
+          "enum": [
+            "delegated-execution",
+            "grant-consumption",
+            "typed-human-exception",
+            "deny-only",
+            "projection-only",
+            "generated-non-authority",
+            "needs-more-evidence",
+            "out-of-scope"
+          ]
+        },
+        "autonomous_allowed": {
+          "type": "boolean"
+        },
+        "required_proof": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "posture": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "typedHumanBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary_id",
+        "boundary_kind",
+        "machine_provable",
+        "requirement"
+      ],
+      "properties": {
+        "boundary_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "boundary_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "machine_provable": {
+          "const": false
+        },
+        "requirement": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

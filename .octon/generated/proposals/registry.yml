@@ -6,7 +6,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants"
     title: "Authority Engine Typed Exception Grants"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/authority_engine/"
       - ".octon/framework/constitution/contracts/authority/"
@@ -35,7 +35,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/connector-external-effect-delegation-boundaries"
     title: "Connector External Effect Delegation Boundaries"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/instance/governance/connectors/"
       - ".octon/framework/constitution/contracts/adapters/"
@@ -59,7 +59,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/delegated-governance-inventory-and-vocabulary"
     title: "Delegated Governance Inventory And Vocabulary"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/constitution/contracts/authority/"
       - ".octon/framework/engine/runtime/spec/"
@@ -70,7 +70,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model"
     title: "Delegated Governance Shared Contract Model"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/constitution/contracts/authority/"
       - ".octon/framework/constitution/contracts/runtime/"
@@ -80,7 +80,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/governance-validator-negative-controls"
     title: "Governance Validator Negative Controls"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/assurance/runtime/_ops/scripts/"
       - ".octon/framework/assurance/runtime/_ops/tests/"
@@ -90,7 +90,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/mission-runtime-proof-first-posture"
     title: "Mission Runtime Proof-First Posture"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/kernel/"
       - ".octon/framework/engine/runtime/spec/"
@@ -177,7 +177,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/run-health-proof-state-read-models"
     title: "Run Health Proof State Read Models"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/assurance/runtime/_ops/scripts/"
@@ -187,7 +187,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/workflow-capability-human-boundary-classification"
     title: "Workflow Capability Human Boundary Classification"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/orchestration/governance/"
       - ".octon/framework/capabilities/governance/policy/"

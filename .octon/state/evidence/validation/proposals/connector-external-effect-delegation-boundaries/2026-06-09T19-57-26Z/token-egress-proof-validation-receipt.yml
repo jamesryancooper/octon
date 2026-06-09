@@ -1,0 +1,18 @@
+schema_version: token-egress-proof-validation-receipt-v1
+proposal_id: connector-external-effect-delegation-boundaries
+recorded_at: 2026-06-09T19:57:26Z
+verdict: pass
+required_machine_delegation_gates:
+  - support-target-and-capability-admission
+  - authorized-effect-token-proof
+  - scope-containment-proof
+  - egress-policy-or-empty-egress-proof
+  - replay-or-compensation-proof
+  - retained-connector-and-run-receipts
+  - run-authorization
+schema_enforcement_refs:
+  - .octon/framework/constitution/contracts/adapters/connector-operation-v1.schema.json
+  - .octon/framework/engine/runtime/spec/connector-operation-v1.schema.json
+  - .octon/instance/governance/connectors/external-effect-delegation-boundaries.yml
+generated_authority_allowed: false
+permission_widening_requires_typed_human_boundary: true

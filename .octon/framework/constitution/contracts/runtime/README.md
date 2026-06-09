@@ -43,6 +43,11 @@ Run roots are the primary execution-time unit of truth.
   retained run evidence.
 - Consequential stages must bind the run control and evidence roots before
   side effects occur.
+- Unattended runtime or mission dispatch must be proof-first: required route
+  gate results, authorization or delegation proof, expected receipts, declared
+  scope, authority zone, and replay or compensation posture must be retained
+  before dispatch, and missing, stale, contradictory, or scope-mismatched proof
+  fails closed.
 - Mission continuity, summaries, and mission views may consume run evidence,
   but they may not replace the run root as the execution-time source of truth.
 - Workflow Statechart v1 is a validation overlay over Run Lifecycle v1. It
@@ -52,6 +57,10 @@ Run roots are the primary execution-time unit of truth.
   effect-token classes, evidence obligations, rollback or compensation posture,
   human-intervention posture, model/cost policy, and closeout criteria before
   authorization is requested.
+- Delegated governance contracts are proof-gate and classification primitives
+  for non-lifecycle domains. They may narrow or block dispatch, but they do not
+  replace run contracts, authority routing, grant bundles, effect-token
+  consumption, retained receipts, or Run Journal coverage.
 - Agent Node v1 and Model Call Receipt v1 admit model-backed work only as
   typed, finite, evidenced activity inside an existing task-specific harness and
   governed run. Agent nodes and model outputs do not authorize execution, own
@@ -93,6 +102,7 @@ Run roots are the primary execution-time unit of truth.
 - `workflow-statechart-v1.schema.json`
 - `task-specific-execution-harness-v1.schema.json`
 - `task-specific-execution-harness-compile-receipt-v1.schema.json`
+- `/.octon/framework/constitution/contracts/authority/delegated-governance-contract-v1.schema.json`
 - `agent-node-v1.schema.json`
 - `model-call-receipt-v1.schema.json`
 

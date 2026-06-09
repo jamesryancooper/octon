@@ -14,3 +14,7 @@
 - `support/implementation-grade-completeness-review.md`
 - `support/proposal-review.md`
 - `support/executable-implementation-prompt.md`
+- `support/implementation-run.md`
+- `support/implementation-conformance-review.md`
+- `support/post-implementation-drift-churn-review.md`
+- `support/validation.md`

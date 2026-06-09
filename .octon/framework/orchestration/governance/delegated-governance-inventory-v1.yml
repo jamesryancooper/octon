@@ -1,0 +1,404 @@
+schema_version: "delegated-governance-inventory-v1"
+inventory_id: "delegated-governance-inventory"
+owner: "Octon governance"
+status: "active"
+authority_class: "framework-authored-governance-contract"
+purpose: >-
+  Provide the durable Octon-wide inventory and vocabulary baseline for approval,
+  default-authority, delegation, exception, denial, projection, generated
+  non-authority, grant-consumption, and evidence-gap surfaces.
+scope:
+  includes:
+    - "authority engine and authority contracts"
+    - "mission and run runtime continuation surfaces"
+    - "connector admission and external-effect surfaces"
+    - "run-health and operator read models"
+    - "workflow and orchestration governance"
+    - "capability and deny-by-default policy"
+    - "validators and proof gates"
+    - "governance docs and lifecycle reference behavior"
+  excludes:
+    - "runtime dispatch mutation"
+    - "schema enforcement mutation"
+    - "connector permission mutation"
+    - "generated projection mutation"
+    - "state/control truth mutation"
+classification_contract:
+  exactly_one_required: true
+  allowed_values:
+    - "delegated-execution"
+    - "typed-human-exception"
+    - "deny-only"
+    - "projection-only"
+    - "generated-non-authority"
+    - "grant-consumption"
+    - "needs-more-evidence"
+    - "out-of-scope"
+  rule: >-
+    Each inventory entry has exactly one classification. Generic importance,
+    operational convenience, or usefulness to a human reviewer is not a valid
+    reason to require human-only handling; human-required routing must identify
+    a typed exception, irreversible effect, break-glass posture, missing proof,
+    ownership ambiguity, support widening, external commitment, or explicit
+    governance approval rule.
+vocabulary:
+  delegated_execution: >-
+    Execution that a bounded runtime, workflow, validator, or agent-facing
+    capability may perform when the canonical run contract, authority route,
+    support posture, rollback posture, retained evidence expectations, and
+    applicable grant or policy gates are satisfied.
+  new_governance_decision: >-
+    A decision that changes authority, support scope, ownership, policy,
+    exception posture, release posture, irreversible behavior, or public
+    commitment. It cannot be inferred from execution success, proposal text,
+    generated summaries, or operator read models.
+  typed_human_exception_grant: >-
+    A human or quorum-controlled approval, exception lease, break-glass grant,
+    waiver, amendment approval, incident closure approval, or equivalent
+    policy-backed decision with explicit scope, owner, reason, evidence,
+    expiry or retirement posture, and revocation behavior.
+  proof_first_posture: >-
+    A route posture where proof, negative controls, source traceability,
+    freshness, and retained receipts are prerequisites to material execution,
+    support claims, promotion, closeout, or archive-ready claims.
+  retained_authorization_proof: >-
+    Canonical control or evidence artifacts that prove an authority decision,
+    grant, exception, revocation, token issuance, token consumption, denial,
+    validation, or receipt under declared repository roots.
+  authority_provenance: >-
+    Traceability from an action or claim to the durable authority surface that
+    permits, denies, stages, or escalates it, including the owning contract,
+    grant, exception, revocation, support declaration, or policy route.
+  fail_closed_evidence_state: >-
+    A state where missing, stale, ambiguous, mismatched, or unsupported
+    authority/evidence blocks execution, publication, support widening,
+    closure, or generated-read consumption rather than silently allowing it.
+  generated_read_model_non_authority: >-
+    Generated outputs, dashboards, summaries, route bundles, compact manifests,
+    health views, and operator read models may summarize or point to canonical
+    sources but never authorize execution, widen support, mutate policy,
+    satisfy evidence gates, or replace control truth.
+  external_irreversible_effect: >-
+    An effect outside the local reversible repository envelope, including
+    destructive operations, external connector operations, deployment,
+    credential use, protected merge/approval endpoints, public commitments, or
+    final closure decisions whose rollback path is absent or governance-bound.
+inventory_entries:
+  - id: "authority-engine-execution-authorization"
+    domain: "authority-engine"
+    surface_refs:
+      - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+      - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+    classification: "grant-consumption"
+    rationale: >-
+      Material execution consumes engine-owned grant bundles and typed
+      AuthorizedEffect tokens; requests and plans may prepare authorization but
+      do not become grants.
+    required_proof:
+      - "valid run contract"
+      - "authority route"
+      - "grant bundle"
+      - "typed effect token"
+      - "verified effect consumption receipt"
+      - "Run Journal coverage"
+    downstream_action: "Shared contract work may bind delegated routes to this grant-consumption boundary."
+  - id: "authority-approval-exception-revocation-contracts"
+    domain: "authority-contracts"
+    surface_refs:
+      - ".octon/framework/constitution/contracts/authority/approval-request-v1.schema.json"
+      - ".octon/framework/constitution/contracts/authority/approval-grant-v1.schema.json"
+      - ".octon/framework/constitution/contracts/authority/exception-lease-v1.schema.json"
+      - ".octon/framework/constitution/contracts/authority/revocation-v1.schema.json"
+      - ".octon/framework/constitution/contracts/authority/grant-bundle-v2.schema.json"
+    classification: "typed-human-exception"
+    rationale: >-
+      These artifacts represent explicit approval, lease, revocation, or grant
+      authority. They are not replaceable with generic operator importance or
+      model judgment.
+    required_proof:
+      - "scope"
+      - "owner"
+      - "reason"
+      - "evidence references"
+      - "expiry or revocation posture"
+    downstream_action: "Typed exception grant schemas should reuse this vocabulary."
+  - id: "constitutional-amendment-and-support-widening"
+    domain: "governance"
+    surface_refs:
+      - ".octon/framework/constitution/contracts/authority/constitutional-amendment-request-v1.schema.json"
+      - ".octon/framework/constitution/contracts/authority/self-evolution-decision-request-v1.schema.json"
+      - ".octon/framework/constitution/contracts/authority/stewardship-aware-decision-request-v1.schema.json"
+    classification: "typed-human-exception"
+    rationale: >-
+      Charter, policy, support, ownership, self-evolution, and stewardship
+      changes require explicit governance approval because they can widen or
+      rewrite authority.
+    required_proof:
+      - "human or quorum approval"
+      - "change rationale"
+      - "rollback or retirement posture"
+      - "retained promotion or decision receipt"
+    downstream_action: "Do not route these changes through delegated execution without a typed approval artifact."
+  - id: "mission-continuation-and-autonomy-runtime"
+    domain: "mission-runtime"
+    surface_refs:
+      - ".octon/framework/engine/runtime/spec/mission-autonomy-runtime-v2.md"
+      - ".octon/framework/engine/runtime/spec/mission-continuation-v1.md"
+      - ".octon/framework/engine/runtime/spec/mission-aware-decision-request-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/mission-run-ledger-v1.schema.json"
+    classification: "delegated-execution"
+    rationale: >-
+      Mission continuation may prepare bounded action slices, decision
+      requests, and run-contract candidates, then hand off to run lifecycle; it
+      does not approve execution by itself.
+    required_proof:
+      - "mission authority"
+      - "active autonomy window"
+      - "budget and circuit-breaker checks"
+      - "run-contract candidate"
+      - "resolved decision request when needed"
+    downstream_action: "Keep mission continuation delegated only up to run-contract handoff."
+  - id: "run-lifecycle-state-and-workflow-transition"
+    domain: "run-runtime"
+    surface_refs:
+      - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+      - ".octon/framework/engine/runtime/spec/workflow-statechart-v1.md"
+      - ".octon/framework/engine/runtime/spec/run-lifecycle-transition-v1.schema.json"
+    classification: "delegated-execution"
+    rationale: >-
+      Runtime may execute valid lifecycle transitions under the bound run
+      contract, but lifecycle state and generated diagrams do not authorize
+      new effects without execution authorization.
+    required_proof:
+      - "bound run contract"
+      - "valid lifecycle transition"
+      - "runtime-state and journal persistence"
+      - "authorization where material effects occur"
+    downstream_action: "Lifecycle children should distinguish transition execution from approval grant creation."
+  - id: "connector-admission-preparation"
+    domain: "connectors"
+    surface_refs:
+      - ".octon/framework/engine/runtime/spec/connector-admission-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/connector-operation-posture-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+    classification: "delegated-execution"
+    rationale: >-
+      Connector admission posture preparation is a control-plane preparation
+      surface without live external effect when bounded by local evidence and
+      quarantine rules.
+    required_proof:
+      - "connector identity"
+      - "posture evidence"
+      - "quarantine status"
+      - "local receipt"
+    downstream_action: "Delegated preparation must stay separate from live connector operations."
+  - id: "connector-operation-live-effect"
+    domain: "connectors"
+    surface_refs:
+      - ".octon/framework/engine/runtime/spec/connector-operation-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+    classification: "needs-more-evidence"
+    rationale: >-
+      Live external connector operations are identified as service-invocation
+      effects, but the current inventory records them as denied until connector
+      admission runtime authorization is complete.
+    required_proof:
+      - "connector admission"
+      - "context pack"
+      - "execution grant"
+      - "typed AuthorizedEffect token"
+      - "connector execution receipt"
+      - "quarantine negative control"
+    downstream_action: "Do not treat connector availability or tool installation as permission."
+  - id: "run-health-operator-read-models"
+    domain: "read-models"
+    surface_refs:
+      - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+      - ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+    classification: "generated-non-authority"
+    rationale: >-
+      Run health and operator views summarize canonical control and retained
+      evidence for operators and validators; they cannot authorize
+      continuation, closeout, support widening, or state reconstruction.
+    required_proof:
+      - "canonical source refs"
+      - "source digests"
+      - "freshness metadata"
+      - "forbidden consumer classification"
+    downstream_action: "Downstream packets must resolve against cited canonical sources, not the read model."
+  - id: "generated-effective-publication-and-handles"
+    domain: "generated-effective"
+    surface_refs:
+      - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
+      - ".octon/framework/engine/runtime/spec/runtime-effective-handle-resolution-v1.md"
+      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+    classification: "generated-non-authority"
+    rationale: >-
+      Generated effective artifacts may be runtime-facing only through
+      freshness-checked handles and retained publication evidence. Raw
+      generated paths and generated summaries remain non-authority.
+    required_proof:
+      - "source refs and digests"
+      - "publication receipt"
+      - "freshness mode"
+      - "allowed and forbidden consumer classes"
+      - "raw-path denial evidence"
+    downstream_action: "Keep generated outputs derived-only even when runtime-facing."
+  - id: "workflow-capability-map"
+    domain: "workflows"
+    surface_refs:
+      - ".octon/framework/orchestration/governance/capability-map-v1.yml"
+      - ".octon/framework/orchestration/governance/automation-policy.md"
+      - ".octon/framework/orchestration/governance/queue-safety-policy.md"
+    classification: "projection-only"
+    rationale: >-
+      Workflow classifications and automation policies route automation
+      posture, but role-mediated and human-only classifications do not by
+      themselves create approval authority. Role-mediated paths consume
+      already-bound grants; human-only paths require a named typed boundary.
+    required_proof:
+      - "workflow classification"
+      - "classification policy"
+      - "required contracts"
+      - "already-bound grant or typed human boundary when non-autonomous"
+      - "decision and run evidence for admitted automation"
+    downstream_action: "Do not convert route, workflow, extension, generated-index, or importance shape into approval posture."
+  - id: "watcher-signals-and-routing-hints"
+    domain: "workflows"
+    surface_refs:
+      - ".octon/framework/orchestration/governance/watcher-signal-policy.md"
+    classification: "projection-only"
+    rationale: >-
+      Watchers detect and emit sanitized events. Routing hints are
+      recommendations and never launch workflows or grant authority directly.
+    required_proof:
+      - "declared event type"
+      - "dedupe key"
+      - "event lineage"
+      - "downstream policy decision"
+    downstream_action: "Do not convert signal presence into approval."
+  - id: "incident-governance"
+    domain: "workflow-governance"
+    surface_refs:
+      - ".octon/framework/orchestration/governance/incidents.md"
+      - ".octon/framework/orchestration/governance/approver-authority-registry.json"
+    classification: "typed-human-exception"
+    rationale: >-
+      Incident automation may propose, enrich, launch policy-permitted
+      containment, or recommend closure, but sev0/sev1 closure, final closure,
+      break-glass, material severity downgrade, and evidence waivers require
+      explicit approval.
+    required_proof:
+      - "incident id"
+      - "severity and owner"
+      - "approval scope"
+      - "closure or waiver evidence"
+      - "approver authority registry entry where applicable"
+    downstream_action: "Separate automated containment from closure authority."
+  - id: "capability-deny-by-default-policy"
+    domain: "capabilities"
+    surface_refs:
+      - ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
+      - ".octon/framework/capabilities/governance/policy/agent-only-governance.yml"
+      - ".octon/framework/capabilities/governance/policy/reason-codes.md"
+    classification: "delegated-execution"
+    rationale: >-
+      Low-risk scoped grants, policy checks, and agent-only thresholds may be
+      evaluated automatically when hard-enforce policy, provenance, scopes, and
+      risk-tier controls are satisfied.
+    required_proof:
+      - "policy profile"
+      - "scoped tool and write bundles"
+      - "grant provenance"
+      - "kill-switch status"
+      - "required review or quorum metadata for elevated tiers"
+    downstream_action: "Keep medium, high, and irreversible cases bound to their explicit evidence requirements."
+  - id: "capability-operation-classes"
+    domain: "capabilities"
+    surface_refs:
+      - ".octon/framework/capabilities/governance/policy/acp-operation-classes.md"
+      - ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
+    classification: "deny-only"
+    rationale: >-
+      Unknown operation classes, hard deletes, irreversible primitives without
+      break-glass posture, unscoped writes, unscoped shell, and active
+      kill-switch cases fail closed rather than falling back to generic human
+      discretion.
+    required_proof:
+      - "normalized operation class"
+      - "ACP phase"
+      - "reversibility and evidence metadata"
+      - "deny reason code when blocked"
+    downstream_action: "Add new classes explicitly instead of overloading existing ones."
+  - id: "validator-proof-gates"
+    domain: "validators"
+    surface_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projection-non-authority.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
+    classification: "delegated-execution"
+    rationale: >-
+      Validators may deterministically prove or deny conformance within their
+      declared contracts. Passing validation is evidence, not approval, unless
+      an authority contract explicitly consumes that evidence.
+    required_proof:
+      - "validator command"
+      - "input refs"
+      - "output summary"
+      - "retained evidence when used for closeout or promotion"
+    downstream_action: "Validators can support authority routing but cannot mint approvals."
+  - id: "host-projections-and-github-checks"
+    domain: "host-projections"
+    surface_refs:
+      - ".github/workflows/pr-auto-merge.yml"
+      - ".github/workflows/main-push-safety.yml"
+      - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    classification: "projection-only"
+    rationale: >-
+      Host labels, comments, checks, GitHub workflow status, and similar
+      affordances may mirror state or enforce a host guard, but they are not
+      canonical authority when they disagree with local approval artifacts.
+    required_proof:
+      - "canonical approval or grant artifact"
+      - "local run evidence"
+      - "host projection linkage when used as context"
+    downstream_action: "Protected host effects require explicit runtime authorization or typed approval."
+  - id: "proposal-packets-and-lifecycle-prompts"
+    domain: "lifecycle-reference"
+    surface_refs:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/run-packet-implementation/stages/01-run-packet-implementation.md"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/shared/proposal-authority-boundaries.md"
+      - ".octon/inputs/exploratory/proposals/README.md"
+    classification: "out-of-scope"
+    rationale: >-
+      Proposal packets, generated prompts, prompt capsules, lifecycle support
+      material, and proposal-local receipts may guide or evidence work, but
+      they are inputs or derived context until promoted into durable authority.
+    required_proof:
+      - "accepted review gate"
+      - "implementation authorization"
+      - "durable promoted target"
+      - "retained validation evidence"
+    downstream_action: "Never make proposal-local material a runtime or policy dependency."
+coverage_receipt:
+  inventory_domains_covered:
+    - "authority engine"
+    - "mission/runtime"
+    - "connectors"
+    - "run-health"
+    - "read models"
+    - "workflows"
+    - "capabilities"
+    - "validators"
+    - "governance docs"
+    - "lifecycle reference behavior"
+  generated_and_read_model_boundary: >-
+    Generated outputs and read models are classified as generated-non-authority
+    or projection-only and are forbidden from granting authority.
+  generic_importance_rule: >-
+    Human-only routing requires a typed reason; generic importance is
+    insufficient.

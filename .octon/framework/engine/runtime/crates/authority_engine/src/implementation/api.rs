@@ -320,6 +320,12 @@ pub struct ApprovalRequestArtifact {
     pub required_evidence: Vec<String>,
     #[serde(default)]
     pub projection_sources: Vec<AuthorityProjection>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub typed_exception_boundary: Option<String>,
+    #[serde(default)]
+    pub authority_provenance_refs: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub approval_authority_source: Option<String>,
     pub created_at: String,
     pub updated_at: String,
 }
@@ -343,6 +349,16 @@ pub struct ApprovalGrantArtifact {
     pub review_metadata: BTreeMap<String, String>,
     #[serde(default)]
     pub required_evidence: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub typed_exception_boundary: Option<String>,
+    #[serde(default)]
+    pub authority_provenance_refs: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub grant_consumption_mode: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub revocation_behavior: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub exception_reason: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -487,6 +503,12 @@ pub struct GrantBundle {
     pub approval_request_ref: Option<String>,
     #[serde(default)]
     pub approval_grant_refs: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub typed_exception_boundary: Option<String>,
+    #[serde(default)]
+    pub authority_provenance_refs: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub grant_consumption_mode: Option<String>,
     #[serde(default)]
     pub exception_lease_refs: Vec<String>,
     #[serde(default)]

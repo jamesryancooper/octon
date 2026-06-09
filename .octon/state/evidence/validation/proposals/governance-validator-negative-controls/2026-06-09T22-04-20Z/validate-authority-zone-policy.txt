@@ -1,0 +1,101 @@
+PASS: authority-zone policy exists: .octon/framework/constitution/contracts/authority/authority-zone-policy.yml
+PASS: authority-zone policy schema version valid
+PASS: authority-zone policy zones sequence declared
+PASS: authority-zone ids unique
+PASS: required authority zone declared: octon-run-bound
+PASS: required authority zone declared: octon-generated-derived
+PASS: required authority zone declared: octon-authored-governance
+PASS: required authority zone declared: workspace-declared
+PASS: required authority zone declared: current-run-agent-artifact
+PASS: required authority zone declared: protected-or-external
+PASS: authority zone id valid: octon-run-bound
+PASS: authority zone path matchers declared: octon-run-bound
+PASS: authority zone path matcher non-empty: octon-run-bound -> .octon/state/control/execution/runs/<run-id>/**
+PASS: authority zone path matcher non-empty: octon-run-bound -> .octon/state/evidence/runs/<run-id>/**
+PASS: authority zone path matcher non-empty: octon-run-bound -> .octon/state/continuity/runs/<run-id>/**
+PASS: authority zone artifact classes declared: octon-run-bound
+PASS: authority zone artifact class valid: octon-run-bound -> run-control
+PASS: authority zone artifact class valid: octon-run-bound -> run-evidence
+PASS: authority zone operation classes declared: octon-run-bound
+PASS: authority zone operation class valid: octon-run-bound -> inspect
+PASS: authority zone operation class valid: octon-run-bound -> append-run-evidence
+PASS: authority zone operation class valid: octon-run-bound -> update-run-control
+PASS: authority zone operation class valid: octon-run-bound -> retry-child-route
+PASS: authority zone operation class valid: octon-run-bound -> program-recovery-action
+PASS: authority zone operation class valid: octon-run-bound -> closeout-readiness
+PASS: authority zone approval posture valid: octon-run-bound -> pre-granted
+PASS: authority zone fail-closed blocker valid: octon-run-bound -> authority-zone-denied
+PASS: authority zone evidence requirement declared: octon-run-bound
+PASS: authority zone id valid: octon-generated-derived
+PASS: authority zone path matchers declared: octon-generated-derived
+PASS: authority zone path matcher non-empty: octon-generated-derived -> .octon/generated/**
+PASS: authority zone path matcher non-empty: octon-generated-derived -> .claude/**
+PASS: authority zone path matcher non-empty: octon-generated-derived -> .cursor/**
+PASS: authority zone path matcher non-empty: octon-generated-derived -> .codex/commands/**
+PASS: authority zone path matcher non-empty: octon-generated-derived -> .codex/skills/**
+PASS: authority zone artifact classes declared: octon-generated-derived
+PASS: authority zone artifact class valid: octon-generated-derived -> generated-derived
+PASS: authority zone operation classes declared: octon-generated-derived
+PASS: authority zone operation class valid: octon-generated-derived -> inspect
+PASS: authority zone operation class valid: octon-generated-derived -> refresh-generated-projection
+PASS: authority zone operation class valid: octon-generated-derived -> program-recovery-action
+PASS: authority zone approval posture valid: octon-generated-derived -> pre-granted
+PASS: authority zone fail-closed blocker valid: octon-generated-derived -> authority-zone-denied
+PASS: authority zone evidence requirement declared: octon-generated-derived
+PASS: generated-derived zone declares non-authority
+PASS: generated-derived zone declares forbidden authority consumers
+PASS: authority zone id valid: octon-authored-governance
+PASS: authority zone path matchers declared: octon-authored-governance
+PASS: authority zone path matcher non-empty: octon-authored-governance -> .octon/framework/**
+PASS: authority zone path matcher non-empty: octon-authored-governance -> .octon/inputs/additive/**
+PASS: authority zone path matcher non-empty: octon-authored-governance -> .octon/instance/governance/**
+PASS: authority zone path matcher non-empty: octon-authored-governance -> .octon/state/control/extensions/**
+PASS: authority zone path matcher non-empty: octon-authored-governance -> .octon/state/control/capabilities/**
+PASS: authority zone artifact classes declared: octon-authored-governance
+PASS: authority zone artifact class valid: octon-authored-governance -> authored-governance
+PASS: authority zone operation classes declared: octon-authored-governance
+PASS: authority zone operation class valid: octon-authored-governance -> inspect
+PASS: authority zone approval posture valid: octon-authored-governance -> approval-required
+PASS: authority zone fail-closed blocker valid: octon-authored-governance -> durable-authority-approval-required
+PASS: authority zone evidence requirement declared: octon-authored-governance
+PASS: authority zone id valid: workspace-declared
+PASS: authority zone path matchers declared: workspace-declared
+PASS: authority zone path matcher non-empty: workspace-declared -> **
+PASS: authority zone artifact classes declared: workspace-declared
+PASS: authority zone artifact class valid: workspace-declared -> workspace-source
+PASS: authority zone operation classes declared: workspace-declared
+PASS: authority zone operation class valid: workspace-declared -> inspect
+PASS: authority zone operation class valid: workspace-declared -> execute-child-route
+PASS: authority zone operation class valid: workspace-declared -> retry-child-route
+PASS: authority zone approval posture valid: workspace-declared -> approval-required
+PASS: authority zone fail-closed blocker valid: workspace-declared -> protected-artifact-approval-required
+PASS: authority zone evidence requirement declared: workspace-declared
+PASS: authority zone id valid: current-run-agent-artifact
+PASS: authority zone path matchers declared: current-run-agent-artifact
+PASS: authority zone path matcher non-empty: current-run-agent-artifact -> .octon/state/control/execution/runs/<run-id>/locks/**
+PASS: authority zone path matcher non-empty: current-run-agent-artifact -> .octon/state/control/execution/runs/<run-id>/tmp/**
+PASS: authority zone path matcher non-empty: current-run-agent-artifact -> .octon/state/control/execution/runs/<run-id>/scratch/**
+PASS: authority zone artifact classes declared: current-run-agent-artifact
+PASS: authority zone artifact class valid: current-run-agent-artifact -> current-run-generated
+PASS: authority zone operation classes declared: current-run-agent-artifact
+PASS: authority zone operation class valid: current-run-agent-artifact -> inspect
+PASS: authority zone operation class valid: current-run-agent-artifact -> cleanup-current-run-artifact
+PASS: authority zone approval posture valid: current-run-agent-artifact -> pre-granted
+PASS: authority zone fail-closed blocker valid: current-run-agent-artifact -> artifact-ownership-unclear
+PASS: authority zone evidence requirement declared: current-run-agent-artifact
+PASS: authority zone id valid: protected-or-external
+PASS: authority zone path matchers declared: protected-or-external
+PASS: authority zone path matcher non-empty: protected-or-external -> **
+PASS: authority zone artifact classes declared: protected-or-external
+PASS: authority zone artifact class valid: protected-or-external -> protected-human-or-external
+PASS: authority zone artifact class valid: protected-or-external -> unknown
+PASS: authority zone operation classes declared: protected-or-external
+PASS: authority zone operation class valid: protected-or-external -> inspect
+PASS: authority zone approval posture valid: protected-or-external -> deny
+PASS: authority zone fail-closed blocker valid: protected-or-external -> authority-zone-ambiguous
+PASS: authority zone evidence requirement declared: protected-or-external
+PASS: self-authorization fail-closed blocker declared
+PASS: same-segment authority widening denied
+
+Passed: 98
+Failed: 0

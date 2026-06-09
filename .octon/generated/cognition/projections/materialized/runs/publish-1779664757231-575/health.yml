@@ -1,9 +1,9 @@
 schema_version: run-health-read-model-v1
 run_id: publish-1779664757231-575
-generated_at: '2026-06-09T13:44:29Z'
+generated_at: '2026-06-09T20:53:20Z'
 generator:
   id: generate-run-health-read-model.sh
-  version: 1.0.0
+  version: 1.1.0
   validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
 authority:
   classification: generated_read_model_non_authoritative
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:c1ebbec09cc3e041b2682a17dda4236d4c45ebe5e57379a4a030f4a69a88878b
-  checked_at: '2026-06-09T13:44:29Z'
+  combined_source_digest: sha256:dc9fd00455bb13815b328f44c0012bf400cfd404451de976d4b72b1594d18314
+  checked_at: '2026-06-09T20:53:20Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/publish-1779664757231-575/events.manifest.yml
@@ -145,11 +145,11 @@ source_digests:
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:b127f4c9cea33652eaf02f304afb559467116a34663051acb8f5770398cdd8ff
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
     status: present
   operator_read_model_contract:
     ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:24d6782aea0da4074cd7c70f408b5889ff323576ba2ee8837b817b903e256659
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
     status: present
 health:
   status: stale
@@ -170,6 +170,8 @@ support:
   - telemetry
 authorization:
   status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
   active_grants:
   - .octon/state/control/execution/runs/publish-1779664757231-575/authority/grant-bundle.yml
   open_approvals: []

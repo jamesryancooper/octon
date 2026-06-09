@@ -1,0 +1,41 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+run_id: "lifecycle-proposal-program-1781033954294-92482567"
+created_at: "2026-06-09T19:42:04Z"
+route: "receipt-backed-authorization"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781033954294-92482567/cleanup-authorization.json"
+authorization_digest: "sha256:d3f662ea0a9de4cbdc161be61e4b00e64e0f211f617b892fa8cc8673e3e4937a"
+authorization_id: "repo-hygiene-cleanup-bac1609d18024f8b"
+authorization_result: "approved"
+redaction_posture: "publishable summary only; raw helper output and raw path lists are retained under local-private evidence and not embedded here"
+local_private_evidence_ref: ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781033954294-92482567/"
+local_private_evidence_digests:
+  authorize_output: "sha256:80010562d2dc7ab5070a31940b939956ad2c22fb9418b9ffca774cd15f6b4fc3"
+  cleanup_output: "sha256:1ad77852d490913a85d3e4055ef2403e5665f741186ce3f2cb85cddf322a30b3"
+deleted_count: 134
+retained_protected_count_after_cleanup: 5
+retained_manual_review_count_after_cleanup: 47
+initial_helper_summary:
+  mode: "authorize"
+  cleanup_candidates: 134
+  protected_referenced: 4
+  manual_review: 47
+  git_status_digest: "sha256:0caff3166f41762e4411f65aade35c7ee6bdc1b5747c65a197ec31287b9eda07"
+  classification_digest: "sha256:c2a0de57333fa9f988623e86951480a8d52393ee4e22cb572db3a5f71d91de55"
+  cleanup_path_set_digest: "sha256:cc7e36268a6e389d3d1627e0c92fd5e01d0f7d5c2a0959e5a678b20c0dd10cb9"
+  protected_paths_digest: "sha256:8d0471ea6541ff60bee01215d5191328504e2054caa15403f3f1c23a5975fa7c"
+  manual_review_paths_digest: "sha256:02695f4b1ea045dc1a3339de6d5619e89a524d3a5270f7527c20cd3103bd11ca"
+post_cleanup_helper_summary:
+  mode: "dry-run"
+  cleanup_candidates: 0
+  protected_referenced: 5
+  manual_review: 47
+  git_status_digest: "sha256:c6635591c18346432cec050210b0e9ad5bd9a3e50de7f7b110fcd0eca1c85e38"
+  classification_digest: "sha256:80cc3ada79dd3c3332e00a389aa7f107bda35f5b39dc23f5f64f90c3f4088d57"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:d1b1b96b1444da3f5a095fe48962914e5491fead45a644aa59c11aa252457f2c"
+  manual_review_paths_digest: "sha256:02695f4b1ea045dc1a3339de6d5619e89a524d3a5270f7527c20cd3103bd11ca"
+cleanup_outcome: "pass"
+blocker: "none for helper-authorized cleanup candidates; manual-review retained evidence remains outside this cleanup route"

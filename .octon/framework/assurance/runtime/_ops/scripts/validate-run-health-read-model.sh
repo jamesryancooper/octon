@@ -20,6 +20,8 @@ validator_result_add_negative_control "missing-non-authority-classification-deni
 validator_result_add_negative_control "authority-widening-denies"
 validator_result_add_negative_control "source-digest-drift-denies"
 validator_result_add_negative_control "fixture-status-mismatch-denies"
+validator_result_add_negative_control "missing-proof-state-denies"
+validator_result_add_negative_control "approval-boundary-erasure-denies"
 validator_result_add_schema_version "run-health-read-model-v1"
 
 set +e
@@ -63,6 +65,24 @@ REQUIRED_STATUSES = {
     "intervention-required",
     "disclosure-incomplete",
     "closure-ready",
+}
+REQUIRED_PROOF_STATES = {
+    "proof-valid",
+    "proof-missing",
+    "proof-failed",
+    "proof-stale",
+    "proof-contradictory",
+    "proof-scope-mismatch",
+    "proof-unknown",
+}
+REQUIRED_HUMAN_BOUNDARY_STATES = {
+    "none",
+    "approval-required",
+    "review-required",
+    "exception-required",
+    "revocation-active",
+    "denied",
+    "unknown",
 }
 FORBIDDEN_CONSUMERS = {
     "runtime",
@@ -289,6 +309,10 @@ def validate_schema_or_fallback(schema, data, context):
     authorization = require_object(data, "authorization", failures, context)
     if authorization.get("status") not in {"authorized", "authority-ambiguity", "revoked", "denied", "review-required", "unknown"}:
         failures.append(f"{context}: schema validation failed: authorization.status is invalid")
+    if authorization.get("proof_state") not in REQUIRED_PROOF_STATES:
+        failures.append(f"{context}: schema validation failed: authorization.proof_state is invalid")
+    if authorization.get("human_boundary_state") not in REQUIRED_HUMAN_BOUNDARY_STATES:
+        failures.append(f"{context}: schema validation failed: authorization.human_boundary_state is invalid")
     for key in ("active_grants", "open_approvals", "active_exceptions", "active_revocations"):
         if not is_ref_array(authorization.get(key)):
             failures.append(f"{context}: schema validation failed: authorization.{key} must be a unique string list")
@@ -743,6 +767,25 @@ def validate_one(schema, path):
         failures.append(f"{context}: review-required health must explain uncertainty in diagnostics")
     if status == "authority-ambiguity" and data["authorization"]["status"] != "authority-ambiguity":
         failures.append(f"{context}: authority-ambiguity health must match authorization status")
+    proof_state = data["authorization"].get("proof_state")
+    human_boundary_state = data["authorization"].get("human_boundary_state")
+    auth_status = data["authorization"]["status"]
+    if auth_status == "authorized" and proof_state not in {"proof-valid", "proof-stale"}:
+        failures.append(f"{context}: authorized posture must carry proof-valid or proof-stale")
+    if auth_status == "authority-ambiguity" and proof_state not in {"proof-missing", "proof-contradictory", "proof-scope-mismatch", "proof-unknown"}:
+        failures.append(f"{context}: authority-ambiguity must carry a fail-closed proof state")
+    if data["authorization"].get("open_approvals") and human_boundary_state != "approval-required":
+        failures.append(f"{context}: open approvals must surface approval-required human boundary")
+    if proof_state == "proof-missing" and human_boundary_state not in {"approval-required", "review-required", "unknown"}:
+        failures.append(f"{context}: proof-missing must carry a typed human boundary")
+    if proof_state in {"proof-contradictory", "proof-scope-mismatch"} and human_boundary_state not in {"review-required", "revocation-active"}:
+        failures.append(f"{context}: contradictory or scope-mismatched proof must require review or expose revocation")
+    if proof_state == "proof-stale" and data["freshness"]["status"] != "stale":
+        failures.append(f"{context}: proof-stale must match stale freshness")
+    if auth_status == "denied" and human_boundary_state != "denied":
+        failures.append(f"{context}: denied authorization must surface denied human boundary")
+    if auth_status == "revoked" and human_boundary_state != "revocation-active":
+        failures.append(f"{context}: revoked authorization must surface revocation-active human boundary")
     if status == "revoked" and data["authorization"]["status"] != "revoked" and data["lifecycle"]["state"] != "revoked":
         failures.append(f"{context}: revoked health must cite revoked authorization or lifecycle state")
     if status == "unsupported" and data["support"]["support_status"] != "unsupported":
@@ -776,6 +819,23 @@ def mutate_negative_controls(schema, valid_file):
     authority_widening["authority"]["may_authorize"] = True
     if not validate_schema_or_fallback(schema, authority_widening, "authority-widening"):
         failures.append("authority-widening negative control unexpectedly passed schema")
+
+    missing_proof_state = copy.deepcopy(original)
+    missing_proof_state["authorization"].pop("proof_state", None)
+    if not validate_schema_or_fallback(schema, missing_proof_state, "missing-proof-state"):
+        failures.append("missing-proof-state negative control unexpectedly passed schema")
+
+    approval_boundary_erasure = copy.deepcopy(original)
+    approval_boundary_erasure["authorization"]["status"] = "authority-ambiguity"
+    approval_boundary_erasure["authorization"]["proof_state"] = "proof-missing"
+    approval_boundary_erasure["authorization"]["human_boundary_state"] = "none"
+    approval_boundary_erasure["authorization"]["open_approvals"] = ["fixture/approval-request.yml"]
+    if not validate_schema_or_fallback(schema, approval_boundary_erasure, "approval-boundary-erasure"):
+        if not (
+            approval_boundary_erasure["authorization"].get("open_approvals")
+            and approval_boundary_erasure["authorization"].get("human_boundary_state") != "approval-required"
+        ):
+            failures.append("approval-boundary-erasure negative control unexpectedly passed semantic check")
 
     digest_drift = copy.deepcopy(original)
     first_key = next(iter(digest_drift["source_digests"]))
@@ -811,6 +871,17 @@ def validate_fixture_contract(fixtures_root, fixture_output_root, schema):
             actual = data.get("health", {}).get("status")
             if expected and actual != expected:
                 failures.append(f"{health_file}: expected fixture status {expected}, got {actual}")
+            expected_case = next((case for case in fixture_set.get("cases", []) if case.get("case_id") == data.get("run_id")), {})
+            expected_proof_state = expected_case.get("expected_proof_state")
+            if expected_proof_state and data.get("authorization", {}).get("proof_state") != expected_proof_state:
+                failures.append(
+                    f"{health_file}: expected proof state {expected_proof_state}, got {data.get('authorization', {}).get('proof_state')}"
+                )
+            expected_boundary = expected_case.get("expected_human_boundary_state")
+            if expected_boundary and data.get("authorization", {}).get("human_boundary_state") != expected_boundary:
+                failures.append(
+                    f"{health_file}: expected human boundary {expected_boundary}, got {data.get('authorization', {}).get('human_boundary_state')}"
+                )
     return failures
 
 

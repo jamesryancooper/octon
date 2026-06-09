@@ -6,6 +6,8 @@ validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-run-hea
 cases:
   - case_id: "healthy"
     expected_status: "healthy"
+    expected_proof_state: "proof-valid"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "running"
       decision_state: "allow"
@@ -20,6 +22,8 @@ cases:
 
   - case_id: "blocked"
     expected_status: "blocked"
+    expected_proof_state: "proof-failed"
+    expected_human_boundary_state: "denied"
     facts:
       lifecycle_state: "failed"
       decision_state: "denied"
@@ -34,6 +38,8 @@ cases:
 
   - case_id: "stale"
     expected_status: "stale"
+    expected_proof_state: "proof-stale"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "running"
       decision_state: "allow"
@@ -48,6 +54,8 @@ cases:
 
   - case_id: "unsupported"
     expected_status: "unsupported"
+    expected_proof_state: "proof-valid"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "running"
       decision_state: "allow"
@@ -62,6 +70,8 @@ cases:
 
   - case_id: "revoked"
     expected_status: "revoked"
+    expected_proof_state: "proof-failed"
+    expected_human_boundary_state: "revocation-active"
     facts:
       lifecycle_state: "running"
       decision_state: "allow"
@@ -75,7 +85,9 @@ cases:
       freshness: "fresh"
 
   - case_id: "approval-required"
-    expected_status: "approval-required"
+    expected_status: "authority-ambiguity"
+    expected_proof_state: "proof-missing"
+    expected_human_boundary_state: "approval-required"
     facts:
       lifecycle_state: "bound"
       decision_state: "pending"
@@ -90,6 +102,8 @@ cases:
 
   - case_id: "review-required"
     expected_status: "review-required"
+    expected_proof_state: "proof-valid"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "running"
       decision_state: "allow"
@@ -103,8 +117,43 @@ cases:
       freshness: "fresh"
       runtime_disagreement: true
 
+  - case_id: "scope-mismatch"
+    expected_status: "authority-ambiguity"
+    expected_proof_state: "proof-scope-mismatch"
+    expected_human_boundary_state: "review-required"
+    facts:
+      lifecycle_state: "running"
+      decision_state: "allow"
+      route_status: "allow"
+      pack_status: "allow"
+      authorization: "authorized"
+      authorization_scope_mismatch: true
+      evidence: "complete"
+      rollback: "ready"
+      intervention: "none"
+      disclosure: "unknown"
+      freshness: "fresh"
+
+  - case_id: "contradictory-proof"
+    expected_status: "revoked"
+    expected_proof_state: "proof-contradictory"
+    expected_human_boundary_state: "revocation-active"
+    facts:
+      lifecycle_state: "running"
+      decision_state: "allow"
+      route_status: "allow"
+      pack_status: "allow"
+      authorization: "contradictory"
+      evidence: "complete"
+      rollback: "ready"
+      intervention: "none"
+      disclosure: "unknown"
+      freshness: "fresh"
+
   - case_id: "evidence-incomplete"
     expected_status: "evidence-incomplete"
+    expected_proof_state: "proof-valid"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "succeeded"
       decision_state: "allow"
@@ -119,6 +168,8 @@ cases:
 
   - case_id: "rollback-required"
     expected_status: "rollback-required"
+    expected_proof_state: "proof-valid"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "running"
       decision_state: "allow"
@@ -133,6 +184,8 @@ cases:
 
   - case_id: "intervention-required"
     expected_status: "intervention-required"
+    expected_proof_state: "proof-valid"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "running"
       decision_state: "allow"
@@ -147,6 +200,8 @@ cases:
 
   - case_id: "disclosure-incomplete"
     expected_status: "disclosure-incomplete"
+    expected_proof_state: "proof-valid"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "succeeded"
       decision_state: "allow"
@@ -161,6 +216,8 @@ cases:
 
   - case_id: "closure-ready"
     expected_status: "closure-ready"
+    expected_proof_state: "proof-valid"
+    expected_human_boundary_state: "none"
     facts:
       lifecycle_state: "succeeded"
       decision_state: "allow"

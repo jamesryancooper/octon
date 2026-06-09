@@ -1,0 +1,15 @@
+   Compiling octon_authority_engine v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/authority_engine)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.04s
+     Running unittests src/lib.rs (.octon/generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_authority_engine-f55355a0f072690d)
+
+running 7 tests
+test implementation::tests::read_model_cannot_create_authority_grant ... ok
+test implementation::tests::generic_active_approval_grant_is_rejected ... ok
+test implementation::tests::generated_output_cannot_create_authority_grant ... ok
+test implementation::tests::invoke_service_requests_always_grant_service_invocation_effects ... ok
+test implementation::tests::denied_grant_rejects_effect_consumption ... ok
+test implementation::tests::typed_approval_grant_authorizes_delegated_consumption ... ok
+test implementation::tests::effect_consumption_rejects_missing_grant_provenance ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 68 filtered out; finished in 2.15s
+

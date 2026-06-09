@@ -1,0 +1,20 @@
+[OK] proposal manifest parses
+[OK] proposal kind supports implementation-conformance gate
+[OK] implementation conformance review exists
+[OK] conformance verdict is explicit
+[OK] unresolved item count is numeric
+[OK] conformance review includes section: Blockers
+[OK] conformance review includes section: Checked Evidence
+[OK] conformance review includes section: Promotion Target Coverage
+[OK] conformance review includes section: Implementation Map Coverage
+[OK] conformance review includes section: Validator Coverage
+[OK] conformance review includes section: Generated Output Coverage
+[OK] conformance review includes section: Rollback Coverage
+[OK] conformance review includes section: Downstream Reference Coverage
+[OK] conformance review includes section: Exclusions
+[OK] conformance review includes section: Final Closeout Recommendation
+[OK] promotion targets are present
+[OK] promotion target exists: .octon/framework/engine/runtime/crates/authority_engine/
+[OK] promotion target exists: .octon/framework/constitution/contracts/authority/
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/tests/
+Validation summary: errors=0 warnings=0

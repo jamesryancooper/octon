@@ -495,6 +495,7 @@ acp:
           workflow_mode: [human-only, role-mediated]
           capability_classification: [human-only, role-mediated]
           boundary_route: [allow]
+          boundary_basis: [typed-human-boundary, already-bound-grant]
       require:
         acp: ACP-1
         phase: promote

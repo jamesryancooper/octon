@@ -80,6 +80,28 @@
         "minLength": 1
       }
     },
+    "typed_exception_boundary": {
+      "$ref": "#/$defs/typed_exception_boundary"
+    },
+    "authority_provenance_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "approval_authority_source": {
+      "type": ["string", "null"],
+      "not": {
+        "enum": [
+          "generated-output",
+          "generated-effective",
+          "generated-projection",
+          "read-model",
+          "operator-read-model"
+        ]
+      }
+    },
     "projection_sources": {
       "type": "array",
       "items": {
@@ -96,6 +118,21 @@
     }
   },
   "$defs": {
+    "typed_exception_boundary": {
+      "type": ["string", "null"],
+      "enum": [
+        "scope-expansion",
+        "policy-override",
+        "unresolved-risk-acceptance",
+        "governance-mutation",
+        "contradictory-evidence-resolution",
+        "stale-evidence-acceptance",
+        "authority-ambiguity",
+        "unsafe-resume",
+        "external-irreversible-effect",
+        null
+      ]
+    },
     "projection_source": {
       "type": "object",
       "additionalProperties": false,

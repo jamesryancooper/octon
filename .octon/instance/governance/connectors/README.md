@@ -5,6 +5,7 @@ Safe Start surface is machine-readable under this directory.
 
 Repo-local connector posture declarations live in:
 
+- `external-effect-delegation-boundaries.yml`
 - `registry.yml`
 - `posture.yml`
 
@@ -23,6 +24,10 @@ authorization, credential authorization, or live execution authority.
 - First live effectful connector use requires support admission, capability
   admission, egress and credential policy, evidence requirements, rollback
   posture, and the existing run authorization path.
+- Machine-delegated connector or external-effect execution requires explicit
+  token, scope, egress, replay or compensation, and retained receipt proof.
+- Irreversible external effects remain human-required unless rollback or
+  compensation proof is explicit and machine-checkable.
 - Unknown connector classes are blocked until explicitly registered and mapped.
 
 ## Contract

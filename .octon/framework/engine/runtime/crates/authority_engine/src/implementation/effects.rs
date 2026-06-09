@@ -1568,10 +1568,46 @@ fn approval_denied(
     {
         return true;
     }
+    if grant
+        .typed_exception_boundary
+        .as_deref()
+        .map(is_valid_typed_exception_boundary)
+        != Some(true)
+    {
+        return true;
+    }
+    if grant.grant_consumption_mode.as_deref() != Some(GRANT_CONSUMPTION_MODE_DELEGATED_EXECUTION) {
+        return true;
+    }
+    if grant.authority_provenance_refs.is_empty()
+        || !grant
+            .authority_provenance_refs
+            .iter()
+            .any(|reference| retained_authority_provenance_ref_exists(repo_root, reference))
+    {
+        return true;
+    }
     payload
         .approval_grant_refs
         .iter()
         .any(|grant_ref| !active_yaml_ref(repo_root, grant_ref))
+}
+
+fn retained_authority_provenance_ref_exists(repo_root: &Path, reference: &str) -> bool {
+    let trimmed = reference.trim();
+    if trimmed.is_empty() {
+        return false;
+    }
+    if trimmed.starts_with(".octon/generated/") || trimmed.starts_with(".octon/inputs/") {
+        return false;
+    }
+    if !(trimmed.starts_with(".octon/state/control/execution/")
+        || trimmed.starts_with(".octon/state/evidence/control/execution/")
+        || trimmed.starts_with(".octon/state/evidence/runs/"))
+    {
+        return false;
+    }
+    repo_ref_exists(repo_root, trimmed)
 }
 
 fn exception_denied(
@@ -1756,6 +1792,7 @@ fn approval_trace_refs(payload: &AuthorizedEffectPayload, grant: &GrantBundle) -
     refs.extend(payload.approval_grant_refs.clone());
     refs.extend(grant.exception_lease_refs.clone());
     refs.extend(grant.revocation_refs.clone());
+    refs.extend(grant.authority_provenance_refs.clone());
     dedupe_strings(&refs)
 }
 

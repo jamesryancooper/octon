@@ -50,3 +50,7 @@ connector_admission:
     effect class, support posture, policy, evidence, rollback, and authorization.
     Connector admissions and trust dossiers do not authorize execution by
     themselves; material effects remain run-contract and authorization bound.
+    Machine-delegated connector or external-effect execution also requires
+    authorized effect token, scope, egress, replay or compensation, retained
+    receipt, and irreversibility proof. Generated connector summaries remain
+    non-authority.

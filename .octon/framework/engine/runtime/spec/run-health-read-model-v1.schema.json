@@ -319,6 +319,8 @@
       "additionalProperties": false,
       "required": [
         "status",
+        "proof_state",
+        "human_boundary_state",
         "active_grants",
         "open_approvals",
         "active_exceptions",
@@ -332,6 +334,28 @@
             "revoked",
             "denied",
             "review-required",
+            "unknown"
+          ]
+        },
+        "proof_state": {
+          "enum": [
+            "proof-valid",
+            "proof-missing",
+            "proof-failed",
+            "proof-stale",
+            "proof-contradictory",
+            "proof-scope-mismatch",
+            "proof-unknown"
+          ]
+        },
+        "human_boundary_state": {
+          "enum": [
+            "none",
+            "approval-required",
+            "review-required",
+            "exception-required",
+            "revocation-active",
+            "denied",
             "unknown"
           ]
         },

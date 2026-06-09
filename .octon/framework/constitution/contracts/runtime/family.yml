@@ -266,6 +266,20 @@ workflow_statechart_task_harness:
     compile_receipt_schema_ref: ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-compile-receipt-v1.schema.json"
     compile_receipt_runtime_schema_ref: ".octon/framework/engine/runtime/spec/task-specific-execution-harness-compile-receipt-v1.schema.json"
     rule: "Task-specific harness records bind the required objective, run-contract, support, capability, context, authorization, effect-token, evidence, rollback, human-intervention, model/cost, and closeout envelope before authorization is requested."
+  delegated_governance_contract:
+    schema_ref: ".octon/framework/constitution/contracts/authority/delegated-governance-contract-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/delegated-governance-contract-v1.md"
+    lifecycle_projection_schema_ref: ".octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json"
+    inventory_ref: ".octon/framework/orchestration/governance/delegated-governance-inventory-v1.yml"
+    retained_evidence_root: ".octon/state/evidence/runs"
+    rule: >-
+      Non-lifecycle domains may use the shared delegated-governance contract to
+      bind safe delegation, evidence gates, dispatch receipts, completion
+      receipts, replay or compensation posture, automated recovery, and
+      human-only boundaries before execution. The contract is a proof gate and
+      classification primitive; material execution still requires run
+      contracts, authority routing, grant bundles, effect-token consumption,
+      retained receipts, and Run Journal coverage.
   agent_node_model_call:
     agent_node:
       schema_ref: ".octon/framework/constitution/contracts/runtime/agent-node-v1.schema.json"

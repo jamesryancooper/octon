@@ -5,6 +5,21 @@
   "description": "Operation-level connector contract for v4 connector admission. MCP, API, browser, service, and tool availability is never execution authority.",
   "type": "object",
   "additionalProperties": true,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "side_effect_class": {
+            "enum": ["external_effect", "destructive"]
+          }
+        },
+        "required": ["side_effect_class"]
+      },
+      "then": {
+        "required": ["effect_delegation_boundaries"]
+      }
+    }
+  ],
   "required": [
     "schema_version",
     "connector_id",
@@ -48,6 +63,56 @@
     "egress_requirements": { "type": "array" },
     "replayability": { "type": "string", "minLength": 1 },
     "rollback_compensation_posture": { "type": "string", "minLength": 1 },
+    "effect_delegation_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "machine_delegation_requires",
+        "scope_proof_required",
+        "egress_proof_required",
+        "authorized_effect_token_required",
+        "replay_or_compensation_proof_required",
+        "retained_receipt_proof_required",
+        "irreversibility_classification",
+        "irreversible_external_effect_route",
+        "generated_outputs_authorize_execution",
+        "permission_widening_requires_typed_human_boundary"
+      ],
+      "properties": {
+        "machine_delegation_requires": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "support-target-and-capability-admission",
+              "authorized-effect-token-proof",
+              "scope-containment-proof",
+              "egress-policy-or-empty-egress-proof",
+              "replay-or-compensation-proof",
+              "retained-connector-and-run-receipts",
+              "run-authorization"
+            ]
+          }
+        },
+        "scope_proof_required": { "const": true },
+        "egress_proof_required": { "const": true },
+        "authorized_effect_token_required": { "const": true },
+        "replay_or_compensation_proof_required": { "const": true },
+        "retained_receipt_proof_required": { "const": true },
+        "irreversibility_classification": {
+          "type": "string",
+          "enum": ["none", "reversible", "compensable", "irreversible", "unknown"]
+        },
+        "irreversible_external_effect_route": {
+          "type": "string",
+          "enum": ["deny", "human_required", "break_glass_only", "deferred"]
+        },
+        "generated_outputs_authorize_execution": { "const": false },
+        "permission_widening_requires_typed_human_boundary": { "const": true }
+      }
+    },
     "evidence_obligations": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }

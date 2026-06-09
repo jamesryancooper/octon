@@ -1,0 +1,70 @@
+[OK] predecessor child implemented: authority-engine-typed-exception-grants
+[OK] implementation receipt for authority-engine-typed-exception-grants exists
+[OK] predecessor child implemented: mission-runtime-proof-first-posture
+[OK] implementation receipt for mission-runtime-proof-first-posture exists
+[OK] predecessor child implemented: connector-external-effect-delegation-boundaries
+[OK] implementation receipt for connector-external-effect-delegation-boundaries exists
+[OK] predecessor child implemented: run-health-proof-state-read-models
+[OK] implementation receipt for run-health-proof-state-read-models exists
+[OK] predecessor child implemented: workflow-capability-human-boundary-classification
+[OK] implementation receipt for workflow-capability-human-boundary-classification exists
+[OK] delegated governance contract schema exists
+[OK] approval request schema exists
+[OK] approval grant schema exists
+[OK] grant bundle schema exists
+[OK] run-health read-model schema exists
+[OK] connector operation schema exists
+[OK] connector external-effect boundaries exists
+[OK] workflow capability map exists
+[OK] workflow capability map schema exists
+[OK] mission autonomy runtime spec exists
+[OK] delegated contract requires negative-control requirements
+[OK] default approval primitive denied
+[OK] dispatch requires retained proof
+[OK] generated authority denied
+[OK] read-model authority denied
+[OK] child-authority takeover denied
+[OK] external irreversible effect requires explicit proof
+[OK] negative-control class declared: approval-default-primitive
+[OK] negative-control class declared: dispatch-without-retained-proof
+[OK] negative-control class declared: missing-proof
+[OK] negative-control class declared: stale-digest
+[OK] negative-control class declared: scope-mismatch
+[OK] negative-control class declared: generated-output-authority-misuse
+[OK] negative-control class declared: read-model-authority-misuse
+[OK] negative-control class declared: child-authority-takeover
+[OK] negative-control class declared: unsupported-mode
+[OK] negative-control class declared: unsafe-resume
+[OK] negative-control class declared: policy-override
+[OK] negative-control class declared: governance-mutation-without-typed-exception
+[OK] negative-control class declared: external-irreversible-effect-without-proof
+[OK] fail-closed evidence routes required
+[OK] generated authority attempts deny
+[OK] unsupported modes deny
+[OK] external irreversible effects deny by default
+[OK] shape-derived approval denied
+[OK] generated and read-model authority denied
+[OK] approval requests reject generated/read-model authority sources
+[OK] approval grants expose typed exception boundaries
+[OK] grant bundle consumption cannot mint fresh authority
+[OK] run-health requires proof and human-boundary state
+[OK] run-health proof states cover missing stale contradictory scope mismatch
+[OK] run-health status covers ambiguity and denial
+[OK] connector boundaries deny generated authority and missing proof
+[OK] connector irreversible-effect negative control declared
+[OK] connector schema requires concrete proof gates
+[OK] connector generated outputs cannot authorize execution
+[OK] workflow capability classification is proof-first and generated-index non-authority
+[OK] workflow capability denies route-shape approval
+[OK] workflow capability denies workflow-shape approval
+[OK] workflow capability denies extension-shape approval
+[OK] workflow capability denies generated-index approval
+[OK] workflow capability denies generic-importance approval
+[OK] role-mediated class consumes grants only
+[OK] human-only class requires typed exception
+[OK] human-only workflows name non-machine-provable typed boundary
+[OK] capability schema denies generated-index authority
+[OK] mission runtime documents unsupported and missing proof fail-closed cases
+[OK] mission runtime documents stale contradictory scope generated/read-model fail-closed cases
+[OK] mission runtime documents unsafe resume fail-closed case
+Validation summary: errors=0 warnings=0

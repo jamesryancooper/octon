@@ -1,0 +1,466 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/delegated-governance-contract-v1.schema.json",
+  "title": "Octon Delegated Governance Contract v1",
+  "description": "Shared proof-first delegation semantics for non-lifecycle Octon domains. The contract classifies whether a surface may be delegated, requires human exception authority, consumes an existing grant, or remains non-authorizing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_id",
+    "domain_id",
+    "status",
+    "decision_class",
+    "lifecycle_projection",
+    "safe_delegation",
+    "approval_posture",
+    "authority_zones_allowed",
+    "declared_scope_source",
+    "required_evidence_gates",
+    "required_receipts_before_dispatch",
+    "required_receipts_before_completion",
+    "replay_or_compensation_class",
+    "automated_recovery_policy",
+    "fail_closed_behavior",
+    "human_only_boundaries",
+    "typed_human_exception_grants",
+    "grant_consumption",
+    "approval_posture_derivation",
+    "non_authority_surfaces",
+    "negative_control_requirements",
+    "owner",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "delegated-governance-contract-v1" },
+    "contract_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "domain_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "superseded", "retired"]
+    },
+    "decision_class": { "$ref": "#/$defs/decision_class" },
+    "lifecycle_projection": {
+      "type": "string",
+      "enum": ["delegated-execution", "new-governance-decision", "non-dispatch"]
+    },
+    "safe_delegation": { "type": "boolean" },
+    "approval_posture": {
+      "type": "string",
+      "enum": ["pre-granted", "approval-required", "stage-only", "deny"]
+    },
+    "authority_zones_allowed": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/authority_zone" },
+      "uniqueItems": true
+    },
+    "declared_scope_source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "required_evidence_gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "required_receipts_before_dispatch": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "required_receipts_before_completion": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "replay_or_compensation_class": {
+      "type": "string",
+      "enum": [
+        "inspect-only",
+        "idempotent",
+        "idempotent-rerun",
+        "bounded-retry",
+        "no-op-safe",
+        "compensating-action-required",
+        "non-replay-safe"
+      ]
+    },
+    "automated_recovery_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "requires_evidence_before_retry",
+        "allowed_recovery_actions",
+        "disallowed_recovery_actions"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["none", "bounded-retry", "replay-from-journal", "compensating-action", "stage-only"]
+        },
+        "requires_evidence_before_retry": { "const": true },
+        "allowed_recovery_actions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "disallowed_recovery_actions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/disallowed_recovery_action" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "fail_closed_behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_route",
+        "on_missing_evidence",
+        "on_stale_evidence",
+        "on_scope_mismatch",
+        "on_authority_ambiguity",
+        "on_generated_authority_attempt",
+        "on_grant_mismatch",
+        "on_contradictory_evidence",
+        "on_unsupported_mode",
+        "on_unsafe_resume",
+        "on_policy_override",
+        "on_governance_mutation",
+        "on_external_irreversible_effect",
+        "on_human_boundary"
+      ],
+      "properties": {
+        "default_route": { "$ref": "#/$defs/fail_closed_route" },
+        "on_missing_evidence": { "$ref": "#/$defs/fail_closed_route" },
+        "on_stale_evidence": { "$ref": "#/$defs/fail_closed_route" },
+        "on_scope_mismatch": { "$ref": "#/$defs/fail_closed_route" },
+        "on_authority_ambiguity": { "$ref": "#/$defs/fail_closed_route" },
+        "on_generated_authority_attempt": { "const": "deny" },
+        "on_grant_mismatch": { "$ref": "#/$defs/fail_closed_route" },
+        "on_contradictory_evidence": { "$ref": "#/$defs/fail_closed_route" },
+        "on_unsupported_mode": { "const": "deny" },
+        "on_unsafe_resume": { "$ref": "#/$defs/fail_closed_route" },
+        "on_policy_override": { "$ref": "#/$defs/fail_closed_route" },
+        "on_governance_mutation": { "$ref": "#/$defs/fail_closed_route" },
+        "on_external_irreversible_effect": { "const": "deny" },
+        "on_human_boundary": {
+          "type": "string",
+          "enum": ["escalate", "deny"]
+        }
+      }
+    },
+    "human_only_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/human_only_boundary" },
+      "uniqueItems": true
+    },
+    "typed_human_exception_grants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_for_boundaries",
+        "required_fields",
+        "may_create_new_authority",
+        "may_be_inferred_from_shape",
+        "expiry_or_retirement_required",
+        "revocation_behavior_required"
+      ],
+      "properties": {
+        "required_for_boundaries": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/human_only_boundary" },
+          "uniqueItems": true
+        },
+        "required_fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "scope",
+              "owner",
+              "reason",
+              "evidence_refs",
+              "expiry_or_retirement",
+              "revocation_behavior"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "may_create_new_authority": { "const": true },
+        "may_be_inferred_from_shape": { "const": false },
+        "expiry_or_retirement_required": { "const": true },
+        "revocation_behavior_required": { "const": true }
+      }
+    },
+    "grant_consumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "consumes_bound_grant_only",
+        "mints_fresh_authority",
+        "requires_current_grant_ref",
+        "requires_effect_token_or_equivalent",
+        "requires_consumption_receipt",
+        "required_consumption_receipt_refs"
+      ],
+      "properties": {
+        "consumes_bound_grant_only": { "const": true },
+        "mints_fresh_authority": { "const": false },
+        "requires_current_grant_ref": { "const": true },
+        "requires_effect_token_or_equivalent": { "const": true },
+        "requires_consumption_receipt": { "const": true },
+        "required_consumption_receipt_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "approval_posture_derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_shape_can_derive_approval",
+        "workflow_shape_can_derive_approval",
+        "extension_shape_can_derive_approval",
+        "adapter_shape_can_derive_approval",
+        "generic_importance_can_derive_approval"
+      ],
+      "properties": {
+        "route_shape_can_derive_approval": { "const": false },
+        "workflow_shape_can_derive_approval": { "const": false },
+        "extension_shape_can_derive_approval": { "const": false },
+        "adapter_shape_can_derive_approval": { "const": false },
+        "generic_importance_can_derive_approval": { "const": false }
+      }
+    },
+    "non_authority_surfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generated_outputs_can_grant_authority",
+        "read_models_can_grant_authority",
+        "generated_outputs_can_satisfy_evidence_gate_only_when_explicitly_permitted",
+        "read_models_can_satisfy_evidence_gate_only_when_explicitly_permitted",
+        "forbidden_authority_consumers"
+      ],
+      "properties": {
+        "generated_outputs_can_grant_authority": { "const": false },
+        "read_models_can_grant_authority": { "const": false },
+        "generated_outputs_can_satisfy_evidence_gate_only_when_explicitly_permitted": { "const": true },
+        "read_models_can_satisfy_evidence_gate_only_when_explicitly_permitted": { "const": true },
+        "forbidden_authority_consumers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "negative_control_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "failure_classes",
+        "default_approval_denied",
+        "dispatch_requires_retained_proof",
+        "generated_authority_denied",
+        "read_model_authority_denied",
+        "fail_closed_states",
+        "child_authority_takeover_denied",
+        "external_irreversible_effect_requires_explicit_proof"
+      ],
+      "properties": {
+        "failure_classes": {
+          "type": "array",
+          "minItems": 12,
+          "items": { "$ref": "#/$defs/negative_control_failure_class" },
+          "uniqueItems": true
+        },
+        "default_approval_denied": { "const": true },
+        "dispatch_requires_retained_proof": { "const": true },
+        "generated_authority_denied": { "const": true },
+        "read_model_authority_denied": { "const": true },
+        "fail_closed_states": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "string",
+            "enum": [
+              "missing-proof",
+              "stale-proof",
+              "contradictory-proof",
+              "scope-mismatch"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "child_authority_takeover_denied": { "const": true },
+        "external_irreversible_effect_requires_explicit_proof": { "const": true }
+      }
+    },
+    "inventory_ref": { "type": "string", "minLength": 1 },
+    "owner": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "minLength": 1 },
+    "updated_at": { "type": ["string", "null"], "minLength": 1 }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "decision_class": { "enum": ["delegated-execution", "grant-consumption"] } },
+        "required": ["decision_class"]
+      },
+      "then": {
+        "properties": {
+          "safe_delegation": { "const": true },
+          "lifecycle_projection": { "const": "delegated-execution" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "decision_class": { "const": "typed-human-exception" } },
+        "required": ["decision_class"]
+      },
+      "then": {
+        "properties": {
+          "safe_delegation": { "const": false },
+          "approval_posture": { "const": "approval-required" },
+          "lifecycle_projection": { "const": "new-governance-decision" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision_class": {
+            "enum": ["deny-only", "projection-only", "generated-non-authority", "needs-more-evidence", "out-of-scope"]
+          }
+        },
+        "required": ["decision_class"]
+      },
+      "then": {
+        "properties": {
+          "safe_delegation": { "const": false },
+          "lifecycle_projection": { "const": "non-dispatch" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "decision_class": { "const": "grant-consumption" } },
+        "required": ["decision_class"]
+      },
+      "then": {
+        "properties": {
+          "grant_consumption": {
+            "properties": {
+              "consumes_bound_grant_only": { "const": true },
+              "mints_fresh_authority": { "const": false }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "decision_class": {
+      "type": "string",
+      "enum": [
+        "delegated-execution",
+        "typed-human-exception",
+        "deny-only",
+        "projection-only",
+        "generated-non-authority",
+        "grant-consumption",
+        "needs-more-evidence",
+        "out-of-scope"
+      ]
+    },
+    "authority_zone": {
+      "type": "string",
+      "enum": [
+        "octon-run-bound",
+        "octon-generated-derived",
+        "octon-authored-governance",
+        "workspace-declared",
+        "current-run-agent-artifact",
+        "protected-or-external"
+      ]
+    },
+    "fail_closed_route": {
+      "type": "string",
+      "enum": ["deny", "stage-only", "escalate"]
+    },
+    "human_only_boundary": {
+      "type": "string",
+      "enum": [
+        "scope-expansion",
+        "policy-override",
+        "unresolved-risk-acceptance",
+        "governance-mutation",
+        "support-widening",
+        "ownership-change",
+        "contradictory-evidence-resolution",
+        "stale-evidence-acceptance",
+        "authority-ambiguity",
+        "unsafe-resume",
+        "external-irreversible-effect",
+        "public-or-external-commitment",
+        "break-glass",
+        "approval-grant-creation",
+        "exception-lease-creation",
+        "revocation"
+      ]
+    },
+    "disallowed_recovery_action": {
+      "type": "string",
+      "enum": [
+        "scope-expansion",
+        "policy-override",
+        "fresh-authority-creation",
+        "generated-authority-substitution",
+        "grant-reuse-without-scope-match",
+        "external-effect-without-token"
+      ]
+    },
+    "negative_control_failure_class": {
+      "type": "string",
+      "enum": [
+        "approval-default-primitive",
+        "dispatch-without-retained-proof",
+        "missing-proof",
+        "stale-digest",
+        "scope-mismatch",
+        "generated-output-authority-misuse",
+        "read-model-authority-misuse",
+        "child-authority-takeover",
+        "unsupported-mode",
+        "unsafe-resume",
+        "policy-override",
+        "governance-mutation-without-typed-exception",
+        "external-irreversible-effect-without-proof"
+      ]
+    }
+  }
+}

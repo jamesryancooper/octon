@@ -1,0 +1,8 @@
+== Workflow Authority Derivation Validation ==
+[OK] .github/workflows/pr-autonomy-policy.yml references canonical authority artifacts
+[OK] .github/workflows/ai-review-gate.yml references canonical authority artifacts
+[OK] .github/workflows/closure-certification.yml references canonical authority artifacts
+[OK] .github/workflows/uec-cutover-validate.yml references canonical authority artifacts
+[OK] .github/workflows/uec-cutover-certify.yml references canonical authority artifacts
+[OK] .github/workflows/unified-execution-constitution-closure.yml references canonical authority artifacts
+Validation summary: errors=0

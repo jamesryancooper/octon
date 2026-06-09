@@ -692,6 +692,52 @@ fn start_run_for_effect_consumption(
     runtime_path
 }
 
+fn write_typed_approval_grant(
+    cfg: &RuntimeConfig,
+    request_id: &str,
+    boundary: &str,
+) -> String {
+    let provenance_ref = format!(
+        ".octon/state/evidence/control/execution/typed-grant-provenance-{request_id}.yml"
+    );
+    let provenance_path = cfg.repo_root.join(&provenance_ref);
+    fs::write(
+        &provenance_path,
+        format!(
+            "schema_version: typed-grant-provenance-fixture-v1\nrequest_id: {request_id}\nboundary: {boundary}\nrecorded_at: 2026-06-09T00:00:00Z\n"
+        ),
+    )
+    .expect("write typed grant provenance");
+
+    let grant_ref = format!(
+        ".octon/state/control/execution/approvals/grants/grant-{request_id}.yml"
+    );
+    fs::write(
+        cfg.repo_root.join(&grant_ref),
+        format!(
+            "schema_version: authority-approval-grant-v1\ngrant_id: grant-{request_id}\nrequest_id: {request_id}\nrun_id: {request_id}\nstate: active\nissued_by: operator://octon-maintainers\nissued_at: 2026-06-09T00:00:00Z\nexpires_at: 2026-12-09T00:00:00Z\nquorum_policy_ref: {}\nprojection_sources: []\nreview_metadata: {{}}\nrequired_evidence:\n  - typed-human-exception-grant\n  - grant-consumption-provenance\ntyped_exception_boundary: {boundary}\nauthority_provenance_refs:\n  - {provenance_ref}\ngrant_consumption_mode: delegated-execution\nrevocation_behavior: deny-on-active-revocation\nexception_reason: fixture typed exception grant\n",
+            canonical_quorum_policy_ref()
+        ),
+    )
+    .expect("write typed approval grant");
+    grant_ref
+}
+
+fn write_generic_approval_grant(cfg: &RuntimeConfig, request_id: &str) -> String {
+    let grant_ref = format!(
+        ".octon/state/control/execution/approvals/grants/grant-{request_id}.yml"
+    );
+    fs::write(
+        cfg.repo_root.join(&grant_ref),
+        format!(
+            "schema_version: authority-approval-grant-v1\ngrant_id: grant-{request_id}\nrequest_id: {request_id}\nrun_id: {request_id}\nstate: active\nissued_by: operator://octon-maintainers\nissued_at: 2026-06-09T00:00:00Z\nexpires_at: null\nquorum_policy_ref: {}\nprojection_sources: []\nreview_metadata: {{}}\nrequired_evidence:\n  - approval-grant\n",
+            canonical_quorum_policy_ref()
+        ),
+    )
+    .expect("write generic approval grant");
+    grant_ref
+}
+
 fn read_json_value(path: &Path) -> serde_json::Value {
     serde_json::from_str(&fs::read_to_string(path).expect("read json artifact"))
         .expect("parse json artifact")
@@ -2071,6 +2117,151 @@ fn request_level_human_approval_applies_without_executor_profile() {
     let err = authorize_execution(&cfg, &policy, &request, None)
         .expect_err("request-level approval should deny without env approval");
     assert_eq!(err.code, ErrorCode::CapabilityDenied);
+}
+
+#[test]
+fn typed_approval_grant_authorizes_delegated_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "typed-grant-allow".to_string();
+    request.review_requirements.human_approval = true;
+    request.metadata.insert(
+        "typed_exception_boundary".to_string(),
+        "scope-expansion".to_string(),
+    );
+    let grant_ref = write_typed_approval_grant(&cfg, &request.request_id, "scope-expansion");
+
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("typed grant should authorize delegated consumption");
+    assert_eq!(
+        grant.typed_exception_boundary.as_deref(),
+        Some("scope-expansion")
+    );
+    assert_eq!(
+        grant.grant_consumption_mode.as_deref(),
+        Some("delegated-execution")
+    );
+    assert_eq!(grant.approval_grant_refs, vec![grant_ref]);
+    assert!(!grant.authority_provenance_refs.is_empty());
+
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("approval-bound service effect should mint");
+    verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect("typed approval provenance should verify");
+}
+
+#[test]
+fn generic_active_approval_grant_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "generic-grant-denied".to_string();
+    request.review_requirements.human_approval = true;
+    request.metadata.insert(
+        "typed_exception_boundary".to_string(),
+        "scope-expansion".to_string(),
+    );
+    write_generic_approval_grant(&cfg, &request.request_id);
+
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("generic approval grant should fail typed consumption");
+    assert_eq!(
+        err.details["reason_codes"][0].as_str(),
+        Some("ACTIVE_GRANT_TYPED_EXCEPTION_BOUNDARY_MISSING")
+    );
+}
+
+#[test]
+fn generated_output_cannot_create_authority_grant() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "generated-authority-denied".to_string();
+    request.review_requirements.human_approval = true;
+    request.metadata.insert(
+        "typed_exception_boundary".to_string(),
+        "scope-expansion".to_string(),
+    );
+    request.metadata.insert(
+        "approval_authority_source".to_string(),
+        "generated-output".to_string(),
+    );
+
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("generated output must not satisfy authority source");
+    assert_eq!(err.details["decision"].as_str(), Some("DENY"));
+    assert_eq!(
+        err.details["reason_codes"][0].as_str(),
+        Some("GENERATED_OUTPUT_AUTHORITY_FORBIDDEN")
+    );
+}
+
+#[test]
+fn read_model_cannot_create_authority_grant() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "read-model-authority-denied".to_string();
+    request.review_requirements.human_approval = true;
+    request.metadata.insert(
+        "typed_exception_boundary".to_string(),
+        "policy-override".to_string(),
+    );
+    request
+        .metadata
+        .insert("approval_authority_source".to_string(), "read-model".to_string());
+
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("read model must not satisfy authority source");
+    assert_eq!(err.details["decision"].as_str(), Some("DENY"));
+    assert_eq!(
+        err.details["reason_codes"][0].as_str(),
+        Some("READ_MODEL_AUTHORITY_FORBIDDEN")
+    );
+}
+
+#[test]
+fn effect_consumption_rejects_missing_grant_provenance() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "grant-provenance-effect-denied".to_string();
+    request.review_requirements.human_approval = true;
+    request.metadata.insert(
+        "typed_exception_boundary".to_string(),
+        "scope-expansion".to_string(),
+    );
+    write_typed_approval_grant(&cfg, &request.request_id, "scope-expansion");
+
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("typed grant should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("approval-bound service effect should mint");
+    let mut grant_without_provenance = grant;
+    grant_without_provenance.authority_provenance_refs.clear();
+
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant_without_provenance,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("approval-bound effect without provenance must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_APPROVAL_MISSING",
+        "missing_approval",
+    );
 }
 
 #[test]

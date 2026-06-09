@@ -1,0 +1,15 @@
+schema_version: generated-summary-non-authority-receipt-v1
+proposal_id: connector-external-effect-delegation-boundaries
+recorded_at: 2026-06-09T19:57:26Z
+verdict: pass
+generated_connector_summaries_authorize_execution: false
+generated_read_models_authorize_execution: false
+non_authority_surfaces:
+  - generated connector summaries
+  - generated support cards
+  - operator read models
+  - generated proposal registries
+  - generated prompts
+proof_refs:
+  - .octon/instance/governance/connectors/external-effect-delegation-boundaries.yml
+  - .octon/framework/assurance/runtime/_ops/tests/test-connector-external-effect-delegation-boundaries.sh

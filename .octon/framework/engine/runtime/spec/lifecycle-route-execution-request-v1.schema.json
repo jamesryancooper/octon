@@ -61,7 +61,11 @@
               "items": { "type": "string", "minLength": 1 }
             },
             "declared_write_scope_source": { "type": "string", "minLength": 1 },
-            "required_evidence_gates": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "required_evidence_gates": {
+              "type": "array",
+              "description": "Gate ids whose actual retained validator outcomes must be present in evidence_gate_results before dispatch.",
+              "items": { "type": "string", "minLength": 1 }
+            },
             "required_receipts_before_dispatch": { "type": "array", "items": { "type": "string", "minLength": 1 } },
             "required_receipts_before_completion": { "type": "array", "items": { "type": "string", "minLength": 1 } },
             "replay_class": { "enum": ["inspect-only", "idempotent", "idempotent-rerun", "bounded-retry", "no-op-safe", "non-replay-safe"] },
@@ -123,6 +127,10 @@
       }
     },
     "human_boundary_context": { "type": ["object", "null"] },
-    "evidence_gate_results": { "type": "object", "additionalProperties": { "type": "string" } }
+    "evidence_gate_results": {
+      "type": "object",
+      "description": "Actual retained route gate validator outcomes keyed by gate id. Producers must not synthesize pass from required_evidence_gates declarations; missing or non-pass values fail closed before dispatch.",
+      "additionalProperties": { "enum": ["pass", "fail"] }
+    }
   }
 }

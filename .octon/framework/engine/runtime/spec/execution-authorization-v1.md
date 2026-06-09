@@ -64,6 +64,12 @@ artifacts, and grant bundles under `state/control/execution/**` and
   or control lineage only. Material effects still require a valid
   `GrantBundle`, typed `AuthorizedEffect<T>`, verified `VerifiedEffect<T>`,
   retained receipt, and Run Journal coverage.
+- Delegated Governance Contract v1 may classify a non-lifecycle domain surface
+  as delegated execution, typed human exception, grant consumption, deny-only,
+  projection-only, generated non-authority, evidence-gap, or out-of-scope
+  posture. That classification can narrow or block dispatch, but it cannot
+  replace `GrantBundle`, `AuthorizedEffect<T>`, `VerifiedEffect<T>`, retained
+  receipt, or Run Journal requirements.
 
 ## Related Contracts
 
@@ -75,6 +81,7 @@ artifacts, and grant bundles under `state/control/execution/**` and
 - `authorized-effect-token-consumption-v1.schema.json`
 - `authorization-phase-result-v1.schema.json`
 - `runtime-event-v1.schema.json`
+- `delegated-governance-contract-v1.md`
 - `/.octon/framework/constitution/contracts/authority/risk-materiality-v1.schema.json`
 - `/.octon/framework/constitution/contracts/runtime/context-pack-v1.schema.json`
 - `/.octon/framework/constitution/contracts/runtime/rollback-plan-v1.schema.json`

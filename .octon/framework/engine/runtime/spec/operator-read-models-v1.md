@@ -72,6 +72,33 @@ Run health statuses are:
 - `disclosure-incomplete`
 - `closure-ready`
 
+Run health views must also expose proof-first authorization vocabulary in
+`authorization.proof_state`:
+
+- `proof-valid`
+- `proof-missing`
+- `proof-failed`
+- `proof-stale`
+- `proof-contradictory`
+- `proof-scope-mismatch`
+- `proof-unknown`
+
+When the proof state crosses a human boundary, the view must report the typed
+boundary in `authorization.human_boundary_state`:
+
+- `none`
+- `approval-required`
+- `review-required`
+- `exception-required`
+- `revocation-active`
+- `denied`
+- `unknown`
+
+Legacy or generic approval-required conditions must be represented as
+`proof-missing` plus `approval-required`, not as a control-authorizing state.
+Contradictory, stale, missing, failed, and scope-mismatched proof must remain
+operator-visible and fail closed through the health status and diagnostics.
+
 Every run health view must include canonical refs, source digests, freshness
 metadata, explicit non-authority classification, forbidden consumer
 classification, and diagnostics for uncertainty or input disagreement.

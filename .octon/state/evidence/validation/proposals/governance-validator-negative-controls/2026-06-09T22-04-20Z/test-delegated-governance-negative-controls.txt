@@ -1,0 +1,1 @@
+[OK] delegated governance negative controls reject every named failure class

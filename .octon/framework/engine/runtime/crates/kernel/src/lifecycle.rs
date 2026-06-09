@@ -3314,6 +3314,10 @@ pub(crate) fn lifecycle_execution_request_from_run(
         return Ok(None);
     };
     let checkpoint = read_checkpoint_for_run(octon_dir, &run.run_id)?;
+    let last_validator_results = checkpoint
+        .as_ref()
+        .map(|checkpoint| checkpoint.last_validator_results.as_slice())
+        .unwrap_or(&[]);
     let run_inputs = checkpoint
         .as_ref()
         .map(|checkpoint| checkpoint.run_inputs.clone())
@@ -3333,6 +3337,7 @@ pub(crate) fn lifecycle_execution_request_from_run(
         invocation_authority,
         retry_attempt,
         &run_inputs,
+        last_validator_results,
         evidence_root,
         checkpoint_path,
         Some(lifecycle_cancellation_token_path(
@@ -3354,6 +3359,7 @@ fn lifecycle_execution_request_for_route(
     invocation_authority: &str,
     retry_attempt: u32,
     run_inputs: &BTreeMap<String, String>,
+    gate_results: &[GatePlanResult],
     evidence_root: PathBuf,
     checkpoint_path: PathBuf,
     cancellation_token: Option<PathBuf>,
@@ -3448,17 +3454,7 @@ fn lifecycle_execution_request_for_route(
                 automated_recovery_policy: contract.automated_recovery_policy.clone(),
                 human_only_boundaries: contract.human_only_boundaries.clone(),
             });
-    let evidence_gate_results = route_spec
-        .delegation_contract
-        .as_ref()
-        .map(|contract| {
-            contract
-                .required_evidence_gates
-                .iter()
-                .map(|gate| (gate.clone(), "pass".to_string()))
-                .collect::<BTreeMap<_, _>>()
-        })
-        .unwrap_or_default();
+    let evidence_gate_results = evidence_gate_results_for_route(route_spec, gate_results);
     let (interaction_request_refs, interaction_return_refs) =
         lifecycle_interaction_refs_from_run_inputs(&repo_root, run_inputs)?;
     Ok(Some(LifecycleRouteExecutionRequest {
@@ -3510,6 +3506,28 @@ fn lifecycle_execution_request_for_route(
         human_boundary_context,
         evidence_gate_results,
     }))
+}
+
+fn evidence_gate_results_for_route(
+    route_spec: &RouteSpec,
+    gate_results: &[GatePlanResult],
+) -> BTreeMap<String, String> {
+    let mut results = BTreeMap::new();
+    let Some(contract) = route_spec.delegation_contract.as_ref() else {
+        return results;
+    };
+    for gate_id in &contract.required_evidence_gates {
+        if let Some(result) = gate_results
+            .iter()
+            .find(|result| result.gate_id == *gate_id)
+        {
+            results.insert(
+                gate_id.clone(),
+                if result.passed { "pass" } else { "fail" }.to_string(),
+            );
+        }
+    }
+    results
 }
 
 fn receipt_field_binding(source: &str) -> Result<Option<(&str, &str)>> {
@@ -4680,6 +4698,7 @@ routes:
             "unattended",
             0,
             &BTreeMap::new(),
+            &[],
             fixture
                 .root
                 .join(".octon/state/evidence/runs/workflows/run-1"),
@@ -4765,6 +4784,7 @@ routes:
             "unattended",
             0,
             &BTreeMap::new(),
+            &[],
             fixture
                 .root
                 .join(".octon/state/evidence/runs/workflows/run-1"),
@@ -4847,6 +4867,7 @@ routes:
             "unattended",
             0,
             &run_inputs,
+            &[],
             fixture
                 .root
                 .join(".octon/state/evidence/runs/workflows/run-1"),
@@ -4872,6 +4893,153 @@ routes:
                 .get("promotion_evidence")
                 .map(String::as_str),
             Some(".octon/framework/product/features/catalog.yml")
+        );
+    }
+
+    #[test]
+    fn lifecycle_execution_request_uses_retained_gate_results_for_dispatch_proof() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("request-gate-results");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted"] }
+states: [{ state_id: "implement" }]
+terminal_outcomes: []
+receipts: []
+routes:
+  - route_id: "run-packet-implementation"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "route-completion-and-target"
+      required_evidence_gates: ["strict-review"]
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: []
+      replay_class: "bounded-retry"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override"]
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: accepted\n");
+        let route = RoutePlanState {
+            route_id: "run-packet-implementation".to_string(),
+            route_type: "extension".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+        let evidence_root = fixture
+            .root
+            .join(".octon/state/evidence/runs/workflows/run-1");
+        let checkpoint_path = fixture
+            .root
+            .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml");
+
+        let missing_gate = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            evidence_root.clone(),
+            checkpoint_path.clone(),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+        assert!(!missing_gate
+            .evidence_gate_results
+            .contains_key("strict-review"));
+
+        let passing_results = [GatePlanResult {
+            gate_id: "strict-review".to_string(),
+            validator_id: "strict-review-validator".to_string(),
+            passed: true,
+            exit_code: Some(0),
+            stdout: String::new(),
+            stderr: String::new(),
+        }];
+        let passing_gate = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &passing_results,
+            evidence_root.clone(),
+            checkpoint_path.clone(),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(
+            passing_gate
+                .evidence_gate_results
+                .get("strict-review")
+                .map(String::as_str),
+            Some("pass")
+        );
+
+        let failing_results = [GatePlanResult {
+            gate_id: "strict-review".to_string(),
+            validator_id: "strict-review-validator".to_string(),
+            passed: false,
+            exit_code: Some(1),
+            stdout: String::new(),
+            stderr: "failed".to_string(),
+        }];
+        let failing_gate = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &failing_results,
+            evidence_root,
+            checkpoint_path,
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(
+            failing_gate
+                .evidence_gate_results
+                .get("strict-review")
+                .map(String::as_str),
+            Some("fail")
         );
     }
 

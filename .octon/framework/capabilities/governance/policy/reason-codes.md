@@ -89,7 +89,7 @@ policy engine.
 | `BOUNDARY_UNRESOLVED` | Boundary route could not be resolved for decision class/context. | Provide boundary id/set version and decision class fields. |
 | `BOUNDARY_BLOCKED` | Decision matched a boundary route of `block`. | Redesign the action or obtain explicit governance exception. |
 | `BOUNDARY_ESCALATION_REQUIRED` | Decision matched a boundary route of `escalate`. | Escalate to owner/policy authority and wait for approval signal. |
-| `MODE_VIOLATION_AUTONOMY_NOT_ALLOWED` | Autonomous execution attempted for non-`execution-role-ready` workflow classification. | Re-run in `role-mediated` or `human-only` mode, or reclassify workflow through governance process. |
+| `MODE_VIOLATION_AUTONOMY_NOT_ALLOWED` | Autonomous execution attempted for a workflow classification that lacks proof-first autonomous delegation. | Re-run only after the request binds explicit delegation proof, an already-bound role-mediated grant, or a typed human-only boundary through governance process. |
 
 ## Authority Engine Codes
 

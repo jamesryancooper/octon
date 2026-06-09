@@ -46,6 +46,18 @@ authority_routing:
   grant_bundle:
     schema_ref: ".octon/framework/constitution/contracts/authority/grant-bundle-v2.schema.json"
     evidence_root: ".octon/state/evidence/control/execution"
+  delegated_governance_contract:
+    schema_ref: ".octon/framework/constitution/contracts/authority/delegated-governance-contract-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/delegated-governance-contract-v1.md"
+    inventory_ref: ".octon/framework/orchestration/governance/delegated-governance-inventory-v1.yml"
+    evidence_root: ".octon/state/evidence/control/execution"
+    rule: >-
+      Shared delegated-governance contracts classify delegated execution,
+      typed human exception boundaries, grant consumption, deny-only posture,
+      projection-only posture, generated non-authority, and evidence gaps.
+      Route shape, workflow shape, extension shape, adapter shape, and generic
+      importance never derive approval posture. Grant consumption consumes
+      already-bound authority only and cannot mint fresh authority.
   decision_request:
     schema_ref: ".octon/framework/constitution/contracts/authority/decision-request-v1.schema.json"
     runtime_spec_ref: ".octon/framework/engine/runtime/spec/decision-request-v1.schema.json"

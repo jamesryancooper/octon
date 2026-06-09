@@ -49,9 +49,13 @@ pub(crate) use runtime_state::*;
 pub(crate) use support::*;
 
 pub(crate) use authority::{
-    budget_posture_from_preview, load_active_revocation_refs, load_existing_approval_grants,
-    reversibility_payload, review_metadata_from_env, write_approval_request,
+    approval_authority_source_from_request, approval_rationale_class_from_request,
+    authority_provenance_refs_from_request, budget_posture_from_preview,
+    is_valid_typed_exception_boundary, load_active_revocation_refs, load_existing_approval_grants,
+    non_authority_source_reason_code, reversibility_payload, review_metadata_from_env,
+    typed_boundary_reason_code, typed_exception_boundary_from_request, write_approval_request,
     write_authority_grant_bundle, write_decision_artifact,
+    GRANT_CONSUMPTION_MODE_DELEGATED_EXECUTION,
 };
 pub(crate) use autonomy::resolve_autonomy_state;
 pub(crate) use policy::{

@@ -13,5 +13,13 @@ without queue/control grounding, widen support scope, activate new capabilities,
 or treat generated projections, chat, labels, comments, dashboards, or inputs as
 authority.
 
-Fail-closed outcomes are `pause`, `stage`, `escalate`, `revoke`, `fail`, and
-`requires_decision`.
+Unattended runner posture is proof-first: route dispatch requires retained
+authorization or delegation proof before execution, and useful operator views do
+not become authority. Missing, stale, contradictory, or scope-mismatched proof
+blocks before dispatch as `authorization-proof-failed`; unsafe resume, policy
+override, unresolved risk acceptance, and other human-only boundaries block as
+`human-boundary-blocked`.
+
+Fail-closed outcomes include `pause`, `stage`, `escalate`, `revoke`, `fail`,
+`requires_decision`, `authorization-proof-failed`, and
+`human-boundary-blocked`.

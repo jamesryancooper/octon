@@ -5,7 +5,7 @@ reviewed_at: 2026-05-18T00:00:00Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:cd64c1d3087acb382f61e0d6a20c6a2eb94128647dc6469aa644bd6761edf61b
+reviewed_packet_digest: sha256:874c1b5f3e7a53b5419ceff00dba31e945cc0c938d348ddc71c4f95823a5be68
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets

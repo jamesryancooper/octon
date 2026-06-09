@@ -135,6 +135,217 @@ fn load_explicit_approval_grants(
     Ok(grants)
 }
 
+#[derive(Debug, Clone, Default)]
+struct GrantConsumptionSummary {
+    typed_exception_boundary: Option<String>,
+    authority_provenance_refs: Vec<String>,
+    grant_consumption_mode: Option<String>,
+}
+
+fn validate_typed_grant_consumption(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    loaded_approval_grants: &[(ApprovalGrantArtifact, String)],
+    requested_boundary: Option<&str>,
+    requested_authority_source: Option<&str>,
+    requested_provenance_refs: &[String],
+) -> Result<GrantConsumptionSummary, (ExecutionDecision, String, Vec<String>)> {
+    if let Some(source) = requested_authority_source {
+        if let Some(reason_code) = non_authority_source_reason_code(source) {
+            return Err((
+                ExecutionDecision::Deny,
+                "generated outputs and read models cannot create or satisfy authority grants"
+                    .to_string(),
+                vec![reason_code.to_string()],
+            ));
+        }
+    }
+    if matches!(
+        approval_rationale_class_from_request(request).as_deref(),
+        Some("importance-only" | "generic-importance")
+    ) {
+        return Err((
+            ExecutionDecision::StageOnly,
+            "importance-only approval rationale cannot satisfy typed exception authority"
+                .to_string(),
+            vec![
+                "GENERIC_IMPORTANCE_APPROVAL_REJECTED".to_string(),
+                "ACP_STAGE_ONLY_REQUIRED".to_string(),
+            ],
+        ));
+    }
+    if let Some(boundary) = requested_boundary {
+        if !is_valid_typed_exception_boundary(boundary) {
+            return Err((
+                ExecutionDecision::StageOnly,
+                format!("typed exception boundary is not recognized: {boundary}"),
+                vec![
+                    "TYPED_EXCEPTION_BOUNDARY_INVALID".to_string(),
+                    "ACP_STAGE_ONLY_REQUIRED".to_string(),
+                ],
+            ));
+        }
+    } else if loaded_approval_grants.is_empty() {
+        return Err((
+            ExecutionDecision::StageOnly,
+            "typed exception boundary is required before human exception grant routing".to_string(),
+            vec![
+                "TYPED_EXCEPTION_BOUNDARY_REQUIRED".to_string(),
+                "ACP_STAGE_ONLY_REQUIRED".to_string(),
+            ],
+        ));
+    }
+
+    if loaded_approval_grants.is_empty() {
+        return Ok(GrantConsumptionSummary {
+            typed_exception_boundary: requested_boundary.map(ToOwned::to_owned),
+            authority_provenance_refs: requested_provenance_refs.to_vec(),
+            grant_consumption_mode: None,
+        });
+    }
+
+    let mut boundary_set = BTreeSet::new();
+    let mut provenance_refs = BTreeSet::new();
+    for (grant, grant_ref) in loaded_approval_grants {
+        let Some(boundary) = grant
+            .typed_exception_boundary
+            .as_deref()
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+        else {
+            return Err((
+                ExecutionDecision::StageOnly,
+                format!("active approval grant lacks typed exception boundary: {grant_ref}"),
+                vec![
+                    "ACTIVE_GRANT_TYPED_EXCEPTION_BOUNDARY_MISSING".to_string(),
+                    "ACP_STAGE_ONLY_REQUIRED".to_string(),
+                ],
+            ));
+        };
+        if !is_valid_typed_exception_boundary(boundary) {
+            return Err((
+                ExecutionDecision::StageOnly,
+                format!("active approval grant has invalid typed exception boundary: {grant_ref}"),
+                vec![
+                    "ACTIVE_GRANT_TYPED_EXCEPTION_BOUNDARY_INVALID".to_string(),
+                    "ACP_STAGE_ONLY_REQUIRED".to_string(),
+                ],
+            ));
+        }
+        if let Some(requested_boundary) = requested_boundary {
+            if requested_boundary != boundary {
+                return Err((
+                    ExecutionDecision::StageOnly,
+                    "requested typed exception boundary does not match active grant".to_string(),
+                    vec![
+                        "TYPED_EXCEPTION_BOUNDARY_MISMATCH".to_string(),
+                        "ACP_STAGE_ONLY_REQUIRED".to_string(),
+                    ],
+                ));
+            }
+        }
+        if grant.grant_consumption_mode.as_deref()
+            != Some(GRANT_CONSUMPTION_MODE_DELEGATED_EXECUTION)
+        {
+            return Err((
+                ExecutionDecision::StageOnly,
+                format!("active approval grant is not marked for delegated grant consumption: {grant_ref}"),
+                vec![
+                    "GRANT_CONSUMPTION_MODE_INVALID".to_string(),
+                    "ACP_STAGE_ONLY_REQUIRED".to_string(),
+                ],
+            ));
+        }
+        if grant
+            .expires_at
+            .as_deref()
+            .map(str::trim)
+            .unwrap_or("")
+            .is_empty()
+        {
+            return Err((
+                ExecutionDecision::StageOnly,
+                format!(
+                    "active typed approval grant lacks expiry or retirement marker: {grant_ref}"
+                ),
+                vec![
+                    "TYPED_GRANT_RETIREMENT_MISSING".to_string(),
+                    "ACP_STAGE_ONLY_REQUIRED".to_string(),
+                ],
+            ));
+        }
+        if grant
+            .revocation_behavior
+            .as_deref()
+            .map(str::trim)
+            .unwrap_or("")
+            .is_empty()
+        {
+            return Err((
+                ExecutionDecision::StageOnly,
+                format!("active typed approval grant lacks revocation behavior: {grant_ref}"),
+                vec![
+                    "TYPED_GRANT_REVOCATION_BEHAVIOR_MISSING".to_string(),
+                    "ACP_STAGE_ONLY_REQUIRED".to_string(),
+                ],
+            ));
+        }
+        if grant.authority_provenance_refs.is_empty()
+            || !grant
+                .authority_provenance_refs
+                .iter()
+                .any(|reference| authority_provenance_ref_is_retained(cfg, reference))
+        {
+            return Err((
+                ExecutionDecision::StageOnly,
+                format!("active approval grant lacks retained authority provenance: {grant_ref}"),
+                vec![
+                    "AUTHORITY_PROVENANCE_MISSING".to_string(),
+                    "ACP_STAGE_ONLY_REQUIRED".to_string(),
+                ],
+            ));
+        }
+        boundary_set.insert(boundary.to_string());
+        for reference in &grant.authority_provenance_refs {
+            provenance_refs.insert(reference.clone());
+        }
+    }
+    if boundary_set.len() != 1 {
+        return Err((
+            ExecutionDecision::StageOnly,
+            "active approval grants disagree on typed exception boundary".to_string(),
+            vec![
+                "TYPED_EXCEPTION_BOUNDARY_MISMATCH".to_string(),
+                "ACP_STAGE_ONLY_REQUIRED".to_string(),
+            ],
+        ));
+    }
+
+    Ok(GrantConsumptionSummary {
+        typed_exception_boundary: boundary_set.into_iter().next(),
+        authority_provenance_refs: provenance_refs.into_iter().collect(),
+        grant_consumption_mode: Some(GRANT_CONSUMPTION_MODE_DELEGATED_EXECUTION.to_string()),
+    })
+}
+
+fn authority_provenance_ref_is_retained(cfg: &RuntimeConfig, reference: &str) -> bool {
+    let trimmed = reference.trim();
+    if trimmed.is_empty() {
+        return false;
+    }
+    if trimmed.starts_with(".octon/generated/") || trimmed.starts_with(".octon/inputs/") {
+        return false;
+    }
+    if !(trimmed.starts_with(".octon/state/control/execution/")
+        || trimmed.starts_with(".octon/state/evidence/control/execution/")
+        || trimmed.starts_with(".octon/state/evidence/runs/"))
+    {
+        return false;
+    }
+    let path_ref = trimmed.split('#').next().unwrap_or(trimmed);
+    cfg.repo_root.join(path_ref).exists()
+}
+
 fn granted_effect_kinds_for_request(request: &ExecutionRequest) -> Vec<String> {
     let mut effect_kinds = vec![
         EvidenceMutation::KIND.to_string(),
@@ -2165,6 +2376,9 @@ pub fn authorize_execution(
         .as_ref()
         .map(|state| state.approval_required || state.break_glass_required)
         .unwrap_or(false);
+    let requested_typed_exception_boundary = typed_exception_boundary_from_request(&request);
+    let requested_authority_provenance_refs = authority_provenance_refs_from_request(&request);
+    let requested_approval_authority_source = approval_authority_source_from_request(&request);
     let explicit_approval_request_ref = load_explicit_approval_request_ref(cfg, &request)?;
     let explicit_approval_grants = load_explicit_approval_grants(cfg, &request)?;
     let approval_required = profile_requires_human_review
@@ -2179,6 +2393,8 @@ pub fn authorize_execution(
     let mut required_evidence = run_contract.required_evidence.clone();
     if approval_required {
         required_evidence.push("approval-grant".to_string());
+        required_evidence.push("typed-human-exception-grant".to_string());
+        required_evidence.push("grant-consumption-provenance".to_string());
     }
     if quorum_required {
         required_evidence.push("quorum-token".to_string());
@@ -2194,6 +2410,13 @@ pub fn authorize_execution(
         if autonomy_requires_approval {
             codes.push("MISSION_APPROVAL_REQUIRED".to_string());
         }
+        match requested_typed_exception_boundary.as_deref() {
+            Some(boundary) if is_valid_typed_exception_boundary(boundary) => {
+                codes.push(typed_boundary_reason_code(boundary));
+            }
+            Some(_) => codes.push("TYPED_EXCEPTION_BOUNDARY_INVALID".to_string()),
+            None => codes.push("TYPED_EXCEPTION_BOUNDARY_REQUIRED".to_string()),
+        }
         codes
     } else {
         Vec::new()
@@ -2208,6 +2431,9 @@ pub fn authorize_execution(
                 &ownership,
                 required_evidence.clone(),
                 approval_request_reason_codes.clone(),
+                requested_typed_exception_boundary.clone(),
+                requested_authority_provenance_refs.clone(),
+                requested_approval_authority_source.clone(),
             )?),
         }
     } else {
@@ -2579,12 +2805,45 @@ pub fn authorize_execution(
         .iter()
         .map(|(_, path)| path.clone())
         .collect::<Vec<_>>();
+    let grant_consumption = if approval_required {
+        match validate_typed_grant_consumption(
+            cfg,
+            &request,
+            &loaded_approval_grants,
+            requested_typed_exception_boundary.as_deref(),
+            requested_approval_authority_source.as_deref(),
+            &requested_authority_provenance_refs,
+        ) {
+            Ok(summary) => summary,
+            Err((decision, message, reason_codes)) => {
+                return emit_route_error(
+                    decision,
+                    message,
+                    reason_codes,
+                    ownership.clone(),
+                    support_tier.clone(),
+                    reversibility.clone(),
+                    budget_posture.clone(),
+                    json!(network_egress_posture.clone().unwrap_or_default()),
+                    approval_request_ref.clone(),
+                    approval_grant_refs.clone(),
+                    exception_refs.clone(),
+                    Vec::new(),
+                );
+            }
+        }
+    } else {
+        GrantConsumptionSummary::default()
+    };
 
     if approval_required && approval_grant_refs.is_empty() {
         let mut reason_codes = vec![
             "HUMAN_APPROVAL_REQUIRED".to_string(),
             "ACP_STAGE_ONLY_REQUIRED".to_string(),
         ];
+        if let Some(boundary) = grant_consumption.typed_exception_boundary.as_deref() {
+            reason_codes.insert(1, typed_boundary_reason_code(boundary));
+        }
         if autonomy_requires_approval {
             reason_codes.insert(0, "MISSION_APPROVAL_REQUIRED".to_string());
         }
@@ -2855,6 +3114,9 @@ pub fn authorize_execution(
         ownership_refs: ownership.owner_refs.clone(),
         approval_request_ref: approval_request_ref.clone(),
         approval_grant_refs: approval_grant_refs.clone(),
+        typed_exception_boundary: grant_consumption.typed_exception_boundary.clone(),
+        authority_provenance_refs: grant_consumption.authority_provenance_refs.clone(),
+        grant_consumption_mode: grant_consumption.grant_consumption_mode.clone(),
         exception_lease_refs: exception_refs.clone(),
         revocation_refs: revocation_refs.clone(),
         decision_artifact_ref: None,

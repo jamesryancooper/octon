@@ -363,6 +363,9 @@ pub(crate) struct ProgramChildPlanState {
     #[serde(default)]
     pub selected_route: Option<RoutePlanState>,
     #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub route_gate_results: Vec<GatePlanResult>,
+    #[serde(default)]
     pub terminal_outcome: Option<String>,
     #[serde(default)]
     pub receipt_digests: BTreeMap<String, String>,
@@ -2235,6 +2238,8 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         let child_target_rel = rel_display(&repo_root, &child_target_abs);
         let mut blockers = Vec::new();
         let mut selected_route = None;
+        let mut planned_gate_route_id = None;
+        let mut route_gate_results = Vec::new();
         let mut terminal_outcome = None;
         let mut final_verdict = "deferred".to_string();
         let mut receipt_digests = BTreeMap::new();
@@ -2255,6 +2260,9 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             ) {
                 Ok(plan) => {
                     selected_route = plan.next_route.clone();
+                    planned_gate_route_id =
+                        plan.next_route.as_ref().map(|route| route.route_id.clone());
+                    route_gate_results = plan.gate_results.clone();
                     terminal_outcome = plan.terminal_outcome.clone();
                     final_verdict = plan.final_verdict.clone();
                     receipt_digests = receipt_digest_map(&plan);
@@ -2369,6 +2377,11 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 }
             }
         }
+        if selected_route.as_ref().map(|route| route.route_id.as_str())
+            != planned_gate_route_id.as_deref()
+        {
+            route_gate_results.clear();
+        }
 
         child_states.insert(
             child.child_id.clone(),
@@ -2387,6 +2400,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 recovery_profile: child.recovery_profile.clone(),
                 phase_commit_barrier: child.phase_commit_barrier.clone(),
                 selected_route,
+                route_gate_results,
                 terminal_outcome,
                 receipt_digests,
                 gate_status,
@@ -10358,6 +10372,7 @@ fn execute_parent_program_route(
         &parent_invocation_authority,
         0,
         &parent_run_inputs,
+        &plan.program_gate_results,
         parent_evidence_root.clone(),
         parent_control_root.join("lifecycle-checkpoint.yml"),
         Some(lifecycle_cancellation_token_path(control_root)),
@@ -11108,6 +11123,7 @@ fn build_child_execution_jobs(
                 &invocation_authority,
                 0,
                 &child_run_inputs,
+                &state.route_gate_results,
                 child_evidence_root,
                 child_control_root.join("lifecycle-checkpoint.yml"),
                 Some(lifecycle_cancellation_token_path(control_root)),
@@ -13868,6 +13884,13 @@ fn execute_atomic_route_phase(
         "program-atomic route phase started",
         BTreeMap::new(),
     )?;
+    let child_target_abs = resolve_lifecycle_target_path(&repo_root, Path::new(&state.target))?;
+    let route_gate_results = run_required_gates(
+        &repo_root,
+        &child_contract.contract,
+        &child_target_abs,
+        route_id,
+    )?;
     let request = lifecycle_execution_request_for_route(
         octon_dir,
         &child_run_id,
@@ -13880,6 +13903,7 @@ fn execute_atomic_route_phase(
         &invocation_authority,
         0,
         run_inputs,
+        &route_gate_results,
         child_evidence_root,
         child_control_root.join("lifecycle-checkpoint.yml"),
         Some(lifecycle_cancellation_token_path(control_root)),
@@ -19895,6 +19919,7 @@ mod tests {
                 skill_id: None,
                 prompt_set_id: None,
             }),
+            route_gate_results: Vec::new(),
             terminal_outcome: None,
             receipt_digests: BTreeMap::new(),
             gate_status: ProgramChildGateStatus::default(),
@@ -25539,6 +25564,128 @@ completion_observed: false
         children.insert("a".to_string(), child_state("a", vec![blocker]));
         let (_state, verdict) = aggregate_program_state(&program, None, &children, &[], &[], &[]);
         assert_eq!(verdict, "blocked-unsafe");
+    }
+
+    #[test]
+    fn program_child_dispatch_request_uses_retained_gate_results() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("child-dispatch-gate-results", true);
+        fixture.write(
+            ".octon/framework/assurance/runtime/_ops/scripts/pass-child-gate.sh",
+            "#!/usr/bin/env bash\nprintf 'child gate passed\\n'\n",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented"] }
+states: [{ state_id: "implement" }]
+terminal_outcomes:
+  - outcome_id: "implemented"
+    when: { manifest_status: "implemented" }
+validators:
+  - validator_id: "child-readiness-validator"
+    argv: ["bash", ".octon/framework/assurance/runtime/_ops/scripts/pass-child-gate.sh", "--package", "{{target}}"]
+gates:
+  - gate_id: "child-readiness"
+    validator_id: "child-readiness-validator"
+    required_before_routes: ["run-implementation"]
+receipts:
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+routes:
+  - route_id: "run-implementation"
+    route_type: "extension"
+    enter_when: { manifest_status: "accepted" }
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: ["child-readiness"]
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: ["implementation-run"]
+      replay_class: "idempotent"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+    completion:
+      expected_receipts: ["implementation-run"]
+"#,
+        );
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let child = plan.child_states.get("a").unwrap();
+        assert_eq!(
+            child
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("run-implementation")
+        );
+        assert_eq!(child.route_gate_results.len(), 1);
+        assert!(child.route_gate_results[0].passed);
+        assert_eq!(child.route_gate_results[0].gate_id, "child-readiness");
+
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/child-dispatch-gate-results");
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/child-dispatch-gate-results");
+        fs::create_dir_all(&control_root).unwrap();
+        fs::create_dir_all(&evidence_root).unwrap();
+        let (jobs, preflight_summaries) = build_child_execution_jobs(
+            &fixture.octon_dir,
+            &fixture.root,
+            "child-dispatch-gate-results",
+            &BTreeMap::new(),
+            &RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("child-dispatch-gate-results".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+            &plan,
+            &evidence_root,
+            &control_root,
+            None,
+            None,
+        )
+        .unwrap();
+
+        assert!(preflight_summaries.is_empty());
+        assert_eq!(jobs.len(), 1);
+        assert_eq!(
+            jobs[0]
+                .request
+                .evidence_gate_results
+                .get("child-readiness")
+                .map(String::as_str),
+            Some("pass")
+        );
     }
 
     #[test]
@@ -32494,6 +32641,7 @@ routes:
                         skill_id: None,
                         prompt_set_id: None,
                     }),
+                    route_gate_results: Vec::new(),
                     terminal_outcome: None,
                     receipt_digests: BTreeMap::new(),
                     gate_status: ProgramChildGateStatus::default(),

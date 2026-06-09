@@ -30,7 +30,7 @@ DEFAULT_OUTPUT_ROOT = Path(sys.argv[3])
 DEFAULT_EVIDENCE_ROOT = Path(sys.argv[4])
 ARGV = sys.argv[5:]
 
-GENERATOR_VERSION = "1.0.0"
+GENERATOR_VERSION = "1.1.0"
 SCHEMA_REF = ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
 VALIDATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
 ROUTE_BUNDLE_REF = ".octon/generated/effective/runtime/route-bundle.yml"
@@ -426,7 +426,7 @@ def pack_status_for(tuple_id, requested_packs, pack_routes_ref=PACK_ROUTES_REF):
     return "unknown"
 
 
-def load_authority(refs, diagnostics):
+def load_authority(refs, diagnostics, tuple_id=None):
     decision = load_yaml(resolve_ref(refs.get("authority_decision")))
     grant_bundle = load_yaml(resolve_ref(refs.get("authority_bundle")))
 
@@ -443,6 +443,14 @@ def load_authority(refs, diagnostics):
     approval_request_doc = load_yaml(resolve_ref(approval_request))
     approval_request_status = str(approval_request_doc.get("status") or "").lower()
     route_outcome = str(decision.get("route_outcome") or decision.get("decision") or grant_bundle.get("route_outcome") or "").lower()
+    decision_tuple = (
+        decision.get("support_target_tuple_ref")
+        or decision.get("support_target_tuple_id")
+        or decision_refs.get("support_target_tuple_ref")
+        or decision_refs.get("support_target_tuple_id")
+        or grant_bundle.get("support_target_tuple_ref")
+        or grant_bundle.get("support_target_tuple_id")
+    )
 
     active_revocations = sorted(set(item for item in revocations if item))
     active_grants = sorted(set(item for item in approval_grants if item))
@@ -455,18 +463,62 @@ def load_authority(refs, diagnostics):
     elif approval_request and not active_grants:
         open_approvals.append(approval_request)
 
-    if active_revocations:
+    scope_mismatch = bool(tuple_id and decision_tuple and str(decision_tuple) != str(tuple_id))
+    contradictory_proof = bool(active_revocations and (active_grants or route_outcome in ("allow", "allowed")))
+
+    if scope_mismatch:
+        status = "authority-ambiguity"
+        proof_state = "proof-scope-mismatch"
+        human_boundary_state = "review-required"
+        add_diag(
+            diagnostics,
+            "error",
+            "authorization-proof-scope-mismatch",
+            "Authority proof targets a different support tuple than the run manifest.",
+            [refs.get("authority_decision"), refs.get("authority_bundle")],
+        )
+    elif contradictory_proof:
         status = "revoked"
+        proof_state = "proof-contradictory"
+        human_boundary_state = "revocation-active"
+        add_diag(
+            diagnostics,
+            "error",
+            "authorization-proof-contradictory",
+            "Authority proof contains both active grant evidence and revocation evidence.",
+            [refs.get("authority_decision"), refs.get("authority_bundle")] + active_revocations,
+        )
+    elif active_revocations:
+        status = "revoked"
+        proof_state = "proof-failed"
+        human_boundary_state = "revocation-active"
     elif route_outcome in ("deny", "denied", "deny_route", "deny-route", "DENY".lower()):
         status = "denied"
+        proof_state = "proof-failed"
+        human_boundary_state = "denied"
     elif open_approvals:
         status = "authority-ambiguity"
+        proof_state = "proof-missing"
+        human_boundary_state = "approval-required"
+        add_diag(
+            diagnostics,
+            "warning",
+            "authorization-approval-required",
+            "Authority proof is incomplete because an approval request is open or lacks matching grant evidence.",
+            open_approvals,
+        )
     elif route_outcome in ("allow", "allowed") or active_grants:
         status = "authorized"
+        proof_state = "proof-valid"
+        human_boundary_state = "none"
     elif route_outcome in ("stage_only", "stage-only", "escalate", "escalation"):
         status = "review-required"
+        proof_state = "proof-missing"
+        human_boundary_state = "review-required"
     else:
         status = "unknown"
+        proof_state = "proof-unknown"
+        human_boundary_state = "unknown"
         add_diag(
             diagnostics,
             "warning",
@@ -477,6 +529,8 @@ def load_authority(refs, diagnostics):
 
     return {
         "status": status,
+        "proof_state": proof_state,
+        "human_boundary_state": human_boundary_state,
         "active_grants": active_grants,
         "open_approvals": sorted(set(open_approvals)),
         "active_exceptions": sorted(set(item for item in exception_leases if item)),
@@ -775,12 +829,14 @@ def generate_for_run(run_id, control_root, generated_at, route_bundle_ref=ROUTE_
         )
 
     lifecycle = lifecycle_status(refs, runtime_state, diagnostics)
-    authorization = load_authority(refs, diagnostics)
+    authorization = load_authority(refs, diagnostics, tuple_id)
     evidence = evidence_status(refs, lifecycle["state"])
     rollback = rollback_status(refs)
     intervention = intervention_status(refs)
     disclosure = disclosure_status(refs, lifecycle["state"])
     freshness = freshness_status(refs, digests, diagnostics, generated_at)
+    if freshness["status"] == "stale" and authorization["proof_state"] == "proof-valid":
+        authorization["proof_state"] = "proof-stale"
     support = {
         "tuple": tuple_id,
         "route_status": route_status,
@@ -871,6 +927,11 @@ def materialize_fixture_sources(fixtures_root, case, generated_at):
     replay_ref = fixture_ref(fixtures_root, case_id, "evidence/replay-pointers.yml")
     intervention_ref = fixture_ref(fixtures_root, case_id, "evidence/interventions/log.yml")
     run_card_ref = fixture_ref(fixtures_root, case_id, "disclosure/run-card.yml")
+    authorization_fact = facts.get("authorization")
+    has_authority_grant = authorization_fact in ("authorized", "contradictory")
+    has_revocation = authorization_fact in ("revoked", "contradictory")
+    approval_required = authorization_fact == "approval-required"
+    decision_tuple = f"{tuple_id}:mismatch" if facts.get("authorization_scope_mismatch") else tuple_id
 
     write_yaml(control_root / "run-contract.yml", {"schema_version": "run-contract-fixture-v1", "run_id": run_id})
 
@@ -884,9 +945,9 @@ def materialize_fixture_sources(fixtures_root, case, generated_at):
         "requested_capability_packs": facts.get("requested_capability_packs", ["repo", "shell"]),
         "decision_artifact_ref": decision_ref,
         "authority_bundle_ref": grant_ref,
-        "approval_request_ref": approval_ref if facts.get("authorization") == "approval-required" else None,
-        "approval_grant_refs": [] if facts.get("authorization") == "approval-required" else [grant_ref],
-        "revocation_refs": [fixture_ref(fixtures_root, case_id, "control/authority/revocation.yml")] if facts.get("authorization") == "revoked" else [],
+        "approval_request_ref": approval_ref if approval_required else None,
+        "approval_grant_refs": [grant_ref] if has_authority_grant else [],
+        "revocation_refs": [fixture_ref(fixtures_root, case_id, "control/authority/revocation.yml")] if has_revocation else [],
         "rollback_posture_ref": rollback_ref,
         "evidence_root": evidence_root.as_posix(),
         "evidence_classification_ref": classification_ref,
@@ -956,11 +1017,11 @@ def materialize_fixture_sources(fixtures_root, case, generated_at):
         )
 
     route_outcome = facts.get("route_status", "allow")
-    if facts.get("authorization") == "revoked":
+    if authorization_fact == "revoked":
         route_outcome = "deny"
-    elif facts.get("authorization") == "denied":
+    elif authorization_fact == "denied":
         route_outcome = "deny"
-    elif facts.get("authorization") == "approval-required":
+    elif approval_required:
         route_outcome = "stage_only"
     write_yaml(
         control_root / "authority" / "decision.yml",
@@ -968,22 +1029,33 @@ def materialize_fixture_sources(fixtures_root, case, generated_at):
             "schema_version": "authority-decision-artifact-v2",
             "run_id": run_id,
             "route_outcome": route_outcome,
-            "approval_request_ref": approval_ref if facts.get("authorization") == "approval-required" else None,
-            "approval_grant_refs": [] if facts.get("authorization") == "approval-required" else [grant_ref],
+            "support_target_tuple_ref": decision_tuple,
+            "approval_request_ref": approval_ref if approval_required else None,
+            "approval_grant_refs": [grant_ref] if has_authority_grant else [],
             "revocation_refs": manifest["revocation_refs"],
         },
     )
-    if facts.get("authorization") != "approval-required":
+    if has_revocation:
+        write_yaml(
+            control_root / "authority" / "revocation.yml",
+            {
+                "schema_version": "authority-revocation-v1",
+                "run_id": run_id,
+                "status": "active",
+            },
+        )
+    if has_authority_grant:
         write_yaml(
             control_root / "authority" / "grant-bundle.yml",
             {
                 "schema_version": "authority-grant-bundle-v2",
                 "run_id": run_id,
                 "route_outcome": route_outcome,
+                "support_target_tuple_ref": decision_tuple,
                 "approval_grant_refs": [grant_ref],
             },
         )
-    else:
+    elif approval_required:
         write_yaml(
             control_root / "authority" / "approval-request.yml",
             {

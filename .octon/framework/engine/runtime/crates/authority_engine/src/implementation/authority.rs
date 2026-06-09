@@ -7,6 +7,20 @@ use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
 
+pub(crate) const GRANT_CONSUMPTION_MODE_DELEGATED_EXECUTION: &str = "delegated-execution";
+
+const TYPED_EXCEPTION_BOUNDARIES: &[&str] = &[
+    "scope-expansion",
+    "policy-override",
+    "unresolved-risk-acceptance",
+    "governance-mutation",
+    "contradictory-evidence-resolution",
+    "stale-evidence-acceptance",
+    "authority-ambiguity",
+    "unsafe-resume",
+    "external-irreversible-effect",
+];
+
 pub(crate) fn review_metadata_from_env() -> BTreeMap<String, String> {
     let mut review_metadata = BTreeMap::new();
     if let Ok(value) = std::env::var("OCTON_EXECUTION_QUORUM_TOKEN") {
@@ -20,6 +34,84 @@ pub(crate) fn review_metadata_from_env() -> BTreeMap<String, String> {
         }
     }
     review_metadata
+}
+
+pub(crate) fn typed_exception_boundary_from_request(request: &ExecutionRequest) -> Option<String> {
+    [
+        "typed_exception_boundary",
+        "human_exception_boundary",
+        "authority_exception_boundary",
+        "exception_boundary",
+    ]
+    .iter()
+    .find_map(|key| request.metadata.get(*key))
+    .map(|value| value.trim().to_string())
+    .filter(|value| !value.is_empty())
+}
+
+pub(crate) fn authority_provenance_refs_from_request(request: &ExecutionRequest) -> Vec<String> {
+    request
+        .metadata
+        .get("authority_provenance_refs")
+        .or_else(|| request.metadata.get("approval_authority_provenance_refs"))
+        .map(|raw| {
+            raw.split(',')
+                .map(str::trim)
+                .filter(|value| !value.is_empty())
+                .map(ToOwned::to_owned)
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
+pub(crate) fn approval_authority_source_from_request(request: &ExecutionRequest) -> Option<String> {
+    [
+        "approval_authority_source",
+        "grant_authority_source",
+        "authority_source_kind",
+        "approval_source_kind",
+    ]
+    .iter()
+    .find_map(|key| request.metadata.get(*key))
+    .map(|value| normalize_authority_source_kind(value))
+    .filter(|value| !value.is_empty())
+}
+
+pub(crate) fn approval_rationale_class_from_request(request: &ExecutionRequest) -> Option<String> {
+    ["approval_rationale_class", "approval_reason_class"]
+        .iter()
+        .find_map(|key| request.metadata.get(*key))
+        .map(|value| value.trim().to_ascii_lowercase().replace('_', "-"))
+        .filter(|value| !value.is_empty())
+}
+
+pub(crate) fn is_valid_typed_exception_boundary(boundary: &str) -> bool {
+    TYPED_EXCEPTION_BOUNDARIES.contains(&boundary)
+}
+
+pub(crate) fn typed_boundary_reason_code(boundary: &str) -> String {
+    format!(
+        "TYPED_EXCEPTION_{}",
+        boundary
+            .trim()
+            .to_ascii_uppercase()
+            .replace('-', "_")
+            .replace(' ', "_")
+    )
+}
+
+pub(crate) fn non_authority_source_reason_code(source: &str) -> Option<&'static str> {
+    match normalize_authority_source_kind(source).as_str() {
+        "generated-output" | "generated-effective" | "generated-projection" => {
+            Some("GENERATED_OUTPUT_AUTHORITY_FORBIDDEN")
+        }
+        "read-model" | "operator-read-model" => Some("READ_MODEL_AUTHORITY_FORBIDDEN"),
+        _ => None,
+    }
+}
+
+fn normalize_authority_source_kind(value: &str) -> String {
+    value.trim().to_ascii_lowercase().replace('_', "-")
 }
 
 pub(crate) fn approval_projection_sources(request: &ExecutionRequest) -> Vec<AuthorityProjection> {
@@ -84,6 +176,9 @@ pub(crate) fn write_approval_request(
     ownership: &OwnershipPosture,
     required_evidence: Vec<String>,
     reason_codes: Vec<String>,
+    typed_exception_boundary: Option<String>,
+    authority_provenance_refs: Vec<String>,
+    approval_authority_source: Option<String>,
 ) -> CoreResult<String> {
     let now = now_rfc3339().map_err(|e| {
         KernelError::new(
@@ -106,6 +201,9 @@ pub(crate) fn write_approval_request(
         reason_codes,
         required_evidence,
         projection_sources: approval_projection_sources(request),
+        typed_exception_boundary,
+        authority_provenance_refs,
+        approval_authority_source,
         created_at: now.clone(),
         updated_at: now,
     };
@@ -343,6 +441,16 @@ pub(crate) fn write_authority_grant_bundle(
             "quorum_policy_ref": grant.quorum_policy_ref,
             "approval_request_ref": grant.approval_request_ref,
             "approval_grant_refs": grant.approval_grant_refs,
+            "typed_exception_boundary": grant.typed_exception_boundary,
+            "authority_provenance_refs": grant.authority_provenance_refs,
+            "grant_consumption": {
+                "mode": grant.grant_consumption_mode,
+                "consumes_bound_grant_only": !grant.approval_grant_refs.is_empty(),
+                "mints_fresh_authority": false,
+                "approval_grant_refs": grant.approval_grant_refs,
+                "authority_provenance_refs": grant.authority_provenance_refs,
+                "consumption_receipt_ref": path_tail(&cfg.repo_root, &path),
+            },
             "exception_refs": grant.exception_lease_refs,
             "revocation_refs": grant.revocation_refs,
             "decision_artifact_ref": grant.decision_artifact_ref,

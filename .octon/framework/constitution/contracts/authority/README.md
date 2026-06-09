@@ -35,6 +35,13 @@ The authority family is fully active.
   proves the operation, path, artifact ownership, write scope, run binding,
   idempotency posture, and evidence requirement are allowed. A `.octon/` path
   prefix is not an authority grant by itself.
+- Shared delegated-governance contracts may classify a surface as delegated
+  execution, typed human exception, deny-only, projection-only, generated
+  non-authority, grant consumption, or evidence-gap posture. They do not create
+  authority by route shape, workflow shape, extension shape, adapter shape, or
+  generic importance.
+- Grant consumption is delegated execution against an already-bound grant; it
+  never mints fresh authority.
 
 ## Canonical Files
 
@@ -48,6 +55,7 @@ The authority family is fully active.
 - `quorum-policy-v1.schema.json`
 - `decision-artifact-v1.schema.json`
 - `grant-bundle-v1.schema.json`
+- `delegated-governance-contract-v1.schema.json`
 
 ## Canonical Roots
 
@@ -65,6 +73,10 @@ No active compatibility-only authority schemas are expected in the live path.
 
 Host labels, comments, checks, and workflow-native state may mirror authority
 status, but they never mint authority by themselves.
+
+Generated outputs and read models may satisfy evidence gates only when a
+contract explicitly permits that use. They remain forbidden as authority,
+policy, support, control, promotion, closeout, or terminal truth sources.
 
 ## Validator Obligations
 

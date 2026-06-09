@@ -1,0 +1,38 @@
+schema_version: "connector-external-effect-delegation-boundaries-v1"
+boundary_id: "connector-external-effect-delegation-boundaries"
+owner: "Octon governance"
+status: "active"
+applies_to:
+  - "connector-operation-v1 side_effect_class=external_effect"
+  - "connector-operation-v1 side_effect_class=destructive"
+  - "future live connector operation dispatch"
+machine_delegation_requires:
+  - "support-target-and-capability-admission"
+  - "authorized-effect-token-proof"
+  - "scope-containment-proof"
+  - "egress-policy-or-empty-egress-proof"
+  - "replay-or-compensation-proof"
+  - "retained-connector-and-run-receipts"
+  - "run-authorization"
+irreversible_external_effect_default: "human_required"
+irreversible_external_effect_machine_delegation_allowed: false
+generated_connector_summaries_authorize_execution: false
+generated_read_models_authorize_execution: false
+permission_widening_requires_typed_human_boundary: true
+scope_or_permission_widening_route: "typed-human-boundary"
+missing_proof_route: "deny"
+non_authority_surfaces:
+  - "generated connector summaries"
+  - "generated support cards"
+  - "operator read models"
+  - "host connector availability"
+  - "MCP tool availability"
+required_negative_controls:
+  - "missing authorized-effect token proof"
+  - "missing scope containment proof"
+  - "missing egress proof"
+  - "missing replay or compensation proof"
+  - "missing retained connector and run receipt proof"
+  - "generated connector summary authority misuse"
+  - "permission widening without typed human boundary"
+  - "irreversible external effect without explicit rollback or compensation proof"

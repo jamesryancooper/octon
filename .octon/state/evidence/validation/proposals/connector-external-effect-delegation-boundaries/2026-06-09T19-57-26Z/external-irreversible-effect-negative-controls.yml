@@ -1,0 +1,12 @@
+schema_version: external-irreversible-effect-negative-controls-v1
+proposal_id: connector-external-effect-delegation-boundaries
+recorded_at: 2026-06-09T19:57:26Z
+verdict: pass
+test_ref: .octon/framework/assurance/runtime/_ops/tests/test-connector-external-effect-delegation-boundaries.sh
+negative_controls:
+  - missing-authorized-effect-token-proof
+  - generated-summary-authority-misuse
+  - missing-scope-containment-proof
+  - missing-retained-receipt-proof
+irreversible_external_effect_default: human_required
+machine_delegation_allowed_for_irreversible_external_effects: false

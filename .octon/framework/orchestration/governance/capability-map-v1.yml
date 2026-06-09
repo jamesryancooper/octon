@@ -1,6 +1,6 @@
 schema_version: "capability-map-v1"
 map_id: "orchestration-capability-map"
-map_version: "1.1.0"
+map_version: "1.2.0"
 owner: "orchestration-owner"
 approved_by: "octon-platform"
 review_cadence_days: 30
@@ -8,6 +8,49 @@ review_cadence_days: 30
 defaults:
   classification: "role-mediated"
   autonomous_allowed: false
+
+classification_policy:
+  policy_id: "workflow-capability-human-boundary-classification-v1"
+  proof_first: true
+  generated_capability_index_authority_allowed: false
+  approval_derivation_denials:
+    - "route-shape"
+    - "workflow-shape"
+    - "extension-shape"
+    - "generic-importance"
+    - "generated-capability-index"
+  classes:
+    execution-role-ready:
+      decision_class: "delegated-execution"
+      autonomous_allowed: true
+      required_proof:
+        - "intent-contract-v1"
+        - "delegation-boundaries-v1"
+        - "policy-receipt-v1"
+      posture: >-
+        Machine delegation is allowed only after explicit proof gates and
+        dispatch receipts pass inside the declared workflow scope.
+    role-mediated:
+      decision_class: "grant-consumption"
+      autonomous_allowed: false
+      required_proof:
+        - "already-bound-grant"
+        - "delegation-boundaries-v1"
+        - "retained-consumption-receipt"
+      posture: >-
+        Role-mediated execution may consume an already-bound grant as delegated
+        execution. It does not mint authority from route, workflow, extension,
+        or capability shape.
+    human-only:
+      decision_class: "typed-human-exception"
+      autonomous_allowed: false
+      required_proof:
+        - "typed-human-boundary"
+        - "explicit-approval-or-exception-artifact"
+      posture: >-
+        Human-only classification is reserved for a named boundary that cannot
+        be machine-proven and must resolve through explicit human or quorum
+        authority.
 
 workflows:
   - workflow_id: "evaluate-harness"
@@ -117,6 +160,13 @@ workflows:
   - workflow_id: "audit-pre-release"
     classification: "human-only"
     autonomous_allowed: false
+    typed_human_boundary:
+      boundary_id: "pre-release-risk-acceptance"
+      boundary_kind: "release-risk-acceptance"
+      machine_provable: false
+      requirement: >-
+        Human owner or quorum must explicitly accept unresolved release risk,
+        rollback posture, and launch timing before execution can proceed.
     required_contracts:
       - "delegation-boundaries-v1"
 

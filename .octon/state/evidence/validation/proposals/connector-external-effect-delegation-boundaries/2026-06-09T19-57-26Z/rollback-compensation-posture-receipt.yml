@@ -1,0 +1,11 @@
+schema_version: rollback-compensation-posture-receipt-v1
+proposal_id: connector-external-effect-delegation-boundaries
+recorded_at: 2026-06-09T19:57:26Z
+verdict: pass
+rollback_or_compensation_required_for_machine_delegation: true
+irreversible_external_effect_default: human_required
+machine_delegation_allowed_for_irreversible_external_effects: false
+schema_refs:
+  - .octon/framework/engine/runtime/spec/connector-replay-rollback-posture-v1.schema.json
+  - .octon/framework/engine/runtime/spec/connector-operation-v1.schema.json
+rollback_plan: file-level revert of this route's connector boundary, schema, documentation, assurance test, packet support, and retained evidence changes

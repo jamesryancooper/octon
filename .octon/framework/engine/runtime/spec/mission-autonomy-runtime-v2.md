@@ -48,3 +48,11 @@ Autonomy Window, Mission Queue, Continuation Decision, and Mission Run Ledger do
 not authorize execution. Every material run still requires `run-contract-v3`,
 context-pack readiness, support posture, capability posture, rollback posture,
 policy treatment, retained evidence, and execution authorization.
+
+Unattended mission handoff is proof-gated execution, not operator override.
+Delegated dispatch requires retained authorization or delegation proof that
+binds invocation authority, scope, authority zone, evidence gates, expected
+receipts, and replay or compensation posture. Unsupported mode, missing proof,
+stale proof, contradictory evidence, scope mismatch, generated/read-model
+authority use, and unsafe resume fail closed as typed runtime outcomes such as
+`authorization-proof-failed` or `human-boundary-blocked`.
