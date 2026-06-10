@@ -1393,6 +1393,22 @@ struct ArchiveBlockedEvidenceSummary {
     completion_observed: Option<bool>,
 }
 
+#[derive(Clone, Debug, Deserialize)]
+struct ArchiveCompletionObservationSummary {
+    #[serde(default)]
+    schema_version: Option<String>,
+    #[serde(default)]
+    route_id: Option<String>,
+    #[serde(default)]
+    observation_target: Option<String>,
+    #[serde(default)]
+    manifest_status_after: Option<String>,
+    #[serde(default)]
+    expected_manifest_status: Option<String>,
+    #[serde(default)]
+    completion_observed: Option<bool>,
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 struct ProgramRecoveryProgressFingerprint {
     child_id: String,
@@ -6798,6 +6814,7 @@ fn operation_allowed_in_zone(zone: &str, operation_class: &str) -> bool {
                 | "update-run-control"
                 | OPERATION_CLASS_RETRY_CHILD_ROUTE
                 | OPERATION_CLASS_PROGRAM_RECOVERY_ACTION
+                | OPERATION_CLASS_CLEANUP_CURRENT_RUN_ARTIFACT
                 | OPERATION_CLASS_CLOSEOUT_READINESS
         ),
         AUTHORITY_ZONE_GENERATED_DERIVED => matches!(
@@ -7596,6 +7613,11 @@ fn apply_archive_route_evidence_blockers(
         let Some(state) = child_states.get_mut(&child_id) else {
             continue;
         };
+        if state.terminal_outcome.as_deref() == Some("archived")
+            && archive_completion_observed_from_summary(repo_root, &state.target, &result)
+        {
+            continue;
+        }
         let evidence = archive_blocked_evidence_from_summary(repo_root, &result);
         let blocker_class = evidence
             .as_ref()
@@ -7671,6 +7693,54 @@ fn archive_blocked_evidence_at_path(path: &Path) -> Option<ArchiveBlockedEvidenc
         return None;
     }
     Some(evidence)
+}
+
+fn archive_completion_observed_from_summary(
+    repo_root: &Path,
+    state_target: &str,
+    result: &ProgramChildExecutionSummary,
+) -> bool {
+    result.evidence_paths.iter().any(|raw_path| {
+        archive_completion_observation_at_path(repo_root, state_target, raw_path).unwrap_or(false)
+    })
+}
+
+fn archive_completion_observation_at_path(
+    repo_root: &Path,
+    state_target: &str,
+    raw_path: &str,
+) -> Result<bool> {
+    let path = Path::new(raw_path);
+    let absolute = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        repo_root.join(path)
+    };
+    if !absolute.is_file() {
+        return Ok(false);
+    }
+    let observation: ArchiveCompletionObservationSummary =
+        serde_yaml::from_slice(&fs::read(&absolute)?)?;
+    if observation.schema_version.as_deref()
+        != Some("octon-lifecycle-route-completion-observation-v1")
+        || observation.route_id.as_deref() != Some(ROUTE_ID_ARCHIVE_PROPOSAL)
+        || observation.completion_observed != Some(true)
+        || observation.manifest_status_after.as_deref() != Some("archived")
+        || observation.expected_manifest_status.as_deref() != Some("archived")
+    {
+        return Ok(false);
+    }
+    let Some(observation_target) = observation.observation_target.as_deref() else {
+        return Ok(false);
+    };
+    let observed_path = Path::new(observation_target);
+    let observed_abs = if observed_path.is_absolute() {
+        observed_path.to_path_buf()
+    } else {
+        repo_root.join(observed_path)
+    };
+    let expected_abs = repo_root.join(state_target);
+    Ok(observed_abs == expected_abs)
 }
 
 fn is_archive_route_blocker_class(blocker_class: &str) -> bool {
@@ -15163,6 +15233,8 @@ fn assess_program_artifact_criticality(
     let under_lock_root = primary_path.starts_with(&lock_root);
     let under_current_run_generated_root =
         primary_path.starts_with(&tmp_root) || primary_path.starts_with(&scratch_root);
+    let current_run_control_artifact = primary_path == control_root.join(PROGRAM_CHECKPOINT_FILE)
+        || primary_path == control_root.join("program-events.ndjson");
     let workspace_root = control_root
         .ancestors()
         .find(|path| {
@@ -15221,18 +15293,23 @@ fn assess_program_artifact_criticality(
         "unclear"
     };
     let before_validation = format!(
-        "exists={exists}; is_file={is_file}; is_dir={is_dir}; under_current_run_lock_root={under_lock_root}; under_current_run_generated_root={under_current_run_generated_root}; path_matches_child_lock={path_matches_expected}; authority_surface={authority_surface}; operation_supported={operation_supported}"
+        "exists={exists}; is_file={is_file}; is_dir={is_dir}; under_current_run_lock_root={under_lock_root}; under_current_run_generated_root={under_current_run_generated_root}; current_run_control_artifact={current_run_control_artifact}; path_matches_child_lock={path_matches_expected}; authority_surface={authority_surface}; operation_supported={operation_supported}"
     );
     let generated_operation = matches!(
         operation.operation.as_str(),
         "generated_artifact_cleanup" | "remove_generated_artifact"
     );
+    let current_run_control_operation = matches!(
+        operation.operation.as_str(),
+        "current_run_control_artifact_cleanup" | "remove_current_run_control_artifact"
+    );
     if operation_supported
         && workspace_contained
-        && declared_scope_contained
+        && (declared_scope_contained || current_run_control_artifact)
         && authority_decision.autonomous_allowed
         && ((path_matches_expected && under_lock_root)
-            || (generated_operation && under_current_run_generated_root))
+            || (generated_operation && under_current_run_generated_root)
+            || (current_run_control_operation && current_run_control_artifact))
     {
         ProgramArtifactCriticalityDecision {
             schema_version: "octon-program-artifact-criticality-decision-v1".to_string(),
@@ -15249,8 +15326,12 @@ fn assess_program_artifact_criticality(
                 format!("path_matches_child_lock={path_matches_expected}"),
                 format!("under_current_run_lock_root={under_lock_root}"),
                 format!("under_current_run_generated_root={under_current_run_generated_root}"),
+                format!("current_run_control_artifact={current_run_control_artifact}"),
                 format!("workspace_contained={workspace_contained}"),
-                format!("declared_scope_contained={declared_scope_contained}"),
+                format!(
+                    "declared_scope_contained={}",
+                    declared_scope_contained || current_run_control_artifact
+                ),
                 format!("authority_surface={authority_surface}"),
                 format!("operation_supported={operation_supported}"),
             ],
@@ -15262,15 +15343,19 @@ fn assess_program_artifact_criticality(
             criticality: "non-critical".to_string(),
             ownership: if under_lock_root {
                 "current-run-child-lock".to_string()
+            } else if current_run_control_artifact {
+                "current-run-control-artifact".to_string()
             } else {
                 "current-run-generated-artifact".to_string()
             },
             workspace_contained,
-            declared_scope_contained,
+            declared_scope_contained: declared_scope_contained || current_run_control_artifact,
             human_input_required: false,
             autonomous_allowed: true,
             rationale: if under_lock_root {
                 "lock is a current-run coordination artifact, is named for the selected child, and is safe to remove after route completion or abandoned job construction".to_string()
+            } else if current_run_control_artifact {
+                "artifact is a current-run control artifact with retained evidence copy and is safe to remove after classification".to_string()
             } else {
                 "artifact is a current-run generated temporary or scratch artifact and is safe to remove after classification".to_string()
             },
@@ -15325,8 +15410,12 @@ fn assess_program_artifact_criticality(
                 format!("path_matches_child_lock={path_matches_expected}"),
                 format!("under_current_run_lock_root={under_lock_root}"),
                 format!("under_current_run_generated_root={under_current_run_generated_root}"),
+                format!("current_run_control_artifact={current_run_control_artifact}"),
                 format!("workspace_contained={workspace_contained}"),
-                format!("declared_scope_contained={declared_scope_contained}"),
+                format!(
+                    "declared_scope_contained={}",
+                    declared_scope_contained || current_run_control_artifact
+                ),
                 format!("authority_surface={authority_surface}"),
                 format!("operation_supported={operation_supported}"),
             ],
@@ -23872,6 +23961,98 @@ completion_observed: false
     }
 
     #[test]
+    fn archive_completion_observation_preserves_archived_child_after_failed_retry() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("archive-completion-observed-after-retry", true);
+        fixture.write_full_child_contract();
+        fixture.write(
+            ".octon/inputs/exploratory/proposals/.archive/architecture/a/proposal.yml",
+            "status: archived\npromotion_targets:\n  - \"framework/a.md\"\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: ".octon/inputs/exploratory/proposals/architecture/a"
+"#,
+        );
+        let run_id = "archive-completion-observed-after-retry";
+        let observation_ref = ".octon/state/evidence/runs/workflows/archive-completion-observed-after-retry/children/a/archive-proposal-attempt-7-completion-observation.yml";
+        fixture.write(
+            observation_ref,
+            r#"schema_version: octon-lifecycle-route-completion-observation-v1
+route_id: archive-proposal
+observation_target: .octon/inputs/exploratory/proposals/.archive/architecture/a
+manifest_status_after: archived
+expected_manifest_status: archived
+completion_observed: true
+"#,
+        );
+        fixture.write(
+            ".octon/state/evidence/runs/workflows/archive-completion-observed-after-retry/recovery-log.yml",
+            &format!(
+                r#"- child_id: a
+  child_run_id: archive-completion-observed-after-retry-a
+  route_id: archive-proposal
+  status: failed
+  attempts: 1
+  retryable: true
+  blocker_class: archive-workflow-failed
+  error_message: workflow leaf executor exited with non-zero status
+  evidence_paths:
+    - {observation_ref}
+"#
+            ),
+        );
+        let checkpoint = ProgramLifecycleCheckpoint {
+            schema_version: "octon-program-lifecycle-checkpoint-v1".to_string(),
+            run_id: run_id.to_string(),
+            lifecycle_id: "proposal-program".to_string(),
+            execution_strategy: LifecycleExecutionStrategy::OrchestratedReplanLoop
+                .as_str()
+                .to_string(),
+            target: "parent".to_string(),
+            child_registry_digest: "sha256:test".to_string(),
+            execution_mode: "parallel-independent".to_string(),
+            child_states: BTreeMap::from([(
+                "a".to_string(),
+                ProgramChildCheckpointState {
+                    child_lifecycle_id: "proposal-packet".to_string(),
+                    target: ".octon/inputs/exploratory/proposals/architecture/a".to_string(),
+                    current_state: Some("archive-proposal".to_string()),
+                    final_verdict: "blocked-recoverable".to_string(),
+                    write_scopes: vec![
+                        ".octon/inputs/exploratory/proposals/architecture/a".to_string()
+                    ],
+                    ..ProgramChildCheckpointState::default()
+                },
+            )]),
+            final_verdict: "blocked-recoverable".to_string(),
+            resume_instruction: format!("octon lifecycle resume --run-id {run_id}"),
+            ..ProgramLifecycleCheckpoint::default()
+        };
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+        )
+        .unwrap();
+
+        let child = plan.child_states.get("a").unwrap();
+        assert_eq!(
+            child.target,
+            ".octon/inputs/exploratory/proposals/.archive/architecture/a"
+        );
+        assert_eq!(child.terminal_outcome.as_deref(), Some("archived"));
+        assert_eq!(child.final_verdict, "completed");
+        assert!(!child
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "archive-workflow-failed"));
+    }
+
+    #[test]
     fn program_verification_prompt_with_missing_aggregate_receipts_routes_to_loop() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-verification-loop", "implemented");
@@ -27081,12 +27262,27 @@ routes:
         let control_root = fixture
             .octon_dir
             .join("state/control/execution/runs/compact-verify-after-control-cleanup");
-        fs::remove_file(control_root.join("program-lifecycle-checkpoint.yml")).unwrap();
-        fs::remove_file(control_root.join("program-events.ndjson")).unwrap();
-
         let evidence_root = fixture
             .octon_dir
             .join("state/evidence/runs/workflows/compact-verify-after-control-cleanup");
+        for artifact_name in ["program-lifecycle-checkpoint.yml", "program-events.ndjson"] {
+            let operation = ProgramArtifactOperation {
+                operation_id: format!("remove_control_artifact-{artifact_name}"),
+                child_id: "program".to_string(),
+                route_id: "compact-verify-after-control-cleanup".to_string(),
+                operation: "remove_current_run_control_artifact".to_string(),
+                destructive_operation: "remove_file".to_string(),
+                artifact_paths: vec![control_root.join(artifact_name)],
+                command_or_operation: "fs::remove_file".to_string(),
+            };
+            perform_governed_artifact_cleanup(
+                &control_root,
+                &evidence_root,
+                "compact-verify-after-control-cleanup",
+                &operation,
+            )
+            .unwrap();
+        }
         let planner_path = evidence_root.join(PLANNER_STATE_FILE);
         verify_program_compact_artifact_source_refs(&fixture.root, &planner_path).unwrap();
 
