@@ -9,7 +9,21 @@ promotion_targets:
 - .octon/framework/constitution/contracts/adapters/
 - .octon/framework/engine/runtime/spec/
 - .octon/framework/assurance/runtime/_ops/tests/
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/connector-external-effect-delegation-boundaries
+  promotion_evidence:
+  - .octon/instance/governance/connectors/external-effect-delegation-boundaries.yml
+  - .octon/framework/constitution/contracts/adapters/connector-operation-v1.schema.json
+  - .octon/framework/engine/runtime/spec/connector-operation-v1.schema.json
+  - .octon/framework/engine/runtime/spec/connector-replay-rollback-posture-v1.schema.json
+  - .octon/framework/constitution/contracts/adapters/family.yml
+  - .octon/instance/governance/connectors/README.md
+  - .octon/framework/assurance/runtime/_ops/tests/test-connector-external-effect-delegation-boundaries.sh
+  - .octon/state/evidence/validation/proposals/connector-external-effect-delegation-boundaries/2026-06-09T19-57-26Z/
 lifecycle:
   temporary: true
   exit_expectation: Implement only after shared contract evidence and retained connector validation, conformance, drift/churn, and promotion receipts.
