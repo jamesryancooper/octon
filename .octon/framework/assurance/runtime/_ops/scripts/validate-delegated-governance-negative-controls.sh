@@ -53,11 +53,37 @@ require_text() {
   grep -Fq "$needle" "$(repo_path "$path")" && pass "$label" || fail "$label"
 }
 
+resolve_child_packet_path() {
+  local child="$1"
+  local active_path=".octon/inputs/exploratory/proposals/architecture/$child"
+  local archive_path=".octon/inputs/exploratory/proposals/.archive/architecture/$child"
+
+  if [[ -f "$(repo_path "$active_path/proposal.yml")" ]]; then
+    printf '%s\n' "$active_path"
+    return 0
+  fi
+
+  if [[ -f "$(repo_path "$archive_path/proposal.yml")" ]]; then
+    printf '%s\n' "$archive_path"
+    return 0
+  fi
+
+  fail "predecessor child packet exists: $child"
+  return 1
+}
+
 require_child_implemented() {
   local child="$1"
-  local path=".octon/inputs/exploratory/proposals/architecture/$child/proposal.yml"
-  require_yq "$path" '.status == "implemented"' "predecessor child implemented: $child"
-  require_file ".octon/inputs/exploratory/proposals/architecture/$child/support/implementation-run.md" "implementation receipt for $child"
+  local packet_path
+
+  if ! packet_path="$(resolve_child_packet_path "$child")"; then
+    return 0
+  fi
+
+  require_yq "$packet_path/proposal.yml" \
+    '(.status == "implemented") or (.status == "archived" and .archive.archived_from_status == "implemented" and .archive.disposition == "implemented")' \
+    "predecessor child implemented: $child"
+  require_file "$packet_path/support/implementation-run.md" "implementation receipt for $child"
 }
 
 require_negative_control_class() {

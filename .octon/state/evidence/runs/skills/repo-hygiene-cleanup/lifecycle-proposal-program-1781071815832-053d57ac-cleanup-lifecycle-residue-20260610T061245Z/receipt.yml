@@ -1,0 +1,49 @@
+schema_version: repo-hygiene-cleanup-publishable-receipt-v1
+run_id: lifecycle-proposal-program-1781071815832-053d57ac-cleanup-lifecycle-residue-20260610T061245Z
+parent_run_id: lifecycle-proposal-program-1781071815832-053d57ac
+delegated_from_route: cleanup-lifecycle-residue
+target: .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+created_at: "2026-06-10T06:12:45Z"
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781071815832-053d57ac-cleanup-lifecycle-residue-20260610T061245Z/cleanup-authorization.json
+authorization_id: repo-hygiene-cleanup-4a6ac7380b62a7af
+authorization_result: approved
+authorized_path_count: 349
+deleted_count: 349
+retained_protected_count: 85
+retained_manual_review_count: 6
+cleanup_outcome: deleted_authorized_cleanup_candidates
+blocker: manual_review_retained
+redaction_posture: publish_summary_counts_and_digests_only
+raw_evidence_not_published: true
+local_private_evidence_ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781071815832-053d57ac-cleanup-lifecycle-residue-20260610T061245Z/
+local_private_evidence_digest: "sha256:aba50150c62d59a19b7279c3fd210df9e3d40b1b11d28c38581160faebfed173"
+helper:
+  initial_mode: dry-run
+  authorization_mode: authorization
+  initial_cleanup_candidates: 349
+  initial_protected_referenced: 85
+  initial_manual_review: 6
+  initial_git_status_digest: "sha256:84655a78fae32025833e2ddac0e7f48bb18fcdd8665b343504428fa814614e2e"
+  initial_classification_digest: "sha256:06c539084385d1ca74b76bd105e07756abdea00845ed4bd278a158cfd1605817"
+  initial_cleanup_path_set_digest: "sha256:d4f120a79809ba5b8b5518af0ddf6f002f98e2290488d29c37cd711947b90da1"
+  initial_protected_paths_digest: "sha256:25bac7213b23c48f09f67a7ea4c5fd7d36b01238eb76d331930b799c675f2f08"
+  initial_manual_review_paths_digest: "sha256:b9687f926fac9c2804a11247a73f251185173959873bca199a94fd56ec3cfe63"
+  post_cleanup_candidates: 0
+  post_cleanup_protected_referenced: 87
+  post_cleanup_manual_review: 6
+  post_cleanup_git_status_digest: "sha256:feccea4136254f193ce721191da4f0a7d7ac2981c9a94f982b828ad585963b8d"
+  post_cleanup_classification_digest: "sha256:994ec3d54b3d8dcd4406a89091008892638ee75779ac78cdf160912d7773cc71"
+  post_cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  post_cleanup_protected_paths_digest: "sha256:9b1ed0d09cf719d8181d454a2e0091875b08cc667ed9070afd52e217cdd8f6e2"
+  post_cleanup_manual_review_paths_digest: "sha256:b9687f926fac9c2804a11247a73f251185173959873bca199a94fd56ec3cfe63"
+retained_rationale:
+  - Protected paths were retained because the helper classified them as referenced active control or retained evidence.
+  - Manual-review paths were retained because unreferenced cleanup-evidence receipts from earlier attempts need explicit retention or cleanup rationale outside this delegated deletion set.
+  - Raw helper logs remain local-private evidence and are not authority, policy, closeout truth, archive truth, or generated-output freshness proof.
+validation:
+  helper_revalidated_before_delete: true
+  deleted_only_exact_authorized_path_set: true
+  tracked_files_deleted: false
+  input_paths_deleted: false
+  generated_authority_deleted: false
+  generated_run_health_projection_deleted: false

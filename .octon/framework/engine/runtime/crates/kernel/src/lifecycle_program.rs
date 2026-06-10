@@ -2723,6 +2723,7 @@ pub(crate) fn run_program_lifecycle_from_octon_dir(
     let registry_binding_digest = program_registry_binding_digest(&parent_context)?;
     if let Some(checkpoint) = previous_checkpoint.as_ref() {
         validate_program_checkpoint_binding(
+            &repo_root,
             checkpoint,
             &sanitized_run_id,
             &options.lifecycle_id,
@@ -5522,7 +5523,8 @@ fn load_program_parent_context(
         .program
         .as_ref()
         .with_context(|| format!("lifecycle {lifecycle_id} is not a program lifecycle"))?;
-    let target_abs = resolve_lifecycle_target_path(&repo_root, target)?;
+    let target_abs =
+        resolve_program_child_target(&resolve_lifecycle_target_path(&repo_root, target)?)?;
     let target_rel = rel_display(&repo_root, &target_abs);
     let parent_manifest_status = read_manifest_status(&target_abs, &loaded.contract)?;
     let registry_abs = resolve_target_local_path(
@@ -15891,6 +15893,7 @@ fn program_cancelled_run_result(
 }
 
 fn validate_program_checkpoint_binding(
+    repo_root: &Path,
     checkpoint: &ProgramLifecycleCheckpoint,
     sanitized_run_id: &str,
     lifecycle_id: &str,
@@ -15904,7 +15907,9 @@ fn validate_program_checkpoint_binding(
             checkpoint.run_id
         );
     }
-    if checkpoint.lifecycle_id != lifecycle_id || checkpoint.target != target {
+    if checkpoint.lifecycle_id != lifecycle_id
+        || !program_checkpoint_targets_match(repo_root, &checkpoint.target, target)?
+    {
         bail!(
             "program lifecycle run id {sanitized_run_id} is already bound to lifecycle {} target {}; requested lifecycle {lifecycle_id} target {target}",
             checkpoint.lifecycle_id,
@@ -15927,6 +15932,38 @@ fn validate_program_checkpoint_binding(
         );
     }
     Ok(())
+}
+
+fn program_checkpoint_targets_match(
+    repo_root: &Path,
+    checkpoint_target: &str,
+    requested_target: &str,
+) -> Result<bool> {
+    if checkpoint_target == requested_target {
+        return Ok(true);
+    }
+    if !is_safe_repo_relative(checkpoint_target) || !is_safe_repo_relative(requested_target) {
+        return Ok(false);
+    }
+    let checkpoint_path = Path::new(checkpoint_target);
+    let requested_path = Path::new(requested_target);
+    for (active, archived_candidate) in [
+        (checkpoint_path, requested_target),
+        (requested_path, checkpoint_target),
+    ] {
+        let Some(archived_path) = archived_target_for_active_target(active) else {
+            continue;
+        };
+        if rel_path_string(&archived_path) != archived_candidate {
+            continue;
+        }
+        if proposal_status_at_target(&repo_root.join(&archived_path))?.as_deref()
+            == Some("archived")
+        {
+            return Ok(true);
+        }
+    }
+    Ok(false)
 }
 
 fn read_program_checkpoint_for_run(
@@ -16768,13 +16805,45 @@ fn program_compact_source_refs(
     push_program_compact_source_ref(
         repo_root,
         &mut refs,
-        &repo_root.join(&plan.child_registry_path),
+        &resolve_program_compact_child_registry_source(repo_root, plan)?,
         "child-registry",
         true,
     )?;
     refs.sort_by(|left, right| left.artifact_ref.cmp(&right.artifact_ref));
     refs.dedup_by(|left, right| left.artifact_ref == right.artifact_ref);
     Ok(refs)
+}
+
+fn resolve_program_compact_child_registry_source(
+    repo_root: &Path,
+    plan: &ProgramLifecyclePlanResult,
+) -> Result<PathBuf> {
+    let child_registry_rel = Path::new(&plan.child_registry_path);
+    let child_registry_abs = repo_root.join(child_registry_rel);
+    if child_registry_abs.is_file() {
+        return Ok(child_registry_abs);
+    }
+
+    if !is_safe_repo_relative(&plan.target) {
+        return Ok(child_registry_abs);
+    }
+    let target_rel = Path::new(&plan.target);
+    let Some(archived_target_rel) = archived_target_for_active_target(target_rel) else {
+        return Ok(child_registry_abs);
+    };
+    let Ok(registry_suffix) = child_registry_rel.strip_prefix(target_rel) else {
+        return Ok(child_registry_abs);
+    };
+    let archived_target_abs = repo_root.join(&archived_target_rel);
+    if proposal_status_at_target(&archived_target_abs)?.as_deref() != Some("archived") {
+        return Ok(child_registry_abs);
+    }
+    let archived_child_registry_abs = repo_root.join(archived_target_rel).join(registry_suffix);
+    if archived_child_registry_abs.is_file() {
+        Ok(archived_child_registry_abs)
+    } else {
+        Ok(child_registry_abs)
+    }
 }
 
 fn push_program_compact_source_ref(
@@ -20092,6 +20161,58 @@ mod tests {
             stop_reason: Some("dispatch-available".to_string()),
             final_verdict: "planned".to_string(),
         }
+    }
+
+    #[test]
+    fn program_compact_child_registry_source_follows_archived_parent_target() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("compact-child-registry-archived-parent", true);
+        fixture.write(
+            ".octon/inputs/exploratory/proposals/.archive/architecture/parent/proposal.yml",
+            "status: archived\n",
+        );
+        fixture.write(
+            ".octon/inputs/exploratory/proposals/.archive/architecture/parent/resources/child-packet-index.yml",
+            "schema_version: octon-proposal-program-child-registry-v2\nchildren: []\n",
+        );
+        let mut plan = program_plan_with_children(BTreeMap::new(), Vec::new());
+        plan.target = ".octon/inputs/exploratory/proposals/architecture/parent".to_string();
+        plan.child_registry_path =
+            ".octon/inputs/exploratory/proposals/architecture/parent/resources/child-packet-index.yml"
+                .to_string();
+
+        let resolved = resolve_program_compact_child_registry_source(&fixture.root, &plan).unwrap();
+
+        assert_eq!(
+            rel_path_string(resolved.strip_prefix(&fixture.root).unwrap()),
+            ".octon/inputs/exploratory/proposals/.archive/architecture/parent/resources/child-packet-index.yml"
+        );
+    }
+
+    #[test]
+    fn program_checkpoint_binding_accepts_verified_archive_relocation() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("checkpoint-archive-relocation", true);
+        let active_target = ".octon/inputs/exploratory/proposals/architecture/parent";
+        let archived_target = ".octon/inputs/exploratory/proposals/.archive/architecture/parent";
+        fixture.write(
+            &format!("{archived_target}/proposal.yml"),
+            "status: archived\n",
+        );
+
+        assert!(
+            program_checkpoint_targets_match(&fixture.root, active_target, archived_target)
+                .unwrap()
+        );
+
+        fixture.write(
+            &format!("{archived_target}/proposal.yml"),
+            "status: implemented\n",
+        );
+        assert!(
+            !program_checkpoint_targets_match(&fixture.root, active_target, archived_target)
+                .unwrap()
+        );
     }
 
     fn program_with_publication_recovery_action() -> ProgramSpec {
@@ -23821,6 +23942,46 @@ routes:
             Some("archived")
         );
         assert_eq!(parent_terminal_plan.final_verdict, "completed");
+    }
+
+    #[test]
+    fn program_planner_resolves_archived_parent_target_without_recreating_active_path() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = program_review_fixture("archived-parent-target", "accepted");
+        let active_target = ".octon/inputs/exploratory/proposals/architecture/parent";
+        let archived_target = ".octon/inputs/exploratory/proposals/.archive/architecture/parent";
+        fixture.write(
+            &format!("{archived_target}/proposal.yml"),
+            "status: archived\n",
+        );
+        fixture.write(
+            &format!("{archived_target}/resources/child-packet-index.yml"),
+            r#"schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "parallel-independent"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        assert!(!fixture.root.join(active_target).exists());
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new(active_target),
+        )
+        .unwrap();
+
+        assert_eq!(plan.target, archived_target);
+        assert_eq!(plan.parent_manifest_status.as_deref(), Some("archived"));
+        assert_eq!(plan.terminal_outcome.as_deref(), Some("archived"));
+        assert_eq!(plan.final_verdict, "completed");
+        assert_eq!(
+            plan.child_registry_path,
+            format!("{archived_target}/resources/child-packet-index.yml")
+        );
+        assert!(plan.program_route.is_none());
     }
 
     #[test]

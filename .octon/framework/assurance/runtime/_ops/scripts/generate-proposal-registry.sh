@@ -122,6 +122,7 @@ write_manifest_list() {
   if git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     git -C "$ROOT_DIR" ls-files --cached --others --exclude-standard -- .octon/inputs/exploratory/proposals \
       | while IFS= read -r rel; do
+        [[ -f "$ROOT_DIR/$rel" ]] || continue
         case "$rel" in
           */proposal.yml)
             printf '%s/%s\n' "$ROOT_DIR" "$rel"

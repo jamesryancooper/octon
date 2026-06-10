@@ -1,0 +1,44 @@
+schema_version: octon-validation-summary-v1
+target: .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+run_id: lifecycle-proposal-program-1781073115145-fe49ec37
+generated_at: 2026-06-10T15:01:15Z
+verdict: pass
+child_authority_preserved: yes
+commands:
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T150115Z/parent-validate-architecture-proposal.log
+    final_summary: errors=0 warnings=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T150115Z/parent-validate-proposal-program-structure.log
+    final_summary: errors=0 warnings=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T150115Z/parent-validate-proposal-program-child-readiness.log
+    final_summary: errors=0 warnings=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T150115Z/parent-validate-proposal-implementation-readiness.log
+    final_summary: errors=0 warnings=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T150115Z/parent-validate-proposal-standard.log
+    final_summary: errors=0 warnings=0
+  - command: git diff --check
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T150115Z/git-diff-check.log
+  - command: git diff --check
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T150115Z/git-diff-check-post-closeout-correction.log
+hygiene:
+  verdict: pass
+  blocker_class: none
+  owned_path_count: 556
+  in_scope_path_count: 176
+  foreign_path_count: 0
+  foreign_fingerprint: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  evidence: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T150115Z/worktree-hygiene-after-closeout-correction.yml
+notes:
+  - closeout receipt correction added required cleanup_summary and cataloged parent-owned closeout files.
+  - parent evidence summarizes child outcomes only and does not satisfy child receipts.

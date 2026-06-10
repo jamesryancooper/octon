@@ -1,0 +1,26 @@
+schema_version: octon-validation-summary-v1
+target: .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+validated_at: 2026-06-10T14:35:00Z
+verdict: pass
+commands:
+  - name: parent architecture proposal validation
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T143500Z/parent-validate-architecture-proposal.log
+    final_summary: errors=0
+  - name: parent program structure validation
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T143500Z/parent-validate-proposal-program-structure.log
+    final_summary: errors=0 warnings=0
+  - name: parent program child readiness validation
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T143500Z/parent-validate-proposal-program-child-readiness.log
+    final_summary: errors=0 warnings=0
+  - name: parent proposal standard validation
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+    exit_status: 0
+    log: .octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T143500Z/parent-validate-proposal-standard.log
+    final_summary: errors=0 warnings=0
+authority_boundary: Validation evidence verifies parent structure, aggregate child readiness, and proposal standard conformance. It does not replace child-owned validation verdicts, receipts, promotion evidence, archive metadata, rollback handles, or terminal outcomes.

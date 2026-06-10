@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:b7680321516be7e77c39c34080a1ba5f8bbaea33afba28f23a938ec824ac779e
+  entry_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-09T22:53:36.097075Z
+  run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:6996d0045032531e64363af648e3e8eeb9b936c31bc85414f95185aef8ede780
+  entry_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-09T22:53:36.097075Z
+  run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal
+run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-09T22:53:36.097075Z

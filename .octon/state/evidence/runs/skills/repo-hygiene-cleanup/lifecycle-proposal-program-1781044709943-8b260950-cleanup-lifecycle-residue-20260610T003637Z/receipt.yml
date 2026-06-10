@@ -1,0 +1,44 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-1781044709943-8b260950-cleanup-lifecycle-residue-20260610T003637Z
+route: authorization-receipt
+created_at: "2026-06-10T00:37:01Z"
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781044709943-8b260950-cleanup-lifecycle-residue-20260610T003637Z/cleanup-authorization.json
+authorization_digest: "sha256:16a5d495bb5767613b8ebbc33ff35bbbcc816d4f6d7e02bdf90a50f872264e32"
+authorization_id: repo-hygiene-cleanup-fe39182313b6b6d8
+authorization_result: approved
+authorized_path_count: 1
+deleted_count: 1
+retained_protected_count: 80
+retained_manual_review_count: 0
+initial_helper_summary:
+  mode: dry-run
+  cleanup_candidates: 1
+  protected_referenced: 79
+  manual_review: 0
+  git_status_digest: "sha256:67993cb7aa87ef4fd4b102a7dfbe5555af8d31a59a1af091a2ee4156ebe5d80b"
+  classification_digest: "sha256:fe60a8873593b49d205462a1a01fc7cc544b5e38f88551412de85ac57b829568"
+  cleanup_path_set_digest: "sha256:3f2944deb34103ff4a9c4f68e3507344fafccb56b9ad86735cb910e3763be7eb"
+  protected_paths_digest: "sha256:86e19763a7588ae788aeea68ed22ac18a63f13c60ca37475b05dd5c5ec90dc2d"
+  manual_review_paths_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+final_helper_summary:
+  mode: dry-run
+  cleanup_candidates: 0
+  protected_referenced: 80
+  manual_review: 0
+  git_status_digest: "sha256:6916597b3a9321409c82d6c0391fa42e73316c7f30f75bb23357c75765ccebe1"
+  classification_digest: "sha256:514377b3ac90f88e76bcfa966e8d8b48ac12c4a8e789f47967ffc4ced4ed2e15"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:3c3c0d201afdde4b258edc5dd6c7cd2f8fd1704cc37c0729e9b5a5ed1b72dedc"
+  manual_review_paths_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+local_private_evidence_ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781044709943-8b260950-cleanup-lifecycle-residue-20260610T003637Z/
+local_private_evidence_digest: "sha256:ac424d4f073e75ada3103e0ef296d4934e183a50e17331c85cf93ae9aa098234"
+local_private_evidence_posture: >-
+  Local-only raw helper output retained for operator debugging and audit. It is
+  not authority, policy, closeout truth, archive truth, generated-output
+  freshness proof, or hosted/shared evidence.
+raw_path_lists_published: false
+remaining_blocker: >-
+  Generic cleanup candidates are cleared. Protected active proposal-program
+  run state remains intact and outside this deletion route.

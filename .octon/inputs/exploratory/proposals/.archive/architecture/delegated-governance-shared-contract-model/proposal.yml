@@ -1,0 +1,60 @@
+schema_version: proposal-v1
+proposal_id: delegated-governance-shared-contract-model
+title: Delegated Governance Shared Contract Model
+summary: Define generic proof-first delegation contract semantics for non-lifecycle Octon surfaces without forcing every domain to reuse lifecycle route schema.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/constitution/contracts/authority/
+- .octon/framework/constitution/contracts/runtime/
+- .octon/framework/engine/runtime/spec/
+status: archived
+archive:
+  archived_at: 2026-06-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/delegated-governance-shared-contract-model/2026-06-09T18-03-14Z/shared-contract-semantics-validation-receipt.md
+  - .octon/state/evidence/validation/proposals/delegated-governance-shared-contract-model/2026-06-09T18-03-14Z/approval-default-negative-control-receipt.md
+  - .octon/state/evidence/validation/proposals/delegated-governance-shared-contract-model/2026-06-09T18-03-14Z/minimality-anti-bloat-receipt.md
+  - .octon/state/evidence/validation/proposals/delegated-governance-shared-contract-model/2026-06-09T18-03-14Z/repository-reconnaissance-receipt.md
+  - .octon/state/evidence/validation/proposals/delegated-governance-shared-contract-model/2026-06-09T18-03-14Z/rollback-posture.md
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after inventory evidence is available and child-owned validation, conformance, drift/churn, and promotion receipts are retained.
+related_proposals:
+- octon-wide-delegated-governance-migration
+- delegated-governance-inventory-and-vocabulary
+acceptance_criteria_summary: Accepted when shared contract semantics can drive domain children without preserving default approval posture.
+authority_class_impact:
+  framework: May propose shared contract semantics for proof-gated delegated execution.
+  instance: No direct instance mutation from this packet.
+  state_control: No state/control mutation from this packet.
+  state_evidence: Future implementation must retain contract validation evidence.
+  generated: Generated projections remain non-authority.
+  inputs: This child packet is proposal-local input.
+change_profile: atomic
+created_date: 2026-05-18
+evidence_requirements:
+- Inventory child evidence.
+- Delegation contract field mapping for non-lifecycle domains.
+- Typed human exception boundary vocabulary.
+- Grant-consumption semantics.
+explicit_runtime_non_implementation_statement: This child packet does not implement shared contracts until promoted.
+generated_input_authority_impact: Generated outputs and read models may report proof state but cannot grant authority.
+owner:
+  role: Octon architecture child proposal author
+  accountable_role: human operator / repository owner
+program_parent: octon-wide-delegated-governance-migration
+rollback_summary: Reject or supersede if the shared model recreates approval defaults.
+runtime_behavior_impact: None from this accepted child packet.
+scope_statement: Architecture child packet for shared delegated governance contract semantics. It does not mutate runtime behavior by itself.
+source_lineage:
+- .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture
+- .octon/inputs/exploratory/proposals/architecture/delegated-governance-inventory-and-vocabulary
+validation_gates:
+- proposal standard validation
+- architecture proposal validation
+- implementation-readiness validation
+- contract semantics validation

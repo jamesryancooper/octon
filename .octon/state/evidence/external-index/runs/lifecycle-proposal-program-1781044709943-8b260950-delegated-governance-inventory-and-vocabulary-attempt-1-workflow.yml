@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:1d339a5891f1d5ecf24ccf5c4fe121a22dc71cf70e9a933e9464238287b34767
+  entry_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow/replay/manifest.yml
+  recorded_at: 2026-06-09T22:59:22.031664Z
+  run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:ed86c015d221931033252261e90046d5ceb56037568fc1dd6ac07c502e5a0a49
+  entry_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow/replay/manifest.yml
+  recorded_at: 2026-06-09T22:59:22.031664Z
+  run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow
+run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-09T22:59:22.031664Z

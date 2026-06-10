@@ -11,6 +11,7 @@ cleanup_dirs=()
 cleanup_files=()
 
 cleanup() {
+  set +u
   local dir
   for dir in "${cleanup_dirs[@]}"; do
     case "$dir" in
@@ -416,6 +417,18 @@ case_current_program_run_closeout_packet_evidence_does_not_block() {
     assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
 }
 
+case_current_program_run_lifecycle_closeout_packet_evidence_does_not_block() {
+  local root output
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  mkdir -p "$root/.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/run-1-fixture-child"
+  printf 'hygiene\n' >"$root/.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/run-1-fixture-child/worktree-hygiene.yml"
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_owned_path_count: 1" &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
+}
+
 case_target_lifecycle_closeout_packet_evidence_does_not_block() {
   local root output evidence_dir
   root="$(new_fixture_repo)"
@@ -450,6 +463,84 @@ case_current_program_run_repo_hygiene_cleanup_evidence_does_not_block() {
   run_classifier "$root" proposal-program "$output"
   assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
     assert_contains "$output" "worktree_hygiene_owned_path_count: 1" &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
+}
+
+case_same_scope_repo_hygiene_cleanup_receipts_without_checkpoint_do_not_block() {
+  local root output evidence_dir
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  evidence_dir="$root/.octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1234-abcd-cleanup-lifecycle-residue-20260610T000000Z"
+  mkdir -p "$evidence_dir"
+  cat >"$evidence_dir/receipt.yml" <<'YAML'
+schema_version: repo-hygiene-cleanup-publishable-receipt-v1
+run_id: lifecycle-proposal-program-1234-abcd-cleanup-lifecycle-residue-20260610T000000Z
+parent_run_id: lifecycle-proposal-program-1234-abcd
+delegated_from_route: cleanup-lifecycle-residue
+target: .octon/inputs/exploratory/proposals/architecture/fixture-packet
+cleanup_outcome: deleted_authorized_cleanup_candidates
+YAML
+  cat >"$evidence_dir/cleanup-authorization.json" <<'JSON'
+{"authorization_result":"approved","authorized_paths":[]}
+JSON
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_owned_path_count: 2" &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
+}
+
+case_same_scope_repo_hygiene_cleanup_receipts_with_parent_run_checkpoint_do_not_block() {
+  local root output evidence_dir run_dir
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  run_dir="$root/.octon/state/control/execution/runs/lifecycle-proposal-program-1234-abcd"
+  mkdir -p "$run_dir"
+  cat >"$run_dir/program-lifecycle-checkpoint.yml" <<'YAML'
+target: ".octon/inputs/exploratory/proposals/architecture/fixture-packet"
+YAML
+  evidence_dir="$root/.octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1234-abcd-cleanup-lifecycle-residue-20260610T000000Z"
+  mkdir -p "$evidence_dir"
+  cat >"$evidence_dir/receipt.yml" <<'YAML'
+schema_version: repo-hygiene-cleanup-summary-v1
+run_id: lifecycle-proposal-program-1234-abcd-cleanup-lifecycle-residue-20260610T000000Z
+parent_run_id: lifecycle-proposal-program-1234-abcd
+route_id: cleanup-lifecycle-residue
+deleted_count: 0
+blocker: none
+YAML
+  cat >"$evidence_dir/cleanup-authorization.json" <<'JSON'
+{"authorization_result":"approved","authorized_paths":[]}
+JSON
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_owned_path_count: 3" &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
+}
+
+case_same_scope_repo_hygiene_cleanup_receipts_with_retained_workflow_checkpoint_do_not_block() {
+  local root output evidence_dir workflow_dir
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  workflow_dir="$root/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1234-abcd"
+  mkdir -p "$workflow_dir"
+  cat >"$workflow_dir/program-lifecycle-checkpoint.yml" <<'YAML'
+target: ".octon/inputs/exploratory/proposals/architecture/fixture-packet"
+YAML
+  evidence_dir="$root/.octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1234-abcd-cleanup-lifecycle-residue-20260610T000000Z"
+  mkdir -p "$evidence_dir"
+  cat >"$evidence_dir/receipt.yml" <<'YAML'
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-1234-abcd
+parent_route: cleanup-lifecycle-residue
+deleted_count: 0
+blocker: none
+YAML
+  cat >"$evidence_dir/cleanup-authorization.json" <<'JSON'
+{"authorization_result":"approved","authorized_paths":[]}
+JSON
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_owned_path_count: 3" &&
     assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
 }
 
@@ -646,9 +737,13 @@ main() {
   assert_success "program checkpoint scope applies to packet child target" case_program_checkpoint_scope_applies_to_packet_child_target
   assert_success "current program run-derived artifacts do not block" case_current_program_run_derived_artifacts_do_not_block
   assert_success "current program run closeout-packet evidence does not block" case_current_program_run_closeout_packet_evidence_does_not_block
+  assert_success "current program run lifecycle closeout-packet evidence does not block" case_current_program_run_lifecycle_closeout_packet_evidence_does_not_block
   assert_success "target lifecycle closeout-packet evidence does not block" case_target_lifecycle_closeout_packet_evidence_does_not_block
   assert_success "other lifecycle closeout-packet evidence still blocks" case_other_lifecycle_closeout_packet_evidence_still_blocks
   assert_success "current program run repo-hygiene cleanup evidence does not block" case_current_program_run_repo_hygiene_cleanup_evidence_does_not_block
+  assert_success "same-scope repo-hygiene cleanup receipts without checkpoint do not block" case_same_scope_repo_hygiene_cleanup_receipts_without_checkpoint_do_not_block
+  assert_success "same-scope repo-hygiene cleanup receipts with parent run checkpoint do not block" case_same_scope_repo_hygiene_cleanup_receipts_with_parent_run_checkpoint_do_not_block
+  assert_success "same-scope repo-hygiene cleanup receipts with retained workflow checkpoint do not block" case_same_scope_repo_hygiene_cleanup_receipts_with_retained_workflow_checkpoint_do_not_block
   assert_success "same-scope lifecycle run artifacts do not block" case_same_scope_lifecycle_runs_do_not_block
   assert_success "same-scope lifecycle evidence artifacts do not block" case_same_scope_lifecycle_evidence_runs_do_not_block
   assert_success "same program lifecycle artifacts do not block packet child target" case_same_program_lifecycle_artifacts_do_not_block_packet_child_target

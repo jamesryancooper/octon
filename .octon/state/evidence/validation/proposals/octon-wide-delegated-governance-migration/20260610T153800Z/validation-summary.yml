@@ -1,0 +1,50 @@
+schema_version: octon-validation-summary-v1
+target: .octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration
+recorded_at: 2026-06-10T15:38:00Z
+verdict: pass
+parent_lifecycle_run_id: lifecycle-proposal-program-1781104294164-26d34689
+parent_terminal_outcome: archived
+parent_final_verdict: completed
+checks:
+  - id: parent-archive-validate-architecture-proposal
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration
+    exit_code: 0
+    log: parent-archive-validate-architecture-proposal.log
+  - id: parent-archive-validate-proposal-program-structure
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration
+    exit_code: 0
+    log: parent-archive-validate-proposal-program-structure.log
+  - id: parent-archive-validate-proposal-program-child-readiness
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration
+    exit_code: 0
+    log: parent-archive-validate-proposal-program-child-readiness.log
+  - id: parent-archive-validate-proposal-standard
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration
+    exit_code: 0
+    log: parent-archive-validate-proposal-standard.log
+    final_summary: "Validation summary: errors=0 warnings=0"
+  - id: parent-archive-validate-proposal-implementation-readiness
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration
+    exit_code: 0
+    log: parent-archive-validate-proposal-implementation-readiness.log
+  - id: git-diff-check
+    command: git diff --check
+    exit_code: 0
+    log: git-diff-check.log
+  - id: test-classify-proposal-worktree-hygiene
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh
+    exit_code: 0
+    log: test-classify-proposal-worktree-hygiene.log
+    final_summary: "passed=29 failed=0"
+  - id: cargo-test-program-checkpoint-archive-relocation
+    command: cargo test --manifest-path .octon/framework/engine/runtime/crates/kernel/Cargo.toml program_checkpoint_binding_accepts_verified_archive_relocation
+    exit_code: 0
+    log: cargo-test-program-checkpoint-archive-relocation.log
+  - id: cargo-test-program-planner-archived-parent-target
+    command: cargo test --manifest-path .octon/framework/engine/runtime/crates/kernel/Cargo.toml program_planner_resolves_archived_parent_target_without_recreating_active_path
+    exit_code: 0
+    log: cargo-test-program-planner-archived-parent-target.log
+  - id: cargo-test-program-compact-child-registry-archive-source
+    command: cargo test --manifest-path .octon/framework/engine/runtime/crates/kernel/Cargo.toml program_compact_child_registry_source_follows_archived_parent_target
+    exit_code: 0
+    log: cargo-test-program-compact-child-registry-archive-source.log

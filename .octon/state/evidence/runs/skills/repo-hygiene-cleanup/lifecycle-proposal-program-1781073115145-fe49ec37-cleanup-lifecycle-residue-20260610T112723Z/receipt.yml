@@ -1,0 +1,45 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+route: "repo-hygiene-cleanup"
+parent_route: "cleanup-lifecycle-residue"
+run_id: "lifecycle-proposal-program-1781073115145-fe49ec37"
+receipt_id: "lifecycle-proposal-program-1781073115145-fe49ec37-cleanup-lifecycle-residue-20260610T112723Z"
+created_at: "2026-06-10T11:27:23Z"
+redaction_posture: "publishable summary only; raw helper path logs retained local-private"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781073115145-fe49ec37-cleanup-lifecycle-residue-20260610T112723Z/cleanup-authorization.json"
+authorization_digest: "sha256:9624c4359eb7f288bb4c27ec3a144ca9037dda1db3bed6f2e2e39861b0a23836"
+authorization_id: "repo-hygiene-cleanup-6417e18a19ea1302"
+authorization_result: "approved"
+authorized_path_count: 150
+deleted_count: 150
+retained_protected_count_after_delete: 134
+retained_manual_review_count_after_delete: 10
+cleanup_candidates_before: 150
+cleanup_candidates_after: 0
+initial_git_status_digest: "sha256:dc49985dbae08def96af60283f018db3ff016a801456a05354597a3f3f4a218e"
+initial_classification_digest: "sha256:b2466d713fac006457adbd66a776b77d7e8de4f87f9c61b7956f5b5b9a8cff76"
+initial_cleanup_path_set_digest: "sha256:79a0eaab384b2f4f839d89170697497f1e9292f8186f01b006c8ce128074caae"
+initial_protected_paths_digest: "sha256:a6624e322eef164c61340971df248eb85edeb5b1ef6e0593ba83334af5a64d49"
+initial_manual_review_paths_digest: "sha256:abc9a09f44fd4c2594e54f8d9c1b8b077626bda184bf48c80509a771101f4cd6"
+post_delete_git_status_digest: "sha256:2633f48b866a46f6db6082a347a888ceba96a0757d5d323967b41e680011d45e"
+post_delete_classification_digest: "sha256:e1bf2095334857f88d931b669620f2ce0b5b23f6bf45109d10b2d30541dfce5b"
+post_delete_cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+post_delete_protected_paths_digest: "sha256:93e75f6b24ba6d10c9f4aa4aa250f2dde5dcc49f4c56439c5ab8b87b7455d012"
+post_delete_manual_review_paths_digest: "sha256:abc9a09f44fd4c2594e54f8d9c1b8b077626bda184bf48c80509a771101f4cd6"
+local_private_evidence_ref: ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781073115145-fe49ec37-cleanup-lifecycle-residue-20260610T112723Z/"
+local_private_evidence_digest: "sha256:2360cd20a1aa59bd4b9cd5ff4b3d3aa17131306f86ee728d2d264828643f1f9e"
+local_private_evidence_authority_posture: "not authority, policy, closeout truth, archive truth, generated-output freshness proof, or hosted/shared evidence"
+blocker: "none"
+---
+
+# Repo Hygiene Cleanup Receipt
+
+The cleanup route used the receipt-backed helper path:
+
+```sh
+.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --active-run-id lifecycle-proposal-program-1781073115145-fe49ec37 --authorize <receipt>
+.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --active-run-id lifecycle-proposal-program-1781073115145-fe49ec37 --authorization <receipt>
+```
+
+The helper deleted 150 untracked, unreferenced local run residue files and
+retained all protected and manual-review state. Raw helper logs and raw path
+lists are retained only under the local-private evidence ref above.

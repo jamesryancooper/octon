@@ -251,6 +251,7 @@ matches_current_run_artifact() {
     ".octon/state/evidence/control/execution/"*"$RUN_ID"*|\
     ".octon/state/evidence/external-index/runs/$RUN_ID"*|\
     ".octon/state/evidence/runs/skills/closeout-packet/$RUN_ID"*|\
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/$RUN_ID"*|\
     ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/$RUN_ID"* )
       return 0
       ;;
@@ -305,6 +306,10 @@ same_scope_lifecycle_run_artifact() {
       run_id="${path#".octon/state/evidence/runs/skills/closeout-packet/"}"
       run_id="${run_id%%/*}"
       ;;
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/"*)
+      run_id="${path#".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/"}"
+      run_id="${run_id%%/*}"
+      ;;
     ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/"*)
       run_id="${path#".octon/state/evidence/runs/skills/repo-hygiene-cleanup/"}"
       run_id="${run_id%%/*}"
@@ -325,12 +330,67 @@ same_scope_lifecycle_run_artifact() {
     checkpoint="$run_dir/program-lifecycle-checkpoint.yml"
   elif [[ -f "$run_dir/lifecycle-checkpoint.yml" ]]; then
     checkpoint="$run_dir/lifecycle-checkpoint.yml"
+  elif [[ -f "$ROOT_DIR/.octon/state/evidence/runs/workflows/$run_id/program-lifecycle-checkpoint.yml" ]]; then
+    checkpoint="$ROOT_DIR/.octon/state/evidence/runs/workflows/$run_id/program-lifecycle-checkpoint.yml"
+  elif [[ -f "$ROOT_DIR/.octon/state/evidence/runs/workflows/$run_id/lifecycle-checkpoint.yml" ]]; then
+    checkpoint="$ROOT_DIR/.octon/state/evidence/runs/workflows/$run_id/lifecycle-checkpoint.yml"
   fi
   [[ -n "$checkpoint" ]] || return 1
   target=""
   if command -v yq >/dev/null 2>&1; then
     target="$(yq -r '.target // ""' "$checkpoint" 2>/dev/null || true)"
   fi
+  [[ -n "$target" && "$target" != "null" ]] || return 1
+  target="$(normalize_path "$target")"
+  if [[ "$target" == "$TARGET_REL" ]] || matches_prefix_file "$target" "$SCOPE_PREFIXES"; then
+    return 0
+  fi
+  return 1
+}
+
+same_scope_repo_hygiene_cleanup_receipt() {
+  local path="$1"
+  local receipt target receipt_run_id run_dir checkpoint
+  case "$path" in
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/"*/receipt.yml)
+      receipt="$ROOT_DIR/$path"
+      ;;
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/"*/cleanup-authorization.json)
+      receipt="$ROOT_DIR/${path%/cleanup-authorization.json}/receipt.yml"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+  [[ -f "$receipt" ]] || return 1
+  command -v yq >/dev/null 2>&1 || return 1
+  target="$(yq -r '.target // ""' "$receipt" 2>/dev/null || true)"
+  if [[ -n "$target" && "$target" != "null" ]]; then
+    target="$(normalize_path "$target")"
+    if [[ "$target" == "$TARGET_REL" ]] || matches_prefix_file "$target" "$SCOPE_PREFIXES"; then
+      return 0
+    fi
+  fi
+  receipt_run_id="$(yq -r '.parent_run_id // .run_id // ""' "$receipt" 2>/dev/null || true)"
+  [[ -n "$receipt_run_id" && "$receipt_run_id" != "null" ]] || return 1
+  if [[ "$receipt_run_id" =~ ^(lifecycle-proposal-(program|packet)-[0-9]+-[A-Za-z0-9]+) ]]; then
+    receipt_run_id="${BASH_REMATCH[1]}"
+  else
+    return 1
+  fi
+  run_dir="$ROOT_DIR/.octon/state/control/execution/runs/$receipt_run_id"
+  checkpoint=""
+  if [[ -f "$run_dir/program-lifecycle-checkpoint.yml" ]]; then
+    checkpoint="$run_dir/program-lifecycle-checkpoint.yml"
+  elif [[ -f "$run_dir/lifecycle-checkpoint.yml" ]]; then
+    checkpoint="$run_dir/lifecycle-checkpoint.yml"
+  elif [[ -f "$ROOT_DIR/.octon/state/evidence/runs/workflows/$receipt_run_id/program-lifecycle-checkpoint.yml" ]]; then
+    checkpoint="$ROOT_DIR/.octon/state/evidence/runs/workflows/$receipt_run_id/program-lifecycle-checkpoint.yml"
+  elif [[ -f "$ROOT_DIR/.octon/state/evidence/runs/workflows/$receipt_run_id/lifecycle-checkpoint.yml" ]]; then
+    checkpoint="$ROOT_DIR/.octon/state/evidence/runs/workflows/$receipt_run_id/lifecycle-checkpoint.yml"
+  fi
+  [[ -n "$checkpoint" ]] || return 1
+  target="$(yq -r '.target // ""' "$checkpoint" 2>/dev/null || true)"
   [[ -n "$target" && "$target" != "null" ]] || return 1
   target="$(normalize_path "$target")"
   if [[ "$target" == "$TARGET_REL" ]] || matches_prefix_file "$target" "$SCOPE_PREFIXES"; then
@@ -411,7 +471,11 @@ in_scope_host_projection_mirror() {
   [[ -f "$routing_file" ]] || return 1
 
   local effective_ids=()
-  mapfile -t effective_ids < <(
+  local effective_id
+  while IFS= read -r effective_id; do
+    [[ -n "$effective_id" ]] || continue
+    effective_ids+=("$effective_id")
+  done < <(
     yq -r ".routing_candidates[]? | select(.status == \"active\") | select(.capability_kind == \"$kind\") | select(.capability_id == \"$capability_id\") | select((.host_adapters // []) | contains([\"$host\"])) | .effective_id // \"\"" "$routing_file" 2>/dev/null |
       awk 'NF'
   )
@@ -517,6 +581,7 @@ while IFS= read -r line; do
     matches_current_run_artifact "$path" ||
     matches_target_closeout_skill_artifact "$path" ||
     same_scope_lifecycle_run_artifact "$path" ||
+    same_scope_repo_hygiene_cleanup_receipt "$path" ||
     nonblocking_local_metadata "$path"; then
     printf '%s\t%s\n' "$status" "$path" >>"$OWNED_ROWS"
   elif matches_prefix_file "$path" "$SCOPE_PREFIXES" ||
