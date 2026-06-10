@@ -1,5 +1,5 @@
 schema_version: run-health-read-model-index-v1
-generated_at: '2026-06-09T20:53:20Z'
+generated_at: '2026-06-10T22:19:38Z'
 authority:
   classification: generated_read_model_non_authoritative
   may_authorize: false
@@ -361,6 +361,15 @@ runs:
   status: stale
 - run_id: lifecycle-proposal-program-1780377743127-14a6d678-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal
   health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780377743127-14a6d678-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal/health.yml
+  status: stale
+- run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow
+  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow/health.yml
+  status: stale
+- run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-archive-proposal
+  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-archive-proposal/health.yml
+  status: stale
+- run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal
+  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/health.yml
   status: stale
 - run_id: promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
   health_ref: .octon/generated/cognition/projections/materialized/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/health.yml
@@ -826,6 +835,18 @@ runs:
   status: stale
 - run_id: publish-1781012319955-74366
   health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781012319955-74366/health.yml
+  status: stale
+- run_id: publish-1781129689199-29831
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781129689199-29831/health.yml
+  status: stale
+- run_id: publish-1781129933656-2717
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781129933656-2717/health.yml
+  status: stale
+- run_id: publish-1781129954342-11118
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781129954342-11118/health.yml
+  status: stale
+- run_id: publish-1781129962997-11772
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781129962997-11772/health.yml
   status: stale
 - run_id: repo-consequential-preflight-workflow-20260413-v4
   health_ref: .octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml

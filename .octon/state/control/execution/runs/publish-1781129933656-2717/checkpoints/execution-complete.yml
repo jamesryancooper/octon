@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: publish-1781129933656-2717
+checkpoint_id: execution-complete
+stage_attempt_id: initial
+checkpoint_kind: execution-complete
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/publish-1781129933656-2717/checkpoints/execution-complete.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/publish-1781129933656-2717/checkpoints/execution-complete.yml
+notes: Execution outcome materialized under the canonical run root.
+created_at: 2026-06-10T22:19:08.831629Z
+updated_at: 2026-06-10T22:19:08.831629Z
