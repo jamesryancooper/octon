@@ -1,0 +1,512 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: lifecycle-proposal-program-1781044709943-8b260950
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration
+executor: auto
+invocation_authority: unattended
+timeout_seconds: null
+max_steps: 1
+max_child_concurrency: 1
+child_registry_digest: sha256:d8a2582ae48456d6834e7ea9f6b2305e0c4c6b71fa532bfde0a51a903a9942ea
+execution_mode: gated-parallel
+run_inputs: {}
+scheduler_decision: []
+child_states:
+  authority-engine-typed-exception-grants:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/authority-engine-typed-exception-grants
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:cd7da380eac657c1073cafdeb13065d6ffe9f7717c2f70e102b870f8bd44b638
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status:
+      delegated-governance-shared-contract-model:
+        dependency_id: delegated-governance-shared-contract-model
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/constitution/contracts/authority/
+    - .octon/framework/engine/runtime/crates/authority_engine/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/authority-engine-typed-exception-grants
+  connector-external-effect-delegation-boundaries:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/connector-external-effect-delegation-boundaries
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:37f1ff7a50dd93706ac670338ecdfd821dff04341b9d8dcca22061fd0f9c6a86
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status:
+      delegated-governance-shared-contract-model:
+        dependency_id: delegated-governance-shared-contract-model
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/constitution/contracts/adapters/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/connector-external-effect-delegation-boundaries
+    - .octon/instance/governance/connectors/
+  delegated-governance-cutover-closeout:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/delegated-governance-cutover-closeout
+    current_state: run-packet-implementation
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:e82dc775e2bfe15a6ce8579ff458319ccddcfc2a97f17384b2e27d23fd44d0e0
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      governance-validator-negative-controls:
+        dependency_id: governance-validator-negative-controls
+        required_gate: closeout
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/constitution/contracts/authority/
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/framework/product/features/lifecycle-autopilot.md
+    - .octon/inputs/exploratory/proposals/architecture/delegated-governance-cutover-closeout
+  delegated-governance-inventory-and-vocabulary:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/delegated-governance-inventory-and-vocabulary
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:add9b7fa5a29e74f3ab5f5af668ccbab09d7c783640c0cf5b0b96d171a7acde1
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/capabilities/governance/policy/
+    - .octon/framework/constitution/contracts/authority/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/framework/orchestration/governance/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/delegated-governance-inventory-and-vocabulary
+  delegated-governance-shared-contract-model:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model
+    current_state: null
+    final_verdict: blocked-no-route
+    receipt_digests:
+      proposal-review: sha256:2d6f5c8981ef65aa21d2eeebd23ebcaa0c612fdee9106fb56e40bc742e2b4ded
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      delegated-governance-inventory-and-vocabulary:
+        dependency_id: delegated-governance-inventory-and-vocabulary
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/framework/constitution/contracts/authority/
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model
+  governance-validator-negative-controls:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/governance-validator-negative-controls
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:86c3efd600838cf485fc308166c1f11e7999edb47ad33147053db0f39513c0fb
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      authority-engine-typed-exception-grants:
+        dependency_id: authority-engine-typed-exception-grants
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      connector-external-effect-delegation-boundaries:
+        dependency_id: connector-external-effect-delegation-boundaries
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      mission-runtime-proof-first-posture:
+        dependency_id: mission-runtime-proof-first-posture
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      run-health-proof-state-read-models:
+        dependency_id: run-health-proof-state-read-models
+        required_gate: verification
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      workflow-capability-human-boundary-classification:
+        dependency_id: workflow-capability-human-boundary-classification
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/constitution/contracts/authority/
+    - .octon/inputs/exploratory/proposals/architecture/governance-validator-negative-controls
+  mission-runtime-proof-first-posture:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/mission-runtime-proof-first-posture
+    current_state: null
+    final_verdict: blocked-no-route
+    receipt_digests:
+      proposal-review: sha256:e8ac6306ed47c5e634f71ba2b4a5f5616f1fd204d07f4a1d1f28f96b31308af4
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      delegated-governance-shared-contract-model:
+        dependency_id: delegated-governance-shared-contract-model
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/crates/kernel/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/architecture/mission-runtime-proof-first-posture
+  run-health-proof-state-read-models:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/run-health-proof-state-read-models
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:b5385d01681e3245e5658bc2189a1b53e8d7d1af26d94e75b31ba93c1b51e629
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status:
+      delegated-governance-shared-contract-model:
+        dependency_id: delegated-governance-shared-contract-model
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/generated/cognition/projections/materialized/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-health-proof-state-read-models
+  workflow-capability-human-boundary-classification:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/workflow-capability-human-boundary-classification
+    current_state: null
+    final_verdict: blocked-no-route
+    receipt_digests:
+      proposal-review: sha256:83e05053d58dede0f108b87725a232f1b2006f8419944f1fddc8dfe2fcf6d937
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      delegated-governance-shared-contract-model:
+        dependency_id: delegated-governance-shared-contract-model
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/capabilities/governance/policy/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/framework/orchestration/governance/
+    - .octon/inputs/exploratory/proposals/architecture/workflow-capability-human-boundary-classification
+recovery_attempts:
+  authority-engine-typed-exception-grants: 4
+  authority-engine-typed-exception-grants:artifact-ownership-unclear: 0
+  authority-engine-typed-exception-grants:stale-receipt: 4
+  connector-external-effect-delegation-boundaries: 12
+  connector-external-effect-delegation-boundaries:archive-workflow-failed: 3
+  connector-external-effect-delegation-boundaries:artifact-ownership-unclear: 0
+  connector-external-effect-delegation-boundaries:stale-receipt: 9
+  delegated-governance-inventory-and-vocabulary: 2
+  delegated-governance-inventory-and-vocabulary:stale-receipt: 2
+  delegated-governance-shared-contract-model: 1
+  delegated-governance-shared-contract-model:stale-receipt: 1
+  mission-runtime-proof-first-posture: 3
+  mission-runtime-proof-first-posture:artifact-ownership-unclear: 1
+  mission-runtime-proof-first-posture:stale-receipt: 2
+  run-health-proof-state-read-models: 3
+  run-health-proof-state-read-models:stale-receipt: 3
+  workflow-capability-human-boundary-classification: 1
+  workflow-capability-human-boundary-classification:stale-receipt: 1
+program_recovery_action_attempts: {}
+recovery_progress_fingerprints:
+  authority-engine-typed-exception-grants:archive-proposal:stale-receipt:
+    child_id: authority-engine-typed-exception-grants
+    route_id: archive-proposal
+    blocker_class: stale-receipt
+    final_verdict: completed
+    terminal_outcome: archived
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:cd7da380eac657c1073cafdeb13065d6ffe9f7717c2f70e102b870f8bd44b638
+    selected_route_id: null
+  authority-engine-typed-exception-grants:closeout-packet:stale-receipt:
+    child_id: authority-engine-typed-exception-grants
+    route_id: closeout-packet
+    blocker_class: stale-receipt
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:6b56688475b0404000d03fdc375f651d8a7c3a77990e872f7d31f2d33aa2e513
+    selected_route_id: archive-proposal
+  connector-external-effect-delegation-boundaries:archive-proposal:archive-workflow-failed:
+    child_id: connector-external-effect-delegation-boundaries
+    route_id: archive-proposal
+    blocker_class: archive-workflow-failed
+    final_verdict: blocked-recoverable
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:37f1ff7a50dd93706ac670338ecdfd821dff04341b9d8dcca22061fd0f9c6a86
+    selected_route_id: null
+  connector-external-effect-delegation-boundaries:archive-proposal:stale-receipt:
+    child_id: connector-external-effect-delegation-boundaries
+    route_id: archive-proposal
+    blocker_class: stale-receipt
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:9b2af425433040053e676e06bed121569ca3d38a97edfe7a5a1d8973e5f2eabd
+    selected_route_id: archive-proposal
+  connector-external-effect-delegation-boundaries:closeout-packet:stale-receipt:
+    child_id: connector-external-effect-delegation-boundaries
+    route_id: closeout-packet
+    blocker_class: stale-receipt
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:7df9d8d90f44122ead60b0b46d56a1c7e4b82c51eaa9ac1672c10987e58133a6
+    selected_route_id: archive-proposal
+  delegated-governance-inventory-and-vocabulary:archive-proposal:stale-receipt:
+    child_id: delegated-governance-inventory-and-vocabulary
+    route_id: archive-proposal
+    blocker_class: stale-receipt
+    final_verdict: completed
+    terminal_outcome: archived
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:5508c7512014d07c7da2403b8a3b381bd1ee01e1425cead77fc1303f1aa533ee
+    selected_route_id: null
+  delegated-governance-inventory-and-vocabulary:closeout-packet:stale-receipt:
+    child_id: delegated-governance-inventory-and-vocabulary
+    route_id: closeout-packet
+    blocker_class: stale-receipt
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:da4de86357cdc06559ab6889a5f486b27855fccbe1ef22d7cd453476d488e19e
+    selected_route_id: archive-proposal
+  delegated-governance-shared-contract-model:closeout-packet:stale-receipt:
+    child_id: delegated-governance-shared-contract-model
+    route_id: closeout-packet
+    blocker_class: stale-receipt
+    final_verdict: blocked-no-route
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:db442bf86ea5c6007b99dceeb7f66da6b5bd84ea9465cdeb03869f077065b1cd
+    selected_route_id: null
+  mission-runtime-proof-first-posture:closeout-packet:artifact-ownership-unclear:
+    child_id: mission-runtime-proof-first-posture
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    final_verdict: blocked-no-route
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:e8ac6306ed47c5e634f71ba2b4a5f5616f1fd204d07f4a1d1f28f96b31308af4
+    selected_route_id: null
+  mission-runtime-proof-first-posture:closeout-packet:stale-receipt:
+    child_id: mission-runtime-proof-first-posture
+    route_id: closeout-packet
+    blocker_class: stale-receipt
+    final_verdict: blocked-no-route
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:e8ac6306ed47c5e634f71ba2b4a5f5616f1fd204d07f4a1d1f28f96b31308af4
+    selected_route_id: null
+  run-health-proof-state-read-models:archive-proposal:stale-receipt:
+    child_id: run-health-proof-state-read-models
+    route_id: archive-proposal
+    blocker_class: stale-receipt
+    final_verdict: completed
+    terminal_outcome: archived
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:b5385d01681e3245e5658bc2189a1b53e8d7d1af26d94e75b31ba93c1b51e629
+    selected_route_id: null
+  run-health-proof-state-read-models:closeout-packet:stale-receipt:
+    child_id: run-health-proof-state-read-models
+    route_id: closeout-packet
+    blocker_class: stale-receipt
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:d925a1bd2b03335176f27c36189fbef886c7d30b76f05ab76126dbd09ac3a58d
+    selected_route_id: archive-proposal
+  workflow-capability-human-boundary-classification:closeout-packet:stale-receipt:
+    child_id: workflow-capability-human-boundary-classification
+    route_id: closeout-packet
+    blocker_class: stale-receipt
+    final_verdict: blocked-no-route
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:83e05053d58dede0f108b87725a232f1b2006f8419944f1fddc8dfe2fcf6d937
+    selected_route_id: null
+closeout_hygiene_suppressions: {}
+aggregate_terminal_blockers:
+  path: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/aggregate-terminal-blockers.yml
+  digest: sha256:136c89d1ffeddab6e10637e2d8c8c076b0c19be8f3551636343a33bb2d551a17
+  blocked_required_child_count: 5
+  authority_boundary: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+residue_cleanup_attempts:
+  ? authority-engine-typed-exception-grants:closeout-packet:artifact-ownership-unclear:sha256:c734eaafeab284a86e71734f5589870a027934650a0dba145d842d9710cffae1
+  : child_id: authority-engine-typed-exception-grants
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:c734eaafeab284a86e71734f5589870a027934650a0dba145d842d9710cffae1
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/context-pack.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/context-pack-receipt.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/model-visible-context.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/model-visible-context.sha256
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/source-manifest.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/omissions.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/redactions.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/invalidation-events.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-completion-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/token-budget-ledger.json
+  ? mission-runtime-proof-first-posture:closeout-packet:artifact-ownership-unclear:sha256:c734eaafeab284a86e71734f5589870a027934650a0dba145d842d9710cffae1
+  : child_id: mission-runtime-proof-first-posture
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:c734eaafeab284a86e71734f5589870a027934650a0dba145d842d9710cffae1
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/context-pack.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/context-pack-receipt.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/model-visible-context.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/model-visible-context.sha256
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/source-manifest.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/omissions.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/redactions.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/context/invalidation-events.json
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/cleanup-lifecycle-residue-completion-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/parent/token-budget-ledger.json
+interaction_request_refs: []
+interaction_return_refs: []
+approvals: []
+program_recovery_recipe_validation_status: null
+program_recovery_recipe_validation_failures: []
+program_recovery_recipe_blocker_class: null
+program_recovery_recipe_route_id: null
+program_recovery_recipe_delegation_contract_basis: null
+latest_event_offset: 435
+latest_event_index: 435
+latest_event_sha256: sha256:ed5b9f9d817cb924f91dae11d137b74926f4074213fb80df3bf6cd6b0f4855e2
+event_log_sha256: sha256:6067017ee4ff23b1226e12676d9571e15de2417b1fdf07de625eedd066c71a59
+derived_from_event_index: 435
+atomic_barrier_state: null
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: route-ready
+resume_instruction: octon lifecycle resume --run-id lifecycle-proposal-program-1781044709943-8b260950

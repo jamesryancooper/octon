@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/authority-engine-typed-exception-grants/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/authority-engine-typed-exception-grants/context/context-pack.json
+context_pack_sha256: sha256:0625b88289cb75e9891957b8301ac4e7dc3091af91c805461ac1fe53a365b8b2
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/authority-engine-typed-exception-grants/context/model-visible-context.json
+model_visible_context_sha256: sha256:43d2e41e7216dc6c7dc07e05bbfa7077b477066cd38c4aa146a0e61a84a2b6d4
+receipt_sha256: sha256:836a4e4321990872f4fe862d053b1005ddd9e3e9a175cb7039a7b10b8d759271
+route_id: archive-proposal
+run_id: lifecycle-proposal-program-1781044709943-8b260950-authority-engine-typed-exception-grants
+schema_version: active-context-pack-v1
+updated_at: 2026-06-10T03:21:47.486824Z
+validity_state: valid

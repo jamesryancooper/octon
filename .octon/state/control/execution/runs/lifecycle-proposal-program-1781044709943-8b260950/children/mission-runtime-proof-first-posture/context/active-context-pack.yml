@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/mission-runtime-proof-first-posture/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/mission-runtime-proof-first-posture/context/context-pack.json
+context_pack_sha256: sha256:f0ad42c47e5ffc90d4e7f1392cf68140c2d8dd1896a1a70e7384f24c70ed599d
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/mission-runtime-proof-first-posture/context/model-visible-context.json
+model_visible_context_sha256: sha256:27b17ba8bb8ebaaaa991c69fcba529075700cade438ac9043dbf2a571d2f463e
+receipt_sha256: sha256:8372c2fcfbcfa3c0d3059045138be270e523bdbd5b16966460a29c5d413f8a56
+route_id: closeout-packet
+run_id: lifecycle-proposal-program-1781044709943-8b260950-mission-runtime-proof-first-posture
+schema_version: active-context-pack-v1
+updated_at: 2026-06-10T00:40:21.389291Z
+validity_state: valid

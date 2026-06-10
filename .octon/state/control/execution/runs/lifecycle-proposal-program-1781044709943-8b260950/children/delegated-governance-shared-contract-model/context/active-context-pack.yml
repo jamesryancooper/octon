@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/delegated-governance-shared-contract-model/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/delegated-governance-shared-contract-model/context/context-pack.json
+context_pack_sha256: sha256:22ab844ad14587f5995d0c2a46c30ccf81fdd79383ca3fdc54252519beb2faa6
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781044709943-8b260950/children/delegated-governance-shared-contract-model/context/model-visible-context.json
+model_visible_context_sha256: sha256:c500ef07b0bd3b4761321228ca5362c63bbbcbf7024c8d990faaa4e348393966
+receipt_sha256: sha256:947d36b2672e1773ed2fa05264f57dedc6ffb101285204ac847ee64f3545b46f
+route_id: closeout-packet
+run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-shared-contract-model
+schema_version: active-context-pack-v1
+updated_at: 2026-06-09T23:00:38.295336Z
+validity_state: valid

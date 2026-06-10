@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:552df761ede99f591aef1ba0f2cfc8e2a22d69022665de376d6486e5a3960bef
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:077b03db7edf621cff1ebfd5fc5f7368c2eccd1d2c2a6a6e34c39c23c228da72
+receipt_sha256: sha256:c09cdf624459dd0f80a9489a184d32ce111e7c7420b4536aad6357cebb43a5fd
+run_id: lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-09T22:53:34.846954Z
+validity_state: valid
