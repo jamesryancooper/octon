@@ -8,7 +8,19 @@ promotion_targets:
 - .octon/framework/engine/runtime/spec/
 - .octon/framework/assurance/runtime/_ops/scripts/
 - .octon/generated/cognition/projections/materialized/
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-health-proof-state-read-models
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/run-health-proof-state-read-models/20260609T205424Z/vocabulary-inventory.md
+  - .octon/state/evidence/validation/proposals/run-health-proof-state-read-models/20260609T205424Z/projection-non-authority-validation.md
+  - .octon/state/evidence/validation/proposals/run-health-proof-state-read-models/20260609T205424Z/proof-state-vocabulary-validation.md
+  - .octon/state/evidence/validation/proposals/run-health-proof-state-read-models/20260609T205424Z/generated-output-freshness.md
+  - .octon/state/evidence/validation/proposals/run-health-proof-state-read-models/20260609T205424Z/rollback-posture.md
+  - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml
 lifecycle:
   temporary: true
   exit_expectation: Implement only after shared contract evidence and retained read-model validation, conformance, drift/churn, and promotion receipts.
