@@ -23,9 +23,9 @@ promotion_evidence:
   - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/typed-exception-grant-schema-validation-receipt.md
   - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/negative-control-test-outputs.md
   - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/minimality-anti-bloat-receipt.md
-  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T19-18-34Z/test-authority-engine-typed-exception-grants.txt
-  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T19-18-34Z/cargo-test-octon-authority-engine.txt
-  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T19-18-34Z/validate-proposal-post-implementation-drift.txt
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/repository-reconnaissance-receipt.md
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/rollback-posture.md
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/validation-command-summary.md
 
 ## Closeout Basis
 
@@ -59,4 +59,4 @@ closeout evidence for the next `archive-proposal` lifecycle route.
 ## Next Route
 
 Run the governed `archive-proposal` lifecycle route with implemented
-disposition and the durable promotion evidence listed above.
+disposition and the durable promotion evidence receipts listed above.

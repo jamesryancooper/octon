@@ -8,7 +8,20 @@ promotion_targets:
 - .octon/framework/engine/runtime/crates/authority_engine/
 - .octon/framework/constitution/contracts/authority/
 - .octon/framework/assurance/runtime/_ops/tests/
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/grant-consumption-provenance-receipt.md
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/typed-exception-grant-schema-validation-receipt.md
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/negative-control-test-outputs.md
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/minimality-anti-bloat-receipt.md
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/repository-reconnaissance-receipt.md
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/rollback-posture.md
+  - .octon/state/evidence/validation/proposals/authority-engine-typed-exception-grants/2026-06-09T18-37-42Z/validation-command-summary.md
 lifecycle:
   temporary: true
   exit_expectation: Implement only after the shared contract model is accepted and child-owned validation, conformance, drift/churn, and promotion receipts are retained.
