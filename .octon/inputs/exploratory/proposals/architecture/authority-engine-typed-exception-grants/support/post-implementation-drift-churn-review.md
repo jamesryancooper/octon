@@ -33,7 +33,7 @@ No generated projection was edited or refreshed by this route. Generated outputs
 
 - Proposal manifest and architecture subtype manifest parse.
 - Authority grant, approval request, approval grant, and delegated-governance contract schemas parse as JSON.
-- Proposal status remains `accepted`; no proposal promotion was performed by this verification route.
+- Proposal status is `implemented`; no archive route has been performed.
 
 ## Repo-Local Projection Boundaries
 
@@ -57,7 +57,7 @@ The implementation makes one coherent authority boundary change: active approval
 
 - `validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants`: pass, `errors=0`; one unrelated registry warning from another active policy proposal.
 - `validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants`: pass.
-- `validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants --require-implementation-authorization`: pass.
+- `validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants`: pass for implemented closeout review preservation.
 - `validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants`: pass.
 - `validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants`: pass.
 - `jq empty` on authority schema files: pass.
@@ -74,7 +74,7 @@ The implementation makes one coherent authority boundary change: active approval
 - No proposal status promotion.
 - No connector, mission, workflow, or read-model implementation change.
 - No dependency change.
-- Shared assurance test fixture references to unrelated proposal paths are retained as validator fixtures, not runtime dependencies.
+- Shared assurance test fixture references to unrelated proposal paths are retained as validator fixtures and excluded from runtime dependency claims.
 
 ## Final Closeout Recommendation
 

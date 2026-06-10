@@ -1,0 +1,17 @@
+$ bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants
+[OK] proposal status supports review gate
+[OK] proposal review receipt exists
+[OK] review_id present
+[OK] reviewed_at present
+[OK] reviewer present
+[OK] review verdict is explicit
+[OK] implementation prompt authorization is explicit
+[OK] reviewed packet digest is explicit
+[OK] open blocking finding count is numeric
+[OK] review includes section: Approved Promotion Targets
+[OK] review includes section: Exclusions
+[OK] review includes section: Blocking Findings
+[OK] review includes section: Nonblocking Findings
+[OK] review includes section: Final Route Recommendation
+[OK] implemented or archived proposal preserves accepted review evidence
+Validation summary: errors=0 warnings=0
