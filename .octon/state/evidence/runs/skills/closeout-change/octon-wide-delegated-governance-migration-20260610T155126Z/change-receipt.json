@@ -1,0 +1,82 @@
+{
+  "schema_version": "closeout-change-receipt-v1",
+  "change_id": "octon-wide-delegated-governance-migration",
+  "recorded_at": "2026-06-10T15:51:26Z",
+  "route": {
+    "selected": "branch-no-pr",
+    "selection_basis": [
+      "current worktree is on branch chore/delegated-governance-migration",
+      "direct-main is ineligible because the current branch is not main",
+      "no policy predicate requiring branch-pr was proven at route selection"
+    ],
+    "target_lifecycle_outcome": "cleaned",
+    "current_lifecycle_outcome": "committed"
+  },
+  "material_commit": {
+    "sha": "15ab2aa34adbe256cb15536246deff76a21c5923",
+    "subject": "fix(lifecycle): complete delegated governance archive",
+    "branch": "chore/delegated-governance-migration"
+  },
+  "program": {
+    "target": ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration",
+    "original_target": ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration",
+    "parent_run_id": "lifecycle-proposal-program-1781104294164-26d34689",
+    "superseded_parent_run_id": "lifecycle-proposal-program-1781073115145-fe49ec37",
+    "terminal_outcome": "archived",
+    "final_verdict": "completed",
+    "required_child_count": 9,
+    "terminal_child_count": 9,
+    "archived_child_count": 9,
+    "child_authority_preserved": true
+  },
+  "retained_evidence": {
+    "aggregate_child_outcomes": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781073115145-fe49ec37/parent/aggregate-child-outcomes-20260610T133510Z.yml",
+    "parent_validation_summary": ".octon/state/evidence/validation/proposals/octon-wide-delegated-governance-migration/20260610T153800Z/validation-summary.yml",
+    "repo_hygiene_receipt": ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781104294164-26d34689-cleanup-lifecycle-residue-20260610T151517Z/receipt.yml",
+    "worktree_partition": ".octon/state/evidence/runs/skills/closeout-worktree/octon-wide-delegated-governance-migration-20260610T154500Z/initial-residue-classification.yml"
+  },
+  "validation": [
+    {
+      "command": "git diff --cached --check",
+      "verdict": "pass",
+      "observed_at": "2026-06-10T15:48:00Z"
+    },
+    {
+      "command": "git diff --check",
+      "verdict": "pass",
+      "observed_at": "2026-06-10T15:48:00Z"
+    },
+    {
+      "command": "bash .octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh",
+      "verdict": "pass",
+      "observed_at": "2026-06-10T15:48:00Z",
+      "summary": "passed=29 failed=0"
+    },
+    {
+      "command": "cargo test --manifest-path .octon/framework/engine/runtime/crates/kernel/Cargo.toml archive",
+      "verdict": "pass",
+      "observed_at": "2026-06-10T15:49:00Z",
+      "summary": "13 passed; 0 failed; 280 filtered out"
+    }
+  ],
+  "rollback": {
+    "handle": "governed revert of material commit 15ab2aa34adbe256cb15536246deff76a21c5923 before landing; if landed, governed revert of the landed main range containing that commit",
+    "scope": [
+      "delegated-governance child and parent archive relocations",
+      "parent program archive-relocation retry/runtime fixes",
+      "proposal worktree hygiene classifier and registry corrections",
+      "generated projections and retained validation/cleanup evidence"
+    ]
+  },
+  "residue": {
+    "tracked_worktree_after_material_commit": "clean",
+    "retained_untracked_local_state": [
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950*/",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1781104294164-26d34689*/",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1781044709943-8b260950*/",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1781104294164-26d34689*/"
+    ],
+    "retention_reason": "live/local run control and continuity state; not selected for publishable material commit"
+  },
+  "next_route": "push chore/delegated-governance-migration, run branch-no-pr hosted landing preflight, land or report provider/policy blocker, then cleanup/sync"
+}
