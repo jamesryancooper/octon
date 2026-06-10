@@ -1,0 +1,24 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-delegated-governance-migration-c7d0834ab204",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/delegated-governance-migration",
+  "source_ref": "c7d0834ab20485cd685dae45a2ba5a6296d642e7",
+  "remote_source_ref": "c7d0834ab20485cd685dae45a2ba5a6296d642e7",
+  "target_pre_ref": "4f5b180e948cbbb2704b19d9d4ec268d086e307d",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "empty-check-set-explicitly-allowed@c7d0834ab20485cd685dae45a2ba5a6296d642e7"
+  ],
+  "allow_empty_check_set": true,
+  "rollback_handle": "governed revert of landed main range 4f5b180e948cbbb2704b19d9d4ec268d086e307d..c7d0834ab20485cd685dae45a2ba5a6296d642e7",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-06-10T21:49:36Z"
+}

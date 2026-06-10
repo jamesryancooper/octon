@@ -1,0 +1,47 @@
+{
+  "schema_version": "closeout-change-landing-cleanup-summary-v1",
+  "change_id": "octon-wide-delegated-governance-migration",
+  "recorded_at": "2026-06-10T21:51:33Z",
+  "selected_route": "branch-no-pr",
+  "actual_lifecycle_outcome": "cleaned",
+  "parent_program": {
+    "target": ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration",
+    "terminal_outcome": "archived",
+    "final_verdict": "completed"
+  },
+  "landing": {
+    "target_branch": "main",
+    "source_branch": "chore/delegated-governance-migration",
+    "target_pre_ref": "4f5b180e948cbbb2704b19d9d4ec268d086e307d",
+    "landed_ref": "c7d0834ab20485cd685dae45a2ba5a6296d642e7",
+    "target_post_ref": "c7d0834ab20485cd685dae45a2ba5a6296d642e7",
+    "integration_method": "fast-forward hosted no-PR",
+    "authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/octon-wide-delegated-governance-migration-20260610T155126Z/branch-landing-authorization.json"
+  },
+  "cleanup": {
+    "source_branch_local_deleted": true,
+    "source_branch_remote_deleted": true,
+    "open_pr_count": 0,
+    "authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/octon-wide-delegated-governance-migration-20260610T155126Z/branch-cleanup-authorization.json"
+  },
+  "sync": {
+    "local_branch": "main",
+    "local_main_ref_at_cleanup": "c7d0834ab20485cd685dae45a2ba5a6296d642e7",
+    "origin_main_ref_at_cleanup": "c7d0834ab20485cd685dae45a2ba5a6296d642e7",
+    "landed_ref_contained_in_local_main": true,
+    "landed_ref_contained_in_origin_main": true
+  },
+  "rollback": {
+    "handle": "governed revert of landed main range 4f5b180e948cbbb2704b19d9d4ec268d086e307d..c7d0834ab20485cd685dae45a2ba5a6296d642e7",
+    "post_evidence_commit_note": "If this summary is committed after cleanup, include that evidence-only commit in any governed revert decision only if the evidence publication itself must also be reverted."
+  },
+  "retained_residue": {
+    "local_only": [
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950*/",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1781104294164-26d34689*/",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1781044709943-8b260950*/",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1781104294164-26d34689*/"
+    ],
+    "reason": "live/local run-control and continuity residue retained outside the landed proposal closeout route"
+  }
+}
