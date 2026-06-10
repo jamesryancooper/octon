@@ -9,7 +9,16 @@ promotion_targets:
 - .octon/framework/engine/runtime/spec/
 - .octon/framework/orchestration/governance/
 - .octon/framework/capabilities/governance/policy/
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-09
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/delegated-governance-inventory-and-vocabulary
+  promotion_evidence:
+  - .octon/framework/orchestration/governance/delegated-governance-inventory-v1.yml
+  - .octon/framework/orchestration/governance/README.md
+  - .octon/state/evidence/validation/proposals/delegated-governance-inventory-and-vocabulary/2026-06-09T17-26-07Z/
 lifecycle:
   temporary: true
   exit_expectation: Implement only after child-owned review, retained validation evidence, conformance review, drift/churn review, and durable promotion evidence.
