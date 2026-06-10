@@ -1,0 +1,41 @@
+{
+  "schema_version": "closeout-change-blocker-v1",
+  "change_id": "octon-wide-delegated-governance-migration",
+  "recorded_at": "2026-06-10T15:53:02Z",
+  "selected_route": "branch-no-pr",
+  "current_lifecycle_outcome": "published_branch",
+  "target_lifecycle_outcome": "cleaned",
+  "branch": "chore/delegated-governance-migration",
+  "published_ref": "ba26ca0c5a65987323975cf5e08742a794841dd5",
+  "material_ref": "15ab2aa34adbe256cb15536246deff76a21c5923",
+  "blocked_step": "hosted no-PR landing preflight",
+  "blocking_condition": "The governed helper requires a fetch of origin/main and origin/chore/delegated-governance-migration. The sandbox denied writing .git/FETCH_HEAD, and the required escalation request was rejected by the approval reviewer because the current usage limit was reached.",
+  "observed_commands": [
+    {
+      "command": ".octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh --allow-empty-check-set",
+      "exit_code": 255,
+      "summary": "Live provider ruleset allowed route-neutral hosted no-PR landing, then fetch failed: cannot open .git/FETCH_HEAD: Operation not permitted."
+    },
+    {
+      "command": ".octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh --allow-empty-check-set",
+      "execution_mode": "require_escalated",
+      "exit_code": "not-started",
+      "summary": "Approval reviewer rejected escalation due to current Codex usage limit."
+    }
+  ],
+  "actions_completed_before_blocker": [
+    "all required delegated-governance children terminal and archived",
+    "parent program archived",
+    "tracked material committed",
+    "closeout-change receipt committed",
+    "source branch pushed to origin"
+  ],
+  "actions_not_completed": [
+    "branch-no-pr hosted landing authorization",
+    "fast-forward landing to origin/main",
+    "local main sync to origin/main after landing",
+    "local and remote source branch cleanup"
+  ],
+  "rollback_handle": "Before landing, delete or reset branch chore/delegated-governance-migration; after landing, use a governed revert of the landed main range containing ba26ca0c5a65987323975cf5e08742a794841dd5.",
+  "exact_next_route": "After approval capacity is available, rerun .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh --allow-empty-check-set with allowed fetch access, then run git-branch-authorize-hosted-no-pr.sh, git-branch-land-hosted-no-pr.sh --confirm, git-branch-authorize-cleanup.sh, and git-branch-cleanup.sh."
+}
