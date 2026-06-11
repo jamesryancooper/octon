@@ -76,6 +76,10 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] description: The workflow does not mutate run manifests, lifecycle journals, runtime state, rollback posture, proposal manifests, support targets, generated outputs, or authority artifacts.
 - [ ] id: evidence-gaps-explicit
 - [ ] description: Missing retained refs are recorded as known limits or blockers instead of inferred facts.
+- [ ] id: locator-bound-as-discovery-only
+- [ ] description: Retained-run evidence index locator refs, when present, are bound as discovery and replay aids only and never as transition, closeout, child-receipt, generated-output, proposal-input, or policy authority.
+- [ ] id: substitutes-validated-before-use
+- [ ] description: Missing direct control refs are paired only with resolving retained workflow substitutes; unresolved substitutes, stale digests, and authority claims fail validation.
 - [ ] id: postmortem-output-validated
 - [ ] description: Any supplied evaluator report or structured output passes the lifecycle-postmortem validator before being treated as usable evidence.
 - [ ] id: full-postmortem-contract-complete
