@@ -56,6 +56,7 @@ Also produce structured output conforming to:
 - Lifecycle purpose:
 - Postmortem evidence root:
 - Structured output ref:
+- Readiness summary ref:
 - Known limits ref:
 - Octon subject:
 
@@ -64,6 +65,11 @@ Also produce structured output conforming to:
 Summarize the retained input context. Raw prompt text, generated summaries, and
 proposal inputs remain non-authoritative; cite retained refs or record
 `unavailable:*` evidence gaps.
+
+Use `readiness-summary.md` only as a compact orientation aid for direct refs,
+substitute refs, terminal validation refs, terminal rollback refs, known limits,
+and authority boundary. Ground factual claims in `evidence-map.yml`,
+`known-limits.yml`, and retained evidence refs.
 
 | Context Block | Summary | Evidence Ref |
 | --- | --- | --- |

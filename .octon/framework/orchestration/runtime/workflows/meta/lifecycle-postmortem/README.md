@@ -55,6 +55,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 - `evidence_map` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evidence-map.yml`
 - `evaluator_input` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluator-input.md`
+- `readiness_summary` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/readiness-summary.md`
 - `structured_output` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluation.yml`
 - `report` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/report.md`
 - `finding_records` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/review-findings.ndjson`
@@ -78,8 +79,12 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] description: Missing retained refs are recorded as known limits or blockers instead of inferred facts.
 - [ ] id: locator-bound-as-discovery-only
 - [ ] description: Retained-run evidence index locator refs, when present, are bound as discovery and replay aids only and never as transition, closeout, child-receipt, generated-output, proposal-input, or policy authority.
+- [ ] id: child-dereference-non-substitutive
+- [ ] description: Child evidence dereference refs, when present, are evidence-only navigation aids and never satisfy child-owned validation, rollback, closeout, archive, or receipt authority.
 - [ ] id: substitutes-validated-before-use
 - [ ] description: Missing direct control refs are paired only with resolving retained workflow substitutes; unresolved substitutes, stale digests, and authority claims fail validation.
+- [ ] id: readiness-summary-derived-only
+- [ ] description: The readiness summary is derived from evidence-map.yml and known-limits.yml, names direct refs, substitutes, terminal validation refs, terminal rollback refs, known limits, and the non-authority boundary without replacing source evidence.
 - [ ] id: postmortem-output-validated
 - [ ] description: Any supplied evaluator report or structured output passes the lifecycle-postmortem validator before being treated as usable evidence.
 - [ ] id: full-postmortem-contract-complete

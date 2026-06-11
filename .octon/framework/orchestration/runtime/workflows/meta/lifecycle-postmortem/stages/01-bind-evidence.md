@@ -15,7 +15,7 @@ Read candidates:
 - `.octon/state/evidence/runs/workflows/<run-id>/**`
 - `.octon/state/evidence/runs/<run-id>/retained-run-evidence-index.yml`
 
-Write `evidence-map.yml` and `known-limits.yml` under
+Write `evidence-map.yml`, `known-limits.yml`, and `readiness-summary.md` under
 `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/`.
 
 The binder emits lifecycle-postmortem evidence-map/known-limits v2 while keeping
@@ -34,6 +34,10 @@ missing, bind:
 - `terminal_state_refs` for compact terminal evidence such as `summary.md`,
   `aggregate-terminal-blockers.yml`, `blocker-ledger.yml`, route decision, plan,
   scheduler, planner, context capsule, and publication-freshness summary refs;
+- `child_evidence_ref_index` for evidence-only, non-substitutive dereference
+  pointers to child-owned validation, receipt, rollback, closeout, and archive
+  evidence when those pointers are present in the retained parent aggregate
+  evidence;
 - `diagnostic_refs` for historical evidence such as raw-log summary and
   failing-slice manifest;
 - `associated_refs` for bounded retained closeout receipts or reports whose
@@ -50,6 +54,14 @@ The emitted evidence map must preserve explicit authority boundaries:
 - proposal-local refs use `authority_use: non-authoritative`;
 - retained evidence and retained workflow substitutes use
   `authority_use: evidence-only`;
+- child dereference refs use
+  `authority_use: evidence-only-non-substitutive`;
 - control refs use `authority_use: control-truth`;
 - postmortem output does not approve closeout, lifecycle transition, redesign,
   support widening, generated publication, or invariant change.
+
+The readiness summary is a compact derived reader aid. It must identify direct
+control refs present or missing, substitute refs and their confidence effect,
+terminal validation refs, terminal rollback refs, known-limit posture, and the
+authority boundary. It is derived from `evidence-map.yml` and
+`known-limits.yml`; it never replaces either source artifact.

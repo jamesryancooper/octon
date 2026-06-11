@@ -3,6 +3,12 @@
 Use the lifecycle-postmortem evaluator template to prepare an evaluator input
 packet from the retained evidence map and known limits.
 
+Include or reference `readiness-summary.md` as the compact orientation surface
+for direct refs, substitutes, terminal validation refs, terminal rollback refs,
+known limits, and the authority boundary. Treat the summary as derived retained
+evidence only; use `evidence-map.yml` and `known-limits.yml` as the source
+artifacts for factual claims.
+
 The evaluator input must require:
 
 - evidence-grounded lifecycle reconstruction;

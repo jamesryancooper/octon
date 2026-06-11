@@ -66,6 +66,7 @@ make_evidence_map_fixture() {
     "$fixture_root/.octon/state/evidence/runs/test-run/validation" \
     "$fixture_root/.octon/state/evidence/runs/test-run/rollback" \
     "$fixture_root/.octon/state/evidence/runs/workflows/test-run" \
+    "$fixture_root/.octon/state/evidence/runs/workflows/child-run" \
     "$fixture_root/.octon/generated/effective/runtime" \
     "$fixture_root/.octon/inputs/exploratory/proposals/architecture/test-proposal"
 
@@ -74,6 +75,7 @@ make_evidence_map_fixture() {
   printf 'validation: pass\n' >"$fixture_root/.octon/state/evidence/runs/test-run/validation/result.yml"
   printf 'rollback: available\n' >"$fixture_root/.octon/state/evidence/runs/test-run/rollback/rollback.md"
   printf 'workflow: substitute\n' >"$fixture_root/.octon/state/evidence/runs/workflows/test-run/program-events.ndjson"
+  printf 'child validation: pass\n' >"$fixture_root/.octon/state/evidence/runs/workflows/child-run/validation.yml"
   printf 'generated: read model\n' >"$fixture_root/.octon/generated/effective/runtime/read-model.yml"
   printf 'proposal: context only\n' >"$fixture_root/.octon/inputs/exploratory/proposals/architecture/test-proposal/proposal.yml"
 
@@ -92,25 +94,35 @@ def rel(path):
 def sha(path):
     return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
 
-def record(path, role, ref_class, authority_use):
-    return {
+def record(path, role, ref_class, authority_use, **extra):
+    result = {
         "ref": rel(path),
         "role": role,
         "ref_class": ref_class,
         "sha256": sha(path),
         "authority_use": authority_use,
     }
+    result.update(extra)
+    return result
 
 control = root / ".octon/state/control/execution/runs/test-run/runtime-state.yml"
 index = root / ".octon/state/evidence/runs/test-run/retained-run-evidence-index.yml"
 validation = root / ".octon/state/evidence/runs/test-run/validation/result.yml"
 rollback = root / ".octon/state/evidence/runs/test-run/rollback/rollback.md"
 substitute = root / ".octon/state/evidence/runs/workflows/test-run/program-events.ndjson"
+child_validation = root / ".octon/state/evidence/runs/workflows/child-run/validation.yml"
 generated = root / ".octon/generated/effective/runtime/read-model.yml"
 proposal = root / ".octon/inputs/exploratory/proposals/architecture/test-proposal/proposal.yml"
 
 direct_refs = [record(control, "runtime-state", "control", "control-truth")] if mode == "direct" else []
-substitute_refs = [] if mode == "direct" else [record(substitute, "program-events-substitute", "retained-workflow-evidence", "evidence-only")]
+substitute_refs = [] if mode == "direct" else [record(
+    substitute,
+    "program-events-substitute",
+    "retained-workflow-evidence",
+    "evidence-only",
+    substitutes_for=rel(control),
+    exists=True,
+)]
 
 evidence_map = {
     "schema_version": "lifecycle-postmortem-evidence-map-v2",
@@ -126,6 +138,14 @@ evidence_map = {
         "validation": [record(validation, "validation-result", "retained-evidence", "evidence-only")],
         "rollback": [record(rollback, "rollback-posture", "retained-evidence", "evidence-only")],
     },
+    "child_evidence_ref_index": [
+        record(
+            child_validation,
+            "child-validation-ref-index",
+            "retained-child-evidence-dereference",
+            "evidence-only-non-substitutive",
+        )
+    ],
     "generated_refs": [record(generated, "generated-read-model", "generated", "derived-only")],
     "proposal_local_refs": [record(proposal, "proposal-context", "proposal-local", "non-authoritative")],
     "authority_boundary": {
@@ -148,6 +168,24 @@ out_dir = root / ".octon/state/evidence/runs/test-run/assurance/lifecycle-postmo
 (out_dir / "evidence-map.yml").write_text(json.dumps(evidence_map, indent=2) + "\n")
 (out_dir / "known-limits.yml").write_text(json.dumps(known_limits, indent=2) + "\n")
 PY
+
+  local postmortem_dir="$fixture_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem"
+  local evidence_map="$postmortem_dir/evidence-map.yml"
+  local known_limits="$postmortem_dir/known-limits.yml"
+  {
+    printf '# Lifecycle Postmortem Readiness Summary\n\n'
+    printf 'This summary is a derived evidence-navigation aid only. It is generated from evidence-map.yml and known-limits.yml and does not replace either retained evidence artifact.\n\n'
+    printf '## Evidence Posture\n\n'
+    printf -- '- Direct control refs present: %s\n' "$(yq -r '.evidence_posture.direct_control_refs_present // "false"' "$evidence_map")"
+    printf -- '- Substitute refs count: %s\n' "$(yq -r '.substitute_refs | length // 0' "$evidence_map")"
+    printf -- '- Terminal validation refs count: %s\n' "$(yq -r '.terminal_state_refs.validation | length // 0' "$evidence_map")"
+    printf -- '- Terminal rollback refs count: %s\n' "$(yq -r '.terminal_state_refs.rollback | length // 0' "$evidence_map")"
+    printf -- '- Missing direct refs recorded: %s\n' "$(yq -r '.missing_direct_refs_recorded // "false"' "$known_limits")"
+    printf -- '- Substitute refs validated: %s\n' "$(yq -r '.substitute_refs_validated // "false"' "$known_limits")"
+    printf -- '- Diagnostic refs do not override terminal refs: %s\n\n' "$(yq -r '.diagnostic_refs_do_not_override_terminal // "false"' "$known_limits")"
+    printf '## Authority Boundary\n\n'
+    printf 'Generated outputs, proposal-local inputs, raw inputs, postmortem reports, and readiness summaries are not runtime, policy, support, closeout, publication, redesign, or lifecycle-transition authority.\n'
+  } >"$postmortem_dir/readiness-summary.md"
 }
 
 mutate_json_file() {
@@ -170,7 +208,8 @@ validate_evidence_map_fixture() {
   local root="$1"
   OCTON_ROOT_DIR="$root" bash "$VALIDATOR" \
     --evidence-map "$root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" \
-    --known-limits "$root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/known-limits.yml" >/dev/null
+    --known-limits "$root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/known-limits.yml" \
+    --readiness-summary "$root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/readiness-summary.md" >/dev/null
 }
 
 make_structured_case() {
@@ -336,6 +375,21 @@ main() {
   rm "$unresolved_map_root/.octon/state/evidence/runs/workflows/test-run/program-events.ndjson"
   assert_failure "unresolved lifecycle postmortem substitute refs fail" validate_evidence_map_fixture "$unresolved_map_root"
 
+  local missing_substitutes_for_root="$TMP_DIR/missing-substitutes-for-map"
+  make_evidence_map_fixture "$missing_substitutes_for_root" substitute
+  mutate_json_file "$missing_substitutes_for_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "del data['substitute_refs'][0]['substitutes_for']"
+  assert_failure "missing lifecycle postmortem substitutes_for fails" validate_evidence_map_fixture "$missing_substitutes_for_root"
+
+  local false_substitute_exists_root="$TMP_DIR/false-substitute-exists-map"
+  make_evidence_map_fixture "$false_substitute_exists_root" substitute
+  mutate_json_file "$false_substitute_exists_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['substitute_refs'][0]['exists'] = False"
+  assert_failure "nonexistent lifecycle postmortem substitute refs fail" validate_evidence_map_fixture "$false_substitute_exists_root"
+
+  local substitute_authority_map_root="$TMP_DIR/substitute-authority-map"
+  make_evidence_map_fixture "$substitute_authority_map_root" substitute
+  mutate_json_file "$substitute_authority_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['substitute_refs'][0]['authority_use'] = 'control-truth'"
+  assert_failure "substitute lifecycle postmortem refs claiming authority fail" validate_evidence_map_fixture "$substitute_authority_map_root"
+
   local missing_validation_map_root="$TMP_DIR/missing-validation-map"
   make_evidence_map_fixture "$missing_validation_map_root" direct
   mutate_json_file "$missing_validation_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['terminal_state_refs']['validation'] = []"
@@ -345,6 +399,16 @@ main() {
   make_evidence_map_fixture "$missing_rollback_map_root" direct
   mutate_json_file "$missing_rollback_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['terminal_state_refs']['rollback'] = []"
   assert_failure "missing lifecycle postmortem rollback terminal evidence fails" validate_evidence_map_fixture "$missing_rollback_map_root"
+
+  local missing_child_refs_map_root="$TMP_DIR/missing-child-refs-map"
+  make_evidence_map_fixture "$missing_child_refs_map_root" direct
+  mutate_json_file "$missing_child_refs_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['child_evidence_ref_index'] = []"
+  assert_failure "missing lifecycle postmortem child evidence dereference refs fail" validate_evidence_map_fixture "$missing_child_refs_map_root"
+
+  local child_authority_map_root="$TMP_DIR/child-authority-map"
+  make_evidence_map_fixture "$child_authority_map_root" direct
+  mutate_json_file "$child_authority_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['child_evidence_ref_index'][0]['authority_use'] = 'evidence-only'"
+  assert_failure "substitutive lifecycle postmortem child evidence dereference refs fail" validate_evidence_map_fixture "$child_authority_map_root"
 
   local generated_authority_map_root="$TMP_DIR/generated-authority-map"
   make_evidence_map_fixture "$generated_authority_map_root" direct

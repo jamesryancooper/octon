@@ -4,9 +4,9 @@ name: lifecycle-postmortem
 description: Run an optional read-only postmortem against a retained lifecycle run
   after the run has reached an inspectable terminal, blocked, cancelled, or
   rollback state. The workflow reconstructs evidence from retained control and
-  evidence roots, prepares lifecycle-postmortem evaluator input, materializes
-  optional review findings as evidence, and reports the evaluator judgment
-  without mutating lifecycle authority.
+  evidence roots, prepares a compact readiness summary and lifecycle-postmortem
+  evaluator input, materializes optional review findings as evidence, and
+  reports the evaluator judgment without mutating lifecycle authority.
 version: 1.0.0
 entry_mode: human
 execution_profile: core
@@ -181,6 +181,9 @@ artifacts:
   - name: evaluator_input
     path: ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluator-input.md"
     kind: retained-evidence
+  - name: readiness_summary
+    path: ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/readiness-summary.md"
+    kind: retained-evidence
   - name: structured_output
     path: ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluation.yml"
     kind: retained-evidence
@@ -207,11 +210,13 @@ done_gate:
       description: Retained-run evidence index locator refs, when present, are bound as discovery and replay aids only and never as transition, closeout, child-receipt, generated-output, proposal-input, or policy authority.
     - id: substitutes-validated-before-use
       description: Missing direct control refs are paired only with resolving retained workflow substitutes; unresolved substitutes, stale digests, and authority claims fail validation.
+    - id: readiness-summary-derived-only
+      description: The readiness summary is derived from evidence-map.yml and known-limits.yml, names direct refs, substitutes, terminal validation refs, terminal rollback refs, known limits, and the non-authority boundary without replacing source evidence.
     - id: postmortem-output-validated
       description: Any supplied evaluator report or structured output passes the lifecycle-postmortem validator before being treated as usable evidence.
     - id: full-postmortem-contract-complete
       description: Any supplied evaluator report and structured output preserve the full eighteen-section rigorous postmortem contract.
 constraints:
-  - Generated outputs, raw inputs, host labels, chat history, dashboards, and postmortem reports are not runtime, policy, support, closeout, or invariant authority.
+  - Generated outputs, raw inputs, host labels, chat history, dashboards, readiness summaries, and postmortem reports are not runtime, policy, support, closeout, or invariant authority.
   - Invariant compliance and invariant validity/evolution findings are evidence only and cannot approve, remove, relax, or amend invariants.
   - The workflow is optional by default and cannot become a mandatory closeout gate without a separate governed policy or lifecycle change.

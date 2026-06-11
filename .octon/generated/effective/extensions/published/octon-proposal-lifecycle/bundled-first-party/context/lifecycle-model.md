@@ -242,6 +242,10 @@ hash-chained v2 event log, checkpoint, scheduler decision, recovery evidence,
 optional mutation evidence, optional scaffold evidence, and aggregate closeout
 receipt. These surfaces coordinate and explain the parent program only. They do
 not satisfy child receipts or rewrite child lifecycle authority.
+Parent aggregate evidence may additionally expose evidence-only child
+dereference indexes for child validation, rollback, closeout, archive, and
+receipt evidence. Those links are navigation aids into child-owned evidence;
+they are non-substitutive and do not let parent evidence satisfy child gates.
 
 Program human exception grants are parent-run control evidence for typed
 non-machine-provable boundaries. A grant only unblocks the named child route in

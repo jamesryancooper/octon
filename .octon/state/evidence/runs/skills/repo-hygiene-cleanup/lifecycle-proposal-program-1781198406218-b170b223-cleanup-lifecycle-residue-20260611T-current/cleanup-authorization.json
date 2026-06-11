@@ -1,0 +1,58 @@
+{
+  "authorization_id": "repo-hygiene-cleanup-002e876566123aa0",
+  "authorization_result": "approved",
+  "authorized_paths": [
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-postmortem-readiness-summary/20260611T201730Z/command-status.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-postmortem-readiness-summary/20260611T201730Z/worktree-hygiene.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    }
+  ],
+  "classification_digest": "sha256:20a99fa655ce346182f93c4062d16302cf842f058fbc347cb9f299866f1a5677",
+  "classification_ref": "inline:cleanup-local-run-artifacts.sh",
+  "cleanup_path_set_digest": "sha256:7eb3b2c02fa3717618ad5bd940822e90ae5505a5bb46316b8d14657341701547",
+  "created_at": "2026-06-11T20:20:13Z",
+  "discard_or_rollback_posture": "delete only the exact untracked authorized path set; retain protected and manual-review residue",
+  "git_status_digest": "sha256:0449493f01a15cb8bcba2d9abbaf311aff11c0d38a3cd478157db158af1bf1c2",
+  "head_ref": "ae16a1516175d7843ed9552024aa14997844ef3a",
+  "helper_ref": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+  "main_ref": "ae16a1516175d7843ed9552024aa14997844ef3a",
+  "manual_review_paths_digest": "sha256:325457b5a37edb09746d9ffe16472fc5b34dea0823bb90431778b6dae3c4d17a",
+  "origin_main_ref": "ae16a1516175d7843ed9552024aa14997844ef3a",
+  "policy_ref": ".octon/instance/governance/policies/repo-hygiene.yml",
+  "protected_paths_digest": "sha256:877d300a7c996e41d69e060c9bda2744a31ec2b07372323d02a9a41bb2ec9aad",
+  "repo_root_ref": ".",
+  "runtime_safety_boundary": "Octon governance receipt does not bypass filesystem, sandbox, host, provider, or platform permission boundaries.",
+  "schema_ref": ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+  "schema_version": "repo-hygiene-cleanup-authorization-v1",
+  "valid_until_status_changes": true
+}

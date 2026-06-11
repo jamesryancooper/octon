@@ -730,19 +730,56 @@ struct LifecyclePostmortemResult {
 struct LifecyclePostmortemEvidenceMap {
     schema_version: &'static str,
     run_id: String,
+    subject: LifecyclePostmortemSubject,
     recorded_at: String,
     status: String,
+    evidence_posture: LifecyclePostmortemEvidencePosture,
     subject_control_root: String,
     subject_evidence_roots: Vec<String>,
     postmortem_root: String,
+    retained_run_evidence_indexes: Vec<LifecyclePostmortemCanonicalRef>,
+    direct_control_refs: Vec<LifecyclePostmortemCanonicalRef>,
     retained_refs: Vec<LifecyclePostmortemRef>,
     missing_refs: Vec<LifecyclePostmortemRef>,
     substitute_refs: Vec<LifecyclePostmortemSubstituteRef>,
-    terminal_state_refs: Vec<LifecyclePostmortemRef>,
+    terminal_state_refs: LifecyclePostmortemTerminalStateRefs,
+    terminal_state_ref_index: Vec<LifecyclePostmortemRef>,
+    child_evidence_ref_index: Vec<LifecyclePostmortemCanonicalRef>,
     diagnostic_refs: Vec<LifecyclePostmortemRef>,
     associated_refs: Vec<LifecyclePostmortemRef>,
+    generated_refs: Vec<LifecyclePostmortemCanonicalRef>,
+    proposal_local_refs: Vec<LifecyclePostmortemCanonicalRef>,
     reconstruction_order: Vec<String>,
     authority_boundary: LifecyclePostmortemAuthorityBoundary,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemSubject {
+    run_id: String,
+    lifecycle_kind: String,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemEvidencePosture {
+    purpose: &'static str,
+    direct_control_refs_present: bool,
+}
+
+#[derive(Clone, Serialize)]
+struct LifecyclePostmortemTerminalStateRefs {
+    validation: Vec<LifecyclePostmortemCanonicalRef>,
+    rollback: Vec<LifecyclePostmortemCanonicalRef>,
+}
+
+#[derive(Clone, Serialize)]
+struct LifecyclePostmortemCanonicalRef {
+    #[serde(rename = "ref")]
+    ref_path: String,
+    role: String,
+    ref_class: String,
+    authority_use: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sha256: Option<String>,
 }
 
 #[derive(Clone, Serialize)]
@@ -757,9 +794,15 @@ struct LifecyclePostmortemRef {
 #[derive(Clone, Serialize)]
 struct LifecyclePostmortemSubstituteRef {
     ref_name: String,
+    #[serde(rename = "ref")]
+    ref_path: String,
+    role: String,
     path: String,
     ref_class: String,
     authority_role: String,
+    authority_use: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sha256: Option<String>,
     substitutes_for: String,
     exists: bool,
 }
@@ -769,11 +812,15 @@ struct LifecyclePostmortemKnownLimits {
     schema_version: &'static str,
     run_id: String,
     status: String,
+    missing_direct_refs_recorded: bool,
+    substitute_refs_validated: bool,
+    diagnostic_refs_do_not_override_terminal: bool,
     missing_refs: Vec<LifecyclePostmortemRef>,
     substitute_refs: Vec<LifecyclePostmortemSubstituteRef>,
     reconstruction_order: Vec<String>,
     confidence_effect: String,
     evaluator_instruction: String,
+    authority_boundary: LifecyclePostmortemKnownLimitsAuthorityBoundary,
 }
 
 #[derive(Serialize)]
@@ -791,10 +838,19 @@ struct LifecyclePostmortemStatus {
 #[derive(Clone, Serialize)]
 struct LifecyclePostmortemAuthorityBoundary {
     generated_outputs_authority: bool,
+    proposal_inputs_authority: bool,
     raw_inputs_authority: bool,
+    postmortem_authorizes_lifecycle_transition: bool,
+    postmortem_authorizes_closeout: bool,
+    locator_replaces_source_evidence: bool,
     lifecycle_authority_mutated: bool,
     postmortem_output_authority: bool,
     statement: String,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemKnownLimitsAuthorityBoundary {
+    locator_replaces_source_evidence: bool,
 }
 
 pub(crate) fn lifecycle_cancellation_token_path(control_root: &Path) -> PathBuf {
@@ -1147,8 +1203,17 @@ fn run_lifecycle_postmortem_from_octon_dir(
         direct_evidence_exists,
         workflow_evidence_exists,
     );
-    let terminal_state_refs =
+    let terminal_state_ref_index =
         lifecycle_postmortem_terminal_state_refs(&repo_root, &workflow_evidence_root);
+    let terminal_state_refs = LifecyclePostmortemTerminalStateRefs {
+        validation: lifecycle_postmortem_terminal_validation_refs(
+            &repo_root,
+            &workflow_evidence_root,
+        ),
+        rollback: lifecycle_postmortem_terminal_rollback_refs(&repo_root, &workflow_evidence_root),
+    };
+    let child_evidence_ref_index =
+        lifecycle_postmortem_child_evidence_ref_index(&repo_root, &workflow_evidence_root);
     let diagnostic_refs = lifecycle_postmortem_diagnostic_refs(&repo_root, &workflow_evidence_root);
     let associated_refs =
         lifecycle_postmortem_associated_refs(&repo_root, octon_dir, &sanitized_run_id)?;
@@ -1165,7 +1230,7 @@ fn run_lifecycle_postmortem_from_octon_dir(
         .filter(|item| item.exists)
         .cloned()
         .collect::<Vec<_>>();
-    retained_refs.extend(terminal_state_refs.clone());
+    retained_refs.extend(terminal_state_ref_index.clone());
     retained_refs.extend(diagnostic_refs.clone());
     retained_refs.extend(associated_refs.clone());
     retained_refs.extend(
@@ -1182,7 +1247,11 @@ fn run_lifecycle_postmortem_from_octon_dir(
 
     let authority_boundary = LifecyclePostmortemAuthorityBoundary {
         generated_outputs_authority: false,
+        proposal_inputs_authority: false,
         raw_inputs_authority: false,
+        postmortem_authorizes_lifecycle_transition: false,
+        postmortem_authorizes_closeout: false,
+        locator_replaces_source_evidence: false,
         lifecycle_authority_mutated: false,
         postmortem_output_authority: false,
         statement: "Lifecycle postmortem outputs are retained evidence only. They do not authorize lifecycle transition, closeout, promotion, support widening, redesign, generated-output publication, or invariant amendment.".to_string(),
@@ -1197,20 +1266,52 @@ fn run_lifecycle_postmortem_from_octon_dir(
     let evidence_map = LifecyclePostmortemEvidenceMap {
         schema_version: "lifecycle-postmortem-evidence-map-v2",
         run_id: sanitized_run_id.clone(),
+        subject: LifecyclePostmortemSubject {
+            run_id: sanitized_run_id.clone(),
+            lifecycle_kind: lifecycle_kind_for_run_id(&sanitized_run_id),
+        },
         recorded_at: recorded_at.clone(),
         status: status.clone(),
+        evidence_posture: LifecyclePostmortemEvidencePosture {
+            purpose: "discovery-and-replay-aid",
+            direct_control_refs_present: candidate_refs
+                .iter()
+                .any(|item| item.exists && item.authority_role == "mutable-control-truth"),
+        },
         subject_control_root: rel_display(&repo_root, &control_root),
         subject_evidence_roots: vec![
             rel_display(&repo_root, &direct_evidence_root),
             rel_display(&repo_root, &workflow_evidence_root),
         ],
         postmortem_root: rel_display(&repo_root, &postmortem_root),
+        retained_run_evidence_indexes: lifecycle_postmortem_retained_index_refs(
+            &repo_root,
+            &direct_evidence_root,
+            &workflow_evidence_root,
+        ),
+        direct_control_refs: candidate_refs
+            .iter()
+            .filter(|item| item.exists && item.authority_role == "mutable-control-truth")
+            .filter_map(|item| {
+                lifecycle_postmortem_canonical_ref_from_repo_ref(
+                    &repo_root,
+                    &item.path,
+                    &item.ref_name,
+                    "control",
+                    "control-truth",
+                )
+            })
+            .collect(),
         retained_refs: retained_refs.clone(),
         missing_refs: missing_refs.clone(),
         substitute_refs: substitute_refs.clone(),
         terminal_state_refs: terminal_state_refs.clone(),
+        terminal_state_ref_index: terminal_state_ref_index.clone(),
+        child_evidence_ref_index,
         diagnostic_refs: diagnostic_refs.clone(),
         associated_refs: associated_refs.clone(),
+        generated_refs: Vec::new(),
+        proposal_local_refs: Vec::new(),
         reconstruction_order: reconstruction_order.clone(),
         authority_boundary: authority_boundary.clone(),
     };
@@ -1220,11 +1321,17 @@ fn run_lifecycle_postmortem_from_octon_dir(
         schema_version: "lifecycle-postmortem-known-limits-v2",
         run_id: sanitized_run_id.clone(),
         status: status.clone(),
+        missing_direct_refs_recorded: !missing_refs.is_empty(),
+        substitute_refs_validated: substitute_refs.iter().all(|item| item.exists),
+        diagnostic_refs_do_not_override_terminal: true,
         missing_refs: missing_refs.clone(),
         substitute_refs: substitute_refs.clone(),
         reconstruction_order: reconstruction_order.clone(),
         confidence_effect: lifecycle_postmortem_confidence_effect(&missing_refs, &substitute_refs),
         evaluator_instruction: "Treat missing direct control refs as evidence gaps. When substitute_refs are listed, use those retained workflow refs for reconstruction before escalating; never fill gaps from generated summaries, raw inputs, chat history, host state, dashboards, or model memory. Diagnostic failing-slice evidence is historical and must not override terminal blocker ledgers.".to_string(),
+        authority_boundary: LifecyclePostmortemKnownLimitsAuthorityBoundary {
+            locator_replaces_source_evidence: false,
+        },
     };
     fs::write(&known_limits_path, serde_yaml::to_string(&known_limits)?)?;
 
@@ -1236,7 +1343,7 @@ fn run_lifecycle_postmortem_from_octon_dir(
             &retained_refs,
             &missing_refs,
             &substitute_refs,
-            &terminal_state_refs,
+            &terminal_state_ref_index,
             &diagnostic_refs,
             &associated_refs,
             &reconstruction_order,
@@ -1374,6 +1481,108 @@ fn lifecycle_postmortem_terminal_state_refs(
     )
 }
 
+fn lifecycle_kind_for_run_id(run_id: &str) -> String {
+    let Some(rest) = run_id.strip_prefix("lifecycle-") else {
+        return "unknown".to_string();
+    };
+    for kind in ["proposal-program", "proposal-packet", "program", "packet"] {
+        if rest == kind || rest.starts_with(&format!("{kind}-")) {
+            return kind.to_string();
+        }
+    }
+    rest.split_once('-')
+        .map(|(kind, _)| kind.to_string())
+        .unwrap_or_else(|| rest.to_string())
+}
+
+fn lifecycle_postmortem_retained_index_refs(
+    repo_root: &Path,
+    direct_evidence_root: &Path,
+    workflow_evidence_root: &Path,
+) -> Vec<LifecyclePostmortemCanonicalRef> {
+    let mut refs = Vec::new();
+    for (role, path) in [
+        (
+            "direct-retained-run-evidence-index",
+            direct_evidence_root.join("retained-run-evidence-index.yml"),
+        ),
+        (
+            "workflow-retained-run-evidence-index",
+            workflow_evidence_root.join("evidence-index.yml"),
+        ),
+    ] {
+        if let Some(item) = lifecycle_postmortem_canonical_ref(
+            repo_root,
+            role,
+            &path,
+            "retained-evidence",
+            "evidence-only",
+        ) {
+            refs.push(item);
+        }
+    }
+    refs
+}
+
+fn lifecycle_postmortem_terminal_validation_refs(
+    repo_root: &Path,
+    workflow_evidence_root: &Path,
+) -> Vec<LifecyclePostmortemCanonicalRef> {
+    lifecycle_postmortem_existing_canonical_refs(
+        repo_root,
+        workflow_evidence_root,
+        "retained-evidence",
+        "evidence-only",
+        &[
+            ("program-summary", "summary.md"),
+            (
+                "aggregate-terminal-blockers",
+                "aggregate-terminal-blockers.yml",
+            ),
+            (
+                "aggregate-closeout-receipt",
+                "aggregate-closeout-receipt.yml",
+            ),
+        ],
+    )
+}
+
+fn lifecycle_postmortem_terminal_rollback_refs(
+    repo_root: &Path,
+    workflow_evidence_root: &Path,
+) -> Vec<LifecyclePostmortemCanonicalRef> {
+    lifecycle_postmortem_existing_canonical_refs(
+        repo_root,
+        workflow_evidence_root,
+        "retained-evidence",
+        "evidence-only",
+        &[
+            ("route-decision-receipt", "route-decision-receipt.yml"),
+            ("recovery-delta-summary", "recovery-delta-summary.yml"),
+            ("aggregate-closeout", "aggregate-closeout.yml"),
+        ],
+    )
+}
+
+fn lifecycle_postmortem_child_evidence_ref_index(
+    repo_root: &Path,
+    workflow_evidence_root: &Path,
+) -> Vec<LifecyclePostmortemCanonicalRef> {
+    lifecycle_postmortem_existing_canonical_refs(
+        repo_root,
+        workflow_evidence_root,
+        "retained-child-evidence-dereference",
+        "evidence-only-non-substitutive",
+        &[
+            ("child-validation-ref-index", "aggregate-terminal-blockers.yml"),
+            ("child-receipt-ref-index", "aggregate-closeout-receipt.yml"),
+            ("child-rollback-ref-index", "aggregate-closeout.yml"),
+            ("child-closeout-ref-index", "aggregate-closeout-receipt.yml"),
+            ("child-archive-ref-index", "aggregate-closeout-receipt.yml"),
+        ],
+    )
+}
+
 fn lifecycle_postmortem_diagnostic_refs(
     repo_root: &Path,
     workflow_evidence_root: &Path,
@@ -1415,6 +1624,68 @@ fn lifecycle_postmortem_existing_named_refs(
         .collect()
 }
 
+fn lifecycle_postmortem_existing_canonical_refs(
+    repo_root: &Path,
+    root: &Path,
+    ref_class: &str,
+    authority_use: &str,
+    names: &[(&str, &str)],
+) -> Vec<LifecyclePostmortemCanonicalRef> {
+    names
+        .iter()
+        .filter_map(|(role, rel)| {
+            lifecycle_postmortem_canonical_ref(
+                repo_root,
+                role,
+                &root.join(rel),
+                ref_class,
+                authority_use,
+            )
+        })
+        .collect()
+}
+
+fn lifecycle_postmortem_canonical_ref_from_repo_ref(
+    repo_root: &Path,
+    repo_ref: &str,
+    role: &str,
+    ref_class: &str,
+    authority_use: &str,
+) -> Option<LifecyclePostmortemCanonicalRef> {
+    lifecycle_postmortem_canonical_ref(
+        repo_root,
+        role,
+        &repo_root.join(repo_ref),
+        ref_class,
+        authority_use,
+    )
+}
+
+fn lifecycle_postmortem_canonical_ref(
+    repo_root: &Path,
+    role: &str,
+    path: &Path,
+    ref_class: &str,
+    authority_use: &str,
+) -> Option<LifecyclePostmortemCanonicalRef> {
+    if !path.is_file() {
+        return None;
+    }
+    Some(LifecyclePostmortemCanonicalRef {
+        ref_path: rel_display(repo_root, path),
+        role: role.to_string(),
+        ref_class: ref_class.to_string(),
+        authority_use: authority_use.to_string(),
+        sha256: lifecycle_postmortem_file_digest(path),
+    })
+}
+
+fn lifecycle_postmortem_file_digest(path: &Path) -> Option<String> {
+    fs::read(path)
+        .ok()
+        .map(|bytes| lifecycle_sha256_digest(&bytes))
+}
+
 fn lifecycle_postmortem_substitute_refs(
     repo_root: &Path,
     control_root: &Path,
@@ -1434,7 +1705,7 @@ fn lifecycle_postmortem_substitute_refs(
                 repo_root,
                 "workflow-program-lifecycle-checkpoint",
                 &path,
-                "retained-workflow-checkpoint-substitute",
+                "retained-workflow-evidence",
                 "retained-evidence-substitute",
                 &rel_display(
                     repo_root,
@@ -1450,7 +1721,7 @@ fn lifecycle_postmortem_substitute_refs(
                 repo_root,
                 "workflow-program-events",
                 &path,
-                "retained-workflow-event-log-substitute",
+                "retained-workflow-evidence",
                 "retained-evidence-substitute",
                 &rel_display(repo_root, &control_root.join("program-events.ndjson")),
             ));
@@ -1469,9 +1740,13 @@ fn lifecycle_postmortem_substitute_ref(
 ) -> LifecyclePostmortemSubstituteRef {
     LifecyclePostmortemSubstituteRef {
         ref_name: ref_name.to_string(),
+        ref_path: rel_display(repo_root, path),
+        role: ref_name.to_string(),
         path: rel_display(repo_root, path),
         ref_class: ref_class.to_string(),
         authority_role: authority_role.to_string(),
+        authority_use: "evidence-only".to_string(),
+        sha256: lifecycle_postmortem_file_digest(path),
         substitutes_for: substitutes_for.to_string(),
         exists: true,
     }
@@ -1494,18 +1769,16 @@ fn lifecycle_postmortem_associated_refs(
     octon_dir: &Path,
     run_id: &str,
 ) -> Result<Vec<LifecyclePostmortemRef>> {
+    let roots = lifecycle_postmortem_associated_roots(octon_dir);
     let mut files = Vec::new();
-    for root in [
-        octon_dir.join("state/evidence/runs/skills/closeout-change"),
-        octon_dir.join("state/evidence/validation/analysis"),
-    ] {
-        lifecycle_postmortem_collect_associated_files(&root, 0, &mut files)?;
+    for (role, root) in &roots {
+        lifecycle_postmortem_collect_associated_files(role, root, 0, &mut files)?;
     }
-    files.sort();
-    files.dedup();
+    files.sort_by(|left, right| left.1.cmp(&right.1).then_with(|| left.0.cmp(&right.0)));
+    files.dedup_by(|left, right| left.1 == right.1);
 
     let mut refs = Vec::new();
-    for path in files.into_iter().take(128) {
+    for (role, path) in files.into_iter().take(128) {
         let Ok(metadata) = fs::metadata(&path) else {
             continue;
         };
@@ -1518,14 +1791,6 @@ fn lifecycle_postmortem_associated_refs(
         if !content.contains(run_id) {
             continue;
         }
-        let role = if path
-            .components()
-            .any(|component| component.as_os_str().to_str() == Some("closeout-change"))
-        {
-            "associated-closeout-receipt"
-        } else {
-            "associated-closeout-report"
-        };
         refs.push(lifecycle_postmortem_ref(
             repo_root,
             &format!("{}-{}", role, refs.len() + 1),
@@ -1538,10 +1803,40 @@ fn lifecycle_postmortem_associated_refs(
     Ok(refs)
 }
 
+fn lifecycle_postmortem_associated_roots(octon_dir: &Path) -> Vec<(&'static str, PathBuf)> {
+    vec![
+        (
+            "associated-closeout-receipt",
+            octon_dir.join("state/evidence/runs/skills/closeout-change"),
+        ),
+        (
+            "associated-worktree-closeout-receipt",
+            octon_dir.join("state/evidence/runs/skills/closeout-worktree"),
+        ),
+        (
+            "associated-pr-closeout-receipt",
+            octon_dir.join("state/evidence/runs/skills/closeout-pr"),
+        ),
+        (
+            "associated-archive-receipt",
+            octon_dir.join("state/evidence/disclosure/runs"),
+        ),
+        (
+            "associated-validation-report",
+            octon_dir.join("state/evidence/validation"),
+        ),
+        (
+            "associated-workflow-evidence",
+            octon_dir.join("state/evidence/runs/workflows"),
+        ),
+    ]
+}
+
 fn lifecycle_postmortem_collect_associated_files(
+    role: &'static str,
     root: &Path,
     depth: usize,
-    files: &mut Vec<PathBuf>,
+    files: &mut Vec<(&'static str, PathBuf)>,
 ) -> Result<()> {
     if depth > 6 || !root.exists() || files.len() >= 512 {
         return Ok(());
@@ -1551,9 +1846,9 @@ fn lifecycle_postmortem_collect_associated_files(
     for entry in entries {
         let path = entry.path();
         if path.is_dir() {
-            lifecycle_postmortem_collect_associated_files(&path, depth + 1, files)?;
+            lifecycle_postmortem_collect_associated_files(role, &path, depth + 1, files)?;
         } else if lifecycle_postmortem_associated_file_candidate(&path) {
-            files.push(path);
+            files.push((role, path));
         }
         if files.len() >= 512 {
             break;
@@ -4636,6 +4931,97 @@ routes:
         assert!(evaluator_input.contains("aggregate-terminal-blockers"));
         assert!(evaluator_input.contains("failing-slice evidence is historical"));
         assert!(evaluator_input.contains("must not override terminal blocker ledgers"));
+    }
+
+    #[test]
+    fn lifecycle_postmortem_finds_bounded_associated_evidence_with_run_id() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("postmortem-associated");
+        let run_id = "postmortem-associated";
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/summary.md"),
+            "# summary\nfinal_verdict: completed\n",
+        );
+        fixture.write(
+            ".octon/state/evidence/runs/skills/closeout-change/receipt.yml",
+            "run_id: postmortem-associated\nverdict: pass\n",
+        );
+        fixture.write(
+            ".octon/state/evidence/runs/skills/closeout-worktree/receipt.yml",
+            "run_id: postmortem-associated\nverdict: pass\n",
+        );
+        fixture.write(
+            ".octon/state/evidence/disclosure/runs/archive-proposal-postmortem-associated/report.md",
+            "archive retained for postmortem-associated\n",
+        );
+        fixture.write(
+            ".octon/state/evidence/validation/analysis/postmortem-associated.md",
+            "validation evidence for postmortem-associated\n",
+        );
+
+        run_lifecycle_postmortem_from_octon_dir(&fixture.octon_dir, run_id).unwrap();
+        let evidence_map: serde_yaml::Value = serde_yaml::from_slice(
+            &fs::read(
+                fixture
+                    .octon_dir
+                    .join("state/evidence/runs/postmortem-associated/assurance/lifecycle-postmortem/evidence-map.yml"),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        let associated_roles = evidence_map
+            .get("associated_refs")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.get("ref_class"))
+            .filter_map(serde_yaml::Value::as_str)
+            .collect::<BTreeSet<_>>();
+
+        assert!(associated_roles.contains("associated-closeout-receipt"));
+        assert!(associated_roles.contains("associated-worktree-closeout-receipt"));
+        assert!(associated_roles.contains("associated-archive-receipt"));
+        assert!(associated_roles.contains("associated-validation-report"));
+    }
+
+    #[test]
+    fn lifecycle_postmortem_excludes_unlinked_and_non_evidence_associated_candidates() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("postmortem-associated-negative");
+        let run_id = "postmortem-associated-negative";
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/summary.md"),
+            "# summary\nfinal_verdict: completed\n",
+        );
+        fixture.write(
+            ".octon/state/evidence/runs/skills/closeout-change/unlinked.yml",
+            "run_id: different-run\nverdict: pass\n",
+        );
+        fixture.write(
+            ".octon/generated/effective/runtime/postmortem-associated-negative.yml",
+            "run_id: postmortem-associated-negative\n",
+        );
+        fixture.write(
+            ".octon/inputs/exploratory/proposals/architecture/postmortem-associated-negative/proposal.yml",
+            "proposal_id: postmortem-associated-negative\n",
+        );
+
+        run_lifecycle_postmortem_from_octon_dir(&fixture.octon_dir, run_id).unwrap();
+        let evidence_map: serde_yaml::Value = serde_yaml::from_slice(
+            &fs::read(
+                fixture
+                    .octon_dir
+                    .join("state/evidence/runs/postmortem-associated-negative/assurance/lifecycle-postmortem/evidence-map.yml"),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        let associated = evidence_map
+            .get("associated_refs")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap();
+
+        assert!(associated.is_empty());
     }
 
     #[test]
