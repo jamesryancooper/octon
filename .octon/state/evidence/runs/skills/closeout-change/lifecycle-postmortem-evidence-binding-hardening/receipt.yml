@@ -1,0 +1,40 @@
+schema_version: closeout-change-receipt-v1
+change_id: lifecycle-postmortem-evidence-binding-hardening
+selected_route: branch-no-pr
+target_lifecycle_outcome: cleaned
+closeout_outcome: completed
+source_branch: chore/lifecycle-postmortem-evidence-binding-hardening
+remote: origin
+target_branch: main
+commit:
+  sha: 268cff61f7087c02862ee184cbe0c6d4e8e7acef
+  subject: "fix(lifecycle): bind postmortem evidence references"
+landing:
+  authorization_ref: .octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-binding-hardening/landing-authorization.json
+  target_pre_ref: ae16a1516175d7843ed9552024aa14997844ef3a
+  landed_ref: 268cff61f7087c02862ee184cbe0c6d4e8e7acef
+  integration_method: hosted-no-pr-fast-forward
+  no_pr_required: true
+  required_check_refs:
+    - empty-check-set-explicitly-allowed@268cff61f7087c02862ee184cbe0c6d4e8e7acef
+validation:
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh
+    result: pass
+    summary: "passed=40 failed=0"
+  - command: cargo test lifecycle_postmortem --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml
+    result: pass
+    summary: "4 lifecycle postmortem tests passed; filtered workspace tests passed"
+  - command: git diff --check
+    result: pass
+repo_hygiene:
+  cleanup_receipt_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781198406218-b170b223-post-archive-cleanup-20260611Tcurrent/receipt.yml
+  cleanup_candidates_removed: 502
+  post_cleanup_candidates: 0
+rollback:
+  handle: "origin/main@ae16a1516175d7843ed9552024aa14997844ef3a before landing; revert 268cff61f7087c02862ee184cbe0c6d4e8e7acef if rollback is required"
+  pre_landing_ref: ae16a1516175d7843ed9552024aa14997844ef3a
+  landed_ref: 268cff61f7087c02862ee184cbe0c6d4e8e7acef
+residue:
+  retained_residue: none
+  blockers: none
+verdict: pass

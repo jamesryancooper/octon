@@ -1,0 +1,34 @@
+schema_version: closeout-worktree-report-v1
+worktree_closeout_id: lifecycle-postmortem-evidence-binding-hardening
+initial_branch: main
+selected_candidate:
+  candidate_id: lifecycle-postmortem-evidence-binding-hardening
+  residue_routing_class: publishable_change
+  target_lifecycle_outcome: cleaned
+  selected_route: branch-no-pr
+  lifecycle_closeout_authority:
+    program_run_id: lifecycle-proposal-program-1781198406218-b170b223
+    program_terminal_outcome: archived
+    child_authority_preserved: true
+    parent_summary_not_child_receipt: true
+    local_run_state_excluded: true
+repo_hygiene:
+  classification_summary:
+    initial_cleanup_candidates_after_archive: 502
+    removed_cleanup_candidates: 502
+    final_cleanup_candidates: 0
+  cleanup_receipt_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781198406218-b170b223-post-archive-cleanup-20260611Tcurrent/receipt.yml
+  cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781198406218-b170b223-post-archive-cleanup-20260611Tcurrent/cleanup-authorization.json
+delegated_closeout_change:
+  receipt_ref: .octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-binding-hardening/receipt.yml
+  closeout_outcome: completed
+  landed_ref: 268cff61f7087c02862ee184cbe0c6d4e8e7acef
+final_candidate_dispositions:
+  lifecycle-postmortem-evidence-binding-hardening:
+    final_state: closed
+    closeout_receipt_ref: .octon/state/evidence/runs/skills/closeout-change/lifecycle-postmortem-evidence-binding-hardening/receipt.yml
+retained_residue: none
+blockers: none
+worktree_terminal_state: git_clean_terminal_after_evidence_candidate_landing_and_branch_cleanup
+next_route_condition: commit and land this closeout evidence candidate, then sync main and clean source branch
+verdict: pass
