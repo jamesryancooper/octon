@@ -1116,7 +1116,12 @@ routes:
             receipt_id: "post-implementation-drift"
             field: "verdict"
             value: "pass"
-        - receipt_absent: "proposal-closeout"
+        - any:
+            - receipt_absent: "proposal-closeout"
+            - receipt_field_equals:
+                receipt_id: "proposal-closeout"
+                field: "verdict"
+                value: "blocked"
   - route_id: "archive-proposal"
     route_type: "workflow"
     delegation_contract:

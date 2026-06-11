@@ -126,6 +126,34 @@ This gate is proposal-readiness only. It does not require implementation
 receipts or durable promoted artifacts to exist, and it must not be used as
 evidence that implementation has completed.
 
+## Freshness And Readiness Projection
+
+Proposal-program runs may materialize or validate a read-only freshness and
+readiness projection before child dispatch and again before parent closeout.
+The projection contract is
+`.octon/framework/engine/runtime/spec/proposal-program-readiness-projection-v1.md`;
+the validator is
+`.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh`.
+
+The projection reports parent readiness, child readiness, dependency readiness,
+route readiness, archive readiness, generated/publication freshness,
+retained-run evidence-index availability, blocker posture, and source digest
+freshness. It is diagnostic evidence only. It does not authorize dispatch,
+implementation, correction, closeout, archive, generated publication, or child
+gate satisfaction. Existing child-owned review gates, readiness validators,
+implementation receipts, conformance receipts, drift/churn receipts, closeout
+receipts, archive metadata, publication freshness receipts, and retained-run
+evidence indexes remain authoritative for their own transitions.
+
+When terminal program evidence is hard to locate, operators may use retained-run
+evidence indexes under `.octon/state/evidence/runs/<run-id>/` and lifecycle
+postmortem `evidence-map.yml` files under
+`.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/` as
+discovery locators for direct control refs and validated substitute workflow
+refs. These locators make retained evidence findable; they do not satisfy child
+receipts, replace direct source evidence, close lifecycle state, or turn parent
+summaries, generated outputs, or proposal-local packets into authority.
+
 ## Promotion And Archive Workflows
 
 Parent program promotion uses the existing `promote-proposal` workflow id. It

@@ -22,6 +22,9 @@ The review receipt records `review_id`, `reviewed_at`, `reviewer`, `verdict`,
 exclusions, blocking findings, nonblocking findings, and final route. The only
 allowed verdicts are `accepted`, `revision-required`, and `rejected`.
 
-Set `proposal.yml#status` to `accepted` only for an accepted verdict, set it to
-`rejected` only for a rejected verdict, and leave it `in-review` for
-`revision-required`. Do not implement or promote durable targets.
+Set `proposal.yml#status` to `accepted` only for an accepted verdict unless the
+packet is already `implemented`; for an already implemented packet, preserve
+`implemented` and refresh the review receipt/digest for closeout or archive
+recovery. Set status to `rejected` only for a rejected verdict, and leave it
+`in-review` for `revision-required`. Do not implement or promote durable
+targets.

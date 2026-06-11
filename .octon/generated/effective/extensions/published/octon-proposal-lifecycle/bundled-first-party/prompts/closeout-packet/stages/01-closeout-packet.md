@@ -25,6 +25,21 @@ classification. This hygiene scope does not transfer child authority: the
 closeout receipt, archive authorization, promotion evidence, validation
 verdicts, and terminal lifecycle outcome remain child-owned.
 
+For implemented packet closeout, verify preserved review evidence with the
+baseline review gate:
+
+```sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package <proposal_path>
+```
+
+Do not require the pre-implementation authorization flag during closeout for a
+packet that is already `status: implemented`; that strict gate remains required
+before implementation prompt generation, implementation execution, and
+promotion. Implemented closeout may rely on the baseline gate when it confirms
+the packet preserves accepted review evidence, and closeout must still fail
+closed if implementation-run, conformance, drift/churn, validation, promotion
+evidence, or hygiene gates fail.
+
 If the correctly scoped classifier still reports foreign or ambiguous paths,
 write or refresh `support/proposal-closeout.md` with `verdict: blocked`,
 `archive_authorized: no`, the hygiene counts and evidence path, and

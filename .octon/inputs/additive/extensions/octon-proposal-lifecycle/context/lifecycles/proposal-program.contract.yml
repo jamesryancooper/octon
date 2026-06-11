@@ -79,6 +79,7 @@ program:
       - "validate_completion"
       - "emit_closeout_capsule"
     deterministic_preflights:
+      - "freshness-readiness-projection"
       - "publication-freshness"
       - "generated-freshness"
       - "blocker-aggregation-zero-state"
@@ -97,6 +98,7 @@ program:
       - "archive/recovery failure"
       - "unexplained test failure"
     source_ref_requirements:
+      - "freshness-readiness-projection.yml"
       - "program-lifecycle-checkpoint.yml"
       - "program-events.ndjson"
       - "resources/child-packet-index.yml"
@@ -132,6 +134,10 @@ program:
     authority_boundary:
       replaces_source_evidence: false
       authorizes_execution: false
+      freshness_readiness_projection_authorizes_dispatch: false
+      freshness_readiness_projection_satisfies_child_gates: false
+      freshness_readiness_projection_authorizes_closeout: false
+      freshness_readiness_projection_authorizes_archive: false
       generated_output_authority: "derived-only"
       raw_evidence_retained: true
   atomic_policy:

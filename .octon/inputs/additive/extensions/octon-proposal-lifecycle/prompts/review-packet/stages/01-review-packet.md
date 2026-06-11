@@ -14,10 +14,12 @@ review verdict: `accepted`, `revision-required`, or `rejected`. Use
 packet-local changes; use `rejected` when the proposal should not continue in
 this lifecycle path.
 
-When the verdict is `accepted`, update `proposal.yml#status` to `accepted`.
-When the verdict is `rejected`, update `proposal.yml#status` to `rejected`.
-When the verdict is `revision-required`, leave or return `proposal.yml#status`
-to `in-review`. Do not introduce any other proposal status.
+When the verdict is `accepted`, update `proposal.yml#status` to `accepted`
+unless the packet is already `implemented`; for an already implemented packet,
+preserve `implemented` while refreshing the review receipt and digest. When the
+verdict is `rejected`, update `proposal.yml#status` to `rejected`. When the
+verdict is `revision-required`, leave or return `proposal.yml#status` to
+`in-review`. Do not introduce any other proposal status.
 
 After any manifest status update, compute the reviewed packet digest with:
 
@@ -50,11 +52,16 @@ promotion targets, and strict review authorization can pass. For
 
 Refresh `navigation/artifact-catalog.md`, checksums when the packet maintains
 `SHA256SUMS.txt`, and the proposal registry projection when manifest state
-changed. If the verdict is accepted, run:
+changed. If the verdict is accepted and the packet is not already implemented,
+run:
 
 ```sh
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package <proposal_path> --require-implementation-authorization
 ```
+
+For already implemented packets, instead run the baseline review gate after the
+digest refresh and report that the review is retained for closeout/archive
+recovery rather than implementation authorization.
 
 Report the verdict, receipt path, reviewed packet digest, blockers, validators
 run, registry/checksum refresh state, and next route. Do not promote durable
