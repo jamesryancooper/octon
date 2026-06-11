@@ -215,6 +215,14 @@ case_accepted_fresh_review_passes() {
   run_validator "$root" --require-implementation-authorization
 }
 
+case_implemented_fresh_review_preserves_authorization() {
+  local root
+  root="$(create_fixture_repo)"
+  write_packet "$root" implemented
+  write_review "$root" accepted yes 0
+  run_validator "$root" --require-implementation-authorization
+}
+
 case_accepted_stale_review_fails() {
   local root
   root="$(create_fixture_repo)"
@@ -350,6 +358,9 @@ main() {
   assert_success \
     "accepted packets pass strict review gate with a fresh accepted receipt" \
     case_accepted_fresh_review_passes
+  assert_success \
+    "implemented packets preserve strict review authorization with a fresh accepted receipt" \
+    case_implemented_fresh_review_preserves_authorization
   assert_failure_contains \
     "accepted packets fail when review digest is stale" \
     "reviewed packet digest is fresh" \
@@ -372,7 +383,7 @@ main() {
     case_old_program_prompt_file_stales_review
   assert_failure_contains \
     "revision-required review blocks implementation authorization" \
-    "proposal status is accepted for implementation authorization" \
+    "proposal status preserves implementation authorization state" \
     case_revision_required_blocks_implementation
   assert_failure_contains \
     "rejected packets require rejected review receipts" \

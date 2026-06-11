@@ -1,0 +1,36 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+receipt_id: lifecycle-proposal-program-1781165043708-17dba23b-repo-hygiene-archive-blocker-20260611T0805Z
+created_at: "2026-06-11T08:05:00Z"
+active_run_id: none
+route: receipt-backed-helper-authorization
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781165043708-17dba23b-repo-hygiene-archive-blocker-20260611T0805Z/cleanup-authorization.json
+authorization_digest: sha256:8baeea4ac732477bbeb48c35c6c736437e81e1f64313077d94c086f0dc3d9f74
+raw_path_lists_published: false
+local_private_payloads_published: false
+before_cleanup:
+  mode: authorization
+  cleanup_candidates: 4
+  protected_referenced: 46
+  manual_review: 40
+  git_status_digest: sha256:1a3bba7efafce252437b3aa02ae4a3eb0f52de169b7756e7ab657b1adaa5923a
+  classification_digest: sha256:8d3cceecb15932e8a5ae87f727fac8f66d141b9c04d033a78058ca583f439ecd
+  cleanup_path_set_digest: sha256:5dc5585d602918686a1273fd1d7018b2b602a1c4522235830b744085c039fcaf
+  protected_paths_digest: sha256:6b427bcfd0a9bd7d00a050be102df0c90de1fa53b927438fac72e88c5ca9561e
+  manual_review_paths_digest: sha256:9d77a6b59e01ffafa3b0680241fd18d1c7481640f8e506df48abcb9129f4b21c
+cleanup_action:
+  deleted_count: 4
+  deleted_scope: untracked-unreferenced-blocked-archive-run-control-residue
+  protected_and_manual_review_paths_retained: true
+after_cleanup:
+  mode: dry-run
+  cleanup_candidates: 0
+  protected_referenced: 46
+  manual_review: 41
+  git_status_digest: sha256:93cba423d3760d35a1fef67388e8e327d4d3949772362704792702338a079004
+  classification_digest: sha256:7ee7b84941310f710a8d9f7559774506bb6ead47b9459b24b4254af5934f625d
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:6b427bcfd0a9bd7d00a050be102df0c90de1fa53b927438fac72e88c5ca9561e
+  manual_review_paths_digest: sha256:cb6a5a4aeab6a9a1cd0850758ea3b76909dd8c5b32e3d544a858f045138a52f2
+blocker: none

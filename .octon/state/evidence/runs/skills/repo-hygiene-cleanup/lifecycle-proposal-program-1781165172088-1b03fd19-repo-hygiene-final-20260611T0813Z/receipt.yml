@@ -1,0 +1,30 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+cleanup_id: lifecycle-proposal-program-1781165172088-1b03fd19-repo-hygiene-final-20260611T0813Z
+run_id: lifecycle-proposal-program-1781165172088-1b03fd19
+target: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-run-readiness-and-evidence-locator-hardening
+lifecycle: proposal-program
+authorization_method: explicit-user-direction-and-helper-confirm
+helper: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+command: cleanup-local-run-artifacts.sh --confirm
+recorded_at: 2026-06-11T08:13:00Z
+verdict: cleaned
+deleted_count: 90
+deleted_class: unreferenced-local-proposal-lifecycle-run-residue
+protected_referenced_count: 46
+manual_review_count: 43
+cleanup_candidates_before: 90
+cleanup_candidates_after: 0
+before:
+  git_status_digest: sha256:4146f66c62917887ab956b85f344a5b64d83ed83255b8cade47a47f33f83b209
+  classification_digest: sha256:6b59579b2d47bbd3bbf117034efdb3523467e94f60f9e2ea3a18e20d40aede59
+  cleanup_path_set_digest: sha256:45781c8a2f685503a78ba31d96e53584f3b466cc9fe20effd67bf9a12fb02cc0
+  protected_paths_digest: sha256:6b427bcfd0a9bd7d00a050be102df0c90de1fa53b927438fac72e88c5ca9561e
+  manual_review_paths_digest: sha256:23a6d4d72755ef6984ec8fabdd3c4701847685f4f2d8dd35365e7cea5a7b2974
+after:
+  git_status_digest: sha256:4f8b2d9847fdddaae9e81632d5c1bc2409db271350aff75adddafcc162524631
+  classification_digest: sha256:f7ed9672f7b44c683dfcc13d266c5b2a03481edfe622031712a146e50f850220
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:6b427bcfd0a9bd7d00a050be102df0c90de1fa53b927438fac72e88c5ca9561e
+  manual_review_paths_digest: sha256:23a6d4d72755ef6984ec8fabdd3c4701847685f4f2d8dd35365e7cea5a7b2974
+retained_manual_review_disposition: retain_as_closeout_evidence_for_branch_no_pr_change
+authority_boundary: Cleanup receipt records local residue deletion only; it does not replace proposal receipts, lifecycle terminal evidence, promotion evidence, or child-owned authority.

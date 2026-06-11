@@ -1,0 +1,42 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-1781156552835-7e6f3405-repo-hygiene-20260611T054733Z
+recorded_at: 2026-06-11T05:47:33Z
+route: authorization-receipt
+active_run_id: lifecycle-proposal-program-1781156552835-7e6f3405
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781156552835-7e6f3405-repo-hygiene-20260611T054733Z/cleanup-authorization.json
+authorization_sha256: sha256:58e53bcfd4632ff5802b3a81f4a21f4707d4dc9cee9fe5e72da69f3af5060b44
+authorization_id: repo-hygiene-cleanup-4be1d8aecb80a4b1
+authorization_result: approved
+pre_cleanup:
+  cleanup_candidates: 671
+  protected_referenced: 50
+  manual_review: 18
+  git_status_digest: sha256:c768f4fde620477411130fbe706a2fa663033c89e578c3b2c2dd39eff8dd57e5
+  classification_digest: sha256:8b6b075987a0c2c76a7ce952ecd920f7ac5e18a297c630b8db186d61595887cb
+  cleanup_path_set_digest: sha256:2ae9edd13ef91a8c22d1f645807afcfc54e822da7fa585becf42c7ede742fd5a
+  protected_paths_digest: sha256:98ce35a5b82f18a3f1d65a5d2ebbd6fb4e28d23fcf4c182cdd0abca24ab4ebf2
+  manual_review_paths_digest: sha256:b1b087576d2df4af6de17421131829fbb0935904e486eb9ed19c66cfbd851fd3
+post_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 51
+  manual_review: 18
+  git_status_digest: sha256:4d875a31f46ee4f837d32766ba78422a7ec2d9e0af2e00deedccb66b6d095f7c
+  classification_digest: sha256:8ed3290b83d7783b50780c5c51814c65e1289d9817462be0d19218d301ba683b
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:bb81eb9d3550bc605a6f66fb74d039a8edc0cc4cd280e92b75f488008b18fa66
+  manual_review_paths_digest: sha256:b1b087576d2df4af6de17421131829fbb0935904e486eb9ed19c66cfbd851fd3
+deleted_count: 671
+retained_protected_count: 51
+retained_manual_review_count: 18
+raw_local_evidence_ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781156552835-7e6f3405-repo-hygiene-20260611T054733Z/
+raw_local_evidence_digests:
+  dry_run_raw_sha256: sha256:1b01b45f208512eed47495859c756d4a3b293fbdf70eab6412a2fcfc0e88c54c
+  authorize_raw_sha256: sha256:8c582c7576182d247428875693aedc0dccd97aaf56c6e0e7aa12efa13d515536
+  authorization_raw_sha256: sha256:fd25284f577e4923de54b4ee3a79eaf4661db2dbcf6d2533a617beb4ba8f020b
+  post_cleanup_summary_sha256: sha256:07b5881f6ef1e916b74eaf34c621eafc57c70cec399e3a9b073165e93ee1f94f
+raw_path_lists_published: false
+protected_and_manual_review_deleted: false
+outcome: cleanup-completed
+next_route_condition: rerun proposal-program lifecycle cleanup and child closeout gates

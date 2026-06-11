@@ -1,0 +1,35 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-1781157022507-73b2c6ce
+cleanup_run_id: lifecycle-proposal-program-1781157022507-73b2c6ce-repo-hygiene-20260611T-current-3
+created_at: "2026-06-11T06:30:12Z"
+route: authorization-receipt
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781157022507-73b2c6ce-repo-hygiene-20260611T-current-3/cleanup-authorization.json
+authorization_digest: sha256:828cdb5176582463b011fb210663f6f9c8dd3ba64df002a1d87e16b221a67414
+active_run_id: lifecycle-proposal-program-1781157022507-73b2c6ce
+initial_helper_summary:
+  cleanup_candidates: 72
+  protected_referenced: 56
+  manual_review: 20
+  git_status_digest: sha256:2244ab283405db5efc75560c64cb50a2210448d1ac57efae9b256c9e6c1408f5
+  classification_digest: sha256:86faaf539125bbc64dae29b5f675834af717ada3b462115af561f8e5d29b21f0
+  cleanup_path_set_digest: sha256:02ffef7c0bb166fd0557a27748c2afed06f454f5446d61f9e055dd04b82e88cb
+  protected_paths_digest: sha256:241e6f06adedd416971c4a7756e9337480a9851a3936237582e96fcb0455f1f0
+  manual_review_paths_digest: sha256:5af9565f86e3112d4edb8ee5ba462ac2d77216f32291445631eba211ee62fa5a
+post_cleanup_helper_summary:
+  cleanup_candidates: 0
+  protected_referenced: 57
+  manual_review: 20
+  git_status_digest: sha256:e444595d83d62933e4f930ccc25ab108b78991899c449ff62b2717d9e80cf9ac
+  classification_digest: sha256:7f45bcd6160933c779fd6871215a5dffcffe9747e27bb296c7c255105d0a662a
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:a1e68146e646ac40fc54416b4e3680237581bf4d0ba8da38b6aeea96a1ec259b
+  manual_review_paths_digest: sha256:5af9565f86e3112d4edb8ee5ba462ac2d77216f32291445631eba211ee62fa5a
+deleted_count: 72
+retained_protected_count: 57
+retained_manual_review_count: 20
+redaction_posture: publish summary counts, digests, and receipt refs only
+raw_path_lists_published: false
+local_private_evidence_ref: none
+blocker: none

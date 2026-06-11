@@ -1,0 +1,25 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+route: classify-only
+run_id: lifecycle-proposal-program-1781143030187-5323352a
+requested_by_route: cleanup-lifecycle-residue
+created_at: "2026-06-11T03:33:06Z"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+active_run_id: lifecycle-proposal-program-1781143030187-5323352a
+helper_summary:
+  mode: dry-run
+  cleanup_candidates: 152
+  protected_referenced: 184
+  manual_review: 2
+  git_status_digest: "sha256:1dbde552e6c7456a09df2eedf267b3df81ebfe6449bbc4f679dd01ea39300b59"
+  classification_digest: "sha256:c289dd2045d5484b49990626dff258e07881cd5753ba2485c3ae23da435bf088"
+  cleanup_path_set_digest: "sha256:1c182c6368ba5b812ca5f1da4fbbd644e96d3c9a61418da8da317ac8be3f2730"
+  protected_paths_digest: "sha256:8174d3978368425012cd5aa0d5528b2579f78543e14c25738da9c329c659771c"
+  manual_review_paths_digest: "sha256:8b0c935ea457d5070aeb1e4c9931f63e6bae67f3cf156540045cf9542cce6092"
+redaction_posture: publishable_summary_only
+authorization_receipt_ref: null
+deleted_count: 0
+retained_protected_count: 184
+retained_manual_review_count: 2
+cleanup_outcome: "No deletion performed; this lifecycle route did not receive explicit operator confirmation or a validating repo-hygiene-cleanup-authorization-v1 receipt for the current classification."
+blocker: "cleanup-candidates-retained-pending-confirmation-or-valid-authorization"

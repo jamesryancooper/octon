@@ -810,6 +810,7 @@ routes:
                 - manifest_status: "draft"
                 - manifest_status: "in-review"
                 - manifest_status: "accepted"
+                - manifest_status: "implemented"
                 - manifest_status: "rejected"
             - receipt_stale: "proposal-review"
   - route_id: "revise-packet"

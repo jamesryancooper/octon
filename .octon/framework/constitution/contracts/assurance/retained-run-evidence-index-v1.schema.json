@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/retained-run-evidence-index-v1.schema.json",
+  "title": "Retained Run Evidence Index v1",
+  "description": "Discovery-only retained evidence index for terminal lifecycle runs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "subject",
+    "producer",
+    "generated_at",
+    "evidence_posture",
+    "control_refs",
+    "substitute_workflow_refs",
+    "terminal_evidence_refs",
+    "indexed_refs",
+    "freshness",
+    "authority_boundary",
+    "failure_behavior"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "retained-run-evidence-index-v1"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "lifecycle_kind", "terminal_status"],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "lifecycle_kind": {"type": "string", "minLength": 1},
+        "terminal_status": {
+          "enum": [
+            "implemented",
+            "accepted",
+            "closed",
+            "archived",
+            "blocked",
+            "blocked-recoverable",
+            "blocked-terminal",
+            "failed",
+            "deferred",
+            "cancelled"
+          ]
+        }
+      }
+    },
+    "producer": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "minLength": 1},
+    "evidence_posture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "freshness_state", "direct_control_refs_present"],
+      "properties": {
+        "purpose": {"const": "discovery-and-replay-aid"},
+        "freshness_state": {"enum": ["digest-bound", "freshness-checked"]},
+        "direct_control_refs_present": {"type": "boolean"}
+      }
+    },
+    "control_refs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/indexed_ref"}
+    },
+    "substitute_workflow_refs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/indexed_ref"}
+    },
+    "terminal_evidence_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validation", "rollback"],
+      "properties": {
+        "child": {"type": "array", "items": {"$ref": "#/$defs/indexed_ref"}},
+        "parent": {"type": "array", "items": {"$ref": "#/$defs/indexed_ref"}},
+        "validation": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/indexed_ref"}},
+        "rollback": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/indexed_ref"}},
+        "closeout": {"type": "array", "items": {"$ref": "#/$defs/indexed_ref"}},
+        "cleanup": {"type": "array", "items": {"$ref": "#/$defs/indexed_ref"}}
+      }
+    },
+    "indexed_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/indexed_ref"}
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "source_digest_required", "stale_behavior"],
+      "properties": {
+        "mode": {"enum": ["digest-bound", "freshness-checked"]},
+        "source_digest_required": {"const": true},
+        "stale_behavior": {"const": "fail-closed"}
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replaces_source_evidence",
+        "authorizes_execution",
+        "satisfies_lifecycle_transition_authority",
+        "satisfies_child_receipts",
+        "proposal_input_authority",
+        "generated_output_authority",
+        "raw_evidence_retained"
+      ],
+      "properties": {
+        "replaces_source_evidence": {"const": false},
+        "authorizes_execution": {"const": false},
+        "satisfies_lifecycle_transition_authority": {"const": false},
+        "satisfies_child_receipts": {"const": false},
+        "proposal_input_authority": {"const": "non-authoritative"},
+        "generated_output_authority": {"const": "derived-only"},
+        "raw_evidence_retained": {"const": true}
+      }
+    },
+    "failure_behavior": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "indexed_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "role", "ref_class", "sha256", "authority_use"],
+      "properties": {
+        "ref": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "ref_class": {
+          "enum": [
+            "control",
+            "retained-evidence",
+            "retained-workflow-evidence",
+            "generated",
+            "proposal-local"
+          ]
+        },
+        "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "authority_use": {
+          "enum": [
+            "control-truth",
+            "evidence-only",
+            "non-authoritative",
+            "derived-only"
+          ]
+        },
+        "required": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

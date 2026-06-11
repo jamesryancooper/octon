@@ -1,0 +1,36 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-1781143030187-5323352a
+route: receipt-backed-cleanup
+recorded_at: "2026-06-11T04:45:19Z"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+active_run_id: lifecycle-proposal-program-1781143030187-5323352a
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781143030187-5323352a-cleanup-lifecycle-residue-20260611T-current-2/cleanup-authorization.json"
+redaction_posture: "publishable summary only; raw helper path listing omitted"
+classification_before_cleanup:
+  cleanup_candidates: 12
+  protected_referenced: 319
+  manual_review: 4
+  git_status_digest: "sha256:41361f3e7ef89df798674ff3ee3d2351a33dfd305868735c5ede577ce57bc9f4"
+  classification_digest: "sha256:e0b7ef80c307711219515367c1dd1351c627daffb99abe061d9534cbf9d43a02"
+  cleanup_path_set_digest: "sha256:5d0dd28eb56116d613fc58402a743ecf31c5ef679d56d7c179e0ba0fa0e747e8"
+  protected_paths_digest: "sha256:f95c2890db351c0d834b074f6586858e06ef72599f6a52c354ffffd379fa1151"
+  manual_review_paths_digest: "sha256:b4393363541a9242997351ce5c6a2ec62771517a227ab9d03afbf401eca6a08e"
+cleanup_result:
+  deleted_count: 12
+  deleted_class: "untracked unreferenced local proposal lifecycle runner residue"
+  protected_retained_count: 319
+  manual_review_retained_count: 4
+  blocker: none
+classification_after_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 320
+  manual_review: 4
+  git_status_digest: "sha256:0a646866faf84325753ccd6903565b3bc5d43feccf8aca0a454108f1999cbfc9"
+  classification_digest: "sha256:23f4183261023353816bcdd3b337e8395f653f1b93e38aa0b7d61b41cd8c41bb"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:0e760edcb6c6fe41aa95375fc047aa005c3f775e48e84336067743ab0fd0a9ce"
+  manual_review_paths_digest: "sha256:b4393363541a9242997351ce5c6a2ec62771517a227ab9d03afbf401eca6a08e"
+validation:
+  authorization_revalidated: true
+  protected_and_manual_review_paths_retained: true
+  remaining_cleanup_candidates: 0

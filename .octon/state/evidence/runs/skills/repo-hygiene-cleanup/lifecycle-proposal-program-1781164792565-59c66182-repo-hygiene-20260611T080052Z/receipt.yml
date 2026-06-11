@@ -1,0 +1,37 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+receipt_id: lifecycle-proposal-program-1781164792565-59c66182-repo-hygiene-20260611T080052Z
+created_at: "2026-06-11T08:00:52Z"
+active_run_id: lifecycle-proposal-program-1781164792565-59c66182
+route: receipt-backed-helper-authorization
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781164792565-59c66182-repo-hygiene-20260611T080052Z/cleanup-authorization.json
+authorization_digest: sha256:50dd8aa2b7b2210c0f1e0c78e96e23239f3f2e7ae0dfcef4d0f8ebfa7ad54b15
+raw_path_lists_published: false
+local_private_payloads_published: false
+before_cleanup:
+  mode: authorization
+  cleanup_candidates: 4
+  protected_referenced: 48
+  manual_review: 36
+  git_status_digest: sha256:cb00f067eea69701bfd02e806dd83fc0ae346e3ba7f3a1f057191d1af3a42c76
+  classification_digest: sha256:ff4ce5c706fbc3964df0150821c2e85d5b365001650c490cc34d6a26adfdd8c7
+  cleanup_path_set_digest: sha256:4e6c20ec1e8c61a8c35f4dcb0f45930c68b8898a98125e97046ddfcbc7a4ce1d
+  protected_paths_digest: sha256:aa1d1fec71c90cbd8c8e37645f9ef0dce98135e553b997ba23ff9cd6e10ba5cc
+  manual_review_paths_digest: sha256:4dcaf22a7c600f8368e675f8ba6c26385fe6c71c0993f089cb66fe7ca123fdea
+cleanup_action:
+  deleted_count: 4
+  deleted_scope: untracked-unreferenced-old-program-planner-control-residue
+  protected_and_manual_review_paths_retained: true
+after_cleanup:
+  mode: dry-run-before-ended-run-cleanup
+  cleanup_candidates: 2
+  protected_referenced: 46
+  manual_review: 37
+  git_status_digest: sha256:7f1870d373000ab6546d1ae72ca828eca2d171bca24b0a90cc7ec6bd36e3adcd
+  classification_digest: sha256:64cbe84b704d08fc433342fed0b6221b04812d315dde8be130fdd24d0df8d2da
+  cleanup_path_set_digest: sha256:7463c24cd7d9d8c75b1de6ad23b9e6ba55ce73ce032951b6534c7b6db42f9ee9
+  protected_paths_digest: sha256:6b427bcfd0a9bd7d00a050be102df0c90de1fa53b927438fac72e88c5ca9561e
+  manual_review_paths_digest: sha256:f5b6cb440b8787fa265ef56b0b92f7860b284c287de4a40e1c86eac81d1b5fdc
+blocker: none
+next_cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-ended-runs-repo-hygiene-20260611T080052Z/receipt.yml

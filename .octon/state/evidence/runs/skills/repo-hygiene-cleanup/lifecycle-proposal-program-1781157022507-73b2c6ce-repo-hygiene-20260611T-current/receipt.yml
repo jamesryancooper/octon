@@ -1,0 +1,35 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-1781157022507-73b2c6ce-repo-hygiene-20260611T-current
+recorded_at: 2026-06-11T06:17:25Z
+route: authorization-receipt
+active_run_id: lifecycle-proposal-program-1781157022507-73b2c6ce
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781157022507-73b2c6ce-repo-hygiene-20260611T-current/cleanup-authorization.json
+authorization_sha256: sha256:cdba5316db142adde3c6ea64939f6a571f773cfafb5a7c393eeaa29c5a8bc3a6
+authorization_result: approved
+pre_cleanup:
+  cleanup_candidates: 134
+  protected_referenced: 52
+  manual_review: 20
+  git_status_digest: sha256:f50db89822c03fbc010b3e2994d96bd5513d3889395cfde0deb2c936a6862136
+  classification_digest: sha256:293b2372140f22eef58e3f9b120ecdd468199e886fbbc3e9b49cf3c09c11eb38
+  cleanup_path_set_digest: sha256:539ac29e9afcc6d84a1174867846c3aa0c8eaa54a9662941393c5ae7d3dbe517
+  protected_paths_digest: sha256:3ce3fe444ac7f8ab975e5fbf5bb997293472faa27426b3429c97c43f7529d54f
+  manual_review_paths_digest: sha256:5af9565f86e3112d4edb8ee5ba462ac2d77216f32291445631eba211ee62fa5a
+post_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 53
+  manual_review: 20
+  git_status_digest: sha256:ac12db37d08f05d006da523b9445d0194887a77f1594cfb291ca927305942431
+  classification_digest: sha256:00d8242956a2aa57bfc3e1688ee58e3f730e9bd58560febf414033aad272709d
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:274fb56d4a40d687f382fe1be1d1ab2c03ea2b18b3a888663941771bca923376
+  manual_review_paths_digest: sha256:5af9565f86e3112d4edb8ee5ba462ac2d77216f32291445631eba211ee62fa5a
+deleted_count: 134
+retained_protected_count: 53
+retained_manual_review_count: 20
+raw_path_lists_published: false
+protected_and_manual_review_deleted: false
+outcome: cleanup-completed
+next_route_condition: continue proposal closeout validation and archive authorization checks

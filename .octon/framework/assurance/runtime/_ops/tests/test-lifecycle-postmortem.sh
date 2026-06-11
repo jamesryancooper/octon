@@ -40,11 +40,137 @@ assert_success() {
   fi
 }
 
+assert_failure() {
+  local label="$1"
+  shift
+  if "$@"; then
+    fail "$label"
+  else
+    pass "$label"
+  fi
+}
+
 positive_passes() {
   bash "$VALIDATOR" \
     --structured-output "$FIXTURE_ROOT/positive/evaluation.yml" \
     --report "$FIXTURE_ROOT/positive/report.md" \
     --review-findings "$FIXTURE_ROOT/positive/review-findings.ndjson" >/dev/null
+}
+
+make_evidence_map_fixture() {
+  local fixture_root="$1"
+  local mode="${2:-direct}"
+  mkdir -p \
+    "$fixture_root/.octon/state/control/execution/runs/test-run" \
+    "$fixture_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem" \
+    "$fixture_root/.octon/state/evidence/runs/test-run/validation" \
+    "$fixture_root/.octon/state/evidence/runs/test-run/rollback" \
+    "$fixture_root/.octon/state/evidence/runs/workflows/test-run" \
+    "$fixture_root/.octon/generated/effective/runtime" \
+    "$fixture_root/.octon/inputs/exploratory/proposals/architecture/test-proposal"
+
+  printf 'status: completed\nrun_id: test-run\n' >"$fixture_root/.octon/state/control/execution/runs/test-run/runtime-state.yml"
+  printf 'index: retained locator\n' >"$fixture_root/.octon/state/evidence/runs/test-run/retained-run-evidence-index.yml"
+  printf 'validation: pass\n' >"$fixture_root/.octon/state/evidence/runs/test-run/validation/result.yml"
+  printf 'rollback: available\n' >"$fixture_root/.octon/state/evidence/runs/test-run/rollback/rollback.md"
+  printf 'workflow: substitute\n' >"$fixture_root/.octon/state/evidence/runs/workflows/test-run/program-events.ndjson"
+  printf 'generated: read model\n' >"$fixture_root/.octon/generated/effective/runtime/read-model.yml"
+  printf 'proposal: context only\n' >"$fixture_root/.octon/inputs/exploratory/proposals/architecture/test-proposal/proposal.yml"
+
+  python3 - "$fixture_root" "$mode" <<'PY'
+import hashlib
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1]).resolve()
+mode = sys.argv[2]
+
+def rel(path):
+    return str(path.resolve().relative_to(root))
+
+def sha(path):
+    return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+
+def record(path, role, ref_class, authority_use):
+    return {
+        "ref": rel(path),
+        "role": role,
+        "ref_class": ref_class,
+        "sha256": sha(path),
+        "authority_use": authority_use,
+    }
+
+control = root / ".octon/state/control/execution/runs/test-run/runtime-state.yml"
+index = root / ".octon/state/evidence/runs/test-run/retained-run-evidence-index.yml"
+validation = root / ".octon/state/evidence/runs/test-run/validation/result.yml"
+rollback = root / ".octon/state/evidence/runs/test-run/rollback/rollback.md"
+substitute = root / ".octon/state/evidence/runs/workflows/test-run/program-events.ndjson"
+generated = root / ".octon/generated/effective/runtime/read-model.yml"
+proposal = root / ".octon/inputs/exploratory/proposals/architecture/test-proposal/proposal.yml"
+
+direct_refs = [record(control, "runtime-state", "control", "control-truth")] if mode == "direct" else []
+substitute_refs = [] if mode == "direct" else [record(substitute, "program-events-substitute", "retained-workflow-evidence", "evidence-only")]
+
+evidence_map = {
+    "schema_version": "lifecycle-postmortem-evidence-map-v2",
+    "subject": {"run_id": "test-run", "lifecycle_kind": "proposal-program"},
+    "evidence_posture": {
+        "purpose": "discovery-and-replay-aid",
+        "direct_control_refs_present": mode == "direct",
+    },
+    "retained_run_evidence_indexes": [record(index, "retained-run-evidence-index", "retained-evidence", "evidence-only")],
+    "direct_control_refs": direct_refs,
+    "substitute_refs": substitute_refs,
+    "terminal_state_refs": {
+        "validation": [record(validation, "validation-result", "retained-evidence", "evidence-only")],
+        "rollback": [record(rollback, "rollback-posture", "retained-evidence", "evidence-only")],
+    },
+    "generated_refs": [record(generated, "generated-read-model", "generated", "derived-only")],
+    "proposal_local_refs": [record(proposal, "proposal-context", "proposal-local", "non-authoritative")],
+    "authority_boundary": {
+        "generated_outputs_authority": False,
+        "proposal_inputs_authority": False,
+        "postmortem_authorizes_lifecycle_transition": False,
+        "postmortem_authorizes_closeout": False,
+        "locator_replaces_source_evidence": False,
+    },
+}
+known_limits = {
+    "schema_version": "lifecycle-postmortem-known-limits-v2",
+    "missing_direct_refs_recorded": True,
+    "substitute_refs_validated": True,
+    "diagnostic_refs_do_not_override_terminal": True,
+    "authority_boundary": {"locator_replaces_source_evidence": False},
+}
+
+out_dir = root / ".octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem"
+(out_dir / "evidence-map.yml").write_text(json.dumps(evidence_map, indent=2) + "\n")
+(out_dir / "known-limits.yml").write_text(json.dumps(known_limits, indent=2) + "\n")
+PY
+}
+
+mutate_json_file() {
+  local path="$1"
+  local expression="$2"
+  python3 - "$path" "$expression" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+expression = sys.argv[2].replace("\\n", "\n")
+data = json.loads(path.read_text())
+exec(expression, {"data": data})
+path.write_text(json.dumps(data, indent=2) + "\n")
+PY
+}
+
+validate_evidence_map_fixture() {
+  local root="$1"
+  OCTON_ROOT_DIR="$root" bash "$VALIDATOR" \
+    --evidence-map "$root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" \
+    --known-limits "$root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/known-limits.yml" >/dev/null
 }
 
 make_structured_case() {
@@ -191,6 +317,45 @@ main() {
   trap cleanup EXIT
 
   assert_success "positive lifecycle postmortem fixture passes" positive_passes
+
+  local direct_map_root="$TMP_DIR/direct-map"
+  make_evidence_map_fixture "$direct_map_root" direct
+  assert_success "direct-control lifecycle postmortem evidence map passes" validate_evidence_map_fixture "$direct_map_root"
+
+  local substitute_map_root="$TMP_DIR/substitute-map"
+  make_evidence_map_fixture "$substitute_map_root" substitute
+  assert_success "substitute-only lifecycle postmortem evidence map passes" validate_evidence_map_fixture "$substitute_map_root"
+
+  local stale_map_root="$TMP_DIR/stale-map"
+  make_evidence_map_fixture "$stale_map_root" direct
+  printf 'tampered\n' >>"$stale_map_root/.octon/state/evidence/runs/test-run/validation/result.yml"
+  assert_failure "stale lifecycle postmortem evidence-map digest fails" validate_evidence_map_fixture "$stale_map_root"
+
+  local unresolved_map_root="$TMP_DIR/unresolved-map"
+  make_evidence_map_fixture "$unresolved_map_root" substitute
+  rm "$unresolved_map_root/.octon/state/evidence/runs/workflows/test-run/program-events.ndjson"
+  assert_failure "unresolved lifecycle postmortem substitute refs fail" validate_evidence_map_fixture "$unresolved_map_root"
+
+  local missing_validation_map_root="$TMP_DIR/missing-validation-map"
+  make_evidence_map_fixture "$missing_validation_map_root" direct
+  mutate_json_file "$missing_validation_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['terminal_state_refs']['validation'] = []"
+  assert_failure "missing lifecycle postmortem validation terminal evidence fails" validate_evidence_map_fixture "$missing_validation_map_root"
+
+  local missing_rollback_map_root="$TMP_DIR/missing-rollback-map"
+  make_evidence_map_fixture "$missing_rollback_map_root" direct
+  mutate_json_file "$missing_rollback_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['terminal_state_refs']['rollback'] = []"
+  assert_failure "missing lifecycle postmortem rollback terminal evidence fails" validate_evidence_map_fixture "$missing_rollback_map_root"
+
+  local generated_authority_map_root="$TMP_DIR/generated-authority-map"
+  make_evidence_map_fixture "$generated_authority_map_root" direct
+  mutate_json_file "$generated_authority_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['generated_refs'][0]['authority_use'] = 'control-truth'"
+  assert_failure "generated lifecycle postmortem refs claiming authority fail" validate_evidence_map_fixture "$generated_authority_map_root"
+
+  local proposal_authority_map_root="$TMP_DIR/proposal-authority-map"
+  make_evidence_map_fixture "$proposal_authority_map_root" direct
+  mutate_json_file "$proposal_authority_map_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" "data['proposal_local_refs'][0]['authority_use'] = 'evidence-only'"
+  assert_failure "proposal-local lifecycle postmortem refs claiming authority fail" validate_evidence_map_fixture "$proposal_authority_map_root"
+
   assert_success "generated authority fixture fails" derived_structured_fails generated-authority mutate_generated_authority
   assert_success "raw input authority fixture fails" derived_structured_fails raw-input-authority mutate_raw_input_authority
   assert_success "unresolved evidence ref fixture fails" derived_structured_fails unresolved-ref mutate_unresolved_ref

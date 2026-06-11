@@ -27,6 +27,7 @@ multi-plane model while preserving the existing blocking gates.
 - `failure-classification-v1.schema.json`
 - `hardening-recommendation-v1.schema.json`
 - `distillation-bundle-v1.schema.json`
+- `retained-run-evidence-index-v1.schema.json`
 
 ## Canonical Roots
 
@@ -48,6 +49,12 @@ No active compatibility-only assurance schemas are expected in the live path.
 Assurance summaries and evaluator projections may summarize results, but the
 retained proof-plane artifacts and validator outputs remain the claim-bearing
 evidence surfaces.
+
+Retained run evidence indexes are discovery and replay aids for terminal
+lifecycle runs. They may point at direct control refs and retained substitute
+workflow evidence, but they do not authorize execution, satisfy lifecycle
+transition authority, satisfy child receipts, or grant generated/proposal input
+authority.
 
 ## Validator Obligations
 

@@ -1,0 +1,37 @@
+schema_version: repo-hygiene-cleanup-delegation-receipt-v1
+route: receipt-backed
+run_id: lifecycle-proposal-program-1781143030187-5323352a
+cleaned_at: "2026-06-11T04:28:13Z"
+active_run_id: lifecycle-proposal-program-1781143030187-5323352a
+delegated_from: octon-proposal-lifecycle-cleanup-lifecycle-residue
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_receipt_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781143030187-5323352a-cleanup-lifecycle-residue-20260611T-current/cleanup-authorization.json
+redaction_posture: publishable-summary-only
+raw_helper_output_retained: false
+pre_cleanup:
+  cleanup_candidates: 1
+  protected_referenced: 317
+  manual_review: 4
+  git_status_digest: sha256:6f8ba9025753a85e792e1cd1a1f5e7b39bbdfbfcaab40ac18154d2d0ca708dd8
+  classification_digest: sha256:5f1db9b6bea043ec95c268e04f2fb69dbc61c834491f634c689b43c2d23c538a
+  cleanup_path_set_digest: sha256:b7821ffa419ea851b25141aec792b3038cff4b0bed9e051b65713422f7909b3d
+  protected_paths_digest: sha256:0fc4cae8ccb11b7a866e5c00ceaf1be190806ffb169757998aa7239490899045
+  manual_review_paths_digest: sha256:b4393363541a9242997351ce5c6a2ec62771517a227ab9d03afbf401eca6a08e
+post_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 318
+  manual_review: 4
+  git_status_digest: sha256:0470176f201180104ad5caf3cbafd22192b83425de95c7fd63092445370275b2
+  classification_digest: sha256:b3c58784d53935ab413b8b38992c4156d9526d03d3b8bd3e92fbb71f8fff679c
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:d14001eef3e1939aa9b4088c9a925093b4037598ba44c03de3ac82eaaeb16d61
+  manual_review_paths_digest: sha256:b4393363541a9242997351ce5c6a2ec62771517a227ab9d03afbf401eca6a08e
+deleted_count: 1
+deleted_path_class: untracked-unreferenced-local-closeout-skill-run-residue
+retained_protected_count: 318
+retained_manual_review_count: 4
+blocker: none
+notes:
+  - The helper emitted a repo-hygiene-cleanup-authorization-v1 receipt for the exact current cleanup path set.
+  - The helper consumed that receipt with --authorization and removed one cleanup candidate.
+  - Protected, referenced, active-run, input, generated-authority, and manual-review paths were retained.

@@ -1,0 +1,55 @@
+schema_version: "repo-hygiene-cleanup-run-receipt-v1"
+receipt_id: "lifecycle-proposal-program-1781143030187-5323352a-cleanup-lifecycle-residue-20260611T034200Z"
+created_at: "2026-06-11T03:42:00Z"
+route: "repo-hygiene-cleanup"
+invoked_by_route: "cleanup-lifecycle-residue"
+target: ".octon/inputs/exploratory/proposals/architecture/proposal-program-run-readiness-and-evidence-locator-hardening"
+active_run_id: "lifecycle-proposal-program-1781143030187-5323352a"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+authorization_schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+delete_route: "authorization-receipt"
+dry_run_summary:
+  cleanup_candidates: 152
+  protected_referenced: 187
+  manual_review: 2
+  git_status_digest: "sha256:e0b49a3e7fff0fcfd874c6836e967cf09f83fb98ce1635b9ea170943a5c19467"
+  classification_digest: "sha256:030824744197796741c948b3f514c70b55da4d4e2db502b1f101228fa16d00f2"
+  cleanup_path_set_digest: "sha256:1c182c6368ba5b812ca5f1da4fbbd644e96d3c9a61418da8da317ac8be3f2730"
+  protected_paths_digest: "sha256:ba34491a7d5c1c78aed1065a70275358ccb9f14d53c02ba891a4873e32a8d719"
+  manual_review_paths_digest: "sha256:8b0c935ea457d5070aeb1e4c9931f63e6bae67f3cf156540045cf9542cce6092"
+authorization:
+  receipt_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781143030187-5323352a-cleanup-lifecycle-residue-20260611T034200Z/cleanup-authorization.json"
+  receipt_digest: "sha256:e448b0f9bbfd33205a16348cf437f64e83f08fff3b84c35c7af353e3204417ea"
+  authorization_id: "repo-hygiene-cleanup-da1ba790144be9c6"
+  authorization_result: "approved"
+  authorized_path_count: 152
+cleanup_result:
+  deleted_count: 152
+  retained_protected_count: 187
+  retained_manual_review_count: 2
+  helper_result: "removed 152 cleanup candidate file(s) via validating authorization receipt; protected and manual-review files were retained"
+post_cleanup_summary:
+  cleanup_candidates: 0
+  protected_referenced: 188
+  manual_review: 2
+  git_status_digest: "sha256:da04973cb8361af4cebc9de13cbe11e83de142bf88cb2176f1ea124813166d5e"
+  classification_digest: "sha256:b6e5cda7056052545563877bbd058bfa5a70b361cc5a0fe06e51c816f73acacc"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:5667656ff7678f407ea3db716041916ad582fbfc9df3866930c193b590e7f6f8"
+  manual_review_paths_digest: "sha256:8b0c935ea457d5070aeb1e4c9931f63e6bae67f3cf156540045cf9542cce6092"
+redaction_posture:
+  raw_helper_output_published: false
+  raw_deleted_path_list_published: false
+  raw_retained_path_list_published: false
+  summary_counts_and_digests_only: true
+local_private_evidence:
+  ref: ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781143030187-5323352a-cleanup-lifecycle-residue-20260611T034200Z/"
+  digest: "sha256:73fcde2df5f955eff5eeabf77f93241bee9c2d359fab4ff26502294dc8b57ded"
+  authorize_output_digest: "sha256:73af7d90bcd9a2cc4ea70b0fc2c991825857bc9fecff078e3e43dd2f578482d7"
+  authorization_output_digest: "sha256:620e06467c0214ca17a7c18fd89e2be701ea84ce24cd34d1f565695751bc715b"
+  post_cleanup_output_digest: "sha256:a36f43fb2ab993afee6a4a2ed4a2a3f0b2ac40f3ab288a94d6de594712095d9f"
+  authority_posture: "local-only raw debugging material; not authority, runtime policy, support proof, retained publishable evidence, closeout truth, archive truth, or generated-output freshness evidence"
+blocker:
+  cleanup_blocker: "none"
+  retained_manual_review_posture: "retained; not included in authorization path set"

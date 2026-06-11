@@ -1,0 +1,34 @@
+schema_version: repo-hygiene-cleanup-run-receipt-v1
+run_id: lifecycle-proposal-program-1781143030187-5323352a-cleanup-lifecycle-residue-20260611T000000Z
+route: authorization
+created_at: "2026-06-11T04:07:39Z"
+active_run_id: lifecycle-proposal-program-1781143030187-5323352a
+classification_helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781143030187-5323352a-cleanup-lifecycle-residue-20260611T000000Z/cleanup-authorization.json
+authorization_id: repo-hygiene-cleanup-f11a7ced883d5276
+pre_cleanup_summary:
+  cleanup_candidates: 1
+  protected_referenced: 252
+  manual_review: 3
+  git_status_digest: sha256:38589089e48cc2920408158acf316beee789463f7249e438ec52ec7534cc9380
+  classification_digest: sha256:5a14ac3f3350b5b937b5ec1e68cb6efef4cb24cc4f39c0f444a62e1eeddd4b57
+  cleanup_path_set_digest: sha256:288b6f38a8d47ea9500d0019fccb9414f6d160e518c87bacfaa540f30a0cf5e2
+  protected_paths_digest: sha256:a9e7464389104cbe14843d90c41eae131dceeb927e8f6224d8892216bcb432e8
+  manual_review_paths_digest: sha256:02d5f159386586e5c171aa4a8a59c8dcd21f3a3845e9a050bd3a0eb0ae53a05e
+post_cleanup_summary:
+  cleanup_candidates: 0
+  protected_referenced: 253
+  manual_review: 3
+  git_status_digest: sha256:8407e4ef9ffda0a1344bf8e09f812e81c032a7c72f7794f37242a0c596f86a7b
+  classification_digest: sha256:15d8b1ca33d68d97d764f558c8b7bfb85ba0eacf74c31f98f3ea247badf60d1a
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:e4a97b3298b7eea4c9dd362836fa649c2711a5ef6301f3cabe40b8e3f78e1121
+  manual_review_paths_digest: sha256:02d5f159386586e5c171aa4a8a59c8dcd21f3a3845e9a050bd3a0eb0ae53a05e
+deleted_count: 1
+retained_protected_count: 253
+retained_manual_review_count: 3
+deleted_path_set_disclosure: exact authorized path set in authorization receipt
+raw_helper_output_published: false
+local_private_evidence_ref: none
+blocker: none
+outcome: pass

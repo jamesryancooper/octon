@@ -9,6 +9,8 @@ ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 STRUCTURED_OUTPUT=""
 REPORT_PATH=""
 REVIEW_FINDINGS=""
+EVIDENCE_MAP=""
+KNOWN_LIMITS=""
 RUN_ID=""
 errors=0
 
@@ -150,11 +152,14 @@ usage() {
 usage:
   validate-lifecycle-postmortem.sh --structured-output <path> [--report <path>] [--review-findings <path>] [--run-id <id>]
   validate-lifecycle-postmortem.sh --structured <path> [--report <path>] [--review-findings <path>] [--run-id <id>]
+  validate-lifecycle-postmortem.sh --evidence-map <path> [--known-limits <path>]
   validate-lifecycle-postmortem.sh --run-id <id>
 
 When only --run-id is provided, the validator reads:
   .octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluation.yml
   .octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/report.md
+  .octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evidence-map.yml
+  .octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/known-limits.yml
 USAGE
 }
 
@@ -702,6 +707,141 @@ validate_review_findings() {
   done < "$file"
 }
 
+validate_postmortem_ref_record() {
+  local file="$1"
+  local expr="$2"
+  local label="$3"
+  local ref ref_class authority_use digest resolved actual
+  ref="$(yq_scalar "$expr.ref" "$file")"
+  ref_class="$(yq_scalar "$expr.ref_class" "$file")"
+  authority_use="$(yq_scalar "$expr.authority_use" "$file")"
+  digest="$(yq_scalar "$expr.sha256" "$file")"
+
+  non_empty "$ref" && pass "$label ref present" || { fail "$label ref required"; return; }
+  case "$ref" in
+    .octon/state/control/*|.octon/state/evidence/*)
+      resolved="$(repo_path "$ref")"
+      [[ -f "$resolved" ]] && pass "$label ref resolves" || fail "$label ref missing: $ref"
+      ;;
+    .octon/generated/*)
+      [[ "$authority_use" == "derived-only" ]] && pass "$label generated ref is derived-only" || fail "$label generated ref must be derived-only"
+      resolved="$(repo_path "$ref")"
+      [[ -f "$resolved" ]] && pass "$label generated ref resolves" || fail "$label generated ref missing: $ref"
+      ;;
+    .octon/inputs/*)
+      [[ "$authority_use" == "non-authoritative" ]] && pass "$label proposal/input ref is non-authoritative" || fail "$label proposal/input ref must be non-authoritative"
+      resolved="$(repo_path "$ref")"
+      [[ -f "$resolved" ]] && pass "$label proposal/input ref resolves" || fail "$label proposal/input ref missing: $ref"
+      ;;
+    *)
+      fail "$label ref must stay inside .octon state/control, state/evidence, generated, or inputs: $ref"
+      return
+      ;;
+  esac
+
+  case "$ref_class:$authority_use" in
+    control:control-truth)
+      pass "$label control ref authority use is explicit"
+      ;;
+    retained-evidence:evidence-only|retained-workflow-evidence:evidence-only)
+      pass "$label retained evidence ref is evidence-only"
+      ;;
+    generated:derived-only)
+      pass "$label generated ref is derived-only"
+      ;;
+    proposal-local:non-authoritative)
+      pass "$label proposal-local ref is non-authoritative"
+      ;;
+    *)
+      fail "$label has invalid ref_class/authority_use: $ref_class/$authority_use"
+      ;;
+  esac
+
+  if non_empty "$digest"; then
+    if [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+      pass "$label digest shape valid"
+      if [[ -f "$resolved" ]]; then
+        actual="sha256:$(shasum -a 256 "$resolved" | awk '{print $1}')"
+        [[ "$digest" == "$actual" ]] && pass "$label digest matches" || fail "$label digest mismatch: $ref"
+      fi
+    else
+      fail "$label digest shape invalid"
+    fi
+  fi
+}
+
+validate_ref_array() {
+  local file="$1"
+  local expr="$2"
+  local label="$3"
+  local count index
+  count="$(yq_len "$expr" "$file")"
+  for ((index=0; index<count; index++)); do
+    validate_postmortem_ref_record "$file" "$expr[$index]" "$label[$index]"
+  done
+}
+
+validate_evidence_map() {
+  local file="$1"
+  [[ -f "$file" ]] || { fail "evidence map missing: ${file#$ROOT_DIR/}"; return; }
+  yq -e '.' "$file" >/dev/null 2>&1 && pass "evidence map parses as YAML" || fail "evidence map must parse as YAML"
+
+  [[ "$(yq_scalar '.schema_version' "$file")" == "lifecycle-postmortem-evidence-map-v2" ]] \
+    && pass "evidence map schema_version is v2" \
+    || fail "evidence map schema_version must be lifecycle-postmortem-evidence-map-v2"
+
+  require_yq_true "$file" '.authority_boundary.generated_outputs_authority == false' "evidence map keeps generated outputs non-authority"
+  require_yq_true "$file" '.authority_boundary.proposal_inputs_authority == false' "evidence map keeps proposal inputs non-authority"
+  require_yq_true "$file" '.authority_boundary.postmortem_authorizes_lifecycle_transition == false' "evidence map does not authorize lifecycle transition"
+  require_yq_true "$file" '.authority_boundary.postmortem_authorizes_closeout == false' "evidence map does not authorize closeout"
+  require_yq_true "$file" '.authority_boundary.locator_replaces_source_evidence == false' "locator does not replace source evidence"
+
+  local direct_present substitute_count index_count validation_count rollback_count
+  direct_present="$(yq -r '.evidence_posture.direct_control_refs_present // "false"' "$file")"
+  substitute_count="$(yq_len '.substitute_refs' "$file")"
+  index_count="$(yq_len '.retained_run_evidence_indexes' "$file")"
+  validation_count="$(yq_len '.terminal_state_refs.validation' "$file")"
+  rollback_count="$(yq_len '.terminal_state_refs.rollback' "$file")"
+
+  [[ "$direct_present" == "true" || "$direct_present" == "false" ]] \
+    && pass "evidence map direct_control_refs_present is boolean" \
+    || fail "evidence map direct_control_refs_present must be boolean"
+  if [[ "$direct_present" == "true" ]]; then
+    [[ "$(yq_len '.direct_control_refs' "$file")" -gt 0 ]] \
+      && pass "evidence map includes direct control refs" \
+      || fail "evidence map declares direct control refs but none are listed"
+  else
+    [[ "$substitute_count" -gt 0 ]] \
+      && pass "evidence map includes substitutes for missing direct control refs" \
+      || fail "evidence map missing direct control refs requires substitute refs"
+  fi
+
+  [[ "$index_count" -gt 0 ]] && pass "evidence map binds retained-run evidence index refs" || fail "evidence map must bind retained-run evidence index refs"
+  [[ "$validation_count" -gt 0 ]] && pass "evidence map includes validation terminal evidence" || fail "evidence map missing validation terminal evidence"
+  [[ "$rollback_count" -gt 0 ]] && pass "evidence map includes rollback terminal evidence" || fail "evidence map missing rollback terminal evidence"
+
+  validate_ref_array "$file" '.retained_run_evidence_indexes' "retained-run evidence index"
+  validate_ref_array "$file" '.direct_control_refs' "direct control ref"
+  validate_ref_array "$file" '.substitute_refs' "substitute ref"
+  validate_ref_array "$file" '.terminal_state_refs.validation' "validation terminal ref"
+  validate_ref_array "$file" '.terminal_state_refs.rollback' "rollback terminal ref"
+  validate_ref_array "$file" '.generated_refs' "generated ref"
+  validate_ref_array "$file" '.proposal_local_refs' "proposal-local ref"
+}
+
+validate_known_limits() {
+  local file="$1"
+  [[ -f "$file" ]] || { fail "known limits missing: ${file#$ROOT_DIR/}"; return; }
+  yq -e '.' "$file" >/dev/null 2>&1 && pass "known limits parses as YAML" || fail "known limits must parse as YAML"
+  [[ "$(yq_scalar '.schema_version' "$file")" == "lifecycle-postmortem-known-limits-v2" ]] \
+    && pass "known limits schema_version is v2" \
+    || fail "known limits schema_version must be lifecycle-postmortem-known-limits-v2"
+  require_yq_true "$file" '.missing_direct_refs_recorded == true' "known limits records missing direct refs"
+  require_yq_true "$file" '.substitute_refs_validated == true' "known limits records substitute validation"
+  require_yq_true "$file" '.diagnostic_refs_do_not_override_terminal == true' "known limits preserves terminal-over-diagnostic posture"
+  require_yq_true "$file" '.authority_boundary.locator_replaces_source_evidence == false' "known limits says locator does not replace evidence"
+}
+
 validate_structured_output() {
   local file="$1"
   [[ -f "$file" ]] || { fail "structured output missing: ${file#$ROOT_DIR/}"; return; }
@@ -753,6 +893,16 @@ while [[ $# -gt 0 ]]; do
       [[ $# -gt 0 ]] || { usage >&2; exit 2; }
       REVIEW_FINDINGS="$(repo_path "$1")"
       ;;
+    --evidence-map)
+      shift
+      [[ $# -gt 0 ]] || { usage >&2; exit 2; }
+      EVIDENCE_MAP="$(repo_path "$1")"
+      ;;
+    --known-limits)
+      shift
+      [[ $# -gt 0 ]] || { usage >&2; exit 2; }
+      KNOWN_LIMITS="$(repo_path "$1")"
+      ;;
     --run-id)
       shift
       [[ $# -gt 0 ]] || { usage >&2; exit 2; }
@@ -776,20 +926,34 @@ fi
 if [[ -z "$REPORT_PATH" && -n "$RUN_ID" ]]; then
   REPORT_PATH="$ROOT_DIR/.octon/state/evidence/runs/$RUN_ID/assurance/lifecycle-postmortem/report.md"
 fi
+if [[ -z "$EVIDENCE_MAP" && -n "$RUN_ID" ]]; then
+  EVIDENCE_MAP="$ROOT_DIR/.octon/state/evidence/runs/$RUN_ID/assurance/lifecycle-postmortem/evidence-map.yml"
+fi
+if [[ -z "$KNOWN_LIMITS" && -n "$RUN_ID" ]]; then
+  KNOWN_LIMITS="$ROOT_DIR/.octon/state/evidence/runs/$RUN_ID/assurance/lifecycle-postmortem/known-limits.yml"
+fi
 
-if [[ -z "$STRUCTURED_OUTPUT" ]]; then
+if [[ -z "$STRUCTURED_OUTPUT" && -z "$EVIDENCE_MAP" ]]; then
   usage >&2
   exit 2
 fi
 
 require_cmd yq
 require_cmd jq
-validate_structured_output "$STRUCTURED_OUTPUT"
+if [[ -n "$STRUCTURED_OUTPUT" ]]; then
+  validate_structured_output "$STRUCTURED_OUTPUT"
+fi
 if [[ -n "$REPORT_PATH" ]]; then
   validate_report "$REPORT_PATH"
 fi
 if [[ -n "$REVIEW_FINDINGS" ]]; then
   validate_review_findings "$REVIEW_FINDINGS"
+fi
+if [[ -n "$EVIDENCE_MAP" ]]; then
+  validate_evidence_map "$EVIDENCE_MAP"
+fi
+if [[ -n "$KNOWN_LIMITS" ]]; then
+  validate_known_limits "$KNOWN_LIMITS"
 fi
 
 echo "Validation summary: errors=$errors"

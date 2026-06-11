@@ -1,0 +1,23 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+route: classify-only
+created_at: "2026-06-11T03:39:10Z"
+source_route: cleanup-lifecycle-residue
+run_id: lifecycle-proposal-program-1781143030187-5323352a
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-run-readiness-and-evidence-locator-hardening
+helper_command: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --active-run-id lifecycle-proposal-program-1781143030187-5323352a"
+helper_mode: dry-run
+cleanup_candidates: 152
+protected_referenced: 186
+manual_review: 2
+deleted_count: 0
+authorization_receipt_ref: null
+local_private_evidence_ref: null
+redaction_posture: summary-counts-and-digests-only
+digests:
+  git_status_digest: "sha256:4097868a06063fe48e1196048e5b745367ebd0310e2b335169c9afb317932702"
+  classification_digest: "sha256:4ce2242754348383d1ec202c05f4a95af5a27d8a1e4016bbdf26a465cbdefaff"
+  cleanup_path_set_digest: "sha256:1c182c6368ba5b812ca5f1da4fbbd644e96d3c9a61418da8da317ac8be3f2730"
+  protected_paths_digest: "sha256:b520cfe43096fba3dabebe0bb9cb43eab2dd2d5f549b62617e98ec46bbd79bee"
+  manual_review_paths_digest: "sha256:8b0c935ea457d5070aeb1e4c9931f63e6bae67f3cf156540045cf9542cce6092"
+blocker: missing explicit operator confirmation or validating repo-hygiene-cleanup-authorization-v1 receipt for the current helper classification
+outcome: classification retained; no deletion performed

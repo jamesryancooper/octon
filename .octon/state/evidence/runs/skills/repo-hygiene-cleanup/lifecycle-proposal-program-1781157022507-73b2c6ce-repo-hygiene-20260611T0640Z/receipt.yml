@@ -1,0 +1,40 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-1781157022507-73b2c6ce-repo-hygiene-20260611T0640Z
+target_run_id: lifecycle-proposal-program-1781157022507-73b2c6ce
+created_at: "2026-06-11T06:40:00Z"
+route: authorization-receipt
+verdict: pass
+cleanup_outcome: cleanup-completed
+cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1781157022507-73b2c6ce-repo-hygiene-20260611T0640Z/cleanup-authorization.json
+cleanup_authorization_digest: sha256:b730938c62b9d2f16d23498b536447f8b8d9ec6171f098aaf3ec5b58fa161c0f
+raw_evidence_not_published: true
+redaction_posture: summary-counts-and-digests-only
+before_cleanup:
+  cleanup_candidates: 152
+  protected_referenced: 58
+  manual_review: 20
+  git_status_digest: sha256:46ec410ab9f6b1d78e42e5c93cc425c92ca9d074ff2c1cb4b3a9520d5a72824d
+  classification_digest: sha256:d1522bc53fb7b57dcfa613807528cd548838b787666560daa70b957042c76839
+  cleanup_path_set_digest: sha256:623853401839007fae9c5743e55835bd1feb3d05d5a5ee55dc6a37463e94bbd1
+  protected_paths_digest: sha256:d695d24f4841d2609b597b02a1be3342a05f7a417d0899313b5c7931c5d80696
+  manual_review_paths_digest: sha256:5af9565f86e3112d4edb8ee5ba462ac2d77216f32291445631eba211ee62fa5a
+after_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 59
+  manual_review: 20
+  git_status_digest: sha256:5ae327829aeb412110d5738ea5f601d67451ce2434565534ebfe838651a1ec7a
+  classification_digest: sha256:eca12bf199b8d8355f5f19a2fed737f65d96213be689371dc4c3e1baa92201ae
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:a2d5b28cb483d0ce4d41785180f1d62cc96fe0aa79ee5caf7899241b2b95a1aa
+  manual_review_paths_digest: sha256:5af9565f86e3112d4edb8ee5ba462ac2d77216f32291445631eba211ee62fa5a
+deleted_count: 152
+retained_protected_count: 59
+retained_manual_review_count: 20
+deleted_path_list_published: false
+retained_path_list_published: false
+authority_posture:
+  generated_outputs_derived_only: true
+  proposal_inputs_non_authoritative: true
+  protected_active_run_state_retained: true
+  manual_review_paths_retained: true
+blocker: none

@@ -1,0 +1,2608 @@
+{
+  "authorization_id": "repo-hygiene-cleanup-da1ba790144be9c6",
+  "authorization_result": "approved",
+  "authorized_paths": [
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/continuity/runs/publish-1781148392283-7457/handoff.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/continuity/runs/publish-1781148607952-68039/handoff.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/continuity/runs/publish-1781148627478-75951/handoff.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/continuity/runs/publish-1781148633202-76485/handoff.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/authority/budget-ledger.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/authority/decision.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/authority/grant-bundle.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/authority/review-dispositions.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/checkpoints/bound.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/checkpoints/execution-complete.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/checkpoints/execution-start.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/contamination/current.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/context/active-context-pack.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/context/status.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/effect-tokens/effect-token-evidence-mutation-5968142fd544.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/effect-tokens/effect-token-evidence-mutation-5cb0248fc860.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/effect-tokens/effect-token-evidence-mutation-af00116cfcb8.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/effect-tokens/effect-token-extension-activation-6d171b7d7424.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/effect-tokens/effect-token-extension-activation-d7363164ad7a.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/effect-tokens/effect-token-state-control-mutation-815cbf29f926.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/events.manifest.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/events.ndjson",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/retry-records/baseline.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/rollback-posture.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/run-contract.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/run-manifest.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/runtime-state.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148392283-7457/stage-attempts/initial.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/authority/budget-ledger.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/authority/decision.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/authority/grant-bundle.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/authority/review-dispositions.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/checkpoints/bound.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/checkpoints/execution-complete.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/checkpoints/execution-start.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/contamination/current.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/context/active-context-pack.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/context/status.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/effect-tokens/effect-token-capability-pack-activation-3b03723afd9a.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/effect-tokens/effect-token-evidence-mutation-18c04b9f67d9.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/effect-tokens/effect-token-evidence-mutation-e342b53ff1cb.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/effect-tokens/effect-token-state-control-mutation-0e55f5097adf.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/events.manifest.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/events.ndjson",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/retry-records/baseline.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/rollback-posture.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/run-contract.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/run-manifest.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/runtime-state.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148607952-68039/stage-attempts/initial.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/authority/budget-ledger.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/authority/decision.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/authority/grant-bundle.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/authority/review-dispositions.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/checkpoints/bound.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/checkpoints/execution-complete.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/checkpoints/execution-start.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/contamination/current.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/context/active-context-pack.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/context/status.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/effect-tokens/effect-token-evidence-mutation-42d515098366.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/effect-tokens/effect-token-evidence-mutation-ca205fb2107b.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/effect-tokens/effect-token-generated-effective-publication-604131736369.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/effect-tokens/effect-token-state-control-mutation-7e3d607eb3c4.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/events.manifest.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/events.ndjson",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/retry-records/baseline.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/rollback-posture.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/run-contract.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/run-manifest.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/runtime-state.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148627478-75951/stage-attempts/initial.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/authority/budget-ledger.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/authority/decision.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/authority/grant-bundle.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/authority/review-dispositions.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/checkpoints/bound.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/checkpoints/execution-complete.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/checkpoints/execution-start.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/contamination/current.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/context/active-context-pack.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/context/status.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/effect-tokens/effect-token-evidence-mutation-93bef59d58d6.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/effect-tokens/effect-token-evidence-mutation-b6d5252c9fde.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/effect-tokens/effect-token-generated-effective-publication-904377d3fac2.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/effect-tokens/effect-token-state-control-mutation-9c1151f5a9df.json",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/events.manifest.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/events.ndjson",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/retry-records/baseline.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/rollback-posture.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/run-contract.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/run-manifest.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/runtime-state.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/control/execution/runs/publish-1781148633202-76485/stage-attempts/initial.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/control/execution/authority-decision-publish-1781148392283-7457.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/control/execution/authority-decision-publish-1781148607952-68039.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/control/execution/authority-decision-publish-1781148627478-75951.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/control/execution/authority-decision-publish-1781148633202-76485.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1781148392283-7457.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1781148607952-68039.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1781148627478-75951.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1781148633202-76485.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/external-index/runs/publish-1781148392283-7457.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/external-index/runs/publish-1781148607952-68039.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/external-index/runs/publish-1781148627478-75951.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_run_residue",
+      "path": ".octon/state/evidence/external-index/runs/publish-1781148633202-76485.yml",
+      "pattern_id": "local_run_residue",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/compatibility/extensions/2026-06-11T02-40-43Z-extensions-e539e7c8b239.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-cleanup-lifecycle-residue.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-11T02-40-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/publication/capabilities/2026-06-11T02-44-30Z-capabilities-256f46a73cce.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/publication/capabilities/2026-06-11T02-44-35Z-pack-routes-3d2cc4bb7870.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/publication/extensions/2026-06-11T02-40-43Z-extensions-e539e7c8b239.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "stale_unreferenced_publication_attempt",
+      "path": ".octon/state/evidence/validation/publication/runtime/2026-06-11T02-44-41Z-runtime-route-bundle-d832aab6f332.yml",
+      "pattern_id": "stale_unreferenced_publication_attempt",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    }
+  ],
+  "classification_digest": "sha256:030824744197796741c948b3f514c70b55da4d4e2db502b1f101228fa16d00f2",
+  "classification_ref": "inline:cleanup-local-run-artifacts.sh",
+  "cleanup_path_set_digest": "sha256:1c182c6368ba5b812ca5f1da4fbbd644e96d3c9a61418da8da317ac8be3f2730",
+  "created_at": "2026-06-11T03:42:17Z",
+  "discard_or_rollback_posture": "delete only the exact untracked authorized path set; retain protected and manual-review residue",
+  "git_status_digest": "sha256:e0b49a3e7fff0fcfd874c6836e967cf09f83fb98ce1635b9ea170943a5c19467",
+  "head_ref": "e72452b9eef2556a5686e1e0f1853a66bd96586c",
+  "helper_ref": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+  "main_ref": "e72452b9eef2556a5686e1e0f1853a66bd96586c",
+  "manual_review_paths_digest": "sha256:8b0c935ea457d5070aeb1e4c9931f63e6bae67f3cf156540045cf9542cce6092",
+  "origin_main_ref": "e72452b9eef2556a5686e1e0f1853a66bd96586c",
+  "policy_ref": ".octon/instance/governance/policies/repo-hygiene.yml",
+  "protected_paths_digest": "sha256:ba34491a7d5c1c78aed1065a70275358ccb9f14d53c02ba891a4873e32a8d719",
+  "repo_root_ref": ".",
+  "runtime_safety_boundary": "Octon governance receipt does not bypass filesystem, sandbox, host, provider, or platform permission boundaries.",
+  "schema_ref": ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+  "schema_version": "repo-hygiene-cleanup-authorization-v1",
+  "valid_until_status_changes": true
+}

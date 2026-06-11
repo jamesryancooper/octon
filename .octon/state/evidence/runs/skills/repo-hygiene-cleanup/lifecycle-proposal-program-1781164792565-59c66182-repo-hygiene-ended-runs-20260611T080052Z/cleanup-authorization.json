@@ -1,0 +1,58 @@
+{
+  "schema_version": "repo-hygiene-cleanup-authorization-v1",
+  "authorization_id": "repo-hygiene-cleanup-lifecycle-proposal-program-ended-runs-repo-hygiene-20260611T080052Z",
+  "authorization_result": "approved",
+  "created_at": "2026-06-11T08:02:13Z",
+  "valid_until_status_changes": true,
+  "policy_ref": ".octon/instance/governance/policies/repo-hygiene.yml",
+  "helper_ref": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+  "schema_ref": ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+  "repo_root_ref": ".",
+  "head_ref": "02d5a2161c2a9daedabde0fd768d4a8f29b09453",
+  "main_ref": "9d04a95e8d5a45a411d63b9aba4ab9388f28bd40",
+  "origin_main_ref": "9d04a95e8d5a45a411d63b9aba4ab9388f28bd40",
+  "git_status_digest": "sha256:7f1870d373000ab6546d1ae72ca828eca2d171bca24b0a90cc7ec6bd36e3adcd",
+  "classification_ref": "cleanup-local-run-artifacts.sh dry-run classification at 2026-06-11T08:02:13Z",
+  "classification_digest": "sha256:64cbe84b704d08fc433342fed0b6221b04812d315dde8be130fdd24d0df8d2da",
+  "cleanup_path_set_digest": "sha256:7463c24cd7d9d8c75b1de6ad23b9e6ba55ce73ce032951b6534c7b6db42f9ee9",
+  "authorized_paths": [
+    {
+      "path": ".octon/state/control/execution/runs/lifecycle-proposal-program-1781164792565-59c66182/program-events.ndjson",
+      "class": "local_run_residue",
+      "pattern_id": "unreferenced local proposal lifecycle runner residue",
+      "proofs": {
+        "untracked": true,
+        "unreferenced_by_tracked_files": true,
+        "non_authoritative": true,
+        "allowed_cleanup_pattern": true,
+        "not_input_surface": true,
+        "not_durable_evidence": true,
+        "not_active_control_state": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true
+      }
+    },
+    {
+      "path": ".octon/state/control/execution/runs/lifecycle-proposal-program-1781164792565-59c66182/program-lifecycle-checkpoint.yml",
+      "class": "local_run_residue",
+      "pattern_id": "unreferenced local proposal lifecycle runner residue",
+      "proofs": {
+        "untracked": true,
+        "unreferenced_by_tracked_files": true,
+        "non_authoritative": true,
+        "allowed_cleanup_pattern": true,
+        "not_input_surface": true,
+        "not_durable_evidence": true,
+        "not_active_control_state": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true
+      }
+    }
+  ],
+  "protected_paths_digest": "sha256:6b427bcfd0a9bd7d00a050be102df0c90de1fa53b927438fac72e88c5ca9561e",
+  "manual_review_paths_digest": "sha256:f5b6cb440b8787fa265ef56b0b92f7860b284c287de4a40e1c86eac81d1b5fdc",
+  "discard_or_rollback_posture": "Cleanup deletes only untracked, unreferenced local run/control residue. Rollback is not required; authoritative and durable evidence paths are excluded.",
+  "runtime_safety_boundary": "Receipt is valid only while git status and helper classification digests match exactly; tracked, input, durable evidence, active control, generated authority, generated run-health, ignored, protected, manual-review, and user-owned paths are excluded."
+}
