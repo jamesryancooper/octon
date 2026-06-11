@@ -206,7 +206,7 @@ check_registry_entries() {
   local registry_keys
   registry_keys="$(extract_registry_workflow_keys)"
   for key in "${!WORKFLOW_PATHS[@]}"; do
-    if printf '%s\n' "$registry_keys" | grep -Fxq "$key"; then
+    if grep -Fxq "$key" <<<"$registry_keys"; then
       pass "workflow '$key' registry entry exists"
     else
       fail "workflow '$key' missing registry entry"

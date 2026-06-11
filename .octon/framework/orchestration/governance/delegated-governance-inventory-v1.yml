@@ -372,7 +372,7 @@ inventory_entries:
     surface_refs:
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/run-packet-implementation/stages/01-run-packet-implementation.md"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/shared/proposal-authority-boundaries.md"
-      - ".octon/inputs/exploratory/proposals/README.md"
+      - ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
     classification: "out-of-scope"
     rationale: >-
       Proposal packets, generated prompts, prompt capsules, lifecycle support

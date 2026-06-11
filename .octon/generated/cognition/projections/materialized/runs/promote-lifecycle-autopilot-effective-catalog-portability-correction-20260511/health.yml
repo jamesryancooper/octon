@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
-generated_at: '2026-06-10T22:19:38Z'
+generated_at: '2026-06-11T08:47:44Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:0dbdfea48a94c6a598ce718b766ebe86f18f772fcdb7c7b1ec876df5fba97061
-  checked_at: '2026-06-10T22:19:38Z'
+  combined_source_digest: sha256:05d7a8b13e1c7a4ca17b9ae1f2c32d639d7678db464d9e00c070338638a68462
+  checked_at: '2026-06-11T08:47:44Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:911c2c352dbb72b8e8e4635c66111e782cedd5db973b5beade7b2650c31bad78
+    digest: sha256:b9eba0f99e2ced9322a4128c875edb735cc4bc4894dbbd4ca448bad0752be7b2
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/handoff.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:07e25dabf44bdec7293dc09b7aac7e2c5e4eec85721c6178c0daa2f87b7d48cf
+    digest: sha256:42924c2d549c1a12515f63d36805d590292fc3d032db9cf956edac3ed1b6d1fc
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:168480032d0a36d4b626b9d654abbfb6cf08a220b1384e94e17c15281aa11272
+    digest: sha256:56e7c5d5f33f24186c8ce38e04c0cfa0c031e24936279fb89fd6fe91463b9e12
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
