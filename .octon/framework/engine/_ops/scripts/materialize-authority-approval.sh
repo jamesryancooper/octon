@@ -19,11 +19,17 @@ REQUEST_STATE="pending"
 GRANT_STATE=""
 ISSUED_BY=""
 REASON=""
+TYPED_EXCEPTION_BOUNDARY=""
+GRANT_CONSUMPTION_MODE=""
+REVOCATION_BEHAVIOR=""
+GRANT_EXPIRES_AT="null"
+EXCEPTION_REASON=""
 declare -a OWNERSHIP_REFS=()
 declare -a REQUIRED_EVIDENCE=()
 declare -a REASON_CODES=()
 declare -a PROJECTION_KINDS=()
 declare -a PROJECTION_REFS=()
+declare -a AUTHORITY_PROVENANCE_REFS=()
 
 usage() {
   cat <<'USAGE'
@@ -42,6 +48,12 @@ Usage:
     [--required-evidence <token>] \
     [--reason-code <code>] \
     [--reason <text>] \
+    [--typed-exception-boundary <boundary>] \
+    [--authority-provenance-ref <ref>] \
+    [--grant-consumption-mode <mode>] \
+    [--revocation-behavior <behavior>] \
+    [--grant-expires-at <timestamp|null>] \
+    [--exception-reason <text>] \
     [--projection-kind <kind> --projection-ref <ref>] ...
 USAGE
 }
@@ -89,6 +101,12 @@ main() {
       --required-evidence) REQUIRED_EVIDENCE+=("$2"); shift 2 ;;
       --reason-code) REASON_CODES+=("$2"); shift 2 ;;
       --reason) REASON="$2"; shift 2 ;;
+      --typed-exception-boundary) TYPED_EXCEPTION_BOUNDARY="$2"; shift 2 ;;
+      --authority-provenance-ref) AUTHORITY_PROVENANCE_REFS+=("$2"); shift 2 ;;
+      --grant-consumption-mode) GRANT_CONSUMPTION_MODE="$2"; shift 2 ;;
+      --revocation-behavior) REVOCATION_BEHAVIOR="$2"; shift 2 ;;
+      --grant-expires-at) GRANT_EXPIRES_AT="$2"; shift 2 ;;
+      --exception-reason) EXCEPTION_REASON="$2"; shift 2 ;;
       --projection-kind) PROJECTION_KINDS+=("$2"); shift 2 ;;
       --projection-ref) PROJECTION_REFS+=("$2"); shift 2 ;;
       -h|--help) usage; exit 0 ;;
@@ -184,7 +202,11 @@ main() {
       printf 'state: %s\n' "$(yaml_quote "$GRANT_STATE")"
       printf 'issued_by: %s\n' "$(yaml_quote "$ISSUED_BY")"
       printf 'issued_at: %s\n' "$(yaml_quote "$now")"
-      printf 'expires_at: null\n'
+      if [[ "$GRANT_EXPIRES_AT" == "null" ]]; then
+        printf 'expires_at: null\n'
+      else
+        printf 'expires_at: %s\n' "$(yaml_quote "$GRANT_EXPIRES_AT")"
+      fi
       printf 'quorum_policy_ref: %s\n' "$(yaml_quote "$QUORUM_POLICY_REF")"
       printf 'projection_sources:\n'
       write_projection_sources
@@ -196,6 +218,20 @@ main() {
         for item in "${REQUIRED_EVIDENCE[@]}"; do
           printf '  - %s\n' "$(yaml_quote "$item")"
         done
+      fi
+      if [[ -n "$TYPED_EXCEPTION_BOUNDARY" ]]; then
+        printf 'typed_exception_boundary: %s\n' "$(yaml_quote "$TYPED_EXCEPTION_BOUNDARY")"
+        printf 'authority_provenance_refs:\n'
+        if [[ "${#AUTHORITY_PROVENANCE_REFS[@]}" -eq 0 ]]; then
+          printf '  - %s\n' "$(yaml_quote ".octon/state/control/execution/approvals/grants/grant-${REQUEST_ID}.yml")"
+        else
+          for ref in "${AUTHORITY_PROVENANCE_REFS[@]}"; do
+            printf '  - %s\n' "$(yaml_quote "$ref")"
+          done
+        fi
+        printf 'grant_consumption_mode: %s\n' "$(yaml_quote "${GRANT_CONSUMPTION_MODE:-delegated-execution}")"
+        printf 'revocation_behavior: %s\n' "$(yaml_quote "${REVOCATION_BEHAVIOR:-deny-on-active-revocation}")"
+        printf 'exception_reason: %s\n' "$(yaml_quote "${EXCEPTION_REASON:-Typed exception grant for delegated execution.}")"
       fi
     } > "$grant_path"
     grant_ref=".octon/state/control/execution/approvals/grants/grant-${REQUEST_ID}.yml"

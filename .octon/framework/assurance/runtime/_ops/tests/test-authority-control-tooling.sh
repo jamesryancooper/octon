@@ -31,12 +31,16 @@ OCTON_DIR_OVERRIDE="$tmp_root/.octon" OCTON_ROOT_DIR="$tmp_root" bash "$APPROVAL
   --grant-state "active" \
   --ownership-ref "operator://octon-maintainers" \
   --required-evidence "approval-grant" \
+  --typed-exception-boundary "policy-override" \
+  --grant-expires-at "9999-12-31T00:00:00Z" \
+  --exception-reason "fixture delegated approval grant" \
   --projection-kind "operator-record" \
   --projection-ref "operator://octon-maintainers/authority-review/req-tooling" \
   >"$tmp_root/authority-approval.json"
 jq -e '.approval_granted == true and (.approval_grant_ref | length > 0)' "$tmp_root/authority-approval.json" >/dev/null
 [[ -f "$tmp_root/.octon/state/control/execution/approvals/requests/req-tooling.yml" ]]
 [[ -f "$tmp_root/.octon/state/control/execution/approvals/grants/grant-req-tooling.yml" ]]
+yq -e '.typed_exception_boundary == "policy-override" and .grant_consumption_mode == "delegated-execution" and .revocation_behavior == "deny-on-active-revocation" and (.authority_provenance_refs | length == 1)' "$tmp_root/.octon/state/control/execution/approvals/grants/grant-req-tooling.yml" >/dev/null
 find "$tmp_root/.octon/state/evidence/control/execution" -type f -name '*approval*' | grep -q .
 
 OCTON_DIR_OVERRIDE="$tmp_root/.octon" OCTON_ROOT_DIR="$tmp_root" bash "$PROJECTION_SCRIPT" \
