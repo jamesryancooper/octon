@@ -13,7 +13,7 @@ metadata:
   updated: "2026-06-11"
 skill_sets: [executor, guardian]
 capabilities: [domain-specialized, self-validating]
-allowed-tools: Read Glob Grep Bash Write(/.octon/state/evidence/runs/workflows/*)
+allowed-tools: Read Glob Grep Write(/.octon/state/evidence/runs/workflows/*)
 ---
 
 # Post-Integration Architecture Review
