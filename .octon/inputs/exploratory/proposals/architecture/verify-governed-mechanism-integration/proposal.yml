@@ -1,0 +1,122 @@
+schema_version: "proposal-v1"
+proposal_id: "verify-governed-mechanism-integration"
+title: "Verify Governed Mechanism Integration"
+summary: >-
+  Add a workflow-backed proposal closeout gate and validator suite for proposals
+  that add or materially change governed cross-surface mechanisms. The gate
+  composes existing conformance, drift, publication, architecture-review, and
+  lifecycle evidence instead of creating a new mechanism control plane.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/"
+  - ".octon/framework/orchestration/runtime/workflows/registry.yml"
+  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"
+  - ".octon/framework/product/contracts/governed-mechanism-integration-profile-v1.schema.json"
+  - ".octon/framework/product/contracts/governed-mechanism-integration-receipt-v1.schema.json"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/features/governed-mechanism-integration-verification.md"
+  - ".octon/framework/product/features/README.md"
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-profile.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-receipt.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-governed-mechanism-integration.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
+status: "in-review"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after proposal review accepts the packet, strict
+    pre-integration architecture review passes, durable workflow/schema/profile
+    validator changes land outside proposal-local paths, generated projections
+    are refreshed through canonical publication scripts, and implementation
+    conformance plus post-implementation drift/churn receipts pass. Archive only
+    after the governed mechanism integration receipt is current, passing, and
+    tied to the implemented packet digest.
+related_proposals:
+  - "architectural-review-governed-mechanism-integration"
+  - "architectural-review-post-integration-boundaries"
+  - "change-closeout-state-machine"
+source_lineage:
+  - "resources/source-prompt.md"
+  - "resources/repository-reconnaissance.md"
+selected_implementation_target: "native governed mechanism integration verification gate"
+scope_statement: >-
+  Define a reusable integration verification workflow and schema-backed profile
+  model for governed mechanism proposals. The implementation must add strict
+  profile and receipt validators, proposal lifecycle hooks, terminal freshness
+  verification, and durable documentation updates while preserving existing
+  ownership of conformance, drift, publication, architecture review, and
+  lifecycle postmortem responsibilities.
+non_goals:
+  - "No new mechanism-level control plane."
+  - "No replacement for implementation conformance review."
+  - "No replacement for post-implementation drift/churn review."
+  - "No replacement for generated publication checks."
+  - "No promotion of current-state mechanism architecture review into the whole hard gate."
+  - "No lifecycle postmortem hard-gate role."
+  - "No parallel finding or disposition model."
+authority_class_impact:
+  framework: "Proposes durable workflow, schema, validator, feature, and mechanism-index guidance changes after promotion."
+  instance: "No instance authority change is required by this packet."
+  state_control: "No live control truth changes from this proposal packet."
+  state_evidence: "Future workflow runs retain governed mechanism integration evidence under state/evidence/runs/workflows."
+  generated: "Generated proposal registry and future projections remain derived-only and must be refreshed through canonical scripts."
+  inputs: "This proposal packet and source lineage are non-authoritative exploratory input."
+runtime_behavior_impact: >-
+  None from this packet. Runtime and lifecycle behavior change only after the
+  durable workflow, schemas, validators, and proposal lifecycle hooks are
+  promoted outside inputs/exploratory/proposals.
+generated_input_authority_impact: >-
+  Reinforces that generated outputs, raw inputs, proposal packets, host state,
+  chat, model memory, dashboards, and publication projections cannot authorize
+  mechanism integration or closeout.
+evidence_requirements:
+  - "Profile validation receipt for governed-mechanism-integration-profile-v1."
+  - "Strict support receipt validation for governed-mechanism-integration-receipt-v1."
+  - "Implementation conformance receipt for the target packet."
+  - "Post-implementation drift/churn receipt for the target packet."
+  - "Current-state mechanism architecture review receipt used as an evidence lens."
+  - "Generated publication receipts from canonical publication scripts."
+  - "Validator execution evidence and fixture results."
+  - "Authority and non-authority boundary verdicts."
+  - "Terminal freshness proof on main after merged or cleaned outcomes."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "pre-integration architecture review before acceptance"
+  - "governed mechanism integration profile validation"
+  - "governed mechanism integration receipt validation"
+  - "implementation conformance validation"
+  - "post-implementation drift validation"
+  - "generated publication freshness validation"
+  - "current-state mechanism architecture review evidence"
+  - "terminal lifecycle freshness validation"
+  - "governed cross-surface mechanism validation"
+  - "product feature catalog validation"
+  - "git diff --check"
+acceptance_criteria_summary: >-
+  The proposal is acceptable when it defines a closeout verification workflow
+  that composes existing evidence gates, requires schema-backed mechanism
+  profiles, writes one strict support receipt, and fails closed when required
+  mechanism surfaces or not-applicable rationales are omitted.
+rollback_summary: >-
+  Remove the new workflow, profile schema, receipt schema, validators, tests,
+  lifecycle hook updates, product feature entry, and mechanism-index guidance as
+  one atomic rollback. Retain any emitted validation or workflow run evidence
+  under state/evidence for auditability.
+owner:
+  role: "Octon architecture proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-12"
+explicit_runtime_non_implementation_statement: >-
+  This packet does not create a hard gate by itself. Existing proposal
+  lifecycle, conformance, drift, publication, and architecture-review contracts
+  remain canonical until durable implementation lands.

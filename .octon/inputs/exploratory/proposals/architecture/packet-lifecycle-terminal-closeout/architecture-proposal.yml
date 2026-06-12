@@ -1,0 +1,60 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Proposal Packet Lifecycle Terminal Closeout"
+target_state: >-
+  Implemented proposal packets have a canonical terminal closeout workflow
+  that verifies implementation state, validates post-implementation gates,
+  repairs publication freshness only through owning publishers, classifies
+  hygiene, routes Git/GitHub exact-SHA evidence through existing closeout
+  mechanics, runs evidence-only review hooks, and emits a packet-local
+  aggregate terminal receipt with archive-ready or blocked outcome.
+boundary_change: >-
+  Adds a packet lifecycle terminalization layer above existing validators,
+  publishers, hygiene classifiers, closeout routes, hosted check helpers,
+  postmortem evaluators, and archive-proposal. The new layer may sequence,
+  validate, cite, aggregate, and authorize an archive-readiness verdict. It
+  may not archive, publish generated outputs directly, mutate Git refs, delete
+  residue, land branches, delete branches, replace Change receipts, or make
+  evidence-only reviews authoritative.
+authoritative_targets_after_promotion:
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/"
+  - ".octon/framework/orchestration/runtime/workflows/registry.yml"
+  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"
+  - ".octon/framework/product/contracts/proposal-packet-terminal-closeout-profile-v1.schema.json"
+  - ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json"
+  - ".octon/framework/product/features/proposal-packet-terminal-closeout.md"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/features/README.md"
+  - ".octon/framework/capabilities/runtime/commands/proposal-packet-terminal-closeout.md"
+  - ".octon/framework/capabilities/runtime/commands/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/operations/proposal-packet-terminal-closeout/SKILL.md"
+  - ".octon/framework/capabilities/runtime/skills/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/registry.yml"
+  - ".octon/framework/capabilities/runtime/skills/capabilities.yml"
+  - ".octon/framework/assurance/evaluators/proposal-packet-terminal-closeout/README.md"
+  - ".octon/framework/assurance/evaluators/templates/proposal-packet-terminal-closeout-template.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-terminal-closeout.sh"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Implementation must add one terminal workflow, one profile schema, one
+  aggregate receipt schema, validators, tests, evaluator guidance, feature
+  documentation, thin command and skill entrypoints, proposal lifecycle hooks,
+  and publication/hygiene/GitHub integration points without duplicating
+  existing implementation conformance, drift/churn, publisher, closeout,
+  repo-hygiene, Git/GitHub, architecture review, lifecycle-postmortem, or
+  archive-proposal authority.

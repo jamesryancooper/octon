@@ -1,0 +1,88 @@
+schema_version: proposal-v1
+proposal_id: change-closeout-state-machine
+title: Change Closeout State Machine
+summary: Define a first-class state machine for Octon Change closeout so route selection, residue classification, validation loops, hosted landing, branch cleanup, receipt evidence, and final synchronization are governed by one shared contract instead of scattered procedure text.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/product/contracts/change-closeout-state-machine.yml
+- .octon/framework/product/contracts/change-closeout-state-machine.md
+- .octon/framework/product/contracts/default-work-unit.yml
+- .octon/framework/product/contracts/default-work-unit.md
+- .octon/framework/product/contracts/change-receipt-v1.schema.json
+- .octon/framework/orchestration/runtime/workflows/meta/closeout/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/
+- .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-06-12
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine
+  promotion_evidence:
+  - .octon/framework/product/contracts/change-closeout-state-machine.yml
+  - .octon/framework/product/contracts/change-closeout-state-machine.md
+  - .octon/framework/product/contracts/default-work-unit.yml
+  - .octon/framework/product/contracts/default-work-unit.md
+  - .octon/framework/product/contracts/change-receipt-v1.schema.json
+  - .octon/framework/orchestration/runtime/workflows/meta/closeout/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/
+  - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  - .octon/state/evidence/validation/proposals/change-closeout-state-machine/20260521T132922Z/implementation-evidence.md
+lifecycle:
+  temporary: true
+  exit_expectation: Promote only after review acceptance, implementation authorization, durable contract and validator edits, receipt-schema evidence, implementation conformance review, post-implementation drift/churn review, and closeout evidence exist outside proposal-local inputs. Otherwise revise, reject, supersede, or archive this packet.
+related_proposals:
+- governed-workflow-runtime-transition-program
+- workflow-statechart-task-specific-execution-harness
+- workflow-history-replay-idempotency-compensation
+- octon-change-first-github-projection-policy
+acceptance_criteria_summary: The proposal is acceptable only when it defines a canonical state-machine contract, preserves existing route distinctions, specifies loop and escalation semantics, identifies receipt and validator changes, and keeps generated/effective outputs and inputs/** non-authoritative.
+authority_class_impact:
+  framework: May propose durable framework product, workflow, skill, standard, validator, and test changes after review and promotion.
+  instance: No repo-specific authority change is required by this packet.
+  state_control: No live control truth changes from this draft proposal packet.
+  state_evidence: Implementation and closeout evidence must be retained outside proposal-local inputs.
+  generated: Only the generated proposal registry may change during packet scaffolding; generated/effective runtime outputs remain derived-only.
+  inputs: This packet remains non-authoritative proposal input until promoted through durable repository changes.
+change_profile: atomic
+created_date: 2026-05-20
+evidence_requirements:
+- State machine contract review evidence.
+- Receipt schema delta and example receipts for stateful closeout evidence.
+- Validator receipts for route/outcome/cleanup/final-sync claims.
+- Hosted no-PR landing evidence for pushed source branch, exact source-SHA checks, provider permission, fast-forward/update proof, origin/main equality, rollback handle, and final local sync when landed or cleaned is claimed.
+- Branch cleanup evidence for origin/main containment, no-open-PR status, rollback/discard posture, and local/remote cleanup status when cleaned is claimed.
+- Worktree residue classifier evidence for staged, unstaged, untracked, ignored, generated, host-projection, evidence, release, and input-surface residue.
+- Closeout Worktree wrapper evidence for multi-candidate partitioning, explicit candidate boundaries, delegated closeout-change refs, retained residue, blockers, and next-route condition.
+- Negative-control evidence that published-branch, published, or ready states are not accepted as completed closeout outcomes.
+- Implementation conformance and post-implementation drift/churn reviews.
+explicit_runtime_non_implementation_statement: This packet does not create closeout authority. It only proposes how durable stateful closeout contracts and validators should be promoted.
+generated_input_authority_impact: Reinforces that proposal-local material, raw inputs, generated projections, host UI state, GitHub state, chat, model memory, and tool availability never become closeout authority.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+rollback_summary: Remove the proposal packet and generated proposal registry entry if rejected. For later durable implementation, rollback by reverting the state-machine contract, workflow/skill/schema/validator edits, and associated examples as one atomic Change.
+runtime_behavior_impact: None from this draft packet. Durable behavior changes require accepted review, implementation authorization, validator coverage, receipt evidence, and promoted contract edits outside inputs/**.
+scope_statement: Architecture for stateful Change closeout only. The packet may propose product contracts, workflow references, skill procedure updates, the Closeout Worktree wrapper, validators, receipt schema additions, examples, and worktree residue classification. It does not implement the durable state machine, publish generated/effective outputs, change extension activation, open a PR, or authorize destructive cleanup by itself.
+validation_gates:
+- proposal standard validation
+- architecture proposal validation
+- implementation-readiness validation
+- change closeout lifecycle alignment validation
+- receipt schema validation
+- state machine validator coverage
+- worktree residue classifier tests
+- closeout worktree wrapper report validation
+- hosted no-PR landing evidence validation
+- branch cleanup containment and no-open-PR validation
+- generated/input non-authority validation
+- git diff --check

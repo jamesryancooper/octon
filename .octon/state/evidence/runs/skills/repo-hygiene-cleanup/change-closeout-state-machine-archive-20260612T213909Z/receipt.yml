@@ -1,0 +1,42 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: change-closeout-state-machine-archive-20260612T213909Z
+route: receipt-backed-cleanup
+recorded_at: "2026-06-12T21:39:17Z"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/change-closeout-state-machine-archive-20260612T213909Z/authorization.json"
+authorization_sha256: "sha256:a78ef8491ccc86cca4bc2865eb97818899182dc67fdfe9a0fa85b66921007ce9"
+redaction_posture: "publishable summary only; raw helper path listing omitted"
+classification_before_cleanup:
+  cleanup_candidates: 26
+  protected_referenced: 1
+  manual_review: 57
+  git_status_digest: "sha256:378042de17be3933443bf3679f4ffd68bdec4ff6f94ce545885a3585ab079abc"
+  classification_digest: "sha256:6cd269965215c3b8bc00c1f92d726ed8dd62c6b0d5ee70dec929ffd6d23052f2"
+  cleanup_path_set_digest: "sha256:2641bf3b3b71c3ff3204286f77d2b42d7dd72b8315061999676a00f41c7a3104"
+  protected_paths_digest: "sha256:93efe04748f15f3caadb68d6e20ffc0a4c71f8784b1f53e47847c6fbf55f0d74"
+  manual_review_paths_digest: "sha256:b4a7757b650cc1c49640a7ec18d530e14597714e3428f40181d8d16c143024bc"
+cleanup_result:
+  deleted_count: 26
+  deleted_class: "untracked unreferenced publication-run residue"
+  protected_retained_count: 1
+  manual_review_retained_count: 57
+  blocker: none
+classification_after_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 1
+  manual_review: 58
+  git_status_digest: "sha256:6c35ceb3311ad32855cf252104004b14601b957c7cb30aac63a4f941147a472b"
+  classification_digest: "sha256:cb438a30e56271e7c1c464ccb223de62d26e6fd309573896dcc8a3d803b2ee3a"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:93efe04748f15f3caadb68d6e20ffc0a4c71f8784b1f53e47847c6fbf55f0d74"
+  manual_review_paths_digest: "sha256:e83fdc1c6b227af2fecf76694bdc6ec069891ac7b5ecd9624a1036e74f77e91e"
+validation:
+  authorization_revalidated: true
+  protected_and_manual_review_paths_retained: true
+  remaining_cleanup_candidates: 0
+retention_rationale: >-
+  Archive-proposal control/evidence paths were classified as manual-review and
+  retained under existing tracked archive-proposal run-state practice. They are
+  retained only as execution observation evidence; archive readiness is proven
+  by archive, implementation-conformance, drift/churn, generated proposal
+  artifact, terminal-freshness, and publication validators.

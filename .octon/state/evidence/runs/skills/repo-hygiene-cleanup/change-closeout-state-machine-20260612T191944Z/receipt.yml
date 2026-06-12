@@ -1,0 +1,35 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: change-closeout-state-machine-20260612T191944Z
+route: receipt-backed-cleanup
+recorded_at: "2026-06-12T19:19:44Z"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/change-closeout-state-machine-20260612T191944Z/cleanup-authorization.json"
+redaction_posture: "publishable summary only; raw helper path listing omitted"
+classification_before_cleanup:
+  cleanup_candidates: 27
+  protected_referenced: 2
+  manual_review: 1
+  git_status_digest: "sha256:e08b055c8bcee80a4958c736565edd00f64b28007e35a0281139feb6e34ec879"
+  classification_digest: "sha256:5c45a42ae3fdb24162931b13f3319e87c3e36b632e914adb399e05ceb3c4c86e"
+  cleanup_path_set_digest: "sha256:4ac2e033e60160e4b33356c02615b666310902e74b711199f067190d913f5d3c"
+  protected_paths_digest: "sha256:9813d0cf3a280efe756bd896bff23da28317509e21ec83970cf3520c4eb72afd"
+  manual_review_paths_digest: "sha256:dc5a45f957374344b86623de6531722d7b7e740ee493b1f27a134010ec5d30f0"
+cleanup_result:
+  deleted_count: 27
+  deleted_class: "untracked unreferenced publication and proposal-lifecycle closeout residue"
+  protected_retained_count: 2
+  manual_review_retained_count: 1
+  blocker: none
+classification_after_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 2
+  manual_review: 2
+  git_status_digest: "sha256:b4eb110134ad53513ab4c8d60acd519c167902921ea98cb26382e55a28729fa3"
+  classification_digest: "sha256:f9574795802cf6f8ceaf6f746e1b21fd736ca54aa7c3680a9778f3f2f804a36e"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:9813d0cf3a280efe756bd896bff23da28317509e21ec83970cf3520c4eb72afd"
+  manual_review_paths_digest: "sha256:755f4d193fc8227765c477886e83556f9258ac8ba9e64aea481a45e66b863ca1"
+validation:
+  authorization_revalidated: true
+  protected_and_manual_review_paths_retained: true
+  remaining_cleanup_candidates: 0

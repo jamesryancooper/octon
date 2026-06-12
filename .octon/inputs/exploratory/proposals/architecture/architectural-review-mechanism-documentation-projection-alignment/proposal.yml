@@ -1,0 +1,120 @@
+schema_version: "proposal-v1"
+proposal_id: "architectural-review-mechanism-documentation-projection-alignment"
+title: "Architectural Review Mechanism Documentation And Projection Alignment"
+summary: >-
+  Align the native Architectural Review Mechanism across durable methodology,
+  governed mechanism documentation, product navigation, workflow and capability
+  invocation surfaces, validators, and generated publication projections.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/cognition/practices/methodology/architectural-review/"
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/features/architectural-review-mechanism.md"
+  - ".octon/framework/product/features/README.md"
+  - ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
+  - ".octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md"
+  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"
+  - ".octon/framework/orchestration/runtime/workflows/registry.yml"
+  - ".octon/framework/capabilities/runtime/skills/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/registry.yml"
+  - ".octon/framework/capabilities/runtime/commands/manifest.yml"
+  - ".octon/framework/capabilities/runtime/commands/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-naming.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-skills-commands.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-workflows.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/generated/effective/capabilities/"
+status: "in-review"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after strict proposal review, passing pre-integration
+    architecture review, implementation-grade completeness, durable updates to
+    the declared Octon-internal targets, refreshed generated projections through
+    canonical publication scripts, and passing implementation conformance plus
+    post-implementation drift/churn receipts. Archive only after generated
+    proposal projection and capability publication freshness are current.
+related_proposals:
+  - "architectural-review-governed-mechanism-integration"
+  - "architectural-review-native-doctrine-and-naming"
+  - "architectural-review-native-skills-commands"
+  - "architectural-review-native-workflows"
+  - "architectural-review-proposal-lifecycle-integration"
+  - "native-architectural-review-mechanism"
+  - "verify-governed-mechanism-integration"
+source_lineage:
+  - "resources/source-prompt.md"
+  - "resources/source-findings.md"
+selected_implementation_target: "native architectural review mechanism documentation and projection alignment"
+scope_statement: >-
+  Resolve the documented and projected shape of the native Architectural Review
+  Mechanism without changing review semantics: preserve pre-integration review
+  as the only lifecycle authorization gate, preserve post-integration and
+  current-state reviews as evidence-only, keep implementation conformance and
+  drift/churn as separate hard closeout gates, and align documentation,
+  invocation, validation, and publication surfaces around that model.
+non_goals:
+  - "No implementation of this packet during packet creation."
+  - "No hand-editing generated projections."
+  - "No promotion of extension-owned packetization into native Octon."
+  - "No collapse of distinct review modes."
+  - "No new lifecycle gate unless a validator or workflow contract enforces it."
+  - "No change to post-integration or current-state mechanism review authority."
+authority_class_impact:
+  framework: "Future implementation may update methodology, product navigation, governed mechanism docs, workflow/capability registries, commands, validators, and tests."
+  instance: "No instance authority change is expected."
+  state_control: "No live control truth change is proposed."
+  state_evidence: "Future validation and review receipts remain retained evidence only."
+  generated: "Generated proposal and capability projections remain derived-only and must be refreshed through canonical scripts."
+  inputs: "This proposal packet and source lineage are non-authoritative exploratory inputs."
+runtime_behavior_impact: >-
+  None from this proposal packet. Durable behavior changes only if a later
+  implementation promotes validator, workflow, command, or lifecycle-hook
+  changes into framework surfaces.
+generated_input_authority_impact: >-
+  Reinforces that generated projections, raw inputs, proposal packets, host
+  state, dashboards, chat, model memory, and extension packetization cannot
+  authorize review outcomes, lifecycle closeout, publication freshness, or
+  support claims.
+evidence_requirements:
+  - "Pre-integration architecture review receipt before acceptance or implementation authorization."
+  - "Validation output for all architectural-review naming, routing, workflow, skill/command, lifecycle, and extension-split validators."
+  - "Product feature catalog validation after product navigation decision."
+  - "Governed cross-surface mechanism validation after index and mechanism docs update."
+  - "Capability publication validation after generated effective capability refresh."
+  - "Proposal registry check after generated proposal refresh."
+  - "Implementation conformance and post-implementation drift/churn receipts before implemented closeout."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "proposal implementation readiness validation"
+  - "pre-integration architecture review"
+  - "architectural review naming validation"
+  - "architectural review workflow validation"
+  - "architectural review skill and command validation"
+  - "governed cross-surface mechanism validation"
+  - "product feature catalog validation"
+  - "capability publication state validation"
+  - "proposal registry generation check"
+acceptance_criteria_summary: >-
+  The Architectural Review Mechanism is discoverable and coherent from durable
+  doctrine, governed mechanism docs, product navigation, workflow and
+  capability invocation surfaces, validators, and generated projections, with
+  explicit rationale for any intentional omissions and no stale canonical names.
+rollback_summary: >-
+  Revert authored documentation, manifest, registry, command, validator, and
+  test changes; regenerate derived projections from the reverted authored
+  state; retain proposal, validation, and review evidence for auditability.
+owner:
+  role: "Octon architecture proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-12"
+explicit_runtime_non_implementation_statement: >-
+  This packet is non-authoritative exploratory input. It does not update the
+  native Architectural Review Mechanism, refresh generated projections, or
+  authorize implementation.

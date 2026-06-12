@@ -211,6 +211,8 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/workflow-capability-human-boundary-classification/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/governance-validator-negative-controls/
 !.octon/inputs/exploratory/proposals/.archive/architecture/governance-validator-negative-controls/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/
+!.octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/delegated-governance-cutover-closeout/
 !.octon/inputs/exploratory/proposals/.archive/architecture/delegated-governance-cutover-closeout/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration/

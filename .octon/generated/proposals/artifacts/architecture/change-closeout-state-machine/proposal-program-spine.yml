@@ -1,0 +1,172 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:40b796f85667f8f025390c77708597cbaca5e0455a5737eaaaedfb8b0828d2e0",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Promote only after review acceptance, implementation authorization, durable contract and validator edits, receipt-schema evidence, implementation conformance review, post-implementation drift/churn review, and closeout evidence exist outside proposal-local inputs. Otherwise revise, reject, supersede, or archive this packet.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/change-closeout-state-machine/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+    ".octon/framework/product/contracts/change-closeout-state-machine.md",
+    ".octon/framework/product/contracts/default-work-unit.yml",
+    ".octon/framework/product/contracts/default-work-unit.md",
+    ".octon/framework/product/contracts/change-receipt-v1.schema.json",
+    ".octon/framework/orchestration/runtime/workflows/meta/closeout/",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/",
+    ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/",
+    ".octon/framework/assurance/runtime/_ops/tests/"
+  ],
+  "proposal_id": "change-closeout-state-machine",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 13154,
+      "estimated_tokens": 3289,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/custom-closeout-prompt.md",
+      "sha256": "sha256:8e5eb86d1792104df2fe444b7b42d49ba7a611f06d747a9d7de7c7eb3d6bc407"
+    },
+    {
+      "byte_size": 41022,
+      "estimated_tokens": 10256,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/executable-implementation-prompt.md",
+      "sha256": "sha256:9a3a8b5b0ce760a5e84183809a1aeac39f71117f3df289b892a4ae09d9a2db5c"
+    },
+    {
+      "byte_size": 4655,
+      "estimated_tokens": 1164,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/implementation-conformance-review.md",
+      "sha256": "sha256:5ee0f6324dde3e56d069784897ef60cf08bff1cff1259875ee288e7757dfc6d8"
+    },
+    {
+      "byte_size": 3196,
+      "estimated_tokens": 799,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:e401d0dddfa37382489388a53f59a08e585a312c2056e9aebf19f6d285069f77"
+    },
+    {
+      "byte_size": 4714,
+      "estimated_tokens": 1179,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/implementation-run.md",
+      "sha256": "sha256:de9368cf2fb90e60597f7f004b8d557c093a360dd1c427c5882b6fb5c8822cab"
+    },
+    {
+      "byte_size": 5061,
+      "estimated_tokens": 1266,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:d38cecf8b320be91561cd44df762a324be7585d672e46fd46153a9ac9862ccae"
+    },
+    {
+      "byte_size": 10450,
+      "estimated_tokens": 2613,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/proposal-closeout.md",
+      "sha256": "sha256:aa30b81ae81706863afb57ca441ea6118b241e6e76f5fbcd80cf75c0ef504153"
+    },
+    {
+      "byte_size": 7950,
+      "estimated_tokens": 1988,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/proposal-review.md",
+      "sha256": "sha256:63edefd5bf7ad4e6d9fd5d4335a335caa17e43b73cb853759ecfc5d0891af14f"
+    },
+    {
+      "byte_size": 4207,
+      "estimated_tokens": 1052,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/validation.md",
+      "sha256": "sha256:755e837ec38d109cfdf0ee2c8a5038acd0792ad596e74d1c3a840538f2bdab30"
+    }
+  ],
+  "related_proposals": [
+    "governed-workflow-runtime-transition-program",
+    "workflow-statechart-task-specific-execution-harness",
+    "workflow-history-replay-idempotency-compensation",
+    "octon-change-first-github-projection-policy"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/architecture-proposal.yml": "sha256:13a82562b2215f4b8c0fbbfef0a6e1d57c7b0874f3de09fc86468e7f69d32b8e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/architecture/acceptance-criteria.md": "sha256:911663b7c073d466798ad4b0c8ec017bed6f4814f1297626dfad06de763275ef",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/architecture/implementation-plan.md": "sha256:62a1a1261694f7d0bda7a52283cd9842010fa1d240adcd0a7ff118902b022c85",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/navigation/artifact-catalog.md": "sha256:a9dc508c275845ce75abec990065826e0890ab3f78369be43aa28559bb5add38",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/navigation/source-of-truth-map.md": "sha256:f8295c524bc45aba9908d86f3641668ca9d85b7d404bc605025c115332a1918f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/proposal.yml": "sha256:265be0f29dd56bec5a3487085337acebe90791ecc885acf5f87a4aaa3df32fbf",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/executable-implementation-prompt.md": "sha256:9a3a8b5b0ce760a5e84183809a1aeac39f71117f3df289b892a4ae09d9a2db5c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/implementation-grade-completeness-review.md": "sha256:e401d0dddfa37382489388a53f59a08e585a312c2056e9aebf19f6d285069f77",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/proposal-review.md": "sha256:63edefd5bf7ad4e6d9fd5d4335a335caa17e43b73cb853759ecfc5d0891af14f"
+  },
+  "source_lineage": [],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/change-closeout-state-machine/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

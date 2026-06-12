@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: archive-proposal-1781297724632-84313
+status: running
+run_contract_ref: .octon/state/control/execution/runs/archive-proposal-1781297724632-84313/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/archive-proposal-1781297724632-84313/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/archive-proposal-1781297724632-84313/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/archive-proposal-1781297724632-84313/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/archive-proposal-1781297724632-84313/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/archive-proposal-1781297724632-84313/receipts/grant-bundle.json
+last_checkpoint_ref: .octon/state/control/execution/runs/archive-proposal-1781297724632-84313/checkpoints/execution-start.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: Resume from the current stage attempt using the retained receipt and checkpoint roots.
+updated_at: 2026-06-12T20:55:25.998895Z
