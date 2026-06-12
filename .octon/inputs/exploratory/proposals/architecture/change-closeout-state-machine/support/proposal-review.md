@@ -1,11 +1,11 @@
 # Proposal Review Receipt
 
-review_id: change-closeout-state-machine-review-refresh-20260612T181146Z
-reviewed_at: 2026-06-12T18:11:46Z
+review_id: change-closeout-state-machine-review-refresh-20260612T201944Z
+reviewed_at: 2026-06-12T20:19:44Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:568f0af2e1f08d85a45f9a1e6ca05d334fef5416f5c501b4761f5ff40814483a
+reviewed_packet_digest: sha256:40b796f85667f8f025390c77708597cbaca5e0455a5737eaaaedfb8b0828d2e0
 open_blocking_findings_count: 0
 
 ## Review Basis
@@ -14,8 +14,8 @@ open_blocking_findings_count: 0
 - change_profile: atomic
 - profile_selection_basis: repository constitutional and workspace defaults plus `proposal.yml` declared `change_profile: atomic`
 - reviewed packet scope: proposal-local architecture packet only; no durable closeout authority is promoted by this review refresh
-- review refresh reason: the prior accepted review receipt recorded the pre-closeout-maintenance packet digest; this refresh binds the catalog correction, closeout maintenance, and current implementation-verification findings without changing the approved architecture or durable implementation scope
-- repository reconnaissance: checked the current default work-unit policy, Change receipt schema, closeout workflow, closeout-change skill, closeout-worktree wrapper, closeout-pr subflow, git/worktree autonomy contract, proposal validators, implementation conformance review, post-implementation drift/churn review, and closeout hygiene evidence
+- review refresh reason: the prior accepted review receipt recorded the pre-promotion packet digest; this refresh preserves `status: implemented` and binds the current implementation, publication-refresh, closeout-maintenance, and implementation-verification findings without changing the approved architecture or durable implementation scope
+- repository reconnaissance: checked the current default work-unit policy, Change receipt schema, closeout workflow, closeout-change skill, closeout-worktree wrapper, closeout-pr subflow, git/worktree autonomy contract, proposal validators, extension publication state, capability publication state, runtime effective state, implementation conformance review, post-implementation drift/churn review, and closeout hygiene evidence
 
 ## Approved Promotion Targets
 
@@ -54,7 +54,7 @@ route after closeout authorization.
 - The receipt-schema and validator workstreams include negative controls for `published-branch`, `published`, or `ready` overclaims; PR metadata in `branch-no-pr`; missing exact-SHA hosted landing evidence; unsafe cleanup; force-push; ambiguous deletion or restoration; direct-main final sync gaps; stage-only overclaims; and `.octon/inputs/**` authority leakage.
 - The two originally proposed state-machine contract targets now exist as durable promoted targets; their existence is validated by implementation-conformance checks, not by this review receipt alone.
 - The generated proposal registry remains discovery-only and does not provide closeout authority.
-- Current worktree hygiene is outside the review verdict and is handled by the closeout route. The latest hygiene classifier is blocked because capability publication refresh artifacts sit outside the packet-only lifecycle scope.
+- Current worktree hygiene is outside the review verdict and must be handled by the closeout/archive route before any archive movement or final closeout claim.
 
 ## Validation Evidence
 
@@ -63,16 +63,19 @@ route after closeout authorization.
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine` passed with `errors=0 warnings=0`.
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine` passed with `errors=0 warnings=0`.
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine` passed with `errors=0 warnings=0`.
-- `bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh` refreshed generated capability routing state after implementation verification found stale `closeout-change` and `closeout-worktree` source digests.
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh` passed with `errors=0 warnings=0` after the refresh.
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh` passed with `errors=0`.
+- `bash .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh` refreshed generated extension publication state after the review route found stale prompt bundle anchor digests.
+- `bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh` refreshed generated capability routing state after the extension publication refresh.
+- `bash .octon/framework/capabilities/_ops/scripts/publish-host-projections.sh` refreshed host projections after the extension and capability routing refreshes.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh` passed with `errors=0`.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh` passed with `errors=0 warnings=0`.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh` passed with `errors=0`.
 - `bash .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh --target .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine --lifecycle proposal-packet --run-id closeout-packet-change-closeout-state-machine-20260612T181146Z --format yaml` reported `worktree_hygiene_verdict: blocked` with 31 non-packet publication-refresh paths.
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine --print-digest` emitted `sha256:568f0af2e1f08d85a45f9a1e6ca05d334fef5416f5c501b4761f5ff40814483a`.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine --print-digest` emitted `sha256:40b796f85667f8f025390c77708597cbaca5e0455a5737eaaaedfb8b0828d2e0`.
 - `git diff --check` passed.
 
 ## Final Route Recommendation
 
-Retain the packet in `accepted` status with current implementation
-authorization. The durable implementation is verified, but archive authorization
-is blocked until the current worktree's publication-refresh residue is closed
-out and a fresh closeout receipt reports passing hygiene.
+Preserve the packet in `implemented` status with the accepted proposal-review
+evidence refreshed for closeout/archive recovery. Durable implementation remains
+verified; proceed to the next lifecycle route only after closeout/worktree
+hygiene is resolved by the canonical closeout or archive path.

@@ -5,6 +5,21 @@ implemented_at: 2026-05-21T13:29:22Z
 proposal_id: change-closeout-state-machine
 proposal_status_after_run: accepted
 retained_evidence_ref: .octon/state/evidence/validation/proposals/change-closeout-state-machine/20260521T132922Z/implementation-evidence.md
+promotion_evidence_count: 13
+promotion_evidence:
+  - .octon/framework/product/contracts/change-closeout-state-machine.yml
+  - .octon/framework/product/contracts/change-closeout-state-machine.md
+  - .octon/framework/product/contracts/default-work-unit.yml
+  - .octon/framework/product/contracts/default-work-unit.md
+  - .octon/framework/product/contracts/change-receipt-v1.schema.json
+  - .octon/framework/orchestration/runtime/workflows/meta/closeout/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/
+  - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  - .octon/state/evidence/validation/proposals/change-closeout-state-machine/20260521T132922Z/implementation-evidence.md
 
 ## Profile Selection Receipt
 

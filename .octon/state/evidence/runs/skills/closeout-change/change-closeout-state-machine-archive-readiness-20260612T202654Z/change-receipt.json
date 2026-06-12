@@ -1,0 +1,98 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "change-closeout-state-machine-archive-readiness-20260612T202654Z",
+  "selected_route": "direct-main",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "direct-main-landing",
+  "intent": "Close out the implemented change-closeout-state-machine packet after publication freshness repair and repo-hygiene cleanup so the packet can proceed to the governed archive-proposal route.",
+  "scope": {
+    "summary": "Retain the implemented packet status, refreshed proposal review and closeout receipts, generated proposal registry, canonical extension and capability publication refresh outputs, protected validation receipts, repo-hygiene cleanup authorization, and direct-main closeout evidence.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/**",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/generated/effective/extensions/**",
+      ".octon/generated/effective/capabilities/**",
+      ".octon/state/control/extensions/active.yml",
+      ".octon/state/control/extensions/quarantine.yml",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/evidence/validation/compatibility/extensions/2026-06-12T20-11-35Z-extensions-e539e7c8b239.yml",
+      ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-12T20-11-35Z-*.yml",
+      ".octon/state/evidence/validation/publication/capabilities/2026-06-12T20-16-48Z-capabilities-55a4bfc0fc3f.yml",
+      ".octon/state/evidence/validation/publication/extensions/2026-06-12T20-11-35Z-extensions-e539e7c8b239.yml",
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/change-closeout-state-machine-20260612T202500Z/**",
+      ".octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-archive-readiness-20260612T202654Z/change-receipt.json"
+    ],
+    "diff_refs": [
+      "042d8c5aaddbbf5e4ac33f97adfc0d2381da3f8c..direct-main-closeout-commit"
+    ]
+  },
+  "target_branch_ref": "main",
+  "landed_ref": "direct-main-closeout-commit",
+  "main_alignment": {
+    "local_main_ref": "direct-main-closeout-commit",
+    "origin_main_ref": "direct-main-closeout-commit",
+    "landed_ref": "direct-main-closeout-commit",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin before closeout kept local main and origin/main aligned at 042d8c5aaddbbf5e4ac33f97adfc0d2381da3f8c; final concrete sync is reported by the operator closeout result.",
+    "local_main_sync_evidence_ref": "direct-main closeout starts from local main synchronized with origin/main and records final sync verification after push.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "post-push final verification resolves the concrete landed commit after commit creation."
+  },
+  "integration_method": "direct-commit",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/change-closeout-state-machine-20260612T202500Z/authorization.json",
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/change-closeout-state-machine-20260612T202500Z/cleanup-receipt.md",
+    "cleanup-local-run-artifacts.sh --authorization removed 206 cleanup candidates and retained protected referenced receipts"
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short before repo-hygiene cleanup showed packet changes, generated publication refreshes, tracked extension control updates, ACP decision evidence, and raw lifecycle/publication run-state residue.",
+    "residue_classification_ref": "classify-proposal-worktree-hygiene before cleanup reported packet archive route blocked by foreign publication and run-state residue; cleanup-local-run-artifacts.sh then removed raw cleanup candidates with a validating authorization receipt.",
+    "phase_exit_refs": [
+      "read-in-and-constraints: AGENTS ingress, closeout-change, closeout-worktree, repo-hygiene cleanup, default-work-unit policy, change closeout state machine, git worktree autonomy contract, and commit standards were read.",
+      "inventory: local main and origin/main were aligned at 042d8c5aaddbbf5e4ac33f97adfc0d2381da3f8c before direct-main closeout.",
+      "residue-classification: remaining residue after repo-hygiene cleanup is a coherent packet/publication/evidence retention change.",
+      "safe-cleanup: raw lifecycle/publication run state was removed only by cleanup-local-run-artifacts.sh with repo-hygiene-cleanup-authorization-v1.",
+      "route-resolution: direct-main selected because main is current, no unrelated residue remains after cleanup, validation is local, rollback is a governed follow-up revert of the direct-main commit, and no PR-required predicate was identified.",
+      "validation: proposal, implementation conformance, post-implementation drift, publication state, runtime effective state, archive workflow, change closeout receipt, and git diff checks passed before commit."
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/change-closeout-state-machine-20260612T202500Z/authorization.json",
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/change-closeout-state-machine-20260612T202500Z/cleanup-receipt.md"
+    ],
+    "safe_cleanup_evidence_class": "validator-proof",
+    "final_verification_ref": "post-commit and post-push final verification reported by closeout-change final result"
+  },
+  "validation_evidence_refs": [
+    "git diff --check: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-archive-proposal-workflow.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-archive-readiness-20260612T202654Z/change-receipt.json: passed"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because this is a direct-main packet closeout/publication-refresh retention change on synchronized main with local validation passing and no PR-required predicate identified."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "direct-main-closeout-commit",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "origin/main pre-closeout ref 042d8c5aaddbbf5e4ac33f97adfc0d2381da3f8c",
+    "instructions": "Use a governed follow-up Change to revert the direct-main closeout commit if the packet archive-readiness refresh or publication evidence retention must be undone."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-12T20:26:54Z"
+}
