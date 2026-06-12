@@ -222,6 +222,13 @@ Rules:
   required post-implementation gate receipts pass, or the report records a
   blocked/deferred report outcome or a rejected/superseded/historical archive
   disposition instead of a successful closeout.
+- Proposal-program and proposal archive closeout that claims terminal
+  `cleaned` must retain a `lifecycle-terminal-current-state-proof-v1` bundle
+  after the last status, support receipt, archive, generated proposal artifact,
+  publication, or residue-classification mutation. Post-primary branch-no-pr
+  correction branches must also retain a
+  `lifecycle-correction-branch-aggregate-receipt-v1` aggregate receipt. Both
+  artifacts are evidence-only and cannot authorize lifecycle mutation.
 - `blocked` and `deferred` are lifecycle report outcomes, not
   `proposal.yml#status` values or `archive.disposition` values. Archive
   disposition remains limited to `implemented`, `rejected`, `historical`, and
@@ -359,10 +366,12 @@ The required receipt lives at
 The drift/churn gate must verify:
 
 - promoted targets do not depend on active proposal paths;
-- stale Work Package/Change terminology conflicts are absent or explicitly
-  justified as legacy/compatibility text;
+- retired lifecycle terminology conflicts are absent or explicitly justified as
+  legacy/compatibility text;
 - generated registries and projections are fresh;
 - manifests and schemas still validate;
+- terminal lifecycle freshness validates for the scoped packet set after the
+  final mutation when the packet is being closed out or archived;
 - `.github/**` remains a linked repo-local projection target, not an
   octon-internal promotion target;
 - `.octon/**` and repo-local target families are not mixed in one active

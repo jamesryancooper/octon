@@ -75,7 +75,12 @@
     `ready` as completed closeout.
 14. Never claim completed or cleaned closeout without `stateful_closeout`
     evidence from the Change Closeout State Machine.
-15. Never restate the prompt matrix inline in ingress.
-16. If a compatibility fallback prompt is still needed for legacy adapters, cite
+15. For proposal-program, generated-publication, archive, or correction-branch
+    closeout that claims `cleaned`, retain and validate
+    `lifecycle-terminal-current-state-proof-v1` evidence after the last
+    mutation. If post-primary branch-no-pr correction branches occurred, also
+    retain `lifecycle-correction-branch-aggregate-receipt-v1` evidence.
+16. Never restate the prompt matrix inline in ingress.
+17. If a compatibility fallback prompt is still needed for legacy adapters, cite
    the workflow contract and retirement register rather than treating the
    prompt as canonical policy.

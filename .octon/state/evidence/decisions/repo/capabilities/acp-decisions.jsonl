@@ -2134,3 +2134,4 @@
 {"run_id":"tool-1781233492723-62292","timestamp":"2026-06-12T03:04:53Z","decision":"ALLOW","effective_acp":"ACP-1","reason_codes":["ACP_EVIDENCE_INVALID"],"profile":"refactor","operation_class":"service.execute","phase":"promote"}
 {"run_id":"tool-1781233497831-62476","timestamp":"2026-06-12T03:04:58Z","decision":"ALLOW","effective_acp":"ACP-1","reason_codes":["ACP_EVIDENCE_INVALID"],"profile":"refactor","operation_class":"service.execute","phase":"promote"}
 {"run_id":"tool-1781233502848-62693","timestamp":"2026-06-12T03:05:03Z","decision":"ALLOW","effective_acp":"ACP-1","reason_codes":["ACP_EVIDENCE_INVALID"],"profile":"refactor","operation_class":"service.execute","phase":"promote"}
+{"run_id":"publish-1781265522417-71926","timestamp":"2026-06-12T11:58:42Z","decision":"ALLOW","effective_acp":"ACP-1","reason_codes":["ACP_EVIDENCE_INVALID"],"profile":"release-readiness","operation_class":"execution.authorize","phase":"stage"}

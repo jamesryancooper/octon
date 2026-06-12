@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/lifecycle-correction-branch-aggregate-receipt-v1.schema.json",
+  "title": "Octon Lifecycle Correction Branch Aggregate Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "primary_change_id",
+    "primary_landing_ref",
+    "correction_branches",
+    "final_landed_ref",
+    "rollback_handle",
+    "local_main_sync_proof_ref",
+    "unresolved_count",
+    "evidence_refs",
+    "validator_refs",
+    "non_authority_classification"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "lifecycle-correction-branch-aggregate-receipt-v1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "primary_change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "primary_landing_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "final_landed_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_handle": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_main_sync_proof_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unresolved_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "validator_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "validator",
+          "command",
+          "exit_code",
+          "evidence_ref"
+        ],
+        "properties": {
+          "validator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runtime": {
+            "type": "string",
+            "minLength": 1
+          },
+          "exit_code": {
+            "type": "integer"
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "correction_branches": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "branch_name",
+          "source_ref",
+          "commit_ref",
+          "landing_authorization_ref",
+          "branch_cleanup_authorization_ref",
+          "validation_refs",
+          "cleanup_outcome"
+        ],
+        "properties": {
+          "branch_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commit_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "landing_authorization_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "branch_cleanup_authorization_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "validation_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "generated_refresh_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "publication_refresh_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "cleanup_outcome": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "deferred",
+              "not_applicable"
+            ]
+          }
+        }
+      }
+    },
+    "non_authority_classification": {
+      "const": "retained-evidence-only"
+    }
+  }
+}

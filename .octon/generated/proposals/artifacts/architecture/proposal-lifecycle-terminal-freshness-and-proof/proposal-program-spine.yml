@@ -1,0 +1,189 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": null,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": null,
+      "verdict": null
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:3230e57e653676583bb65f7846fc449d1180f075978ccd3924d24b1eb90e500c",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review and accept this packet before implementing any durable lifecycle hardening. Promote only after the new schemas, validators, workflow gates, closeout skill guidance, tests, and evidence contracts stand alone outside proposal-local paths, then close out and archive with conformance and drift/churn receipts.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-lifecycle-terminal-freshness-and-proof/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/scaffolding/governance/patterns/proposal-standard.md",
+    ".octon/framework/product/contracts/default-work-unit.yml",
+    ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+    ".octon/framework/product/contracts/change-closeout-state-machine.md",
+    ".octon/framework/product/contracts/change-receipt-v1.schema.json",
+    ".octon/framework/product/contracts/lifecycle-correction-branch-aggregate-receipt-v1.schema.json",
+    ".octon/framework/product/contracts/lifecycle-terminal-current-state-proof-v1.schema.json",
+    ".octon/framework/orchestration/runtime/workflows/meta/closeout/",
+    ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/",
+    ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/",
+    ".octon/framework/orchestration/runtime/workflows/meta/validate-proposal/",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+    ".octon/framework/execution-roles/practices/standards/validation-evidence-quality.md",
+    ".octon/framework/execution-roles/practices/standards/validator-runtime-resolution.md",
+    ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-correction-branch-aggregate-receipt.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-terminal-current-state-proof.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-terminal-freshness.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-correction-branch-aggregate-receipt.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-terminal-current-state-proof.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-proposal-artifact-index-spine.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh"
+  ],
+  "proposal_id": "proposal-lifecycle-terminal-freshness-and-proof",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 8336,
+      "estimated_tokens": 2084,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/executable-implementation-prompt.md",
+      "sha256": "sha256:049d3dc698093b3e41322be872b8af725474194d8a9c42f93995e60b96bd78d1"
+    },
+    {
+      "byte_size": 4728,
+      "estimated_tokens": 1182,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/implementation-conformance-review.md",
+      "sha256": "sha256:cbd22ad4e5c7becb1d017e70104d587237698937e68188f7acf8e54079a574f5"
+    },
+    {
+      "byte_size": 4101,
+      "estimated_tokens": 1026,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:e05e5680c38a8018ee7712287ddd02c6d369d32788489cdff1b93dd10c22a97f"
+    },
+    {
+      "byte_size": 3819,
+      "estimated_tokens": 955,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/implementation-run.md",
+      "sha256": "sha256:1786658e63b352f2994c30878af9b4b1d46d80632617d707e6e47db6e0fc4c3a"
+    },
+    {
+      "byte_size": 4307,
+      "estimated_tokens": 1077,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:86b74041c712b44d39788408abe08dccafe10f4c9820d28c11ec03a6fac9e3eb"
+    },
+    {
+      "byte_size": 459,
+      "estimated_tokens": 115,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/profile-selection-receipt.md",
+      "sha256": "sha256:e9bac29aec8095bfe4ee8938351013fe55a85202ec8b6e7ed4a7722540cc53d6"
+    },
+    {
+      "byte_size": 4641,
+      "estimated_tokens": 1161,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/proposal-closeout.md",
+      "sha256": "sha256:fb05b3b583ab05c0e09aa19d1370152bb1cd7b41c0e8229b4373b0b3eb075ef2"
+    },
+    {
+      "byte_size": 7439,
+      "estimated_tokens": 1860,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/proposal-review.md",
+      "sha256": "sha256:b31a56eb1ac8d52464f89ccff78fc631a37c854a0808c80f2a93738d540c78cb"
+    }
+  ],
+  "related_proposals": [
+    "change-closeout-state-machine",
+    "repo-hygiene-cleanup-authorization-receipts",
+    "native-architectural-review-mechanism"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/architecture-proposal.yml": "sha256:518573b87a7821d0880e2b5d1a28a8eda8953bed1d50a6d01c315143d6de2571",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/architecture/acceptance-criteria.md": "sha256:3ba5725b4d7d0002158ea5329021c66cd2ef481c45de1552966e972ae4831803",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/architecture/implementation-plan.md": "sha256:39a9ed1d8bef24282fd15c7462e5301e35ab0af1285b8a61295555fa837bd8b9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/navigation/artifact-catalog.md": "sha256:e7024436f1462cc57245be480cf6c22eb6807d2742ca64d9c2a61fc14e6a5f14",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/navigation/source-of-truth-map.md": "sha256:f69d978d3d68cbda446a38c602f90af546f35417b129c59e7d22f3bd7bf64ded",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/proposal.yml": "sha256:00c6aa0069f0ae566e56a9f54df1385d499b3a5520c2309e47eedfea7b94554e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/executable-implementation-prompt.md": "sha256:049d3dc698093b3e41322be872b8af725474194d8a9c42f93995e60b96bd78d1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/implementation-grade-completeness-review.md": "sha256:e05e5680c38a8018ee7712287ddd02c6d369d32788489cdff1b93dd10c22a97f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/proposal-review.md": "sha256:b31a56eb1ac8d52464f89ccff78fc631a37c854a0808c80f2a93738d540c78cb"
+  },
+  "source_lineage": [
+    "resources/postmortem-findings.md",
+    "resources/repository-reconnaissance.md",
+    ".octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/report.md",
+    ".octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-terminal-freshness-and-proof/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

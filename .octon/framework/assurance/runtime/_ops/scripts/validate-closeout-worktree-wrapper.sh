@@ -122,6 +122,12 @@ validate_static() {
   require_literal "$WRAPPER" "worktree_terminal_state" \
     "wrapper documents worktree terminal state" \
     "wrapper must document worktree_terminal_state"
+  require_literal "$WRAPPER" "terminal_current_state_proof_ref" \
+    "wrapper documents delegated terminal current-state proof refs" \
+    "wrapper must document terminal_current_state_proof_ref"
+  require_literal "$WRAPPER" "correction_branch_aggregate_receipt_ref" \
+    "wrapper documents delegated correction aggregate refs" \
+    "wrapper must document correction_branch_aggregate_receipt_ref"
   require_literal "$WRAPPER" "residue_routing_class" \
     "wrapper documents residue routing classes" \
     "wrapper must document residue_routing_class"

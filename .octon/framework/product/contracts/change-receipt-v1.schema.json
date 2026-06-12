@@ -488,6 +488,16 @@
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
     },
+    "terminal_current_state_proof_ref": {
+      "type": "string",
+      "description": "Retained lifecycle-terminal-current-state-proof-v1 evidence for cleaned terminal claims. The proof is evidence-only and does not authorize closeout or mutation.",
+      "minLength": 1
+    },
+    "correction_branch_aggregate_receipt_ref": {
+      "type": "string",
+      "description": "Retained lifecycle-correction-branch-aggregate-receipt-v1 evidence when post-primary branch-no-pr correction landings occur. The aggregate receipt is evidence-only.",
+      "minLength": 1
+    },
     "publishable_evidence_receipt_refs": {
       "type": "array",
       "description": "Repo-publishable receipts that summarize or attest the local evidence supporting a hosted/shared closeout claim without publishing private raw evidence.",

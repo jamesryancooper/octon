@@ -13,6 +13,11 @@ STATE_MACHINE_MD="$OCTON_DIR/framework/product/contracts/change-closeout-state-m
 RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
 AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-landing-authorization-v1.schema.json"
 CLEANUP_AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"
+TERMINAL_PROOF_SCHEMA="$OCTON_DIR/framework/product/contracts/lifecycle-terminal-current-state-proof-v1.schema.json"
+CORRECTION_AGGREGATE_SCHEMA="$OCTON_DIR/framework/product/contracts/lifecycle-correction-branch-aggregate-receipt-v1.schema.json"
+TERMINAL_FRESHNESS_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
+TERMINAL_PROOF_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-lifecycle-terminal-current-state-proof.sh"
+CORRECTION_AGGREGATE_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-lifecycle-correction-branch-aggregate-receipt.sh"
 RECEIPT_EXAMPLES_DIR="$OCTON_DIR/framework/product/contracts/examples/change-receipts"
 VALID_DIRECT_MAIN_LANDED="$RECEIPT_EXAMPLES_DIR/valid-direct-main-landed.json"
 VALID_BRANCH_PR_READY="$RECEIPT_EXAMPLES_DIR/valid-branch-pr-ready.json"
@@ -167,7 +172,7 @@ resolve_ref_path() {
 }
 
 validate_contracts() {
-  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$CLEANUP_AUTHORIZATION_SCHEMA" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$BRANCH_CLEANUP_AUTH_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_AUTH_SCRIPT" "$HOSTED_LAND_SCRIPT" "$EVIDENCE_TIER_VALIDATOR"; do
+  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$CLEANUP_AUTHORIZATION_SCHEMA" "$TERMINAL_PROOF_SCHEMA" "$CORRECTION_AGGREGATE_SCHEMA" "$TERMINAL_FRESHNESS_VALIDATOR" "$TERMINAL_PROOF_VALIDATOR" "$CORRECTION_AGGREGATE_VALIDATOR" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$BRANCH_CLEANUP_AUTH_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_AUTH_SCRIPT" "$HOSTED_LAND_SCRIPT" "$EVIDENCE_TIER_VALIDATOR"; do
     require_file "$file"
   done
 
@@ -212,6 +217,15 @@ validate_contracts() {
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models governed landing authorization ref" "receipt schema must model landing_authorization_ref"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
   require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_authorization_ref' "receipt schema models governed cleanup authorization ref" "receipt schema must model cleanup_authorization_ref"
+  require_jq "$RECEIPT_SCHEMA" '.properties.terminal_current_state_proof_ref' "receipt schema models terminal current-state proof ref" "receipt schema must model terminal_current_state_proof_ref"
+  require_jq "$RECEIPT_SCHEMA" '.properties.correction_branch_aggregate_receipt_ref' "receipt schema models correction branch aggregate receipt ref" "receipt schema must model correction_branch_aggregate_receipt_ref"
+  require_jq "$TERMINAL_PROOF_SCHEMA" '.properties.schema_version.const == "lifecycle-terminal-current-state-proof-v1"' "terminal proof schema has stable version" "terminal proof schema must define lifecycle-terminal-current-state-proof-v1"
+  require_jq "$CORRECTION_AGGREGATE_SCHEMA" '.properties.schema_version.const == "lifecycle-correction-branch-aggregate-receipt-v1"' "correction aggregate schema has stable version" "correction aggregate schema must define lifecycle-correction-branch-aggregate-receipt-v1"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "cleaned_closeout_missing_terminal_current_state_proof")' "policy fails closed without terminal current-state proof" "policy must fail closed without terminal current-state proof"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "post_primary_correction_branch_missing_aggregate_receipt")' "policy fails closed without correction aggregate receipt" "policy must fail closed without correction aggregate receipt"
+  require_yq "$STATE_MACHINE" '.evidence_gates.cleaned.required[]? | select(test("terminal_current_state_proof_ref"))' "state machine requires terminal current-state proof for applicable cleaned claims" "state machine must require terminal_current_state_proof_ref for applicable cleaned claims"
+  require_literal "$CLOSEOUT_CHANGE" "terminal_current_state_proof_ref" "closeout-change documents terminal current-state proof refs" "closeout-change must document terminal_current_state_proof_ref"
+  require_literal "$CLOSEOUT_CHANGE" "correction_branch_aggregate_receipt_ref" "closeout-change documents correction aggregate refs" "closeout-change must document correction_branch_aggregate_receipt_ref"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "cleanup_authorization_ref")' "receipt schema requires governed authorization for completed branch cleanup" "receipt schema must require cleanup_authorization_ref for completed branch cleanup claims"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema has stable version" "authorization schema must define branch-landing-authorization-v1"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.authorization_result.enum[] | select(. == "approved")' "authorization schema models approval result" "authorization schema must model approved authorization"

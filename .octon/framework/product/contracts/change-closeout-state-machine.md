@@ -74,9 +74,15 @@ alignment, and `stateful_closeout` receipt evidence.
 `cleaned` requires landed evidence or an explicitly non-landing outcome, branch
 cleanup and worktree cleanup completed when claiming cleaned, governed cleanup
 authorization when branch refs are mutated, cleanup safety evidence, final main
-alignment when landed, and `stateful_closeout` receipt evidence. Deferred
-cleanup is valid blocker evidence for a lower actual outcome such as `landed`,
-`deferred`, or `blocked`; it is not a truthful `cleaned` outcome.
+alignment when landed, `stateful_closeout` receipt evidence, and
+`terminal_current_state_proof_ref` when the closeout includes proposal-program,
+generated-publication, archive, or correction-branch terminal claims. If
+post-primary branch-no-pr correction branches occurred, the receipt must also
+cite `correction_branch_aggregate_receipt_ref`. These receipts are retained
+evidence only; they do not authorize landing, cleanup, closeout, archive, or
+publication. Deferred cleanup is valid blocker evidence for a lower actual
+outcome such as `landed`, `deferred`, or `blocked`; it is not a truthful
+`cleaned` outcome.
 
 Hosted/shared closeout claims, and closeout claims intended to leave the local
 machine, must cite repo-publishable evidence receipts conforming to

@@ -27,7 +27,11 @@ explicit, and proposal discovery is synchronized with the manifest projection.
    Implemented packets and implemented archives require passing conformance and
    drift/churn receipts.
 8. Fail closed if `generated/proposals/registry.yml` does not match the deterministic projection rebuilt from proposal manifests.
-9. Persist the validator transcript as `standard-validator.log`.
-10. Report all five gate states: proposal review, Pre-Integration Architecture
+9. For terminal verification, run
+   `validate-proposal-lifecycle-terminal-freshness.sh --proposal
+   <proposal_path>` after the last packet, support receipt, archive, or
+   generated artifact mutation.
+10. Persist the validator transcript as `standard-validator.log`.
+11. Report all five gate states: proposal review, Pre-Integration Architecture
     Review when applicable, implementation-grade completeness, implementation
     conformance, and post-implementation drift/churn.

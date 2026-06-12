@@ -100,6 +100,10 @@ Execute the Change Closeout State Machine phase loop from
     rollback handle, authorization refs, or raw/full evidence.
 12. **Final Verification** — Verify clean or documented retained residue and
     final local `main`, `origin/main`, and landed-ref alignment when claimed.
+    Proposal-program, generated-publication, archive, or correction-branch
+    `cleaned` claims must also cite a validating
+    `terminal_current_state_proof_ref`; post-primary branch-no-pr correction
+    branches must cite `correction_branch_aggregate_receipt_ref`.
 13. **Final Report** — Report the actual lifecycle outcome, blockers,
     validation, receipt, cleanup, rollback handle, and final sync.
 
@@ -176,6 +180,12 @@ approval denial, or cleanup outside a governed route.
   is reported.
 - Do not claim `branch-no-pr` as `landed` without branch commit evidence, main
   integration evidence, landed ref, rollback handle, and cleanup disposition.
+- Do not claim proposal-program, generated-publication, archive, or
+  correction-branch `cleaned` closeout without validated
+  `terminal_current_state_proof_ref` evidence retained after the last mutation.
+  If post-primary branch-no-pr correction branches occurred, do not claim
+  terminal closeout without a validated
+  `correction_branch_aggregate_receipt_ref`.
 - When the operator asks for closeout and the selected route is `branch-no-pr`,
   push the source branch to origin for branch-publication closeout or complete
   hosted no-PR landing for `landed`. Without an origin push, report a local

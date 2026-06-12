@@ -146,6 +146,11 @@ local workflow evidence to be published as material Change content.
   remain only with foreign or retained evidence. Closed branch candidates must
   prove local `main` equals `origin/main` equals `landed_ref`, and source
   branch cleanup is completed with governed cleanup authorization.
+  Proposal-program, generated-publication, archive, or correction-branch
+  terminal claims must cite `terminal_current_state_proof_ref` evidence from the
+  delegated singular Change. If post-primary branch-no-pr correction branches
+  occurred, the delegated Change must also cite
+  `correction_branch_aggregate_receipt_ref`.
 - `disposition_complete_with_retained_residue`: every candidate is `closed`,
   `retained`, or `foreign` with authority-backed evidence, retained/foreign
   residue is classified as `local_private_retained` or

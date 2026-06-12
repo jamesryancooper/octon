@@ -20,6 +20,17 @@ closeout_evidence_boundaries:
     Hosted branch-no-pr cleaned claims must not require or publish
     local-private raw evidence; they require stateful_closeout plus publishable
     receipt refs when cleanup evidence is hosted or shared.
+  terminal_current_state_proof: >-
+    Cleaned claims for proposal-program or multi-branch correction closeout
+    must retain lifecycle-terminal-current-state-proof-v1 evidence after the
+    last landing, cleanup, generated publication, proposal artifact, and
+    residue-classification mutation. The proof is evidence-only.
+  correction_branch_aggregate_receipt: >-
+    Branch-no-pr closeout runs that require post-primary correction branches
+    must retain lifecycle-correction-branch-aggregate-receipt-v1 evidence so
+    the final lifecycle history is self-contained. The aggregate receipt is
+    evidence-only and never authorizes landing, cleanup, closeout, archive, or
+    publication.
 worktree_wrapper:
   id: "closeout-worktree"
   display_name: "Closeout Worktree"
@@ -167,6 +178,8 @@ routes:
       - "governed_landing_authorization_receipt_when_landed"
       - "governed_branch_cleanup_authorization_receipt_when_cleanup_mutates_refs"
       - "hosted_landing_evidence_when_landed"
+      - "terminal_current_state_proof_ref_when_claiming_cleaned"
+      - "correction_branch_aggregate_receipt_ref_when_post_primary_corrections_exist"
       - "publishable_evidence_receipt_refs_when_closeout_claim_leaves_local_machine"
       - "lifecycle_outcome"
       - "integration_status"
@@ -502,6 +515,8 @@ fail_closed_conditions:
   - "blocked_direct_or_hosted_no_pr_landing_silently_rerouted_to_branch_pr"
   - "cleanup_claim_missing_cleanup_evidence"
   - "hosted_or_shared_closeout_claim_missing_publishable_evidence_receipt"
+  - "cleaned_closeout_missing_terminal_current_state_proof"
+  - "post_primary_correction_branch_missing_aggregate_receipt"
   - "repo_hygiene_claim_publishes_local_raw_evidence"
   - "unsupported_support_claim"
   - "proposal_local_runtime_dependency"

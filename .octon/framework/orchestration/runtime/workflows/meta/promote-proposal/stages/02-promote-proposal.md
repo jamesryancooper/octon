@@ -29,3 +29,7 @@ description: Rewrite the proposal to implemented state after proving that promot
 8. Regenerate `generated/proposals/registry.yml` from manifests instead of editing it manually.
 9. Run `validate-proposal-implementation-conformance.sh --package <proposal_path>`.
 10. Run `validate-proposal-post-implementation-drift.sh --package <proposal_path>`.
+11. Regenerate the proposal artifact index and run
+    `validate-proposal-lifecycle-terminal-freshness.sh --proposal
+    <proposal_path> --run-registry-check` after the last support receipt or
+    status mutation.

@@ -1,0 +1,83 @@
+schema_version: lifecycle-postmortem-evidence-map-v2
+subject:
+  run_id: native-architectural-review-mechanism-20260612T021236Z
+  lifecycle_kind: proposal-program
+  lifecycle_purpose: "Implement, validate, archive, close out, and cleanly land the Native Octon Architectural Review Mechanism proposal program."
+authority_boundary:
+  generated_outputs_authority: false
+  proposal_inputs_authority: false
+  postmortem_authorizes_lifecycle_transition: false
+  postmortem_authorizes_closeout: false
+  locator_replaces_source_evidence: false
+evidence_posture:
+  direct_control_refs_present: false
+  direct_control_refs_note: "No matching .octon/state/control/execution/runs/<run-id> control root was present for this closeout-skill run id; retained closeout receipts and current-state observations are bound as substitutes."
+direct_control_refs: []
+retained_run_evidence_indexes:
+  - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+    ref_class: retained-evidence
+    authority_use: evidence-only
+    role: "Primary change closeout receipt for the lifecycle run."
+  - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+    ref_class: retained-evidence
+    authority_use: evidence-only
+    role: "Postmortem current-state observation record."
+substitute_refs:
+  - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+    ref_class: retained-evidence
+    authority_use: evidence-only
+    exists: true
+    substitutes_for: .octon/state/control/execution/runs/native-architectural-review-mechanism-20260612T021236Z/run-manifest.yml
+    role: "Substitutes for missing direct run manifest by recording selected route, landed ref, validation evidence refs, cleanup posture, and final lifecycle outcome."
+  - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/branch-landing-authorization.json
+    ref_class: retained-evidence
+    authority_use: evidence-only
+    exists: true
+    substitutes_for: .octon/state/control/execution/runs/native-architectural-review-mechanism-20260612T021236Z/rollback-posture.yml
+    role: "Substitutes for missing direct rollback posture by recording branch-no-pr landing authorization and rollback handle."
+  - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/branch-cleanup-authorization.json
+    ref_class: retained-evidence
+    authority_use: evidence-only
+    exists: true
+    substitutes_for: .octon/state/control/execution/runs/native-architectural-review-mechanism-20260612T021236Z/checkpoints/cleanup.yml
+    role: "Substitutes for missing direct cleanup checkpoint by recording source branch cleanup authorization."
+terminal_state_refs:
+  validation:
+    - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      ref_class: retained-evidence
+      authority_use: evidence-only
+      role: "Terminal validation summary observed for this postmortem."
+  rollback:
+    - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/branch-landing-authorization.json
+      ref_class: retained-evidence
+      authority_use: evidence-only
+      role: "Rollback handle for the primary branch-no-pr implementation landing."
+child_evidence_ref_index:
+  - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+    ref_class: retained-child-evidence-dereference
+    authority_use: evidence-only-non-substitutive
+    role: "Evidence-only summary that all ten child packet artifact spines and strict receipts passed after final correction."
+generated_refs:
+  - ref: .octon/generated/proposals/artifacts/architecture/native-architectural-review-mechanism/proposal-artifact-index.yml
+    ref_class: generated
+    authority_use: derived-only
+    role: "Derived parent proposal artifact index."
+  - ref: .octon/generated/proposals/artifacts/architecture/architectural-review-native-doctrine-and-naming/child-handoff-capsule.yml
+    ref_class: generated
+    authority_use: derived-only
+    role: "Representative derived child handoff capsule; not authority."
+proposal_local_refs:
+  - ref: .octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/proposal.yml
+    ref_class: proposal-local
+    authority_use: non-authoritative
+    role: "Archived parent proposal manifest, retained as proposal-local lifecycle evidence."
+  - ref: .octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml
+    ref_class: proposal-local
+    authority_use: non-authoritative
+    role: "Archived child packet registry, retained as proposal-local lifecycle evidence."
+diagnostic_refs: []
+associated_refs:
+  - ref: .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+    ref_class: retained-evidence
+    authority_use: evidence-only
+    role: "Postmortem-specific evidence note."

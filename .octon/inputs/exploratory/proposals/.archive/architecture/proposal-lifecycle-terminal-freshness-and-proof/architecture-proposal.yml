@@ -1,0 +1,52 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Proposal Lifecycle Terminal Freshness And Proof"
+target_state: >-
+  Octon proposal-program closeout has explicit terminal freshness barriers,
+  correction-branch evidence aggregation, current-state proof bundles, scoped
+  child validation, compact validator-log handling, and canonical validator
+  runtime resolution before any large lifecycle run may claim cleaned closeout.
+boundary_change: >-
+  The closeout boundary changes from "validators passed at some point during
+  implementation" to "terminal state is proven after the last support receipt,
+  archive move, generated publication, correction branch, and cleanup
+  mutation." The new receipts are evidence contracts and lifecycle gates, not
+  mutation authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+  - ".octon/framework/product/contracts/change-closeout-state-machine.md"
+  - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+  - ".octon/framework/product/contracts/lifecycle-correction-branch-aggregate-receipt-v1.schema.json"
+  - ".octon/framework/product/contracts/lifecycle-terminal-current-state-proof-v1.schema.json"
+  - ".octon/framework/orchestration/runtime/workflows/meta/closeout/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/validate-proposal/"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+  - ".octon/framework/execution-roles/practices/standards/validation-evidence-quality.md"
+  - ".octon/framework/execution-roles/practices/standards/validator-runtime-resolution.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "validation-plan.md"
+  - "RISK-REGISTER.md"
+implementation_grade_summary: >-
+  Implementation must add two strict receipt schemas, at least three validators
+  with negative controls, workflow and skill gate updates, terminal artifact
+  freshness sequencing, scoped child validation, compact validator-log
+  guidance, canonical validator runtime guidance, and evidence roots for
+  terminal closeout proof.

@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/lifecycle-terminal-current-state-proof-v1.schema.json",
+  "title": "Octon Lifecycle Terminal Current-State Proof v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "proof_id",
+    "observed_at",
+    "change_id",
+    "lifecycle_outcome",
+    "final_refs",
+    "alignment",
+    "worktree",
+    "cleanup_classifier_ref",
+    "validator_refs",
+    "evidence_refs",
+    "non_authority_classification"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "lifecycle-terminal-current-state-proof-v1"
+    },
+    "proof_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_outcome": {
+      "type": "string",
+      "enum": [
+        "landed",
+        "cleaned",
+        "blocked",
+        "deferred",
+        "escalated"
+      ]
+    },
+    "final_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "head_ref",
+        "main_ref",
+        "origin_main_ref",
+        "landed_ref"
+      ],
+      "properties": {
+        "head_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "main_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin_main_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "landed_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "head_equals_local_main",
+        "local_main_equals_origin_main",
+        "origin_main_contains_landed_ref",
+        "local_main_contains_landed_ref"
+      ],
+      "properties": {
+        "head_equals_local_main": {
+          "type": "boolean"
+        },
+        "local_main_equals_origin_main": {
+          "type": "boolean"
+        },
+        "origin_main_contains_landed_ref": {
+          "type": "boolean"
+        },
+        "local_main_contains_landed_ref": {
+          "type": "boolean"
+        }
+      }
+    },
+    "worktree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "status_ref",
+        "residue_counts"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "clean",
+            "retained_classified",
+            "dirty"
+          ]
+        },
+        "status_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "residue_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "retained_residue_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "cleanup_classifier_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validator_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "validator",
+          "command",
+          "cwd",
+          "runtime",
+          "exit_code",
+          "evidence_ref"
+        ],
+        "properties": {
+          "validator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cwd": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runtime": {
+            "type": "string",
+            "minLength": 1
+          },
+          "exit_code": {
+            "type": "integer"
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "correction_branch_aggregate_receipt_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "non_authority_classification": {
+      "const": "retained-evidence-only"
+    }
+  }
+}

@@ -1,0 +1,1127 @@
+schema_version: lifecycle-postmortem-evaluation-v2
+subject:
+  run_id: native-architectural-review-mechanism-20260612T021236Z
+  lifecycle_kind: proposal-program
+  octon_subject: true
+evidence_refs: &primary_evidence
+  - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+  - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+known_limits:
+  - "No direct .octon/state/control/execution/runs/<run-id> control root was present for this closeout-skill run id."
+  - "The primary retained change receipt centers on the implementation landing and does not enumerate every later correction branch authorization."
+  - "Generated proposal artifacts and archived proposal packets are bound as derived or proposal-local refs, not as postmortem authority."
+input_context:
+  lifecycle_context:
+    summary: "Native Octon Architectural Review Mechanism proposal-program lifecycle, including parent program and ten child packets."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  intended_purpose:
+    summary: "Implement, validate, archive, close out, clean up, and land the native mechanism through branch-no-pr without authority confusion or residue."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  actual_run:
+    summary: "The run landed five commits ending at 21de8cc1b, cleaned branches and temp files, and left local main synced to origin/main."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  artifacts_and_evidence:
+    summary: "Retained evidence includes the closeout receipt, branch landing and cleanup authorizations, postmortem evidence map, known limits, readiness summary, and current-state observations."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  known_concerns:
+    summary: "Late generated artifact drift, late publication refresh, duplicate broad validation cost, and weaker retained evidence for follow-up correction branches."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  octon_context:
+    summary: "The lifecycle is an Octon governance and assurance lifecycle and must preserve no generated authority, no raw input authority, no second control plane, evidence retention, rollback posture, and support-proof boundaries."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+evaluation_posture:
+  role_frame_applied: true
+  first_principles_traps_avoided: true
+  chestertons_fence_posture_applied: true
+  non_worship_non_destruction_posture_applied: true
+section_order:
+  eighteen_sections_present: true
+  invariant_compliance_before_quality_scoring: true
+  invariant_validity_after_redesign_pressure_before_recommendations: true
+  patch_vs_redesign_present: true
+executive_postmortem_summary:
+  overall_lifecycle_outcome: "The lifecycle completed with final outcome cleaned and current main, origin/main, and HEAD aligned at 21de8cc1b138e636067227d49af95466aa5de432."
+  intended_purpose_achieved: true
+  what_went_well_summary: "Dependency ordering, branch-no-pr discipline, strict receipts, generated-state correction, final hygiene proof, and authority boundaries worked."
+  what_did_not_go_well_summary: "Generated compact artifacts and publication state were corrected late; follow-up branch authorizations were not retained with the same completeness as the primary landing; broad validators were expensive."
+  local_vs_structural_assessment: "The issues were mostly local sequencing and evidence-aggregation gaps, with moderate lifecycle-architecture pressure around correction-branch evidence and terminal freshness barriers."
+  fitness_to_reuse: Fit to reuse with targeted improvements
+  recommended_disposition: Improve with targeted changes
+  evidence_refs:
+    - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+    - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+intended_lifecycle_job:
+  job_to_perform: "Safely move a large Octon proposal program from accepted architecture into implemented, validated, archived, published, cleaned, branch-no-pr landed state."
+  dependents:
+    - "Octon architecture maintainers relying on native Architectural Review Mechanism surfaces."
+    - "Proposal lifecycle validators and future architecture proposals relying on mandatory pre-integration review."
+    - "Operators relying on branch-no-pr closeout and generated publication correctness."
+  risk_reduction: "Expose missing receipts, stale generated state, authority confusion, stale aliases, publication drift, branch residue, and closeout gaps before final cleaned outcome."
+  quality_bar: "Every child packet owns its own receipts and evidence; generated state is fresh; branch landings pass exact-SHA hosted checks; final repo state is clean and synced."
+  decisions_made_safer_or_clearer:
+    - "Native versus extension ownership for architectural review."
+    - "Mandatory Pre-Integration Architecture Review before architecture proposal acceptance or implementation authorization."
+    - "Post-Integration Architecture Review remains evidence-only unless future policy changes."
+    - "architecture-readiness-audit is canonical."
+  outcomes_needed:
+    - "Implemented native mechanism."
+    - "Archived parent and ten children."
+    - "Fresh registry, compact proposal artifacts, extension/capability publication state, and host projections."
+    - "Clean branch-no-pr landing and local main sync."
+  artifacts_or_evidence_to_leave:
+    - "Closeout receipt and branch authorization receipts."
+    - "Archived proposal support receipts."
+    - "Generated proposal and publication artifacts."
+    - "Postmortem report and structured evaluation."
+  impossible_or_difficult_if_worked:
+    - "Generated outputs or proposal-local summaries becoming authority."
+    - "A stale review receipt satisfying architecture gates."
+    - "A dirty or unsynced worktree being reported as cleaned."
+  required_outputs:
+    - "Native mechanism implementation surfaces."
+    - "Archived proposal program and children."
+    - "Validation evidence and generated projection freshness."
+    - "Branch-no-pr landed commits and cleanup."
+  required_evidence:
+    - "Strict support receipts."
+    - "Implementation conformance and drift reviews."
+    - "Validation command results."
+    - "Hosted landing and cleanup authorization."
+  required_decisions:
+    - "Lifecycle fitness judgment."
+    - "Patch versus redesign decision."
+    - "Follow-up improvement actions."
+  non_goals:
+    - "Opening a PR."
+    - "Using stashes."
+    - "Letting postmortem output authorize closeout or redesign."
+actual_lifecycle_reconstruction:
+  - phase_step: "Main implementation landing"
+    intended_behavior: "Implement the accepted program scope and land through branch-no-pr."
+    actual_behavior: "Implementation landed as 1d8e99737 with retained branch-no-pr closeout evidence."
+    deviation: "No material deviation for the primary implementation landing."
+    consequence: "Native mechanism entered main."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - phase_step: "Closeout evidence and generated artifact corrections"
+    intended_behavior: "Retain evidence and keep generated proposal artifacts fresh before final cleaned outcome."
+    actual_behavior: "Closeout evidence landed as 1182dd447 and proposal compact artifact refresh landed as 351ad3a9a."
+    deviation: "Required follow-up correction commits after the implementation landing."
+    consequence: "Evidence and proposal compact artifacts became durable and current."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - phase_step: "Publication correction"
+    intended_behavior: "Derived extension, capability, and host publication state stays fresh."
+    actual_behavior: "Publication refresh landed as 5b0d5039b after validators found stale source digests."
+    deviation: "Publication freshness was corrected late."
+    consequence: "Extension/capability/host projections validated."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - phase_step: "Child artifact-spine correction and final cleanup"
+    intended_behavior: "All child compact artifacts validate and repo ends cleaned."
+    actual_behavior: "Child spines refreshed and landed as 21de8cc1b; final checks found clean main synced to origin/main, no branch residue, no temp files, and cleanup candidates zero."
+    deviation: "Nine child spines were stale until terminal sweep."
+    consequence: "Final outcome became provably cleaned."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+what_went_well:
+  - strength: "Branch-no-pr discipline was preserved across initial landing and follow-up corrections."
+    why_it_mattered: "Every correction stayed behind hosted exact-SHA checks and avoided PR creation as required."
+    preserve_improve_reuse: "Preserve and codify for post-closeout correction branches."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - strength: "Validators drove correction instead of narrative confidence."
+    why_it_mattered: "Late stale generated artifacts and publication state were found and fixed."
+    preserve_improve_reuse: "Preserve."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - strength: "Uncodified terminal current-state proof was effective."
+    why_it_mattered: "Clean status, ref equality, branch absence, temp absence, and cleanup classifier zero made cleaned outcome auditable."
+    preserve_improve_reuse: "Codify as a terminal proof bundle."
+    uncodified_candidate: true
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - strength: "Canonical validator/tool resolution recovered from local tool friction."
+    why_it_mattered: "Wrong paths and Bash compatibility issues were corrected by resolving canonical invocations instead of weakening validation."
+    preserve_improve_reuse: "Codify lightly as an operator practice."
+    uncodified_candidate: true
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+what_did_not_go_well:
+  - issue: "Generated compact artifacts drifted late."
+    symptom: "Parent and child artifact-spine validation found stale digests after closeout work had advanced."
+    root_cause: "Generated freshness was not repeated after every archive and support receipt mutation."
+    local_execution_problem: true
+    lifecycle_architecture_problem: true
+    severity: major
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - issue: "Publication refresh happened late."
+    symptom: "Extension and capability publication validators reported stale source digests before correction."
+    root_cause: "Publication freshness was not front-loaded before initial terminal reporting."
+    local_execution_problem: true
+    lifecycle_architecture_problem: false
+    severity: warning
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - issue: "Follow-up branch authorizations were not retained as completely as the primary closeout."
+    symptom: "The durable primary change receipt centers on 1d8e99737 while later correction branch authorization files were temporary."
+    root_cause: "The closeout receipt model lacks an aggregate correction-branch evidence primitive."
+    local_execution_problem: true
+    lifecycle_architecture_problem: true
+    severity: warning
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+chestertons_fence_review:
+  - lifecycle_element: "Branch-no-pr helper route"
+    possible_original_purpose: "Preserve exact-SHA hosted checks and rollback handles without requiring a PR."
+    still_valid: true
+    risk_if_removed: "Protected-main bypass or unchecked delivery."
+    decision: Preserve
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - lifecycle_element: "Strict support receipt validation"
+    possible_original_purpose: "Prevent prose-only review receipts from satisfying architecture gates."
+    still_valid: true
+    risk_if_removed: "Architecture proposals could pass without schema-backed evidence."
+    decision: Preserve
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - lifecycle_element: "Generated artifact-spine validation"
+    possible_original_purpose: "Prevent stale compact proposal artifacts."
+    still_valid: true
+    risk_if_removed: "Downstream consumers could use stale digest-bound context."
+    decision: Preserve but document terminal timing
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - lifecycle_element: "Package-scoped proposal-standard validation"
+    possible_original_purpose: "Catch broad proposal registry and archive shape problems."
+    still_valid: true
+    risk_if_removed: "Systemic proposal defects may go undetected."
+    decision: Simplify
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+essential_vs_accidental_complexity:
+  - complexity_source: "Ten child packets with owned receipts"
+    type: "Governance and evidence complexity"
+    essential_or_accidental: Essential
+    cost: "More artifacts, receipts, and validation work."
+    benefit: "Prevents parent summaries from satisfying child obligations."
+    recommended_treatment: Preserve
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - complexity_source: "Generated proposal, extension, capability, and host publication refreshes"
+    type: "Publication complexity"
+    essential_or_accidental: Essential
+    cost: "Multiple validators and correction commits."
+    benefit: "Keeps derived state honest."
+    recommended_treatment: Automate terminal ordering
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - complexity_source: "Repeated broad proposal-standard validation during terminal checks"
+    type: "Validation complexity"
+    essential_or_accidental: Accidental
+    cost: "Long-running scans and duplicated proof."
+    benefit: "Broad safety coverage."
+    recommended_treatment: Replace with simpler scoped primitive
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+valid_vs_stale_constraints:
+  - constraint: "No PR and branch-no-pr only"
+    source: "User route and hosted rules"
+    type: "Delivery"
+    still_valid: true
+    lifecycle_impact: "Required helper landings and exact-SHA checks."
+    recommendation: Preserve for branch-no-pr delivery.
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - constraint: "Generated outputs are derived-only"
+    source: "Octon authority model"
+    type: "Governance"
+    still_valid: true
+    lifecycle_impact: "Prevented generated projection authority confusion."
+    recommendation: Preserve.
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - constraint: "Direct control refs are ideal for postmortem binding"
+    source: "Lifecycle-postmortem workflow"
+    type: "Evidence"
+    still_valid: true
+    lifecycle_impact: "Missing direct control refs required substitute refs and a known limit."
+    recommendation: Strengthen run-control materialization for closeout-skill runs.
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+patch_vs_redesign_decision_gate:
+  weakness_classifications:
+    - weakness_gap: "Late generated artifact drift."
+      classification: "Missing validation or evidence"
+      local_fix_sufficient: true
+      redesign_pressure: medium
+      reason: "Terminal generated-freshness barriers can address the issue without replacing the lifecycle model."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+    - weakness_gap: "Follow-up correction branch evidence weaker than primary landing evidence."
+      classification: "Missing lifecycle primitive"
+      local_fix_sufficient: false
+      redesign_pressure: medium
+      reason: "The closeout model needs an aggregate correction-branch receipt primitive."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+    - weakness_gap: "Broad validator duplication."
+      classification: "Accidental complexity"
+      local_fix_sufficient: true
+      redesign_pressure: low
+      reason: "A scoped terminal validator can cover the remaining risk more cheaply."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  primary_path: "Targeted improvements"
+  same_root_abstraction_high_severity_count: 0
+  redesign_required: false
+  fixes_reduce_or_add_complexity: "The fixes reduce complexity if they make freshness and correction evidence terminal primitives instead of manual rediscovery."
+  preserving_model_reason: "The lifecycle model exposed risk, preserved authority boundaries, and produced a clean final state."
+  clean_sheet_answer: "A clean-sheet lifecycle would keep child packets, strict gates, generated publication validation, and branch-no-pr checks."
+  shared_root_abstraction_failure: false
+  process_duct_tape_risk: medium
+  evidence_refs:
+    - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+    - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+redesign_triggers:
+  - redesign_trigger: "The same root cause appears across multiple failures."
+    present: true
+    implication: "Generated freshness timing recurred across proposal artifacts and publication state; targeted sequencing should be fixed."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "The lifecycle needs many special cases to preserve key invariants."
+    present: false
+    implication: "The controls used were normal branch-no-pr and validator controls."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "Governance is added after the fact instead of being structural."
+    present: false
+    implication: "Hosted checks, strict receipts, and validators were structural."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "Source-of-truth ambiguity is inherent to the lifecycle model."
+    present: false
+    implication: "Authority boundaries remained explicit."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "Flexibility requires wrappers around most major steps."
+    present: false
+    implication: "Helper use was route-specific rather than wrapper-heavy."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "Simple future changes are disproportionately expensive."
+    present: true
+    implication: "Generated publication and artifact freshness can be expensive unless terminal ordering is codified."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "The lifecycle can only be made safe by adding heavy compensating controls."
+    present: false
+    implication: "Existing controls were proportionate to the route and scope."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "The process duplicates existing primitives."
+    present: true
+    implication: "Some broad validator sweeps duplicate child-readiness evidence and should be scoped."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "The lifecycle is understandable only through exceptions."
+    present: false
+    implication: "Known limits are explicit and not required for normal use."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "A clean-sheet lifecycle would not include the central abstraction being used."
+    present: false
+    implication: "Clean-sheet design would still include child-owned packets and evidence gates."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "The process produces approvals without sufficient evidence."
+    present: false
+    implication: "Branch landings required exact-SHA hosted checks."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "The process produces artifacts that look authoritative but are not."
+    present: true
+    implication: "Generated and proposal-local artifacts need repeated non-authority labeling, but this is manageable."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/evidence-map.yml
+  - redesign_trigger: "The process hides rather than exposes risk."
+    present: false
+    implication: "Validators exposed stale generated state instead of hiding it."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - redesign_trigger: "The process makes hacks look legitimate."
+    present: false
+    implication: "Known limits are recorded rather than hidden."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+  - redesign_trigger: "The process allows technically governed but conceptually misfit subsystems to accumulate."
+    present: false
+    implication: "The native mechanism fit Octon's governance model."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+clean_sheet_lifecycle_reference_design:
+  fundamental_accomplishment: "Move a large accepted Octon program to implemented, validated, archived, published, cleaned, and landed state without authority confusion."
+  minimal_phases:
+    - "Bind parent and child scope."
+    - "Review and accept parent and children."
+    - "Implement children in dependency order."
+    - "Run strict receipts, conformance, drift, and generated freshness checks."
+    - "Publish derived state."
+    - "Archive parent and children."
+    - "Run terminal freshness and current-state proof."
+    - "Land through branch-no-pr and clean branch residue."
+  minimal_gates:
+    - "Child-owned receipts cannot be substituted by parent summaries."
+    - "Generated state must validate after final archive/support mutation."
+    - "Exact-SHA hosted checks must pass before branch-no-pr landing."
+    - "Cleaned outcome requires worktree, ref, branch, temp, and cleanup-classifier proof."
+  required_artifacts:
+    - "Archived proposal packets."
+    - "Generated registries and compact artifacts."
+    - "Retained closeout evidence."
+    - "Postmortem report and structured evaluation."
+  required_evidence:
+    - "Strict review receipts."
+    - "Conformance and drift reviews."
+    - "Publication validators."
+    - "Final current-state proof."
+  required_authority_surfaces:
+    - "Workflow contracts, validators, and branch-no-pr helper receipts."
+  required_decision_points:
+    - "Patch versus redesign judgment."
+    - "Fit-to-reuse judgment."
+    - "Follow-up improvement route."
+  required_rollback_or_reversal_points:
+    - "Rollback handles recorded for landed branch-no-pr commits."
+  required_closeout_outputs:
+    - "No residue, synced main, branch cleanup, and retained evidence."
+  automated:
+    - "Schema, receipt, artifact-spine, publication, hosted-check, and hygiene validation."
+  human_judgment_required:
+    - "Architecture review, postmortem interpretation, and redesign pressure assessment."
+  impossible:
+    - "Generated output authority, raw input authority, chat authority, or postmortem closeout approval."
+  optional:
+    - "Review-finding NDJSON if durable finding records are needed."
+  removed:
+    - "Repeated broad sweeps when scoped terminal validators can prove the same risk."
+  comparison:
+    - lifecycle_concern: "Terminal generated freshness"
+      current_lifecycle: "Achieved after correction loops."
+      clean_sheet_reference: "Explicit terminal barrier before final report."
+      gap: "Sequencing gap."
+      recommendation: "Add terminal freshness barrier."
+alternative_improvement_paths:
+  - path: "Preserve mostly as-is"
+    benefits: "Lowest process change cost and current lifecycle did end clean."
+    risks: "Late generated drift and duplicate scans may recur."
+    cost_of_change: low
+    reversibility: high
+    redesign_pressure_addressed: false
+    when_correct: "Small programs without generated publication or many child packets."
+    when_dangerous: "Large programs with archive, publication, and correction branches."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - path: "Targeted improvements"
+    benefits: "Addresses terminal freshness, correction evidence, and scoped validation without changing the lifecycle model."
+    risks: "Requires careful update to lifecycle docs and validators."
+    cost_of_change: medium
+    reversibility: high
+    redesign_pressure_addressed: true
+    when_correct: "The current run's evidence."
+    when_dangerous: "If future runs reveal invariant failures."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - path: "Refactor / simplify lifecycle structure"
+    benefits: "Could consolidate generated freshness and closeout correction receipts."
+    risks: "Could weaken child ownership if over-applied."
+    cost_of_change: medium
+    reversibility: medium
+    redesign_pressure_addressed: partial
+    when_correct: "If targeted improvements repeat as friction."
+    when_dangerous: "If the lifecycle is changed before codifying the successful parts."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - path: "Redesign lifecycle from first principles"
+    benefits: "Best response to systemic lifecycle misfit."
+    risks: "Disproportionate to current evidence."
+    cost_of_change: high
+    reversibility: low
+    redesign_pressure_addressed: true
+    when_correct: "If repeated high-severity invariant failures share one abstraction root."
+    when_dangerous: "Now, because the central model worked."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+lifecycle_quality_attribute_scoring:
+  - attribute: "Purpose fit"
+    score: 5
+    confidence: high
+    rationale: "The lifecycle achieved implementation, validation, archival, branch-no-pr landing, cleanup, and main sync."
+    primary_gap: "Terminal freshness required correction loops."
+    improvement_needed: "Add terminal freshness barrier."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Decision quality"
+    score: 4
+    confidence: high
+    rationale: "Key architecture ownership and authority decisions held through implementation."
+    primary_gap: "Late correction decisions were not aggregated into one retained receipt."
+    improvement_needed: "Add correction-branch aggregate receipt."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Evidence quality"
+    score: 4
+    confidence: high
+    rationale: "Primary closeout evidence and final current-state observations are strong."
+    primary_gap: "Later temporary authorizations were cleaned rather than retained."
+    improvement_needed: "Retain aggregate correction evidence."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Risk exposure"
+    score: 4
+    confidence: high
+    rationale: "Validators exposed stale generated state and publication drift."
+    primary_gap: "Exposure happened late."
+    improvement_needed: "Run terminal freshness earlier and again after archive mutation."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Governance fit"
+    score: 5
+    confidence: high
+    rationale: "Branch-no-pr helpers, exact-SHA checks, and non-authority boundaries fit Octon."
+    primary_gap: ""
+    improvement_needed: "Preserve."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Authority clarity"
+    score: 5
+    confidence: high
+    rationale: "Generated, proposal-local, raw input, chat, and postmortem authority boundaries remained explicit."
+    primary_gap: ""
+    improvement_needed: "Keep explicit labels."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/evidence-map.yml
+  - attribute: "Source-of-truth clarity"
+    score: 4
+    confidence: high
+    rationale: "Native workflow and validator surfaces became source of truth, while generated and proposal-local refs stayed non-authority."
+    primary_gap: "Postmortem direct control root missing for this closeout-skill run id."
+    improvement_needed: "Materialize direct run-control refs for closeout skill runs."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+  - attribute: "Operational clarity"
+    score: 3
+    confidence: medium
+    rationale: "The run succeeded but required adaptive tool/path resolution and manual terminal checks."
+    primary_gap: "Some successful practices are not codified."
+    improvement_needed: "Codify current-state proof and canonical validator resolution."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Reliability"
+    score: 4
+    confidence: high
+    rationale: "Final validators passed and cleanup classification reached zero."
+    primary_gap: "Late correction loops show ordering can improve."
+    improvement_needed: "Strengthen terminal sequence."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Repeatability"
+    score: 3
+    confidence: medium
+    rationale: "The successful path is repeatable by a careful operator but not fully encoded."
+    primary_gap: "Uncodified operator patterns."
+    improvement_needed: "Formalize post-closeout correction and terminal proof patterns."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Recoverability"
+    score: 4
+    confidence: high
+    rationale: "Branch-no-pr landings carried rollback handles and correction branches were reversible."
+    primary_gap: "Aggregate rollback evidence for later corrections is weaker."
+    improvement_needed: "Retain aggregate correction receipt."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Reversibility"
+    score: 4
+    confidence: high
+    rationale: "Fast-forward landings and rollback handles preserve reversibility."
+    primary_gap: "Later correction rollback handles are not all retained in durable closeout evidence."
+    improvement_needed: "Aggregate correction branch rollback handles."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Auditability"
+    score: 4
+    confidence: high
+    rationale: "Evidence refs and current-state observations make the terminal state auditable."
+    primary_gap: "Some intermediate tool output is summarized rather than retained."
+    improvement_needed: "Retain compact terminal summaries."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Observability"
+    score: 4
+    confidence: medium
+    rationale: "Progress updates and validation summaries exposed state, though not all were durable until this postmortem."
+    primary_gap: "Transient logs were cleaned."
+    improvement_needed: "Persist concise terminal observation records."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Simplicity"
+    score: 3
+    confidence: high
+    rationale: "Large proposal programs inherently need gates, but broad duplicate validators added cost."
+    primary_gap: "Repeated broad scans."
+    improvement_needed: "Add scoped terminal validator."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Complexity calibration"
+    score: 4
+    confidence: high
+    rationale: "Most complexity was essential to child ownership, authority, and generated-state safety."
+    primary_gap: "Some validation cost was accidental."
+    improvement_needed: "Separate essential gates from duplicate scans."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Maintainability"
+    score: 4
+    confidence: high
+    rationale: "Mechanism naming, schemas, workflows, validators, and docs were normalized."
+    primary_gap: "Terminal correction patterns need maintenance surfaces."
+    improvement_needed: "Add lifecycle improvement packet."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Evolvability"
+    score: 4
+    confidence: high
+    rationale: "The target mechanism allows later policy phases without making post-integration review a hard gate now."
+    primary_gap: "Future policy phases still need governed routes."
+    improvement_needed: "Keep postmortem recommendations proposed-only."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Scalability of the lifecycle"
+    score: 3
+    confidence: medium
+    rationale: "The lifecycle handled ten children but at substantial validation/runtime cost."
+    primary_gap: "Broad validators do not scale cleanly."
+    improvement_needed: "Add declared-child-set terminal validation."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Human usability"
+    score: 3
+    confidence: medium
+    rationale: "A senior operator could complete the run, but tool/path fixes and late validations were cognitively heavy."
+    primary_gap: "Too much procedural knowledge is implicit."
+    improvement_needed: "Codify operator practices that worked."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Agent/automation usability"
+    score: 4
+    confidence: medium
+    rationale: "Automated validators and branch helpers were effective; some decisions still required judgment."
+    primary_gap: "No single terminal lifecycle controller encoded the successful final sequence."
+    improvement_needed: "Add terminal proof bundle and aggregate correction receipt."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Octon invariant fit"
+    score: 5
+    confidence: high
+    rationale: "The run preserved core Octon authority, evidence, source-of-truth, and no-second-control-plane invariants."
+    primary_gap: ""
+    improvement_needed: "Preserve."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - attribute: "Support-proof readiness"
+    score: 4
+    confidence: high
+    rationale: "Final evidence supports the cleaned outcome and postmortem findings."
+    primary_gap: "Follow-up correction evidence should be aggregated."
+    improvement_needed: "Add retained correction branch receipt."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+octon_invariant_review:
+  applicable: true
+  invariant_compliance:
+    - invariant: "Constitutional Engineering Harness identity"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Proposal lifecycle gates, validators, evidence roots, and branch-no-pr checks."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "Governed Agent Runtime boundary"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Workflows and validators remained canonical; skills stayed invocation surfaces."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: ".octon filesystem authority model"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Evidence map classifies state/evidence, generated, and proposal-local refs separately."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/evidence-map.yml
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "five-class root separation"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Framework, instance/input, generated, state/evidence, and proposal-local roles remained distinct."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "engine-owned authorization"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Branch landings used hosted no-PR authorization and exact-SHA checks."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "deny-by-default capability governance"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Capability publication and host projection validators passed after refresh."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "mission-scoped reversible autonomy"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Each branch-no-pr landing had a rollback posture; postmortem recommendations remain proposed-only."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "source-of-truth clarity"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Native schemas/workflows/validators became source surfaces; generated and proposal refs stayed non-authority."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "evidence retention"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Primary closeout evidence and this postmortem evidence root are retained."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: "Later correction branch authorizations were not retained individually."
+      blocking: false
+      required_correction: "Add aggregate correction-branch closeout receipt for future runs."
+      material: false
+      counts_as_pass: true
+    - invariant: "replay and rollback posture"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Branch landing authorization records rollback for the primary implementation landing."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: "Aggregate rollback refs for later correction branches are summarized, not individually retained."
+      blocking: false
+      required_correction: "Retain aggregate correction rollback refs for future multi-branch corrections."
+      material: false
+      counts_as_pass: true
+    - invariant: "approval exception revocation materialization"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "No postmortem approval, exception, or revocation authority is created."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "support-proof requirements"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Support-proof evidence includes validation summaries, closeout receipt, and current-state observations."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "no generated authority"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Evidence map marks generated refs derived-only and structured output avoids generated refs as evidence authority."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/evidence-map.yml
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "no raw-input authority"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Postmortem structured evidence uses retained state/evidence refs and records raw/proposal refs as non-authority."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/evidence-map.yml
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "no second control plane"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "Postmortem and skills do not authorize closeout, promotion, redesign, or publication."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: "no force-fit integration"
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: "The mechanism split preserved native control surfaces and extension-owned packetization helpers."
+      evidence_refs:
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+        - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+  invariant_validity_evolution:
+    - invariant: "no generated authority"
+      protected_property: "Source-of-truth clarity and generated projection safety."
+      current_validity: "Valid."
+      enforcement_quality: "Strong, but repeated labeling remains necessary."
+      evidence_quality: "Good."
+      scope_quality: "Clear."
+      conflict_duplication: "None material."
+      hack_pressure: "Low."
+      recommendation: Clarify
+      required_change: "Keep terminal postmortem and lifecycle docs explicit that generated compact artifacts are derived-only."
+      change_control_bar: medium
+      authority_status: proposed-evidence-only
+    - invariant: "evidence retention"
+      protected_property: "Support-proof lifecycle closeout."
+      current_validity: "Valid."
+      enforcement_quality: "Good for primary landing, weaker for later correction branches."
+      evidence_quality: "Good but not complete for all correction authorization details."
+      scope_quality: "Needs clearer correction-branch aggregate scope."
+      conflict_duplication: "No conflict."
+      hack_pressure: "Medium if future runs clean temp authorizations without aggregate evidence."
+      recommendation: Strengthen
+      required_change: "Add retained aggregate correction-branch receipt for multi-branch branch-no-pr closeout."
+      change_control_bar: medium
+      authority_status: proposed-evidence-only
+root_cause_analysis:
+  - problem: "Late generated artifact drift."
+    proximate_cause: "Support and archive artifacts changed after compact artifact generation."
+    root_cause: "Terminal generated-freshness barrier was not explicit enough."
+    corrective_action: "Add terminal all-packet artifact-spine sweep after archive/support mutations."
+    root_cause_classification: Repeated
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - problem: "Correction branch evidence gap."
+    proximate_cause: "Temporary authorization files were cleaned after landing."
+    root_cause: "Closeout evidence model lacks aggregate follow-up correction receipt."
+    corrective_action: "Create aggregate correction-branch closeout evidence for multi-branch runs."
+    root_cause_classification: Architectural
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+  - problem: "Duplicate broad validator cost."
+    proximate_cause: "Package-scoped standard validation scanned broad archived proposal state."
+    root_cause: "No cheap terminal validator exists for a declared child set."
+    corrective_action: "Add scoped terminal child validation mode."
+    root_cause_classification: Local
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+improvement_plan:
+  - improvement: "Add terminal generated-freshness barrier after archival and support receipt mutation."
+    problem_addressed: "Late stale compact artifacts and publication digests."
+    type: "Add validation/evidence"
+    priority: high
+    effort: medium
+    reversibility: high
+    expected_benefit: "Prevents final reporting before generated state is fresh."
+    validation: "Parent and all child artifact-spine validations plus publication validators pass after final archive/support mutation."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - improvement: "Add aggregate correction-branch closeout receipt for branch-no-pr follow-ups."
+    problem_addressed: "Later correction branch evidence weaker than primary landing evidence."
+    type: "Add validation/evidence"
+    priority: high
+    effort: medium
+    reversibility: high
+    expected_benefit: "Makes final lifecycle history self-contained."
+    validation: "Validator checks all landed correction refs and rollback handles are recorded."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+  - improvement: "Codify current-state terminal proof bundle."
+    problem_addressed: "Cleaned outcome currently depends on several separate operator checks."
+    type: Simplify
+    priority: medium
+    effort: low
+    reversibility: high
+    expected_benefit: "Makes cleaned outcome auditable and repeatable."
+    validation: "Checklist proves clean status, ref equality, branch absence, temp absence, and cleanup candidates zero."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+  - improvement: "Add scoped terminal child validation mode."
+    problem_addressed: "Duplicate broad validation cost."
+    type: Refactor
+    priority: medium
+    effort: medium
+    reversibility: medium
+    expected_benefit: "Reduces runtime without weakening child-owned proof."
+    validation: "New validator covers declared child set with negative controls."
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+updated_lifecycle_recommendation:
+  recommendation: "Improve with targeted changes"
+  why_strongest: "The lifecycle achieved the intended result and preserved Octon invariants; gaps are terminal sequencing, evidence aggregation, and scoped validation, not conceptual misfit."
+  preserve:
+    - "Child-owned program model."
+    - "Branch-no-pr hosted helper route."
+    - "Strict pre-integration receipts."
+    - "Generated publication validation."
+    - "Non-authority boundaries."
+  remove:
+    - "Unnecessary duplicate broad scans in terminal child sweeps."
+  redesign:
+    - "No full redesign recommended."
+  do_not_change_yet:
+    - "Core proposal lifecycle architecture."
+    - "Post-integration review evidence-only boundary."
+  risks_remaining:
+    - "Late generated drift could recur."
+    - "Correction branch evidence may remain fragmented."
+  evidence_that_would_change_recommendation:
+    - "Material invariant failure."
+    - "Repeated high-severity failure caused by child-owned packet model."
+  first_safe_next_step: "Create a targeted proposal lifecycle improvement packet for terminal freshness, correction evidence aggregation, and current-state proof bundles."
+  evidence_refs:
+    - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+    - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+postmortem_closeout:
+  actions:
+    - finding: "Late generated artifact drift"
+      action: "Add terminal all-packet artifact-spine and publication freshness barrier."
+      owner_role: "Proposal lifecycle maintainer"
+      priority: high
+      due_or_trigger: "Before the next large proposal program closeout"
+      evidence_of_completion: "Validator pass after archive and support receipt mutation."
+    - finding: "Correction branch evidence gap"
+      action: "Add retained aggregate correction-branch receipt."
+      owner_role: "Closeout-change maintainer"
+      priority: high
+      due_or_trigger: "Before the next multi-branch correction run"
+      evidence_of_completion: "Retained receipt listing every correction branch, landed ref, rollback handle, and cleanup status."
+    - finding: "Uncodified terminal proof bundle"
+      action: "Codify clean-state proof checks."
+      owner_role: "Repo hygiene and closeout maintainer"
+      priority: medium
+      due_or_trigger: "Next closeout-change update"
+      evidence_of_completion: "Checklist or validator covering clean status, ref equality, branch absence, temp absence, cleanup zero."
+  lessons_learned:
+    - "Do not treat early success as terminal until current-state proof is complete."
+    - "Validator failures are useful lifecycle signals when corrections remain narrow and governed."
+    - "Some successful operator practices should become Octon primitives."
+  decisions_to_record:
+    - "Reuse lifecycle with targeted improvements."
+    - "Do not redesign the central child-owned program model."
+    - "Postmortem recommendations remain evidence-only."
+  artifacts_to_archive:
+    - "report.md"
+    - "evaluation.yml"
+    - "evidence-map.yml"
+    - "known-limits.yml"
+    - "readiness-summary.md"
+    - "current-state-observations.md"
+  evidence_to_retain:
+    - ".octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/"
+  process_changes_to_implement:
+    - "Terminal generated-freshness barrier."
+    - "Aggregate correction-branch receipt."
+    - "Current-state proof bundle."
+    - "Scoped terminal child validator."
+  risks_to_monitor:
+    - "Late generated drift."
+    - "Fragmented correction evidence."
+    - "Validator scope becoming expensive enough to encourage skips."
+  follow_up_review_trigger: "Next large proposal program requiring child archival, generated publication, and branch-no-pr correction landings."
+final_judgment: "Fit to reuse with targeted improvements"
+major_findings:
+  - finding_id: NARM-LPM-001
+    summary: "The lifecycle is fit to reuse with targeted improvements."
+    severity: note
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+    connection_basis:
+      - evidence
+      - lifecycle purpose
+      - Octon invariants
+  - finding_id: NARM-LPM-002
+    summary: "Terminal generated freshness is the main repeated friction."
+    severity: major
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+    connection_basis:
+      - evidence
+      - risk
+      - implementation reality
+  - finding_id: NARM-LPM-003
+    summary: "Several successful operator practices are not yet codified."
+    severity: warning
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/change-receipt.json
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/current-state-observations.md
+    connection_basis:
+      - governance
+      - implementation reality
+      - quality attributes
+  - finding_id: NARM-LPM-004
+    summary: "Follow-up correction branch evidence is weaker than primary landing evidence."
+    severity: warning
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/native-architectural-review-mechanism-20260612T021236Z/assurance/lifecycle-postmortem/known-limits.yml
+    connection_basis:
+      - evidence
+      - authority
+      - governance
+authority_boundary:
+  generated_outputs_authority: false
+  raw_inputs_authority: false
+  postmortem_approves_lifecycle_transition: false
+  postmortem_approves_closeout: false
+  postmortem_approves_redesign: false
+  postmortem_approves_support_widening: false
+  postmortem_approves_generated_output_publication: false
+  postmortem_approves_invariant_change: false
+  non_authority_assertion: true
+follow_up_recommendations:
+  - recommendation: "Create a targeted proposal lifecycle improvement packet for terminal freshness, correction evidence aggregation, current-state proof bundles, and scoped terminal child validation."
+    authority_status: proposed-evidence-only
+  - recommendation: "Codify successful operator practices from this run without weakening Octon authority boundaries."
+    authority_status: proposed-evidence-only

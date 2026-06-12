@@ -14,6 +14,8 @@ policy_refs:
   receipt_schema_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json"
   branch_landing_authorization_schema_ref: ".octon/framework/product/contracts/branch-landing-authorization-v1.schema.json"
   branch_cleanup_authorization_schema_ref: ".octon/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"
+  terminal_current_state_proof_schema_ref: ".octon/framework/product/contracts/lifecycle-terminal-current-state-proof-v1.schema.json"
+  correction_branch_aggregate_receipt_schema_ref: ".octon/framework/product/contracts/lifecycle-correction-branch-aggregate-receipt-v1.schema.json"
   closeout_workflow_ref: ".octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml"
   closeout_change_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
   closeout_worktree_wrapper_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
@@ -368,6 +370,8 @@ evidence_gates:
       - "post-landing fetch and local main sync evidence when landed"
       - "origin/main and local main containment of landed_ref when landed"
       - "final main alignment when landed"
+      - "terminal_current_state_proof_ref when claiming cleaned after proposal-program, generated-publication, archive, or correction-branch closeout"
+      - "correction_branch_aggregate_receipt_ref when post-primary branch-no-pr correction branches exist"
       - "stateful_closeout"
   blocked:
     required:

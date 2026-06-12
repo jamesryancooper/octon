@@ -12,4 +12,9 @@ description: Move the proposal into the canonical archive path, rewrite archive 
 3. Move the proposal packet to the canonical archive path.
 4. Rewrite `proposal.yml` to `status: archived` and populate `archive.*` metadata.
 5. Regenerate `navigation/artifact-catalog.md` for the archived package.
-6. Regenerate `generated/proposals/registry.yml` from manifests instead of editing it manually.
+6. Regenerate the proposal artifact index for the archived package and validate
+   the artifact spine after the archive path and manifest mutation.
+7. Regenerate `generated/proposals/registry.yml` from manifests instead of editing it manually.
+8. For terminal closeout, run
+   `validate-proposal-lifecycle-terminal-freshness.sh --proposal <archived_path>
+   --run-registry-check` after the final archive mutation.
