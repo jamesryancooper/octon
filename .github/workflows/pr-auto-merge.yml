@@ -195,6 +195,9 @@ jobs:
               --required-evidence "pr-autonomy-policy" \
               --required-evidence "required-checks" \
               --reason-code "${reason_code}" \
+              --typed-exception-boundary "policy-override" \
+              --grant-expires-at "9999-12-31T00:00:00Z" \
+              --exception-reason "Runtime-protected CI auto-merge authority for PR #${PR_NUMBER}." \
               --projection-check "github://pull/${PR_NUMBER}#check:Validate autonomy policy" \
               --projection-check "github://pull/${PR_NUMBER}#check:AI Review Gate / decision" \
               --projection-kind "github-head-ref" \

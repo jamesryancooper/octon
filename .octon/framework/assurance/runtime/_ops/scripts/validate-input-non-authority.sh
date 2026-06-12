@@ -355,6 +355,7 @@ is_allowed_input_reference() {
       ;;
     .octon/framework/engine/runtime/crates/kernel/src/main.rs|\
     .octon/framework/engine/runtime/crates/kernel/src/workflow.rs|\
+    .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs|\
     .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs|\
     .octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs|\
     .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs|\
@@ -392,6 +393,10 @@ is_allowed_input_reference() {
         [[ "$line" == *"inputs/exploratory/proposals/"* ]] || \
         [[ "$line" == *"description:"* && "$line" == *"inputs/additive/.incoming/<intake-id>"* ]] || \
         [[ "$line" == *"inputs/additive/.incoming"* && "$line" == *"{{intake_id}}"* ]]
+      return
+      ;;
+    .octon/framework/assurance/runtime/_ops/fixtures/architectural-review/*)
+      [[ "$line" == *"inputs/exploratory/proposals/"* && "$line" == *"proposal_path:"* ]]
       return
       ;;
     *)

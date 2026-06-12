@@ -3661,10 +3661,10 @@ else
         check_manifest_registry_sync
 
         # Clean-break guardrails for retired registry surfaces
-        if rg -q "^[[:space:]]*depends_on:" "$REGISTRY"; then
+        if grep -Eq "^[[:space:]]*depends_on:" "$REGISTRY"; then
             log_error "Legacy depends_on contract still present in skills registry"
         fi
-        if rg -q "^pipelines:" "$REGISTRY"; then
+        if grep -Eq "^pipelines:" "$REGISTRY"; then
             log_error "Legacy top-level pipelines surface still present in skills registry"
         fi
 

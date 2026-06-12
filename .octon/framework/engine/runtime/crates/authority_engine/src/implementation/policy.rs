@@ -755,6 +755,11 @@ pub(crate) fn build_policy_request_json(
                 "telemetry_profile": if effective_policy_mode == "hard-enforce" { "full" } else { "minimal" },
                 "workflow_mode": request.workflow_mode.clone(),
                 "capability_classification": capability_classification_for_mode(&request.workflow_mode),
+                "service": if service_mode {
+                    serde_json::Value::String(request.target_id.clone())
+                } else {
+                    serde_json::Value::Null
+                },
                 "boundary_route": if service_mode {
                     serde_json::Value::String("allow".to_string())
                 } else {

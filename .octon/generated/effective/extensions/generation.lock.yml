@@ -9,7 +9,7 @@ compatibility_status: "compatible"
 compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-06-12T02-37-20Z-extensions-e539e7c8b239.yml"
 compatibility_receipt_sha256: "94022594beb16c4e175d0a7f477a16fd9f12902e82277adb296e599f2996dac6"
 desired_config_sha256: "e539e7c8b239dc8d1fa7dcdd06aa43253ea2aa9c00518ee8c5451ecda65071a9"
-root_manifest_sha256: "e3280f034c023ac8931ef43c1bcecec91f5320e165032045727d87bdcf89079d"
+root_manifest_sha256: "185dd7135b9bb7d0eb26194b31e583433003ab3ef696636bc6d2d4576655ec7e"
 published_files:
   - path: ".octon/generated/effective/extensions/catalog.effective.yml"
   - path: ".octon/generated/effective/extensions/artifact-map.yml"

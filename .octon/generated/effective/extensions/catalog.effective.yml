@@ -8066,4 +8066,4 @@ source:
   desired_config_path: ".octon/instance/extensions.yml"
   desired_config_sha256: "e539e7c8b239dc8d1fa7dcdd06aa43253ea2aa9c00518ee8c5451ecda65071a9"
   root_manifest_path: ".octon/octon.yml"
-  root_manifest_sha256: "e3280f034c023ac8931ef43c1bcecec91f5320e165032045727d87bdcf89079d"
+  root_manifest_sha256: "185dd7135b9bb7d0eb26194b31e583433003ab3ef696636bc6d2d4576655ec7e"

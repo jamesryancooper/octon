@@ -18,6 +18,12 @@ declare -a REQUIRED_EVIDENCE=()
 declare -a REASON_CODES=()
 declare -a PROJECTION_KINDS=()
 declare -a PROJECTION_REFS=()
+declare -a AUTHORITY_PROVENANCE_REFS=()
+TYPED_EXCEPTION_BOUNDARY=""
+GRANT_CONSUMPTION_MODE=""
+REVOCATION_BEHAVIOR=""
+GRANT_EXPIRES_AT=""
+EXCEPTION_REASON=""
 
 usage() {
   cat <<'USAGE'
@@ -34,6 +40,12 @@ Usage:
     [--ownership-ref <ref>] \
     [--required-evidence <token>] \
     [--reason-code <code>] \
+    [--typed-exception-boundary <boundary>] \
+    [--authority-provenance-ref <ref>] \
+    [--grant-consumption-mode <mode>] \
+    [--revocation-behavior <behavior>] \
+    [--grant-expires-at <timestamp|null>] \
+    [--exception-reason <text>] \
     [--projection-kind <kind> --projection-ref <ref>] \
     [--projection-label <ref>] \
     [--projection-check <ref>] \
@@ -56,6 +68,12 @@ main() {
       --ownership-ref) OWNERSHIP_REFS+=("$2"); shift 2 ;;
       --required-evidence) REQUIRED_EVIDENCE+=("$2"); shift 2 ;;
       --reason-code) REASON_CODES+=("$2"); shift 2 ;;
+      --typed-exception-boundary) TYPED_EXCEPTION_BOUNDARY="$2"; shift 2 ;;
+      --authority-provenance-ref) AUTHORITY_PROVENANCE_REFS+=("$2"); shift 2 ;;
+      --grant-consumption-mode) GRANT_CONSUMPTION_MODE="$2"; shift 2 ;;
+      --revocation-behavior) REVOCATION_BEHAVIOR="$2"; shift 2 ;;
+      --grant-expires-at) GRANT_EXPIRES_AT="$2"; shift 2 ;;
+      --exception-reason) EXCEPTION_REASON="$2"; shift 2 ;;
       --projection-kind) PROJECTION_KINDS+=("$2"); shift 2 ;;
       --projection-ref) PROJECTION_REFS+=("$2"); shift 2 ;;
       --projection-label) PROJECTION_KINDS+=("github-label"); PROJECTION_REFS+=("$2"); shift 2 ;;
@@ -132,6 +150,24 @@ main() {
   done
   for ref in "${REASON_CODES[@]}"; do
     args+=(--reason-code "$ref")
+  done
+  if [[ -n "$TYPED_EXCEPTION_BOUNDARY" ]]; then
+    args+=(--typed-exception-boundary "$TYPED_EXCEPTION_BOUNDARY")
+  fi
+  if [[ -n "$GRANT_CONSUMPTION_MODE" ]]; then
+    args+=(--grant-consumption-mode "$GRANT_CONSUMPTION_MODE")
+  fi
+  if [[ -n "$REVOCATION_BEHAVIOR" ]]; then
+    args+=(--revocation-behavior "$REVOCATION_BEHAVIOR")
+  fi
+  if [[ -n "$GRANT_EXPIRES_AT" ]]; then
+    args+=(--grant-expires-at "$GRANT_EXPIRES_AT")
+  fi
+  if [[ -n "$EXCEPTION_REASON" ]]; then
+    args+=(--exception-reason "$EXCEPTION_REASON")
+  fi
+  for ref in "${AUTHORITY_PROVENANCE_REFS[@]}"; do
+    args+=(--authority-provenance-ref "$ref")
   done
   local idx
   for idx in "${!PROJECTION_KINDS[@]}"; do
