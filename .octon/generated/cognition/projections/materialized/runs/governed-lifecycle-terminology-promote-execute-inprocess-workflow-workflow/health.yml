@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow",
-  "generated_at": "2026-06-12T02:35:33Z",
+  "generated_at": "2026-06-12T03:20:56Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:c535b1867d1151df067d36ee3f4d36afad466173765ac2fec6d7cd0f45dbab56",
-    "checked_at": "2026-06-12T02:35:33Z",
+    "combined_source_digest": "sha256:4bf48df5985a500d8bb38ee4cfb13621a5304cb5d6c2a3eaf98c53f4b880773f",
+    "checked_at": "2026-06-12T03:20:56Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:0da42b53e33c16d04b71777941d10a319bb61a752d9f9d59f40efa0202e4006b",
+      "digest": "sha256:f265d8efa986b1585d730ba88204c497ad09ac935c317aa400474f36b245445a",
       "status": "present"
     },
     "run_continuity": {
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:9be03dc1c6e910c94f73f48876f701fa72be7dc35de4f5a96c8c8b70ababd86c",
+      "digest": "sha256:fc721d900c9614d411c3643e4669bd074204e3e7eaff2a7dd14d1eed59d293d2",
       "status": "present"
     },
     "pack_routes": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "lifecycle-proposal-program-1780345555951-52c388a5-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-promote-proposal",
-  "generated_at": "2026-06-12T02:35:33Z",
+  "generated_at": "2026-06-12T03:20:56Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:a4523c6cecbb9296e94b438c9924ac94e8f36c23eaf5567e1b7598f7e4284009",
-    "checked_at": "2026-06-12T02:35:33Z",
+    "combined_source_digest": "sha256:4aed9c58bad85ee6794e9fba84b514cb22ec6ea1430980de625dda9e7d9242c2",
+    "checked_at": "2026-06-12T03:20:56Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/lifecycle-proposal-program-1780345555951-52c388a5-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-promote-proposal/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:0da42b53e33c16d04b71777941d10a319bb61a752d9f9d59f40efa0202e4006b",
+      "digest": "sha256:f265d8efa986b1585d730ba88204c497ad09ac935c317aa400474f36b245445a",
       "status": "present"
     },
     "run_continuity": {
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:9be03dc1c6e910c94f73f48876f701fa72be7dc35de4f5a96c8c8b70ababd86c",
+      "digest": "sha256:fc721d900c9614d411c3643e4669bd074204e3e7eaff2a7dd14d1eed59d293d2",
       "status": "present"
     },
     "pack_routes": {
