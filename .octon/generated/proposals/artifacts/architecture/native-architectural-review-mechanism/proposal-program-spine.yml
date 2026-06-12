@@ -147,10 +147,10 @@
       "sha256": "sha256:1de1becc95e537aae194ca769a5d3f02082493f742f64453a1324e83d8903d4c"
     },
     {
-      "byte_size": 1103,
+      "byte_size": 1102,
       "estimated_tokens": 276,
       "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/support/program-implementation-orchestration-prompt.md",
-      "sha256": "sha256:e9641a8a060407dea767cc664c0427e604649169e43ca66aa041128a5d7ee49b"
+      "sha256": "sha256:9f1d6f806e9c2d9cb6ad3b2c2622bea5fbaef6a498de3c552e763b69c37b5922"
     },
     {
       "byte_size": 4091,
