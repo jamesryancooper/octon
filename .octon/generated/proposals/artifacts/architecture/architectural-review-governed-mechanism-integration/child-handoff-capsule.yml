@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:4fbd2bdacd9dc482e527ed02789ff50c21724ec8eb0d2ee79def2d82b44bbef4"
+      "sha256": "sha256:8e83023ca6fd374d16cec2bd370480344e143fc424867d40ba699c24393805f5"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:7486e202cdd465601fd91c332592b51d2f7cd0357ce444da5c13d097cfcbde57"
+      "sha256": "sha256:04bc7798e2c74f3da8ffc3c157ebe9a1efeb2a5b3174eefc6ebcbe627535ce39"
     }
   ],
-  "context_hash": "sha256:be8c2720116dda5a3b98045d5e03b6c8a598cc6023d1732449f89f426c5e5f1b",
+  "context_hash": "sha256:5c6892973f9b948a6918ae67c31cb23f7f6ae69c2430ff9adafb8ff2ba6b0d83",
   "dependency_vector": {
     "parent_program": "native-architectural-review-mechanism",
     "related_proposals": [
@@ -70,7 +70,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/source-of-truth-map.md": "sha256:a04e288d38acf3708061022873e26d3c6fc3ee03e9388fd300fd4e554fb0300f",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/proposal.yml": "sha256:a9d2bb28fc477af99b8b6a0ad8c45e7fd59410896af3621b2a8a51f98c17b251",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/executable-implementation-prompt.md": "sha256:5d363b9553e8b972dab781216c082d7432ffff003ff5f94ff7c7ae47bc318f08",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/executable-implementation-prompt.md": "sha256:4cfe25d8777ba6341e518f014f08ded1431d274146c9857fbd64be6b6008e256",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-grade-completeness-review.md": "sha256:c78b95f65b41b64f758bfbf8e2834452a40e8a3202658d499ae96fde98b3286d",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/proposal-review.md": "sha256:ea9b7423306dc6ded6b3c8202958a46f36e181621d6431608c99bc989bad3dc9",
     ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"

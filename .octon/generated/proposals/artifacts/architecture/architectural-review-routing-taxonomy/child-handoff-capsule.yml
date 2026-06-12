@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:c675a87ca2e28e0e69486be6219565f5dbaf9227d1b2e989bbde295c8c9c1656"
+      "sha256": "sha256:60316a557517c598cfb844d96fb94b49cc7d612b78585ce3c0080fed4180c118"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:a34181deb679b49c0a0702ffbe2c1652a351496b193d1aae104b9de2158588ab"
+      "sha256": "sha256:5a890fc10f5436493db4d4c88944ead220334277adedea39c86e06b58c60b793"
     }
   ],
-  "context_hash": "sha256:2e18200bb891d1cf0dab87f2a368d214f2f3272d1dfbd7a6f225e05cad98b5c4",
+  "context_hash": "sha256:8cb41460154f0c94daf18df9b5d8d8afd39087f0d45bdeace708d2ff0cd6df1a",
   "dependency_vector": {
     "parent_program": "native-architectural-review-mechanism",
     "related_proposals": [
@@ -71,7 +71,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/source-of-truth-map.md": "sha256:ea747f44302e7e8ff4824d37ca84e28b138e0f18fb6a49d56fd86e7820fb05c6",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/proposal.yml": "sha256:2a46aeb7297622e459a4ee2dbe972a27007c99bc483290329ebae0de74c151a8",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md": "sha256:bf6ee4ef0c26fe05be2202ce1f5eac1d2b95d6be0ac9a430ca7d64ced0cd9273",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md": "sha256:27921e79959a68cf7c09a4d0c0c08b23b309c04871e81ac395f0e52847cf6717",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-grade-completeness-review.md": "sha256:f97229741186e44bfc71820671ad968c9ae92b1d564b040053bdc9e0467a3a65",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-review.md": "sha256:6d2ad411d1390ad9860810c38c8da521fc6deb00c3de9f9907a2bc94264e5c47",
     ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"

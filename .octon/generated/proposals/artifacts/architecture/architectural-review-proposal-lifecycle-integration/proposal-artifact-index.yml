@@ -176,7 +176,7 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 1880,
+      "byte_size": 1879,
       "estimated_tokens": 470,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
@@ -188,7 +188,7 @@
         "validator-dispute"
       ],
       "role": "executable-implementation-prompt",
-      "sha256": "sha256:87db91132f8ffce42ca5859b7eb1f57297277023b5bd78686c25244171f87abf",
+      "sha256": "sha256:0567d9c101c1bd68aee6388fc26b689f691fea50e5baa072d7d2d908bdb687f4",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -280,8 +280,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 1129,
-      "estimated_tokens": 283,
+      "byte_size": 1128,
+      "estimated_tokens": 282,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
@@ -292,7 +292,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:a70590641df619f06f626fc6326481d2c60fa7648c6377c3698496a31fbb74a9",
+      "sha256": "sha256:b6674c124a7c93a62188e979b19a81206c050edfb38b0bad81deedd06c7909f2",
       "stage_relevance": [
         "support-review"
       ],
@@ -458,7 +458,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-proposal-lifecycle-integration/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-proposal-lifecycle-integration/navigation/source-of-truth-map.md": "sha256:ff063dcc5bc746a7433494efbc968cf2d536370f2b26afe9365c4cf8b10dce40",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-proposal-lifecycle-integration/proposal.yml": "sha256:c4e6bea93eb11a07b187dfbe84c623961c25956ef09fa7760a181ca6f3765e00",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-proposal-lifecycle-integration/support/executable-implementation-prompt.md": "sha256:87db91132f8ffce42ca5859b7eb1f57297277023b5bd78686c25244171f87abf",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-proposal-lifecycle-integration/support/executable-implementation-prompt.md": "sha256:0567d9c101c1bd68aee6388fc26b689f691fea50e5baa072d7d2d908bdb687f4",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-proposal-lifecycle-integration/support/implementation-grade-completeness-review.md": "sha256:88777bb0673f57c51441abfe06eeeef5edc035a528d515318a9b4b455699f9a4",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-proposal-lifecycle-integration/support/proposal-review.md": "sha256:ae942c5c9bb5b9338ab52b9f0176d4d464dec7e20795c7e3c92443228ffe8dcd"
   },

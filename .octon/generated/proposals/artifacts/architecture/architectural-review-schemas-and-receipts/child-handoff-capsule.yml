@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-schemas-and-receipts/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:1bcd375d1ffdd5121e76d201905ff2578c340fc5e29216bbb540e97237200485"
+      "sha256": "sha256:9a2b96a46677c2ec84701f9b2d103676d969e76a623358c4183b4cdcbc9d6955"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-schemas-and-receipts/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:b44dcdd0fb51d1ece05940356c05dd456bbcd85762f94abf76acb748c9d9f7b0"
+      "sha256": "sha256:37b1cce58dc8ae6c771d68568327e13e5378fae6f4ee08858849972af2c3a11a"
     }
   ],
-  "context_hash": "sha256:3ace3d9f09bdb72c6ba6141792176e4254c51d03905a162be2d63ebd03df38f4",
+  "context_hash": "sha256:a2df9a434ffbd8711e0e7891a7a7a502809f31568c24b33633df962b7de10500",
   "dependency_vector": {
     "parent_program": "native-architectural-review-mechanism",
     "related_proposals": [
@@ -75,7 +75,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schemas-and-receipts/navigation/artifact-catalog.md": "sha256:027aa3b19f5fba9425a7314c4b3917dfeae9ceb6bf66e00a48b925adf8bdfb48",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schemas-and-receipts/navigation/source-of-truth-map.md": "sha256:5582659ec9d6ccb18a7a378e4f84976dd22a2da6ef7b5cd8873ccf779fdbf83e",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schemas-and-receipts/proposal.yml": "sha256:add9662c2426b2889f22cf1ef22b12141a61d0a26ae59bd7df183fb2934476c0",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schemas-and-receipts/support/executable-implementation-prompt.md": "sha256:cebd053a913fc19157066ee9e3fc4ddc93d7c7e39694594d71ca7551e090fb1f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schemas-and-receipts/support/executable-implementation-prompt.md": "sha256:b4f07d7795903dc5ba20fcd64fbafbdc4fd4f136a307c0f6019e4831d8cc3baa",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schemas-and-receipts/support/implementation-grade-completeness-review.md": "sha256:eb1b0243be0be34e233ba3917136a40d5c485db3d7bb5e24f6e8021f97d36a66",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schemas-and-receipts/support/proposal-review.md": "sha256:3aa3926d1a56a1f4add2570f7393ce87f5b8c9eed30df67ce35aacf3b37cf84d",
     ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"

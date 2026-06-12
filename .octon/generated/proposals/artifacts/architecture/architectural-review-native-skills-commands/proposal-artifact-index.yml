@@ -176,7 +176,7 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 1308,
+      "byte_size": 1307,
       "estimated_tokens": 327,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
@@ -188,7 +188,7 @@
         "validator-dispute"
       ],
       "role": "executable-implementation-prompt",
-      "sha256": "sha256:9d8e4d38a868594b3ffb36caa28ff05e695840ab51626272845752a20bd42200",
+      "sha256": "sha256:ef1fc664ddb6901484a8f7d1f320684fdc83afd57de6bde366d6778a74232ad5",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -280,7 +280,7 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 1111,
+      "byte_size": 1110,
       "estimated_tokens": 278,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
@@ -292,7 +292,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:bb2fa6246897dfa5f4892930399a5436c739b85e5ea61379a9b87ab663f3a9cf",
+      "sha256": "sha256:09c44fe03e2329df2537bdcfb623e6001b6b110e955eb9ad007950845cb2439f",
       "stage_relevance": [
         "support-review"
       ],
@@ -458,7 +458,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/source-of-truth-map.md": "sha256:fa38f9055e386935e3b56b7a3199fd67a89bf098771bade05140ef133bd57ce0",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/proposal.yml": "sha256:f8a4e9f6c9512e6336dea61661067792d3a68e4deb92416145e3fd04bf94c2fa",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md": "sha256:9d8e4d38a868594b3ffb36caa28ff05e695840ab51626272845752a20bd42200",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md": "sha256:ef1fc664ddb6901484a8f7d1f320684fdc83afd57de6bde366d6778a74232ad5",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-grade-completeness-review.md": "sha256:2f4c158be5fec4ed1067a756c793f620df694b964a3da6af549147b544f8b951",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-review.md": "sha256:414f9cdc44cade3906488f18288eeecf270bc282879757bb95c1e951d34a2792"
   },

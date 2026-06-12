@@ -176,7 +176,7 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 1410,
+      "byte_size": 1409,
       "estimated_tokens": 353,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
@@ -188,7 +188,7 @@
         "validator-dispute"
       ],
       "role": "executable-implementation-prompt",
-      "sha256": "sha256:c69dd6d74b002a54aeea32da413075ea9a5dce84264682e10dc04dc50ba4768a",
+      "sha256": "sha256:78d4026fedf65291cc20e3bcd23ebb91157f4d479fcfa6f15ebd623b68b767d1",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -280,7 +280,7 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 1102,
+      "byte_size": 1101,
       "estimated_tokens": 276,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
@@ -292,7 +292,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:b503667041e73da5441fa275815c33e8f6d7fa29b702edbca3260ab4047cd726",
+      "sha256": "sha256:8626d4d5205a1955034eb3ec1c49342ace8ca0a107d162dba29c6abc692a99c4",
       "stage_relevance": [
         "support-review"
       ],
@@ -458,7 +458,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/navigation/source-of-truth-map.md": "sha256:02664698dffc947ad2618ecac697eff07187dc91a005407753a7e17f074c276d",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/proposal.yml": "sha256:7d435259de9ce344758868d38aa77920cfa941a2fdcc2203eaa8e489c7676f81",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/executable-implementation-prompt.md": "sha256:c69dd6d74b002a54aeea32da413075ea9a5dce84264682e10dc04dc50ba4768a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/executable-implementation-prompt.md": "sha256:78d4026fedf65291cc20e3bcd23ebb91157f4d479fcfa6f15ebd623b68b767d1",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/implementation-grade-completeness-review.md": "sha256:230662710be5b961562ed29567809ca172ea4e5123e30d3ee9f67209b599797e",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/proposal-review.md": "sha256:6da912e21a2b50afc3c11615e17fae50ae7abc04ad748bc5b212a0d6a0e6df0b"
   },
