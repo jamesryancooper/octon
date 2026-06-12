@@ -514,9 +514,17 @@ acp:
         phase: [promote]
         target:
           service:
+            - interfaces/filesystem-snapshot::fs.list
+            - interfaces/filesystem-snapshot::fs.read
+            - interfaces/filesystem-snapshot::fs.stat
+            - interfaces/filesystem-snapshot::fs.search
             - interfaces/filesystem-snapshot::snapshot.build
             - interfaces/filesystem-snapshot::snapshot.diff
+            - interfaces/filesystem-snapshot::snapshot.get-current
             - interfaces/filesystem-discovery::kg.get-node
+            - interfaces/filesystem-discovery::kg.neighbors
+            - interfaces/filesystem-discovery::kg.traverse
+            - interfaces/filesystem-discovery::kg.resolve-to-file
             - interfaces/filesystem-discovery::discover.start
             - interfaces/filesystem-discovery::discover.expand
             - interfaces/filesystem-discovery::discover.explain

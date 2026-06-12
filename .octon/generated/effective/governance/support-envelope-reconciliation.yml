@@ -1,6 +1,6 @@
 schema_version: "support-envelope-reconciliation-result-v1"
 status: "reconciled"
-generation_id: "support-envelope-bde7fb9c515d"
+generation_id: "support-envelope-cb6d08ab2994"
 generated_at: "2026-04-18T12:00:00Z"
 non_authority_classification: "derived-runtime-handle"
 freshness:
@@ -69,8 +69,8 @@ source_digests:
   ".octon/generated/effective/capabilities/pack-routes.effective.yml": "a4e8a424ec287e6188cf1f4525a7a70a5745ecec24ecadf83d817ab90f234efd"
   ".octon/generated/effective/capabilities/pack-routes.lock.yml": "45f1c87c59103f0ce74856c7ed41b514e2e2d695b9ad1c208deba3ab6f460edf"
   ".octon/generated/effective/governance/support-target-matrix.yml": "99740e3f5e96a29ea4d4ae998f54ac6b683654cd0e50e3bfd4414c8726a69b02"
-  ".octon/generated/effective/runtime/route-bundle.lock.yml": "bd1b6ad562b8ad25260432114a5f48b28e0250ef41ab05488583bb7c51ac57f7"
-  ".octon/generated/effective/runtime/route-bundle.yml": "fc721d900c9614d411c3643e4669bd074204e3e7eaff2a7dd14d1eed59d293d2"
+  ".octon/generated/effective/runtime/route-bundle.lock.yml": "0cbabaa67b786d7db4278f5c68c14544eb926d8ed003c3fb18e7c33bc1576f85"
+  ".octon/generated/effective/runtime/route-bundle.yml": "743c29c2c5e84efd253628753e86fddd00aea5877e1598400d9d5a15c7a1d36b"
   ".octon/instance/governance/disclosure/harness-card.yml": "9c27e382734db5a5302cd92468526eff270ac5a01c8501ea6c335addd793432a"
   ".octon/instance/governance/disclosure/release-lineage.yml": "107373a663500e25b75886c324296a2d84ea17204b54eed7d73a327378a14c84"
   ".octon/instance/governance/exclusions/action-classes.yml": "6dcb79bb716ab5463ead8f4c2d39d81fc0b0f51e4b90352b0feb1d21ff114f4f"
