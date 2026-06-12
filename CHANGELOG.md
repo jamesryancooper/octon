@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.91](https://github.com/jamesryancooper/octon/compare/octon-v0.6.90...octon-v0.6.91) (2026-06-12)
+
+
+### Features
+
+* **lifecycle:** add terminal freshness proof barriers ([f57d952](https://github.com/jamesryancooper/octon/commit/f57d9520a67dbe5c5e27097e8a92733743471d49))
+
 ## [0.6.90](https://github.com/jamesryancooper/octon/compare/octon-v0.6.89...octon-v0.6.90) (2026-06-12)
 
 
