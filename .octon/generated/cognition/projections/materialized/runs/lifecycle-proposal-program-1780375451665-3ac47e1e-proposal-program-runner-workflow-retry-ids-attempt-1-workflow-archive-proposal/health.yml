@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:f629f20674ffd6a51da43908376ff36c18feb072e95bc873341c2ef2711f8c52",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal/events.manifest.yml"

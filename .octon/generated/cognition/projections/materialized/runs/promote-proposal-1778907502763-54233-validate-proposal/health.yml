@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "promote-proposal-1778907502763-54233-validate-proposal",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:dd7f51417aef7d4ad480cd30b7973fb18d9dfdd45675886152b03ae9c97264b9",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/promote-proposal-1778907502763-54233-validate-proposal/events.manifest.yml"

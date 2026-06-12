@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "publish-1780370968641-78652",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:cdca74d51ede7c467221cf2357898f41426be4d0439f368475493cb0ef3a9785",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/publish-1780370968641-78652/events.manifest.yml"

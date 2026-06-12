@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "run-wave4-benchmark-evaluator-20260327",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "fresh",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:3d0e8be926b57c069755071dab9c673559c25c0697c53e49075f85fa20535d7f",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.manifest.yml"

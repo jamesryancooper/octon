@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "lifecycle-proposal-program-1780373365875-f73af492-proposal-program-runner-terminal-gap-map-attempt-1-workflow",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:d2ab4a564b8f6464f423436b705fc9b444fde9ca106c2fd256a5b14f2ee365ba",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/lifecycle-proposal-program-1780373365875-f73af492-proposal-program-runner-terminal-gap-map-attempt-1-workflow/events.manifest.yml"

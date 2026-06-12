@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow-promote-proposal",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:860b5069724257451cd40b3dbe212627d2e4e4225638b715fb85887598dffdba",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow-promote-proposal/events.manifest.yml"

@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "repo-consequential-preflight-workflow-20260413-v4-stage-inline",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "fresh",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:216870a4c18e34fa52a3bbd215907663714a30d2e13002145b93ed8e55447448",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/events.manifest.yml"

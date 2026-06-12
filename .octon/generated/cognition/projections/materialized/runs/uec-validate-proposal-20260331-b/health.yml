@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "uec-validate-proposal-20260331-b",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "fresh",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:7773949c0d9488464da3fe45b4458f3431b404f8828b0ff86d8fbb6e9f96a540",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.manifest.yml"

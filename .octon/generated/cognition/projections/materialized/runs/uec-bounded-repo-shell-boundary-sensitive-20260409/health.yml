@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "uec-bounded-repo-shell-boundary-sensitive-20260409",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "fresh",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:bc9c0f71f7430a6ebfcad0b30f0b61c13bf79e479ff7f8181051eebc9694730f",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.manifest.yml"

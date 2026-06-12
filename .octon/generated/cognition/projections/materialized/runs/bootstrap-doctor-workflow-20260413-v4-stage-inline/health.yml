@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "bootstrap-doctor-workflow-20260413-v4-stage-inline",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "fresh",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:c71d28242a7780fe4da8c0873b337536a00832dc28b94e7828f3be0a78de14c8",
-    "checked_at": "2026-06-12T03:52:26Z",
+    "checked_at": "2026-06-12T04:03:27Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.manifest.yml"

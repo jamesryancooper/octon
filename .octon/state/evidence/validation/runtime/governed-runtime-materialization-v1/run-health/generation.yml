@@ -1,6 +1,6 @@
 {
   "schema_version": "run-health-generation-receipt-v1",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "generator_ref": ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh",
   "schema_ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
   "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh",
@@ -292,7 +292,6 @@
     ".octon/generated/cognition/projections/materialized/runs/publish-1781129933656-2717/health.yml",
     ".octon/generated/cognition/projections/materialized/runs/publish-1781129954342-11118/health.yml",
     ".octon/generated/cognition/projections/materialized/runs/publish-1781129962997-11772/health.yml",
-    ".octon/generated/cognition/projections/materialized/runs/publish-1781236322651-16257/health.yml",
     ".octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/health.yml",
     ".octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml",
     ".octon/generated/cognition/projections/materialized/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/health.yml",
@@ -318,1825 +317,1819 @@
   ],
   "pruned_paths": [],
   "compact_manifest_ref": ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml",
-  "compact_manifest_digest": "sha256:95d6b43a4df2a705ca3c8cbc127c2eee62ae64789e8b25df4f07de69f3e88414",
+  "compact_manifest_digest": "sha256:435a2b4f82613f35afd808fc58fe623d522ad2eb99644533b5e4afebffc96076",
   "outputs": [
     {
       "run_id": "archive-proposal-1778522826862-49940",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778522826862-49940/health.yml",
       "status": "stale",
-      "health_digest": "sha256:70c82b7da44db719a1c4bc31c107cbf4d92296c410954664117b8adc92cd13ee"
+      "health_digest": "sha256:7ea31ab67445e9942ced50879427162510a2af6de5265b8b4296a2a190ab58a1"
     },
     {
       "run_id": "archive-proposal-1778781582150-10776",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778781582150-10776/health.yml",
       "status": "stale",
-      "health_digest": "sha256:434505be7c7f509dded9bdcc47600ec77fafe52747bf33e6dc32bbd8c62335c1"
+      "health_digest": "sha256:4673bb1f8059ce3401e8e5cdecc300be688cad89d79ef590348fc88baf4990c0"
     },
     {
       "run_id": "archive-proposal-1778781598867-11942",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778781598867-11942/health.yml",
       "status": "stale",
-      "health_digest": "sha256:900926ea6ef5dc06fae4176632806d6189b2ac8a784b7eaef9408b06ca7a0df1"
+      "health_digest": "sha256:2ddc2b5bfc97b644ec2718b3de7f57cf1f33b697f47e02ba98aa077153cd53cf"
     },
     {
       "run_id": "archive-proposal-1778805178254-37205",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9bb6d466b10daac4a5d0d40bafe7198c375b5150b8569a120bfbf7f5a631bb33"
+      "health_digest": "sha256:cdb8031d468d08f27d4050d5a5d7cd87ffaf115d483ff625ae9d2af7e51acabf"
     },
     {
       "run_id": "archive-proposal-1778805178254-37205-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:858154a655f6370c197b324709eb8dd25d9912d5a65ed9b9a37b933df03d8cd8"
+      "health_digest": "sha256:aad9586531d533d4a9d41f3e36cd761790af137578162b3179e690bb032d159f"
     },
     {
       "run_id": "archive-proposal-1778805178254-37205-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f6c1169f220aa882f1005fa6f0bae15c540baaa765ec8c9567dd6a959b03dc7d"
+      "health_digest": "sha256:ee5a9feda1644719c5a56bd7e5a22914bea329013e601a6a9f613cf5585eeaf9"
     },
     {
       "run_id": "archive-proposal-1779561513972-2474",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1779561513972-2474/health.yml",
       "status": "stale",
-      "health_digest": "sha256:35a7306d9328212a98199c83b01541e4cbc07a2f5b37a61e373f58754d259d2b"
+      "health_digest": "sha256:e8eab0969f35edd376d54cfdecd5267047e1457570431e5e14932f2d9593dbc7"
     },
     {
       "run_id": "archive-proposal-1779561513972-2474-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1779561513972-2474-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:76f6e8584ccac958184650dd03b9804ec6639c5b6d70275e3babcedd415c2909"
+      "health_digest": "sha256:4bc80d62a961f63b8da9a61261688e063eaff1ef450e8a64cfaf136c86287f0d"
     },
     {
       "run_id": "archive-proposal-1779561513972-2474-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1779561513972-2474-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:78a1b98910bf501e45b305a767bc9edf4727fcb15953990f02a502417d714c67"
+      "health_digest": "sha256:8f3f0a644f15689cb4bf666d7841e531c8c8c429a2e4785de77ff09372eb1f7b"
     },
     {
       "run_id": "archive-proposal-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:177263cffa8264d55f43d90800b9b40f60ccf6eccf146d36044c5966bc0365d9"
+      "health_digest": "sha256:0c79daa2230503fc5dfb34dca4442f323d9f58b1de6fecce5e300a77259cfc90"
     },
     {
       "run_id": "archive-proposal-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:8932d7933c7744bda36d7221e765a1a2c5f98a9152bcb8a8851879f98523e24a"
+      "health_digest": "sha256:2de74a8116f95e52b772ceaeca4fcec55be45b0fbdd0b23b74660263775d68fa"
     },
     {
       "run_id": "bootstrap-doctor-workflow-20260413-v4",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:f0f12eaefbba1f74f91a139bbb4918522a220955d2b0c87dc29118d0ee11f23c"
+      "health_digest": "sha256:003646272eb00a47dd27aaa3c1f572d127aaebcf38533e829a2a1e22efcc5497"
     },
     {
       "run_id": "bootstrap-doctor-workflow-20260413-v4-stage-inline",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:86f54a2791942ad9922dd9ed5b566f111ff79f020dd7f5a165543946e773207c"
+      "health_digest": "sha256:a4f664b7777144a229b5e0035ffaadba2c26d400c9b5f93a1093fd350bdd94a1"
     },
     {
       "run_id": "governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d99c89a70b780027d0e103a7fea35f8bbded35ae960b7c78f044cb4c2a3ef59d"
+      "health_digest": "sha256:0f133f5c303e36b544f735ca55ec3d6723aefe086df482f1131bdf7014364595"
     },
     {
       "run_id": "governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:500683599cb2764a4f6606a1225aca8ee4055b0da7c0eebcdb7d3d58405ccdbf"
+      "health_digest": "sha256:74eaa8eea3100485a57544b8bf0f782f7af1a20338a8d140d6a3f311cb43fe78"
     },
     {
       "run_id": "governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2b5e12581a37143cf3067e66af533a731c907a15c6caba30166be93c5e87f07d"
+      "health_digest": "sha256:53413f550418f6dd94780861d7127833371af6fb3bf99d8fac75e44184994cae"
     },
     {
       "run_id": "governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5740e1aca022de07637b846e4eeae16dec1ab660bbcc313bd8242de46d9dcd0b"
+      "health_digest": "sha256:57434c5d5b7c5a7aded1dd0959767e072bbe5e8e07db38154d777e02a14a8093"
     },
     {
       "run_id": "governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:863dc6cf869c6f30acd8df944ea116e824e823d241672cb4a58ca7b1e1608645"
+      "health_digest": "sha256:12bd2fab6d260a658408c893cb45eaec7bc7055a047b6ab2b30d2fa3955aa025"
     },
     {
       "run_id": "governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ea64f89dec9a1343bdf7e386630a082bb8c503a5829a2a244e42dadff4f621a1"
+      "health_digest": "sha256:dc28aba1c303be149a6d79794c3f4c160de392c0dc6d1196ac667d8b7d07dcf1"
     },
     {
       "run_id": "governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3f97c8cbe0f68df0b7c91a3b2d3737e6275a5945f90fb94c75ca349e8fa368df"
+      "health_digest": "sha256:51a1b4316b4a1a68cee778a4c095b7906d5d47e09b2542dcc91eb9364761a8f8"
     },
     {
       "run_id": "lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1fb439bc68d5f51f1bc2707b745099c668f5210f27cc7d110c21112b4e5d9bea"
+      "health_digest": "sha256:7aab621c297fd55c612cbcc9026e4743bc5756b1878c971ba3747a8e5e96ab07"
     },
     {
       "run_id": "lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:cc7125e6ada8e4715f8462300f81a7a31ec4a00aabb05178790af23b0aed549d"
+      "health_digest": "sha256:1e7eb4bf3107b48aad7dd832d32ab1a0110fc4a7d32dd485085274385e57643f"
     },
     {
       "run_id": "lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b258cd1054da35eb32c0dfd46c528aef35a452dab894790d4b0055a0ad7dd0b9"
+      "health_digest": "sha256:a498e8c88b2385f4f7ca4dd44d30bf790eb455be6936cfd1c0985d266e006904"
     },
     {
       "run_id": "lifecycle-proposal-program-1780190262756-35ae2026-proposal-program-runner-current-state-gap-map-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780190262756-35ae2026-proposal-program-runner-current-state-gap-map-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:602fdb7ed54d46097dc8bd66b1841cdbe0839e8ce7caeceb41fa2402a030948e"
+      "health_digest": "sha256:c6326ce9d3bb9d62f7944f84f0168e4cf48d0986098288d5e55a7ec1266a3fa1"
     },
     {
       "run_id": "lifecycle-proposal-program-1780190262756-35ae2026-proposal-program-runner-current-state-gap-map-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780190262756-35ae2026-proposal-program-runner-current-state-gap-map-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:794e28501e2290082a3763cc5ecb900c5808606e62e1e600ddcfd08be5a79b6d"
+      "health_digest": "sha256:7768abc802b4e3f2b77df4c92e22603e2ed3b88874c1fdc71d91a6d42829b668"
     },
     {
       "run_id": "lifecycle-proposal-program-1780190262756-35ae2026-proposal-program-runner-current-state-gap-map-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780190262756-35ae2026-proposal-program-runner-current-state-gap-map-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f8ec24119ddf0a145f81b2626757faa480fd6eb830b004f0e953c2638bfb66bf"
+      "health_digest": "sha256:266427b180fa741d0d111a3544cdbdd5645ead2c987f69f40bb2601af0feba68"
     },
     {
       "run_id": "lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ea7eb493d41d2bf234ece4e31f33a436b35f70261d54d9c421cafddf9046068a"
+      "health_digest": "sha256:9199e5d3d583e93a3d06214e06fd8cdb5eb9e926968444e5169b5861a5f659e1"
     },
     {
       "run_id": "lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2998a0c66c7e574ec4526acb5e48bc55db2e69fcd3570c03c8f0a58e5c708488"
+      "health_digest": "sha256:ab1758e36b920583c1ea18d8dfcd47214e101dbb2b48cfe9c9b4cded3a5c9c21"
     },
     {
       "run_id": "lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3ee8fab55b0c0ab8498d28890268e9cd9272a51c2cbf12e170785e38c82b8ece"
+      "health_digest": "sha256:514a33069b2efc0cefd4d3102041dc8c65d73a62c9fca4f42f1a71532d4cbefc"
     },
     {
       "run_id": "lifecycle-proposal-program-1780197259834-ce18fe14-proposal-program-runner-executor-delegation-gates-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780197259834-ce18fe14-proposal-program-runner-executor-delegation-gates-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:dd4e9f812bc6ef48dd54e64b6380464a50e352ad110c8a5a324c2d2778065723"
+      "health_digest": "sha256:c68579b505dcd76d270f4e02e8aaee092c1ab8682287db0c032b4a220f216e08"
     },
     {
       "run_id": "lifecycle-proposal-program-1780197259834-ce18fe14-proposal-program-runner-executor-delegation-gates-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780197259834-ce18fe14-proposal-program-runner-executor-delegation-gates-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:533f7d5e06d6c35c931d741b65e076e3b0ca0f9f4852f708a0d436c91027d431"
+      "health_digest": "sha256:3ada7c26fde6e1bd236328991ac80ab0ef5937d0d8c4cec17f70b2b4eb8c21a9"
     },
     {
       "run_id": "lifecycle-proposal-program-1780197259834-ce18fe14-proposal-program-runner-executor-delegation-gates-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780197259834-ce18fe14-proposal-program-runner-executor-delegation-gates-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:da3a302118527bd0268616d003bafb372e02b4da40744420530907d2c9772b5f"
+      "health_digest": "sha256:e169fb28b01c49341d393c8c4de8732a318fd6f028db8b24e333cb4bb5ea5ada"
     },
     {
       "run_id": "lifecycle-proposal-program-1780202009638-c097cdb1-proposal-program-runner-evidence-run-control-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780202009638-c097cdb1-proposal-program-runner-evidence-run-control-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e56256413d5cdb7e74108559fda1e399440a0d0e63cefacade2bb8676575bf94"
+      "health_digest": "sha256:5166e2fb338240f5f8c09230d009fcd8ab589a87b00daec998d3c082e77f5438"
     },
     {
       "run_id": "lifecycle-proposal-program-1780202009638-c097cdb1-proposal-program-runner-evidence-run-control-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780202009638-c097cdb1-proposal-program-runner-evidence-run-control-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:586a558bf5ba7efef6a1dbf3bdd47aca6d435b466bb2adea80e39f697c5c0dcc"
+      "health_digest": "sha256:723fb119588beb2c67e411f1701e3240ebfc34a941ef9351c75ae4f20789c77d"
     },
     {
       "run_id": "lifecycle-proposal-program-1780202009638-c097cdb1-proposal-program-runner-evidence-run-control-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780202009638-c097cdb1-proposal-program-runner-evidence-run-control-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5339e954b055c7db41221ca3d460a17e3c8d20bc3008b00e5da47e49dc41b9bf"
+      "health_digest": "sha256:91513c3487a203c9e9b76b9c963ee80e721f20415ce0d02afbeaba5441c69a25"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:6005bd7b3f3a052320e0929cbc9397f0f0bfd27c90a8b7333aa0868bb823beaa"
+      "health_digest": "sha256:cc975bd1a60e249679594108cb915097a8ee8f922baaeb3eddd757333690ffcb"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3594a59d1151d72404e719e55c6d82552a7ce57cb76e9b415be21648c5aec332"
+      "health_digest": "sha256:4cab5f7b500ca9fd9055dada7905b459f542d75924f6075432e481c6dce6d3a3"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:cf84b5d245b7ef5ab10b0986287326dd5c000e66f922842e45cee3d749167835"
+      "health_digest": "sha256:904def3f540d07c170c1ecfc8dcb36cc47fc0b4d200ae446849e3cd079f2b044"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c86344a2ab8c13128fef73961528e6080f6d318b1c76fd073e2e347fb5df865e"
+      "health_digest": "sha256:665bbac450b35483c489ed5380bfc62173d4eb8279bd2f8385fa2e137a8451c9"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9c290698c5b13ff4f717664280a5250db7369cd505ead370e6596b8caa91fa99"
+      "health_digest": "sha256:488fd89cb7c1a76259877557546fb6f386b683e2b54a9474271e005ae7fca330"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:8f5af6c9041557f792ee20cdd8fc395779db34c2dd694973dcf2e194982b15e2"
+      "health_digest": "sha256:a822ec4917032a552fa61d82ade3bdb4ad642fe13d73b8cb8f4e37eba7b3ea21"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e94ebd8c849695e1a6bc81de75a318fceddd75db6da6fada397dc66a1b1e769e"
+      "health_digest": "sha256:f1804b579d2058b0fbda26d7bede501dc05b20f6b881a38d23772375a7e254c4"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1ee9cbce1a4543504e18258aa5223bed58f00f5b0a1c4fd7036da8124869fafc"
+      "health_digest": "sha256:501b8aa6ad759ff80931ae75c526d39c29d899ba8c7526041b4b2d9935ff2c9f"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:bc9618cea6774d40c6f9fb62ca3d9b9d71f0599e73cf62cdf8bf391ad5b190b9"
+      "health_digest": "sha256:8b6145dc145e4408a0bc0c6c55d9842ad5523ef457ba8a69b2e454a9fbb83b31"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5b361e8f821c8a56e2f73c2d3c8e6e00403945a33f1ca2b5be80a754075ded71"
+      "health_digest": "sha256:85ad30adf5b377c15e253837d51bc31dbb107a0c0067d1963766396ce5d3c4cd"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:af17ee2faeb7a89bd3d05bfd9732552791fd4c8d5291d85d50728a8e80baf181"
+      "health_digest": "sha256:e6815a086e901740c872e7ad2f860e2e4c8b4984450eda47e30ff4c368dc86b5"
     },
     {
       "run_id": "lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:6b6fb6095f9fa972672ae93ccc568730fcf67fd9e83786b6b5191dfb5f49c464"
+      "health_digest": "sha256:3cb19776f7a18b4cc04a417d844534c3012bc9b56e6942f6e1d32b9473fe0c15"
     },
     {
       "run_id": "lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5b5227d1b2477356a25f06d2293826cb4792577295a13d5f691925e00c5fdad2"
+      "health_digest": "sha256:aad55732aa512bbfb6f5088ddf0f3706e57ad2c7404c0ce73f733e1e588551aa"
     },
     {
       "run_id": "lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:6f989f6664f93f58efef2777d2d3b6fe957c706b4e0d05d0f7bf5396e7b89ad9"
+      "health_digest": "sha256:696d5093749ad74ebaf27d677c67d320649df542a36a084b5875e35b63820a40"
     },
     {
       "run_id": "lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:bf740d0a90993cf6404b916aae82154de6ec541610d9017d6614f1f2b6a9ef55"
+      "health_digest": "sha256:b888c71b00f40dbab867f778d98a7cb118e3e61f6886942b250c2bd89ef1bf79"
     },
     {
       "run_id": "lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:957a2e3ddc86c25c98fb2c6625cfc3d1fc8be574c82b0b7788503684bd9bf963"
+      "health_digest": "sha256:6e197c25a38d68f06c2d1746dca88bc9d71029d72866809e3cb0ddfd1c130383"
     },
     {
       "run_id": "lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:37f0d50e0852e54bb67978702a41491602d59316c7ae823ff70b2b6ed320f935"
+      "health_digest": "sha256:83e1d917b8862175fc361d373c522c45d20466ba47d053fb2a55717b9c5fd9e6"
     },
     {
       "run_id": "lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b34dd95cfb10cf883cb0b2dc6603231eb53d3a090e801ed947f169e8f3d6929c"
+      "health_digest": "sha256:86f4b962233686994eba902df08eedfbc4227ad958b77580cf9f06347250e494"
     },
     {
       "run_id": "lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:4f119672196500c7da66db5a0301e88ced0e7e7255842d1415272a4dbbd02e4f"
+      "health_digest": "sha256:4d2b3a258504649ae7e4859a0b38844621fe6f38983e5069bea645dc95e8ffe7"
     },
     {
       "run_id": "lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c56bf1b8dee294652cc76e6615998c01913f55e3106ac2baddaec60a0dff8eff"
+      "health_digest": "sha256:7b70293df76e45b2dfffe1dcf7a64f7664ba290eae98815af4602e78dea4a0ce"
     },
     {
       "run_id": "lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5495ac892e692a3bed4c4cf0c8d36c784d3b474cfeeefe39203ee199131f7a33"
+      "health_digest": "sha256:8da341b7ac728685cd84b4e4c568d7f009f6e4a99aae3fbfc852f344399ebc6a"
     },
     {
       "run_id": "lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:58404717ac6312f6c5b97e6f9951c8d8f4a0a685aee8be763c76b160c6a7721b"
+      "health_digest": "sha256:6f6c56fef0ef02b287d45a529d4b283f218b7afa3c5cd13a8873c8ce1674d639"
     },
     {
       "run_id": "lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:679a248c0c690ae019c5bccc9880098ad85319c33e12e8a03f4ffd8a4f5309cb"
+      "health_digest": "sha256:b5dfab3804f3c645a399f04e89baa838d8a5e4ab185a1fbbc19ec12e6abbbd1c"
     },
     {
       "run_id": "lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:bea4ba2132f9aa0267aadfc0cca9ff5d50a9b264ceeb5ed5503069fbc1d8c354"
+      "health_digest": "sha256:befef52ca4e5c4dac07f586496a2d6cb408930612d0d5575317defbb621af04e"
     },
     {
       "run_id": "lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ca2aa8175716e0da16328893486f3d8587d1b08c85f95b525829f30a9303f54c"
+      "health_digest": "sha256:f8c214874cbcf0f4483e08cb4982f340fe68a0f75bcfa196af7a14180d862e16"
     },
     {
       "run_id": "lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0fbc9f45211fb316b8b9418c2cac6bb4470d05ef55306c91636ddf042683d223"
+      "health_digest": "sha256:ff5fdc9d385ad048c726d7a272d8f389ddd816a6f2466cc0c043f2ec19b749eb"
     },
     {
       "run_id": "lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ae060dc33783fbfdc1e76b43f21bd0fd31a9df39304f8546d457a29f716c1fbc"
+      "health_digest": "sha256:ab15b93a3cc9952a45ff8f756424594aba720212096e15d31a06e3003346b42f"
     },
     {
       "run_id": "lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ecc3ca7c89dbb89bc590c59910c15634f73423334b9f9de9a9689dd51df36f19"
+      "health_digest": "sha256:e588937b4afab8866e10f9ce6e739628a73b0d7a567fbc874619f742c7ea61b8"
     },
     {
       "run_id": "lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:06699d15bc5e58ae028341ef1311ccad9c75adc76b945d9a540293e4ee675804"
+      "health_digest": "sha256:a32f0ea364dff87966597bbcb5cb832b0a6e2ffb611caf352f6ebaef16a05ec0"
     },
     {
       "run_id": "lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d095e8d468b62465e2f18b1dc6fb7acb46acdf78487c53ad5d6c081274915ede"
+      "health_digest": "sha256:6c57a8d3ea7a3f2f9a63c813ff2c99c32ff2a62f7a5383a5e0b0925359acf5ba"
     },
     {
       "run_id": "lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3497aa682c575b7dc328b585e240b635631bca6f23acc91c9b262313e88d6e2b"
+      "health_digest": "sha256:55d2ace2a628da162cf2629a2aa156f848b34ca057dfe48f167dfcade2891020"
     },
     {
       "run_id": "lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2c82c3aa383872dab75a751cb979a11f5a1c1e6bd66858920996c96a5f86b73f"
+      "health_digest": "sha256:ed4531ddc78143484ee794bc6179760be4660f132f2a979848f61d3006eab022"
     },
     {
       "run_id": "lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d42290a1e138ac888a20e78706a9305550db9cfdc3b6a945f7c6914a1ec5b17e"
+      "health_digest": "sha256:24ae56f27bda7283124079259d7a8b69992e066830dd22c7951e20a309280f13"
     },
     {
       "run_id": "lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0b56539ddfafa50350716e09d230f23681091d566188512ac71817fb9cc5f483"
+      "health_digest": "sha256:7f820f15b8d3d08b45e697f7ac357e6bee57cc7afd4c8fa7b91308adc22f7847"
     },
     {
       "run_id": "lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:dd44cc00b1c8093236d58d65e6711bb42e002e1a8582c99120eeae1d712fa029"
+      "health_digest": "sha256:a793d6e992ed46c536cd7c457f78e5649f6e192b4be5fb83077bca866ff45ed3"
     },
     {
       "run_id": "lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d4bc85b9407a40cb1b3721773b38f79f7056a84f70e4a96e2d75548299e321ff"
+      "health_digest": "sha256:fc29612a283f40264b81ee03fa335100678f1c4b454e948fe47781c96583f224"
     },
     {
       "run_id": "lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:108e91066b50281d31b2e59a7a2e0582b57de42944f8f1a662d01441ccd2dbfd"
+      "health_digest": "sha256:808915041ce5a03b7a64ee100d244cff4839d128d4c6fdd84e66f25b52838edf"
     },
     {
       "run_id": "lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ab8567470cc99fa48b1d1df681b0b209005507c75058483b0f742056a872f404"
+      "health_digest": "sha256:e9a3ebfeec42fe11ffc343d6300d09d2faebb722089d6c956e971ba3d82d7fe4"
     },
     {
       "run_id": "lifecycle-proposal-program-1780345555951-52c388a5-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780345555951-52c388a5-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9edcaec7ae07184bdf081df544bbb42c7a8be11cfeedcfa16ffdfa3eb4d2de59"
+      "health_digest": "sha256:d161bdd082790760a5f73ce77e7d2a9aecfae3922e6a53dca5cc99b8cb6a00f4"
     },
     {
       "run_id": "lifecycle-proposal-program-1780345555951-52c388a5-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780345555951-52c388a5-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:fa5475a37b83acc90ac1d2b93219a4e44c1943a3ef847a87ac036c83663b1b0d"
+      "health_digest": "sha256:9dc71e88d77ac9b18732908e86b3e999c528f3e467f6d1045f7b723b5b043ea5"
     },
     {
       "run_id": "lifecycle-proposal-program-1780345555951-52c388a5-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780345555951-52c388a5-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:81db86324090b45d4243d39d39236706dcc33abd2318d2631bf074380067e26a"
+      "health_digest": "sha256:f13c83c443f7913df6f8aef86b3c483f9daf749ccb7218186ff8cc1c7c3da9ce"
     },
     {
       "run_id": "lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2adf63723803b42fc95fdb240121dac71919de3a34014224d5a44f59d41fcbcd"
+      "health_digest": "sha256:93ed3c2d3adf84090161cb35899c782de1fcecb537a3e39d9839e2c972a5f4e6"
     },
     {
       "run_id": "lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d0c5183509063fab19ac90f5903f8cdc009f477c722a40e0bd6e0d4555e55cd1"
+      "health_digest": "sha256:083ef706709657c5a728d2c8b9095dddda7590ce010ab8a129e1d0a39338f7a0"
     },
     {
       "run_id": "lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:23379a81564b18f57e37dc0abf11263999fd75ac7e25112b63630c3377df723f"
+      "health_digest": "sha256:ee436228645c4c26f5d1d0691d8902a158f13e3262d93fed7326245c5156c9a9"
     },
     {
       "run_id": "lifecycle-proposal-program-1780356666028-6407d556-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780356666028-6407d556-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c019596d76ae1df5a698be02f00330d9e5c5b6384d6f250c0c46ad6b1b1492c4"
+      "health_digest": "sha256:d39751dac4161e14485004e6bae7781584fb5a1febf793b520b3e5c078d9cc64"
     },
     {
       "run_id": "lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3f7d6cab5b4ef997381b757f316974411dd6aa137b4ee1159ae1addc7c6d6490"
+      "health_digest": "sha256:4ebf3315f1c78015af4f5c2d28ec2d5d19c3ecad6bcf6486ac0292a714b3e8c4"
     },
     {
       "run_id": "lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:13a6eafe20f88a337e4cd2760ca55b87ac30c6f1d965bd05c1a5585a34949013"
+      "health_digest": "sha256:686f1c154a332428bb7842aece199268cd2a86f01cbf5678ce54d6ab15380cd0"
     },
     {
       "run_id": "lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-2-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-2-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:15db4d2710b986a1c19a14d3d51a07aae1bc1713ebfd2a34fb899f8432526bd8"
+      "health_digest": "sha256:4c49759738c0c0791b41eafc9b66640a475e9cfa52e4052566e081ee80f8c9d3"
     },
     {
       "run_id": "lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-2-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-2-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5b42aa7ec0c0f72d3a6bd488e59756c5295180c7b1883691ab679c9bcc10997f"
+      "health_digest": "sha256:c35737b46383938ecc672ae255dec61b2bc91f01f7d106f5fad1dbc76f696754"
     },
     {
       "run_id": "lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:7c74185af53e9aebfa229a3c9eeac4fbe05a101974fbfd029468c0c9e9418323"
+      "health_digest": "sha256:2a1f02adbdab324e865917b6d8c51836a1edb5f481daaf9cb6618b18e7040554"
     },
     {
       "run_id": "lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:44d5293d3ff17e175ee0b454280de31703e49057b1c82ba320f2d8252687ec25"
+      "health_digest": "sha256:0df58ae8985f78e60c277fe8b773e5bbc0edbd7fc27528cda272352591922785"
     },
     {
       "run_id": "lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0c6a7324f38b4ff604a5d2805d89043e900d2c44322c9c626e762c79cd4f81e6"
+      "health_digest": "sha256:e26d5a31bdf70b084199849547d548465e250f3c5f9e9365fa541d4a5adb645f"
     },
     {
       "run_id": "lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d10b1641e30a5fbb088971da5b6e83550e2c222379371321d5555d2d29537240"
+      "health_digest": "sha256:dd8485818837bf10875280141edd93f692cfbbe897d07d95966e93cae69e58ef"
     },
     {
       "run_id": "lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f1ea2fa673054d546994d3937d1c567be3916b0eb0427d9d8391d3f64f175723"
+      "health_digest": "sha256:51869d3f8b9f4772227a6789d1008c5135fa362d0c2f759b07400205b85e6475"
     },
     {
       "run_id": "lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780362312110-f2e4f87c-proposal-program-runner-publication-freshness-preflight-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:797fad3df200b39c7ca67d0795954d6ed5de62994f42a19daaad2bcbb68407c0"
+      "health_digest": "sha256:01bfab4bad373007bf18bd5ddacb5c79495f389ce178360e8935534abbafef6d"
     },
     {
       "run_id": "lifecycle-proposal-program-1780363770145-019304c9-proposal-program-runner-archive-observation-recovery-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780363770145-019304c9-proposal-program-runner-archive-observation-recovery-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0438c3d2c6bcacdbe7ed484f42631c0c2b9af5913775c328a344373b8c6f2f93"
+      "health_digest": "sha256:b343a8d18868df497a3a7135630c8e7324ea7ecafd85b5e603f276daf0cc5431"
     },
     {
       "run_id": "lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:27bdbecb59f2828dd8e7eb574ed5291b10d299ce13df0a9ed74ce28d3cfd0df0"
+      "health_digest": "sha256:4787a483f88bdd81baa2e13ecfc19d6693a8011b7002ce22b6dd6ff031e8a8a3"
     },
     {
       "run_id": "lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c67b6eeab126dc2fca33f9318310c333cb5ea03854cc869d56fd770569c789a5"
+      "health_digest": "sha256:ae2c55595e9facee88bf7233e226a428b1b9ba8e642ee2fa102eeced2866d1d4"
     },
     {
       "run_id": "lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:4c237b511a1ef45dd7f1644f69ffbdab4f85244d7ef04f94cca3e9041d295d08"
+      "health_digest": "sha256:6e320ee7be9e42e763ce52583350ef226e6b08c8baec2e60b6009ac37f1632a6"
     },
     {
       "run_id": "lifecycle-proposal-program-1780367213145-06076fbb-proposal-program-runner-parent-review-churn-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780367213145-06076fbb-proposal-program-runner-parent-review-churn-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ccb58879f63e249fb42b96514d2837e43e1b7497bf505f4eb2f7cbbc531f157f"
+      "health_digest": "sha256:16f94af0e902d4e481d59f08b585b64fe0326a1e266c6df0e57d4a62d530672a"
     },
     {
       "run_id": "lifecycle-proposal-program-1780367213145-06076fbb-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780367213145-06076fbb-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:420348b2ec817c5451664d4613cb8f35d6a889713f6c68b11120c720b5c3e26f"
+      "health_digest": "sha256:fedd3e763f2f589685b9838e9e975aa8f4294c64b08719be966759d1a7ba78ae"
     },
     {
       "run_id": "lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:24319eaf7f9e732595e32404166c8828cdb39ef2fb4baea609ddea36108ed0b1"
+      "health_digest": "sha256:ceac90eee8a004463cdb41c366955cc81d0afde9d66857da65ce33fb9ab6e172"
     },
     {
       "run_id": "lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c4a08c6a4a388bba792bd5a7dc45fd61abcac1cd915aed6f77396c569cf8dfff"
+      "health_digest": "sha256:0d11c33963a0ade40db53efad1e951fb1925a78d71bc4345730424d578cdf3b9"
     },
     {
       "run_id": "lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ed4342a10dfe34a021f44476c2b59b46875d702ebb9bbfc86d382a58c130e538"
+      "health_digest": "sha256:6ad1e5351215b7e902f70f8b7dcd9ae368beacbb7548e4813be2fcf3e9fc1d1d"
     },
     {
       "run_id": "lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:15e23a288ffe8f34de9e967a9ce2f00b0ae71ad47f079c848da591ec5d3e6eb1"
+      "health_digest": "sha256:707430f823a25b545b7fb746b89ea8ab0a3bafdba2d642c948cc070dfd2d2849"
     },
     {
       "run_id": "lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:4ead2f9eb161a79c36de9406af9ce1fb5c088e8b8d0d83c559c4d9d691ebf983"
+      "health_digest": "sha256:93d7c1adb40d4a4585a6755c0fbcdb15551ac613cb5d3bc12bc2c34d78434f33"
     },
     {
       "run_id": "lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c8cedfd87a591a19f1b99e3c03ed9bd9067fe4edaca6e409852f3430bea70725"
+      "health_digest": "sha256:2829be7fde1b97dfcd0390ce88649a1168024a55a2c983b9a77b4a231a443f1d"
     },
     {
       "run_id": "lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:7904baa5599299ae6678c76a28f6cca6da2394c0f922dd0c497467a509e2fbc1"
+      "health_digest": "sha256:6756ae69fe9d54d5297b4974cbc6a454b5609e09abf62aea655e35aa7acf320e"
     },
     {
       "run_id": "lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-2-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-2-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f870b7a4a3754dd21791f3d2058ebb98a567f2724c2f19e6d797fa5a48f742cf"
+      "health_digest": "sha256:ffe748674ebe9f5013a0eef15bfddf7cc3eb909d022f0e1bec1bbb4f77faec0a"
     },
     {
       "run_id": "lifecycle-proposal-program-1780373365875-f73af492-proposal-program-runner-terminal-gap-map-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780373365875-f73af492-proposal-program-runner-terminal-gap-map-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f189376d5bd9efac6c2bd94f3bb1a58e34f2589d092323662bc6276c8bc25fe5"
+      "health_digest": "sha256:6302526ccf13919cc24709fdd8b343c1a792cd41b2827b6d20e60a92d6cccf30"
     },
     {
       "run_id": "lifecycle-proposal-program-1780373365875-f73af492-proposal-program-runner-terminal-gap-map-attempt-2-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780373365875-f73af492-proposal-program-runner-terminal-gap-map-attempt-2-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c846e8a0e4ecd955eaa1e59e7ade506449a7e46a723629fdd954dd76e78692c6"
+      "health_digest": "sha256:b304fe3b3507ba294f056ee57bfbbc64b3b70eec92468803772809ec0790cd6d"
     },
     {
       "run_id": "lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:7c9381a968e495dd4e657a0714893bd3a42faa74e44a6b792ca3eaeb93b79319"
+      "health_digest": "sha256:3d032a6c11331cf60b9ed86a9e1d28ea22b715daf94b510096e4cff2b56cd52f"
     },
     {
       "run_id": "lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:7524d503437bc60456b3d896afde7ed47558627186a6d1d947e2621bfb75d85a"
+      "health_digest": "sha256:d2408d27a8f4110d198211b3a3a0f1b84b11b66e024048bdcb23f14072f156b7"
     },
     {
       "run_id": "lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:8524d95de2e47d3e9f782640bee2d7814f87d5ab184f500d42024caefca4923a"
+      "health_digest": "sha256:f740929a1ca344db5cbf1f7277adf35d063f93e47729804bb60e94d0418c5300"
     },
     {
       "run_id": "lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a848e2240ef9c098d65b3f54cc6e8453d59a502dbd3094d7b3de60a500fb20a6"
+      "health_digest": "sha256:4f1c034a6321abd2d18927faaf29e0e6efc807f8a7295f74aad0c3ed81d298d0"
     },
     {
       "run_id": "lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b524902f315dbf48884ca63d38af021ebae7243f16b35ff600edf32d5d378ebd"
+      "health_digest": "sha256:a21874849d3c4d3d9e45202dafabffc8426431c4ab6cfc44f8ee3152a593e170"
     },
     {
       "run_id": "lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:79bd7b6b6b8860f82be84cf5cee49909dead31bec044ac48dbface2190fa1b39"
+      "health_digest": "sha256:768e95e23b9ef4cdf727dfbf0122dd9dbeab6c41539773b52c7deba39913b1c1"
     },
     {
       "run_id": "lifecycle-proposal-program-1780376362002-7a4cef01-proposal-program-runner-parent-review-churn-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780376362002-7a4cef01-proposal-program-runner-parent-review-churn-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:487ee7ca88a2d874f3449e90549adf5a52b9ce8188ec9da43d5ed5468f2a8b59"
+      "health_digest": "sha256:6a32c7c4b82429f444221645d5f780d9ff0bf8ade5d911be75043242dcaf13b4"
     },
     {
       "run_id": "lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:320ee04191a3f44b2d1e57323c74c9bf7563dcaa88d2235c6a1e1f17d6116e9b"
+      "health_digest": "sha256:931e014c28d35112c8dfcdaf5a481b0871917332307c11a6e2cc2ee2558dcf6c"
     },
     {
       "run_id": "lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d32bbffd9f43599e3255bc8abd147a28370d1850b87807e053a6e61f9e2ad8ba"
+      "health_digest": "sha256:a521b65e48ce283a1e564543b7eedf8b29e20cfecbbb86f07a653219ef8be14d"
     },
     {
       "run_id": "lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:01568068e094c51a6530e979cf864451c0156397e7b2e2d75d6f25c4eeba908e"
+      "health_digest": "sha256:f8f43803da38f34d336ed986dcf7a7482dfae52b021adcb4adea8b7cdfa9c46f"
     },
     {
       "run_id": "lifecycle-proposal-program-1780377743127-14a6d678-proposal-program-runner-terminal-routing-tests-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780377743127-14a6d678-proposal-program-runner-terminal-routing-tests-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2543e2520e927e4a16c36d46221e1d2fba3bac3dc68e7f2a927d3a6950af1edd"
+      "health_digest": "sha256:1f1a2011ae07a9a79fd644e6e578ab42e6e4edc2de16fe8e6f3e1a3c4fe682b6"
     },
     {
       "run_id": "lifecycle-proposal-program-1780377743127-14a6d678-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780377743127-14a6d678-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:eec33ab5b25a6405a51313c8bda85a26d8e96c38eaf067be63ae2852781de516"
+      "health_digest": "sha256:edecc72e92fd64928dc645088b59c047796d26b2ba989b8986d30b914b9cc0bf"
     },
     {
       "run_id": "lifecycle-proposal-program-1780377743127-14a6d678-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1780377743127-14a6d678-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:12e0eb256bbe53065ed6a1ee09a34c744277629dbe660b7080d38e352b72173a"
+      "health_digest": "sha256:2cce8ba92cba3e9a5c3ff6776cc9c4b97f46fca9d90e902f9dc3a86b4193ea69"
     },
     {
       "run_id": "lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1dce18ac6723873b7535328c2d557b3dfc0e2e456a890c51aa86fa22ea94bba5"
+      "health_digest": "sha256:13376600bb7a0c18434778952922d374f3e822a6bc4fdd8f2abda7bd6d687310"
     },
     {
       "run_id": "lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-archive-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-archive-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:7be1e91a182331a50f749d8ce1fd8c70ab8085cc4d9df4381f7f5fbc1864d782"
+      "health_digest": "sha256:1a09e21f6164c42e4e97fadb73116db646febb09c07497ed76475769bc4ca0c5"
     },
     {
       "run_id": "lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:4da2207c37f05b1133f41090d9f442ba084b42d0738870509e4d21bb365c9370"
+      "health_digest": "sha256:88e3129625dce1ca72f6695a0e1893a81730df95cd1e963bdc2b8ef03b86415f"
     },
     {
       "run_id": "promote-foundational-entry-artifact-canonical-framing-update-20260514-173617",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/health.yml",
       "status": "stale",
-      "health_digest": "sha256:8a72a08c44f6df313a1a6569bfc6173d298ede20b403633f83090892d466c479"
+      "health_digest": "sha256:e88f3202069ad344c23e75ef447d39b8ac809cf01747207d51f1e0351d74418b"
     },
     {
       "run_id": "promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/health.yml",
       "status": "stale",
-      "health_digest": "sha256:467663c612239b62b868bd40e1d16d766c2d3a569e221a4a67423e18c646786f"
+      "health_digest": "sha256:58c6f664d06b40e3946a495a8eb33ca4937cf90ad82d26ba2dd9d87c272b0a5c"
     },
     {
       "run_id": "promote-proposal-1778780159929-14225",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778780159929-14225/health.yml",
       "status": "stale",
-      "health_digest": "sha256:859f82b9413c8add68b11d5707a740a6c344463437b2d7f32173765c5138c5ee"
+      "health_digest": "sha256:7d89ea76686e4458674a44a9cbc35ea8d0601bc22e7f7a6d16ac5099655607e2"
     },
     {
       "run_id": "promote-proposal-1778789393590-98750",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750/health.yml",
       "status": "stale",
-      "health_digest": "sha256:7198bce62ec8ed1b0c04f878ae65265e6e6b25eb50494701d612951c0893e3dd"
+      "health_digest": "sha256:b77f3a108073298610c718dd4f885e30b2f352f089e7a8466344e01cbeffacbe"
     },
     {
       "run_id": "promote-proposal-1778789393590-98750-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:12408fcdf13ce8f0dc5f3f9a4bb7ebac125b459f19c99e1eaf3a148c9eb3041b"
+      "health_digest": "sha256:32910ae1284d261f60e013dfffe96c8f6875d0c2e9c4cb79639fd509a253e83f"
     },
     {
       "run_id": "promote-proposal-1778789393590-98750-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:593967d546f02e1961d6396271cf53ed591dfb171423dd2b8f12521a9d4b1b3c"
+      "health_digest": "sha256:bc3a406f33635a71bd3d9d776bbd6a2f751cf7ed7b5c213e16e1f8b52ad66a9f"
     },
     {
       "run_id": "promote-proposal-1778907502763-54233",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0515c1ef0f847ec8b850e13b6c7d326bd65ac561d301353fe9d4c3ec63fd3684"
+      "health_digest": "sha256:d4483a0f8c51967219e5dda53725be6b8beb4a2ae47451ce60a2cd2ac3740568"
     },
     {
       "run_id": "promote-proposal-1778907502763-54233-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:6f02c64b96d5b453e05832ff9f960dd01e8a66eaf51def3655cb0edd747727d3"
+      "health_digest": "sha256:402b688a415c1a13e4e0cece08dd201fb0b0b9b4db3022ffc0271f505ed4bec9"
     },
     {
       "run_id": "promote-proposal-1778907502763-54233-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d613681d4664002bc22d5331054779ec042d6ac71efe1925b897e772a680de2f"
+      "health_digest": "sha256:714b9838ddf093a70671c8b510dc6cbab720260274d83a16e5a1b486e04ffb4b"
     },
     {
       "run_id": "promote-proposal-1779550336436-99347",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1779550336436-99347/health.yml",
       "status": "stale",
-      "health_digest": "sha256:aa0ea1a499d7cdeb663a13761992bb961ad4384430802eda166b092214a23beb"
+      "health_digest": "sha256:9327a18b8f191ee505cc0364c9768e95c218dc2698f44b47124af3b9659ff558"
     },
     {
       "run_id": "promote-proposal-1779550336436-99347-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1779550336436-99347-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b984312f0c907895a6f8f4f8398cae4428b580c34134c7a1f3df7e696bbf95fb"
+      "health_digest": "sha256:4d3e9c984a1bfb801a143da4b2ad0069a19300fdadc03c492138d83638d43b41"
     },
     {
       "run_id": "promote-proposal-1779550336436-99347-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1779550336436-99347-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b48c349610d7e4d6e3ff7f76d571333ebc3d328d7f8a367c147786a928f0a95e"
+      "health_digest": "sha256:3783ab4ec716927b5d111f5232e04aa611a4f88770a96dab7b71df40449398cd"
     },
     {
       "run_id": "promote-proposal-promote-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-promote-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:8d40633f9ea1f6d1e574cdb88156ee47620254d041bcb760b8169550050d87d6"
+      "health_digest": "sha256:45fa9eccac2310a2a1319d2238e0e3d256f1b35029dcf8cb98b3336558f2c82c"
     },
     {
       "run_id": "promote-proposal-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-validate-proposal/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b8ade848d9f88185eef81e3bdb86d6ead8dc2e4dfc7962f3e77952f10b5c9f0b"
+      "health_digest": "sha256:8cda6400aff43611d0d17a2ffec5e4aa30c18f601822000393f381ca53c715f2"
     },
     {
       "run_id": "protected-ci-1776956405637-68212",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/protected-ci-1776956405637-68212/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f54a164f5a36d1f90a6f82ba05405ac9623c021204ac47eeb23e24a26bc54346"
+      "health_digest": "sha256:8d4f388330699b6d1a907c10f7977360971235f296ea23192cc14590e1bfed05"
     },
     {
       "run_id": "publish-1777422984064-73566",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777422984064-73566/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ce47e8719e380b4af7b42f552aec57ba8b66a0974c3cf1a636ab4066b0afe207"
+      "health_digest": "sha256:c2ce48304dc22f6140f07a97c5c5914f8ca5362e016049c3b76b9976a4c261da"
     },
     {
       "run_id": "publish-1777423061903-95134",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777423061903-95134/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a6acaa59410960b2f2c7784f42b13d3d918e979aa6eadfd65e8301c9778bc99f"
+      "health_digest": "sha256:e87f75cf429ff4721652776ac86b327b6a2bc732aa7d1521ea61f0d682238ea5"
     },
     {
       "run_id": "publish-1777423080924-1883",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777423080924-1883/health.yml",
       "status": "stale",
-      "health_digest": "sha256:eaa722e394c8f981d343ec939310c43c3ceb38ffefd563329b188f1dc0cebfeb"
+      "health_digest": "sha256:6e6947059ed569d44f6e05c3c8446bfbebff3009b3960b5aa46919144dde5e5a"
     },
     {
       "run_id": "publish-1777423089728-2628",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777423089728-2628/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1b9206baf7e68c7b94b7487786ebf540ede05bcba927e834faf2aca800b73840"
+      "health_digest": "sha256:0a34cea8246a11ac6532684105ae3400c7b08bb948313ed57017214bd71d864e"
     },
     {
       "run_id": "publish-1777424810079-75845",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777424810079-75845/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5650431455e3b08bc4a18a2355b1851c611e6cd710c7e228b0db9f14f0d4e74a"
+      "health_digest": "sha256:1d0e5ac821a87ef4f3b49d7c5b43110974816294ae3b85210799f2eea212b3e9"
     },
     {
       "run_id": "publish-1777424884404-97686",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777424884404-97686/health.yml",
       "status": "stale",
-      "health_digest": "sha256:172c814f00df9d5bee4e4da7d1e1833420687368508d52da3f5540107b818882"
+      "health_digest": "sha256:359cc92a93232f8e5f8a3ef2add830e4cf7d109780bc634d97be9efdd2b7e8a4"
     },
     {
       "run_id": "publish-1777424916339-5871",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777424916339-5871/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d8c0ea162b1b5a6a6387ddf7823404970a1f5d1dacff5e4f941f51a5229e9609"
+      "health_digest": "sha256:a8db4be5a0feec327088115f1a8805730fed8a1568ce5c1e15cb78e298f755fc"
     },
     {
       "run_id": "publish-1777424924984-6610",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777424924984-6610/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1f30d6329513ba59f3c5979635e3fb83444126696bdf8b5b66c0b31b72a62524"
+      "health_digest": "sha256:e4fd87994d1fa28c3fc7d87c2ecc78631fbd723a61ade449826e03d28e91029e"
     },
     {
       "run_id": "publish-1777471258209-32069",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471258209-32069/health.yml",
       "status": "stale",
-      "health_digest": "sha256:156061ad2d094d9607b47beccc27dc1d3b9d48b2e631c40a2ae732d9c98a78b4"
+      "health_digest": "sha256:47668e5dea38153b5049395b61f0ae8f8b51e54341ca70c41df50e6ea55ae1ab"
     },
     {
       "run_id": "publish-1777471367077-57702",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471367077-57702/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c6cdae729879e2eb499f4a3df8898b2b6313447428900c78edcba96b788b2d23"
+      "health_digest": "sha256:634f04fe83c86a89e88ce92490491d4898e6e6999001348f15be7f09cf3dedb3"
     },
     {
       "run_id": "publish-1777471375866-58163",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471375866-58163/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9752606326c3cf454ae88e1199e64cc53a67512c05c00738e986df60c07f7196"
+      "health_digest": "sha256:322418c6a7581ce7c7ef4eb5eedb715eaf557ede80eb56458e2beaeb87a5fa86"
     },
     {
       "run_id": "publish-1777471430431-75071",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471430431-75071/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9f2a331759bd8634e709271f8dd52a6795c47c039e5abf4a7e9aa1528ec2b7f5"
+      "health_digest": "sha256:2184e16de61c23559ddc1ed654e3a5e7f26685d0f23686509d133f2d4f34b078"
     },
     {
       "run_id": "publish-1777471448764-89339",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471448764-89339/health.yml",
       "status": "stale",
-      "health_digest": "sha256:43525629f360777b8bb9e3c63551bc45981bc5ce868bda5d165c22bd7cbbfdcf"
+      "health_digest": "sha256:f554df3b53997058a48e921d26f91c46368afe4a1c08867dee1afd88feae40f0"
     },
     {
       "run_id": "publish-1777472435164-84124",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777472435164-84124/health.yml",
       "status": "stale",
-      "health_digest": "sha256:7423aca19f6d3e03367b0932eaad0ac960ef77e2b0630a5bbd43a06a071757b1"
+      "health_digest": "sha256:b2cbbb2bbd7fc07521fad222b5c2180549466de5bf549cd3c0c64481c6d57490"
     },
     {
       "run_id": "publish-1777472507311-5563",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777472507311-5563/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9ce0b6dbd8ebc6e4eb708c0fadb2564a301ca3e6005331e2f207c89f2d7730c6"
+      "health_digest": "sha256:35ffe7fa94b07a90e549fed29ac483b7527c4d95514d08c2c39cf25facaf611e"
     },
     {
       "run_id": "publish-1777472515437-5926",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777472515437-5926/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9c2f062dbcec862c3780a2717be5115f47dbccf057a24e2b5262367752f8f9ee"
+      "health_digest": "sha256:f1ed1122ba82f14ea5467b1ec2fb0f4db0956e78b4574d21b8c76bccdc3140d0"
     },
     {
       "run_id": "publish-1777472536856-11767",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777472536856-11767/health.yml",
       "status": "stale",
-      "health_digest": "sha256:bd40e4768208d7ed8bd29070c591d62e96b98d897fbc168eb5c75dadecf38e49"
+      "health_digest": "sha256:88337c2403c200d2d8e2618c342991147e1726e87b0d9a548772b0adf143565f"
     },
     {
       "run_id": "publish-1777632056333-84806",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777632056333-84806/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e669815b1f1c13475fc34275bc0dddbb56075bb1b1a072ad7bcd497fe05d1bdc"
+      "health_digest": "sha256:58511989c029b341ec01dbe9071eaf59310f506de9d4c78aa04e9ea967daa896"
     },
     {
       "run_id": "publish-1777632076001-91565",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777632076001-91565/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9acbbb3f671b23cdc1c7498b81f9bffae28776d5f0fe317c21800496ba091916"
+      "health_digest": "sha256:3bbe8f057410df3940c9842b757be8049052203f48318f13a9eebff3bdcd8bda"
     },
     {
       "run_id": "publish-1777645675141-62877",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645675141-62877/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1e9af8956d4d309ed5e92655ba243e60d98d00db4ed0c28ea39d99c4800a4fab"
+      "health_digest": "sha256:f7788f2eba856b71ecbed746c5bfa09aaa6be5a7eb397c9666a89279e99bf19d"
     },
     {
       "run_id": "publish-1777645695599-82172",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645695599-82172/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3ffd7017cae85515d30bbb48dcf8b50394fd203fc4ee32a829826b6f5b7e7913"
+      "health_digest": "sha256:13038315cea06fe69750c3160e0e3236b2f415bf19717f6f29340f8ffd9a07f9"
     },
     {
       "run_id": "publish-1777645703361-87101",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645703361-87101/health.yml",
       "status": "stale",
-      "health_digest": "sha256:987593b18f7b3d992460243ae2d7018f916368132a27b522a12fde13e646d567"
+      "health_digest": "sha256:1b2090113ec9765bf82b89c3202f8c2756d14f2cea3d1dbb532dee5fdb7c930d"
     },
     {
       "run_id": "publish-1777645737021-7127",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645737021-7127/health.yml",
       "status": "stale",
-      "health_digest": "sha256:aa7e53367c29f98ff60fa78a85529522ae3c7af98c61bbf299d78b0fa20f7d22"
+      "health_digest": "sha256:da7facc10a1f74b5ab252250f272ee3019ca5d78bfb1930e3f861d9d46c82193"
     },
     {
       "run_id": "publish-1777645854848-6068",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645854848-6068/health.yml",
       "status": "stale",
-      "health_digest": "sha256:4da879d3be3026170375d23e79b02aef686b928d53b52c21e30e3d62cf248d55"
+      "health_digest": "sha256:23a316a73f948a290f4bff4e76238b6d74c7bca5ffdde59efcfe6434f88a65fa"
     },
     {
       "run_id": "publish-1777645877352-18070",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645877352-18070/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f76c34740f94f395485511b465af9a9ec99586d9cb1f3d8f46e744f88c9f448b"
+      "health_digest": "sha256:f6f4a3fdba96c4dd2ee82fb4fe376d528bc04ec9f8c0d681aed2e831a26460bd"
     },
     {
       "run_id": "publish-1777645884878-19017",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645884878-19017/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1b0388304cb72a10d9d652b0bc63b6ae96a6a5c417f52c2a1b3c893bdd003d5a"
+      "health_digest": "sha256:2f7a5d612d816ec5bc2935169356c6bb7d7f653d0ed6b49a32960049042c2ea5"
     },
     {
       "run_id": "publish-1777652598179-97374",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777652598179-97374/health.yml",
       "status": "stale",
-      "health_digest": "sha256:8520da0a3ffd2d9a5e05dbbaa8b0a900034304d0d90c57015e71d9597ead0775"
+      "health_digest": "sha256:3447136ccfa990e6fb41fadeba334d2d389a063c226b45f57e8ab05538ff56fc"
     },
     {
       "run_id": "publish-1777665554323-38413",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777665554323-38413/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2cc9d6def9e1fee91dea9517e02827e079c480ce0bd8556704e5eea3fec3e308"
+      "health_digest": "sha256:f2e6ce2094f7948a6478796bdae55ebcacf36628dccfa447dc9c54ac47ffebb4"
     },
     {
       "run_id": "publish-1777666570603-87006",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777666570603-87006/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d0aac523a80714d6c185dc76fa9c98dc2e1e498994a54af37f17be0ec4fe407d"
+      "health_digest": "sha256:1317e1b07102ab28919886beaf8eef21fe7ce3d02443a76311fb3cf6c222edf7"
     },
     {
       "run_id": "publish-1777677297712-9334",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677297712-9334/health.yml",
       "status": "stale",
-      "health_digest": "sha256:74bc16960a56641749f1cbfc828399dc3efbf64c4b0dbada46abd3bdfb2e884f"
+      "health_digest": "sha256:01f27fba5f2da8264e6e9a9a54876cdf7c1f496c25a9ccfd0e2bdfecb2051d68"
     },
     {
       "run_id": "publish-1777677401499-41587",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677401499-41587/health.yml",
       "status": "stale",
-      "health_digest": "sha256:6b85b35cef8d42a2aa1cd91ac882db6e1c9d5e5d3a11b87cfd34f49a9e00ec89"
+      "health_digest": "sha256:c4fb1d94d93ef8d6ac73f7029358d65b9c488e183fd9989bbdcefededf472c35"
     },
     {
       "run_id": "publish-1777677458864-64783",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677458864-64783/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0e73aecb3a63e7386dc97b8144429d0d561feba9f42e5c1b6cd99153c87ba5f5"
+      "health_digest": "sha256:2d5c9828d085a675f01a60a0099a199a1f38f0bf73da4db5c3de3dad628f6bb2"
     },
     {
       "run_id": "publish-1777677584427-89158",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677584427-89158/health.yml",
       "status": "stale",
-      "health_digest": "sha256:49cad07dda20394efddcc244565a42088eaef81f07aaabf122baeec08642c0de"
+      "health_digest": "sha256:042a1bfe7c58b32b81aebcd49192366d631ff4a5d1e8e77d5f233eda28d12c58"
     },
     {
       "run_id": "publish-1777677603963-89508",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677603963-89508/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e5012c5b2361507a543b2b0c9c7b92c68d961c60c4e1c0947de6942c78c2e0ea"
+      "health_digest": "sha256:9150cfd491aaca23dfe2d6bad1816b36170d6ea41fb877104f785fb6f26a1aff"
     },
     {
       "run_id": "publish-1777775597631-68872",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777775597631-68872/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f8ed0f184d1a2afefce25d76020ebaeda8aedf8c49683046ec05f8f76c58ae45"
+      "health_digest": "sha256:9cc70cf5a2919b0bffe10f96ee4d250eec693b51b4b85ae3a62f0d3711c85043"
     },
     {
       "run_id": "publish-1777775701772-1640",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777775701772-1640/health.yml",
       "status": "stale",
-      "health_digest": "sha256:27d762a98c64d4b126c5bd1e5e273104205ddacca3a40aed3f1113130ba7d670"
+      "health_digest": "sha256:095a6ed229e72099273ee2714a0d71bc9ce5c0aaa326dde2c555c87efec15208"
     },
     {
       "run_id": "publish-1777775720373-8518",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777775720373-8518/health.yml",
       "status": "stale",
-      "health_digest": "sha256:713960e10bb22e3898dc415465365e7b5e7ed2dcb8d42ee12234c1ba7a3258f9"
+      "health_digest": "sha256:2099b4d55cf0b23213c5a1af64c04c1b0008463d48a28bd95f39e2e4d1a9d7a1"
     },
     {
       "run_id": "publish-1777776075480-23816",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777776075480-23816/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5ea4d7730cfd3e6c1f3882594b397211541f30286daf5f8e378129d5b95e202b"
+      "health_digest": "sha256:3c494b62607c9a96b4ee7754b9af3d5dbf350702add2d1f902d26146699168ca"
     },
     {
       "run_id": "publish-1777776174857-56345",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777776174857-56345/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b45e141d5a8a92cb88be87138777dfb44208a762dd381ddaf595056b2df4b85c"
+      "health_digest": "sha256:92b21975d687afc1b329c2127333b714760838de0524c32eb63f172b2e144919"
     },
     {
       "run_id": "publish-1777776194375-63235",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777776194375-63235/health.yml",
       "status": "stale",
-      "health_digest": "sha256:82d687a5fcaafb6a14164477134389938f32dc269732da5096ae4efbf1f667bb"
+      "health_digest": "sha256:fad6f1b699c04f6af5d7fbd1539681e4c50b815ea9044b3960c8cd5be5071392"
     },
     {
       "run_id": "publish-1777778128494-55429",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778128494-55429/health.yml",
       "status": "stale",
-      "health_digest": "sha256:da7f3e8c17e08d635530bb02730df35a78ff551a044619ba433c6a1d038fd369"
+      "health_digest": "sha256:f5d8c5d88e3d13274f076bbee2c6700423624d37fa3350563e655091c43508b1"
     },
     {
       "run_id": "publish-1777778180159-61448",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778180159-61448/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a17c9953a12aa4c408b86b88e246ffcd27e76dd0914ca349cfb14aaabdb646b1"
+      "health_digest": "sha256:5920d9421fafe1eb0a9c05cce8e1bd565fd54d42a6bb2c859d0648333669b70c"
     },
     {
       "run_id": "publish-1777778287559-93662",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778287559-93662/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b968f0d149993ab594b9dcaf71d512fb458c364f1257556f32a90f0e8de5ca9f"
+      "health_digest": "sha256:3a62f9a0fcd1325d2221cec42b683b0eaff948b5b3267acd680775aa30496f21"
     },
     {
       "run_id": "publish-1777778424256-13836",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778424256-13836/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9d03267dd37ea110f600c13f47fead438495215d5764177553e77925b77ce893"
+      "health_digest": "sha256:419368e2d21809d420c96f09369905d2ce49042244bd901dd6b3fb057e20c1c9"
     },
     {
       "run_id": "publish-1777778445320-20696",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778445320-20696/health.yml",
       "status": "stale",
-      "health_digest": "sha256:211f826a3f46318aaf30c464b7f868607014a4cc341b8b430d1039bc35b86e79"
+      "health_digest": "sha256:6e91f1901a8b87487e2f117153472e264104e69c1d28f5e48315bc42d54ced20"
     },
     {
       "run_id": "publish-1777778510053-37929",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778510053-37929/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0735ad6413909da13a09ef7fa2d1e85e0fa6bcc81b6e1c4e2572f65ab06e66a1"
+      "health_digest": "sha256:c7968f4e8888cdf1b47713be2a88fd8a94e85aadf2ab0c34f69c611d4ffa0785"
     },
     {
       "run_id": "publish-1777823294526-55200",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777823294526-55200/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2dc4c1efb61cff9c7e30da90f9bef4ffdeb39f81edc727114126c0df1307537c"
+      "health_digest": "sha256:818dedb8d654474e0131f8bb9f8e24f344e49a1da963b3ddead4c4db8d9fb15b"
     },
     {
       "run_id": "publish-1777823457586-1227",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777823457586-1227/health.yml",
       "status": "stale",
-      "health_digest": "sha256:94329a0d7c62e0b0b8d07639676aaa791143b445a8bc3f68d69fd3486aafa28c"
+      "health_digest": "sha256:8aac1cc87f63105a164ff61d2f116936aad8af10b05e2e818982a66399f0ac89"
     },
     {
       "run_id": "publish-1777823567650-25980",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777823567650-25980/health.yml",
       "status": "stale",
-      "health_digest": "sha256:75d0928bb9a4116548f1992273afaa685c045435afd17978bcc70e32d06c7b1c"
+      "health_digest": "sha256:01a28ca481225eff6e80b3c41871c601c321975c4dd894b92a3c0c7ed77f4be6"
     },
     {
       "run_id": "publish-1778066051949-87170",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066051949-87170/health.yml",
       "status": "stale",
-      "health_digest": "sha256:fbd1b2969df6f75083cf371a811f387a04c27edd2ee8e5e04ae825e5ba03d35f"
+      "health_digest": "sha256:d5b90336f63829fbf0313af2380b728b61c2cc82dbf4febb59e16b76df277bbb"
     },
     {
       "run_id": "publish-1778066108337-12662",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066108337-12662/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a0682acea02a754af8558157805873567b7b34b760c157b9b8eca7e015f86a14"
+      "health_digest": "sha256:a099da4f6f1ded424fd811914fc0f88b6cb486e946ba3585ebff364a0b3301cc"
     },
     {
       "run_id": "publish-1778066175529-48085",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066175529-48085/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f660740c1982ee446908a94fb47b2ab7e1dfe6ff9e11957ee52d75835250444c"
+      "health_digest": "sha256:dc8cc9496f369c702afb0271e50ac1526a8a14401df5488cdc7cd91a3590f339"
     },
     {
       "run_id": "publish-1778066220190-72409",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066220190-72409/health.yml",
       "status": "stale",
-      "health_digest": "sha256:856dc1b370e247b2cbea66f3879ef1abe332fc31ef0e8d41056661215076978b"
+      "health_digest": "sha256:20e61cb47f62a3217ad2606c4afdfd747dd37f1d2743e32995c440b3052749d6"
     },
     {
       "run_id": "publish-1778066449024-16298",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066449024-16298/health.yml",
       "status": "stale",
-      "health_digest": "sha256:fac7b4c9d1e497f8b52905a1d164f958ebb4d7734bcb2ed341ca83403de3298d"
+      "health_digest": "sha256:3a89caf74ff65a504b5d1210d3cb7b2096a5bf2753030c8ac69362595a9e6e2e"
     },
     {
       "run_id": "publish-1778066702138-99668",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066702138-99668/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d415338909f30975713c58b14513b36acfcafa7e8a363ae04a06ee54eafaa007"
+      "health_digest": "sha256:0e437a3fd2a1d956a16d0a4a3d5b10b43902d2fac269d36702d09df58f14f00e"
     },
     {
       "run_id": "publish-1778066722638-6823",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066722638-6823/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0263206629a26c398f963ad53ac3db5b153d4b0b3d1197b22d404f43609de1db"
+      "health_digest": "sha256:c2c4c4bbae108591b834427f9931c73806bc63dbf8b10f255c77b5e0b8847fdb"
     },
     {
       "run_id": "publish-1778616331311-93068",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778616331311-93068/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1d60e9bb235b7f0af0ec30951ccdae90a3f732cd0e76c2b3e3c2b9115413cb86"
+      "health_digest": "sha256:129fd5ca87927e6062e3624469d42e790de56b008b88ead380a14b014d576f0d"
     },
     {
       "run_id": "publish-1778616447459-34741",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778616447459-34741/health.yml",
       "status": "stale",
-      "health_digest": "sha256:4782223486165f9483b235c79cb9cf3279618e750f5a86e8b01c4ff9c9fddbb5"
+      "health_digest": "sha256:c0a8178a46e1f26ba2df761bd2371fe05a8149a4aadef63e3917421d2bc1bb0c"
     },
     {
       "run_id": "publish-1778623229627-86379",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778623229627-86379/health.yml",
       "status": "stale",
-      "health_digest": "sha256:257ac906113d0df3147030462961cbe9399492f860b2bdc507a45849d747f4a9"
+      "health_digest": "sha256:b307473aca97f46e55f9c9ebcce375c480e9c7fb6abac1f9dc380b3e7627e8b8"
     },
     {
       "run_id": "publish-1778804493197-24604",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778804493197-24604/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a998518ab9603dde66726757a7b92cf61a841f49629f0736f78d31f8f73ea042"
+      "health_digest": "sha256:c98cadb2d11de69a86b291dc9a246d78a8dba0bac25ddcaf1e2b693a5f0b285a"
     },
     {
       "run_id": "publish-1778805087830-25396",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778805087830-25396/health.yml",
       "status": "stale",
-      "health_digest": "sha256:bbacf5d92a85696dcde7677e28ddae5e7c5025298fe608027ca5f614cf4307dc"
+      "health_digest": "sha256:9bc226497aeef80ce1add81f1cb53c51b4da783fb115837cda3453533fe94852"
     },
     {
       "run_id": "publish-1778805144635-28111",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778805144635-28111/health.yml",
       "status": "stale",
-      "health_digest": "sha256:66217b5829b15df1c4ee71cb272072fe2a0ab90ccd32e26079600364f12c7094"
+      "health_digest": "sha256:d549f5a9e98208e523d0438c9dedb22682c491beee63ad9225b547599b1d13a5"
     },
     {
       "run_id": "publish-1778805167655-36699",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778805167655-36699/health.yml",
       "status": "stale",
-      "health_digest": "sha256:da08d136e91cfa9e4ff9be53b381dc5351c98418230184ba03c75d4a267ba829"
+      "health_digest": "sha256:7a7f45e4f9839015bc4ec626df146c320fed018c179a10736cde15578c03d236"
     },
     {
       "run_id": "publish-1778877939065-76435",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778877939065-76435/health.yml",
       "status": "stale",
-      "health_digest": "sha256:759285a2638351553e9d66fa6ec381e41d1155f7a6c2e38273a59df4e66605d3"
+      "health_digest": "sha256:e7cf43e0b29d33127298295c0d87d3ab886beaf016fe1795b4b77fac2584353d"
     },
     {
       "run_id": "publish-1778878128691-27800",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778878128691-27800/health.yml",
       "status": "stale",
-      "health_digest": "sha256:53563c587faa764d7ddf30e616d1a07f7ac26cb7ca846b023dff862b2d40218e"
+      "health_digest": "sha256:31d6440283df3c0aa1b6e848ce1ab17aa0a74d0d6eda6080e1c20fd8c89d8a12"
     },
     {
       "run_id": "publish-1779297200530-91697",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779297200530-91697/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9438306da2935d940c99e314e88c3aa38350495d4d5d5a417c5e3fbb79470b64"
+      "health_digest": "sha256:5c3d7bc6b4dc4fb9157d359e8ca964bad2d72609cba2f95bcea4ee3424110c77"
     },
     {
       "run_id": "publish-1779297552112-2070",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779297552112-2070/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b00fdb7cd96e79cb7e5dceb9742102a4b73caf6d5c04e815d963192d35469d88"
+      "health_digest": "sha256:f623ebd5c14e91cc527ab3c297319ca4715a3690d199207b8f87bed0fc014c48"
     },
     {
       "run_id": "publish-1779297842174-78249",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779297842174-78249/health.yml",
       "status": "stale",
-      "health_digest": "sha256:fcc8414510d93bc317de9bea6740888d13124dd9d334df2eab508ff4d5148b10"
+      "health_digest": "sha256:a94a9b0c71b584534f352a410a52269771fdf6bd71ea5edda2007bbd57165787"
     },
     {
       "run_id": "publish-1779297867218-85967",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779297867218-85967/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2cd325f74e9e2767279f3d2ee1f8639d44fc17a695e0d5c8bd446e70dbee2c5a"
+      "health_digest": "sha256:8b80663cfb247f259c666c310af18534ac2296a0f00cb8234c33246407a5b5c9"
     },
     {
       "run_id": "publish-1779305091843-92167",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779305091843-92167/health.yml",
       "status": "stale",
-      "health_digest": "sha256:678ac153d967676aead976f3c6595dce67ce7bcaae95f859c424a519ea010b5b"
+      "health_digest": "sha256:f355a2e963e9a277c3829d888b35f60e11feb9996fd4923b05915837f42771b3"
     },
     {
       "run_id": "publish-1779305121205-490",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779305121205-490/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a822b0f9e9b404c3925ca4878e9036a0e8f32d1378af56597ea7de6208ad22e5"
+      "health_digest": "sha256:0c290e60a6d26cb3f75825a0d824291db454da86e5959bb4e0eaeb219e6c6b1f"
     },
     {
       "run_id": "publish-1779325702961-81690",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779325702961-81690/health.yml",
       "status": "stale",
-      "health_digest": "sha256:68da60fc62853a5dcedab867c102168cf9902d42bc17fd2a63f274b4a933fe21"
+      "health_digest": "sha256:0da2cc563ecf973de2e33a7fd7fce4a657379c616987cb2cdb35445aecd301dd"
     },
     {
       "run_id": "publish-1779464669157-8495",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779464669157-8495/health.yml",
       "status": "stale",
-      "health_digest": "sha256:50e416ea5c280d04c915173662065e8bf4a560beb3cb44124ab9e61f3b59dceb"
+      "health_digest": "sha256:60b943bb0fa61a0d36316d4a8112cb6ac62a9e01af90b9880eeb0f3007e3e7b5"
     },
     {
       "run_id": "publish-1779464822743-54730",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779464822743-54730/health.yml",
       "status": "stale",
-      "health_digest": "sha256:32f20f8afae117b9420343d48126f7a5b1c9c8e9223ae4ef87bbbb3d885298b5"
+      "health_digest": "sha256:6f26529c95b3a44c0873bf5d9631570e1fbf50322f25bc68c4662947408f7ecf"
     },
     {
       "run_id": "publish-1779464845331-62516",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779464845331-62516/health.yml",
       "status": "stale",
-      "health_digest": "sha256:169d94ed44d9d0d48e61b4dd31f80b8c70e910a8acc6867b97972a3ce3a31767"
+      "health_digest": "sha256:17cc6ba7bddcad9844651a2cdc503233445ce5b8ee8a52d52d0d2a58ffb504d7"
     },
     {
       "run_id": "publish-1779464854030-62893",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779464854030-62893/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a0b63f8605fa6b1e3dc9abc1801d268a01e164f1c58db62dbd0d179ddcd141b3"
+      "health_digest": "sha256:c495ecb313416862d968a011c285fbf9304c4c5fed29d6f772f7d603f90cded2"
     },
     {
       "run_id": "publish-1779465029049-3002",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779465029049-3002/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2ea826dd99ea7ee1b0a5eedbb9964f134f6ca16ab54c8f72ed3358bb788cd698"
+      "health_digest": "sha256:be9057b19280992429239e89a4176ed6535a79f45d22abfd62d7150fbeb17d24"
     },
     {
       "run_id": "publish-1779547126748-14340",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779547126748-14340/health.yml",
       "status": "stale",
-      "health_digest": "sha256:33bf3b5d8fa9e7adce6c30e19aa4af2419b488a57f6b84010eeb93b5381a9661"
+      "health_digest": "sha256:14c58fca8e18fcdd25996ef8dded350184f9d41f535a7c0444db3326323f8387"
     },
     {
       "run_id": "publish-1779547315213-63300",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779547315213-63300/health.yml",
       "status": "stale",
-      "health_digest": "sha256:92039561cbbf7d7e908098f328c19437cf55d33ecde2f245b7e0a68006786742"
+      "health_digest": "sha256:1e110255e7811e07cfff67e435df09a4d941dac49fceb1f3ddca36508aefb568"
     },
     {
       "run_id": "publish-1779550206737-88618",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779550206737-88618/health.yml",
       "status": "stale",
-      "health_digest": "sha256:4b3bbec45475cd8d5c1f95ce06b9f089c896b6efbd5cae1a6ee2cc4154a78656"
+      "health_digest": "sha256:af6559d0b34c55c7926b05297c14747e54b03d4957df738f0ca5ed52a48f1e11"
     },
     {
       "run_id": "publish-1779550249609-89204",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779550249609-89204/health.yml",
       "status": "stale",
-      "health_digest": "sha256:bcabfddef1e6bf4c0382bc661af0503f7d33572a252d16b19996c9ef301ee740"
+      "health_digest": "sha256:b974b716a4466c3d0df0f262fd6784281f46f259aa4c8cfb1bdf49bbcf71768d"
     },
     {
       "run_id": "publish-1779550259402-89600",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779550259402-89600/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ae85b0aa9bd81d5975e052d61be9733d80db442c3a452a8f35cb5154cc69b479"
+      "health_digest": "sha256:276d2cd144b2722fbbd20fdd6d6fc3a38618045ed4ae210481d31f585a20e6c9"
     },
     {
       "run_id": "publish-1779550291959-90155",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779550291959-90155/health.yml",
       "status": "stale",
-      "health_digest": "sha256:94239f6e82ca85efd75c38bee3d7f798131c68ed2ca74cec2a69b1568ba3eb4a"
+      "health_digest": "sha256:dd1186431f20d53b90c1d55da3f3dbeb9ff21e367565fdd92eb6f65c31942b92"
     },
     {
       "run_id": "publish-1779550315321-98066",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779550315321-98066/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0d99c936406c657d94defa230646c97bad9582c0636489bf752c4e1abde4d072"
+      "health_digest": "sha256:cda3eecea7e92b1f498855189c4c9acf2fe989d3f6132242a478e9d2c41e7da9"
     },
     {
       "run_id": "publish-1779572366558-89692",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779572366558-89692/health.yml",
       "status": "stale",
-      "health_digest": "sha256:96919d0a077f4ad347c7e4fa15081392531b4e03bab40ef3ca9462b2cf6678e6"
+      "health_digest": "sha256:cdca6b201daf1e9886596293c643a2d6a1232f21ffe1bacdf24c366a1d998e94"
     },
     {
       "run_id": "publish-1779572518776-30321",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779572518776-30321/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1457f8a48c0f64cf70ee1a375bab9ade63e08a04cdae0b92306e6ed8bd01fe5e"
+      "health_digest": "sha256:c859a1f91441034f3be178cf50338a2eac82dab6d87d5b5003c1e10b4c66e52a"
     },
     {
       "run_id": "publish-1779572637464-34223",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779572637464-34223/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b41427279651468ac627e4c559c2e54d4fdb5defecf1efa31b45336dcf1a63f4"
+      "health_digest": "sha256:59e7a82881d121e2339353ffc5bf68957062426bb4c57e59de64c03646d39caa"
     },
     {
       "run_id": "publish-1779577991253-20967",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779577991253-20967/health.yml",
       "status": "stale",
-      "health_digest": "sha256:14ad7cab04369c75c48639d815d166e6562305121218e59d327c4eca24541795"
+      "health_digest": "sha256:f7f2f6c105e688dea63a7e212a2ed378fda86c2378beb7e8ba5a8699f92f8f83"
     },
     {
       "run_id": "publish-1779578044898-23088",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779578044898-23088/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3ada22668290fa89828f586c7ece84121a6c3e9e5a687ef8556e173a0655fe0c"
+      "health_digest": "sha256:57ab63675626fe10d550f95e1f032f4769da4a2afcb4ae91678a560e54228492"
     },
     {
       "run_id": "publish-1779578077426-31785",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779578077426-31785/health.yml",
       "status": "stale",
-      "health_digest": "sha256:16f130cbbcc79fdd042d8c43a730051a392dd5d598a9a582f55137a842ca323f"
+      "health_digest": "sha256:173c388523e5b070887a1628a8dcd34da181c794713c66a43b886ae43cdefbe6"
     },
     {
       "run_id": "publish-1779646524899-44577",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779646524899-44577/health.yml",
       "status": "stale",
-      "health_digest": "sha256:084e959c7c1ead5ed12102eece5d8e3736dcf5dc46f1e0fa94bf2793f8098843"
+      "health_digest": "sha256:982735c9ee2137ad2c2e8a4b44b7ee701b8a99dfa32142bec67ae67b67417c32"
     },
     {
       "run_id": "publish-1779646706520-94989",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779646706520-94989/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c3de766f948d9484d4bfb9dbbca676a339b176d5addd64a67a3ebbaea7d258c3"
+      "health_digest": "sha256:4ce1f6b822c7ed8d9a04241f6059b00c21abf09853529ea817ed9026301de3c0"
     },
     {
       "run_id": "publish-1779646728447-3440",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779646728447-3440/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2e0b9d6720458f3bfae846f7b275e8641e7f9daebb20c4290a7e5784b7b8dc75"
+      "health_digest": "sha256:788fb9ed75dc26295e80717929e61aa102240653b6be156573bb131d2c1aad22"
     },
     {
       "run_id": "publish-1779646736042-4042",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779646736042-4042/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d34aa9149926c034d72ca57b206417d2aed210290c15bee8052490d1f0d01341"
+      "health_digest": "sha256:a06719484f26f4ec5dfe4b4d1e0d7614738449a13d9a65a522b292b4edfc0210"
     },
     {
       "run_id": "publish-1779646745150-4770",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779646745150-4770/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9f7c0d6f564ad47b3e90305bc98b4183a431b50f41d4f42d225d8ed09090dce6"
+      "health_digest": "sha256:fd51d6aa96b4aa3756f5918329ad95ecef2707eecdeec725ca2273e85d5cdf73"
     },
     {
       "run_id": "publish-1779653396698-1159",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779653396698-1159/health.yml",
       "status": "stale",
-      "health_digest": "sha256:06650046713bd9ee97601e58a4a9fd817722a5c987e4e48bef947541ceda9cf9"
+      "health_digest": "sha256:780223d59f5c1759a0b42937d4fbc2e0207ec4d399941ec6cd9e10549cd9866e"
     },
     {
       "run_id": "publish-1779664746748-98407",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664746748-98407/health.yml",
       "status": "stale",
-      "health_digest": "sha256:47275eb40a813800730a7e4e5a98bbcab4bf89237b41c3e0dee19e3f9d4181df"
+      "health_digest": "sha256:428a2389c81ab6372b443f29589ae88ebdf6a3e5df603096fd57c95d88987c71"
     },
     {
       "run_id": "publish-1779664751658-99264",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664751658-99264/health.yml",
       "status": "stale",
-      "health_digest": "sha256:79ce7c40ff0db8950c48065e8324f27b36687eb964f2615bb5ff567981fb0a5a"
+      "health_digest": "sha256:f4d9f2bcccca3c583c83086875b9ed3d937458b8b6e1ded53a0f7ce5d7d3645b"
     },
     {
       "run_id": "publish-1779664757231-575",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664757231-575/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9cf227ea15b1fbf956b610fe71465997a1fee845447e4c623f50d4a2edc7b214"
+      "health_digest": "sha256:a8f2a1d75133ee027567c426c8524f6d49ca5865d81f13d90385c271fecb972b"
     },
     {
       "run_id": "publish-1779664808792-6297",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664808792-6297/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0092eb6147a033012afe53a573d114c2f04ab79a418e5bfb463a711b117350e1"
+      "health_digest": "sha256:d9411c3709287ad57e981a7bf3240333ca0fa58e1dbf005be184647ab723df3b"
     },
     {
       "run_id": "publish-1779664813672-6618",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664813672-6618/health.yml",
       "status": "stale",
-      "health_digest": "sha256:406d00a213d306b6c75090ec13b484ad8c62c73e112f972209226073ec1f9ff8"
+      "health_digest": "sha256:be19263124fda346aaaa3fa65ae7d433989f15d907d4a5bf4c666c48b51e0d58"
     },
     {
       "run_id": "publish-1779664819255-7138",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664819255-7138/health.yml",
       "status": "stale",
-      "health_digest": "sha256:dc4ac9425dbf87e0b9aedde4a74f5ae7b472a3bd82c054548808312b41fa3c08"
+      "health_digest": "sha256:a8da45090896be3fca60e9c58f29c9048a2f86d620f992a471a962e6bb42caa1"
     },
     {
       "run_id": "publish-1779664851880-7905",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664851880-7905/health.yml",
       "status": "stale",
-      "health_digest": "sha256:6b4591430af3c55e65ffd3bef04bcdbdbc9562410aeafd080bed9f66e68d4962"
+      "health_digest": "sha256:13a73254e6df8200cc0cddb594818facfbeebab10ed34988e357706eafebedfc"
     },
     {
       "run_id": "publish-1779664875075-15831",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664875075-15831/health.yml",
       "status": "stale",
-      "health_digest": "sha256:c0d70923ce31c86568c860bd619bc6ffa91cd8e18554f0e909741adb0eaf3603"
+      "health_digest": "sha256:964196d70a12a4aa04f58f252d99ca77b4931360660e22a15c33cb1c8ec16caa"
     },
     {
       "run_id": "publish-1779664893305-17522",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664893305-17522/health.yml",
       "status": "stale",
-      "health_digest": "sha256:aebf2870da8f314bc328de63945c4022286a38d4f122583204cc6f7b85673a23"
+      "health_digest": "sha256:fa1b3ab49e1ca52bc93050794979e84834192f9ff367185d3ff7b3503120af01"
     },
     {
       "run_id": "publish-1779664898152-17858",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664898152-17858/health.yml",
       "status": "stale",
-      "health_digest": "sha256:04a20fc973b7994d9f5b8667cd2a87cdfed9916444dc1b59f48c34af607711f2"
+      "health_digest": "sha256:cfe8cbe85390d68b00641d3303744a37981524753e7e4999659fe55b86026b17"
     },
     {
       "run_id": "publish-1779664903716-18370",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779664903716-18370/health.yml",
       "status": "stale",
-      "health_digest": "sha256:29cd01d94688817d6b73818325e119407809b587d38732744ee0ba15a41bdb28"
+      "health_digest": "sha256:95cd0e8b173906c1405d00809daf8227a31909a032f83c9ce0d08f33f93c5ae6"
     },
     {
       "run_id": "publish-1779715413935-93885",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779715413935-93885/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e98420739ae464ff66faf11fe6b6ab2b75073fe216246a0e08cf912efa4995d3"
+      "health_digest": "sha256:e699d22d4bb723b6a3cb747386df01e785689ec3325cfff028af44244325f0b0"
     },
     {
       "run_id": "publish-1779831111592-14382",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779831111592-14382/health.yml",
       "status": "stale",
-      "health_digest": "sha256:68acc5b7df2b720c657e512dcdbac47a3f48657f1a976d4d0a1b16aa4b19771c"
+      "health_digest": "sha256:ec9be871785c83794d4344af9d5e2e636271cfbfb08ea3850f32b82eeb682ea8"
     },
     {
       "run_id": "publish-1779831111648-14347",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779831111648-14347/health.yml",
       "status": "stale",
-      "health_digest": "sha256:6017c25141dacb649e219ab3caf5b84080afcd426202a849ca68f2d91fbd605d"
+      "health_digest": "sha256:454ed1ba5ad38c581c881a0df6a80728235d4f80dfeb7589ced775abc37c2be9"
     },
     {
       "run_id": "publish-1779831340808-83084",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779831340808-83084/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e58f8417fe8ca4d7b8e6cfbb34a07fac2bc21fb8245b2a7dd9b2e99af72f9716"
+      "health_digest": "sha256:7599f3b02e0fd5341c12fd9c40f600787a26a32edd040134edcc3a4955703931"
     },
     {
       "run_id": "publish-1779831976762-80849",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779831976762-80849/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1bfc0d39a1e6a147181f4c9c9217f0af0a30c71a4d28c3702cbebb2b8b6cb98e"
+      "health_digest": "sha256:dcd3850910d2770e110be743d576b667342f59c7e2922f227187d2ebfb944efd"
     },
     {
       "run_id": "publish-1780170102810-21062",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780170102810-21062/health.yml",
       "status": "stale",
-      "health_digest": "sha256:dc8c524eef0359060d7389cdd3251ef5ceb3335c94ac65fe25253918bf49b915"
+      "health_digest": "sha256:ce43a0b6665a54bf9df2f1e982bfd8ab62ef2144a84fc2e151e95801de2d8c96"
     },
     {
       "run_id": "publish-1780174117062-40615",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780174117062-40615/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d8c63028077630985bea0b1032d8fa6443028dd4f5c367041cd274e4b87aad87"
+      "health_digest": "sha256:f2827fc1ec200b175702c7707bd5eb46aa6f5e08c5382328c6764cc30583ae95"
     },
     {
       "run_id": "publish-1780174407052-92031",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780174407052-92031/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a1eb7c78e705efcc020a1de2a530eb76b6e376b0dbf863f36dfb9892b1fd5f64"
+      "health_digest": "sha256:34f5e41fc82c4e388d8f9067ee2bff478170e4bb4d374c85c61a3d2dd4f5de14"
     },
     {
       "run_id": "publish-1780174428926-137",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780174428926-137/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1205b0116956cbf733ff60f0bf9c2da3cc768421f8ac8c215b3c1f5ea9cfa91f"
+      "health_digest": "sha256:bb6d0f5c466ec52e8cc15d3726259a8c662d20fe265f0ce96296d5422c7b4ff6"
     },
     {
       "run_id": "publish-1780175137608-77120",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780175137608-77120/health.yml",
       "status": "stale",
-      "health_digest": "sha256:7be4faf2eca246b2c7941694270f4f5d4e4bd78f09d2531b438fc150488bef59"
+      "health_digest": "sha256:3b21c0f3be8a565e0775f9dc0bf9bb2d6e748c1582ae5f2d8ca7b2956ff98b32"
     },
     {
       "run_id": "publish-1780175137661-77119",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780175137661-77119/health.yml",
       "status": "stale",
-      "health_digest": "sha256:f9b39bd9ef4bf00f92362ea48f563e0f9e692c11dab079f27b4063a5fdc598c5"
+      "health_digest": "sha256:3a573a87fb81d101d3c68cb044de4249b3c0493de6712dc37b7399cf51fcd818"
     },
     {
       "run_id": "publish-1780175330270-41685",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780175330270-41685/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d95ef0620ca0e84ac5b206e042267b46f29b7317219e637b3bd93f7c95f25db4"
+      "health_digest": "sha256:b74363dea1200b7903762f8814a69e94f586f411e8dfb52c12d7c81e7cf588fe"
     },
     {
       "run_id": "publish-1780175405149-58941",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780175405149-58941/health.yml",
       "status": "stale",
-      "health_digest": "sha256:2d2fe7096441d9cf445993c7a15dbd86aa8372a8652360d4ed1fb8752a6139ea"
+      "health_digest": "sha256:ea0c00b4f2895884a932300b3f06e022bcc0ca8e82012594ce90599403be2468"
     },
     {
       "run_id": "publish-1780175432574-66835",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780175432574-66835/health.yml",
       "status": "stale",
-      "health_digest": "sha256:61f81990829b00f83622f7365212bda415d136614c9f21f13d698897e7b7aba8"
+      "health_digest": "sha256:20ffab76109c240ac6ec82f5d00aabf6909f6719bf55c7ff753c78d310cc4a30"
     },
     {
       "run_id": "publish-1780314500051-19049",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780314500051-19049/health.yml",
       "status": "stale",
-      "health_digest": "sha256:8ab498c1cb5b9f19600d7d5a9603d291a0d532433bec654bd2dbafd6782a8c80"
+      "health_digest": "sha256:5c290e3a97290cfc2a925948bc3a8bfa052c5fbba7a8d85ad50c0f27ee21ece7"
     },
     {
       "run_id": "publish-1780314808828-95270",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780314808828-95270/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d034e471eec17fcb1ec7af4ac55d4e118830dd06456a13bd410f266cd97e2967"
+      "health_digest": "sha256:8fe6d770fe07d8d3dca05c136ba248926436d0c88c5937f8021b01b734e342b4"
     },
     {
       "run_id": "publish-1780347708764-54076",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780347708764-54076/health.yml",
       "status": "stale",
-      "health_digest": "sha256:02ed0c050a4767061cf128091ef58a61f5a2b0f5d1542c4d6644dc0ca8eff89a"
+      "health_digest": "sha256:b818a60f7bff18273da811db3663edeabe019b153a1ad3522d35317601e3a785"
     },
     {
       "run_id": "publish-1780349177293-6178",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780349177293-6178/health.yml",
       "status": "stale",
-      "health_digest": "sha256:685b792331dcaca55d55627f5efd5158695638c5dfc73a72abf51749c80020a6"
+      "health_digest": "sha256:e564b4fa31d5c6de65e9451e70041039cad1e1dd7366c94c1ca9a44444e2d01c"
     },
     {
       "run_id": "publish-1780349197505-14073",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780349197505-14073/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ea7f78b8178806ddf5de59158d281fa1275ac772dcad56aa2358962a70b993e7"
+      "health_digest": "sha256:7963cb290aebf24078b0303feda299aa1556566ad42ea7ee9740e8b4a24df3a1"
     },
     {
       "run_id": "publish-1780351579593-72851",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780351579593-72851/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1d8d6a0b5210772afb64e5cecae8b380dc1cbeae8583ad337ed47e560b77bbb8"
+      "health_digest": "sha256:d2e3ab45fddf7bf64ce67d3c63ebd42d197c8411dcc2ca90d4bbc15ddadd57f7"
     },
     {
       "run_id": "publish-1780370058489-22311",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780370058489-22311/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5402c718ca76e769ae44b1d63b0bd64720dcaad88fe82f79d42a67c18eec90ad"
+      "health_digest": "sha256:950bb23fb48e9a7636eeed4800cdc7c6465b39f33aec1ad456a3695c57b27e0d"
     },
     {
       "run_id": "publish-1780370968641-78652",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780370968641-78652/health.yml",
       "status": "stale",
-      "health_digest": "sha256:ef0da8c5eb9cc1f616b72c3a97058ccb627a8d84a7e31420b365a31955416b29"
+      "health_digest": "sha256:b158f2e38c203d0ab7b212c58dc91e6b43afa2cc1f366a57c509da3d9092f6c6"
     },
     {
       "run_id": "publish-1780371148025-38957",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780371148025-38957/health.yml",
       "status": "stale",
-      "health_digest": "sha256:138d7f8a28ec0c628226b9854185a3c60eb8fd9fe3555830cad865c610ccc9e5"
+      "health_digest": "sha256:c263269513435cc15b813dd6f50052306735688e54014e3c063954f1c89da652"
     },
     {
       "run_id": "publish-1780371165128-46714",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780371165128-46714/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d8e4f73d57440786c9e69add12e1cc97c132c635daeafab263c586d1b044d845"
+      "health_digest": "sha256:68c8a0a21d2a0b14429b5108e1b66e727fa97e32833b900184048d1d593bd369"
     },
     {
       "run_id": "publish-1780371170392-47103",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780371170392-47103/health.yml",
       "status": "stale",
-      "health_digest": "sha256:26bbd16f2dcae545289e964c30498f7db95f26ceea2874ed370fb9c1c037253a"
+      "health_digest": "sha256:acc777ca1acc0d4d04b5b543ac30ade64af8b7c5d927ee8acac2a130cfb3c1c2"
     },
     {
       "run_id": "publish-1780402287381-38965",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1780402287381-38965/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3902c3dfd2e2a69156e15d9a538737d027bf6aac036505eea3fe16771d139d4f"
+      "health_digest": "sha256:987ed183bd5991e419257005cdde16385a5a7ed5d5e016b1e540b038ea4a38e7"
     },
     {
       "run_id": "publish-1781010532447-67388",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781010532447-67388/health.yml",
       "status": "stale",
-      "health_digest": "sha256:eb4e69898e206f75840d7894a9084e19af8e8b2c59cfd1b936bfb05d87702c07"
+      "health_digest": "sha256:94f15d2998d6a3969e507b849e1d5ab5afd3c9c95dafc8122a999033645e8e57"
     },
     {
       "run_id": "publish-1781010781859-47867",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781010781859-47867/health.yml",
       "status": "stale",
-      "health_digest": "sha256:b4f2c388eea86d081a1c1a978ecf8a7185e277593300d1680da63c06da0416d8"
+      "health_digest": "sha256:c164b05d477fcdfc374a154259c15679e27e10b33b9f96daa2b29e9244b996d5"
     },
     {
       "run_id": "publish-1781011453109-34239",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781011453109-34239/health.yml",
       "status": "stale",
-      "health_digest": "sha256:d20b25577de5238ee3224e4d4368b2554757836611ac9bc11c95a789c611dfb3"
+      "health_digest": "sha256:71c7666840a277b05c128d8e05f528587a54c2ad37da8358e9c7a55c826c2b06"
     },
     {
       "run_id": "publish-1781011652892-92258",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781011652892-92258/health.yml",
       "status": "stale",
-      "health_digest": "sha256:dc34d61f98fc276d6ad175eaa2583ae33b38da64a6db936e46ee2d5e0a1a29e5"
+      "health_digest": "sha256:1cf88a79b846cd817a9ad1a95de70271d50667297ebd1807e52e905c9a63871d"
     },
     {
       "run_id": "publish-1781012217873-60428",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781012217873-60428/health.yml",
       "status": "stale",
-      "health_digest": "sha256:9f971447274f2f21d1833812af356b9592cbbb684df98fc06e55af83877c323b"
+      "health_digest": "sha256:b41d2dfc65bc2191a975b93e80d1c3bb64e78544aa823d1d7544a1de4f0fb3b8"
     },
     {
       "run_id": "publish-1781012304473-73940",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781012304473-73940/health.yml",
       "status": "stale",
-      "health_digest": "sha256:1a3c2317c780ef7e3d00bb622b3ecd9849cb2c1b0886550e6ed3fe63ef2c2fb4"
+      "health_digest": "sha256:287c96c3d14f4b9191143769cc5ce444bc32994fb1255babbdcfa430a3541253"
     },
     {
       "run_id": "publish-1781012319955-74366",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781012319955-74366/health.yml",
       "status": "stale",
-      "health_digest": "sha256:fb3cb3cedfd980f8b496e6d5bfdc7f722175411fd08723e19192b1b5fc5e6694"
+      "health_digest": "sha256:1b80344a225912291e4fa6579b0fea14b8edbf13b6cf3d77034d616fab8e74b3"
     },
     {
       "run_id": "publish-1781129689199-29831",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781129689199-29831/health.yml",
       "status": "stale",
-      "health_digest": "sha256:4e57adf460eccdc1af97303512d8a9ab4e3011fc24058680fa40e88cd95d5e11"
+      "health_digest": "sha256:4db694b3cd692a2177f7e4aa2d2fe7ec5904d197cb6988d38b8d10ac18e2aa0a"
     },
     {
       "run_id": "publish-1781129933656-2717",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781129933656-2717/health.yml",
       "status": "stale",
-      "health_digest": "sha256:3ea0a46d20038bcbc6e83e3c96d886acea3d2fe9fd750e1a2fac3173f30067eb"
+      "health_digest": "sha256:b56ebfc660f433dce2c39416f16d53265343425c87dc848c1b739319991c543a"
     },
     {
       "run_id": "publish-1781129954342-11118",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781129954342-11118/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e0f6b02a18ecc5d0d776446f39a2e84bca8ea3efe454735ebb5bfefc9a74c4a9"
+      "health_digest": "sha256:496193ace3cbd9a9b2933b94096aac13488234ea0038c8c4655899c87381f704"
     },
     {
       "run_id": "publish-1781129962997-11772",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781129962997-11772/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a06c6c06bb39a76c0e0a8aa217470919041e241f3a4775f06515bce460227e58"
-    },
-    {
-      "run_id": "publish-1781236322651-16257",
-      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781236322651-16257/health.yml",
-      "status": "stale",
-      "health_digest": "sha256:1d69f7083435c92d0508c2f3761533ebb976b691ae1d84fee7bd2f3d2366ed9c"
+      "health_digest": "sha256:e324532837a5bc5a714b56959c4111f7cdbcdd095de1ee80157def5adcb23d29"
     },
     {
       "run_id": "repo-consequential-preflight-workflow-20260413-v4",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:d078f1f5d12c0adc53b2825ea323ecace65e4b649a929cbd19371a137ae47aca"
+      "health_digest": "sha256:efe7d283d97ca1135ab0125f85d5809596d13dab35098132503bbf4abd3dab3d"
     },
     {
       "run_id": "repo-consequential-preflight-workflow-20260413-v4-stage-inline",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:8ee234045926d2577c21d8cc0ecba4670a2eda8c6eaeaab5c4f82f655ac3f524"
+      "health_digest": "sha256:e8a1084e0ddc0c5edad5e40052627a003d27193036ce741504a3763109373e2a"
     },
     {
       "run_id": "repo-shell-supported-scenario-workflow-20260413-v4",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-shell-supported-scenario-workflow-20260413-v4/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:de3824a0319801bffe488b7ca4401b4e99f2e8d01ace2cd3ac7deea9245e2c87"
+      "health_digest": "sha256:c65bd39ba41f1c09d5c4f334a7a8e74cd6b4cf3a4d507907abaee5f842055ce7"
     },
     {
       "run_id": "repo-shell-supported-scenario-workflow-20260413-v4-stage-inline",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:d75796610bc9ad008bfd5eb0745e4e457686b41d4d5e8ef8094dfe54af68dcb3"
+      "health_digest": "sha256:916af44384fd186543ba137f5d7652584a75b343ea3da09dcbc9d1ff413d6684"
     },
     {
       "run_id": "run-wave3-runtime-bridge-20260327",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/run-wave3-runtime-bridge-20260327/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:ddb059535032fdcb78e3a762c199c6eb7f8c244baf26e7087121723294d83d08"
+      "health_digest": "sha256:3dcb9a597342fdfa518a46a9e6a2a560cde3b1be572fed57de31f8735bc6ddf5"
     },
     {
       "run_id": "run-wave4-benchmark-evaluator-20260327",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/run-wave4-benchmark-evaluator-20260327/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:aa6377a96a59c884d7e094f4e775151fe021fdff21d4b353a718b128096180cc"
+      "health_digest": "sha256:ea6fa75ceb6addd1942c4f0149c220aa77ddacc07e48aeea7454bab5fa4e0e3f"
     },
     {
       "run_id": "uec-audit-architecture-20260331-2",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-audit-architecture-20260331-2/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:55810ff9bcf00c1768575ed5a472d1069927edd9647fb30ffcbef391f4785078"
+      "health_digest": "sha256:f19c383f77f6c4b0fc336ecbd01a8d6fb5d1fa17f3dfb11058c1db5efd5a8a38"
     },
     {
       "run_id": "uec-audit-workflow-system-20260401-agent-augmented-1",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-audit-workflow-system-20260401-agent-augmented-1/health.yml",
       "status": "stale",
-      "health_digest": "sha256:5785290fec0c57cb5950b5a84421c19c1dc6be5edb2d24da21b6f3abd47780be"
+      "health_digest": "sha256:7b3b88d40757a0a31f672801b7df8277ced09e32735ff8c5c7736811b59bca61"
     },
     {
       "run_id": "uec-bounded-repo-shell-boundary-sensitive-20260409",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/health.yml",
       "status": "revoked",
-      "health_digest": "sha256:e3d4ec04a74982af283a3984f7b84a6e1aea14e50df0108b8108315b0d6d7da9"
+      "health_digest": "sha256:1d68fb32ac9d2624e8b235aa76ba08b927d173500550c667b090687b87a9459f"
     },
     {
       "run_id": "uec-evaluate-harness-20260401-agent-augmented-1",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-evaluate-harness-20260401-agent-augmented-1/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e29daf15aeecff6ebd2a885b226effa0ebfe29681b4f411a162a676bf40d5029"
+      "health_digest": "sha256:fc591191f311c976360d13fdc976a72117eb21eb63a52165ce60c5f55021a389"
     },
     {
       "run_id": "uec-global-ci-observe-read-20260404",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-global-ci-observe-read-20260404/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:fe14c7f5b50a62d8c238d1bb49b3ca6de3f2ab0e4a4d76805d7ebc6e0c65bed5"
+      "health_digest": "sha256:2c71232fee080110481d6897094691d0fdb47573f469ed5c4147ab32f3b6a1ff"
     },
     {
       "run_id": "uec-global-frontier-browser-api-studio-20260404",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-global-frontier-browser-api-studio-20260404/health.yml",
       "status": "review-required",
-      "health_digest": "sha256:0681172a493bc1242b2167760abab16c7fc7ac04d9955e2215373a5dc53f32cb"
+      "health_digest": "sha256:437fab2d55fc230ef31e6ba4d46018e00d33ec8775ea25b31ae84bb5131ace1d"
     },
     {
       "run_id": "uec-global-github-repo-consequential-20260404",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-global-github-repo-consequential-20260404/health.yml",
       "status": "stale",
-      "health_digest": "sha256:0b0e62a4604b80555303331b1b44516f210d3edbe320793754d53091ed70d89a"
+      "health_digest": "sha256:92db8f53f3f2e3fa89b4e0b72bc707d6c190cf1d168ad71ab385c86809d6aaf5"
     },
     {
       "run_id": "uec-global-repo-shell-observe-read-20260404",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-global-repo-shell-observe-read-20260404/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:f7aaa81b3b287b4c17a42addcb9b52b7c68fe4c51dbead830db06ce9b941425c"
+      "health_digest": "sha256:481ae494822bb48c9397c225a89d34e587a44ecb484ab992f8abb109410e87c2"
     },
     {
       "run_id": "uec-repo-shell-boundary-sensitive-recertified-20260410",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/health.yml",
       "status": "revoked",
-      "health_digest": "sha256:6519c490c40f5cec8aca478e116b1dcbc90619c147714cbe10f3792004b45f98"
+      "health_digest": "sha256:b22d905cd20cb924516867c8f0a7d76facb74a447ca44fb7fa597605e151b91c"
     },
     {
       "run_id": "uec-repo-shell-repo-consequential-recertified-20260410",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-repo-shell-repo-consequential-recertified-20260410/health.yml",
       "status": "stale",
-      "health_digest": "sha256:a948b222b95507fcbd6e72871dbfa3cf986d1bd8c288c66fa67e7f1e8dc0f789"
+      "health_digest": "sha256:da20526142666ddb0bda6b501efe3bd1c0ee05ff9d6afa170abf78c89a9984e4"
     },
     {
       "run_id": "uec-safe-stage-approval-exercise-20260402",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-safe-stage-approval-exercise-20260402/health.yml",
       "status": "stale",
-      "health_digest": "sha256:069f117ad28edc2f778e59efcc6a242466b8a728a8bc024c9cf85c3b1fef03a3"
+      "health_digest": "sha256:41985d049aa2aef15a8ef7983147118ef6047e8894aad792b1635548ef925528"
     },
     {
       "run_id": "uec-safe-stage-lease-revocation-exercise-20260402",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-safe-stage-lease-revocation-exercise-20260402/health.yml",
       "status": "revoked",
-      "health_digest": "sha256:a2854dc94cbef482203b519d39e07d4063c1f12fee5712f6af8bdcbb679bbb31"
+      "health_digest": "sha256:917b9da377b340cb387842edb07d5dd1638787e532ac63e697be43a87256f3b8"
     },
     {
       "run_id": "uec-validate-proposal-20260331-b",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260331-b/health.yml",
       "status": "blocked",
-      "health_digest": "sha256:b45f8d0880a10bd83b7248f2c34195d2e73ca29429234aae4fe78e603d91eaf2"
+      "health_digest": "sha256:ccaa33fe2f276f5c8f33b0e58c5ec6b7a57cd62f54450dbb6e9a45c80a57e0ac"
     },
     {
       "run_id": "uec-validate-proposal-20260331-success-3",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260331-success-3/health.yml",
       "status": "evidence-incomplete",
-      "health_digest": "sha256:2bcf8f5c1f6bddbaebb14e92a379a3eb0987dda76276abd47f33833df691435f"
+      "health_digest": "sha256:82c4bf8d6602acfba0da6e728d265c16b2a6de504da04ed2d11acbee084ee562"
     },
     {
       "run_id": "uec-validate-proposal-20260401-agent-augmented-3",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260401-agent-augmented-3/health.yml",
       "status": "stale",
-      "health_digest": "sha256:e808cae2c0e20e0fb3efdf2d88f46f985eb72dc68f1f138561adf0f025be4a63"
+      "health_digest": "sha256:cd38ec62bd281e2a373a0d73f6081bfa1320b2df1720afa741702ff08090c2fe"
     }
   ]
 }

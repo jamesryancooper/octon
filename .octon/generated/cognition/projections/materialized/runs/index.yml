@@ -1,6 +1,6 @@
 {
   "schema_version": "run-health-read-model-index-v1",
-  "generated_at": "2026-06-12T03:52:26Z",
+  "generated_at": "2026-06-12T04:03:27Z",
   "authority": {
     "classification": "generated_read_model_non_authoritative",
     "may_authorize": false,
@@ -1410,11 +1410,6 @@
     {
       "run_id": "publish-1781129962997-11772",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781129962997-11772/health.yml",
-      "status": "stale"
-    },
-    {
-      "run_id": "publish-1781236322651-16257",
-      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1781236322651-16257/health.yml",
       "status": "stale"
     },
     {
