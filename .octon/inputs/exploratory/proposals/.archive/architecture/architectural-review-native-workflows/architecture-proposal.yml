@@ -1,0 +1,24 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Architectural Review Native Workflows"
+target_state: >-
+  Octon has canonical workflow directories for the four native architectural
+  review modes. Each workflow resolves subject, route, evidence root, schema,
+  validator set, report, support receipt, and non-authority boundary.
+boundary_change: >-
+  Moves review execution contracts into native workflows while keeping skills
+  and commands thin.
+authoritative_targets_after_promotion:
+  - ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/"
+  - ".octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/"
+  - ".octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/"
+  - ".octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

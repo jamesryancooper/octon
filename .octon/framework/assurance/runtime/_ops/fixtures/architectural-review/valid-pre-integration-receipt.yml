@@ -1,0 +1,17 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "fixture-valid-pre-integration"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/example"
+packet_digest: "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/state/evidence/runs/workflows/example/architectural-review/pre-integration-architecture-review/report.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  architecture_scope: "covered"
+  authority_boundaries: "covered"
+  lifecycle_gate: "covered"

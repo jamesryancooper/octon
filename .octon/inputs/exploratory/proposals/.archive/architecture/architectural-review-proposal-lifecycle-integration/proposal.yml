@@ -1,0 +1,79 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-proposal-lifecycle-integration
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Proposal Lifecycle Integration
+summary: Wire mandatory Pre-Integration Architecture Review into architecture proposal lifecycle validation so architecture
+  proposals cannot be accepted or authorized for implementation without a fresh passing schema-backed native review receipt.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/scaffolding/governance/patterns/proposal-standard.md
+- .octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md
+- .octon/framework/orchestration/runtime/workflows/meta/create-architecture-proposal/
+- .octon/framework/orchestration/runtime/workflows/audit/audit-architecture-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/validate-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/promote-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, implement, validate, and archive this packet after architecture proposal lifecycle gates fail
+    closed on missing or invalid pre-integration review receipts.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-schemas-and-receipts
+- architectural-review-native-workflows
+- architectural-review-post-integration-boundaries
+selected_implementation_target: Architecture proposal lifecycle gate integration
+scope_statement: Updates proposal lifecycle standards, workflows, and validators. It consumes strict schemas and native workflows
+  but does not change implementation conformance or drift/churn closeout gates.
+source_lineage:
+- .octon/framework/scaffolding/governance/patterns/proposal-standard.md
+- .octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md
+- .octon/framework/orchestration/runtime/workflows/meta/create-architecture-proposal/
+- .octon/framework/orchestration/runtime/workflows/audit/audit-architecture-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/validate-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/promote-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh
+authority_class_impact:
+  framework: Updates lifecycle standards, workflows, and validators.
+  instance: No instance mutation.
+  state_control: Lifecycle state changes fail closed on missing review receipts.
+  state_evidence: Pre-integration receipts become retained evidence consumed by lifecycle validators.
+  generated: Generated projections remain derived-only.
+  inputs: Proposal packets remain temporary and non-authoritative.
+runtime_behavior_impact: Changes proposal lifecycle validation after implementation.
+generated_input_authority_impact: Generated or proposal-local review text cannot authorize acceptance without schema-backed
+  receipt validation.
+evidence_requirements:
+- Pre-integration review receipt evidence.
+- Proposal lifecycle validator output.
+- Negative-control output for missing, stale, and failing receipts.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- future validate-proposal-pre-integration-architecture-review.sh
+acceptance_criteria_summary: Architecture proposal acceptance and implementation authorization require a fresh passing Pre-Integration
+  Architecture Review receipt.
+rollback_summary: Remove lifecycle gate changes and validators introduced by this child while preserving existing conformance
+  and drift/churn gates.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This proposal packet does not wire lifecycle gates until implemented.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-proposal-lifecycle-integration
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-proposal-lifecycle-integration/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-proposal-lifecycle-integration/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-proposal-lifecycle-integration/child-handoff-capsule.yml

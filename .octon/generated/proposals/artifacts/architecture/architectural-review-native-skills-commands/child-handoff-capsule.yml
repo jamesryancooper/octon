@@ -1,0 +1,133 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "architectural-review-native-skills-commands",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:cc8c4f45e7e6f15de0447f8bacd2f7279b7fb83d63781e97bde7521d95e97962"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:85362554b6ec601f16deb0270cb73406f2a8c6b3202d0c7fff9290ba362b666a"
+    }
+  ],
+  "context_hash": "sha256:3c9820209596359cc1709674222f4cbf50ed729b82d2a43c88e836867b947d0d",
+  "dependency_vector": {
+    "parent_program": "native-architectural-review-mechanism",
+    "related_proposals": [
+      "native-architectural-review-mechanism",
+      "architectural-review-native-workflows",
+      "architectural-review-validation-publication-rollout"
+    ],
+    "source_lineage": [
+      ".octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/",
+      ".octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/",
+      ".octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/"
+    ]
+  },
+  "evidence_refs": [
+    "Skill manifest refs.",
+    "Command refs.",
+    "Publication script output.",
+    "Projection freshness evidence."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/child-handoff-capsule.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "Adds convenience invocation surfaces only. Workflows remain canonical authority and skills cannot duplicate workflow logic or lifecycle gates.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture-proposal.yml": "sha256:b0b74affd38802b00e4ec4da9ce36c444edfffd92fe2a3e392a971fd1545842a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture/acceptance-criteria.md": "sha256:52fd362eef2b2b25e0810dfd00b2a7a5d19589851ce92d9b0a1d3667dde9fb62",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture/implementation-plan.md": "sha256:2d97df474d9d0fe275f07568d6d4063d8bd307ec76224768a4b82098d2dbfef2",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/source-of-truth-map.md": "sha256:fa38f9055e386935e3b56b7a3199fd67a89bf098771bade05140ef133bd57ce0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/proposal.yml": "sha256:f8a4e9f6c9512e6336dea61661067792d3a68e4deb92416145e3fd04bf94c2fa",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md": "sha256:9d8e4d38a868594b3ffb36caa28ff05e695840ab51626272845752a20bd42200",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-grade-completeness-review.md": "sha256:2f4c158be5fec4ed1067a756c793f620df694b964a3da6af549147b544f8b951",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-review.md": "sha256:414f9cdc44cade3906488f18288eeecf270bc282879757bb95c1e951d34a2792",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "future validate-architectural-review-skills.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/skills/audit/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/skills/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/commands/",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

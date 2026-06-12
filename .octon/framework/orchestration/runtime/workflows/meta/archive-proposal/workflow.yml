@@ -150,6 +150,7 @@ done_gate:
     - "`summary.md`, `commands.md`, `inventory.md`, `bundle.yml`, and `validation.md` exist"
     - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
     - "the source proposal validates before archival"
+    - "architecture proposals preserve a passing strict Pre-Integration Architecture Review receipt when the review gate requires it"
     - "the source proposal starts from the active path and is not already archived"
     - "implemented archival requires passing implementation-grade, conformance, and drift/churn receipts"
     - "archive metadata is coherent for the chosen disposition"

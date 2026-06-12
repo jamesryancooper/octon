@@ -89,7 +89,7 @@ architecture analysis of one durable Octon surface or surface unit.
 This doctrine complements, but does not replace:
 
 - domain-scale critique under `audit-domain-architecture`
-- readiness verdicts under `audit-architecture-readiness`
+- readiness verdicts under `architecture-readiness-audit`
 
 ## Runtime Audit Records
 

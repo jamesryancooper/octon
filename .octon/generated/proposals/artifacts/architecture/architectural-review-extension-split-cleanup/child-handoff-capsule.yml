@@ -1,0 +1,140 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "architectural-review-extension-split-cleanup",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-extension-split-cleanup/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:2df319d54d92e8e54370920c5e5d11542f78e02c7347350f9a875d4f0d9b88ec"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-extension-split-cleanup/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:7e9d4c66ca06f392f84a48a60e4019c444b4afab9fd4c15e22aa96a23705e7d2"
+    }
+  ],
+  "context_hash": "sha256:c92a8b56f9dbd99708c9ed66bc16c9b1cfa7b58b62c5301d6546094a15f75a63",
+  "dependency_vector": {
+    "parent_program": "native-architectural-review-mechanism",
+    "related_proposals": [
+      "native-architectural-review-mechanism",
+      "architectural-review-native-doctrine-and-naming",
+      "architectural-review-schemas-and-receipts",
+      "architectural-review-native-workflows"
+    ],
+    "source_lineage": [
+      ".octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-review-method.md",
+      ".octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-revision-contract.md",
+      ".octon/inputs/additive/extensions/octon-concept-integration/prompts/architecture-revision-packet/",
+      ".octon/inputs/additive/extensions/octon-concept-integration/context/routing.contract.yml",
+      ".octon/inputs/additive/extensions/octon-concept-integration/validation/"
+    ]
+  },
+  "evidence_refs": [
+    "Extension prompt diff evidence.",
+    "Extension validation output.",
+    "Duplicate method ownership removal evidence.",
+    "Architecture Revision Packet ownership evidence."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-extension-split-cleanup/child-handoff-capsule.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "Updates extension prompts, routing context, and validation so extension packetization references native review doctrine without becoming native gate authority.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/architecture-proposal.yml": "sha256:93a5d7807c01113dd26cdb06d766dfa9a8d1de0aae8cdf961e842c60adee61d0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/architecture/acceptance-criteria.md": "sha256:d80cf777b8b27692b52e0bc2cd4ac0c37714df9b839a0fc0ec9ce573f1ad2f91",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/architecture/implementation-plan.md": "sha256:24113488a38a399891e493d85c8b2afde1a0d4dbd2cd1631443ec16ce896fe48",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/navigation/source-of-truth-map.md": "sha256:c1f970f2dcc9f5d2186544a3f07ab1f4d898fb59fb294d987e70e00ecb6ab01a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/proposal.yml": "sha256:3af1044d0b1494a67af31938fbf78b27f813b1e646b512ab4d2fe45bf2dacedc",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/executable-implementation-prompt.md": "sha256:a8fe732bdde85998fb5ef4d70805e3ac1be8f2b2e8f5b156898c0988b20c5944",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/implementation-grade-completeness-review.md": "sha256:105c7ae2fd0e75ba07a8fce1aab44a9fb65a1ed2a183b94a39fc2fca876c378d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/proposal-review.md": "sha256:9daf6aadf6db8ebe5146adfc6d09abc7a763823df8193a864f68a6d1569a83ed",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "extension validation suite"
+    },
+    {
+      "required": true,
+      "validator": "future validate-architectural-review-extension-boundary.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/inputs/additive/extensions/octon-concept-integration/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/tests/",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

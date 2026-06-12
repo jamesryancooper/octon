@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/architectural-review-report-v1.schema.json",
+  "title": "Architectural Review Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_id",
+    "review_mode",
+    "subject_ref",
+    "verdict",
+    "findings",
+    "dispositions",
+    "evidence_refs",
+    "validator_refs",
+    "non_authority_classification",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "architectural-review-report-v1"
+    },
+    "review_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "review_mode": {
+      "type": "string",
+      "enum": [
+        "pre-integration-architecture-review",
+        "post-integration-architecture-review",
+        "current-state-mechanism-architecture-review",
+        "architecture-readiness-audit",
+        "domain-architecture-audit",
+        "surface-architecture-audit"
+      ]
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "blocked",
+        "not_applicable",
+        "deferred"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "review-finding-v1.schema.json"
+      }
+    },
+    "dispositions": {
+      "type": "array",
+      "items": {
+        "$ref": "review-disposition-v1.schema.json"
+      }
+    },
+    "unresolved_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "validator_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "non_authority_classification": {
+      "const": "retained-evidence-only"
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

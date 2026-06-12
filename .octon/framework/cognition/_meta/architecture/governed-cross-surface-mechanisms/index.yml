@@ -111,6 +111,78 @@ mechanisms:
     non_authority_boundaries:
       - "Phase context and lifecycle events do not authorize execution."
       - "Parent proposal-program evidence cannot satisfy child packet receipts."
+  - mechanism_id: "architectural-review-mechanism"
+    name: "Architectural Review Mechanism"
+    product_feature_refs:
+      - "not-applicable: no product feature entry is introduced by the native mechanism implementation phase"
+    authored_authority_refs:
+      - ".octon/framework/cognition/practices/methodology/architectural-review/"
+      - ".octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-report-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-support-receipt-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+    product_contract_refs:
+      - ".octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/review-disposition-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-report-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-support-receipt-v1.schema.json"
+    runtime_spec_refs:
+      - ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/workflow.yml"
+      - ".octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/workflow.yml"
+      - ".octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/workflow.yml"
+      - ".octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/workflow.yml"
+    runtime_implementation_refs:
+      - ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/"
+      - ".octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/"
+      - ".octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/"
+      - ".octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/"
+      - ".octon/framework/capabilities/runtime/skills/audit/pre-integration-architecture-review/"
+      - ".octon/framework/capabilities/runtime/skills/audit/post-integration-architecture-review/"
+      - ".octon/framework/capabilities/runtime/skills/audit/current-state-mechanism-architecture-review/"
+      - ".octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/"
+    mutable_operational_truth_refs:
+      - ".octon/state/control/execution/runs/<run-id>/"
+    retained_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/<run-id>/architectural-review/"
+      - ".octon/inputs/exploratory/proposals/**/support/pre-integration-architecture-review.yml"
+      - ".octon/inputs/exploratory/proposals/**/support/post-integration-architecture-review.yml"
+      - ".octon/inputs/exploratory/proposals/**/support/current-state-mechanism-architecture-review.yml"
+    generated_effective_non_authority_refs:
+      - ".octon/generated/effective/capabilities/routing.effective.yml"
+      - ".octon/generated/effective/capabilities/artifact-map.yml"
+    generated_operator_read_model_refs:
+      - ".octon/generated/proposals/registry.yml"
+      - ".octon/generated/proposals/artifacts/**"
+    raw_input_refs:
+      - ".octon/inputs/additive/extensions/octon-concept-integration/**"
+      - ".octon/inputs/exploratory/proposals/**"
+    publication_input_only_refs:
+      - ".octon/framework/capabilities/runtime/skills/manifest.yml"
+      - ".octon/framework/capabilities/runtime/skills/registry.yml"
+      - ".octon/framework/capabilities/runtime/commands/manifest.yml"
+    navigation_only_refs:
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/architectural-review-mechanism.md"
+    compatibility_only_refs:
+      - "not-applicable: the legacy architecture-readiness invocation slug has no permanent compatibility route"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-naming.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-routing.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-workflows.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lifecycle-gates.sh"
+    ownership_boundaries:
+      - "Workflows own canonical execution contracts and evidence-producing orchestration."
+      - "Skills and commands are thin invocation helpers and cannot duplicate workflow authority."
+      - "Proposal lifecycle gates own acceptance and implementation authorization."
+      - "Extension packetization owns concept intake and packet helpers only."
+    non_authority_boundaries:
+      - "Raw inputs, generated projections, proposal-local summaries, chat, host state, dashboards, tool availability, and model memory are never authority."
+      - "Review reports are retained evidence only unless a lifecycle contract explicitly gates on their strict receipt."
+      - "Post-Integration Architecture Review is evidence-only under current policy."
+      - "Lifecycle postmortems cannot authorize closeout, promotion, redesign, support widening, generated publication, or constitutional amendment."
   - mechanism_id: "governed-incoming-intake-routing"
     name: "Governed Incoming Intake Routing"
     product_feature_refs:

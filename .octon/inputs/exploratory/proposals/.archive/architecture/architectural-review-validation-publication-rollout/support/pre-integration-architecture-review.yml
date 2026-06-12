@@ -1,0 +1,20 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-validation-publication-rollout-pre-integration-architecture-review"
+proposal_path: ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout"
+packet_digest: "sha256:c8d728686a71efdb0eaacd7281c66070df94b0b3418adad8afa9767119e41025"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-validation-publication-rollout/support/proposal-review.md"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-architectural-review-validators.sh"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  validators: "covered"
+  fixtures: "covered"
+  publication_checks: "covered"
+  rollout_phases: "covered"

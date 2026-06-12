@@ -1,0 +1,72 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-native-doctrine-and-naming
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Native Doctrine And Naming
+summary: Promote the Balanced Architecture Review Method into native Octon methodology, define the canonical Architectural
+  Review Mechanism naming model, normalize related review and audit names, and define the bounded migration plan that makes
+  `architecture-readiness-audit` canonical without preserving confusing permanent aliases.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/cognition/practices/methodology/architectural-review/
+- .octon/framework/cognition/practices/methodology/architecture-readiness/
+- .octon/framework/cognition/practices/methodology/audits/
+- .octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/
+- .octon/framework/assurance/runtime/_ops/scripts/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, revise, accept, implement, validate, and archive this packet after native doctrine and naming
+    surfaces are promoted and legacy naming cleanup evidence is retained.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-routing-taxonomy
+- architectural-review-schemas-and-receipts
+selected_implementation_target: Architectural Review Mechanism doctrine and naming
+scope_statement: Defines native doctrine and canonical terminology only. It does not wire lifecycle gates, create workflows,
+  create validators, or mutate extension prompts except for references needed to retire duplicate method ownership in later
+  child packets.
+source_lineage:
+- .octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-review-method.md
+- .octon/framework/cognition/practices/methodology/architecture-readiness/
+- .octon/framework/cognition/practices/methodology/audits/surface-architecture.md
+- .octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/
+authority_class_impact:
+  framework: Adds native methodology and naming doctrine.
+  instance: No instance mutation.
+  state_control: No state-control mutation.
+  state_evidence: No retained evidence mutation until implementation run receipts exist.
+  generated: Generated projections remain derived-only.
+  inputs: Extension method prompts remain non-authoritative inputs until later cleanup references native doctrine.
+runtime_behavior_impact: None.
+generated_input_authority_impact: Reinforces that prompt bundles and proposal-local naming notes are not authority.
+evidence_requirements:
+- Doctrine promotion evidence.
+- Naming normalization diff evidence.
+- Legacy alias retirement plan evidence.
+- Validator output proving canonical naming references.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- future validate-architectural-review-naming.sh
+acceptance_criteria_summary: Native doctrine exists, canonical names are defined, and `architecture-readiness-audit` is the
+  target slug with bounded retirement for `architecture-readiness-audit`.
+rollback_summary: Remove native doctrine files and restore prior references if review rejects naming. Do not leave half-promoted
+  duplicate method ownership.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This packet is a proposal and does not itself promote native doctrine.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-native-doctrine-and-naming
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-doctrine-and-naming/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-doctrine-and-naming/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-doctrine-and-naming/child-handoff-capsule.yml

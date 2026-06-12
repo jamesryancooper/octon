@@ -49,7 +49,7 @@ forced failing scorecards.
 
 This framework introduces a new primary capability:
 
-- `audit-architecture-readiness`
+- `architecture-readiness-audit`
 
 It may compose with existing audits, but does not replace them:
 

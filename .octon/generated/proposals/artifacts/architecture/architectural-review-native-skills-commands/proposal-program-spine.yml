@@ -1,0 +1,180 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": true,
+    "registry_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml",
+    "sha256": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-review.md",
+      "reviewed_packet_digest": "`sha256:8ed8f00457ff840ae73615de0eb12f69ee178bae224dbc9ec5e481773f464dd9`",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review, implement, publish generated projections, validate, and archive this packet after thin invocation surfaces point at canonical workflows.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/proposal-program-spine.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/capabilities/runtime/skills/audit/",
+    ".octon/framework/capabilities/runtime/skills/",
+    ".octon/framework/capabilities/runtime/commands/"
+  ],
+  "proposal_id": "architectural-review-native-skills-commands",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 167,
+      "estimated_tokens": 42,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/evidence-plan.md",
+      "sha256": "sha256:73739e5939c80a993ade99ba4265afb330e2733d875b8ea087078675da62bbf1"
+    },
+    {
+      "byte_size": 1308,
+      "estimated_tokens": 327,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md",
+      "sha256": "sha256:9d8e4d38a868594b3ffb36caa28ff05e695840ab51626272845752a20bd42200"
+    },
+    {
+      "byte_size": 2869,
+      "estimated_tokens": 718,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-conformance-review.md",
+      "sha256": "sha256:bd8315ffa9c29ad68dab341223f10ada6e46df8903f4f298ac123d025aaa8670"
+    },
+    {
+      "byte_size": 937,
+      "estimated_tokens": 235,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:2f4c158be5fec4ed1067a756c793f620df694b964a3da6af549147b544f8b951"
+    },
+    {
+      "byte_size": 2239,
+      "estimated_tokens": 560,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-run.md",
+      "sha256": "sha256:46978fe5be9f4dfe68185e5023d780e2337a4652dc387a59ba115442bf010e7a"
+    },
+    {
+      "byte_size": 2959,
+      "estimated_tokens": 740,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:34ac641af9e8888251afca5d3a8fa97bd56d69413fd82faac39d061752e2ae0f"
+    },
+    {
+      "byte_size": 2218,
+      "estimated_tokens": 555,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-closeout.md",
+      "sha256": "sha256:67305a8af4aa8dca55c228d9f4a84c99b58f2303a2e021bc5517b2ffe9802582"
+    },
+    {
+      "byte_size": 954,
+      "estimated_tokens": 239,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-review.md",
+      "sha256": "sha256:414f9cdc44cade3906488f18288eeecf270bc282879757bb95c1e951d34a2792"
+    },
+    {
+      "byte_size": 177,
+      "estimated_tokens": 45,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/rollback-plan.md",
+      "sha256": "sha256:ac1e8f2d4ca037acfbc3fa20cd37320467f76d5df444f421ca7efb6dbab6c4a5"
+    },
+    {
+      "byte_size": 333,
+      "estimated_tokens": 84,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/scaffold-receipt.md",
+      "sha256": "sha256:93beb81738b95c8db34e0b4e0fae7367edce7cf59406c1edeadf2747624f285b"
+    },
+    {
+      "byte_size": 323,
+      "estimated_tokens": 81,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/validation-plan.md",
+      "sha256": "sha256:75e3e2751225b40a76bbad01c6b9c95c25b2d0875e13510e447d9e5ff4be5a85"
+    }
+  ],
+  "related_proposals": [
+    "native-architectural-review-mechanism",
+    "architectural-review-native-workflows",
+    "architectural-review-validation-publication-rollout"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture-proposal.yml": "sha256:b0b74affd38802b00e4ec4da9ce36c444edfffd92fe2a3e392a971fd1545842a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture/acceptance-criteria.md": "sha256:52fd362eef2b2b25e0810dfd00b2a7a5d19589851ce92d9b0a1d3667dde9fb62",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture/implementation-plan.md": "sha256:2d97df474d9d0fe275f07568d6d4063d8bd307ec76224768a4b82098d2dbfef2",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/source-of-truth-map.md": "sha256:fa38f9055e386935e3b56b7a3199fd67a89bf098771bade05140ef133bd57ce0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/proposal.yml": "sha256:f8a4e9f6c9512e6336dea61661067792d3a68e4deb92416145e3fd04bf94c2fa",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md": "sha256:9d8e4d38a868594b3ffb36caa28ff05e695840ab51626272845752a20bd42200",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-grade-completeness-review.md": "sha256:2f4c158be5fec4ed1067a756c793f620df694b964a3da6af549147b544f8b951",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-review.md": "sha256:414f9cdc44cade3906488f18288eeecf270bc282879757bb95c1e951d34a2792",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_lineage": [
+    ".octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/",
+    ".octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/",
+    ".octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "status": "archived"
+}

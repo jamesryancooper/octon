@@ -1,0 +1,20 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-native-doctrine-and-naming-pre-integration-architecture-review"
+proposal_path: ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming"
+packet_digest: "sha256:e2c8780673e4645ddca14aabd60ec6560c6489c747f0df7a7180e2a6bfa8de8c"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-native-doctrine-and-naming/support/proposal-review.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/balanced-architecture-review-method.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  native_doctrine: "covered"
+  canonical_naming: "covered"
+  legacy_slug_retirement: "covered"
+  lifecycle_gate: "covered"

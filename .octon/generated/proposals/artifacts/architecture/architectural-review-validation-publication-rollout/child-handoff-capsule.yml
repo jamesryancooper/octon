@@ -1,0 +1,149 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "architectural-review-validation-publication-rollout",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-validation-publication-rollout/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:88dca93bc203b007f56d9278d6ed988dd2bd02e79715397a0664258a03e673c4"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-validation-publication-rollout/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:35cc1f911fec8cd6a874724b509eefbfde41a08b704357358fd7dcdbc7693194"
+    }
+  ],
+  "context_hash": "sha256:dbca8bfaf57735bad1d422342f1f3e6c3dbc2359dc7c28b0e16c1681e0210396",
+  "dependency_vector": {
+    "parent_program": "native-architectural-review-mechanism",
+    "related_proposals": [
+      "native-architectural-review-mechanism",
+      "architectural-review-native-skills-commands",
+      "architectural-review-proposal-lifecycle-integration",
+      "architectural-review-post-integration-boundaries",
+      "architectural-review-governed-mechanism-integration",
+      "architectural-review-extension-split-cleanup"
+    ],
+    "source_lineage": [
+      ".octon/framework/assurance/runtime/_ops/scripts/",
+      ".octon/generated/proposals/",
+      ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+    ]
+  },
+  "evidence_refs": [
+    "Full validator matrix output.",
+    "Negative-control output.",
+    "Publication script output.",
+    "Generated projection freshness evidence.",
+    "Rollout completion evidence."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-validation-publication-rollout/child-handoff-capsule.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "Owns final validators, tests, fixtures, publication checks, generated projection refresh, rollout evidence, and completion gates. It does not replace child-owned implementation evidence.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/architecture-proposal.yml": "sha256:c19a5953c0e4da26a4fc23feab82ed3b197597037d1d0fef02bfecc62c7cb85b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/architecture/acceptance-criteria.md": "sha256:2a6c0e94e3e287ecca37f4e6ff62ca0b5ece962ea317fbedae4f65b52f02e846",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/architecture/implementation-plan.md": "sha256:f17b65e667d63a147b8eb19ba9dc476163f53e93726543f0812d6380cb97a903",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/navigation/source-of-truth-map.md": "sha256:02664698dffc947ad2618ecac697eff07187dc91a005407753a7e17f074c276d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/proposal.yml": "sha256:7d435259de9ce344758868d38aa77920cfa941a2fdcc2203eaa8e489c7676f81",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/executable-implementation-prompt.md": "sha256:c69dd6d74b002a54aeea32da413075ea9a5dce84264682e10dc04dc50ba4768a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/implementation-grade-completeness-review.md": "sha256:230662710be5b961562ed29567809ca172ea4e5123e30d3ee9f67209b599797e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/proposal-review.md": "sha256:6da912e21a2b50afc3c11615e17fae50ae7abc04ad748bc5b212a0d6a0e6df0b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-validation-publication-rollout/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "generate-proposal-registry.sh --write"
+    },
+    {
+      "required": true,
+      "validator": "generate-proposal-artifact-index.sh --write"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "future architectural-review validator matrix"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/tests/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/fixtures/",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

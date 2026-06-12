@@ -9,7 +9,7 @@ decisions:
         next_phase: "Run authority and artifact mapping"
       - condition: "surface_path resolves to a top-level domain or multi-unit scope"
         label: not_applicable_domain_scale
-        next_phase: "Emit not-applicable verdict and recommend audit-domain-architecture or audit-architecture-readiness"
+        next_phase: "Emit not-applicable verdict and recommend audit-domain-architecture or architecture-readiness-audit"
       - condition: "surface_path is unreadable, outside /.octon/, or cannot be normalized"
         label: configuration_error
         next_phase: "Stop and report configuration error"

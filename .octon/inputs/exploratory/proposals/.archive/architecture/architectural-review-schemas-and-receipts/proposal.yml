@@ -1,0 +1,76 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-schemas-and-receipts
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Schemas And Receipts
+summary: Add strict native schemas for architectural review reports, routing decisions, and support receipts; reuse review-finding-v1
+  and review-disposition-v1; and create validators that reject placeholder, stale, ambiguous, missing-evidence, omitted-validator,
+  and non-passing receipts before lifecycle gates are wired.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/constitution/contracts/assurance/
+- .octon/framework/scaffolding/governance/patterns/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/framework/assurance/runtime/_ops/fixtures/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, implement, validate, and archive this packet after strict schemas and receipt validators are promoted.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-native-doctrine-and-naming
+- architectural-review-routing-taxonomy
+- architectural-review-proposal-lifecycle-integration
+selected_implementation_target: Architectural review schemas and support receipts
+scope_statement: Defines schemas, receipt contracts, fixtures, and validators. It does not wire proposal lifecycle gates;
+  the lifecycle child consumes these contracts later.
+source_lineage:
+- .octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json
+- .octon/framework/constitution/contracts/assurance/review-disposition-v1.schema.json
+- .octon/framework/scaffolding/governance/patterns/proposal-standard.md
+- .octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh
+authority_class_impact:
+  framework: Adds assurance schemas, templates, validators, tests, and fixtures.
+  instance: No instance mutation.
+  state_control: No state-control mutation.
+  state_evidence: Defines future retained evidence contracts.
+  generated: Generated projections remain derived-only.
+  inputs: Proposal-local support receipts remain non-authoritative until consumed by durable lifecycle contracts.
+runtime_behavior_impact: None until lifecycle child wires gates.
+generated_input_authority_impact: Generated or proposal-local outputs cannot satisfy schemas unless validators bind them to
+  durable source evidence.
+evidence_requirements:
+- Schema validation output.
+- Positive and negative fixture output.
+- Receipt digest freshness evidence.
+- review-finding-v1 reuse evidence.
+- review-disposition-v1 reuse evidence.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- future validate-architectural-review-report.sh
+- future validate-architectural-review-routing.sh
+- future validate-architectural-review-support-receipt.sh
+acceptance_criteria_summary: Strict schemas and validators exist before lifecycle gate wiring and cannot be satisfied by prose-only,
+  stale, missing-evidence, or placeholder receipts.
+rollback_summary: Remove schema, validator, test, and fixture additions from this child only.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This packet does not wire lifecycle gates.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-schemas-and-receipts
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-schemas-and-receipts/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-schemas-and-receipts/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-schemas-and-receipts/child-handoff-capsule.yml

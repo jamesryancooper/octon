@@ -36,7 +36,7 @@ Use another surface when:
 - The target is a whole Octon domain or a planned domain:
   `audit-domain-architecture`
 - The target is whole-harness or bounded-domain implementation readiness:
-  `audit-architecture-readiness`
+  `architecture-readiness-audit`
 
 ## Quick Start
 

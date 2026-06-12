@@ -20,13 +20,16 @@ description: Confirm that the proposal is structurally valid and eligible for pr
    `verdict: accepted`, `implementation_prompt_authorized: yes`, zero open
    blocking findings, and a reviewed packet digest matching current
    decision-bearing packet content.
-9. Confirm the promotion plan includes post-promotion receipts at
+9. For architecture proposals, fail closed unless
+   `support/pre-integration-architecture-review.yml` passes
+   `validate-architectural-review-receipts.sh --mode pre-integration-architecture-review --require-pass`.
+10. Confirm the promotion plan includes post-promotion receipts at
    `support/implementation-conformance-review.md` and
    `support/post-implementation-drift-churn-review.md`; do not claim
    implemented closeout until their validators pass after durable changes land.
-10. When invoked from a proposal program child route, fail closed unless
+11. When invoked from a proposal program child route, fail closed unless
     `promotion_evidence` was bound by the program runner to the selected child,
     not the parent target, and the child-owned implementation-run,
     implementation-conformance, and post-implementation-drift receipts are
     complete and passing.
-11. Persist the validator transcript as `standard-validator.log`.
+12. Persist the validator transcript as `standard-validator.log`.

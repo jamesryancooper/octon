@@ -1,0 +1,133 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "architectural-review-governed-mechanism-integration",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:4fbd2bdacd9dc482e527ed02789ff50c21724ec8eb0d2ee79def2d82b44bbef4"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:7486e202cdd465601fd91c332592b51d2f7cd0357ce444da5c13d097cfcbde57"
+    }
+  ],
+  "context_hash": "sha256:be8c2720116dda5a3b98045d5e03b6c8a598cc6023d1732449f89f426c5e5f1b",
+  "dependency_vector": {
+    "parent_program": "native-architectural-review-mechanism",
+    "related_proposals": [
+      "native-architectural-review-mechanism",
+      "architectural-review-native-doctrine-and-naming",
+      "architectural-review-native-workflows"
+    ],
+    "source_lineage": [
+      ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md",
+      ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml",
+      ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+    ]
+  },
+  "evidence_refs": [
+    "Mechanism index diff evidence.",
+    "Mechanism page evidence.",
+    "Mechanism validator output.",
+    "Authority boundary review evidence."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/child-handoff-capsule.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "Adds index and documentation integration only. It does not itself create workflows, schemas, validators, or lifecycle gates.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture-proposal.yml": "sha256:2bcf56761a548322dd4ba711015e265c231d02196488f26bcdef52fe75a0ee37",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture/acceptance-criteria.md": "sha256:717a5432eefa1540b5b9a67b336267785b15acebb09dde154bad27c117ed2656",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture/implementation-plan.md": "sha256:192136352770b7c31cb1a1a8ac4d8f1b6ec5605f0ed798701989a496b824447d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/source-of-truth-map.md": "sha256:a04e288d38acf3708061022873e26d3c6fc3ee03e9388fd300fd4e554fb0300f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/proposal.yml": "sha256:a9d2bb28fc477af99b8b6a0ad8c45e7fd59410896af3621b2a8a51f98c17b251",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/executable-implementation-prompt.md": "sha256:5d363b9553e8b972dab781216c082d7432ffff003ff5f94ff7c7ae47bc318f08",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-grade-completeness-review.md": "sha256:c78b95f65b41b64f758bfbf8e2834452a40e8a3202658d499ae96fde98b3286d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/proposal-review.md": "sha256:ea9b7423306dc6ded6b3c8202958a46f36e181621d6431608c99bc989bad3dc9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-governed-cross-surface-mechanisms.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/cognition/_meta/architecture/contract-registry.yml",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

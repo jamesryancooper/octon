@@ -1,0 +1,73 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-post-integration-boundaries
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Post-Integration And Closeout Boundaries
+summary: Preserve implementation conformance and post-implementation drift/churn as hard closeout gates, position Post-Integration
+  Architecture Review as optional evidence-only unless later policy selects it, and restate lifecycle postmortem authority
+  limits.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/orchestration/runtime/workflows/meta/verify-implementation-conformance/
+- .octon/framework/orchestration/runtime/workflows/meta/audit-post-implementation-drift/
+- .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/
+- .octon/framework/assurance/evaluators/lifecycle-postmortem/
+- .octon/framework/assurance/runtime/_ops/scripts/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, implement, validate, and archive this packet after closeout authority boundaries are preserved
+    and documented.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-proposal-lifecycle-integration
+- architectural-review-native-workflows
+selected_implementation_target: Post-integration and closeout boundary model
+scope_statement: Clarifies boundaries around post-integration architecture review, implementation conformance, post-implementation
+  drift/churn, and lifecycle postmortem evidence. It does not add post-integration review as a hard gate in the initial policy
+  phase.
+source_lineage:
+- .octon/framework/orchestration/runtime/workflows/meta/verify-implementation-conformance/
+- .octon/framework/orchestration/runtime/workflows/meta/audit-post-implementation-drift/
+- .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/
+- .octon/framework/assurance/evaluators/lifecycle-postmortem/
+- .octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md
+authority_class_impact:
+  framework: Clarifies closeout workflows and evaluator boundaries.
+  instance: No instance mutation.
+  state_control: Preserves existing closeout gate authority.
+  state_evidence: Post-integration reviews and postmortems remain retained evidence unless policy changes.
+  generated: Generated projections remain derived-only.
+  inputs: Proposal-local analysis cannot authorize closeout.
+runtime_behavior_impact: No new hard closeout gate in initial rollout.
+generated_input_authority_impact: Generated reports and postmortems cannot authorize closeout.
+evidence_requirements:
+- Conformance gate preservation evidence.
+- Drift/churn gate preservation evidence.
+- Post-integration evidence-only classification.
+- Lifecycle postmortem non-authority evidence.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-proposal-implementation-conformance.sh
+- validate-proposal-post-implementation-drift.sh
+acceptance_criteria_summary: Existing hard closeout gates are preserved and post-integration review is evidence-only unless
+  future policy explicitly changes that boundary.
+rollback_summary: Restore prior closeout docs and validators if this boundary model is rejected.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This packet does not make post-integration review a hard closeout gate.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-post-integration-boundaries
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-post-integration-boundaries/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-post-integration-boundaries/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-post-integration-boundaries/child-handoff-capsule.yml

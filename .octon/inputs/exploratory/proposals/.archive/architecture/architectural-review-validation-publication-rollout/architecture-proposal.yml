@@ -1,0 +1,24 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Architectural Review Validation Publication And Rollout"
+target_state: >-
+  Octon has a complete validator matrix, fixtures, negative controls,
+  publication checks, generated projection refresh process, evidence plan,
+  rollback plan, and completion gates for the native Architectural Review
+  Mechanism.
+boundary_change: >-
+  Adds rollout validation and publication guarantees without making generated
+  outputs or parent summaries authoritative.
+authoritative_targets_after_promotion:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

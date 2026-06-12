@@ -1,0 +1,21 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "native-architectural-review-mechanism-pre-integration-architecture-review"
+proposal_path: ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism"
+packet_digest: "sha256:c84cb9f11f25ae20665a84a50937ea9220bdebf12ef9c7b839cc70825ec37530"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/native-architectural-review-mechanism/support/proposal-review.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/balanced-architecture-review-method.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  charter_scope: "covered"
+  authority_boundaries: "covered"
+  child_graph: "covered"
+  lifecycle_gate: "covered"
+  evidence_contract: "covered"

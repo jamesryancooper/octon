@@ -349,11 +349,11 @@ workflows:
       - "run release readiness workflow"
       - "layered release readiness audit"
       - "orchestrate release readiness audits"
-  - id: audit-architecture-readiness
+  - id: architecture-readiness-audit
     display_name: Architecture Readiness Audit Workflow
     group: audit
     domain: audit
-    path: audit/audit-architecture-readiness/
+    path: audit/architecture-readiness-audit/
     summary: Orchestrate whole-harness and bounded-domain architecture-readiness audits into one bounded implementation-readiness recommendation.
     status: active
     triggers:
@@ -361,6 +361,42 @@ workflows:
       - "run architecture readiness workflow"
       - "audit octon architecture readiness"
       - "orchestrate architecture readiness audits"
+  - id: pre-integration-architecture-review
+    display_name: Pre-Integration Architecture Review
+    group: audit
+    domain: audit
+    path: audit/pre-integration-architecture-review/
+    execution_profile: core
+    summary: Run mandatory schema-backed architectural review before architecture proposal acceptance or implementation authorization.
+    status: active
+    triggers:
+      - "pre-integration architecture review"
+      - "review architecture proposal before implementation"
+      - "architecture proposal acceptance review"
+  - id: post-integration-architecture-review
+    display_name: Post-Integration Architecture Review
+    group: audit
+    domain: audit
+    path: audit/post-integration-architecture-review/
+    execution_profile: core
+    summary: Produce evidence-only architecture review after integration without replacing closeout gates.
+    status: active
+    triggers:
+      - "post-integration architecture review"
+      - "review implemented architecture"
+      - "architecture review after implementation"
+  - id: current-state-mechanism-architecture-review
+    display_name: Current-State Mechanism Architecture Review
+    group: audit
+    domain: audit
+    path: audit/current-state-mechanism-architecture-review/
+    execution_profile: core
+    summary: Review one governed cross-surface mechanism using native architectural review doctrine.
+    status: active
+    triggers:
+      - "current-state mechanism architecture review"
+      - "review governed mechanism architecture"
+      - "mechanism architecture review"
   - id: audit-documentation
     display_name: Documentation Audit
     group: audit
@@ -624,7 +660,7 @@ workflow_group_definitions:
   audit:
     description: Audit orchestration and release gates
     path: audit/
-    members: [audit-documentation, audit-design-proposal, audit-migration-proposal, audit-policy-proposal, audit-architecture-proposal, audit-workflow-system, audit-orchestration, audit-pre-release, audit-change-risk, audit-continuous, audit-post-incident, audit-release-readiness, audit-architecture-readiness]
+    members: [audit-documentation, audit-design-proposal, audit-migration-proposal, audit-policy-proposal, audit-architecture-proposal, audit-workflow-system, audit-orchestration, audit-pre-release, audit-change-risk, audit-continuous, audit-post-incident, audit-release-readiness, architecture-readiness-audit, pre-integration-architecture-review, post-integration-architecture-review, current-state-mechanism-architecture-review]
   refactor:
     description: Verified structural refactor orchestration
     path: refactor/

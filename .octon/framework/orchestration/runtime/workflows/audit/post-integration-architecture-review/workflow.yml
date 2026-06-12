@@ -1,0 +1,138 @@
+---
+schema_version: workflow-contract-v2
+name: post-integration-architecture-review
+description: Produce evidence-only architecture review after integration without replacing implementation conformance or drift/churn closeout gates.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - workflow_group
+    - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: proposal_path
+    type: folder
+    required: true
+    description: Implemented architecture proposal packet or implemented change target
+stages:
+  - id: configure
+    asset: stages/01-configure.md
+    kind: analysis
+    consumes: []
+    produces:
+      - stage:configure
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: evidence-review
+    asset: stages/02-evidence-review.md
+    kind: verification
+    consumes:
+      - stage:configure
+    produces:
+      - stage:evidence-review
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: receipt
+    asset: stages/03-receipt.md
+    kind: verification
+    consumes:
+      - stage:evidence-review
+    produces:
+      - architectural-review-support-receipt
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+artifacts:
+  - name: post_integration_architecture_review_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/post-integration-architecture-review/support-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Evidence-only post-integration architecture review receipt
+done_gate:
+  checks:
+    - "Receipt validates under architectural-review-support-receipt-v1"
+    - "Receipt states evidence-only authority and no closeout authority"
+constraints:
+  fail_closed: true
+  require_relative_local_assets: true

@@ -49,6 +49,7 @@ require_file() {
 required_mechanisms=(
   change-closeout-lifecycle
   governed-lifecycle-orchestration
+  architectural-review-mechanism
   governed-incoming-intake-routing
   extension-packs
   run-lifecycle-v1

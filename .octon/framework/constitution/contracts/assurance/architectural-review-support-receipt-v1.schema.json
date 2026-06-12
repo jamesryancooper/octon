@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/architectural-review-support-receipt-v1.schema.json",
+  "title": "Architectural Review Support Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "proposal_path",
+    "packet_digest",
+    "review_mode",
+    "verdict",
+    "evidence_refs",
+    "validator_refs",
+    "unresolved_count",
+    "blockers",
+    "non_authority_classification",
+    "mode_specific_coverage",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "architectural-review-support-receipt-v1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proposal_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "packet_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "review_mode": {
+      "type": "string",
+      "enum": [
+        "pre-integration-architecture-review",
+        "post-integration-architecture-review",
+        "current-state-mechanism-architecture-review",
+        "architecture-readiness-audit"
+      ]
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "blocked",
+        "not_applicable",
+        "deferred"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "validator_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unresolved_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "non_authority_classification": {
+      "const": "retained-evidence-only"
+    },
+    "mode_specific_coverage": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

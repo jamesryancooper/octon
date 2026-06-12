@@ -168,7 +168,7 @@ Every surface architecture audit report must include:
 
 - Use `audit-domain-architecture` for external critique of a whole Octon
   domain or prospective domain.
-- Use `audit-architecture-readiness` for whole-harness or bounded-domain
+- Use `architecture-readiness-audit` for whole-harness or bounded-domain
   implementation-readiness verdicts.
 - Use a surface architecture audit when a finding or design question must be
   narrowed to one durable surface unit.

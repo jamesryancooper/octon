@@ -1,0 +1,40 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Native Architectural Review Mechanism"
+target_state: >-
+  Octon has a native Architectural Review Mechanism with canonical doctrine,
+  review mode taxonomy, strict schemas, validators, workflows, thin skills,
+  lifecycle hooks, retained evidence contracts, mechanism index integration,
+  and extension split boundaries. Architecture proposals cannot be accepted or
+  authorized for implementation without a passing native Pre-Integration
+  Architecture Review receipt.
+boundary_change: >-
+  Moves architectural review authority from fragmented prompt-level and
+  evidence-only surfaces into native workflow and lifecycle contracts while
+  keeping extension intake and packetization helpers non-authoritative. It does
+  not make generated outputs, raw inputs, proposal-local reports, postmortems,
+  skills, or parent summaries authoritative.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/practices/methodology/architectural-review/"
+  - ".octon/framework/constitution/contracts/assurance/"
+  - ".octon/framework/orchestration/runtime/workflows/audit/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/"
+  - ".octon/framework/capabilities/runtime/skills/audit/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "resources/child-packet-index.yml"
+  - "architecture/packet-sequence.md"
+  - "architecture/child-packet-contract.md"
+  - "architecture/program-closeout-plan.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "architecture/target-architecture.md"
+  - "architecture/acceptance-criteria.md"
+  - "architecture/implementation-plan.md"

@@ -101,6 +101,9 @@ reviewed_file_inventory() {
       support/proposal-review.md|support/revisions/*)
         continue
         ;;
+      support/pre-integration-architecture-review.yml|support/post-integration-architecture-review.yml|support/current-state-mechanism-architecture-review.yml|support/architecture-readiness-audit.yml|support/architectural-review/*)
+        continue
+        ;;
       support/proposal-creation.md)
         continue
         ;;
@@ -165,6 +168,9 @@ legacy_reviewed_file_inventory() {
         continue
         ;;
       support/proposal-review.md|support/revisions/*)
+        continue
+        ;;
+      support/pre-integration-architecture-review.yml|support/post-integration-architecture-review.yml|support/current-state-mechanism-architecture-review.yml|support/architecture-readiness-audit.yml|support/architectural-review/*)
         continue
         ;;
       support/proposal-creation.md)
@@ -348,6 +354,32 @@ validate_manifest_targets_covered() {
   done < <(yq -r '.promotion_targets[]?' "$MANIFEST")
 }
 
+validate_architecture_pre_integration_review() {
+  local proposal_kind receipt
+  proposal_kind="$(yq -r '.proposal_kind // ""' "$MANIFEST")"
+  [[ "$proposal_kind" == "architecture" ]] || return 0
+
+  receipt="$PROPOSAL_DIR/support/pre-integration-architecture-review.yml"
+  if [[ ! -f "$receipt" ]]; then
+    emit_hard_blocker_recovery_diagnostic \
+      "$(review_gate_repo_rel "$receipt")" \
+      "architecture proposal acceptance and implementation authorization require Pre-Integration Architecture Review" \
+      "$(review_gate_rerun_gate)"
+    fail "architecture proposal has strict Pre-Integration Architecture Review receipt"
+    return 0
+  fi
+
+  if bash "$SCRIPT_DIR/validate-architectural-review-receipts.sh" \
+    --receipt "$receipt" \
+    --package "$PROPOSAL_DIR" \
+    --mode pre-integration-architecture-review \
+    --require-pass; then
+    pass "architecture proposal has strict Pre-Integration Architecture Review receipt"
+  else
+    fail "architecture proposal has strict Pre-Integration Architecture Review receipt"
+  fi
+}
+
 if [[ ! -d "$PROPOSAL_DIR" ]]; then
   fail "proposal packet exists"
   echo "Validation summary: errors=$errors warnings=$warnings"
@@ -446,6 +478,7 @@ else
       }
       validate_digest_fresh
       validate_manifest_targets_covered
+      validate_architecture_pre_integration_review
       ;;
     rejected)
       [[ "$verdict" == "rejected" ]] && pass "rejected proposal has rejected review verdict" || fail "rejected proposal has rejected review verdict"
@@ -480,6 +513,7 @@ if [[ "$REQUIRE_IMPLEMENTATION_AUTHORIZATION" -eq 1 ]]; then
     }
     validate_digest_fresh
     validate_manifest_targets_covered
+    validate_architecture_pre_integration_review
   fi
 fi
 

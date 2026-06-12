@@ -1,0 +1,183 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": true,
+    "registry_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml",
+    "sha256": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-review.md",
+      "reviewed_packet_digest": "`sha256:9df265ad4f0ef9a8d81547999e3cb9ba8915f467713d421a0ab6167a1133c382`",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review, implement, validate, and archive this packet after deterministic routing doctrine and validator coverage are promoted.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/proposal-program-spine.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/cognition/practices/methodology/architectural-review/",
+    ".octon/framework/assurance/runtime/_ops/scripts/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/framework/assurance/runtime/_ops/fixtures/"
+  ],
+  "proposal_id": "architectural-review-routing-taxonomy",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 205,
+      "estimated_tokens": 52,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/evidence-plan.md",
+      "sha256": "sha256:6616b708c60bd4a151c0415e11a82f85e2bf6e6a9a14a2633f2817b4d80363dc"
+    },
+    {
+      "byte_size": 1347,
+      "estimated_tokens": 337,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md",
+      "sha256": "sha256:bf6ee4ef0c26fe05be2202ce1f5eac1d2b95d6be0ac9a430ca7d64ced0cd9273"
+    },
+    {
+      "byte_size": 2938,
+      "estimated_tokens": 735,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-conformance-review.md",
+      "sha256": "sha256:3e54e412a4c12c0ba653144822827dbb2a64b1c75f64912940a2b450ac35c515"
+    },
+    {
+      "byte_size": 1251,
+      "estimated_tokens": 313,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:f97229741186e44bfc71820671ad968c9ae92b1d564b040053bdc9e0467a3a65"
+    },
+    {
+      "byte_size": 2370,
+      "estimated_tokens": 593,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-run.md",
+      "sha256": "sha256:a50f6df591aed0e12ff81db8b4d29cc68820b0a55d441a77d4e79cfac146fa2b"
+    },
+    {
+      "byte_size": 2953,
+      "estimated_tokens": 739,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:d56a088e5aee42d2805d742b3b33f67ec6243cbe477faf10b46b62446295395e"
+    },
+    {
+      "byte_size": 2206,
+      "estimated_tokens": 552,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-closeout.md",
+      "sha256": "sha256:8912f7f36a156a39e88e5373415729370166772e5033d962f9fe5ad660a56bc7"
+    },
+    {
+      "byte_size": 929,
+      "estimated_tokens": 233,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-review.md",
+      "sha256": "sha256:6d2ad411d1390ad9860810c38c8da521fc6deb00c3de9f9907a2bc94264e5c47"
+    },
+    {
+      "byte_size": 221,
+      "estimated_tokens": 56,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/rollback-plan.md",
+      "sha256": "sha256:14f893fdcc042c54b444b12fe72d392e1b170f87f2f5617c340037aebbb80fc0"
+    },
+    {
+      "byte_size": 357,
+      "estimated_tokens": 90,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/scaffold-receipt.md",
+      "sha256": "sha256:b00915f3f5e51434fb4d48f47da01be53c055cca3a3bd472e86553b4f4e1909e"
+    },
+    {
+      "byte_size": 405,
+      "estimated_tokens": 102,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/validation-plan.md",
+      "sha256": "sha256:661006197d417b38c24ea92741ea34ad52f101aa67396c03a96ada31a636877f"
+    }
+  ],
+  "related_proposals": [
+    "native-architectural-review-mechanism",
+    "architectural-review-native-doctrine-and-naming",
+    "architectural-review-schemas-and-receipts"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture-proposal.yml": "sha256:bcae14ca383931e6fc10065d7ecfc0df295cac889bc9f90a8cc69ddc86880d10",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture/acceptance-criteria.md": "sha256:375e45ef089fbbef62ccd8eab966795b6ba6c2d740369b45838a7a31725f6b5e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture/implementation-plan.md": "sha256:d5f31ca64331727cd1137c2401c330211e40f9b9016b243239bacc5eaedaa819",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/source-of-truth-map.md": "sha256:ea747f44302e7e8ff4824d37ca84e28b138e0f18fb6a49d56fd86e7820fb05c6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/proposal.yml": "sha256:2a46aeb7297622e459a4ee2dbe972a27007c99bc483290329ebae0de74c151a8",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md": "sha256:bf6ee4ef0c26fe05be2202ce1f5eac1d2b95d6be0ac9a430ca7d64ced0cd9273",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-grade-completeness-review.md": "sha256:f97229741186e44bfc71820671ad968c9ae92b1d564b040053bdc9e0467a3a65",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-review.md": "sha256:6d2ad411d1390ad9860810c38c8da521fc6deb00c3de9f9907a2bc94264e5c47",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_lineage": [
+    ".octon/inputs/additive/extensions/octon-concept-integration/context/routing.contract.yml",
+    ".octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-revision-contract.md",
+    ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/",
+    ".octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/",
+    ".octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "status": "archived"
+}

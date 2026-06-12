@@ -1,0 +1,139 @@
+schema_version: proposal-v1
+proposal_id: native-architectural-review-mechanism
+title: Native Architectural Review Mechanism
+summary: Parent proposal program coordinating child-owned implementation packets for a native Architectural Review Mechanism
+  that promotes the Balanced Architecture Review Method into Octon doctrine, normalizes review and audit naming, adds strict
+  schema-backed receipts, creates canonical workflows with thin skills, wires mandatory pre-integration architecture review
+  into proposal lifecycle gates, preserves closeout boundaries, integrates the mechanism index, and splits native assurance
+  from octon-concept-integration packetization helpers.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/cognition/practices/methodology/architectural-review/
+- .octon/framework/cognition/practices/methodology/architecture-readiness/
+- .octon/framework/cognition/practices/methodology/audits/
+- .octon/framework/constitution/contracts/assurance/
+- .octon/framework/orchestration/runtime/workflows/audit/
+- .octon/framework/orchestration/runtime/workflows/meta/
+- .octon/framework/capabilities/runtime/skills/audit/
+- .octon/framework/capabilities/runtime/skills/
+- .octon/framework/capabilities/runtime/commands/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/framework/assurance/runtime/_ops/fixtures/
+- .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/
+- .octon/framework/cognition/_meta/architecture/contract-registry.yml
+- .octon/inputs/additive/extensions/octon-concept-integration/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, revise, accept, implement through child packets, validate, and archive this parent only after
+    child-owned implementation, conformance, drift/churn, and promotion evidence prove the native mechanism has landed. This
+    parent never satisfies child receipts or durable lifecycle gates.
+related_proposals:
+- architectural-review-native-doctrine-and-naming
+- architectural-review-routing-taxonomy
+- architectural-review-schemas-and-receipts
+- architectural-review-native-workflows
+- architectural-review-native-skills-commands
+- architectural-review-proposal-lifecycle-integration
+- architectural-review-post-integration-boundaries
+- architectural-review-governed-mechanism-integration
+- architectural-review-extension-split-cleanup
+- architectural-review-validation-publication-rollout
+selected_implementation_target: Architectural Review Mechanism
+scope_statement: Proposal-program coordination only. The parent defines sequencing, child contracts, shared naming, rollout
+  gates, evidence boundaries, and aggregate validation expectations. Durable doctrine, schemas, validators, workflows, skills,
+  lifecycle hooks, mechanism index entries, and extension cleanup are implemented only by sibling child packets.
+program_execution_mode: gated-sequential-with-validation-barriers
+source_lineage:
+- .octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-review-method.md
+- .octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-revision-contract.md
+- .octon/inputs/additive/extensions/octon-concept-integration/prompts/architecture-revision-packet/
+- .octon/inputs/additive/extensions/octon-concept-integration/context/routing.contract.yml
+- .octon/inputs/additive/extensions/octon-concept-integration/validation/
+- .octon/framework/scaffolding/governance/patterns/proposal-standard.md
+- .octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md
+- .octon/framework/orchestration/runtime/workflows/meta/create-architecture-proposal/
+- .octon/framework/orchestration/runtime/workflows/audit/audit-architecture-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/validate-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/promote-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/verify-implementation-conformance/
+- .octon/framework/orchestration/runtime/workflows/meta/audit-post-implementation-drift/
+- .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/
+- .octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/
+- .octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/
+- .octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/
+- .octon/framework/cognition/practices/methodology/architecture-readiness/
+- .octon/framework/cognition/practices/methodology/audits/surface-architecture.md
+- .octon/framework/cognition/_meta/architecture/contract-registry.yml
+- .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/
+- .octon/framework/assurance/evaluators/lifecycle-postmortem/
+- .octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md
+- .octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json
+- .octon/framework/constitution/contracts/assurance/review-disposition-v1.schema.json
+authority_class_impact:
+  framework: Coordinates future framework methodology, workflow, schema, validator, skill, command, mechanism index, and lifecycle-gate
+    changes.
+  instance: No direct instance mutation from this parent. Future child packets may add instance assurance registration only
+    through their own promotion evidence.
+  state_control: No state-control mutation from this parent. Future lifecycle hooks must preserve canonical control truth
+    and fail closed.
+  state_evidence: Requires architectural review outputs and receipts to be retained evidence under mode-specific evidence
+    roots.
+  generated: Generated registries and projections remain derived-only and are produced by publication scripts.
+  inputs: This parent, child packets, extension prompt bundles, raw concept sources, and proposal-local reports remain non-authoritative
+    inputs.
+runtime_behavior_impact: None from this parent packet.
+generated_input_authority_impact: The program explicitly preserves that raw inputs, proposal packets, generated outputs, review
+  reports, support artifacts, host state, chat, dashboards, tool availability, and model memory cannot authorize mutation,
+  promotion, closeout, redesign, or constitutional amendment unless a durable lifecycle contract gates on a schema-backed
+  receipt.
+evidence_requirements:
+- Profile Selection Receipt selecting release_state pre-1.0 and change_profile atomic.
+- Child-owned scaffold receipts for every child packet.
+- Strict support receipt schema plan before lifecycle gate wiring.
+- Mode-specific evidence roots for pre-integration, post-integration, current-state mechanism, and architecture-readiness
+  reviews.
+- Validator and negative-control plan proving missing, stale, placeholder, non-passing, and omitted-validator receipts fail
+  closed.
+- Mechanism index evidence preserving authority, product, workflow, mutable control, retained evidence, generated, raw input,
+  validator, ownership, and non-authority boundaries.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-proposal-program-structure.sh
+- validate-proposal-program-child-readiness.sh
+- generate-proposal-registry.sh --write
+- generate-proposal-artifact-index.sh --write
+- validate-proposal-artifact-index-spine.sh
+- future validate-architectural-review-receipts.sh
+- future validate-architectural-review-routing.sh
+- future validate-architectural-review-workflows.sh
+- future validate-architecture-readiness-audit-canonical-slug.sh
+acceptance_criteria_summary: The program is acceptable when it creates child-owned implementation packets that can promote
+  a native Architectural Review Mechanism without wholesale extension promotion, without a second control plane, with mandatory
+  pre-integration architecture review for architecture proposals, with strict receipts before lifecycle gate wiring, and with
+  canonical naming.
+rollback_summary: Reject or supersede this parent before implementation if the child scope is wrong. After implementation
+  begins, rollback must be child-specific and must remove or revert only the child promotion targets proven by retained implementation,
+  conformance, and drift/churn evidence.
+owner:
+  role: Octon architecture proposal-program author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This parent program does not implement the native Architectural Review Mechanism.
+  It creates proposal-program materials only.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/native-architectural-review-mechanism
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/native-architectural-review-mechanism/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/native-architectural-review-mechanism/proposal-program-spine.yml
+  - .octon/generated/proposals/registry.yml

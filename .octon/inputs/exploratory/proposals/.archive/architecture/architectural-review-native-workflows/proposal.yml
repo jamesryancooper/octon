@@ -1,0 +1,73 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-native-workflows
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Native Workflows
+summary: Add canonical native workflows for Pre-Integration Architecture Review, Post-Integration Architecture Review, Current-State
+  Mechanism Architecture Review, and Architecture Readiness Audit, with workflow contracts producing schema-backed retained
+  evidence and without relying on skills as authority.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/
+- .octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/
+- .octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/
+- .octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, implement, validate, and archive this packet after native workflow contracts and workflow validators
+    are promoted.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-routing-taxonomy
+- architectural-review-schemas-and-receipts
+- architectural-review-native-skills-commands
+- architectural-review-proposal-lifecycle-integration
+selected_implementation_target: Architectural review workflows
+scope_statement: Adds canonical workflow contracts and evidence orchestration. It does not add skills, commands, or proposal
+  lifecycle gates.
+source_lineage:
+- .octon/framework/orchestration/runtime/workflows/audit/audit-architecture-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/validate-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/
+- .octon/framework/cognition/practices/methodology/architecture-readiness/
+authority_class_impact:
+  framework: Adds native workflow contracts and workflow validators.
+  instance: No instance mutation.
+  state_control: No state-control mutation outside future workflow execution records.
+  state_evidence: Defines retained evidence output roots.
+  generated: Generated projections remain derived-only.
+  inputs: Workflow reports remain evidence unless consumed by lifecycle contracts.
+runtime_behavior_impact: Adds future workflow execution surfaces only after implementation.
+generated_input_authority_impact: Skills, generated projections, and proposal reports cannot replace workflow contracts.
+evidence_requirements:
+- Workflow contract refs.
+- Workflow validation output.
+- Mode-specific evidence root output.
+- Support receipt refs bound to schemas.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- future validate-architectural-review-workflows.sh
+acceptance_criteria_summary: Canonical workflows exist and produce schema-backed retained evidence for the required native
+  review modes.
+rollback_summary: Remove workflow directories, validators, tests, and generated projections introduced by this child.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This proposal packet does not add workflows until implemented.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-native-workflows
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-workflows/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-workflows/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-workflows/child-handoff-capsule.yml

@@ -811,10 +811,10 @@ skills:
       fingerprints:
         tech_tags: []
         language_tags: []
-  audit-architecture-readiness:
+  architecture-readiness-audit:
     version: 1.0.1
     commands:
-    - /audit-architecture-readiness
+    - /architecture-readiness-audit
     parameters:
     - name: target_path
       type: folder
@@ -873,23 +873,135 @@ skills:
         determinism: unique
         description: Authoritative bounded-audit bundle with findings, coverage, convergence, and validation artifacts
       - name: run_log
-        path: /.octon/state/evidence/runs/skills/audit-architecture-readiness/{{run_id}}.md
+        path: /.octon/state/evidence/runs/skills/architecture-readiness-audit/{{run_id}}.md
         kind: file
         format: markdown
         determinism: unique
         description: Execution log for this architecture-readiness run
       - name: log_index
-        path: /.octon/state/evidence/runs/skills/audit-architecture-readiness/index.yml
+        path: /.octon/state/evidence/runs/skills/architecture-readiness-audit/index.yml
         kind: file
         format: yaml
         determinism: variable
-        description: Index of all audit-architecture-readiness runs with metadata
+        description: Index of all architecture-readiness-audit runs with metadata
       - name: top_log_index
         path: /.octon/state/evidence/runs/skills/index.yml
         kind: file
         format: yaml
         determinism: variable
         description: Top-level log index (cross-skill)
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
+  pre-integration-architecture-review:
+    version: 1.0.0
+    commands:
+    - /pre-integration-architecture-review
+    parameters:
+    - name: proposal_path
+      type: folder
+      required: true
+      description: Architecture proposal packet to review before acceptance or implementation authorization
+    requires:
+      context:
+      - /.octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/
+      - /.octon/framework/cognition/practices/methodology/architectural-review/
+    io:
+      inputs: []
+      outputs:
+      - name: pre_integration_architecture_review_receipt
+        path: /.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/pre-integration-architecture-review/support-receipt.yml
+        kind: file
+        format: yaml
+        determinism: unique
+        description: Schema-backed retained-evidence receipt required for architecture proposal acceptance and implementation authorization
+      - name: workflow_run_log
+        path: /.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/pre-integration-architecture-review/run.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Workflow run log for pre-integration architecture review
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
+  post-integration-architecture-review:
+    version: 1.0.0
+    commands:
+    - /post-integration-architecture-review
+    parameters:
+    - name: proposal_path
+      type: folder
+      required: true
+      description: Implemented architecture proposal packet or promoted target to review after integration
+    requires:
+      context:
+      - /.octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/
+      - /.octon/framework/cognition/practices/methodology/architectural-review/
+    io:
+      inputs: []
+      outputs:
+      - name: post_integration_architecture_review_receipt
+        path: /.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/post-integration-architecture-review/support-receipt.yml
+        kind: file
+        format: yaml
+        determinism: unique
+        description: Schema-backed retained-evidence receipt for evidence-only post-integration architecture review
+      - name: workflow_run_log
+        path: /.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/post-integration-architecture-review/run.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Workflow run log for post-integration architecture review
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
+  current-state-mechanism-architecture-review:
+    version: 1.0.0
+    commands:
+    - /current-state-mechanism-architecture-review
+    parameters:
+    - name: mechanism_id
+      type: text
+      required: true
+      description: Governed mechanism identifier to review in its current state
+    requires:
+      context:
+      - /.octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/
+      - /.octon/framework/cognition/practices/methodology/architectural-review/
+      - /.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/
+    io:
+      inputs: []
+      outputs:
+      - name: current_state_mechanism_architecture_review_receipt
+        path: /.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/current-state-mechanism-architecture-review/support-receipt.yml
+        kind: file
+        format: yaml
+        determinism: unique
+        description: Schema-backed retained-evidence receipt for current-state mechanism architecture review
+      - name: workflow_run_log
+        path: /.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/current-state-mechanism-architecture-review/run.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Workflow run log for current-state mechanism architecture review
     host_adapters: []
     routing:
       selectors:

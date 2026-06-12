@@ -1,0 +1,21 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Architectural Review Native Skills And Commands"
+target_state: >-
+  Octon has skills and commands for architectural review modes that call native
+  workflows and never duplicate workflow authority, schemas, validators, or
+  lifecycle gate decisions.
+boundary_change: >-
+  Adds operator convenience surfaces while preserving workflow-first authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/capabilities/runtime/skills/audit/"
+  - ".octon/framework/capabilities/runtime/commands/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

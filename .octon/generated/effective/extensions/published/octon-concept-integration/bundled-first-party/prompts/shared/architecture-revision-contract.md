@@ -11,6 +11,15 @@ Architecture revision packet schema, lifecycle, and layout rules are owned by:
 - `/.octon/framework/scaffolding/governance/patterns/proposal-standard.md`
 - `/.octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md`
 
+Native architectural review doctrine and review routing are owned by:
+
+- `/.octon/framework/cognition/practices/methodology/architectural-review/`
+
+This extension may generate or refresh an Architecture Revision Packet, but it
+does not satisfy native proposal lifecycle acceptance, implementation
+authorization, implementation conformance, post-implementation drift/churn, or
+closeout gates.
+
 ## Extension-Specific Architecture Revision Expectations
 
 An `architecture-revision-packet` should:

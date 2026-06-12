@@ -21,10 +21,13 @@ explicit, and proposal discovery is synchronized with the manifest projection.
 7. Fail closed if any required validator fails. Draft packets may pass with a
    structural-only readiness warning; accepted, implemented, and executable
    implementation-prompt packets require a passing completeness receipt.
+   Architecture packets in accepted or implementation-authorized state also
+   require a passing strict `support/pre-integration-architecture-review.yml`
+   receipt.
    Implemented packets and implemented archives require passing conformance and
    drift/churn receipts.
 8. Fail closed if `generated/proposals/registry.yml` does not match the deterministic projection rebuilt from proposal manifests.
 9. Persist the validator transcript as `standard-validator.log`.
-10. Report all four gate states: proposal review, implementation-grade
-    completeness, implementation conformance, and post-implementation
-    drift/churn.
+10. Report all five gate states: proposal review, Pre-Integration Architecture
+    Review when applicable, implementation-grade completeness, implementation
+    conformance, and post-implementation drift/churn.

@@ -29,6 +29,12 @@ no unresolved items, or the packet records an explicit blocked/deferred report
 outcome or a rejected/superseded/historical archive disposition instead of a
 successful closeout.
 
+For already implemented packets, verify review preservation with the baseline
+review gate. Do not require
+`validate-proposal-review-gate.sh --require-implementation-authorization`
+during closeout or archive readiness; that strict gate is reserved for
+implementation prompt generation, implementation execution, and promotion.
+
 Before claiming archive readiness, run the read-only worktree hygiene
 classifier. For ordinary packet closeout, classify the target packet as a
 proposal-packet:

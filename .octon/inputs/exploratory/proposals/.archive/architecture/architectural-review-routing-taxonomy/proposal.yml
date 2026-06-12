@@ -1,0 +1,68 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-routing-taxonomy
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Routing Taxonomy
+summary: Define the deterministic review mode taxonomy and routing model for pre-integration architecture review, architecture
+  revision packets, post-integration review, current-state mechanism review, readiness audits, domain audits, surface audits,
+  lifecycle postmortems, and constitutional challenges.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/cognition/practices/methodology/architectural-review/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/framework/assurance/runtime/_ops/fixtures/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, implement, validate, and archive this packet after deterministic routing doctrine and validator
+    coverage are promoted.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-native-doctrine-and-naming
+- architectural-review-schemas-and-receipts
+selected_implementation_target: Architectural review routing taxonomy
+scope_statement: Defines routing doctrine and validator requirements. It does not implement workflows or lifecycle gates.
+source_lineage:
+- .octon/inputs/additive/extensions/octon-concept-integration/context/routing.contract.yml
+- .octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-revision-contract.md
+- .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/
+- .octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/
+- .octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/
+authority_class_impact:
+  framework: Adds native routing doctrine and validator targets.
+  instance: No instance mutation.
+  state_control: No state-control mutation.
+  state_evidence: Defines future routing evidence.
+  generated: Generated projections remain derived-only.
+  inputs: Extension routing remains input context until aligned by a later child.
+runtime_behavior_impact: None.
+generated_input_authority_impact: Routing decisions become authoritative only when emitted by native workflow contracts.
+evidence_requirements:
+- Routing table evidence.
+- Mode selection fixture evidence.
+- Constitutional challenge escalation fixture evidence.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- future validate-architectural-review-routing.sh
+acceptance_criteria_summary: Review mode routing is deterministic, validator-backed, and keeps distinct review, audit, packet,
+  evaluator, and constitutional challenge routes.
+rollback_summary: Remove routing doctrine and validator additions from this child only.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This packet does not implement workflows or gates.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-routing-taxonomy
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/child-handoff-capsule.yml

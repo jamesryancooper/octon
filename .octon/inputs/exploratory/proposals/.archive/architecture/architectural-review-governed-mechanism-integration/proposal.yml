@@ -1,0 +1,67 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-governed-mechanism-integration
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Governed Mechanism Integration
+summary: Add the Architectural Review Mechanism to the governed cross-surface mechanism docs and index with authority refs,
+  workflow refs, mutable control refs, retained evidence refs, generated refs, raw input refs, validators, ownership boundaries,
+  and non-authority boundaries.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/
+- .octon/framework/cognition/_meta/architecture/contract-registry.yml
+- .octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, implement, validate, and archive this packet after mechanism index integration and validation
+    evidence land.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-native-doctrine-and-naming
+- architectural-review-native-workflows
+selected_implementation_target: Governed cross-surface mechanism index entry
+scope_statement: Adds index and documentation integration only. It does not itself create workflows, schemas, validators,
+  or lifecycle gates.
+source_lineage:
+- .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md
+- .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml
+- .octon/framework/cognition/_meta/architecture/contract-registry.yml
+authority_class_impact:
+  framework: Adds mechanism documentation and index registration.
+  instance: No instance mutation.
+  state_control: Records control refs; does not mutate control state.
+  state_evidence: Records retained evidence refs.
+  generated: Records generated refs as derived-only.
+  inputs: Records raw inputs as non-authority.
+runtime_behavior_impact: None.
+generated_input_authority_impact: Mechanism index is documentation/navigation and not a control surface.
+evidence_requirements:
+- Mechanism index diff evidence.
+- Mechanism page evidence.
+- Mechanism validator output.
+- Authority boundary review evidence.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-governed-cross-surface-mechanisms.sh
+acceptance_criteria_summary: The mechanism index includes Architectural Review Mechanism with complete authority, evidence,
+  generated, input, validator, ownership, and non-authority boundaries.
+rollback_summary: Remove the mechanism entry and page introduced by this child and rerun mechanism validation.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This proposal packet does not implement the mechanism.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-governed-mechanism-integration
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/child-handoff-capsule.yml

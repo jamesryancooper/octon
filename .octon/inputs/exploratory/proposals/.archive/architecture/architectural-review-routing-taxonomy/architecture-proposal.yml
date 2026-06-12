@@ -1,0 +1,22 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Architectural Review Routing Taxonomy"
+target_state: >-
+  Octon has a native routing contract that selects exactly one primary
+  architectural review route, records allowed secondary evidence routes, and
+  escalates constitutional conflicts to the constitutional challenge path.
+boundary_change: >-
+  Converts scattered routing conventions into native doctrine and future
+  validator checks without making extension packetization authoritative.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/practices/methodology/architectural-review/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

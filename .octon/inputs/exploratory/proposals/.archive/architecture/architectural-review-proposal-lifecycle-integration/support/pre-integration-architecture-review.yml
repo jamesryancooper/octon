@@ -1,0 +1,20 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-proposal-lifecycle-integration-pre-integration-architecture-review"
+proposal_path: ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-proposal-lifecycle-integration"
+packet_digest: "sha256:edb1c8620e67c5750fb34d85dc2e666dfb17f8399b6dd27487d938ac7c845b2b"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-proposal-lifecycle-integration/support/proposal-review.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  acceptance_gate: "covered"
+  implementation_authorization: "covered"
+  fail_closed_behavior: "covered"
+  lifecycle_workflows: "covered"

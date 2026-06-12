@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-1ac576efc928
-published_at: 2026-06-11T19:30:15Z
+generation_id: capabilities-1183cb249ec9
+published_at: 2026-06-12T02:03:21Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-11T19-30-15Z-capabilities-1ac576efc928.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-12T02-03-21Z-capabilities-1183cb249ec9.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -15,11 +15,11 @@ source:
   root_manifest_path: .octon/octon.yml
   root_manifest_sha256: e3280f034c023ac8931ef43c1bcecec91f5320e165032045727d87bdcf89079d
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-  framework_commands_manifest_sha256: 4a6da67bcad6d9b53448d8f2e318151dde5110a8fa19f4d5d61391010f6caf3f
+  framework_commands_manifest_sha256: 223c169ad3d5332140c94c5f0d20cec33bba84db0eaecb04bdebbd34271b8227
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
-  framework_skills_manifest_sha256: 839ec455252ac46a58e5a77c9e8cffa6d777623cd94dca27617c8502f154548a
+  framework_skills_manifest_sha256: d219d0021fb67f8e3a61ad29edf49bd58e9cef7d5f8a5ee057a63364a29e8a3b
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
-  framework_skills_registry_sha256: 047f54e42abdc60e5fd8b38afbda00ecb96d2b471a28fc000b4186fcdbea286e
+  framework_skills_registry_sha256: 52b9bd28655a50f94c977f46fde10d4d4e9d3fe630ce0acaecb828a24b978b17
   framework_services_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
   framework_services_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: c3d7e32a3c5487e3dad384449117f8a0c699c9ae3613f319c90bf8697678d774
+  extensions_catalog_sha256: cfad807162a861f755bbcb9f40a76d5dba13355207c3dd433db71381b8629923
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 4ee3916ff9e7170af5783126306efb9651872dbac41b05525afece759db7d04e
+  extensions_generation_lock_sha256: 5933082bc7f84d5fba163dde612907be1d2178e9874b3061f62338db8b6b8426
   extensions_generation_id: extensions-e539e7c8b239
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -463,6 +463,36 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-command-framework.command.create-workflow
     projection_name: create-workflow
+  - effective_id: framework.command.current-state-mechanism-architecture-review
+    artifact_map_id: framework-command-current-state-mechanism-architecture-review
+    origin_class: framework
+    capability_kind: command
+    capability_id: current-state-mechanism-architecture-review
+    display_name: Current-State Mechanism Architecture Review
+    summary: Invoke the native current-state architecture review workflow for a governed mechanism.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.current-state-mechanism-architecture-review
+    projection_name: current-state-mechanism-architecture-review
   - effective_id: framework.command.discover-expand
     artifact_map_id: framework-command-discover-expand
     origin_class: framework
@@ -662,6 +692,66 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-command-framework.command.init
     projection_name: init
+  - effective_id: framework.command.post-integration-architecture-review
+    artifact_map_id: framework-command-post-integration-architecture-review
+    origin_class: framework
+    capability_kind: command
+    capability_id: post-integration-architecture-review
+    display_name: Post-Integration Architecture Review
+    summary: Invoke the evidence-only native architecture review workflow after implementation integration.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.post-integration-architecture-review
+    projection_name: post-integration-architecture-review
+  - effective_id: framework.command.pre-integration-architecture-review
+    artifact_map_id: framework-command-pre-integration-architecture-review
+    origin_class: framework
+    capability_kind: command
+    capability_id: pre-integration-architecture-review
+    display_name: Pre-Integration Architecture Review
+    summary: Invoke the mandatory native architecture proposal review workflow before acceptance or implementation authorization.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.pre-integration-architecture-review
+    projection_name: pre-integration-architecture-review
   - effective_id: framework.command.process-incoming-intake
     artifact_map_id: framework-command-process-incoming-intake
     origin_class: framework
@@ -1674,6 +1764,34 @@ routing_candidates:
     stable_sort_key: 9999-9999-1-service-framework.service.spec
     projection_name: spec
     interface_type: shell
+  - effective_id: framework.skill.architecture-readiness-audit
+    artifact_map_id: framework-skill-architecture-readiness-audit
+    origin_class: framework
+    capability_kind: skill
+    capability_id: architecture-readiness-audit
+    display_name: Architecture Readiness Audit
+    summary: Bounded architecture-readiness audit for Octon whole-harness and bounded-surface domain targets.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
+    capability_domain: audit
+    host_adapters: []
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-skill-framework.skill.architecture-readiness-audit
+    projection_name: architecture-readiness-audit
   - effective_id: framework.skill.audit-api-contract
     artifact_map_id: framework-skill-audit-api-contract
     origin_class: framework
@@ -1702,34 +1820,6 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-skill-framework.skill.audit-api-contract
     projection_name: audit-api-contract
-  - effective_id: framework.skill.audit-architecture-readiness
-    artifact_map_id: framework-skill-audit-architecture-readiness
-    origin_class: framework
-    capability_kind: skill
-    capability_id: audit-architecture-readiness
-    display_name: Audit Architecture Readiness
-    summary: Bounded architecture-readiness audit for Octon whole-harness and bounded-surface domain targets.
-    status: active
-    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
-    capability_domain: audit
-    host_adapters: []
-    selectors:
-      include:
-        - '**'
-      exclude: []
-    fingerprints:
-      tech_tags: []
-      language_tags: []
-    scope_relevance:
-      matching_scope_ids: []
-      tech_tag_matches: []
-      language_tag_matches: []
-      preferred_domain_match_scope_ids: []
-      preferred_kind_match_scope_ids: []
-      score: 0
-    precedence_tier: native-authority
-    stable_sort_key: 9999-9999-1-skill-framework.skill.audit-architecture-readiness
-    projection_name: audit-architecture-readiness
   - effective_id: framework.skill.audit-charter
     artifact_map_id: framework-skill-audit-charter
     origin_class: framework
@@ -2306,6 +2396,34 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-skill-framework.skill.create-skill
     projection_name: create-skill
+  - effective_id: framework.skill.current-state-mechanism-architecture-review
+    artifact_map_id: framework-skill-current-state-mechanism-architecture-review
+    origin_class: framework
+    capability_kind: skill
+    capability_id: current-state-mechanism-architecture-review
+    display_name: Current-State Mechanism Architecture Review
+    summary: Thin invocation surface for current-state review of governed mechanism architecture.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
+    capability_domain: audit
+    host_adapters: []
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-skill-framework.skill.current-state-mechanism-architecture-review
+    projection_name: current-state-mechanism-architecture-review
   - effective_id: framework.skill.deploy-status
     artifact_map_id: framework-skill-deploy-status
     origin_class: framework
@@ -2393,6 +2511,34 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-skill-framework.skill.plan-charter-alignment
     projection_name: plan-charter-alignment
+  - effective_id: framework.skill.post-integration-architecture-review
+    artifact_map_id: framework-skill-post-integration-architecture-review
+    origin_class: framework
+    capability_kind: skill
+    capability_id: post-integration-architecture-review
+    display_name: Post-Integration Architecture Review
+    summary: Thin invocation surface for evidence-only native post-integration architecture review.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
+    capability_domain: audit
+    host_adapters: []
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-skill-framework.skill.post-integration-architecture-review
+    projection_name: post-integration-architecture-review
   - effective_id: framework.skill.postgres
     artifact_map_id: framework-skill-postgres
     origin_class: framework
@@ -2449,6 +2595,34 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-skill-framework.skill.postgres-best-practices
     projection_name: postgres-best-practices
+  - effective_id: framework.skill.pre-integration-architecture-review
+    artifact_map_id: framework-skill-pre-integration-architecture-review
+    origin_class: framework
+    capability_kind: skill
+    capability_id: pre-integration-architecture-review
+    display_name: Pre-Integration Architecture Review
+    summary: Thin invocation surface for mandatory native architecture proposal pre-integration review.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
+    capability_domain: audit
+    host_adapters: []
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-skill-framework.skill.pre-integration-architecture-review
+    projection_name: pre-integration-architecture-review
   - effective_id: framework.skill.provider-github-gates
     artifact_map_id: framework-skill-provider-github-gates
     origin_class: framework
@@ -6463,6 +6637,7 @@ resolution_order:
   - framework.command.audit-skills-system-expansion
   - framework.command.context-budget
   - framework.command.create-workflow
+  - framework.command.current-state-mechanism-architecture-review
   - framework.command.discover-expand
   - framework.command.discover-explain
   - framework.command.discover-resolve
@@ -6470,6 +6645,8 @@ resolution_order:
   - framework.command.evaluate-workflow
   - framework.command.export-harness
   - framework.command.init
+  - framework.command.post-integration-architecture-review
+  - framework.command.pre-integration-architecture-review
   - framework.command.process-incoming-intake
   - framework.command.provision-host-tools
   - framework.command.query-ask
@@ -6503,8 +6680,8 @@ resolution_order:
   - framework.service.replan
   - framework.service.scheduler
   - framework.service.spec
+  - framework.skill.architecture-readiness-audit
   - framework.skill.audit-api-contract
-  - framework.skill.audit-architecture-readiness
   - framework.skill.audit-charter
   - framework.skill.audit-ci-latency
   - framework.skill.audit-cross-subsystem-coherence
@@ -6525,11 +6702,14 @@ resolution_order:
   - framework.skill.ci-gate-triage
   - framework.skill.closeout-pr
   - framework.skill.create-skill
+  - framework.skill.current-state-mechanism-architecture-review
   - framework.skill.deploy-status
   - framework.skill.incident-response
   - framework.skill.plan-charter-alignment
+  - framework.skill.post-integration-architecture-review
   - framework.skill.postgres
   - framework.skill.postgres-best-practices
+  - framework.skill.pre-integration-architecture-review
   - framework.skill.provider-github-gates
   - framework.skill.provider-nextjs-astro-runtime
   - framework.skill.provider-preview-smoke

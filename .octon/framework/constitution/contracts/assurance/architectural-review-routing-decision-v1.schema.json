@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/architectural-review-routing-decision-v1.schema.json",
+  "title": "Architectural Review Routing Decision v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_id",
+    "subject_ref",
+    "selected_mode",
+    "reason_codes",
+    "evidence_refs",
+    "authority_boundary",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "architectural-review-routing-decision-v1"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selected_mode": {
+      "type": "string",
+      "enum": [
+        "pre-integration-architecture-review",
+        "architecture-revision-packet",
+        "post-integration-architecture-review",
+        "current-state-mechanism-architecture-review",
+        "architecture-readiness-audit",
+        "domain-architecture-audit",
+        "surface-architecture-audit",
+        "lifecycle-postmortem-evaluator",
+        "constitutional-challenge"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "authority_boundary": {
+      "type": "string",
+      "enum": [
+        "required-lifecycle-gate",
+        "evidence-only",
+        "extension-helper-only",
+        "separate-governance-route"
+      ]
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

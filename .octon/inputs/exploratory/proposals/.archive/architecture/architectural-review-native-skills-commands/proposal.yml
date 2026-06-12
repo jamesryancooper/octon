@@ -1,0 +1,66 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-native-skills-commands
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Native Skills And Commands
+summary: Add thin native skills and command invocation surfaces for the architectural review workflows, update capability
+  registries, and publish generated projections through scripts without creating a second control plane.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/capabilities/runtime/skills/audit/
+- .octon/framework/capabilities/runtime/skills/
+- .octon/framework/capabilities/runtime/commands/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, implement, publish generated projections, validate, and archive this packet after thin invocation
+    surfaces point at canonical workflows.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-native-workflows
+- architectural-review-validation-publication-rollout
+selected_implementation_target: Architectural review skills and commands
+scope_statement: Adds convenience invocation surfaces only. Workflows remain canonical authority and skills cannot duplicate
+  workflow logic or lifecycle gates.
+source_lineage:
+- .octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/
+- .octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/
+- .octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/
+authority_class_impact:
+  framework: Adds skill and command invocation surfaces.
+  instance: No instance mutation.
+  state_control: No state-control mutation.
+  state_evidence: Skills invoke workflows that retain evidence.
+  generated: Skill and command projections are derived-only.
+  inputs: Skill text is invocation guidance, not workflow authority.
+runtime_behavior_impact: Adds operator invocation entry points after implementation.
+generated_input_authority_impact: Generated capability projections cannot replace skill manifests or workflows.
+evidence_requirements:
+- Skill manifest refs.
+- Command refs.
+- Publication script output.
+- Projection freshness evidence.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- future validate-architectural-review-skills.sh
+acceptance_criteria_summary: Skills and commands are thin, point to workflow contracts, and publish generated projections
+  through scripts.
+rollback_summary: Remove skill and command additions, rerun publication scripts, and validate no orphan generated refs remain.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This proposal packet does not add skills until implemented.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-native-skills-commands
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/child-handoff-capsule.yml

@@ -60,6 +60,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] validate-proposal-standard.sh and the subtype validator pass for the target proposal
 - [ ] validate-proposal-implementation-readiness.sh runs and records a structural-only, blocked, or implementation-grade gate outcome
 - [ ] validate-proposal-review-gate.sh runs and records an awaiting-review, revision-required, accepted, rejected, or grandfathered structural gate outcome
+- [ ] architecture proposals in accepted or implementation-authorized state have a passing strict `support/pre-integration-architecture-review.yml` receipt
 - [ ] validate-proposal-implementation-conformance.sh runs and records a not-yet-required, blocked, or passing conformance gate outcome
 - [ ] validate-proposal-post-implementation-drift.sh runs and records a not-yet-required, blocked, or passing drift/churn gate outcome
 - [ ] generated/proposals/registry.yml matches the deterministic manifest projection

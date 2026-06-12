@@ -175,6 +175,9 @@ Proposals move through one active lifecycle and one archive lifecycle:
      to use for promotion work.
    - Subtype-specific readiness rules for `accepted` status must be satisfied
      before this status is set.
+   - Architecture proposals must retain a passing strict
+     `support/pre-integration-architecture-review.yml` receipt before
+     acceptance or implementation authorization.
    - The Implementation-Grade Completeness Gate must pass before this status is
      set.
 4. `implemented` or `rejected`

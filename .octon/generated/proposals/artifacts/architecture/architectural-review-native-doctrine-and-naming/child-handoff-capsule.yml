@@ -1,0 +1,144 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "architectural-review-native-doctrine-and-naming",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-doctrine-and-naming/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:324de9354ee507a1f7b3be56db9951c7d5623fc41fd064547805c5e8c6130d2f"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-doctrine-and-naming/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:4e3833e32225b8a77473a3d9495cc02ebad75c7490f3b31cdf5aefc11b21dcf5"
+    }
+  ],
+  "context_hash": "sha256:6eebecfab0906f95e25ca1c615a00a97f3aa8267f7f04034f4afa8aad03feb85",
+  "dependency_vector": {
+    "parent_program": "native-architectural-review-mechanism",
+    "related_proposals": [
+      "native-architectural-review-mechanism",
+      "architectural-review-routing-taxonomy",
+      "architectural-review-schemas-and-receipts"
+    ],
+    "source_lineage": [
+      ".octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-review-method.md",
+      ".octon/framework/cognition/practices/methodology/architecture-readiness/",
+      ".octon/framework/cognition/practices/methodology/audits/surface-architecture.md",
+      ".octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/"
+    ]
+  },
+  "evidence_refs": [
+    "Doctrine promotion evidence.",
+    "Naming normalization diff evidence.",
+    "Legacy alias retirement plan evidence.",
+    "Validator output proving canonical naming references."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-doctrine-and-naming/child-handoff-capsule.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "Defines native doctrine and canonical terminology only. It does not wire lifecycle gates, create workflows, create validators, or mutate extension prompts except for references needed to retire duplicate method ownership in later child packets.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/architecture-proposal.yml": "sha256:f9da1f833d2225cdedeaf8143fb4bf0fbcf8e9a9902d26046cd15708a7f00177",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/architecture/acceptance-criteria.md": "sha256:ac55d10af063a8745572797d134f67107e60100b95d6fd46762f21005154fe78",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/architecture/implementation-plan.md": "sha256:09d7bea49aa7fafa8aa0f3b11409bbfe6fac7205c5809e22e8f58426e96282d0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/navigation/source-of-truth-map.md": "sha256:4037a435227ca8c462e4766d88f4802dadaa77423ade239a0cac4f2913b14762",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/proposal.yml": "sha256:df95848f5b20a5d9877d736f3d1b258c2cd3689acd631b1337363ba3e48cd231",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/executable-implementation-prompt.md": "sha256:c0c84e07f48df8755838d8bf8a2659149267e13b4db7c1113844c0d9c8278770",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/implementation-grade-completeness-review.md": "sha256:fa0d1fc53c8a8123b05780b70b804a091f3d10d0486f9dfcad6d3c5b210c7024",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/proposal-review.md": "sha256:6168585e0f95cb49261f53c411b1052c617b114b090ad092648a2241c9f9a09d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "future validate-architectural-review-naming.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/cognition/practices/methodology/architectural-review/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/cognition/practices/methodology/architecture-readiness/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/cognition/practices/methodology/audits/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

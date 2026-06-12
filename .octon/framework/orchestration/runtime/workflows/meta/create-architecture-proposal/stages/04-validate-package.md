@@ -17,17 +17,23 @@ Ensure the scaffolded proposal is standard-compliant before reporting success.
    `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package ".octon/inputs/exploratory/proposals/architecture/<proposal_id>"`
 3. Run:
    `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package ".octon/inputs/exploratory/proposals/architecture/<proposal_id>"`
-4. Fail closed if structural or subtype validation fails. Treat a draft
+4. Run:
+   `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package ".octon/inputs/exploratory/proposals/architecture/<proposal_id>"`
+5. Fail closed if structural or subtype validation fails. Treat a draft
    implementation-readiness warning as authoring guidance, not scaffold failure.
-5. Persist the validator transcript into the workflow bundle as
+   Treat the draft pre-integration architecture review gate as an explicit
+   awaiting-review state, not scaffold failure.
+6. Persist the validator transcript into the workflow bundle as
    `standard-validator.log`.
-6. Record the validator outcome, implementation-grade gate outcome, and any follow-up
-   work needed before the package is filled in.
+7. Record the validator outcome, implementation-grade gate outcome,
+   pre-integration review gate outcome, and any follow-up work needed before the
+   package is filled in.
 
 ## Proceed When
 
 - [ ] Standard validator passes
 - [ ] Implementation-readiness validator ran and recorded a structural-only or implementation-grade gate outcome
+- [ ] Proposal review gate ran and recorded an awaiting-review or passing pre-integration architecture review state
 - [ ] `standard-validator.log` exists in the workflow bundle
 - [ ] Manifest-bearing module requirements are satisfied
 - [ ] Registry entry is valid and synchronized

@@ -1,0 +1,23 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Architectural Review Schemas And Receipts"
+target_state: >-
+  Octon has strict architectural-review report, routing decision, and support
+  receipt schemas plus validators and fixtures. Review findings and
+  dispositions reuse the existing assurance schemas rather than creating a
+  parallel finding system.
+boundary_change: >-
+  Converts architecture review support receipts from prose conventions into
+  schema-backed gates suitable for proposal lifecycle enforcement.
+authoritative_targets_after_promotion:
+  - ".octon/framework/constitution/contracts/assurance/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

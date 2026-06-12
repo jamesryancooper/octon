@@ -24,6 +24,9 @@ multi-plane model while preserving the existing blocking gates.
 - `evaluator-review-v1.schema.json`
 - `review-finding-v1.schema.json`
 - `review-disposition-v1.schema.json`
+- `architectural-review-report-v1.schema.json`
+- `architectural-review-routing-decision-v1.schema.json`
+- `architectural-review-support-receipt-v1.schema.json`
 - `failure-classification-v1.schema.json`
 - `hardening-recommendation-v1.schema.json`
 - `distillation-bundle-v1.schema.json`

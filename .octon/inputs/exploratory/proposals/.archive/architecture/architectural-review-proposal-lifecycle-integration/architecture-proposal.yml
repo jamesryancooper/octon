@@ -1,0 +1,23 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+title: "Architectural Review Proposal Lifecycle Integration"
+target_state: >-
+  Architecture proposals fail acceptance and implementation authorization unless
+  a fresh passing native Pre-Integration Architecture Review support receipt is
+  present, schema-valid, digest-bound, validator-bound, and blocker-free.
+boundary_change: >-
+  Adds a mandatory architecture-specific proposal lifecycle gate.
+authoritative_targets_after_promotion:
+  - ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
+  - ".octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md"
+  - ".octon/framework/orchestration/runtime/workflows/meta/validate-proposal/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

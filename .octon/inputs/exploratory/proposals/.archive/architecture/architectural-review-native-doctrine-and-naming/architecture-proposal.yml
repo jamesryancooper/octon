@@ -1,0 +1,25 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Architectural Review Native Doctrine And Naming"
+target_state: >-
+  Octon has native Architectural Review Mechanism doctrine under
+  `.octon/framework/cognition/practices/methodology/architectural-review/`,
+  including the Balanced Architecture Review Method and canonical naming tables
+  for display names, slugs, workflows, schemas, validators, evidence roots, and
+  support artifacts.
+boundary_change: >-
+  Moves method ownership from extension prompt context into native methodology
+  while leaving extension intake and packetization helpers non-authoritative.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/practices/methodology/architectural-review/"
+  - ".octon/framework/cognition/practices/methodology/architecture-readiness/"
+  - ".octon/framework/cognition/practices/methodology/audits/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

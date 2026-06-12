@@ -1,0 +1,20 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-post-integration-boundaries-pre-integration-architecture-review"
+proposal_path: ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-post-integration-boundaries"
+packet_digest: "sha256:37fb666bb47a3dec7023237874fa35cb8f78f8f39a58a2e19cde85ec30bdf4a9"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-post-integration-boundaries/support/proposal-review.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/review-routing.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  post_integration_evidence_boundary: "covered"
+  conformance_gate_preservation: "covered"
+  drift_churn_gate_preservation: "covered"
+  lifecycle_postmortem_boundary: "covered"

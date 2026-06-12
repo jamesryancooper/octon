@@ -1,0 +1,180 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": true,
+    "registry_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml",
+    "sha256": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/proposal-review.md",
+      "reviewed_packet_digest": "`sha256:a575ddfbb2fac9af6c0171ee3879ace6eb85ffb78e9f7d9320bd585948c00426`",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review, implement, validate, and archive this packet after mechanism index integration and validation evidence land.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-governed-mechanism-integration/proposal-program-spine.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+    ".octon/framework/cognition/_meta/architecture/contract-registry.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh"
+  ],
+  "proposal_id": "architectural-review-governed-mechanism-integration",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 202,
+      "estimated_tokens": 51,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/evidence-plan.md",
+      "sha256": "sha256:48c4937cae1b4af348ac18cebcbc12ead998bcfeb0fbe9bd077a8dc0b40c6b9a"
+    },
+    {
+      "byte_size": 1432,
+      "estimated_tokens": 358,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/executable-implementation-prompt.md",
+      "sha256": "sha256:5d363b9553e8b972dab781216c082d7432ffff003ff5f94ff7c7ae47bc318f08"
+    },
+    {
+      "byte_size": 2974,
+      "estimated_tokens": 744,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-conformance-review.md",
+      "sha256": "sha256:cf1f9749fd1c9320be51c42b4e8fcfd9e09ea6ccbad784fe1f2fc8a2d776d948"
+    },
+    {
+      "byte_size": 992,
+      "estimated_tokens": 248,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:c78b95f65b41b64f758bfbf8e2834452a40e8a3202658d499ae96fde98b3286d"
+    },
+    {
+      "byte_size": 2419,
+      "estimated_tokens": 605,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-run.md",
+      "sha256": "sha256:6906d478d403b75d8538e87fba36e567baebd06d56a13637b7960fc47d75d9e3"
+    },
+    {
+      "byte_size": 2967,
+      "estimated_tokens": 742,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:06b5a6e1b5ea9b8f6c1ba8d550bf4dc2f75b73ecdd1d61dcddb018193ff4404c"
+    },
+    {
+      "byte_size": 2234,
+      "estimated_tokens": 559,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/proposal-closeout.md",
+      "sha256": "sha256:e9b3df290908a02f61dcc2ab571f53e87ce575121dd10a341232d1c5542cb005"
+    },
+    {
+      "byte_size": 1174,
+      "estimated_tokens": 294,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/proposal-review.md",
+      "sha256": "sha256:ea9b7423306dc6ded6b3c8202958a46f36e181621d6431608c99bc989bad3dc9"
+    },
+    {
+      "byte_size": 177,
+      "estimated_tokens": 45,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/rollback-plan.md",
+      "sha256": "sha256:bfdf85c8d31ff65752a871038e23dc6e403aafcf1c956e6f3517b1238b2eb31a"
+    },
+    {
+      "byte_size": 337,
+      "estimated_tokens": 85,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/scaffold-receipt.md",
+      "sha256": "sha256:a1f20c00ffa8455c02586a522257b791c52443a6f46d93d02cda8d1be34c932d"
+    },
+    {
+      "byte_size": 288,
+      "estimated_tokens": 72,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/validation-plan.md",
+      "sha256": "sha256:6750b4216cf6830d7ba2aba901f665910a14e2776f24ba8be710d780ea545bca"
+    }
+  ],
+  "related_proposals": [
+    "native-architectural-review-mechanism",
+    "architectural-review-native-doctrine-and-naming",
+    "architectural-review-native-workflows"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture-proposal.yml": "sha256:2bcf56761a548322dd4ba711015e265c231d02196488f26bcdef52fe75a0ee37",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture/acceptance-criteria.md": "sha256:717a5432eefa1540b5b9a67b336267785b15acebb09dde154bad27c117ed2656",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture/implementation-plan.md": "sha256:192136352770b7c31cb1a1a8ac4d8f1b6ec5605f0ed798701989a496b824447d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/source-of-truth-map.md": "sha256:a04e288d38acf3708061022873e26d3c6fc3ee03e9388fd300fd4e554fb0300f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/proposal.yml": "sha256:a9d2bb28fc477af99b8b6a0ad8c45e7fd59410896af3621b2a8a51f98c17b251",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/executable-implementation-prompt.md": "sha256:5d363b9553e8b972dab781216c082d7432ffff003ff5f94ff7c7ae47bc318f08",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-grade-completeness-review.md": "sha256:c78b95f65b41b64f758bfbf8e2834452a40e8a3202658d499ae96fde98b3286d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/proposal-review.md": "sha256:ea9b7423306dc6ded6b3c8202958a46f36e181621d6431608c99bc989bad3dc9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_lineage": [
+    ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md",
+    ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml",
+    ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "status": "archived"
+}

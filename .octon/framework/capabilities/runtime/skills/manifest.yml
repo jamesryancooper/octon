@@ -282,10 +282,10 @@ skills:
       - domain-specialized
       - self-validating
 
-  - id: audit-architecture-readiness
-    display_name: Audit Architecture Readiness
+  - id: architecture-readiness-audit
+    display_name: Architecture Readiness Audit
     group: audit
-    path: audit/audit-architecture-readiness/
+    path: audit/architecture-readiness-audit/
     skill_class: invocable
     summary: "Bounded architecture-readiness audit for Octon whole-harness and bounded-surface domain targets."
     status: active
@@ -298,7 +298,79 @@ skills:
       - "implementation readiness audit for octon architecture"
       - "assess octon control-plane readiness"
       - "evaluate bounded-surface domain readiness"
-      - "run audit-architecture-readiness"
+      - "run architecture-readiness-audit"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: pre-integration-architecture-review
+    display_name: Pre-Integration Architecture Review
+    group: audit
+    path: audit/pre-integration-architecture-review/
+    skill_class: invocable
+    summary: "Thin invocation surface for mandatory native architecture proposal pre-integration review."
+    status: active
+    tags:
+      - audit
+      - architecture
+      - architectural-review
+      - proposal-lifecycle
+    triggers:
+      - "run pre-integration architecture review"
+      - "review architecture proposal before acceptance"
+      - "architecture proposal implementation authorization review"
+      - "run pre-integration-architecture-review"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: post-integration-architecture-review
+    display_name: Post-Integration Architecture Review
+    group: audit
+    path: audit/post-integration-architecture-review/
+    skill_class: invocable
+    summary: "Thin invocation surface for evidence-only native post-integration architecture review."
+    status: active
+    tags:
+      - audit
+      - architecture
+      - architectural-review
+      - post-integration
+    triggers:
+      - "run post-integration architecture review"
+      - "review architecture after implementation"
+      - "post implementation architecture evidence review"
+      - "run post-integration-architecture-review"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: current-state-mechanism-architecture-review
+    display_name: Current-State Mechanism Architecture Review
+    group: audit
+    path: audit/current-state-mechanism-architecture-review/
+    skill_class: invocable
+    summary: "Thin invocation surface for current-state review of governed mechanism architecture."
+    status: active
+    tags:
+      - audit
+      - architecture
+      - architectural-review
+      - mechanism
+    triggers:
+      - "run current state mechanism architecture review"
+      - "review governed mechanism architecture"
+      - "current mechanism architecture review"
+      - "run current-state-mechanism-architecture-review"
     skill_sets:
       - executor
       - guardian

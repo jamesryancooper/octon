@@ -1,0 +1,139 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "architectural-review-routing-taxonomy",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:c675a87ca2e28e0e69486be6219565f5dbaf9227d1b2e989bbde295c8c9c1656"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:a34181deb679b49c0a0702ffbe2c1652a351496b193d1aae104b9de2158588ab"
+    }
+  ],
+  "context_hash": "sha256:2e18200bb891d1cf0dab87f2a368d214f2f3272d1dfbd7a6f225e05cad98b5c4",
+  "dependency_vector": {
+    "parent_program": "native-architectural-review-mechanism",
+    "related_proposals": [
+      "native-architectural-review-mechanism",
+      "architectural-review-native-doctrine-and-naming",
+      "architectural-review-schemas-and-receipts"
+    ],
+    "source_lineage": [
+      ".octon/inputs/additive/extensions/octon-concept-integration/context/routing.contract.yml",
+      ".octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-revision-contract.md",
+      ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/",
+      ".octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/",
+      ".octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/"
+    ]
+  },
+  "evidence_refs": [
+    "Routing table evidence.",
+    "Mode selection fixture evidence.",
+    "Constitutional challenge escalation fixture evidence."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-routing-taxonomy/child-handoff-capsule.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "Defines routing doctrine and validator requirements. It does not implement workflows or lifecycle gates.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture-proposal.yml": "sha256:bcae14ca383931e6fc10065d7ecfc0df295cac889bc9f90a8cc69ddc86880d10",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture/acceptance-criteria.md": "sha256:375e45ef089fbbef62ccd8eab966795b6ba6c2d740369b45838a7a31725f6b5e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture/implementation-plan.md": "sha256:d5f31ca64331727cd1137c2401c330211e40f9b9016b243239bacc5eaedaa819",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/source-of-truth-map.md": "sha256:ea747f44302e7e8ff4824d37ca84e28b138e0f18fb6a49d56fd86e7820fb05c6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/proposal.yml": "sha256:2a46aeb7297622e459a4ee2dbe972a27007c99bc483290329ebae0de74c151a8",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md": "sha256:bf6ee4ef0c26fe05be2202ce1f5eac1d2b95d6be0ac9a430ca7d64ced0cd9273",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-grade-completeness-review.md": "sha256:f97229741186e44bfc71820671ad968c9ae92b1d564b040053bdc9e0467a3a65",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-review.md": "sha256:6d2ad411d1390ad9860810c38c8da521fc6deb00c3de9f9907a2bc94264e5c47",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "future validate-architectural-review-routing.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/cognition/practices/methodology/architectural-review/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/tests/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/fixtures/",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

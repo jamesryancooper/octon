@@ -836,9 +836,9 @@ workflows:
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle for layered release-readiness recommendation and done-gate evidence"
-  audit-architecture-readiness:
+  architecture-readiness-audit:
     version: "1.0.0"
-    commands: ["/audit-architecture-readiness"]
+    commands: ["/architecture-readiness-audit"]
     parameters:
       - name: target_path
         type: folder
@@ -875,7 +875,7 @@ workflows:
         description: "Comma-separated deterministic seeds used for multi-run consistency checks"
     access: human
     depends_on:
-      - skill: audit-architecture-readiness
+      - skill: architecture-readiness-audit
         condition: "active in skill manifest"
       - skill: audit-cross-subsystem-coherence
         condition: "active in skill manifest (required when whole-harness mode + run_cross_subsystem parameter is true)"
@@ -885,7 +885,7 @@ workflows:
       inputs: []
       outputs:
         - name: architecture_readiness_workflow_report
-          path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-architecture-readiness.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-architecture-readiness-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -895,13 +895,13 @@ workflows:
           kind: file
           format: markdown
           determinism: unique
-          description: "Primary stage report produced by audit-architecture-readiness"
+          description: "Primary stage report produced by architecture-readiness-audit"
         - name: architecture_readiness_summary_json
           path: "/.octon/state/evidence/validation/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
           kind: file
           format: json
           determinism: unique
-          description: "Machine-readable summary produced by audit-architecture-readiness"
+          description: "Machine-readable summary produced by architecture-readiness-audit"
         - name: cross_subsystem_audit_report
           path: "/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
@@ -920,6 +920,75 @@ workflows:
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle for architecture-readiness recommendation and done-gate evidence"
+  pre-integration-architecture-review:
+    version: "1.0.0"
+    commands: ["/pre-integration-architecture-review"]
+    parameters:
+      - name: proposal_path
+        type: folder
+        required: true
+        description: "Architecture proposal packet to review before acceptance or implementation authorization"
+    access: human
+    depends_on:
+      - workflow: pre-integration-architecture-review
+        condition: "canonical workflow contract exists"
+      - validator: validate-architectural-review-receipts.sh
+        condition: "strict receipt validator exists"
+    io:
+      inputs: []
+      outputs:
+        - name: pre_integration_architecture_review_receipt
+          path: "/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/pre-integration-architecture-review/support-receipt.yml"
+          kind: file
+          format: yaml
+          determinism: unique
+          description: "Schema-backed pre-integration architecture review receipt"
+  post-integration-architecture-review:
+    version: "1.0.0"
+    commands: ["/post-integration-architecture-review"]
+    parameters:
+      - name: proposal_path
+        type: folder
+        required: true
+        description: "Implemented architecture proposal packet or implemented change target"
+    access: human
+    depends_on:
+      - workflow: post-integration-architecture-review
+        condition: "canonical workflow contract exists"
+      - validator: validate-architectural-review-receipts.sh
+        condition: "strict receipt validator exists"
+    io:
+      inputs: []
+      outputs:
+        - name: post_integration_architecture_review_receipt
+          path: "/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/post-integration-architecture-review/support-receipt.yml"
+          kind: file
+          format: yaml
+          determinism: unique
+          description: "Evidence-only post-integration architecture review receipt"
+  current-state-mechanism-architecture-review:
+    version: "1.0.0"
+    commands: ["/current-state-mechanism-architecture-review"]
+    parameters:
+      - name: mechanism_id
+        type: text
+        required: true
+        description: "Governed cross-surface mechanism id to review"
+    access: human
+    depends_on:
+      - workflow: current-state-mechanism-architecture-review
+        condition: "canonical workflow contract exists"
+      - validator: validate-governed-cross-surface-mechanisms.sh
+        condition: "mechanism index validates"
+    io:
+      inputs: []
+      outputs:
+        - name: current_state_mechanism_architecture_review_receipt
+          path: "/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/current-state-mechanism-architecture-review/support-receipt.yml"
+          kind: file
+          format: yaml
+          determinism: unique
+          description: "Evidence-only current-state mechanism architecture review receipt"
   audit-documentation:
     version: "3.0.0"
     commands: ["/audit-documentation"]

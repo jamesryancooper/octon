@@ -333,6 +333,14 @@ child_registry_digest = ""
 child_id_present = False
 if parent_program:
     parent_path = root / ".octon/inputs/exploratory/proposals/architecture" / parent_program
+    if not parent_path.is_dir():
+        archive_parent_path = root / ".octon/inputs/exploratory/proposals/.archive/architecture" / parent_program
+        archive_manifest = archive_parent_path / "proposal.yml"
+        if archive_manifest.is_file():
+            archived_parent = load_yaml(archive_manifest)
+            expected_original = f".octon/inputs/exploratory/proposals/architecture/{parent_program}"
+            if archived_parent.get("archive", {}).get("original_path") == expected_original:
+                parent_path = archive_parent_path
     candidate = parent_path / "resources/child-packet-index.yml"
     if candidate.is_file():
         parent_child_registry = candidate

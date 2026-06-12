@@ -1,0 +1,23 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+title: "Architectural Review Extension Split And Compatibility Cleanup"
+target_state: >-
+  `octon-concept-integration` uses native Architectural Review Mechanism
+  doctrine as a reference while retaining source intake, concept extraction,
+  synthesis, source-to-packet generation, Architecture Revision Packet
+  packetization, convenience prompt bundles, and publication alignment.
+boundary_change: >-
+  Removes duplicate method ownership from the extension without promoting the
+  extension wholesale.
+authoritative_targets_after_promotion:
+  - ".octon/inputs/additive/extensions/octon-concept-integration/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

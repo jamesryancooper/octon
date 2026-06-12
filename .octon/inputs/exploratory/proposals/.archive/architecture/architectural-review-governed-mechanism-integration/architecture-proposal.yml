@@ -1,0 +1,23 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Architectural Review Governed Mechanism Integration"
+target_state: >-
+  Governed cross-surface mechanism docs include an Architectural Review
+  Mechanism entry with explicit references and boundaries for doctrine,
+  workflows, schemas, validators, evidence roots, generated outputs, raw inputs,
+  extension helpers, owners, and non-authority surfaces.
+boundary_change: >-
+  Adds discoverability and governance documentation without creating authority
+  beyond the indexed source refs.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

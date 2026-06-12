@@ -62,7 +62,7 @@ Representative examples for the audit-surface-architecture skill.
 - Stop at applicability classification.
 - Emit `verdict=not-applicable`.
 - Direct the caller to `audit-domain-architecture` or
-  `audit-architecture-readiness`.
+  `architecture-readiness-audit`.
 
 ## Anti-Examples
 

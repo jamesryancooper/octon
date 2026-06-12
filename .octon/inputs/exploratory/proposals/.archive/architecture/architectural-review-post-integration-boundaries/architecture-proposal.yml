@@ -1,0 +1,22 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+title: "Architectural Review Post-Integration And Closeout Boundaries"
+target_state: >-
+  Octon clearly separates post-integration architecture review evidence from
+  closeout authority. Implementation conformance and post-implementation
+  drift/churn remain hard gates; lifecycle postmortem remains evidence-only.
+boundary_change: >-
+  Clarifies authority boundaries without adding a new closeout gate.
+authoritative_targets_after_promotion:
+  - ".octon/framework/orchestration/runtime/workflows/meta/verify-implementation-conformance/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/audit-post-implementation-drift/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "support/**"

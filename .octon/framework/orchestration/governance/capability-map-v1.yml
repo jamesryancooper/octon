@@ -194,7 +194,25 @@ workflows:
     required_contracts:
       - "delegation-boundaries-v1"
 
-  - workflow_id: "audit-architecture-readiness"
+  - workflow_id: "architecture-readiness-audit"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "pre-integration-architecture-review"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "post-integration-architecture-review"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "current-state-mechanism-architecture-review"
     classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:

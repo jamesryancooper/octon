@@ -1,0 +1,151 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "architectural-review-native-workflows",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-workflows/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:4f99a19743c6fa42428d9716c6aad96a3dfebe025c036991ceae31157f8eba29"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-workflows/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:07b81ed43314c935e49ad01ba67d05c0071d3e23d83109876419469d198ed342"
+    }
+  ],
+  "context_hash": "sha256:9c749adc25adfc6b62fa39f066f43bd4e46a0d4e73949b53484ce66d35e32a54",
+  "dependency_vector": {
+    "parent_program": "native-architectural-review-mechanism",
+    "related_proposals": [
+      "native-architectural-review-mechanism",
+      "architectural-review-routing-taxonomy",
+      "architectural-review-schemas-and-receipts",
+      "architectural-review-native-skills-commands",
+      "architectural-review-proposal-lifecycle-integration"
+    ],
+    "source_lineage": [
+      ".octon/framework/orchestration/runtime/workflows/audit/audit-architecture-proposal/",
+      ".octon/framework/orchestration/runtime/workflows/meta/validate-proposal/",
+      ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/",
+      ".octon/framework/cognition/practices/methodology/architecture-readiness/"
+    ]
+  },
+  "evidence_refs": [
+    "Workflow contract refs.",
+    "Workflow validation output.",
+    "Mode-specific evidence root output.",
+    "Support receipt refs bound to schemas."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-workflows/child-handoff-capsule.yml",
+  "parent_program": "native-architectural-review-mechanism",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "Adds canonical workflow contracts and evidence orchestration. It does not add skills, commands, or proposal lifecycle gates.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/architecture-proposal.yml": "sha256:8323fe73348dab121554cd7a900ce554dca3f6e19e90cebea396c51b3e7aafb3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/architecture/acceptance-criteria.md": "sha256:be41c7f1545f1bf17197e5e3846759dc7ec790c382e8c6772ca1cfc599a0ae6b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/architecture/implementation-plan.md": "sha256:0ab041cde4a67a6987835d99719fe0731452140d9505759bf363b4fd2b77d060",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/navigation/source-of-truth-map.md": "sha256:c20e0e7ba40930ec8aa4accbc614ae9c3958a163974a9bcbaa22e33d65d2c400",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/proposal.yml": "sha256:5a8e2b4b38752b93bc1103af3372f66229ba3356a9d1199744c2cf4999230372",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/support/executable-implementation-prompt.md": "sha256:4d10132bcb16a8d19f00814ffa213d2544a0c01a9bd334deb7d29a7c932ad69a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/support/implementation-grade-completeness-review.md": "sha256:22f4c1db61724a6f391ac822721eaac4fa10baab20af5ddaefa94acd4acb76d6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/support/proposal-review.md": "sha256:712482d49f52e49aba5d8c7b38ca9b0750956c9a77c9e5e41da3a8f2aae83ae9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "future validate-architectural-review-workflows.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/tests/",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

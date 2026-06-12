@@ -1,0 +1,74 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-validation-publication-rollout
+parent_program: native-architectural-review-mechanism
+title: Architectural Review Validation Publication And Rollout
+summary: Add the final validation, fixture, negative-control, publication, generated projection, rollout, evidence, rollback,
+  and completion gates for the native Architectural Review Mechanism program.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+promotion_targets:
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/framework/assurance/runtime/_ops/fixtures/
+status: archived
+lifecycle:
+  temporary: true
+  exit_expectation: Review, implement, validate, and archive this packet after final validation, publication, and rollout
+    completion evidence lands.
+related_proposals:
+- native-architectural-review-mechanism
+- architectural-review-native-skills-commands
+- architectural-review-proposal-lifecycle-integration
+- architectural-review-post-integration-boundaries
+- architectural-review-governed-mechanism-integration
+- architectural-review-extension-split-cleanup
+selected_implementation_target: Architectural Review Mechanism validation and rollout
+scope_statement: Owns final validators, tests, fixtures, publication checks, generated projection refresh, rollout evidence,
+  and completion gates. It does not replace child-owned implementation evidence.
+source_lineage:
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/generated/proposals/
+- .octon/framework/capabilities/_ops/scripts/publish-host-projections.sh
+authority_class_impact:
+  framework: Adds final validators, tests, fixtures, and publication checks.
+  instance: No instance mutation unless future child-owned publication targets require it.
+  state_control: No state-control mutation.
+  state_evidence: Records rollout evidence only.
+  generated: Refreshes generated projections by scripts.
+  inputs: Proposal packets remain non-authoritative.
+runtime_behavior_impact: No new mechanism behavior beyond validated child implementations.
+generated_input_authority_impact: Generated outputs are validated as derived-only and freshness-bound.
+evidence_requirements:
+- Full validator matrix output.
+- Negative-control output.
+- Publication script output.
+- Generated projection freshness evidence.
+- Rollout completion evidence.
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- generate-proposal-registry.sh --write
+- generate-proposal-artifact-index.sh --write
+- validate-proposal-artifact-index-spine.sh
+- future architectural-review validator matrix
+acceptance_criteria_summary: The rollout child proves all architectural-review semantics, lifecycle gates, naming migration,
+  extension split, and publication outputs validate with negative controls.
+rollback_summary: Rollback final validators, fixtures, and generated projections by child-owned evidence and rerun publication
+  checks.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-11'
+explicit_runtime_non_implementation_statement: This packet does not implement prior child tracks.
+archive:
+  archived_at: '2026-06-11'
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-validation-publication-rollout
+  promotion_evidence:
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-validation-publication-rollout/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-validation-publication-rollout/proposal-program-spine.yml
+  - .octon/generated/proposals/artifacts/architecture/architectural-review-validation-publication-rollout/child-handoff-capsule.yml

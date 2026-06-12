@@ -1,0 +1,20 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-governed-mechanism-integration-pre-integration-architecture-review"
+proposal_path: ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-governed-mechanism-integration"
+packet_digest: "sha256:a575ddfbb2fac9af6c0171ee3879ace6eb85ffb78e9f7d9320bd585948c00426"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-governed-mechanism-integration/support/proposal-review.md"
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  mechanism_index: "covered"
+  authority_refs: "covered"
+  retained_evidence_refs: "covered"
+  non_authority_boundaries: "covered"

@@ -41,6 +41,12 @@ Allowed values:
 
 Rules:
 
+- Every architecture proposal acceptance and implementation authorization require Pre-Integration Architecture Review through
+  `support/pre-integration-architecture-review.yml`, validated by
+  `validate-architectural-review-receipts.sh` and
+  `validate-proposal-review-gate.sh`. Chat, proposal-local analysis, extension
+  packetization, generated outputs, host state, and raw inputs cannot satisfy
+  this gate.
 - `architecture/target-architecture.md` must describe the intended end state.
 - `architecture/acceptance-criteria.md` must define conditions that prove the
   target architecture has landed.

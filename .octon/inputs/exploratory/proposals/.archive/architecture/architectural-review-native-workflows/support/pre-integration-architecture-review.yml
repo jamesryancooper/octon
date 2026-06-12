@@ -1,0 +1,20 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-native-workflows-pre-integration-architecture-review"
+proposal_path: ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-workflows"
+packet_digest: "sha256:bc9bc6e7d92415782bd6bbf4d94be4163057f0434a58180d82778cf40f564883"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-native-workflows/support/proposal-review.md"
+  - ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/workflow.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  canonical_workflows: "covered"
+  evidence_roots: "covered"
+  workflow_registry: "covered"
+  receipt_contract: "covered"

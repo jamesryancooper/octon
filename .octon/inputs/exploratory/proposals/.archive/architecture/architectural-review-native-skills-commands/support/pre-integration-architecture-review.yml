@@ -1,0 +1,20 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-native-skills-commands-pre-integration-architecture-review"
+proposal_path: ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands"
+packet_digest: "sha256:8ed8f00457ff840ae73615de0eb12f69ee178bae224dbc9ec5e481773f464dd9"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-native-skills-commands/support/proposal-review.md"
+  - ".octon/framework/capabilities/runtime/skills/audit/pre-integration-architecture-review/SKILL.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  thin_skill_boundary: "covered"
+  command_invocation: "covered"
+  workflow_authority: "covered"
+  publication_inputs: "covered"
