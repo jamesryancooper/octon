@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.6.90](https://github.com/jamesryancooper/octon/compare/octon-v0.6.89...octon-v0.6.90) (2026-06-12)
+
+
+### Features
+
+* add native architectural review mechanism ([1d8e997](https://github.com/jamesryancooper/octon/commit/1d8e99737b63ac2ce37c455d04c1d7fbaae761fa))
+* **governance:** add delegated governance proof controls ([e513d62](https://github.com/jamesryancooper/octon/commit/e513d623cfdc79f0c8113ec909b2b4b2619b8b81))
+* **lifecycle:** harden program readiness evidence ([b3b7b26](https://github.com/jamesryancooper/octon/commit/b3b7b2654da1547fe3708294b4d4ab724713049b))
+
+
+### Bug Fixes
+
+* **governance:** preserve observed archive completion ([119f324](https://github.com/jamesryancooper/octon/commit/119f324580735d13bfc94cdb19a8e715955f3212))
+* **lifecycle:** bind postmortem evidence references ([268cff6](https://github.com/jamesryancooper/octon/commit/268cff61f7087c02862ee184cbe0c6d4e8e7acef))
+* **lifecycle:** complete delegated governance archive ([15ab2aa](https://github.com/jamesryancooper/octon/commit/15ab2aa34adbe256cb15536246deff76a21c5923))
+* **orchestration:** harden validators for main checks ([ae16a15](https://github.com/jamesryancooper/octon/commit/ae16a1516175d7843ed9552024aa14997844ef3a))
+* **proposal-lifecycle:** preserve implemented packet recovery ([02d5a21](https://github.com/jamesryancooper/octon/commit/02d5a21615320faac6d8ab735040b13e987d9bd6))
+* **runtime:** refresh pack routes and route bundle ([4b73c43](https://github.com/jamesryancooper/octon/commit/4b73c432e6fb7c8f2eacac1860a20f74cf3154ee))
+* **runtime:** refresh release effective state ([2e984cd](https://github.com/jamesryancooper/octon/commit/2e984cd26f060d77ca0834241de9190906adbadc))
+* **runtime:** refresh run health read models ([bc85f51](https://github.com/jamesryancooper/octon/commit/bc85f51c4d0206868ed663156ab3e7e6821f2d23))
+
 ## [0.6.89](https://github.com/jamesryancooper/octon/compare/octon-v0.6.88...octon-v0.6.89) (2026-06-09)
 
 
