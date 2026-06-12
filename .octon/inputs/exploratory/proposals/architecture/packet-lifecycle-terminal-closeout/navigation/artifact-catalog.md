@@ -39,6 +39,8 @@
   receipt and implementation prompt authorization.
 - `support/pre-integration-architecture-review.yml` - Strict
   pre-integration architecture review gate receipt.
+- `support/executable-implementation-prompt.md` - Implementation prompt for
+  the accepted proposal packet.
 - `support/implementation-conformance-review.md` - Post-implementation
   conformance receipt scaffold.
 - `support/post-implementation-drift-churn-review.md` - Post-implementation

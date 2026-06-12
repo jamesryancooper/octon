@@ -1,7 +1,7 @@
 schema_version: "architectural-review-support-receipt-v1"
 receipt_id: "packet-lifecycle-terminal-closeout-pre-integration-architecture-review"
 proposal_path: ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout"
-packet_digest: "sha256:42878ab4491b7e39fdd7d01a84a301c04e47fcf6428e98646de4d50d1ee2e0cc"
+packet_digest: "sha256:76f734f10d4d01c0453d839e8c8d3c9e7f8b42baaa2b02293e45b6ebad3e7aa5"
 review_mode: "pre-integration-architecture-review"
 verdict: "pass"
 evidence_refs:

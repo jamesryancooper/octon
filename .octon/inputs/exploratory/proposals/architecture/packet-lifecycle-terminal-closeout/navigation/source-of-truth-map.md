@@ -67,6 +67,9 @@
 - `support/pre-integration-architecture-review.yml` records the strict
   pre-integration architecture review gate receipt for architecture proposal
   acceptance and implementation authorization.
+- `support/executable-implementation-prompt.md` records the operational
+  implementation prompt generated after proposal acceptance and implementation
+  authorization.
 - `support/implementation-conformance-review.md` is a scaffolded
   post-implementation gate receipt.
 - `support/post-implementation-drift-churn-review.md` is a scaffolded

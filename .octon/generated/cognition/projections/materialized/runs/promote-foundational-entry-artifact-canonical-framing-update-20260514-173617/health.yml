@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
-generated_at: '2026-06-12T22:06:34Z'
+generated_at: '2026-06-12T22:18:18Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:45f2a990c1c52c3c8a604d5248a4ea7972426b79f27c99e9769e1f4b38de659f
-  checked_at: '2026-06-12T22:06:34Z'
+  combined_source_digest: sha256:0027f79ec3241309d42b37ed77635648650bd4c47329df3c3f5e0f22d6a93f35
+  checked_at: '2026-06-12T22:18:18Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:7d9776c26d2906fb00b3bdd8dc7db5f35afadf4be887f7d9efdcec0b4bcffab9
+    digest: sha256:3b1f297fab05af7d4293ac01fcc1fa05f9778829b7820e96b86078ccb5ab2116
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/handoff.yml
