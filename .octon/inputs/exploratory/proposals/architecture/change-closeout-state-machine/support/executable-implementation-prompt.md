@@ -5,6 +5,9 @@ proposal_path: .octon/inputs/exploratory/proposals/architecture/change-closeout-
 route_id: run-packet-implementation
 status: operational-aid
 generated_at: 2026-05-21T00:45:18Z
+refreshed_at: 2026-06-12T16:05:47Z
+delivery_guidance_ref: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+delivery_prompt_mode: standalone-packet-implementation-and-delivery-orchestration
 
 This prompt is an operational implementation aid for the accepted proposal
 packet. It does not approve execution, widen scope, create authority, replace
@@ -530,6 +533,243 @@ bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-impl
 Refuse implemented, closeout, or archive-ready claims while either
 post-implementation receipt is missing, failing, unresolved, stale, blocked, or
 unvalidated.
+
+## Packet Delivery Orchestration Overlay
+
+Use this section when the operator asks to deliver the standalone
+`change-closeout-state-machine` packet using the delivery posture described by
+`proposal-program-delivery`. This overlay is not a parent proposal program and
+does not create a new delivery authority. It adapts the delivery packet's
+cross-lifecycle discipline to one standalone packet:
+
+- bind a delivery profile before work begins;
+- execute only target-owned lifecycles;
+- validate target-owned receipts instead of summarizing over them;
+- replan after material state changes;
+- cite evidence in a delivery run receipt without replacing packet, Change,
+  cleanup, branch, publication, or terminal-proof receipts.
+
+### Delivery Gate Snapshot
+
+This refresh was prepared after these gates passed for the target packet:
+
+```sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine --require-implementation-authorization
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine
+```
+
+The review gate may emit the existing legacy support-inventory warning; that is
+not a delivery blocker while the command exits successfully. Re-run both gates
+at execution time and stop if either fails, if the review digest is stale, if
+implementation authorization is missing, or if clarification is required.
+
+The source context used for this overlay included these digests:
+
+```text
+sha256:00b1a089883e19853a939a6fff5e227c1b0d1567f4553b26cb15b68d56682a22  change-closeout-state-machine/proposal.yml
+sha256:13a82562b2215f4b8c0fbbfef0a6e1d57c7b0874f3de09fc86468e7f69d32b8e  change-closeout-state-machine/architecture-proposal.yml
+sha256:62a1a1261694f7d0bda7a52283cd9842010fa1d240adcd0a7ff118902b022c85  change-closeout-state-machine/architecture/implementation-plan.md
+sha256:911663b7c073d466798ad4b0c8ec017bed6f4814f1297626dfad06de763275ef  change-closeout-state-machine/architecture/acceptance-criteria.md
+sha256:9c872b8ef35da20b7551c04e613910b7fe382e0121616b6b83cf17f57a033e04  proposal-program-delivery/proposal.yml
+sha256:3a25642ba788cc104fd012dfba33091584d633a5e42b9278a798d94c2de92b5c  proposal-program-delivery/architecture/target-architecture.md
+```
+
+Refresh these digests during execution if any referenced source file changed.
+
+### Delivery Profile
+
+Before implementation, record a packet-local delivery profile in
+`support/implementation-run.md` or a retained run evidence file. Use at least:
+
+```yaml
+schema_version: standalone-packet-delivery-profile-v0
+target_packet_path: .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine
+target_outcome: cleaned
+route_preference: branch-no-pr
+pr_policy: do-not-create-pr-block-if-branch-no-pr-impossible
+stash_policy: forbidden
+child_execution_mode: none-standalone-packet
+required_packet_validators:
+  - validate-proposal-review-gate.sh --require-implementation-authorization
+  - validate-proposal-implementation-readiness.sh
+  - validate-proposal-standard.sh
+  - validate-architecture-proposal.sh
+required_implementation_validators:
+  - validate-change-closeout-lifecycle-alignment.sh
+  - validate-proposal-implementation-conformance.sh
+  - validate-proposal-post-implementation-drift.sh
+required_closeout_validators:
+  - closeout-change route selected by current worktree state
+  - closeout-worktree only when multiple coherent residue candidates exist
+terminal_proof_required: true
+final_sync_required: true
+generated_publication_policy: validate-or-refresh-through-owning-publishers-only
+governed_mechanism_integration_policy: run-if-durable-validator-exists-otherwise-record-not-applicable-rationale
+```
+
+Profile binding proves delivery intent and guardrails only. It does not
+authorize durable edits, Git mutation, branch landing, branch deletion,
+generated publication, proposal status mutation, repo hygiene cleanup, or
+archive.
+
+### Delivery Sequence
+
+Run delivery as a state-driven sequence, not a fixed success script:
+
+1. Bind the delivery profile, target packet path, route preference, target
+   outcome, and non-authority boundaries.
+2. Re-run the proposal review gate and implementation readiness gate.
+3. Re-read the target packet manifests, implementation plan, acceptance
+   criteria, validation plan, risk register, non-goals, and current durable
+   promotion targets.
+4. Inspect current durable repository state before editing. If the target
+   implementation already appears partially present, classify it as baseline,
+   prior implementation evidence, or drift before changing it.
+5. Execute the implementation workstreams in this prompt, limited to approved
+   promotion targets.
+6. Write or refresh `support/implementation-run.md`; cite retained evidence
+   outside `inputs/**`.
+7. Run the packet-owned implementation conformance validator and write or
+   refresh `support/implementation-conformance-review.md`.
+8. Run the packet-owned post-implementation drift/churn validator and write or
+   refresh `support/post-implementation-drift-churn-review.md`.
+9. Validate generated proposal registry and any generated publication
+   freshness through the owning publisher or validator. Do not hand-edit
+   generated outputs as source truth.
+10. If durable governed-mechanism integration verification exists, run it for
+    this packet because Change closeout state-machine work changes a governed
+    cross-surface mechanism. If it does not exist yet, record a
+    `not-applicable-yet` rationale and the validator absence as a delivery
+    limitation rather than inventing a receipt.
+11. Resolve lifecycle residue only through the proposal lifecycle and
+    repo-hygiene cleanup owner. Deletion requires a valid cleanup authorization
+    receipt and immediate path revalidation.
+12. Hand the coherent Change candidate to `closeout-change`, or to
+    `closeout-worktree` first when the worktree contains multiple coherent
+    residue groups. The wrapper may partition and delegate; it must not become
+    a second closeout authority.
+13. For `branch-no-pr`, validate branch landing authorization before any hosted
+    mutation. If branch-no-pr is impossible and the profile forbids PR
+    fallback, stop with a blocked delivery outcome.
+14. Validate branch cleanup authorization before deleting any local or remote
+    source ref.
+15. Fetch, sync local `main`, and prove local `main`, `origin/main`, and the
+    landed ref are equal when landing occurred.
+16. Emit terminal current-state proof after the final mutation.
+17. Validate final worktree hygiene before claiming `cleaned`.
+
+At every step, missing, stale, ambiguous, or overclaiming receipt evidence
+blocks delivery or lowers the outcome. Do not use a packet summary, generated
+prompt, chat transcript, host state, GitHub dashboard, tool availability, or
+model memory as a substitute for a target-owned receipt.
+
+### Target-Owned Receipt Requirements
+
+For delivery to claim `implemented`, the packet must have fresh passing target
+receipts:
+
+- `support/implementation-run.md`
+- `support/implementation-conformance-review.md`
+- `support/post-implementation-drift-churn-review.md`
+- validation evidence for the closeout state-machine contract, Change receipt
+  schema, closeout workflow, closeout skills, residue classifier, hosted no-PR
+  landing, branch cleanup, direct-main final sync, and negative controls
+- retained evidence outside `inputs/**` for every material validator or
+  lifecycle run cited by the implementation
+
+For delivery to claim `cleaned`, add target-owned closeout and terminal proof:
+
+- a Change receipt or closeout evidence selected by the default work-unit
+  policy;
+- branch-no-PR landing authorization evidence when that route is used;
+- branch cleanup authorization evidence before source ref deletion;
+- repo-hygiene cleanup authorization before deleting eligible residue;
+- terminal current-state proof after the final mutation;
+- final local `main == origin/main == landed_ref` proof when applicable;
+- final worktree hygiene evidence.
+
+The delivery run may aggregate these facts, but it cannot satisfy them.
+
+### Delivery Run Receipt
+
+After execution, write a packet-local delivery run receipt only as operational
+evidence, not authority. Use
+`support/implementation-run.md` when the run is an implementation run; if a
+separate delivery note is needed, place it under an excluded conventional
+support route only after confirming validator digest rules.
+
+The delivery receipt content must include at least:
+
+```yaml
+delivery_verdict: pass|blocked|lowered-outcome|fail
+delivered_at: <UTC timestamp>
+target_packet_path: .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine
+target_outcome_requested: cleaned
+target_outcome_actual: implemented|cleaned|blocked|preserved|escalated
+route_preference: branch-no-pr
+pr_policy: do-not-create-pr-block-if-branch-no-pr-impossible
+child_authority_preserved: yes
+target_owned_receipts_validated: yes|no
+implementation_conformance_passed: yes|no
+post_implementation_drift_churn_passed: yes|no
+generated_publication_fresh: yes|no|not-applicable
+governed_mechanism_integration: pass|blocked|not-applicable-yet
+change_closeout_receipt_ref: <path-or-none>
+branch_landing_authorization_ref: <path-or-none>
+branch_cleanup_authorization_ref: <path-or-none>
+repo_hygiene_cleanup_authorization_ref: <path-or-none>
+terminal_current_state_proof_ref: <path-or-none>
+final_sync_proof_ref: <path-or-none>
+final_worktree_hygiene_ref: <path-or-none>
+blockers:
+  - <blocker-or-none>
+```
+
+Use `delivery_verdict: pass` only when target-owned receipts, closeout evidence,
+terminal proof, final sync, and worktree hygiene support the actual outcome.
+Use `lowered-outcome` when implementation is valid but `cleaned` cannot be
+proved. Use `blocked` when a required target-owned lifecycle cannot proceed.
+
+### Delivery Hard Gates
+
+The delivery orchestrator must hard-gate on all of these:
+
+- proposal review authorization and implementation readiness are fresh;
+- implementation conformance passes;
+- post-implementation drift/churn passes;
+- generated proposal registry and relevant generated projections are fresh or
+  explicitly not applicable;
+- governed mechanism integration verification passes when the durable verifier
+  exists and applies;
+- lifecycle residue is resolved or explicitly blocked;
+- branch-no-PR authorization validates before hosted mutation;
+- branch cleanup authorization validates before branch deletion;
+- repo-hygiene cleanup authorization validates before deletion;
+- terminal current-state proof exists after the final mutation;
+- local `main` is synced to `origin/main`;
+- the worktree is clean before claiming `cleaned`;
+- no generated output, proposal-local file, generated prompt, host state,
+  dashboard, chat, model memory, or tool availability is treated as authority.
+
+### Delivery Stop Conditions
+
+Stop and record a blocker instead of continuing when:
+
+- a needed edit falls outside the approved promotion targets;
+- the implementation would require a new route, new authority class, PR
+  fallback despite no-PR policy, host projection regeneration, generated
+  effective publication, extension activation, branch deletion, force-push,
+  ambiguous cleanup, or proposal status mutation;
+- any validator fails without a narrow non-blocking rationale;
+- conformance or drift/churn receipts are missing, stale, failing, or
+  unresolved;
+- terminal proof or final worktree hygiene cannot be produced for a `cleaned`
+  claim;
+- prior implementation evidence conflicts with current durable state and cannot
+  be reconciled without packet revision.
+
+The correct response to these conditions is a blocked or lowered delivery
+outcome, not a broader implementation.
 
 ## Rollback Posture
 

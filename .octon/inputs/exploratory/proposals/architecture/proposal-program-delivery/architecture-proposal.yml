@@ -1,0 +1,61 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Governed Proposal Delivery: Proposal Program Delivery"
+target_state: >-
+  Governed Proposal Delivery exists as a native cross-lifecycle delivery
+  process. Its first mode, Proposal Program Delivery, uses a schema-backed
+  profile and strict delivery receipt to run a parent proposal program through
+  child execution, program closeout/archive, generated freshness, Change
+  closeout, repo hygiene, branch-no-pr landing, branch cleanup, local main sync,
+  and final cleaned proof by delegating authority to existing target-owned
+  lifecycles.
+boundary_change: >-
+  Adds a coordinating delivery layer above existing proposal and closeout
+  surfaces. The delivery layer may select the next target-owned lifecycle, pass
+  scoped non-authorizing context, validate returned receipts, replan from
+  current repo state, and aggregate evidence. It may not authorize proposal
+  transitions, Git mutation, branch landing, branch deletion, cleanup,
+  publication, archive, or closeout by itself.
+authoritative_targets_after_promotion:
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+  - ".octon/framework/orchestration/runtime/workflows/registry.yml"
+  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"
+  - ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+  - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+  - ".octon/framework/product/features/governed-proposal-delivery.md"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/features/README.md"
+  - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+  - ".octon/framework/capabilities/runtime/commands/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md"
+  - ".octon/framework/capabilities/runtime/skills/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/registry.yml"
+  - ".octon/framework/capabilities/runtime/skills/capabilities.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "NON-GOALS.md"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Implementation must add one native delivery workflow, two schema contracts,
+  strict profile and receipt validators with tests, thin operator entrypoints,
+  product feature documentation, workflow registry entries, proposal lifecycle
+  hooks, terminal proof integration, and lifecycle residue validation without
+  duplicating existing proposal-program, proposal-packet, conformance, drift,
+  publication, mechanism-integration, closeout, repo-hygiene, branch
+  authorization, or terminal-proof responsibilities.

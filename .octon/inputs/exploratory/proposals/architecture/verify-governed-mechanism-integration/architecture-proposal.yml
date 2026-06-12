@@ -1,0 +1,52 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+title: "Verify Governed Mechanism Integration"
+target_state: >-
+  Governed mechanism proposals carry a schema-backed integration profile and,
+  after durable implementation, pass a native closeout verification workflow
+  that composes implementation conformance, drift/churn, generated publication,
+  current-state mechanism architecture review evidence, validator results, and
+  authority-boundary checks into one strict support receipt.
+boundary_change: >-
+  Proposal closeout and archive readiness gain a mechanism-specific hard gate
+  only when a proposal declares a new or materially changed governed
+  cross-surface mechanism. Current-state mechanism architecture review remains
+  an evidence lens, lifecycle postmortem remains optional evidence, and existing
+  validators retain ownership of their current domains.
+authoritative_targets_after_promotion:
+  - ".octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/"
+  - ".octon/framework/orchestration/runtime/workflows/registry.yml"
+  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"
+  - ".octon/framework/product/contracts/governed-mechanism-integration-profile-v1.schema.json"
+  - ".octon/framework/product/contracts/governed-mechanism-integration-receipt-v1.schema.json"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/features/governed-mechanism-integration-verification.md"
+  - ".octon/framework/product/features/README.md"
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-profile.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-receipt.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-governed-mechanism-integration.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Implementation must add one verification workflow, two schema contracts, two
+  validators plus tests, mechanism profile guidance, proposal lifecycle gate
+  hooks, terminal freshness proof integration, product feature catalog guidance,
+  and current-state mechanism review composition without duplicating existing
+  validator responsibilities or creating a separate mechanism control plane.
