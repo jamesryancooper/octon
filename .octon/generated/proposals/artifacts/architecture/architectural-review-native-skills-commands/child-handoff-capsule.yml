@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:cc8c4f45e7e6f15de0447f8bacd2f7279b7fb83d63781e97bde7521d95e97962"
+      "sha256": "sha256:843f7ce189a029c74c2542db750bafb269cd202d6957488c07e844d3a1fb97e0"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-native-skills-commands/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:85362554b6ec601f16deb0270cb73406f2a8c6b3202d0c7fff9290ba362b666a"
+      "sha256": "sha256:86fcad441e7c1a5a3170b6615dced4fe3757dbdec22ab371399493e7bb1e1c08"
     }
   ],
-  "context_hash": "sha256:3c9820209596359cc1709674222f4cbf50ed729b82d2a43c88e836867b947d0d",
+  "context_hash": "sha256:25af4107ab48cc787b741c9122a47b2fe3a2c0dba43959fb92eecd6f0b82477e",
   "dependency_vector": {
     "parent_program": "native-architectural-review-mechanism",
     "related_proposals": [
@@ -70,7 +70,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/navigation/source-of-truth-map.md": "sha256:fa38f9055e386935e3b56b7a3199fd67a89bf098771bade05140ef133bd57ce0",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/proposal.yml": "sha256:f8a4e9f6c9512e6336dea61661067792d3a68e4deb92416145e3fd04bf94c2fa",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md": "sha256:9d8e4d38a868594b3ffb36caa28ff05e695840ab51626272845752a20bd42200",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/executable-implementation-prompt.md": "sha256:ef1fc664ddb6901484a8f7d1f320684fdc83afd57de6bde366d6778a74232ad5",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/implementation-grade-completeness-review.md": "sha256:2f4c158be5fec4ed1067a756c793f620df694b964a3da6af549147b544f8b951",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-skills-commands/support/proposal-review.md": "sha256:414f9cdc44cade3906488f18288eeecf270bc282879757bb95c1e951d34a2792",
     ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"

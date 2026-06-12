@@ -176,7 +176,7 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 1479,
+      "byte_size": 1478,
       "estimated_tokens": 370,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
@@ -188,7 +188,7 @@
         "validator-dispute"
       ],
       "role": "executable-implementation-prompt",
-      "sha256": "sha256:c0c84e07f48df8755838d8bf8a2659149267e13b4db7c1113844c0d9c8278770",
+      "sha256": "sha256:90c4d1a5a026d9efdfcd1cae89fff4c15d50f1ff97d6dc9d88066ef0f37fd36e",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -280,7 +280,7 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 1130,
+      "byte_size": 1129,
       "estimated_tokens": 283,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
@@ -292,7 +292,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:ed97590d0979af26e6e6a9ca4b714bbf8c2ffe17e5cd78993230bcabdd57b32e",
+      "sha256": "sha256:de6078d3740a178225aaeb30566b3762477c677bd90fa82ce7359d852e534380",
       "stage_relevance": [
         "support-review"
       ],
@@ -458,7 +458,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/navigation/source-of-truth-map.md": "sha256:4037a435227ca8c462e4766d88f4802dadaa77423ade239a0cac4f2913b14762",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/proposal.yml": "sha256:df95848f5b20a5d9877d736f3d1b258c2cd3689acd631b1337363ba3e48cd231",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/executable-implementation-prompt.md": "sha256:c0c84e07f48df8755838d8bf8a2659149267e13b4db7c1113844c0d9c8278770",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/executable-implementation-prompt.md": "sha256:90c4d1a5a026d9efdfcd1cae89fff4c15d50f1ff97d6dc9d88066ef0f37fd36e",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/implementation-grade-completeness-review.md": "sha256:fa0d1fc53c8a8123b05780b70b804a091f3d10d0486f9dfcad6d3c5b210c7024",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-native-doctrine-and-naming/support/proposal-review.md": "sha256:6168585e0f95cb49261f53c411b1052c617b114b090ad092648a2241c9f9a09d"
   },

@@ -82,10 +82,10 @@
       "sha256": "sha256:6616b708c60bd4a151c0415e11a82f85e2bf6e6a9a14a2633f2817b4d80363dc"
     },
     {
-      "byte_size": 1347,
+      "byte_size": 1346,
       "estimated_tokens": 337,
       "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md",
-      "sha256": "sha256:bf6ee4ef0c26fe05be2202ce1f5eac1d2b95d6be0ac9a430ca7d64ced0cd9273"
+      "sha256": "sha256:27921e79959a68cf7c09a4d0c0c08b23b309c04871e81ac395f0e52847cf6717"
     },
     {
       "byte_size": 2938,
@@ -155,7 +155,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/navigation/source-of-truth-map.md": "sha256:ea747f44302e7e8ff4824d37ca84e28b138e0f18fb6a49d56fd86e7820fb05c6",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/proposal.yml": "sha256:2a46aeb7297622e459a4ee2dbe972a27007c99bc483290329ebae0de74c151a8",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md": "sha256:bf6ee4ef0c26fe05be2202ce1f5eac1d2b95d6be0ac9a430ca7d64ced0cd9273",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/executable-implementation-prompt.md": "sha256:27921e79959a68cf7c09a4d0c0c08b23b309c04871e81ac395f0e52847cf6717",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/implementation-grade-completeness-review.md": "sha256:f97229741186e44bfc71820671ad968c9ae92b1d564b040053bdc9e0467a3a65",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-routing-taxonomy/support/proposal-review.md": "sha256:6d2ad411d1390ad9860810c38c8da521fc6deb00c3de9f9907a2bc94264e5c47",
     ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"

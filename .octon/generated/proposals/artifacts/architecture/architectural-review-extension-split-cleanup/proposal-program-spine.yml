@@ -81,10 +81,10 @@
       "sha256": "sha256:74e3bff46dd8d47972893faa25661389a2dba6057813aa8984bc42d0040bf5bf"
     },
     {
-      "byte_size": 1369,
-      "estimated_tokens": 343,
+      "byte_size": 1368,
+      "estimated_tokens": 342,
       "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/executable-implementation-prompt.md",
-      "sha256": "sha256:a8fe732bdde85998fb5ef4d70805e3ac1be8f2b2e8f5b156898c0988b20c5944"
+      "sha256": "sha256:f239925a8e12e495e1e2f0ab27a326cbff398676eb07741afae8e03c075e10d5"
     },
     {
       "byte_size": 2881,
@@ -155,7 +155,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/navigation/artifact-catalog.md": "sha256:daf47dd0f23b193b11734e8d99fc1fd6f309b8ee3959dfdea4b6270b0d77890c",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/navigation/source-of-truth-map.md": "sha256:c1f970f2dcc9f5d2186544a3f07ab1f4d898fb59fb294d987e70e00ecb6ab01a",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/proposal.yml": "sha256:3af1044d0b1494a67af31938fbf78b27f813b1e646b512ab4d2fe45bf2dacedc",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/executable-implementation-prompt.md": "sha256:a8fe732bdde85998fb5ef4d70805e3ac1be8f2b2e8f5b156898c0988b20c5944",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/executable-implementation-prompt.md": "sha256:f239925a8e12e495e1e2f0ab27a326cbff398676eb07741afae8e03c075e10d5",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/implementation-grade-completeness-review.md": "sha256:105c7ae2fd0e75ba07a8fce1aab44a9fb65a1ed2a183b94a39fc2fca876c378d",
     ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-extension-split-cleanup/support/proposal-review.md": "sha256:9daf6aadf6db8ebe5146adfc6d09abc7a763823df8193a864f68a6d1569a83ed",
     ".octon/inputs/exploratory/proposals/.archive/architecture/native-architectural-review-mechanism/resources/child-packet-index.yml": "sha256:28010d00ba8b24a04d8af18e2a2e10c144203c8097521e627ad1a1954ef0fbcd"
