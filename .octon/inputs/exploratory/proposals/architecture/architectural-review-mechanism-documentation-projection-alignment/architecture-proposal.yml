@@ -1,0 +1,50 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "surface-refactor"
+title: "Architectural Review Mechanism Documentation And Projection Alignment"
+target_state: >-
+  The native Architectural Review Mechanism has one coherent durable model
+  across methodology, governed mechanism docs, product navigation, workflow
+  contracts, skills, commands, validators, retained evidence guidance, and
+  generated projections. Every review mode has either matching canonical
+  invocation surfaces or an explicit alias/omission rationale enforced by
+  validators.
+boundary_change: >-
+  Clarifies documentation, discoverability, invocation, and projection
+  boundaries without widening authority. Workflows remain canonical execution
+  contracts, skills and commands remain thin invocation surfaces, generated
+  projections remain derived-only, and proposal-local or extension-owned
+  packetization remains non-authoritative.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/practices/methodology/architectural-review/"
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/features/architectural-review-mechanism.md"
+  - ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
+  - ".octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md"
+  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"
+  - ".octon/framework/orchestration/runtime/workflows/registry.yml"
+  - ".octon/framework/capabilities/runtime/skills/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/registry.yml"
+  - ".octon/framework/capabilities/runtime/commands/manifest.yml"
+  - ".octon/framework/capabilities/runtime/commands/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Implementation must resolve product feature catalog policy, canonical naming
+  for domain and surface architecture audit modes, mechanism-index runtime
+  implementation coverage, command facade discoverability, validator coverage,
+  generated capability publication freshness, generated proposal projection
+  freshness, and retained-evidence catalog hygiene without changing review
+  authority semantics.
