@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
 generation_id: capabilities-bc99673cd2e3
-published_at: 2026-06-12T02:58:40Z
+published_at: 2026-06-12T18:11:46Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-12T02-58-40Z-capabilities-bc99673cd2e3.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-12T18-11-46Z-capabilities-bc99673cd2e3.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed

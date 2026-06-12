@@ -1,7 +1,7 @@
 schema_version: octon-capability-routing-artifact-map-v3
 generator_version: capability-routing-publication-v3
 generation_id: capabilities-bc99673cd2e3
-published_at: 2026-06-12T02:58:40Z
+published_at: 2026-06-12T18:11:46Z
 artifacts:
   - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration
     effective_id: extension.command.octon-concept-integration.octon-concept-integration
@@ -2171,7 +2171,7 @@ artifacts:
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
     source_manifest_sha256: 52b9bd28655a50f94c977f46fde10d4d4e9d3fe630ce0acaecb828a24b978b17
     source_path: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
-    source_sha256: 5b749d0a6d074ff7fc0852bf89d6b8da9c51f67dfcd092f6cad0a9c0b9a81dfd
+    source_sha256: b9fcc9647bbde3f5835ccdb431361ae56e59da6f31306bd3783acac8f624da1c
   - artifact_map_id: framework-skill-closeout-pr
     effective_id: framework.skill.closeout-pr
     origin_class: framework
@@ -2193,7 +2193,7 @@ artifacts:
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
     source_manifest_sha256: 52b9bd28655a50f94c977f46fde10d4d4e9d3fe630ce0acaecb828a24b978b17
     source_path: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
-    source_sha256: 19d9cfed32e7d7e25c7354202ea5bcba7eb29ce67549a46095e165db26e59c98
+    source_sha256: 64d11acfc2a2c73e9f4667253c39c4703b78f588f8db85ad5f3d2fc2f8f4cd80
   - artifact_map_id: framework-skill-create-skill
     effective_id: framework.skill.create-skill
     origin_class: framework

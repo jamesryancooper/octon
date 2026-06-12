@@ -22,6 +22,7 @@ Proposal: `change-closeout-state-machine`
 
 - `support/implementation-grade-completeness-review.md`
 - `support/revisions/change-closeout-state-machine-pre-review-gap-closure-2026-05-20.md`
+- `support/pre-integration-architecture-review.yml`
 - `support/proposal-review.md`
 - `support/executable-implementation-prompt.md`
 - `support/implementation-run.md`

@@ -1,0 +1,155 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: 20260612T183636Z-change-closeout-state-machine-remaining-post-implementation
+observed_change_set_count: 6
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: "git status --short --branch on main: main and origin/main both at b7e89aedd429f6000423b2bf13fe2f59d2212ea4 with packet support edits, capability publication refresh residue, publisher run-control residue, and retained lifecycle evidence."
+residue_classification_ref: "classify-change-closeout-residue.sh after retaining this wrapper report: staged=0, unstaged-tracked=10, untracked=9, generated-effective-output=3, retained-evidence=8, state-control=22, input-surface=6, ignored=7146, publishable_change=11, publishable_closeout_evidence=2, local_private_retained=141, unsafe=7032, ambiguous=0."
+selected_candidate_id: packet-maintenance-receipts
+candidates:
+  - candidate_id: packet-maintenance-receipts
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: "target packet support and closeout receipts for change-closeout-state-machine"
+    route_hint: "closeout-change stage-only-escalate or branch-no-pr after packet hygiene is isolated"
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Preserve packet receipts; no archive move, staging, commit, push, deletion, reset, or ref mutation is authorized by this wrapper state."
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/navigation/artifact-catalog.md
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/implementation-conformance-review.md
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/post-implementation-drift-churn-review.md
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/pre-integration-architecture-review.yml
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-closeout.md
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-review.md
+      exclude_paths:
+        - .octon/generated/effective/
+        - .octon/state/
+  - candidate_id: capability-publication-refresh
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: "capability routing generated/effective refresh and publication evidence emitted by the canonical publisher"
+    route_hint: "scoped closeout-change for capability publication refresh after explicit include/exclude confirmation"
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Preserve canonical publisher output and publication receipt; do not hand-edit generated/effective output or discard retained publication evidence."
+    boundaries:
+      include_paths:
+        - .octon/generated/effective/capabilities/artifact-map.yml
+        - .octon/generated/effective/capabilities/generation.lock.yml
+        - .octon/generated/effective/capabilities/routing.effective.yml
+        - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+        - .octon/state/evidence/validation/publication/capabilities/2026-06-12T18-11-46Z-capabilities-bc99673cd2e3.yml
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+        - .octon/state/control/execution/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/external-index/
+  - candidate_id: publisher-run-control-residue
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "local publisher run control, continuity, external index, and authority evidence from publish-1781287890887-73645"
+    route_hint: "operator scope resolution or repo-hygiene cleanup classification before any closeout-change delegation"
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Preserve raw run-control and continuity residue; detection is not deletion authority."
+    boundaries:
+      include_paths:
+        - .octon/state/continuity/runs/publish-1781287890887-73645/
+        - .octon/state/control/execution/runs/publish-1781287890887-73645/
+        - .octon/state/evidence/control/execution/authority-decision-publish-1781287890887-73645.yml
+        - .octon/state/evidence/control/execution/authority-grant-bundle-publish-1781287890887-73645.yml
+        - .octon/state/evidence/external-index/runs/publish-1781287890887-73645.yml
+      exclude_paths:
+        - .octon/generated/effective/
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+  - candidate_id: packet-lifecycle-hygiene-evidence
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "proposal lifecycle closeout-packet hygiene evidence retained under skill run evidence roots"
+    route_hint: "proposal lifecycle closeout evidence retention or scoped closeout-change evidence route"
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Preserve lifecycle evidence; do not delete or fold into archive authorization."
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/change-closeout-state-machine/20260612T174534Z/
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/change-closeout-state-machine/20260612T181146Z/
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+        - .octon/generated/effective/
+        - .octon/state/control/
+  - candidate_id: closeout-worktree-route-evidence
+    disposition: deferred
+    residue_routing_class: publishable_closeout_evidence
+    ownership: "this closeout-worktree routing report retained as analysis evidence"
+    route_hint: "include in later scoped closeout-change or retained-evidence closeout route"
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Preserve wrapper report as non-authoritative evidence of the blocked route."
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/validation/analysis/20260612T183636Z-closeout-worktree-change-closeout-state-machine.yml
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+        - .octon/generated/effective/
+        - .octon/state/control/
+  - candidate_id: local-ignored-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: "ignored local residue outside the packet closeout"
+    route_hint: "retain local ignored residue unless a separate hygiene cleanup route is requested"
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Ignored local residue is not deletion-authorized by detection or this wrapper report."
+    boundaries:
+      include_paths:
+        - .gitignored-local-residue
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+        - .octon/generated/effective/
+        - .octon/state/control/
+iterations: []
+final_candidate_dispositions:
+  packet-maintenance-receipts:
+    state: blocked
+  capability-publication-refresh:
+    state: blocked
+  publisher-run-control-residue:
+    state: blocked
+  packet-lifecycle-hygiene-evidence:
+    state: blocked
+  closeout-worktree-route-evidence:
+    state: deferred
+  local-ignored-residue:
+    state: foreign
+retained_residue:
+  - candidate_id: local-ignored-residue
+    path: .gitignored-local-residue
+    disposition: "foreign ignored local residue retained outside packet closeout"
+blockers:
+  - candidate_id: packet-maintenance-receipts
+    blocker: "The packet hygiene classifier returned worktree_hygiene_verdict=blocked with worktree_hygiene_foreign_path_count=32 and fingerprint sha256:c1142c6329f1584ca21f35527e4e07f0fe370d91f2a968101c6881deb01dc4f6. support/proposal-closeout.md remains archive_authorized=no, so the selected packet-maintenance candidate cannot safely run through closeout-change as an archive or terminal closeout."
+  - candidate_id: capability-publication-refresh
+    blocker: "The capability publication refresh is separable from packet support, but material closeout would require staging and committing generated/effective outputs plus retained publication evidence through a scoped closeout-change route. This evidence-only pass does not authorize those Git mutations."
+  - candidate_id: publisher-run-control-residue
+    blocker: "Raw publisher run-control, continuity, authority, and external-index residue is under state control/evidence roots and requires operator scope resolution or a repo-hygiene cleanup classification before closeout-change can claim a terminal disposition."
+  - candidate_id: packet-lifecycle-hygiene-evidence
+    blocker: "Proposal lifecycle hygiene evidence under skill run evidence roots must be retained or closed through a candidate-specific evidence route; it does not authorize archive readiness and is outside the packet support path."
+  - candidate_id: closeout-worktree-route-evidence
+    blocker: "This wrapper report is retained route evidence and must be included in a later scoped closeout-change or retained-evidence closeout route before terminal worktree closure is claimed."
+final_inventory_ref: "No material actions after initial classification; this report adds closeout-worktree analysis evidence under .octon/state/evidence/validation/analysis/."
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 10
+  untracked: 9
+  ignored: 7146
+  generated_effective_output: 3
+  host_projection: 0
+  retained_evidence: 8
+  state_control: 22
+  release_version: 0
+  input_surface: 6
+repo_hygiene_cleanup_outcome: classification-only
+worktree_terminal_state: nonterminal
+next_route_condition: "Resolve packet-maintenance and capability-publication-refresh residue through closeout-worktree candidate partitioning or scoped closeout-change with explicit include/exclude boundaries; resolve publisher run-control and lifecycle evidence residue through operator scope resolution or repo-hygiene classification. Do not archive, stage, commit, push, delete, reset, mutate refs, or claim terminal hygiene until those routes complete."
