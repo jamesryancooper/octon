@@ -1,207 +1,258 @@
-schema_version: run-health-read-model-v1
-run_id: lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow
-generated_at: '2026-06-11T08:47:44Z'
-generator:
-  id: generate-run-health-read-model.sh
-  version: 1.1.0
-  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-  allowed_consumers:
-  - operators
-  - validators
-  forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
-freshness:
-  mode: digest-bound
-  status: stale
-  source_digest_algorithm: sha256
-  combined_source_digest: sha256:543803dead32ed9cd6cc6fc54a01ab5f1b45a543c46b7c9993a532d5ce60fe80
-  checked_at: '2026-06-11T08:47:44Z'
-  expires_at: null
-  freshness_refs:
-  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.manifest.yml
-canonical_refs:
-  run_contract: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-contract.yml
-  run_manifest: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-manifest.yml
-  events_journal: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.ndjson
-  events_manifest: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.manifest.yml
-  runtime_state: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/runtime-state.yml
-  authority_decision: .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml
-  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml
-  approval_request: null
-  approval_grants: []
-  exception_leases: []
-  revocations: []
-  rollback_posture: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/rollback-posture.yml
-  evidence_root: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow
-  evidence_classification: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/evidence-classification.yml
-  retained_evidence: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/retained-run-evidence.yml
-  replay_pointers: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/replay-pointers.yml
-  intervention_log: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/interventions/log.yml
-  disclosure_run_card: .octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-card.yml
-  support_targets: .octon/instance/governance/support-targets.yml
-  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-  run_continuity: .octon/state/continuity/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/handoff.yml
-source_digests:
-  run_contract:
-    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-contract.yml
-    digest: sha256:6b8fbba565d14baa5d7660b4f67f0e8a547692b1328fc6f997870f810ea44e5e
-    status: present
-  run_manifest:
-    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-manifest.yml
-    digest: sha256:8c474abca5a6627133c1d864dc26e4d76ef2d0c9b7c68b7b8ef618169d8bb918
-    status: present
-  events_journal:
-    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.ndjson
-    digest: sha256:ddfbfe8980687973bb63c9e06169f53e3b7dadc1eb858858bbdd6c2909516f95
-    status: present
-  events_manifest:
-    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.manifest.yml
-    digest: sha256:1c41d87d27c6afc60b5f37e2fa8d4049e2b000355668945e36f33dc501d90cbb
-    status: present
-  runtime_state:
-    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/runtime-state.yml
-    digest: sha256:69c82ba6f4706196f19d7d8a0cc5ba0906e0d8223cb82f9cb913ef3582eda1dd
-    status: present
-  authority_decision:
-    ref: .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml
-    digest: sha256:66303282f1c43f641f475f39d60be0a9e6c592a00dc0ed94665a42e0d67c5303
-    status: present
-  authority_bundle:
-    ref: .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml
-    digest: sha256:5150fa3da7129b47d070a5a852966f1e389a418bbf72000f77fb91c94495fe63
-    status: present
-  approval_request:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  approval_grants:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  exception_leases:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  revocations:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  rollback_posture:
-    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/rollback-posture.yml
-    digest: sha256:cd2b4cdd7dcdab2f2015dc2d2f0a03c9822aaabda5b1998ddecc563e74037cbd
-    status: present
-  evidence_root:
-    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow
-    digest: missing
-    status: missing
-  evidence_classification:
-    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/evidence-classification.yml
-    digest: missing
-    status: missing
-  retained_evidence:
-    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/retained-run-evidence.yml
-    digest: missing
-    status: missing
-  replay_pointers:
-    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/replay-pointers.yml
-    digest: missing
-    status: missing
-  intervention_log:
-    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/interventions/log.yml
-    digest: missing
-    status: missing
-  disclosure_run_card:
-    ref: .octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-card.yml
-    digest: missing
-    status: missing
-  support_targets:
-    ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-    status: present
-  support_reconciliation:
-    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:b9eba0f99e2ced9322a4128c875edb735cc4bc4894dbbd4ca448bad0752be7b2
-    status: present
-  run_continuity:
-    ref: .octon/state/continuity/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/handoff.yml
-    digest: sha256:be7ce1ba5801445f6af0e99f69fda758e8b59c5752a28357b20a5bf5e5e61e3d
-    status: present
-  runtime_route_bundle:
-    ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:42924c2d549c1a12515f63d36805d590292fc3d032db9cf956edac3ed1b6d1fc
-    status: present
-  pack_routes:
-    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:56e7c5d5f33f24186c8ce38e04c0cfa0c031e24936279fb89fd6fe91463b9e12
-    status: present
-  schema:
-    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
-    status: present
-  operator_read_model_contract:
-    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
-    status: present
-health:
-  status: stale
-  summary: Run-health sources are stale relative to their digest-bound freshness checks.
-  next_required_action: regenerate from current canonical sources
-lifecycle:
-  state: closed
-  decision_state: allow
-  drift_status: in-sync
-  latest_event_hash: sha256:8cd81bf0e0af613634783fbd107e5e0347cbdb21862a12c5c0778bfd9b5698be
-  latest_sequence: 29
-support:
-  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-  route_status: allow
-  pack_status: allow
-  support_status: supported
-  requested_capability_packs:
-  - repo
-  - git
-  - telemetry
-authorization:
-  status: authorized
-  proof_state: proof-stale
-  human_boundary_state: none
-  active_grants:
-  - .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml
-  open_approvals: []
-  active_exceptions: []
-  active_revocations: []
-evidence:
-  completeness: incomplete
-  missing_required:
-  - evidence_classification
-  - retained_evidence
-  - replay_pointers
-  - journal_snapshot
-  - journal_manifest_snapshot
-rollback:
-  status: ready
-  hard_reset_required: false
-intervention:
-  status: unknown
-  undisclosed_count: 0
-  records: []
-disclosure:
-  status: incomplete
-closure:
-  status: not-ready
-diagnostics:
-- severity: error
-  code: journal-ledger-digest-stale
-  message: events.manifest.yml ledger_digest does not match events.ndjson.
-  refs:
-  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.manifest.yml
-  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.ndjson
+{
+  "schema_version": "run-health-read-model-v1",
+  "run_id": "lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow",
+  "generated_at": "2026-06-12T02:32:51Z",
+  "generator": {
+    "id": "generate-run-health-read-model.sh",
+    "version": "1.1.0",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  },
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false,
+    "allowed_consumers": [
+      "operators",
+      "validators"
+    ],
+    "forbidden_consumers": [
+      "runtime",
+      "policy",
+      "authority",
+      "support-claim-evaluation",
+      "state-reconstruction",
+      "direct-runtime-reads"
+    ]
+  },
+  "freshness": {
+    "mode": "digest-bound",
+    "status": "stale",
+    "source_digest_algorithm": "sha256",
+    "combined_source_digest": "sha256:e76709be27d667f0f3e41397677b7128d553c517ea9ed19d70a360de4ca3e9df",
+    "checked_at": "2026-06-12T02:32:51Z",
+    "expires_at": null,
+    "freshness_refs": [
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.manifest.yml"
+    ]
+  },
+  "canonical_refs": {
+    "run_contract": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-contract.yml",
+    "run_manifest": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-manifest.yml",
+    "events_journal": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.ndjson",
+    "events_manifest": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.manifest.yml",
+    "runtime_state": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/runtime-state.yml",
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml",
+    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml",
+    "approval_request": null,
+    "approval_grants": [],
+    "exception_leases": [],
+    "revocations": [],
+    "rollback_posture": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/rollback-posture.yml",
+    "evidence_root": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow",
+    "evidence_classification": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/evidence-classification.yml",
+    "retained_evidence": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/retained-run-evidence.yml",
+    "replay_pointers": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/replay-pointers.yml",
+    "intervention_log": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/interventions/log.yml",
+    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-card.yml",
+    "support_targets": ".octon/instance/governance/support-targets.yml",
+    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    "run_continuity": ".octon/state/continuity/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/handoff.yml"
+  },
+  "source_digests": {
+    "run_contract": {
+      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-contract.yml",
+      "digest": "sha256:6b8fbba565d14baa5d7660b4f67f0e8a547692b1328fc6f997870f810ea44e5e",
+      "status": "present"
+    },
+    "run_manifest": {
+      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-manifest.yml",
+      "digest": "sha256:8c474abca5a6627133c1d864dc26e4d76ef2d0c9b7c68b7b8ef618169d8bb918",
+      "status": "present"
+    },
+    "events_journal": {
+      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.ndjson",
+      "digest": "sha256:ddfbfe8980687973bb63c9e06169f53e3b7dadc1eb858858bbdd6c2909516f95",
+      "status": "present"
+    },
+    "events_manifest": {
+      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.manifest.yml",
+      "digest": "sha256:1c41d87d27c6afc60b5f37e2fa8d4049e2b000355668945e36f33dc501d90cbb",
+      "status": "present"
+    },
+    "runtime_state": {
+      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/runtime-state.yml",
+      "digest": "sha256:69c82ba6f4706196f19d7d8a0cc5ba0906e0d8223cb82f9cb913ef3582eda1dd",
+      "status": "present"
+    },
+    "authority_decision": {
+      "ref": ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml",
+      "digest": "sha256:66303282f1c43f641f475f39d60be0a9e6c592a00dc0ed94665a42e0d67c5303",
+      "status": "present"
+    },
+    "authority_bundle": {
+      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml",
+      "digest": "sha256:5150fa3da7129b47d070a5a852966f1e389a418bbf72000f77fb91c94495fe63",
+      "status": "present"
+    },
+    "approval_request": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "approval_grants": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "exception_leases": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "revocations": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "rollback_posture": {
+      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/rollback-posture.yml",
+      "digest": "sha256:cd2b4cdd7dcdab2f2015dc2d2f0a03c9822aaabda5b1998ddecc563e74037cbd",
+      "status": "present"
+    },
+    "evidence_root": {
+      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "evidence_classification": {
+      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/evidence-classification.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "retained_evidence": {
+      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/retained-run-evidence.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "replay_pointers": {
+      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/replay-pointers.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "intervention_log": {
+      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/interventions/log.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "disclosure_run_card": {
+      "ref": ".octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/run-card.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "support_targets": {
+      "ref": ".octon/instance/governance/support-targets.yml",
+      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "status": "present"
+    },
+    "support_reconciliation": {
+      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      "digest": "sha256:b9eba0f99e2ced9322a4128c875edb735cc4bc4894dbbd4ca448bad0752be7b2",
+      "status": "present"
+    },
+    "run_continuity": {
+      "ref": ".octon/state/continuity/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/handoff.yml",
+      "digest": "sha256:be7ce1ba5801445f6af0e99f69fda758e8b59c5752a28357b20a5bf5e5e61e3d",
+      "status": "present"
+    },
+    "runtime_route_bundle": {
+      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "digest": "sha256:9be03dc1c6e910c94f73f48876f701fa72be7dc35de4f5a96c8c8b70ababd86c",
+      "status": "present"
+    },
+    "pack_routes": {
+      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      "digest": "sha256:a4e8a424ec287e6188cf1f4525a7a70a5745ecec24ecadf83d817ab90f234efd",
+      "status": "present"
+    },
+    "schema": {
+      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
+      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
+      "status": "present"
+    },
+    "operator_read_model_contract": {
+      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
+      "status": "present"
+    }
+  },
+  "health": {
+    "status": "stale",
+    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
+    "next_required_action": "regenerate from current canonical sources"
+  },
+  "lifecycle": {
+    "state": "closed",
+    "decision_state": "allow",
+    "drift_status": "in-sync",
+    "latest_event_hash": "sha256:8cd81bf0e0af613634783fbd107e5e0347cbdb21862a12c5c0778bfd9b5698be",
+    "latest_sequence": 29
+  },
+  "support": {
+    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "route_status": "allow",
+    "pack_status": "allow",
+    "support_status": "supported",
+    "requested_capability_packs": [
+      "repo",
+      "git",
+      "telemetry"
+    ]
+  },
+  "authorization": {
+    "status": "authorized",
+    "proof_state": "proof-stale",
+    "human_boundary_state": "none",
+    "active_grants": [
+      ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow.yml"
+    ],
+    "open_approvals": [],
+    "active_exceptions": [],
+    "active_revocations": []
+  },
+  "evidence": {
+    "completeness": "incomplete",
+    "missing_required": [
+      "evidence_classification",
+      "retained_evidence",
+      "replay_pointers",
+      "journal_snapshot",
+      "journal_manifest_snapshot"
+    ]
+  },
+  "rollback": {
+    "status": "ready",
+    "hard_reset_required": false
+  },
+  "intervention": {
+    "status": "unknown",
+    "undisclosed_count": 0,
+    "records": []
+  },
+  "disclosure": {
+    "status": "incomplete"
+  },
+  "closure": {
+    "status": "not-ready"
+  },
+  "diagnostics": [
+    {
+      "severity": "error",
+      "code": "journal-ledger-digest-stale",
+      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
+      "refs": [
+        ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.manifest.yml",
+        ".octon/state/control/execution/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/events.ndjson"
+      ]
+    }
+  ]
+}
