@@ -1,258 +1,207 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal",
-  "generated_at": "2026-06-12T04:03:27Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.1.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "stale",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:c19bfb83919c02e52481e5c5e98039cfce7f1d0eab2ff5fc1e5e9531650d68ed",
-    "checked_at": "2026-06-12T04:03:27Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal",
-    "evidence_classification": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-contract.yml",
-      "digest": "sha256:38fb80d83c9607afe78f0497f765b07bdc477be2a25e4b2ff87dfb8a09f594f2",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-manifest.yml",
-      "digest": "sha256:dcfc90cb607992661ef6276868b53847eec2013402d356b9e7c5402e850bdea6",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.ndjson",
-      "digest": "sha256:800287ea94d122da2829249ff55bcf9ac3a46c6ebf99b7c37c1092cdc03d77ff",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.manifest.yml",
-      "digest": "sha256:00c55a82b95a90da693e9a3c01ee38b963a5801f5b6a06e3f5e3dbd2fedffccb",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/runtime-state.yml",
-      "digest": "sha256:878feee029d08e7cb4ab562f50df1f2c4015f059918ba2bb3ca4cc7640ae84ae",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml",
-      "digest": "sha256:e57a182fe69f8cdae6aa374e5b9e8aca7336b77f046b3f187a58407886230d3e",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml",
-      "digest": "sha256:c878102865bc15a0efa332e59fd68bcd47b75b50295fc0c7aff18547bb320927",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/rollback-posture.yml",
-      "digest": "sha256:2054eebf2d38a126cce026950f17f1a9be552dc2d6de151bac36d10179b84bb7",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/evidence-classification.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/retained-run-evidence.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/replay-pointers.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/interventions/log.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-card.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:7d9776c26d2906fb00b3bdd8dc7db5f35afadf4be887f7d9efdcec0b4bcffab9",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/handoff.yml",
-      "digest": "sha256:b317d052a24b2381fa399e161ffbe64cc6e8359c30fbec2bd7ef12e1bdccab02",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:743c29c2c5e84efd253628753e86fddd00aea5877e1598400d9d5a15c7a1d36b",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:a4e8a424ec287e6188cf1f4525a7a70a5745ecec24ecadf83d817ab90f234efd",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "stale",
-    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
-    "next_required_action": "regenerate from current canonical sources"
-  },
-  "lifecycle": {
-    "state": "closed",
-    "decision_state": "allow",
-    "drift_status": "in-sync",
-    "latest_event_hash": "sha256:8a291ec7edc95e390797e9a8cbb1b58d62585dde7ea726cc284e7e6ea91280b8",
-    "latest_sequence": 29
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
-    "route_status": "allow",
-    "pack_status": "allow",
-    "support_status": "supported",
-    "requested_capability_packs": [
-      "repo",
-      "shell",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "authorized",
-    "proof_state": "proof-stale",
-    "human_boundary_state": "none",
-    "active_grants": [
-      ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "evidence_classification",
-      "retained_evidence",
-      "replay_pointers",
-      "journal_snapshot",
-      "journal_manifest_snapshot"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "unknown",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "incomplete"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": [
-    {
-      "severity": "error",
-      "code": "journal-ledger-digest-stale",
-      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
-      "refs": [
-        ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.manifest.yml",
-        ".octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.ndjson"
-      ]
-    }
-  ]
-}
+schema_version: run-health-read-model-v1
+run_id: lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal
+generated_at: '2026-06-12T22:06:34Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.1.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:b6ef6704ba3a0aec45635ad039ed4e808ea1d657d00d4ae5392f23996197df5c
+  checked_at: '2026-06-12T22:06:34Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal
+  evidence_classification: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-contract.yml
+    digest: sha256:38fb80d83c9607afe78f0497f765b07bdc477be2a25e4b2ff87dfb8a09f594f2
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-manifest.yml
+    digest: sha256:dcfc90cb607992661ef6276868b53847eec2013402d356b9e7c5402e850bdea6
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.ndjson
+    digest: sha256:800287ea94d122da2829249ff55bcf9ac3a46c6ebf99b7c37c1092cdc03d77ff
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.manifest.yml
+    digest: sha256:00c55a82b95a90da693e9a3c01ee38b963a5801f5b6a06e3f5e3dbd2fedffccb
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/runtime-state.yml
+    digest: sha256:878feee029d08e7cb4ab562f50df1f2c4015f059918ba2bb3ca4cc7640ae84ae
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml
+    digest: sha256:e57a182fe69f8cdae6aa374e5b9e8aca7336b77f046b3f187a58407886230d3e
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml
+    digest: sha256:c878102865bc15a0efa332e59fd68bcd47b75b50295fc0c7aff18547bb320927
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/rollback-posture.yml
+    digest: sha256:2054eebf2d38a126cce026950f17f1a9be552dc2d6de151bac36d10179b84bb7
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:7d9776c26d2906fb00b3bdd8dc7db5f35afadf4be887f7d9efdcec0b4bcffab9
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/handoff.yml
+    digest: sha256:b317d052a24b2381fa399e161ffbe64cc6e8359c30fbec2bd7ef12e1bdccab02
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:0e1297c379ec48d074a6dcec4372f3cd64fba66905ddd989d548245669d0ff12
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:a4e8a424ec287e6188cf1f4525a7a70a5745ecec24ecadf83d817ab90f234efd
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:8a291ec7edc95e390797e9a8cbb1b58d62585dde7ea726cc284e7e6ea91280b8
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.manifest.yml
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/events.ndjson

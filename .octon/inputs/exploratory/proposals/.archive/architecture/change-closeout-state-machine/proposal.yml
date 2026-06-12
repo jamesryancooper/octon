@@ -17,7 +17,26 @@ promotion_targets:
 - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
 - .octon/framework/assurance/runtime/_ops/scripts/
 - .octon/framework/assurance/runtime/_ops/tests/
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-12
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine
+  promotion_evidence:
+  - .octon/framework/product/contracts/change-closeout-state-machine.yml
+  - .octon/framework/product/contracts/change-closeout-state-machine.md
+  - .octon/framework/product/contracts/default-work-unit.yml
+  - .octon/framework/product/contracts/default-work-unit.md
+  - .octon/framework/product/contracts/change-receipt-v1.schema.json
+  - .octon/framework/orchestration/runtime/workflows/meta/closeout/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/
+  - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  - .octon/state/evidence/validation/proposals/change-closeout-state-machine/20260521T132922Z/implementation-evidence.md
 lifecycle:
   temporary: true
   exit_expectation: Promote only after review acceptance, implementation authorization, durable contract and validator edits, receipt-schema evidence, implementation conformance review, post-implementation drift/churn review, and closeout evidence exist outside proposal-local inputs. Otherwise revise, reject, supersede, or archive this packet.
