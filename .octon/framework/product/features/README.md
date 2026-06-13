@@ -14,6 +14,8 @@ The catalog answers four questions for agents and operators:
 
 - `catalog.yml`: machine-readable feature index.
 - `<feature-id>.md`: human-readable feature notes for individual mechanisms.
+- `proposal-packet-terminal-closeout.md`: terminal readiness receipt for
+  implemented proposal packets before archive relocation.
 
 ## Non-Authority Posture
 

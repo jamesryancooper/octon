@@ -33,6 +33,10 @@ input_bindings:
     source: "receipt.proposal-closeout.archive_disposition"
   promotion_evidence:
     source: "receipt.proposal-closeout.promotion_evidence"
+  target_outcome:
+    source: "run.input.target_outcome"
+  terminal_run_id:
+    source: "run.input.terminal_run_id"
 
 lifecycle_interactions:
   emitted_profiles:
@@ -235,6 +239,15 @@ receipts:
       - "closed_at"
       - "archive_authorized"
     verdict_field: "verdict"
+  - receipt_id: "proposal-terminal-closeout"
+    path: "support/proposal-terminal-closeout.yml"
+    required_fields:
+      - "terminal_verdict"
+      - "terminalized_at"
+      - "target_outcome"
+      - "archive_ready"
+      - "next_canonical_route"
+    verdict_field: "terminal_verdict"
 
 loops:
   - loop_id: "proposal-review-revision"
@@ -662,6 +675,51 @@ phase_loop:
       authority_boundaries:
         - "scope-expansion"
         - "stale-evidence-acceptance"
+    - phase_id: "packet-terminal-closeout"
+      mode: "route"
+      owner_layer: "workflow-runner"
+      route_refs:
+        - "proposal-packet-terminal-closeout"
+      receipt_refs:
+        - "implementation-conformance"
+        - "post-implementation-drift"
+        - "proposal-closeout"
+        - "proposal-terminal-closeout"
+      gate_refs: []
+      validator_refs: []
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        receipt_refs_complete: true
+      exit_evidence_refs:
+        - "proposal-terminal-closeout"
+      re_entry_triggers:
+        - "terminal-receipt-missing"
+        - "terminal-receipt-blocked"
+        - "terminal-evidence-stale"
+      backward_transitions:
+        - to_phase_id: "closeout-and-hygiene"
+          when:
+            closeout_receipt_missing: true
+        - to_phase_id: "verification-and-correction"
+          when:
+            conformance_or_drift_receipt_missing: true
+      loop_bounds:
+        max_phase_iterations: 2
+        max_route_dispatches: 2
+      stop_conditions:
+        - stop_class: "blocked-terminal-closeout"
+          when:
+            terminal_receipt_blocked: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
+        - "archive-relocation"
+        - "git-ref-mutation"
+        - "generated-output-authority"
+        - "residue-deletion"
     - phase_id: "archival"
       mode: "route"
       owner_layer: "workflow-runner"
@@ -671,6 +729,7 @@ phase_loop:
         - "implementation-conformance"
         - "post-implementation-drift"
         - "proposal-closeout"
+        - "proposal-terminal-closeout"
       gate_refs: []
       validator_refs: []
       loop_refs: []
@@ -685,6 +744,9 @@ phase_loop:
       re_entry_triggers:
         - "archive-receipt-stale"
       backward_transitions:
+        - to_phase_id: "packet-terminal-closeout"
+          when:
+            receipt_absent: "proposal-terminal-closeout"
         - to_phase_id: "closeout-and-hygiene"
           when:
             closeout_receipt_missing: true
@@ -1123,6 +1185,66 @@ routes:
                 receipt_id: "proposal-closeout"
                 field: "verdict"
                 value: "blocked"
+  - route_id: "proposal-packet-terminal-closeout"
+    route_type: "workflow"
+    required_inputs:
+      - "target_outcome"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed:
+        - "workspace-declared"
+        - "octon-run-bound"
+      declared_write_scope_source: "workflow-scope"
+      required_evidence_gates: []
+      required_receipts_before_dispatch:
+        - "implementation-conformance"
+        - "post-implementation-drift"
+        - "proposal-closeout"
+      required_receipts_before_completion:
+        - "proposal-terminal-closeout"
+      replay_class: "idempotent-rerun"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries:
+        - "scope-expansion"
+        - "policy-override"
+        - "unresolved-risk-acceptance"
+        - "contradictory-evidence-resolution"
+        - "stale-evidence-acceptance"
+        - "governance-mutation"
+        - "external-irreversible-effect"
+    completion:
+      expected_receipts:
+        - "proposal-terminal-closeout"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "implementation-conformance"
+        - receipt_field_equals:
+            receipt_id: "implementation-conformance"
+            field: "verdict"
+            value: "pass"
+        - receipt_complete: "post-implementation-drift"
+        - receipt_field_equals:
+            receipt_id: "post-implementation-drift"
+            field: "verdict"
+            value: "pass"
+        - receipt_complete: "proposal-closeout"
+        - receipt_field_equals:
+            receipt_id: "proposal-closeout"
+            field: "verdict"
+            value: "pass"
+        - receipt_field_equals:
+            receipt_id: "proposal-closeout"
+            field: "archive_authorized"
+            value: "yes"
+        - any:
+            - receipt_absent: "proposal-terminal-closeout"
+            - receipt_field_equals:
+                receipt_id: "proposal-terminal-closeout"
+                field: "terminal_verdict"
+                value: "blocked"
   - route_id: "archive-proposal"
     route_type: "workflow"
     delegation_contract:
@@ -1138,6 +1260,7 @@ routes:
         - "implementation-conformance"
         - "post-implementation-drift"
         - "proposal-closeout"
+        - "proposal-terminal-closeout"
       required_receipts_before_completion: []
       replay_class: "no-op-safe"
       automated_recovery_policy: "fail-closed"
@@ -1171,4 +1294,13 @@ routes:
         - receipt_field_equals:
             receipt_id: "proposal-closeout"
             field: "archive_authorized"
+            value: "yes"
+        - receipt_complete: "proposal-terminal-closeout"
+        - receipt_field_equals:
+            receipt_id: "proposal-terminal-closeout"
+            field: "terminal_verdict"
+            value: "archive-ready"
+        - receipt_field_equals:
+            receipt_id: "proposal-terminal-closeout"
+            field: "archive_ready"
             value: "yes"

@@ -1,62 +1,71 @@
 # Validation
 
-## Proposal Validation Commands
+- validation_run_id: packet-lifecycle-terminal-closeout-validation-20260613T024842Z
+- validated_at: 2026-06-13T02:48:42Z
+- validator: codex
+- verdict: pass
+- retained_evidence_root: .octon/state/evidence/validation/proposals/packet-lifecycle-terminal-closeout/20260613T015811Z/
 
-Run these after packet creation:
+## Packet Gates
 
-```sh
-bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout
-bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout
-bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout
-```
+Pre-edit packet gates were rerun and retained:
 
-## Future Implementation Validation
+- `preflight-validate-proposal-standard.log` passed with expected warnings for
+  promotion targets this implementation created.
+- `preflight-validate-architecture-proposal.log` passed.
+- `preflight-validate-proposal-review-gate.log` passed.
+- `preflight-validate-proposal-implementation-readiness.log` passed.
 
-- Validate packet terminal closeout profile schema.
-- Validate packet terminal closeout receipt schema.
-- Validate workflow shape and workflow registry entries.
-- Validate command and skill manifest entries.
-- Validate proposal lifecycle hook changes.
-- Validate implementation conformance and post-implementation drift/churn gates.
-- Validate publication freshness and publisher refresh behavior.
-- Validate generated/input non-authority coverage.
-- Validate run-health and capability/extension publication coverage.
-- Validate repo-hygiene and worktree hygiene handling.
-- Validate Git/GitHub exact-SHA hosted check handling.
-- Validate branch landing and branch cleanup authorization gates.
-- Validate post-integration architecture review evidence-only boundary.
-- Validate packet terminal evaluator evidence-only boundary.
-- Validate archive-proposal ownership of archive relocation.
-- Run `git diff --check`.
+## Implementation Validators
 
-## Negative Controls
+The following implementation validators and tests passed:
 
-- Missing implementation conformance receipt fails.
-- Missing post-implementation drift/churn receipt fails.
-- Publication freshness repair without canonical publisher fails.
-- Direct generated output authority fails.
-- Proposal input authority fails.
-- Worktree hygiene blocked by non-packet residue fails archive-ready verdict.
-- Repo hygiene deletion without authorization fails.
-- Hosted branch-no-pr landing without exact-SHA checks fails.
-- Branch cleanup without cleanup authorization fails.
-- Lifecycle-postmortem output used as authority fails.
-- Post-integration architecture review output used as authority fails.
-- Terminal receipt that moves the packet to archive fails.
+- `validate-proposal-packet-terminal-closeout-profile.sh`
+- `validate-proposal-packet-terminal-closeout-receipt.sh`
+- `validate-proposal-packet-terminal-closeout-workflow.sh`
+- `test-validate-proposal-packet-terminal-closeout.sh`
+- `validate-product-feature-catalog.sh`
+- `validate-skills.sh proposal-packet-terminal-closeout`
+- `validate-lifecycle-contracts.sh`
+- `test-pack-shape.sh`
+- `test-route-resolution.sh`
+- `test-authority-boundaries.sh`
+- `test-routing-guide-docs.sh`
+- `validate-extension-publication-state.sh`
+- `validate-capability-publication-state.sh`
+- `validate-host-projections.sh`
+- `validate-generated-non-authority.sh`
+- `validate-run-health-read-model.sh`
+- `validate-repo-hygiene-governance.sh`
+- `test-cleanup-local-run-artifacts.sh`
+- `validate-closeout-worktree-wrapper.sh`
+- `test-closeout-worktree-wrapper.sh`
+- `validate-default-work-unit-alignment.sh`
+- `validate-change-closeout-state-machine.sh`
+- `validate-change-closeout-lifecycle-alignment.sh`
+- `test-change-closeout-lifecycle-alignment.sh`
+- `validate-git-github-workflow-alignment.sh`
+- `validate-hosted-no-pr-landing.sh`
+- `test-hosted-no-pr-landing.sh`
+- `validate-archive-proposal-workflow.sh`
 
-## Run Log
+## Publication Notes
 
-- 2026-06-12: `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout`
-  initially found the generated proposal registry projection stale for the new
-  packet.
-- 2026-06-12: `bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write`
-  refreshed `.octon/generated/proposals/registry.yml` through the canonical
-  publisher. Result: `Registry generation summary: errors=0`.
-- 2026-06-12: `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout`
-  passed after the canonical registry refresh. Result: `Validation summary:
-  errors=0 warnings=12`.
-- 2026-06-12: `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout`
-  passed. Result: `Validation summary: errors=0 warnings=0`; final aggregate
-  result: `Validation summary: errors=0`.
-- 2026-06-12: `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout`
-  passed. Result: `Validation summary: errors=0 warnings=0`.
+Generated extension, capability, and host projection outputs were refreshed by
+canonical publishers only. The final extension state is `published` and
+`compatible`; capability publication and host projection validators passed.
+
+## Remaining Required Checks
+
+Completed after receipt refresh:
+
+- `validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout`
+- `validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout`
+- `git diff --check`
+
+All three passed and are retained in the evidence root.
+
+The final package gates also passed. `final-validate-proposal-standard.log`
+completed with `errors=0 warnings=1`; the warning is for an unrelated active
+policy proposal promotion target and not for this packet. This packet remains
+`accepted`; the next canonical route is `promote-proposal`.

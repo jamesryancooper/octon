@@ -5,6 +5,9 @@ proposal_path: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cle
 route_id: run-packet-implementation
 status: operational-aid
 generated_at: 2026-05-21T23:05:32Z
+refreshed_at: 2026-06-13T00:17:41Z
+terminal_closeout_guidance_ref: .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout
+delivery_prompt_mode: standalone-packet-implementation-and-terminal-closeout-orchestration
 
 This prompt is an operational implementation aid for the accepted proposal
 packet. It does not approve execution, authorize deletion, widen scope, create
@@ -483,6 +486,239 @@ git diff --check
 
 Also run any skill registry, schema, shell syntax, or fixture tests introduced
 or touched by the implementation.
+
+## Packet Terminal Closeout Orchestration Overlay
+
+Use this section to drive the packet from implementation into terminal lifecycle
+readiness using the posture described by `packet-lifecycle-terminal-closeout`.
+This overlay does not create archive, cleanup, Git, publication, or closeout
+authority. It adapts the terminal-closeout packet's state-driven aggregate
+receipt model to this standalone packet so the lifecycle can complete
+end-to-end once the required target-owned receipts exist.
+
+The terminalization owner must validate target-owned receipts and cite them.
+It must not replace implementation receipts, closeout receipts, cleanup
+authorization receipts, publication freshness receipts, branch authorization
+receipts, post-integration architecture review receipts, or archive movement.
+`archive-proposal` remains the only archive relocation owner.
+
+### Terminal Closeout Gate Snapshot
+
+This refresh was prepared after these target packet gates passed:
+
+```sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts --require-implementation-authorization
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+```
+
+Observed result at refresh time: `errors=0 warnings=0` for both top-level
+gates. Re-run both gates at execution time and stop if either fails, if the
+review digest is stale, if implementation authorization is missing, or if
+clarification is required.
+
+The source context used for this overlay included these digests:
+
+```text
+sha256:5b7a86325057eb43381be883304573f256d2f75049761fdfc89a8907e19c6dc4  repo-hygiene-cleanup-authorization-receipts/proposal.yml
+sha256:0dc5f9d631bee10e0c07955ef9359dae16b9d0e11d434f0ce0337fd9787e2468  repo-hygiene-cleanup-authorization-receipts/architecture-proposal.yml
+sha256:d47b98cb027cf3d3eb98017f3152316c1c351f3870310f64ee0728e9f263e521  repo-hygiene-cleanup-authorization-receipts/architecture/implementation-plan.md
+sha256:ee54520ccf229cbe84907998ec18cbeb3118189b9befdd1406a656b5382e3848  repo-hygiene-cleanup-authorization-receipts/architecture/acceptance-criteria.md
+sha256:e307e714b8e0ead12df1cbdd35e189c94f4912f4c7612fa7a1f70cf3156d03bc  packet-lifecycle-terminal-closeout/proposal.yml
+sha256:bcc6d1690cee08b7de504798e46590b54db13a0ae99e3810e19d83a8fe3f3b87  packet-lifecycle-terminal-closeout/architecture/target-architecture.md
+```
+
+Refresh these digests during execution if any referenced source file changed.
+
+### Terminal Profile
+
+Before terminalization, record a terminal profile in `support/implementation-run.md`
+or retained run evidence. Use at least:
+
+```yaml
+schema_version: standalone-packet-terminal-closeout-profile-v0
+target_packet_path: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+target_outcome: archive-ready
+route_preference: branch-no-pr
+pr_policy: do-not-create-pr-block-if-branch-no-pr-impossible
+publication_freshness_policy: validate-or-refresh-through-owning-publishers-only
+hygiene_policy: classify-first-authorize-before-delete
+post_integration_architecture_review_policy: evidence-only-after-conformance-and-drift
+packet_terminal_evaluator_policy: required-if-blocked-nonterminal-cancelled-rollback-or-repeated-retry
+archive_movement_policy: archive-proposal-only
+required_packet_receipts:
+  - support/implementation-run.md
+  - support/implementation-conformance-review.md
+  - support/post-implementation-drift-churn-review.md
+required_validators:
+  - validate-proposal-implementation-conformance.sh
+  - validate-proposal-post-implementation-drift.sh
+  - validate-repo-hygiene-governance.sh
+  - test-cleanup-local-run-artifacts.sh
+  - validate-closeout-worktree-wrapper.sh
+  - validate-run-health-read-model.sh
+terminal_receipt_policy: aggregate-only-does-not-replace-target-owned-receipts
+```
+
+Profile binding proves terminal intent and guardrails only. It does not
+authorize durable edits, cleanup, Git mutation, branch landing, branch
+deletion, generated publication, proposal status mutation, or archive movement.
+
+### Terminal Sequence
+
+Run terminalization as a resumable state machine:
+
+1. Bind the terminal profile, target packet path, target outcome, route
+   preference, PR policy, publication policy, hygiene policy, and non-authority
+   boundaries.
+2. Verify the packet is implemented or implementation-ready-to-complete before
+   terminal claims. If durable implementation has not completed, continue only
+   through `run-packet-implementation`; do not claim `archive-ready`.
+3. Verify durable implementation state for every approved promotion target:
+   repo-hygiene policy, cleanup authorization schema, cleanup helper, helper
+   tests, repo-hygiene governance validator, command README, remediation skill,
+   skill manifest, skill registry, capabilities map, closeout-worktree
+   boundary, closeout-worktree validator, and closeout-change boundary.
+4. Require current `support/implementation-conformance-review.md` and run
+   `validate-proposal-implementation-conformance.sh`.
+5. Require current `support/post-implementation-drift-churn-review.md` and run
+   `validate-proposal-post-implementation-drift.sh`.
+6. Validate publication freshness for touched capability, skill, command,
+   proposal registry, and generated projection families. Repair failed
+   freshness only through the owning canonical publisher, then rerun the
+   failed and adjacent validators.
+7. Validate generated/input non-authority. Direct generated edits, proposal
+   support files, generated prompts, host state, dashboards, chat, tool state,
+   and model memory cannot authorize cleanup or terminal status.
+8. Validate run-health, capability publication, and extension publication
+   coverage required by touched targets.
+9. Classify repo-hygiene residue. Delete only through repo-hygiene cleanup
+   authorization and helper revalidation. If implementation evidence creates
+   expected retained residue, classify it as expected evidence rather than
+   deleting it.
+10. Classify worktree hygiene. If non-packet residue or ambiguous residue
+    blocks hygiene, stop with the exact next route, usually `closeout-worktree`
+    or `closeout-change`.
+11. Run post-integration architecture review only after conformance and drift
+    pass. Treat the support receipt as evidence-only.
+12. Run a packet terminal evaluator or lifecycle-postmortem hook when the run
+    is blocked, nonterminal, cancelled, rollback, or repeated-retry. Treat that
+    output as evidence-only.
+13. If Git mutation is required, delegate route selection and effects to the
+    default work-unit and Change closeout state machine. For branch-no-PR,
+    require exact source-SHA checks, governed landing authorization, branch
+    cleanup authorization, fetch/sync, and local `main`/`origin/main`/landed-ref
+    equality proof through the existing Git/GitHub route.
+14. Emit a packet-local aggregate terminal receipt or terminal-readiness map.
+    Verdict is `archive-ready` only when every required gate passed, expected
+    retained evidence is current, and hygiene is not blocked. Verdict is
+    `blocked` with exact blocker and next canonical route otherwise.
+15. Do not move the packet into `.archive`; run `archive-proposal` only after a
+    separate archive route validates archive movement.
+
+If the durable `proposal-packet-terminal-closeout` workflow and receipt schema
+do not exist yet, record `blocked-terminal-closeout-workflow-missing` or
+`terminal-readiness-map-only` rather than inventing an archive-ready receipt.
+The implementation may still pass, but terminal lifecycle completion remains
+blocked until the terminal-closeout route exists or another authorized route
+provides equivalent evidence.
+
+### Terminal Receipt Content
+
+When a terminal receipt or terminal-readiness map is written, include at least:
+
+```yaml
+terminal_verdict: archive-ready|blocked|terminal-readiness-map-only
+terminalized_at: <UTC timestamp>
+target_packet_path: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+target_outcome_requested: archive-ready
+target_outcome_actual: archive-ready|blocked|implemented
+profile_digest: <sha256-or-not-applicable>
+durable_implementation_state_refs:
+  - <path>
+implementation_conformance_receipt_ref: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-conformance-review.md
+post_implementation_drift_churn_receipt_ref: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/post-implementation-drift-churn-review.md
+publication_freshness_refs:
+  - <path-or-not-applicable>
+generated_input_non_authority_refs:
+  - <path-or-not-applicable>
+run_health_refs:
+  - <path-or-not-applicable>
+capability_publication_refs:
+  - <path-or-not-applicable>
+repo_hygiene_classification_ref: <path-or-not-applicable>
+repo_hygiene_cleanup_authorization_ref: <path-or-none>
+worktree_hygiene_ref: <path-or-not-applicable>
+post_integration_architecture_review_ref: <path-or-not-applicable>
+packet_terminal_evaluator_ref: <path-or-not-applicable>
+git_github_route_ref: <path-or-not-applicable>
+exact_sha_check_refs:
+  - <path-or-not-applicable>
+branch_authorization_refs:
+  - <path-or-not-applicable>
+archive_movement_owner: archive-proposal
+archive_movement_performed: false
+blocker_class: none|missing-terminal-workflow|missing-evidence|stale-evidence|hygiene-blocked|git-route-blocked|validator-failed|scope-overrun
+blocker_detail: <detail-or-none>
+next_canonical_route: archive-proposal|proposal-packet-terminal-closeout|closeout-worktree|closeout-change|run-packet-implementation|blocked
+non_authority_declarations:
+  proposal_inputs: non-authority
+  generated_outputs: derived-only
+  generated_prompts: non-authority
+  host_state: non-authority
+  dashboards: non-authority
+  chat: non-authority
+  tool_state: non-authority
+  model_memory: non-authority
+```
+
+The aggregate receipt may cite target-owned evidence but cannot satisfy it.
+
+### Terminal Hard Gates
+
+Do not claim `archive-ready` unless all applicable gates pass:
+
+- implementation conformance receipt exists, is current, and validates;
+- post-implementation drift/churn receipt exists, is current, and validates;
+- repo-hygiene governance validator passes;
+- cleanup helper tests pass, including receipt-backed positive and negative
+  controls;
+- closeout-worktree wrapper validator passes;
+- generated/input non-authority validation passes;
+- run-health validation passes or is explicitly not applicable;
+- capability and skill publication validators pass or are explicitly not
+  applicable;
+- repo-hygiene cleanup, if any, used a valid cleanup authorization receipt and
+  immediate helper revalidation;
+- worktree hygiene is not blocked by foreign, ambiguous, ignored, protected, or
+  manual-review residue;
+- post-integration architecture review output is evidence-only;
+- lifecycle-postmortem or packet terminal evaluator output is evidence-only;
+- Git/GitHub hosted checks, branch landing authorization, branch cleanup
+  authorization, and final sync proof exist when Git mutation is required;
+- archive movement is not performed by the terminal receipt.
+
+### Terminal Stop Conditions
+
+Stop and record a blocked terminal outcome when:
+
+- the terminal-closeout workflow/schema is not durable and no authorized
+  equivalent terminal receipt route exists;
+- a needed edit or terminal check falls outside approved promotion targets;
+- a validator fails without a narrow non-blocking rationale;
+- conformance or drift/churn receipts are missing, stale, failing, or
+  unresolved;
+- publication freshness requires direct generated-output edits;
+- cleanup would proceed without a validating receipt and immediate helper
+  revalidation;
+- residue remains that cannot be classified as expected retained evidence;
+- Git/GitHub route evidence is missing for a required mutation;
+- any surface attempts to use lifecycle-postmortem, post-integration
+  architecture review, proposal inputs, generated outputs, host state, chat,
+  tool state, or model memory as authority;
+- archive relocation is attempted outside `archive-proposal`.
+
+The correct outcome for these conditions is `blocked` with the exact blocker
+and next canonical route, not an archive-ready overclaim.
 
 ## Rollback And Closeout Refusal
 

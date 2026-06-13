@@ -232,6 +232,18 @@ workflows:
       - "audit post implementation drift"
       - "check proposal drift after implementation"
       - "run proposal drift churn gate"
+  - id: proposal-packet-terminal-closeout
+    display_name: Proposal Packet Terminal Closeout
+    group: meta
+    domain: proposals
+    path: meta/proposal-packet-terminal-closeout/
+    execution_profile: core
+    summary: Verify implemented proposal packet terminal readiness and emit archive-ready or blocked evidence without archiving.
+    status: active
+    triggers:
+      - "proposal packet terminal closeout"
+      - "terminal closeout proposal packet"
+      - "mark proposal packet archive ready"
   - id: archive-proposal
     display_name: Archive Proposal
     group: meta

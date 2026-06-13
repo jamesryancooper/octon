@@ -1,0 +1,553 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json",
+  "title": "Proposal Packet Terminal Closeout Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "terminal_run_id",
+    "terminalized_at",
+    "packet",
+    "target_outcome",
+    "terminal_verdict",
+    "profile",
+    "state_ledger",
+    "implementation",
+    "durable_implementation_state_evidence_refs",
+    "publication_freshness",
+    "generated_input_non_authority",
+    "run_health",
+    "capability_publication",
+    "extension_publication",
+    "repo_hygiene",
+    "worktree_hygiene",
+    "evidence_only_reviews",
+    "git_github_route",
+    "archive_boundary",
+    "blocker",
+    "retained_evidence_inventory",
+    "expected_no_new_evidence_loop",
+    "non_authority_declarations",
+    "target_owned_evidence_policy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proposal-packet-terminal-closeout-receipt-v1"
+    },
+    "terminal_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "terminalized_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposal_id", "path", "proposal_kind", "status"],
+      "properties": {
+        "proposal_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "proposal_kind": {
+          "$ref": "#/$defs/identifier"
+        },
+        "status": {
+          "enum": ["implemented", "accepted", "rejected", "archived"]
+        }
+      }
+    },
+    "target_outcome": {
+      "enum": ["archive-ready", "blocked"]
+    },
+    "terminal_verdict": {
+      "enum": ["archive-ready", "blocked"]
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_ref", "profile_digest", "profile_validation_evidence_ref"],
+      "properties": {
+        "profile_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "profile_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "profile_validation_evidence_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        }
+      }
+    },
+    "state_ledger": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "$ref": "#/$defs/stateLedgerEntry"
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conformance_receipt_ref",
+        "conformance_validator_ref",
+        "conformance_fresh",
+        "post_implementation_drift_receipt_ref",
+        "post_implementation_drift_validator_ref",
+        "post_implementation_drift_fresh"
+      ],
+      "properties": {
+        "conformance_receipt_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "conformance_validator_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "conformance_fresh": {
+          "type": "boolean"
+        },
+        "post_implementation_drift_receipt_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "post_implementation_drift_validator_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "post_implementation_drift_fresh": {
+          "type": "boolean"
+        }
+      }
+    },
+    "durable_implementation_state_evidence_refs": {
+      "$ref": "#/$defs/evidenceRefArray"
+    },
+    "publication_freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validators",
+        "publisher_refresh_receipts",
+        "rerun_evidence_refs",
+        "direct_generated_output_edit_used"
+      ],
+      "properties": {
+        "validators": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/validatorEvidence"
+          }
+        },
+        "publisher_refresh_receipts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/repoRelativePath"
+          }
+        },
+        "rerun_evidence_refs": {
+          "$ref": "#/$defs/evidenceRefArray"
+        },
+        "direct_generated_output_edit_used": {
+          "type": "boolean"
+        }
+      }
+    },
+    "generated_input_non_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validation_ref",
+        "proposal_inputs_non_authority",
+        "generated_outputs_non_authority",
+        "generated_prompts_non_authority",
+        "host_state_non_authority",
+        "chat_state_non_authority",
+        "tool_state_non_authority",
+        "model_memory_non_authority"
+      ],
+      "properties": {
+        "validation_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "proposal_inputs_non_authority": {
+          "const": true
+        },
+        "generated_outputs_non_authority": {
+          "const": true
+        },
+        "generated_prompts_non_authority": {
+          "const": true
+        },
+        "host_state_non_authority": {
+          "const": true
+        },
+        "chat_state_non_authority": {
+          "const": true
+        },
+        "tool_state_non_authority": {
+          "const": true
+        },
+        "model_memory_non_authority": {
+          "const": true
+        }
+      }
+    },
+    "run_health": {
+      "$ref": "#/$defs/requiredValidation"
+    },
+    "capability_publication": {
+      "$ref": "#/$defs/requiredValidation"
+    },
+    "extension_publication": {
+      "$ref": "#/$defs/requiredValidation"
+    },
+    "repo_hygiene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification_ref",
+        "cleanup_performed",
+        "cleanup_authorization_refs",
+        "unauthorized_deletion_performed"
+      ],
+      "properties": {
+        "classification_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "cleanup_performed": {
+          "type": "boolean"
+        },
+        "cleanup_authorization_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/repoRelativePath"
+          }
+        },
+        "unauthorized_deletion_performed": {
+          "const": false
+        }
+      }
+    },
+    "worktree_hygiene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification_ref", "verdict", "foreign_or_ambiguous_count", "dirty_worktree"],
+      "properties": {
+        "classification_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "verdict": {
+          "enum": ["pass", "blocked"]
+        },
+        "foreign_or_ambiguous_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dirty_worktree": {
+          "type": "boolean"
+        }
+      }
+    },
+    "evidence_only_reviews": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "post_integration_architecture_review_ref",
+        "post_integration_architecture_review_authority",
+        "packet_terminal_evaluator_ref",
+        "packet_terminal_evaluator_authority",
+        "lifecycle_postmortem_ref",
+        "lifecycle_postmortem_authority"
+      ],
+      "properties": {
+        "post_integration_architecture_review_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "post_integration_architecture_review_authority": {
+          "const": "evidence-only"
+        },
+        "packet_terminal_evaluator_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "packet_terminal_evaluator_authority": {
+          "const": "evidence-only"
+        },
+        "lifecycle_postmortem_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lifecycle_postmortem_authority": {
+          "const": "evidence-only"
+        }
+      }
+    },
+    "git_github_route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_ref",
+        "branch_no_pr",
+        "mutation_delegated",
+        "exact_sha_checks_ref",
+        "landing_authorization_ref",
+        "branch_cleanup_required",
+        "branch_cleanup_authorization_ref"
+      ],
+      "properties": {
+        "route_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch_no_pr": {
+          "type": "boolean"
+        },
+        "mutation_delegated": {
+          "const": true
+        },
+        "exact_sha_checks_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "landing_authorization_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch_cleanup_required": {
+          "type": "boolean"
+        },
+        "branch_cleanup_authorization_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "archive_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archive_owner_ref", "relocation_performed"],
+      "properties": {
+        "archive_owner_ref": {
+          "const": ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml"
+        },
+        "relocation_performed": {
+          "const": false
+        }
+      }
+    },
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class", "detail", "failing_evidence_ref", "next_canonical_route"],
+      "properties": {
+        "class": {
+          "$ref": "#/$defs/blockerClass"
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1
+        },
+        "failing_evidence_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_canonical_route": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "retained_evidence_inventory": {
+      "$ref": "#/$defs/evidenceRefArray"
+    },
+    "expected_no_new_evidence_loop": {
+      "const": true
+    },
+    "non_authority_declarations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_inputs",
+        "generated_outputs",
+        "generated_prompts",
+        "host_state",
+        "dashboards",
+        "chat",
+        "tool_state",
+        "model_memory"
+      ],
+      "properties": {
+        "proposal_inputs": {
+          "const": "non-authority"
+        },
+        "generated_outputs": {
+          "const": "derived-only-non-authority"
+        },
+        "generated_prompts": {
+          "const": "non-authority"
+        },
+        "host_state": {
+          "const": "non-authority"
+        },
+        "dashboards": {
+          "const": "non-authority"
+        },
+        "chat": {
+          "const": "non-authority"
+        },
+        "tool_state": {
+          "const": "non-authority"
+        },
+        "model_memory": {
+          "const": "non-authority"
+        }
+      }
+    },
+    "target_owned_evidence_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cites_target_owned_evidence", "aggregate_receipt_replaces_target_owned_receipts"],
+      "properties": {
+        "cites_target_owned_evidence": {
+          "const": true
+        },
+        "aggregate_receipt_replaces_target_owned_receipts": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.($|/)" },
+          { "pattern": "(^|/)\\.\\.($|/)" }
+        ]
+      }
+    },
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "evidenceRefArray": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/repoRelativePath"
+      },
+      "uniqueItems": true
+    },
+    "validatorEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validator_ref", "evidence_ref", "verdict", "fresh"],
+      "properties": {
+        "validator_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "evidence_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "verdict": {
+          "enum": ["pass", "blocked", "stale", "not-applicable"]
+        },
+        "fresh": {
+          "type": "boolean"
+        }
+      }
+    },
+    "requiredValidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validation_ref", "verdict"],
+      "properties": {
+        "validation_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "verdict": {
+          "enum": ["pass", "blocked", "not-applicable"]
+        }
+      }
+    },
+    "stateLedgerEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_id",
+        "input_refs",
+        "validator_command_refs",
+        "output_evidence_refs",
+        "state_verdict",
+        "retry_count",
+        "resume_cursor"
+      ],
+      "properties": {
+        "state_id": {
+          "enum": [
+            "bind-profile",
+            "verify-durable-implementation-state",
+            "verify-implementation-conformance",
+            "verify-post-implementation-drift",
+            "validate-publication-freshness",
+            "classify-repo-hygiene",
+            "classify-worktree-hygiene",
+            "run-evidence-only-reviews",
+            "resolve-git-github-route",
+            "emit-terminal-receipt"
+          ]
+        },
+        "input_refs": {
+          "$ref": "#/$defs/evidenceRefArray"
+        },
+        "validator_command_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "output_evidence_refs": {
+          "$ref": "#/$defs/evidenceRefArray"
+        },
+        "state_verdict": {
+          "enum": ["pass", "blocked", "not-applicable"]
+        },
+        "retry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resume_cursor": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "blockerClass": {
+      "enum": [
+        "none",
+        "missing-evidence",
+        "stale-evidence",
+        "validator-failed",
+        "publication-freshness-blocked",
+        "hygiene-blocked",
+        "git-route-blocked",
+        "scope-overrun",
+        "archive-boundary-violation"
+      ]
+    }
+  }
+}

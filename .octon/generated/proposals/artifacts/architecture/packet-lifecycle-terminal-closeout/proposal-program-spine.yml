@@ -1,0 +1,179 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": null,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": null,
+      "verdict": null
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:76f734f10d4d01c0453d839e8c8d3c9e7f8b42baaa2b02293e45b6ebad3e7aa5",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Promote only after proposal review accepts the packet, strict pre-integration architecture review passes, durable workflow, profile schema, receipt schema, validator, test, evaluator, command, skill, product feature, and proposal lifecycle hook changes land outside this proposal packet, and implementation conformance plus post-implementation drift/churn receipts pass. Archive only after the terminal packet receipt is current and the separate archive-proposal lifecycle validates archive movement.",
+    "status": "implemented",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/packet-lifecycle-terminal-closeout/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/",
+    ".octon/framework/orchestration/runtime/workflows/registry.yml",
+    ".octon/framework/orchestration/runtime/workflows/manifest.yml",
+    ".octon/framework/product/contracts/proposal-packet-terminal-closeout-profile-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json",
+    ".octon/framework/product/features/proposal-packet-terminal-closeout.md",
+    ".octon/framework/product/features/catalog.yml",
+    ".octon/framework/product/features/README.md",
+    ".octon/framework/capabilities/runtime/commands/proposal-packet-terminal-closeout.md",
+    ".octon/framework/capabilities/runtime/commands/manifest.yml",
+    ".octon/framework/capabilities/runtime/skills/operations/proposal-packet-terminal-closeout/SKILL.md",
+    ".octon/framework/capabilities/runtime/skills/manifest.yml",
+    ".octon/framework/capabilities/runtime/skills/registry.yml",
+    ".octon/framework/capabilities/runtime/skills/capabilities.yml",
+    ".octon/framework/assurance/evaluators/proposal-packet-terminal-closeout/README.md",
+    ".octon/framework/assurance/evaluators/templates/proposal-packet-terminal-closeout-template.md",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-terminal-closeout.sh",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
+  ],
+  "proposal_id": "packet-lifecycle-terminal-closeout",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 28958,
+      "estimated_tokens": 7240,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md",
+      "sha256": "sha256:d49219a86404c2c2510a8fdface1a259aa1d1332ccd6dc5126f932db6419b8a9"
+    },
+    {
+      "byte_size": 4042,
+      "estimated_tokens": 1011,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md",
+      "sha256": "sha256:8ca90e6823e6dee1d11b29000534d1ba1084854933bc6e5c24cf6e7e87379c61"
+    },
+    {
+      "byte_size": 4797,
+      "estimated_tokens": 1200,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:2fa9050c4aad447ba470dda41a92b672cc51a45e26b4269e0b8b94271841775e"
+    },
+    {
+      "byte_size": 2370,
+      "estimated_tokens": 593,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md",
+      "sha256": "sha256:b21b453b3b0323c7a55573038ef94560d2f725c083ecb3db944de3bea82dbc16"
+    },
+    {
+      "byte_size": 3700,
+      "estimated_tokens": 925,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:cf75088103316f81c3be192508d76d0b690e73a7c8a7fb1db3d1d1df32b8c930"
+    },
+    {
+      "byte_size": 2103,
+      "estimated_tokens": 526,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md",
+      "sha256": "sha256:4507903edb8b0c5793c7a39db726d88e0c6b432b59420eb00f5b45d37a11f433"
+    },
+    {
+      "byte_size": 7860,
+      "estimated_tokens": 1965,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md",
+      "sha256": "sha256:348ae40155a487d1045c4890c61343704ff2841ef56fed0e7e86e3849deb03b0"
+    },
+    {
+      "byte_size": 2921,
+      "estimated_tokens": 731,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/validation.md",
+      "sha256": "sha256:f8dcf784731fa749e92dd9699ecc901ccbded1877898f3868062dbb7132f7fd9"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-delivery",
+    "change-closeout-state-machine",
+    "repo-hygiene-cleanup-authorization-receipts",
+    "verify-governed-mechanism-integration",
+    "architectural-review-post-integration-boundaries"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml": "sha256:175853023b0132d601ac9f978dd3be01beb5d2d8a33a634c437c20695ed29853",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md": "sha256:7f08ed7fbc2b936a943eed8395d055cea634d85bc5c1084af6b0e78ab3ff28f6",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md": "sha256:555e3eafd8605fbecc070bbd5bc7ca787459e19280bf00a7d5bd187f460d4134",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md": "sha256:a0911646e89250bfd0e535bed3595fd265cacee826ae1e5d955e00d04ec2a1b9",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md": "sha256:190f06f30e84af0d4a95342b9f23a55419657710380710528dc2680445425992",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/proposal.yml": "sha256:3cc6134538a10411ac8fc75064f9b4322aa704f3781efb75913670fa53c03721",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md": "sha256:d49219a86404c2c2510a8fdface1a259aa1d1332ccd6dc5126f932db6419b8a9",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md": "sha256:2fa9050c4aad447ba470dda41a92b672cc51a45e26b4269e0b8b94271841775e",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md": "sha256:348ae40155a487d1045c4890c61343704ff2841ef56fed0e7e86e3849deb03b0"
+  },
+  "source_lineage": [
+    "resources/source-findings.md",
+    "resources/repository-reconnaissance.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md"
+  ],
+  "status": "implemented"
+}

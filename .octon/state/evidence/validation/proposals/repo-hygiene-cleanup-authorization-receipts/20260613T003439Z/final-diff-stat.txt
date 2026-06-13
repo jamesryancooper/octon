@@ -1,0 +1,6 @@
+ .../support/executable-implementation-prompt.md    | 236 +++++++++++++++++++++
+ .../support/implementation-conformance-review.md   |  68 +++---
+ .../support/implementation-run.md                  | 151 ++++++++++---
+ .../post-implementation-drift-churn-review.md      |  51 +++--
+ .../support/validation.md                          |  31 ++-
+ 5 files changed, 450 insertions(+), 87 deletions(-)

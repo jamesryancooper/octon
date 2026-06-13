@@ -52,6 +52,23 @@ commands:
   host_adapters:
   - cursor
   - codex
+- id: proposal-packet-terminal-closeout
+  display_name: Proposal Packet Terminal Closeout
+  path: proposal-packet-terminal-closeout.md
+  summary: Invoke the terminal readiness workflow for an implemented proposal packet without archiving it.
+  access: agent
+  argument_hint: target=<proposal-packet-path> [outcome=archive-ready] [profile=<profile-path>] [run-id=<id>]
+  routing:
+    selectors:
+      include:
+      - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+  host_adapters:
+  - cursor
+  - codex
 - id: current-state-mechanism-architecture-review
   display_name: Current-State Mechanism Architecture Review
   path: current-state-mechanism-architecture-review.md

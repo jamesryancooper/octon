@@ -1474,6 +1474,25 @@ skills:
       - guardian
     capabilities: []
 
+  - id: proposal-packet-terminal-closeout
+    display_name: Proposal Packet Terminal Closeout
+    group: operations
+    path: operations/proposal-packet-terminal-closeout/
+    skill_class: invocable
+    summary: "Emit proposal packet terminal readiness receipts without archiving the packet."
+    status: active
+    tags:
+      - proposals
+      - lifecycle
+      - closeout
+      - archive-readiness
+    triggers:
+      - "proposal packet terminal closeout"
+      - "mark proposal packet archive ready"
+      - "check terminal readiness before archiving"
+    skill_sets: []
+    capabilities: []
+
   - id: postgres-best-practices
     display_name: Postgres Best Practices
     group: foundations

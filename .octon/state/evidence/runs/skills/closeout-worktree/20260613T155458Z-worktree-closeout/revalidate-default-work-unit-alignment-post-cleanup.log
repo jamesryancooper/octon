@@ -1,0 +1,209 @@
+== Default Work Unit Alignment Validation ==
+[OK] found .octon/framework/product/contracts/default-work-unit.md
+[OK] found .octon/framework/product/contracts/default-work-unit.yml
+[OK] found .octon/framework/product/contracts/change-receipt-v1.schema.json
+[OK] found .octon/framework/product/contracts/branch-landing-authorization-v1.schema.json
+[OK] found .octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md
+[OK] found .octon/framework/product/contracts/examples/change-receipts/README.md
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-direct-main-landed.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-branch-no-pr-branch-local-complete.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-branch-no-pr-published-branch.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-branch-pr-ready.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-hosted-branch-no-pr-landed.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/invalid-pushed-only-branch-claimed-landed.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/invalid-published-branch-completed-closeout.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/invalid-stale-remote-branch-ref.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/invalid-draft-pr-claimed-full-closeout.json
+[OK] found .octon/framework/assurance/runtime/_ops/fixtures/change-route-selection/solo-route-selection.yml
+[OK] found .octon/framework/engine/runtime/spec/change-package-v1.schema.json
+[OK] found .octon/framework/constitution/contracts/runtime/change-package-v1.schema.json
+[OK] found .octon/framework/engine/runtime/spec/engagement-change-package-compiler-v1.md
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+[OK] found .octon/framework/execution-roles/practices/standards/commit-pr-standards.json
+[OK] found .octon/framework/execution-roles/practices/standards/github-control-plane-contract.json
+[OK] found .octon/framework/execution-roles/practices/standards/ai-gate-policy.json
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh
+[OK] machine policy declares Change as default work unit
+[OK] machine policy declares Change Package as internal bundle
+[OK] machine policy defines Closeout Worktree as non-replacement wrapper
+[OK] machine policy exposes route direct-main
+[OK] receipt schema accepts route direct-main
+[OK] machine policy exposes route branch-no-pr
+[OK] receipt schema accepts route branch-no-pr
+[OK] machine policy exposes route branch-pr
+[OK] receipt schema accepts route branch-pr
+[OK] machine policy exposes route stage-only-escalate
+[OK] receipt schema accepts route stage-only-escalate
+[OK] receipt schema requires rollback handle
+[OK] receipt schema defaults unspecified closeout target to cleaned
+[OK] receipt schema models governed landing authorization
+[OK] receipt schema requires governed authorization for no-PR landing
+[OK] authorization schema has stable version
+[OK] authorization schema requires no-PR proof
+[OK] authorization schema preserves host controls
+[OK] receipt schema requires lifecycle_outcome
+[OK] receipt schema requires integration_status
+[OK] receipt schema requires publication_status
+[OK] receipt schema requires cleanup_status
+[OK] receipt schema requires hosted landing provider evidence
+[OK] receipt schema requires source branch integration evidence
+[OK] receipt schema models local main sync evidence
+[OK] receipt schema models hosted main update status
+[OK] receipt schema requires completed cleanup for cleaned outcome
+[OK] receipt schema blocks completed landed branch closeout with pending cleanup
+[OK] receipt schema accepts lifecycle outcome preserved
+[OK] receipt schema accepts lifecycle outcome branch-local-complete
+[OK] receipt schema accepts lifecycle outcome published-branch
+[OK] receipt schema accepts lifecycle outcome published
+[OK] receipt schema accepts lifecycle outcome ready
+[OK] receipt schema accepts lifecycle outcome landed
+[OK] receipt schema accepts lifecycle outcome cleaned
+[OK] receipt schema accepts lifecycle outcome deferred
+[OK] receipt schema accepts lifecycle outcome blocked
+[OK] receipt schema accepts lifecycle outcome escalated
+[OK] receipt schema accepts lifecycle outcome denied
+[OK] machine policy defaults unspecified closeout target to cleaned
+[OK] machine policy models explicit narrower lifecycle outcomes
+[OK] machine policy models explicit stage-only route request separately
+[OK] machine policy allows no-PR branch landing outcome
+[OK] machine policy requires governed no-PR landing authorization
+[OK] machine policy requires current authorization source and target refs
+[OK] machine policy requires origin/main equality for no-PR landing
+[OK] machine policy requires source branch integration for no-PR landing
+[OK] machine policy requires post-landing fetch for no-PR landing
+[OK] machine policy requires branch cleanup or deferred cleanup after no-PR landing
+[OK] machine policy requires local main containment after no-PR landing
+[OK] machine policy requires no-PR local/main/origin alignment
+[OK] machine policy requires source branch integration after PR merge
+[OK] machine policy requires branch cleanup or deferred cleanup after PR merge
+[OK] machine policy requires origin/main containment for direct-main closeout
+[OK] machine policy requires direct-main local main sync after push
+[OK] machine policy requires direct-main landed ref containment after fetch
+[OK] machine policy requires origin branch evidence or local-only blocker for branch-no-pr closeout
+[OK] machine policy fails closed when ruleset blocks no-PR landing
+[OK] machine policy fails closed on direct-main closeout without origin push
+[OK] machine policy fails closed on branch-no-pr closeout without origin push
+[OK] machine policy fails closed without governed landing authorization
+[OK] machine policy fails closed on stale or denied authorization
+[OK] machine policy fails closed when unspecified closeout target is not cleaned
+[OK] machine policy fails closed on landed branch closeout without cleanup disposition
+[OK] machine policy fails closed on landed branch closeout without source integration
+[OK] machine policy fails closed on landed branch closeout without fetch/sync evidence
+[OK] machine policy fails closed on missing post-landing local main sync
+[OK] machine policy defines route-neutral hosted ruleset target
+[OK] machine policy includes exact source SHA route-neutral check
+[OK] machine policy keeps AI review gate PR-specific
+[OK] machine policy defines fastest safe solo route rule
+[OK] machine policy evaluates direct-main first for eligible solo work
+[OK] machine policy treats provider route-neutral support as landing precondition
+[OK] machine policy says high-impact alone does not force branch-pr
+[OK] machine policy prefers branch-no-pr absent proven PR predicate
+[OK] machine policy defines preview publication as branch-pr predicate
+[OK] machine policy requires governing review evidence for protected/high-impact PR predicate
+[OK] solo route fixtures cover direct-main default for low-risk clean main
+[OK] solo route fixtures cover branch-no-pr isolation
+[OK] solo route fixtures block PR-required hosted no-PR landing
+[OK] solo route fixtures prove high-impact alone does not force branch-pr
+[OK] solo route fixtures prove protected surface alone does not force branch-pr
+[OK] solo route fixtures cover governing review branch-pr predicate
+[OK] machine policy distinguishes PR ready outcome
+[OK] machine policy requires high-impact self-review before PR ready
+[OK] machine policy requires AI gate when required before PR ready
+[OK] machine policy requires PR quality before PR ready
+[OK] machine policy requires clean-state check before PR ready
+[OK] machine policy requires no requested changes before PR ready
+[OK] machine policy requires no merge conflicts before PR ready
+[OK] machine policy requires receipt or closeout evidence before PR ready
+[OK] machine policy requires origin/main verification for PR landed outcome
+[OK] machine policy keeps no-PR branch landing as lifecycle outcome, not top-level route
+[OK] runtime Change Package schema has target schema version
+[OK] commit/PR standards bind to Change routes
+[OK] GitHub control contract is route-aware and projection-only
+[OK] GitHub control contract keeps AI gate out of universal target checks
+[OK] GitHub control contract records current live route-neutral posture
+[OK] GitHub control contract does not claim repo-local projection mutated live rulesets
+[OK] AI gate policy is scoped to hosted PR route
+[OK] review routing references default work unit policy
+[OK] policy docs link Change Lifecycle Routing quickstart
+[OK] policy docs describe Closeout Worktree wrapper
+[OK] policy docs define cleaned as default closeout target
+[OK] quickstart separates route selection, target outcome, and actual outcome
+[OK] quickstart defaults unspecified closeout target to cleaned
+[OK] quickstart includes route matrix
+[OK] quickstart includes fastest safe solo route rule
+[OK] quickstart makes direct-main the first eligible solo route
+[OK] quickstart treats provider route-neutral capability as landing precondition
+[OK] quickstart route matrix has required columns
+[OK] quickstart documents route direct-main
+[OK] quickstart documents route branch-no-pr
+[OK] quickstart documents route branch-pr
+[OK] quickstart documents route stage-only-escalate
+[OK] quickstart forbids branch-local landed overclaim
+[OK] quickstart forbids ready PR full closeout overclaim
+[OK] quickstart forbids full closeout with pending branch cleanup
+[OK] quickstart requires final local main alignment
+[OK] quickstart includes live-vs-target ruleset table
+[OK] quickstart labels current live ruleset state
+[OK] quickstart labels repo-local target ruleset state
+[OK] quickstart blocks live migration overclaim
+[OK] quickstart defines post-migration current_live_main update rule
+[OK] quickstart keeps AI gate visible as PR-only check
+[OK] quickstart keeps PR quality visible as PR-only check
+[OK] receipt examples README lists valid direct-main landed example
+[OK] receipt examples README lists valid branch-pr ready example
+[OK] receipt examples README lists valid branch-local complete example
+[OK] receipt examples README lists valid pushed-branch handoff example
+[OK] receipt examples README lists valid hosted no-PR landing example
+[OK] receipt examples README lists pushed-only invalid example
+[OK] receipt examples README lists pushed-branch completed invalid example
+[OK] receipt examples README lists stale remote branch ref invalid example
+[OK] receipt examples README lists draft PR invalid example
+[OK] valid direct-main example has direct landed semantics
+[OK] valid branch-pr ready example has ready-not-landed semantics
+[OK] valid branch-local complete example has not-landed no-PR semantics
+[OK] valid pushed-branch example has continued handoff semantics
+[OK] valid hosted no-PR example has exact-SHA landing semantics
+[OK] invalid pushed-only example encodes landed overclaim
+[OK] invalid pushed-branch completed example encodes handoff overclaim
+[OK] invalid stale remote ref example encodes stale publication evidence
+[OK] invalid draft PR example encodes full-closeout overclaim
+[OK] constitutional registry exposes default work unit policy
+[OK] architecture registry exposes machine policy contract
+[OK] normative precedence includes default work unit policy
+[OK] Git/worktree contract defers to default work unit policy
+[OK] closeout workflow owner is closeout-change
+[OK] skill manifest exposes closeout-change
+[OK] skill manifest exposes closeout-worktree
+[OK] skill manifest exposes closeout-pr
+[OK] skill registry exposes closeout-change
+[OK] skill registry exposes closeout-worktree
+[OK] skill registry exposes closeout-pr
+[OK] closeout-change is registered for Codex host projection
+[OK] closeout-worktree is registered for Codex host projection
+[OK] closeout-pr is registered for Codex host projection
+[OK] closeout-pr accepts target lifecycle outcome
+[OK] found .octon/generated/effective/capabilities/routing.effective.yml
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] effective routing projects closeout-change to Codex
+[OK] effective routing projects closeout-worktree to Codex
+[OK] effective routing projects closeout-pr to Codex
+[OK] found .codex/skills/closeout-change/SKILL.md
+[OK] found .codex/skills/closeout-worktree/SKILL.md
+[OK] found .codex/skills/closeout-pr/SKILL.md
+[OK] Codex projection exposes closeout-change skill
+[OK] Codex projection exposes closeout-worktree skill
+[OK] Codex projection exposes closeout-pr skill
+[OK] closeout-change forbids PR before branch-pr route
+[OK] closeout-change resolves lifecycle outcome
+[OK] closeout-worktree decomposes dirty worktrees
+[OK] closeout-worktree forbids Closeout Changes model
+[OK] closeout-worktree validator enforces multi-candidate partitioning
+[OK] closeout-pr requires branch-pr route
+[OK] closeout-pr distinguishes published from full closeout
+[OK] active framework/instance surfaces avoid legacy Change Package predecessor terminology
+[OK] active framework/instance paths avoid legacy Change Package predecessor filenames
+[OK] active surfaces avoid PR/branch default-work-unit drift
+
+Validation summary: errors=0

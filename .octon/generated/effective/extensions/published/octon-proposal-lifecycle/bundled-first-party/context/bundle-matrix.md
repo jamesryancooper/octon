@@ -16,6 +16,17 @@
 | `generate-packet-closeout-prompt` | `octon-proposal-lifecycle-generate-packet-closeout-prompt` | `octon-proposal-generate-packet-closeout-prompt` | `octon-proposal-lifecycle-generate-packet-closeout-prompt` |
 | `closeout-packet` | `octon-proposal-lifecycle-closeout-packet` | `octon-proposal-closeout-packet` | `octon-proposal-lifecycle-closeout-packet` |
 
+## Workflow-Backed Packet Terminal Routes
+
+| Route | Workflow | Command | Skill |
+| --- | --- | --- | --- |
+| `proposal-packet-terminal-closeout` | `proposal-packet-terminal-closeout` | `proposal-packet-terminal-closeout` | `proposal-packet-terminal-closeout` |
+
+`proposal-packet-terminal-closeout` is a workflow-backed route, not a prompt
+bundle. It emits `support/proposal-terminal-closeout.yml` with an
+`archive-ready` or `blocked` verdict and never moves the packet to archive.
+Archive relocation remains the separate `archive-proposal` workflow route.
+
 ## Program Coordination Routes
 
 | Route | Prompt set | Command | Skill |

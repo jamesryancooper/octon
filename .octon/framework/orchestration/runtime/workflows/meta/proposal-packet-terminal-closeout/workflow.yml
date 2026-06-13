@@ -1,0 +1,248 @@
+---
+schema_version: workflow-contract-v2
+name: proposal-packet-terminal-closeout
+description: Verify implemented proposal packet terminal readiness and emit an archive-ready or blocked aggregate receipt without moving the packet to archive.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - proposal_path
+    - target_outcome
+  format: proposal-packet-terminal-closeout:{proposal_path}:{target_outcome}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: proposal_path
+    type: folder
+    required: true
+    description: Implemented proposal packet to terminalize.
+  - name: target_outcome
+    type: text
+    required: false
+    description: Requested terminal outcome, normally archive-ready.
+  - name: profile_path
+    type: file
+    required: false
+    description: Optional proposal-packet-terminal-closeout-profile-v1 profile.
+  - name: terminal_run_id
+    type: text
+    required: false
+    description: Optional retained terminal closeout run id.
+stages:
+  - id: bind-profile
+    asset: stages/01-bind-profile.md
+    kind: verification
+    consumes: []
+    produces:
+      - stage:bind-profile
+    mutation_scope: []
+    authorization: &read_evidence_authorization
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: verify-durable-implementation-state
+    asset: stages/02-verify-durable-implementation-state.md
+    kind: verification
+    consumes:
+      - stage:bind-profile
+    produces:
+      - stage:verify-durable-implementation-state
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: verify-implementation-conformance
+    asset: stages/03-verify-implementation-conformance.md
+    kind: verification
+    consumes:
+      - stage:verify-durable-implementation-state
+    produces:
+      - stage:verify-implementation-conformance
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: verify-post-implementation-drift
+    asset: stages/04-verify-post-implementation-drift.md
+    kind: verification
+    consumes:
+      - stage:verify-implementation-conformance
+    produces:
+      - stage:verify-post-implementation-drift
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: validate-publication-freshness
+    asset: stages/05-validate-publication-freshness.md
+    kind: verification
+    consumes:
+      - stage:verify-post-implementation-drift
+    produces:
+      - stage:validate-publication-freshness
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: classify-repo-hygiene
+    asset: stages/06-classify-repo-hygiene.md
+    kind: analysis
+    consumes:
+      - stage:validate-publication-freshness
+    produces:
+      - stage:classify-repo-hygiene
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: classify-worktree-hygiene
+    asset: stages/07-classify-worktree-hygiene.md
+    kind: analysis
+    consumes:
+      - stage:classify-repo-hygiene
+    produces:
+      - stage:classify-worktree-hygiene
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: run-evidence-only-reviews
+    asset: stages/08-run-evidence-only-reviews.md
+    kind: analysis
+    consumes:
+      - stage:classify-worktree-hygiene
+    produces:
+      - stage:run-evidence-only-reviews
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: resolve-git-github-route
+    asset: stages/09-resolve-git-github-route.md
+    kind: verification
+    consumes:
+      - stage:run-evidence-only-reviews
+    produces:
+      - stage:resolve-git-github-route
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: emit-terminal-receipt
+    asset: stages/10-emit-terminal-receipt.md
+    kind: projection
+    consumes:
+      - stage:resolve-git-github-route
+    produces:
+      - stage:emit-terminal-receipt
+      - proposal-packet-terminal-closeout-receipt
+    mutation_scope:
+      - workflow-scope
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - repo.write
+        - evidence.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-scope
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: true
+      allowed_executor_profiles:
+        - scoped_repo_mutation
+artifacts:
+  - name: terminal_profile
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-terminal-closeout-{{slug}}/profile.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Bound proposal-packet-terminal-closeout-profile-v1 profile.
+  - name: terminal_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-terminal-closeout-{{slug}}/terminal-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: proposal-packet-terminal-closeout-receipt-v1 aggregate terminal receipt.
+  - name: packet_terminal_receipt
+    path: "{{proposal_path}}/support/proposal-terminal-closeout.yml"
+    kind: file
+    format: yaml
+    determinism: replace
+    description: Packet-local terminal closeout receipt projection.
+  - name: terminal_summary
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-proposal-packet-terminal-closeout.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Top-level packet terminal closeout summary.
+done_gate:
+  checks:
+    - "profile validates under proposal-packet-terminal-closeout-profile-v1"
+    - "state ledger records all ten workflow states"
+    - "implementation conformance and post-implementation drift validators pass before archive-ready"
+    - "publication freshness is current or blocked with owner route"
+    - "repo-hygiene and worktree hygiene are classified"
+    - "post-integration architecture review and terminal evaluator outputs are evidence-only"
+    - "Git/GitHub route evidence is delegated or explicitly not applicable"
+    - "terminal receipt validates under proposal-packet-terminal-closeout-receipt-v1"
+    - "archive-ready is claimed only when blocker.class is none"
+    - "archive relocation is not performed"
+constraints:
+  fail_closed: true
+  forbid_design_packages: false
+  require_relative_local_assets: true
+  no_archive_relocation: true
+  no_direct_generated_publication: true
+  no_git_mutation: true
+  no_residue_deletion: true

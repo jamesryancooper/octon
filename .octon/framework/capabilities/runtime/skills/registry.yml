@@ -4176,6 +4176,78 @@ skills:
       fingerprints:
         tech_tags: []
         language_tags: []
+  proposal-packet-terminal-closeout:
+    version: 1.0.0
+    commands:
+    - /proposal-packet-terminal-closeout
+    parameters:
+    - name: proposal_path
+      type: folder
+      required: true
+      description: Implemented proposal packet to terminalize
+    - name: target_outcome
+      type: text
+      required: false
+      default: archive-ready
+      description: Requested terminal outcome, normally archive-ready
+    - name: profile_path
+      type: file
+      required: false
+      description: Optional proposal-packet-terminal-closeout-profile-v1 profile
+    - name: terminal_run_id
+      type: text
+      required: false
+      description: Optional retained terminal closeout run id
+    requires:
+      context:
+      - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml
+      - .octon/framework/product/contracts/proposal-packet-terminal-closeout-profile-v1.schema.json
+      - .octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh
+    io:
+      inputs:
+      - name: proposal_root
+        path: '{{proposal_path}}'
+        kind: directory
+        format: mixed
+        required: true
+        description: Implemented proposal packet under terminal readiness verification
+      outputs:
+      - name: terminal_summary
+        path: /.octon/state/evidence/validation/analysis/{{date}}-proposal-packet-terminal-closeout.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Top-level terminal readiness summary
+      - name: terminal_bundle
+        path: /.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-terminal-closeout-{{run_id}}/
+        kind: directory
+        format: mixed
+        determinism: unique
+        description: Workflow evidence bundle with profile, ledger, inventory, and receipt
+      - name: packet_terminal_receipt
+        path: '{{proposal_path}}/support/proposal-terminal-closeout.yml'
+        kind: file
+        format: yaml
+        determinism: replace
+        description: Packet-local terminal closeout receipt projection
+      - name: skill_run_log
+        path: /.octon/state/evidence/runs/skills/proposal-packet-terminal-closeout/{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Execution log for proposal-packet-terminal-closeout runs
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
   postgres-best-practices:
     version: 1.0.0
     commands:

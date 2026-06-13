@@ -1,0 +1,6 @@
+ M .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/executable-implementation-prompt.md
+ M .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-conformance-review.md
+ M .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-run.md
+ M .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/post-implementation-drift-churn-review.md
+ M .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/validation.md
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/

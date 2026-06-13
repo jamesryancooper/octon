@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/proposal-packet-terminal-closeout-profile-v1.schema.json",
+  "title": "Proposal Packet Terminal Closeout Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "created_at",
+    "packet",
+    "target_outcome",
+    "route_preference",
+    "pr_policy",
+    "publication_freshness_policy",
+    "hygiene_policy",
+    "expected_retained_evidence",
+    "required_validators_by_target_family",
+    "post_integration_architecture_review_policy",
+    "packet_terminal_evaluator_policy",
+    "git_github_hosted_check_policy",
+    "blocker_reporting",
+    "forbidden_authority_requests"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proposal-packet-terminal-closeout-profile-v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^proposal-packet-terminal-closeout-[A-Za-z0-9._:-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposal_id", "path"],
+      "properties": {
+        "proposal_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "expected_status": {
+          "enum": ["implemented"]
+        }
+      }
+    },
+    "target_outcome": {
+      "enum": ["archive-ready", "blocked"]
+    },
+    "route_preference": {
+      "enum": ["branch-no-pr", "branch-pr", "direct-main", "stage-only-escalate", "none-closeout-only"]
+    },
+    "pr_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allow_pr_creation", "allow_branch_no_pr", "exact_sha_required"],
+      "properties": {
+        "allow_pr_creation": {
+          "type": "boolean"
+        },
+        "allow_branch_no_pr": {
+          "type": "boolean"
+        },
+        "exact_sha_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "publication_freshness_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_publisher_only",
+        "direct_generated_edits_forbidden",
+        "validator_family_map"
+      ],
+      "properties": {
+        "canonical_publisher_only": {
+          "const": true
+        },
+        "direct_generated_edits_forbidden": {
+          "const": true
+        },
+        "validator_family_map": {
+          "$ref": "#/$defs/validatorFamilyMap"
+        }
+      }
+    },
+    "hygiene_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repo_hygiene_delegation_only",
+        "worktree_foreign_residue_blocks_archive_ready",
+        "cleanup_authorization_required"
+      ],
+      "properties": {
+        "repo_hygiene_delegation_only": {
+          "const": true
+        },
+        "worktree_foreign_residue_blocks_archive_ready": {
+          "const": true
+        },
+        "cleanup_authorization_required": {
+          "const": true
+        }
+      }
+    },
+    "expected_retained_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/evidenceExpectation"
+      }
+    },
+    "required_validators_by_target_family": {
+      "$ref": "#/$defs/validatorFamilyMap"
+    },
+    "post_integration_architecture_review_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_when_applicable", "evidence_only"],
+      "properties": {
+        "run_when_applicable": {
+          "type": "boolean"
+        },
+        "evidence_only": {
+          "const": true
+        }
+      }
+    },
+    "packet_terminal_evaluator_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_for", "evidence_only"],
+      "properties": {
+        "required_for": {
+          "type": "array",
+          "items": {
+            "enum": ["blocked", "nonterminal", "cancelled", "rollback", "repeated-retry"]
+          },
+          "uniqueItems": true
+        },
+        "evidence_only": {
+          "const": true
+        }
+      }
+    },
+    "git_github_hosted_check_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "delegate_to_closeout_routes",
+        "exact_sha_required_when_hosted",
+        "landing_authorization_required",
+        "branch_cleanup_authorization_required"
+      ],
+      "properties": {
+        "delegate_to_closeout_routes": {
+          "const": true
+        },
+        "exact_sha_required_when_hosted": {
+          "const": true
+        },
+        "landing_authorization_required": {
+          "const": true
+        },
+        "branch_cleanup_authorization_required": {
+          "const": true
+        }
+      }
+    },
+    "blocker_reporting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "allowed_blocker_classes", "allowed_next_routes"],
+      "properties": {
+        "required": {
+          "const": true
+        },
+        "allowed_blocker_classes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "allowed_next_routes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "forbidden_authority_requests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archive_relocation",
+        "proposal_status_mutation",
+        "generated_direct_publication",
+        "git_mutation",
+        "residue_deletion",
+        "host_state_authority",
+        "chat_or_model_memory_authority"
+      ],
+      "properties": {
+        "archive_relocation": {
+          "const": false
+        },
+        "proposal_status_mutation": {
+          "const": false
+        },
+        "generated_direct_publication": {
+          "const": false
+        },
+        "git_mutation": {
+          "const": false
+        },
+        "residue_deletion": {
+          "const": false
+        },
+        "host_state_authority": {
+          "const": false
+        },
+        "chat_or_model_memory_authority": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.($|/)" },
+          { "pattern": "(^|/)\\.\\.($|/)" }
+        ]
+      }
+    },
+    "evidenceExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "required", "owner"],
+      "properties": {
+        "evidence_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path_pattern": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "validatorFamilyMap": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target_family", "validators"],
+        "properties": {
+          "target_family": {
+            "$ref": "#/$defs/identifier"
+          },
+          "validators": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

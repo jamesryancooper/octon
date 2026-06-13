@@ -21,6 +21,8 @@ The pack owns reusable routes for:
   prompts,
 - running packet verification and correction convergence loops,
 - closing out individual proposal packets,
+- terminalizing implemented proposal packets as archive-ready or blocked
+  without archiving them,
 - creating, explaining, reviewing, revising, and operating proposal programs
   across canonical child packets,
 - generating program implementation, verification, correction, and closeout
@@ -99,6 +101,10 @@ that marker exists.
 Packet-local receipts such as `support/implementation-run.md` and
 `support/proposal-closeout.md` advance later lifecycle handoffs without adding
 new `proposal.yml` statuses.
+`proposal-packet-terminal-closeout` adds a durable terminal-readiness receipt
+between proposal closeout and `archive-proposal`. It can report
+`archive-ready` or `blocked`, but archive relocation remains a separate
+explicitly authorized workflow route.
 
 `/octon-proposal-run-program-lifecycle` wraps
 `octon lifecycle run --lifecycle proposal-program --target

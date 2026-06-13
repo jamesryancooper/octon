@@ -1,0 +1,18 @@
+receipt_type: implementation_profile_selection
+proposal_id: repo-hygiene-cleanup-authorization-receipts
+run_id: "20260613T003439Z"
+release_state: pre-1.0
+change_profile: atomic
+transitional_exception_note: not authorized
+evidence_root: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/
+authority_boundaries:
+  proposal_status_mutation_performed: false
+  archive_move_performed: false
+  generated_effective_publication_performed: false
+  destructive_cleanup_performed: false
+  pull_request_created: false
+terminal_closeout:
+  implementation_complete: true
+  terminal_archive_ready: false
+  blocker: durable-terminal-closeout-workflow-and-receipt-contract-missing
+  archive_move_owner: archive-proposal
