@@ -1,0 +1,28 @@
+{
+  "schema_version": "authorized-effect-token-consumption-v1",
+  "token_id": "effect-token-state-control-mutation-753cf0deea5d",
+  "token_digest": "sha256:ddedfa2a5623db7be4365dbf35f17fae0a6e40d6e532ce61697e19aa4c2c8bc6",
+  "source_token_digest": "sha256:ddedfa2a5623db7be4365dbf35f17fae0a6e40d6e532ce61697e19aa4c2c8bc6",
+  "token_type": "AuthorizedEffect<StateControlMutation>",
+  "effect_kind": "state-control-mutation",
+  "material_effect_class": "state-control-mutation",
+  "consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::write_execution_start:control",
+  "target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-proposal-packet-terminal-closeout/workflow-execution",
+  "verifier_version": "authorized-effect-verifier-v1",
+  "verification_result": "verified",
+  "denial_reason": null,
+  "rejection_reason_codes": [],
+  "approval_trace_refs": [],
+  "journal_event_refs": [
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-753cf0deea5d",
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-753cf0deea5d"
+  ],
+  "evidence_refs": [
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/effect-tokens/effect-token-state-control-mutation-753cf0deea5d.json"
+  ],
+  "recorded_at": "2026-06-13T19:05:59.899035Z",
+  "run_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene",
+  "request_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene",
+  "grant_id": "grant-proposal-packet-terminal-closeout-1781377548000-repo-hygiene",
+  "token_record_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/effect-tokens/effect-token-state-control-mutation-753cf0deea5d.json"
+}

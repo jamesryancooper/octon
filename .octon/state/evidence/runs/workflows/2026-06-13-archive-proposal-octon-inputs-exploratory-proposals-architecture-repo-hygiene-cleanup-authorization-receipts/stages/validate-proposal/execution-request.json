@@ -1,0 +1,111 @@
+{
+  "api_egress_ref": null,
+  "browser_ui_execution_ref": null,
+  "context_evidence_binding": {
+    "builder_spec_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+    "builder_version": "context-pack-builder-v1",
+    "context_invalidation_ref": null,
+    "context_pack_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/context/context-pack-receipt.json",
+    "context_pack_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/context/context-pack.json",
+    "context_pack_sha256": "sha256:9d33ceb2c367c56c43bf31985f67235e1a1628d1277753fad7b9a76f1a42b436",
+    "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+    "context_rebuild_ref": null,
+    "context_validity_state": "valid",
+    "failed_required_source_count": 0,
+    "freshness_status": "valid",
+    "model_visible_context_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/context/model-visible-context.json",
+    "model_visible_context_sha256": "sha256:7a385154f118ec2907ace1704b1d5e760fe40878b3eb82a50f8573167ff64d0a",
+    "receipt_sha256": "sha256:817c5df0c22af8deeafccd3e4a1844e3ea800fab54ce06f43e90281cd62feee1",
+    "source_count": 12,
+    "subordinate_to_authorize_execution": true,
+    "valid_until": "9999-12-31T23:59:59Z",
+    "verification_status": "valid"
+  },
+  "context_evidence_required": false,
+  "context_pack_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/context/context-pack.json",
+  "request": {
+    "action_type": "execute_stage",
+    "api_egress_ref": null,
+    "autonomy_context": null,
+    "boundary_sensitive": false,
+    "browser_ui_execution_ref": null,
+    "caller_path": "workflow-stage",
+    "environment_hint": null,
+    "execution_role_ref": {
+      "id": "octon-kernel",
+      "kind": "system"
+    },
+    "intent_ref": {
+      "id": "workspace-charter://octon/octon-governed-harness",
+      "version": "1.3.0"
+    },
+    "locality_scope": null,
+    "metadata": {
+      "authorization_boundary_coverage_schema": ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json",
+      "authorization_boundary_ref": ".octon/framework/engine/runtime/spec/execution-authorization-v1.md",
+      "material_side_effect_inventory_schema": ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json",
+      "stage_id": "validate-proposal",
+      "support_host_adapter": "repo-shell",
+      "support_language_resource_tier": "reference-owned",
+      "support_locale_tier": "english-primary",
+      "support_model_adapter": "repo-local-governed",
+      "support_model_tier": "repo-local-governed",
+      "support_side_effect_class": "repo-mutation",
+      "support_tier": "repo-consequential",
+      "workflow_id": "archive-proposal"
+    },
+    "parent_run_ref": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts",
+    "policy_mode_requested": null,
+    "request_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+    "requested_capabilities": [
+      "workflow.stage.execute",
+      "evidence.write"
+    ],
+    "requires_context_evidence": false,
+    "review_requirements": {
+      "human_approval": false,
+      "quorum": false,
+      "rollback_metadata": false
+    },
+    "risk_materiality_ref": null,
+    "risk_tier": "low",
+    "rollback_plan_ref": null,
+    "scope_constraints": {
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null,
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/standard-validator.log",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/stages/validate-proposal"
+      ]
+    },
+    "side_effect_flags": {
+      "branch_mutation": false,
+      "model_invoke": false,
+      "network": false,
+      "publication": false,
+      "shell": true,
+      "state_mutation": false,
+      "write_evidence": true,
+      "write_repo": false
+    },
+    "support_target_tuple_ref": null,
+    "target_id": "archive-proposal::validate-proposal",
+    "workflow_mode": "role-mediated"
+  },
+  "resolved_autonomy_context": null,
+  "resolved_execution_role_ref": {
+    "id": "octon-kernel",
+    "kind": "system"
+  },
+  "resolved_intent_ref": {
+    "id": "workspace-charter://octon/octon-governed-harness",
+    "version": "1.3.0"
+  },
+  "risk_materiality_ref": ".octon/framework/constitution/contracts/authority/risk-materiality-v1.schema.json",
+  "rollback_plan_ref": ".octon/framework/constitution/contracts/runtime/rollback-plan-v1.schema.json",
+  "schema_version": "execution-request-v3",
+  "support_target_tuple_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-manifest.yml#support_target"
+}

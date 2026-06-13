@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: validate-proposal--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/run-contract.yml
+next_action: null
+updated_at: 2026-06-13T19:26:26.999149Z

@@ -1,0 +1,28 @@
+{
+  "schema_version": "authorized-effect-token-consumption-v1",
+  "token_id": "effect-token-evidence-mutation-e5f26be633fe",
+  "token_digest": "sha256:85f8f0e352e268920c35022280f6b64f7d96958954fa379c053efbcbbaa46a9f",
+  "source_token_digest": "sha256:85f8f0e352e268920c35022280f6b64f7d96958954fa379c053efbcbbaa46a9f",
+  "token_type": "AuthorizedEffect<EvidenceMutation>",
+  "effect_kind": "evidence-mutation",
+  "material_effect_class": "evidence-mutation",
+  "consumer_api_ref": "authority-engine::mint",
+  "target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-proposal-packet-terminal-closeout/workflow-execution",
+  "verifier_version": "authorized-effect-verifier-v1",
+  "verification_result": "minted",
+  "denial_reason": null,
+  "rejection_reason_codes": [],
+  "approval_trace_refs": [],
+  "journal_event_refs": [
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/events.ndjson#evt-effect-token-requested-effect-token-evidence-mutation-e5f26be633fe",
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-e5f26be633fe"
+  ],
+  "evidence_refs": [
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/effect-tokens/effect-token-evidence-mutation-e5f26be633fe.json"
+  ],
+  "recorded_at": "2026-06-13T19:05:59.562129Z",
+  "run_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene",
+  "request_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene",
+  "grant_id": "grant-proposal-packet-terminal-closeout-1781377548000-repo-hygiene",
+  "token_record_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/effect-tokens/effect-token-evidence-mutation-e5f26be633fe.json"
+}

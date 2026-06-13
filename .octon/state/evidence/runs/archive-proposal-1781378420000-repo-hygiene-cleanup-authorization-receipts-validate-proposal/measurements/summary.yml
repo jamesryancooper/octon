@@ -1,0 +1,34 @@
+metrics:
+- label: Retained lifecycle receipts
+  metric_id: receipt-count
+  unit: count
+  value: 1
+- label: Retained checkpoints
+  metric_id: checkpoint-count
+  unit: count
+  value: 3
+- label: Run-local proof-plane reports
+  metric_id: proof-plane-count
+  unit: count
+  value: 7
+- label: Detailed measurement records
+  metric_id: measurement-record-count
+  unit: count
+  value: 1
+- label: Material interventions
+  metric_id: intervention-count
+  unit: count
+  value: 0
+- label: Retry records
+  metric_id: retry-record-count
+  unit: count
+  value: 1
+- label: Contamination records
+  metric_id: contamination-record-count
+  unit: count
+  value: 1
+recorded_at: 2026-06-13T19:26:26.219009Z
+schema_version: measurement-summary-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml
+summary: Run emitted canonical receipt, checkpoint, proof-plane, disclosure, retry, contamination, and detailed measurement families.

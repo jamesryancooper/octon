@@ -1,0 +1,14 @@
+[
+  ".octon/framework/constitution/CHARTER.md sha256:9e1aecb763eee838d630c1a1142ee9468f0c2c2d410c06a4ffa73914c3330f04",
+  ".octon/framework/constitution/obligations/fail-closed.yml sha256:017ca8b00c20eda1e8e00ef68a42cbbc356314cf66cb9fef031e6386d31ffda2",
+  ".octon/framework/engine/runtime/adapters/host/repo-shell.yml sha256:ffdb8e366aeafdaa8a1fc9544c17058bbbae371672dcca79bfc05974b952d080",
+  ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml sha256:7d7e46dd8a8fbb4e055f5588fb662cf58b8a3c1b2137948e150d4af49cb805fd",
+  ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md sha256:a13181cfdb508dd35e1d5627503067c810f6f945eecd31ba372a66d2c755cc5c",
+  ".octon/framework/engine/runtime/spec/execution-authorization-v1.md sha256:78598123607480dbf4719b86c2bd192af48925b1af53ae8ecc535a1993258a1a",
+  ".octon/instance/charter/workspace.md sha256:5d6bdfd41614f4bf9cd877f83c45893125c5a4f79ad0695d5a81ae191af0f774",
+  ".octon/instance/charter/workspace.yml sha256:8a74550311cd288d51191ee4d77a44f13212279da16b3d5f01e24e4ca5a40116",
+  ".octon/instance/governance/policies/context-packing.yml sha256:be178d1e81a6244320f67c9334a03e3de68521923c12e6570ecf1b98dbebdd2f",
+  ".octon/instance/governance/support-targets.yml sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+  ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/run-contract.yml sha256:020228e2b25011e7bb5d96dc3818ef97220569c810c005989aff1d1b426efa37",
+  ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/run-manifest.yml sha256:81700729b9b847c13ddfff04561b469a8fa8f331f132e871e5ec4fb59e56614e"
+]

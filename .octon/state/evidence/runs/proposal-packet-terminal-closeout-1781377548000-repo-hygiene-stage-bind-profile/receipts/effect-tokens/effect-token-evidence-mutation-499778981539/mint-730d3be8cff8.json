@@ -1,0 +1,28 @@
+{
+  "schema_version": "authorized-effect-token-consumption-v1",
+  "token_id": "effect-token-evidence-mutation-499778981539",
+  "token_digest": "sha256:22f9ca14c81d3f0ba096fe6c1839ca15191b43f95a583ec7172861fb46b5cc39",
+  "source_token_digest": "sha256:22f9ca14c81d3f0ba096fe6c1839ca15191b43f95a583ec7172861fb46b5cc39",
+  "token_type": "AuthorizedEffect<EvidenceMutation>",
+  "effect_kind": "evidence-mutation",
+  "material_effect_class": "evidence-mutation",
+  "consumer_api_ref": "authority-engine::mint",
+  "target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-proposal-packet-terminal-closeout/stages/bind-profile",
+  "verifier_version": "authorized-effect-verifier-v1",
+  "verification_result": "minted",
+  "denial_reason": null,
+  "rejection_reason_codes": [],
+  "approval_trace_refs": [],
+  "journal_event_refs": [
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson#evt-effect-token-requested-effect-token-evidence-mutation-499778981539",
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-499778981539"
+  ],
+  "evidence_refs": [
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/effect-tokens/effect-token-evidence-mutation-499778981539.json"
+  ],
+  "recorded_at": "2026-06-13T19:06:00.859089Z",
+  "run_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "request_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "grant_id": "grant-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "token_record_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/effect-tokens/effect-token-evidence-mutation-499778981539.json"
+}

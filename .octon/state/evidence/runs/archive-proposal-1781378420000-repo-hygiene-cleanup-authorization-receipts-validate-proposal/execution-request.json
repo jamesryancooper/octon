@@ -1,0 +1,165 @@
+{
+  "actor": {
+    "id": "octon-kernel",
+    "type": "system"
+  },
+  "approval_grant_refs": [],
+  "approval_request_ref": null,
+  "autonomy_budget_state": null,
+  "boundaries": "workflow-stage",
+  "boundary_id": "workflow-stage",
+  "boundary_set_version": "v1",
+  "breaker_state": null,
+  "budget_reason_codes": [],
+  "budget_rule_id": null,
+  "capability_classification": "role-mediated",
+  "context_acquisition": {
+    "commands": 1,
+    "duration_ms": 0,
+    "file_reads": 0,
+    "search_queries": 0,
+    "subagent_spawns": 0
+  },
+  "context_overhead_ratio": 0,
+  "cost_evidence_path": null,
+  "evidence": [
+    {
+      "ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/execution-request.json",
+      "type": "diff"
+    }
+  ],
+  "exception_refs": [],
+  "execution_posture": null,
+  "instruction_layers": [
+    {
+      "bytes": 0,
+      "layer_id": "provider",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": "upstream",
+      "visibility": "partial"
+    },
+    {
+      "bytes": 0,
+      "layer_id": "system",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": "octon-system",
+      "visibility": "partial"
+    },
+    {
+      "bytes": 508,
+      "layer_id": "developer",
+      "sha256": "e3cfa0970e341b4b0b6720b126a7f78dd71da432731760147987f9486bc9fe7c",
+      "source": "AGENTS.md",
+      "visibility": "full"
+    },
+    {
+      "bytes": 5968,
+      "layer_id": "user",
+      "sha256": "ebbda93b05e471c3e57213b7eed10069e3bbf9bc9d6b6bed25d12a4b9433884d",
+      "source": "execution-request",
+      "visibility": "full"
+    }
+  ],
+  "intent": "execution authorization for archive-proposal::validate-proposal",
+  "intent_ref": {
+    "id": "workspace-charter://octon/octon-governed-harness",
+    "version": "1.3.0"
+  },
+  "mission_ref": null,
+  "network_egress": null,
+  "operation": {
+    "class": "execution.authorize",
+    "resources": [
+      "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/standard-validator.log",
+      "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/stages/validate-proposal"
+    ],
+    "target": {
+      "boundary_route": null,
+      "capability_classification": "role-mediated",
+      "material_side_effect": true,
+      "service": null,
+      "telemetry_profile": "full",
+      "workflow_mode": "role-mediated"
+    },
+    "targets": [
+      "archive-proposal::validate-proposal"
+    ]
+  },
+  "oversight_mode": null,
+  "ownership": {
+    "matched_asset_ref": null,
+    "owner_refs": [
+      "operator://octon-maintainers"
+    ],
+    "source": "ownership_registry.default",
+    "status": "resolved"
+  },
+  "phase": "stage",
+  "profile": "refactor",
+  "reversibility": {
+    "compensation_handle": null,
+    "primitive": "git.revert_commit",
+    "recovery_window": "P14D",
+    "reversible": true,
+    "rollback_handle": "rollback-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal"
+  },
+  "reversibility_class": null,
+  "revocation_refs": [],
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "slice_ref": null,
+  "support_tier": {
+    "adapter_conformance_criteria": [
+      "HOST-001",
+      "HOST-002",
+      "HOST-004",
+      "MODEL-001",
+      "MODEL-002",
+      "MODEL-003",
+      "MODEL-004"
+    ],
+    "allowed_capability_packs": [
+      "repo",
+      "git",
+      "shell",
+      "telemetry"
+    ],
+    "declaration_ref": ".octon/instance/governance/support-targets.yml",
+    "host_adapter_id": "repo-shell",
+    "host_adapter_status": "supported",
+    "language_resource_tier_id": "reference-owned",
+    "locale_tier_id": "english-primary",
+    "model_adapter_id": "repo-local-governed",
+    "model_adapter_status": "supported",
+    "model_tier_id": "repo-local-governed",
+    "requested_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ],
+    "required_evidence": [
+      "approval-request",
+      "approval-grant",
+      "decision-artifact",
+      "exception-lease",
+      "revocation",
+      "quorum-policy",
+      "authority-decision-artifact",
+      "instruction-layer-manifest",
+      "runtime-event-ledger",
+      "context-pack-receipt",
+      "control-evidence-root",
+      "authorized-effect-token-proof",
+      "support-target-declaration",
+      "proof-plane-coverage",
+      "run-evidence-root",
+      "contamination-reset-proof"
+    ],
+    "requires_mission": false,
+    "route": "allow",
+    "support_status": "supported",
+    "support_tier": "repo-consequential",
+    "workload_tier_id": "repo-consequential",
+    "workload_tier_label": "repo-consequential"
+  },
+  "workflow_mode": "role-mediated"
+}

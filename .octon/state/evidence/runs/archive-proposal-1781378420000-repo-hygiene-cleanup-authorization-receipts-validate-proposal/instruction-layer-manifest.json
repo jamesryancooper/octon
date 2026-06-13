@@ -1,0 +1,39 @@
+{
+  "adapter_projection_refs": [],
+  "authority_refs": [
+    ".octon/framework/constitution/CHARTER.md",
+    ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  ],
+  "context_compaction_refs": [],
+  "context_pack_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/context/context-pack-receipt.json",
+  "context_pack_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/context/context-pack.json",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "context_rebuild_refs": [],
+  "generated_at": "2026-06-13T19:26:24.837669Z",
+  "generated_by": "octon-authority-engine",
+  "mission_refs": [],
+  "model_visible_context_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/context/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:7a385154f118ec2907ace1704b1d5e760fe40878b3eb82a50f8573167ff64d0a",
+  "precedence_stack": [
+    "constitutional-kernel",
+    "workspace-charter",
+    "run-contract",
+    "authorization-policy",
+    "instruction-layer"
+  ],
+  "run_contract_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "run_mode": "run-only",
+  "schema_version": "instruction-layer-manifest-v2",
+  "source_digests": [
+    "upstream 0000000000000000000000000000000000000000000000000000000000000000",
+    "octon-system 0000000000000000000000000000000000000000000000000000000000000000",
+    "AGENTS.md e3cfa0970e341b4b0b6720b126a7f78dd71da432731760147987f9486bc9fe7c",
+    "execution-request ebbda93b05e471c3e57213b7eed10069e3bbf9bc9d6b6bed25d12a4b9433884d"
+  ],
+  "support_target_tuple_id": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+  "workspace_charter_refs": [
+    ".octon/instance/charter/workspace.md",
+    ".octon/instance/charter/workspace.yml"
+  ]
+}

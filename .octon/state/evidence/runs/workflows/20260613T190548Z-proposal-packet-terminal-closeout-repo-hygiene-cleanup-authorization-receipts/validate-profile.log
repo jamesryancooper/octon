@@ -1,0 +1,41 @@
+== Proposal Packet Terminal Closeout Profile Validation ==
+[OK] profile schema exists
+[OK] profile schema JSON parses
+[OK] schema token present: "proposal-packet-terminal-closeout-profile-v1"
+[OK] schema token present: "target_outcome"
+[OK] schema token present: "archive-ready"
+[OK] schema token present: "blocked"
+[OK] schema token present: "forbidden_authority_requests"
+[OK] schema token present: "validator_family_map"
+[OK] profile file exists: .octon/state/evidence/runs/workflows/20260613T190548Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/profile.yml
+[OK] profile YAML parses
+[OK] profile schema_version correct
+[OK] profile_id declared
+[OK] created_at declared
+[OK] packet.proposal_id declared
+[OK] packet.path declared
+[OK] packet expected_status implemented
+[OK] target_outcome allowed
+[OK] expected_retained_evidence non-empty
+[OK] required_validators_by_target_family non-empty
+[OK] publication_freshness_policy.validator_family_map non-empty
+[OK] canonical publisher only true
+[OK] direct generated edits forbidden true
+[OK] repo hygiene delegation only true
+[OK] foreign worktree residue blocks archive-ready true
+[OK] cleanup authorization required true
+[OK] Git/GitHub delegation true
+[OK] exact SHA required when hosted true
+[OK] landing authorization required true
+[OK] branch cleanup authorization required true
+[OK] blocker reporting required true
+[OK] allowed blocker classes non-empty
+[OK] allowed next routes non-empty
+[OK] forbidden_authority_requests.archive_relocation false
+[OK] forbidden_authority_requests.proposal_status_mutation false
+[OK] forbidden_authority_requests.git_mutation false
+[OK] forbidden_authority_requests.residue_deletion false
+[OK] forbidden_authority_requests.generated_direct_publication false
+[OK] forbidden_authority_requests.host_state_authority false
+[OK] forbidden_authority_requests.chat_or_model_memory_authority false
+Validation summary: errors=0

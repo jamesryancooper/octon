@@ -1,0 +1,11 @@
+details: No hidden or material human intervention occurred during the retained exemplar run.
+disclosed: true
+evidence_refs:
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/interventions/log.yml
+execution_role_ref: null
+kind: no-material-intervention
+record_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal-no-human-intervention
+recorded_at: 2026-06-13T19:26:26.219009Z
+schema_version: intervention-record-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml

@@ -1,0 +1,27 @@
+schema_version: retained-run-evidence-v1
+run_id: proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile
+evidence_refs:
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml
+  authority_grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml
+  authorization_phase_grant: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/receipts/authorization-phases/grant.json
+  authorization_phase_preflight: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/receipts/authorization-phases/preflight.json
+  authorization_phase_request_materialization: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/receipts/authorization-phases/request-materialization.json
+  contamination_record: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/contamination/current.yml
+  context_pack: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/context/context-pack.json
+  context_pack_receipt: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/context/context-pack-receipt.json
+  control_checkpoint: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/checkpoints/bound.yml
+  evidence_checkpoint: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/checkpoints/bound.yml
+  execution_request: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/receipts/execution-request.json
+  grant_bundle: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/receipts/grant-bundle.json
+  instruction_manifest: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/instruction-layer-manifest.json
+  policy_decision: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/receipts/policy-decision.json
+  policy_digest: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/receipts/policy-digest.latest.md
+  policy_receipt: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/receipts/policy-receipt.latest.json
+  replay_pointers: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/replay-pointers.yml
+  retry_record: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/retry-records/baseline.yml
+  rollback_posture: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/rollback-posture.yml
+  run_contract: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-manifest.yml
+  runtime_state: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/runtime-state.yml
+  trace_pointers: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/trace-pointers.yml
+updated_at: 2026-06-13T19:06:01.839407Z

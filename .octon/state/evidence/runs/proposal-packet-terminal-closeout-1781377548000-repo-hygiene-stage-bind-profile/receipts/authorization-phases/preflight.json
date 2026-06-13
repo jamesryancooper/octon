@@ -1,0 +1,25 @@
+{
+  "schema_version": "authorization-phase-result-v1",
+  "request_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "run_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "phase_id": "preflight",
+  "phase_status": "completed",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "PREFLIGHT_READY"
+  ],
+  "artifact_refs": {
+    "replay_pointers": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/replay-pointers.yml",
+    "retained_evidence": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/retained-run-evidence.yml",
+    "run_contract": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-contract.yml",
+    "runtime_state": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/runtime-state.yml"
+  },
+  "details": {
+    "effective_policy_mode": "hard-enforce",
+    "environment_class": "development",
+    "executor_profile": "read_only_analysis",
+    "ownership_status": "resolved",
+    "support_route": "allow"
+  },
+  "generated_at": "2026-06-13T19:06:00.492102Z"
+}

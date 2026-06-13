@@ -1,0 +1,28 @@
+{
+  "schema_version": "authorized-effect-token-consumption-v1",
+  "token_id": "effect-token-state-control-mutation-36c4b9be088f",
+  "token_digest": "sha256:01a6bc3bb297f572c91c67a5154a010bc3c4569eb587f3a4873cd7b3e23158cf",
+  "source_token_digest": "sha256:01a6bc3bb297f572c91c67a5154a010bc3c4569eb587f3a4873cd7b3e23158cf",
+  "token_type": "AuthorizedEffect<StateControlMutation>",
+  "effect_kind": "state-control-mutation",
+  "material_effect_class": "state-control-mutation",
+  "consumer_api_ref": "authority-engine::mint",
+  "target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/workflow-execution",
+  "verifier_version": "authorized-effect-verifier-v1",
+  "verification_result": "minted",
+  "denial_reason": null,
+  "rejection_reason_codes": [],
+  "approval_trace_refs": [],
+  "journal_event_refs": [
+    ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/events.ndjson#evt-effect-token-requested-effect-token-state-control-mutation-36c4b9be088f",
+    ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-36c4b9be088f"
+  ],
+  "evidence_refs": [
+    ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/effect-tokens/effect-token-state-control-mutation-36c4b9be088f.json"
+  ],
+  "recorded_at": "2026-06-13T19:26:23.795709Z",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts",
+  "request_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts",
+  "grant_id": "grant-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts",
+  "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/effect-tokens/effect-token-state-control-mutation-36c4b9be088f.json"
+}

@@ -1,0 +1,39 @@
+{
+  "adapter_projection_refs": [],
+  "authority_refs": [
+    ".octon/framework/constitution/CHARTER.md",
+    ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  ],
+  "context_compaction_refs": [],
+  "context_pack_receipt_ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/context/context-pack-receipt.json",
+  "context_pack_ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/context/context-pack.json",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "context_rebuild_refs": [],
+  "generated_at": "2026-06-13T19:06:00.584309Z",
+  "generated_by": "octon-authority-engine",
+  "mission_refs": [],
+  "model_visible_context_ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/context/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:f2ed2cba8037253eaa3ef0b41b8b414ac1c432ee00952681fcc37df04f2e12e0",
+  "precedence_stack": [
+    "constitutional-kernel",
+    "workspace-charter",
+    "run-contract",
+    "authorization-policy",
+    "instruction-layer"
+  ],
+  "run_contract_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-contract.yml",
+  "run_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "run_mode": "run-only",
+  "schema_version": "instruction-layer-manifest-v2",
+  "source_digests": [
+    "upstream 0000000000000000000000000000000000000000000000000000000000000000",
+    "octon-system 0000000000000000000000000000000000000000000000000000000000000000",
+    "AGENTS.md e3cfa0970e341b4b0b6720b126a7f78dd71da432731760147987f9486bc9fe7c",
+    "execution-request bf47bbbe472034b79289e9d900603e142420685186e518270ce2081cdaf55d01"
+  ],
+  "support_target_tuple_id": "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell",
+  "workspace_charter_refs": [
+    ".octon/instance/charter/workspace.md",
+    ".octon/instance/charter/workspace.yml"
+  ]
+}

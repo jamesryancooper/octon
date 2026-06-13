@@ -1,0 +1,12 @@
+From github.com:jamesryancooper/octon
+   640a37eea..89c1ce51b  release-please--branches--main--components--octon -> origin/release-please--branches--main--components--octon
+[OK] origin/main contains landed ref
+[OK] main contains landed ref
+[OK] local source branch is contained in origin/main
+[OK] remote source branch is contained in origin/main
+[OK] Branch cleanup authorization receipt written: .octon/state/evidence/runs/skills/closeout-change/20260613T180325Z-repo-hygiene-closeout/branch-cleanup-authorization.json
+[OK] Source branch: chore/repo-hygiene-cleanup-receipts-closeout
+[OK] Landed ref: 7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68
+[OK] Local main and origin/main synchronized: 7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68
+[OK] No open PR exists for chore/repo-hygiene-cleanup-receipts-closeout.
+[OK] Cleanup authorization preserves platform, sandbox, provider, and host safety controls.

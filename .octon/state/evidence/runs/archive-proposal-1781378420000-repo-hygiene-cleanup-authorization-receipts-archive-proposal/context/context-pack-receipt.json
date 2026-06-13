@@ -1,0 +1,210 @@
+{
+  "authority_boundary": {
+    "authorize_execution_ref": ".octon/framework/engine/runtime/spec/execution-authorization-v1.md#authorize_execution",
+    "subordinate_to_authorize_execution": true
+  },
+  "authorization_binding_refs": [
+    ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/execution-request.json",
+    ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/execution-receipt.json"
+  ],
+  "builder_notes": [
+    "Context Pack Builder remains subordinate to authorize_execution.",
+    "Generated and raw input sources are excluded from authority sources."
+  ],
+  "builder_spec_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+  "builder_version": "context-pack-builder-v1",
+  "built_at": "2026-06-13T19:26:27.243219Z",
+  "compaction_refs": [],
+  "context_pack_id": "context-pack-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal",
+  "context_pack_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/context-pack.json",
+  "context_pack_sha256": "sha256:53a70bd8fdc5038227ac027aa882a16e613db35cbaeea131496cbbe09bff5230",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "failure_policy": {
+    "invalid_required_context_route": "DENY",
+    "missing_required_context_route": "DENY",
+    "reason_codes": [
+      "CONTEXT_EVIDENCE_REQUIRED",
+      "FCR-007",
+      "FCR-013"
+    ],
+    "stale_required_context_route": "DENY",
+    "unverifiable_required_context_route": "DENY"
+  },
+  "freshness": {
+    "freshness_status": "valid",
+    "generated_at": "2026-06-13T19:26:27.243219Z",
+    "valid_until": "9999-12-31T23:59:59Z"
+  },
+  "invalidation_events_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/invalidation-events.json",
+  "invalidation_state": "not_invalidated",
+  "model_visible_context_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:255900bbe32501a977eadf570e1ab3c6dd887243f4ebda393f55da0ee88ef1b8",
+  "omissions": [],
+  "omissions_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/omissions.json",
+  "rebuild_refs": [],
+  "receipt_id": "context-pack-receipt-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal",
+  "redactions_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/redactions.json",
+  "replay_reconstruction_refs": [
+    ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/model-visible-context.json",
+    ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/model-visible-context.sha256"
+  ],
+  "request_binding": {
+    "action_type": "execute_stage",
+    "boundary_sensitive": false,
+    "consequential": true,
+    "request_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal",
+    "requires_context_evidence": true,
+    "risk_tier": "medium",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "target_id": "archive-proposal::archive-proposal",
+    "workflow_mode": "role-mediated"
+  },
+  "request_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal",
+  "schema_version": "context-pack-receipt-v1",
+  "source_manifest_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/source-manifest.json",
+  "source_summary": {
+    "authority_source_count": 12,
+    "derived_source_count": 0,
+    "evidence_source_count": 0,
+    "failed_required_source_count": 0,
+    "non_authoritative_source_count": 0,
+    "required_source_count": 12
+  },
+  "sources": [
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/framework/constitution/CHARTER.md",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:9e1aecb763eee838d630c1a1142ee9468f0c2c2d410c06a4ffa73914c3330f04",
+      "source_kind": "constitutional-kernel",
+      "source_ref": ".octon/framework/constitution/CHARTER.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/framework/constitution/obligations/fail-closed.yml",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:017ca8b00c20eda1e8e00ef68a42cbbc356314cf66cb9fef031e6386d31ffda2",
+      "source_kind": "constitutional-kernel",
+      "source_ref": ".octon/framework/constitution/obligations/fail-closed.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/framework/engine/runtime/adapters/host/repo-shell.yml",
+      "freshness_status": "valid",
+      "required": false,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:ffdb8e366aeafdaa8a1fc9544c17058bbbae371672dcca79bfc05974b952d080",
+      "source_kind": "capability-or-adapter",
+      "source_ref": ".octon/framework/engine/runtime/adapters/host/repo-shell.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml",
+      "freshness_status": "valid",
+      "required": false,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:7d7e46dd8a8fbb4e055f5588fb662cf58b8a3c1b2137948e150d4af49cb805fd",
+      "source_kind": "capability-or-adapter",
+      "source_ref": ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:a13181cfdb508dd35e1d5627503067c810f6f945eecd31ba372a66d2c755cc5c",
+      "source_kind": "governance-declaration",
+      "source_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/framework/engine/runtime/spec/execution-authorization-v1.md",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:78598123607480dbf4719b86c2bd192af48925b1af53ae8ecc535a1993258a1a",
+      "source_kind": "run-authority",
+      "source_ref": ".octon/framework/engine/runtime/spec/execution-authorization-v1.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/instance/charter/workspace.md",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:5d6bdfd41614f4bf9cd877f83c45893125c5a4f79ad0695d5a81ae191af0f774",
+      "source_kind": "governance-declaration",
+      "source_ref": ".octon/instance/charter/workspace.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/instance/charter/workspace.yml",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:8a74550311cd288d51191ee4d77a44f13212279da16b3d5f01e24e4ca5a40116",
+      "source_kind": "governance-declaration",
+      "source_ref": ".octon/instance/charter/workspace.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:be178d1e81a6244320f67c9334a03e3de68521923c12e6570ecf1b98dbebdd2f",
+      "source_kind": "governance-declaration",
+      "source_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/instance/governance/support-targets.yml",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "source_kind": "support-target",
+      "source_ref": ".octon/instance/governance/support-targets.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/run-contract.yml",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:c905fd5ce3d0ad2f1482ccad35083e74474d958c4e61a9888ec147a88ee7c0ae",
+      "source_kind": "run-authority",
+      "source_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/run-contract.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/run-manifest.yml",
+      "freshness_status": "valid",
+      "required": true,
+      "resolved_at": "2026-06-13T19:26:27.243219Z",
+      "sha256": "sha256:e2242fcda757c4d2e557aeaaa033450f791d50cdb21ec1ef8313144c7f63bb3c",
+      "source_kind": "run-authority",
+      "source_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/run-manifest.yml",
+      "verification_status": "valid"
+    }
+  ],
+  "validity_state": "valid",
+  "verification_status": "valid"
+}

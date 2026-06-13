@@ -1,0 +1,14 @@
+evidence_refs:
+- .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-manifest.yml
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/evidence-classification.yml
+label: Canonical lifecycle artifacts retained
+method: Counted canonical lifecycle, replay, disclosure, and proof artifacts under the bound run roots.
+metric_id: lifecycle-artifact-count
+notes: Supports observability richness and closure gating for the retained exemplar run.
+record_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal-runtime-lifecycle
+recorded_at: 2026-06-13T19:26:26.219009Z
+schema_version: measurement-record-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml
+unit: count
+value: 14

@@ -1,0 +1,6 @@
+interventions: []
+recorded_at: 2026-06-13T19:26:26.219009Z
+schema_version: intervention-log-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml
+summary: No hidden or material human intervention was required; the canonical intervention record family explicitly retains that fact.

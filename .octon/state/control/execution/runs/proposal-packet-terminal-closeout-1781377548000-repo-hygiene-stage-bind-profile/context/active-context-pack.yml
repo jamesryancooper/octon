@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/context/context-pack.json
+context_pack_sha256: sha256:32e92299382e8041917eee45fdb386eaef30d9eb904cb234d4bee20b809afb5b
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/context/model-visible-context.json
+model_visible_context_sha256: sha256:f2ed2cba8037253eaa3ef0b41b8b414ac1c432ee00952681fcc37df04f2e12e0
+receipt_sha256: sha256:6f2c4fb05e8a179435f2329fd0433cea2c8b06ea4f030f53f41f792c74918ddc
+run_id: proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile
+schema_version: active-context-pack-v1
+updated_at: 2026-06-13T19:06:00.460708Z
+validity_state: valid

@@ -1,0 +1,28 @@
+{
+  "schema_version": "authorized-effect-token-consumption-v1",
+  "token_id": "effect-token-evidence-mutation-a3e99a6804ce",
+  "token_digest": "sha256:43e340e30d20fc05564fece704ad2f8fe25b7f212ab890be44523a61a8c90342",
+  "source_token_digest": "sha256:43e340e30d20fc05564fece704ad2f8fe25b7f212ab890be44523a61a8c90342",
+  "token_type": "AuthorizedEffect<EvidenceMutation>",
+  "effect_kind": "evidence-mutation",
+  "material_effect_class": "evidence-mutation",
+  "consumer_api_ref": ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs::run_pipeline:packet",
+  "target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-proposal-packet-terminal-closeout/stage-inputs/bind-profile-packet.md",
+  "verifier_version": "authorized-effect-verifier-v1",
+  "verification_result": "verified",
+  "denial_reason": null,
+  "rejection_reason_codes": [],
+  "approval_trace_refs": [],
+  "journal_event_refs": [
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-a3e99a6804ce",
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-a3e99a6804ce"
+  ],
+  "evidence_refs": [
+    ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/effect-tokens/effect-token-evidence-mutation-a3e99a6804ce.json"
+  ],
+  "recorded_at": "2026-06-13T19:06:00.944748Z",
+  "run_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "request_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "grant_id": "grant-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
+  "token_record_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/effect-tokens/effect-token-evidence-mutation-a3e99a6804ce.json"
+}

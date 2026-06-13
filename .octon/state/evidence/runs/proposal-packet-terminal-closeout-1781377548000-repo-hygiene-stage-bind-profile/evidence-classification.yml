@@ -1,0 +1,36 @@
+artifacts:
+- artifact_id: run-contract
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-contract.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: run-manifest
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-manifest.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: runtime-state
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/runtime-state.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: retry-record
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/retry-records/baseline.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: contamination-record
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/contamination/current.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: replay-pointers
+  artifact_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/replay-pointers.yml
+  evidence_class: B
+  storage_class: git-pointer
+- artifact_id: trace-pointers
+  artifact_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/trace-pointers.yml
+  evidence_class: B
+  storage_class: git-pointer
+- artifact_id: external-replay-index
+  artifact_ref: .octon/state/evidence/external-index/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml
+  evidence_class: B
+  storage_class: git-pointer
+run_id: proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile
+schema_version: run-evidence-classification-v1
+updated_at: 2026-06-13T19:06:00.442114Z

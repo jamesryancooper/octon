@@ -1,0 +1,20 @@
+== Generated Non-Authority Validation ==
+[OK] yq available
+[OK] generated non-authority receipt present
+[OK] generated non-authority receipt schema is current
+[OK] rule reference present: .octon/framework/constitution/obligations/fail-closed.yml
+[OK] .octon/framework/constitution/obligations/fail-closed.yml contains: A generated artifact is treated as source-of-truth or as a second control plane.
+[OK] rule reference present: .octon/framework/cognition/_meta/architecture/specification.md
+[OK] .octon/framework/cognition/_meta/architecture/specification.md contains: `generated/**` is rebuildable and never mints authority.
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/hierarchical-planning.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+Validation summary: errors=0

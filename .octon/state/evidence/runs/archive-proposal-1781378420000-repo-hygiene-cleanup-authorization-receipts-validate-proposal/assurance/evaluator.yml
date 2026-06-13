@@ -1,0 +1,16 @@
+disposition: approved
+evaluator_id: evaluator-router://phase4-review-routing
+evidence_refs:
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/assurance/functional.yml
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/assurance/behavioral.yml
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/assurance/maintainability.yml
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/assurance/recovery.yml
+- .octon/framework/assurance/evaluators/review-routing.yml
+- .octon/framework/assurance/evaluators/adapters/openai-review.yml
+- .octon/framework/assurance/evaluators/adapters/anthropic-review.yml
+known_limits:
+- Independent human review remains available for higher-risk support tiers.
+recorded_at: 2026-06-13T19:26:26.219009Z
+schema_version: evaluator-review-v1
+subject_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml
+summary: Independent evaluator approval is retained for the supported consequential envelope and current successful workflow evidence.

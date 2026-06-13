@@ -1,0 +1,22 @@
+{
+  "schema_version": "authorization-phase-result-v1",
+  "request_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "phase_id": "receipt-materialization",
+  "phase_status": "completed",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "artifact_refs": {
+    "execution_receipt": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/receipts/execution-receipt.json",
+    "outcome": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/receipts/outcome.json",
+    "side_effects": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/receipts/side-effects.json"
+  },
+  "details": {
+    "completed_at": "2026-06-13T19:26:26.219009Z",
+    "outcome_status": "succeeded",
+    "started_at": "2026-06-13T19:26:25.752688Z"
+  },
+  "generated_at": "2026-06-13T19:26:26.779808Z"
+}

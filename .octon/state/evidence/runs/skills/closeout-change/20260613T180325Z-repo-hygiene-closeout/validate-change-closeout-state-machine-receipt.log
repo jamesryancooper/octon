@@ -1,0 +1,132 @@
+== Change Closeout State Machine Validation ==
+[OK] found .octon/framework/product/contracts/change-closeout-state-machine.yml
+[OK] found .octon/framework/product/contracts/change-closeout-state-machine.md
+[OK] found .octon/framework/product/contracts/default-work-unit.yml
+[OK] found .octon/framework/product/contracts/default-work-unit.md
+[OK] found .octon/framework/product/contracts/change-receipt-v1.schema.json
+[OK] found .octon/framework/product/contracts/branch-landing-authorization-v1.schema.json
+[OK] found .octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml
+[OK] found .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/01-evaluate-context.md
+[OK] found .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/phases.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/validation.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/phases.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/references/phases.md
+[OK] found .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh
+[OK] state machine schema version is v1
+[OK] state machine is not an extension lifecycle contract
+[OK] state machine id is stable
+[OK] state machine does not declare lifecycle_id
+[OK] state machine does not declare generic phase_loop
+[OK] state machine binds to Change
+[OK] state machine preserves default-work-unit route authority
+[OK] state machine references closeout-worktree wrapper
+[OK] state machine references branch landing authorization schema
+[OK] state machine names Closeout Worktree wrapper
+[OK] Closeout Worktree does not replace default work unit
+[OK] Closeout Worktree decomposes into closeout-change
+[OK] state machine covers route direct-main
+[OK] state machine covers route branch-no-pr
+[OK] state machine covers route branch-pr
+[OK] state machine covers route stage-only-escalate
+[OK] state machine does not add branch-land-no-pr route
+[OK] state machine defines phase read-in-and-constraints
+[OK] state machine defines phase inventory
+[OK] state machine defines phase residue-classification
+[OK] state machine defines phase route-and-target-lifecycle-resolution
+[OK] state machine defines phase safe-cleanup
+[OK] state machine defines phase change-set-preparation
+[OK] state machine defines phase validation
+[OK] state machine defines phase hosted-no-pr-checks-and-landing
+[OK] state machine defines phase pr-backed-subflow
+[OK] state machine defines phase branch-cleanup
+[OK] state machine defines phase receipt-and-evidence
+[OK] state machine defines phase final-verification
+[OK] state machine defines phase final-report
+[OK] state machine cleanup allows origin/main containment evidence
+[OK] state machine denies detection-only cleanup
+[OK] state machine declares stateful_closeout object
+[OK] state machine marks inputs non-authoritative
+[OK] state machine docs deny detection-only deletion
+[OK] state machine docs require stateful receipt evidence
+[OK] state machine docs define default target resolution
+[OK] state machine defaults unspecified target to cleaned
+[OK] state machine models explicit narrower lifecycle targets
+[OK] state machine models explicit stage-only route request separately
+[OK] state machine docs describe Closeout Worktree wrapper
+[OK] state machine docs require singular unit closeout
+[OK] default work unit references state machine
+[OK] default work unit fails closed on missing state-machine evidence
+[OK] default work unit fails closed without governed landing authorization
+[OK] default work unit fails closed on stale or denied authorization
+[OK] default work unit requires governed no-PR landing authorization
+[OK] default work unit requires current authorization refs
+[OK] default work unit docs reference state machine
+[OK] default work unit durable history includes stateful evidence
+[OK] receipt schema requires state_machine_version
+[OK] receipt schema requires inventory ref
+[OK] receipt schema requires residue classification ref
+[OK] receipt schema requires phase exit refs
+[OK] receipt schema requires cleanup decision refs
+[OK] receipt schema requires cleanup safety class
+[OK] receipt schema requires final verification ref
+[OK] receipt schema models governed landing authorization
+[OK] receipt schema requires governed authorization for no-PR landing
+[OK] authorization schema has stable version
+[OK] authorization schema requires no-PR proof
+[OK] authorization schema preserves host controls
+[OK] receipt schema requires stateful_closeout for completed closeout
+[OK] receipt schema requires stateful_closeout for cleaned outcome
+[OK] closeout workflow references state machine
+[OK] evaluate stage requires stateful closeout evidence
+[OK] report stage blocks missing stateful evidence
+[OK] closeout-change follows state-machine loop
+[OK] closeout-change routes dirty worktrees to wrapper
+[OK] closeout-change phases deny deletion by detection
+[OK] closeout-change validation requires stateful evidence
+[OK] closeout-change requires governed landing authorization
+[OK] closeout-change validation requires landing authorization ref
+[OK] closeout-worktree is dirty-worktree wrapper
+[OK] closeout-worktree delegates selected candidate
+[OK] closeout-worktree documents report evidence schema
+[OK] closeout-worktree phases decompose into singular closeouts
+[OK] closeout-worktree validation requires closeout-change delegation
+[OK] closeout-worktree wrapper report validator checks candidate count
+[OK] closeout-pr has PR-backed human-facing name
+[OK] closeout-pr phases require stateful evidence
+[OK] git/worktree contract references state machine
+[OK] git/worktree contract references closeout-worktree wrapper
+[OK] git/worktree contract exposes closeout-worktree wrapper
+[OK] residue classifier is read-only
+[OK] residue detection is not deletion authority
+[OK] residue classifier emits read-only posture
+[OK] residue classifier denies deletion authority
+[OK] receipt parses as JSON
+[OK] terminal closeout has stateful_closeout
+[OK] stateful closeout has initial inventory ref
+[OK] stateful closeout has residue classification ref
+[OK] stateful closeout has phase exit refs
+[OK] stateful closeout has cleanup decision refs
+[OK] stateful closeout has final verification ref
+[OK] stateful closeout names current state machine version
+[OK] completed closeout does not use detection-only cleanup evidence
+[OK] receipt does not claim force-push closeout
+[OK] hosted no-PR terminal claim has hosted landing refs
+[OK] hosted no-PR terminal claim has landing authorization ref
+[OK] completed landed branch closeout has branch cleanup refs
+[OK] completed landed branch closeout has source branch integration evidence
+[OK] source branch integration is affirmed
+[OK] source branch integration has evidence refs
+[OK] completed landed branch closeout has post-landing fetch evidence
+[OK] completed landed branch closeout has local main sync evidence
+[OK] origin/main contains landed ref
+[OK] local main contains landed ref
+[OK] completed cleanup has concrete safety evidence class
+
+Validation summary: errors=0

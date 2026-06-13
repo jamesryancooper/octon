@@ -1,0 +1,28 @@
+{
+  "schema_version": "authorized-effect-token-consumption-v1",
+  "token_id": "effect-token-evidence-mutation-d5e7ec247da8",
+  "token_digest": "sha256:32dd74ea9a48025b5c420502926492cb7840ac6856bde22f39cc96b68b11ab0e",
+  "source_token_digest": "sha256:32dd74ea9a48025b5c420502926492cb7840ac6856bde22f39cc96b68b11ab0e",
+  "token_type": "AuthorizedEffect<EvidenceMutation>",
+  "effect_kind": "evidence-mutation",
+  "material_effect_class": "evidence-mutation",
+  "consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::finalize_execution:evidence",
+  "target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/stages/validate-proposal",
+  "verifier_version": "authorized-effect-verifier-v1",
+  "verification_result": "verified",
+  "denial_reason": null,
+  "rejection_reason_codes": [],
+  "approval_trace_refs": [],
+  "journal_event_refs": [
+    ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-d5e7ec247da8",
+    ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-d5e7ec247da8"
+  ],
+  "evidence_refs": [
+    ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/effect-tokens/effect-token-evidence-mutation-d5e7ec247da8.json"
+  ],
+  "recorded_at": "2026-06-13T19:26:26.219111Z",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "request_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "grant_id": "grant-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/effect-tokens/effect-token-evidence-mutation-d5e7ec247da8.json"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "authorization-phase-result-v1",
+  "request_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "phase_id": "grant",
+  "phase_status": "completed",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "artifact_refs": {
+    "authority_grant_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml",
+    "decision_artifact": ".octon/state/evidence/control/execution/authority-decision-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml"
+  },
+  "details": {
+    "approval_required": false,
+    "effective_policy_mode": "hard-enforce",
+    "environment_class": "development",
+    "quorum_required": false
+  },
+  "generated_at": "2026-06-13T19:26:25.084989Z"
+}

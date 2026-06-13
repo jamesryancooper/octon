@@ -1,0 +1,19 @@
+schema_version: run-replay-pointers-v1
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts
+replay_manifest_refs:
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/replay/manifest.yml
+receipt_refs:
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/context/context-pack-receipt.json
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/authorization-phases/preflight.json
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/authorization-phases/grant.json
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/authorization-phases/request-materialization.json
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/grant-bundle.json
+checkpoint_refs:
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/checkpoints/bound.yml
+- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/checkpoints/execution-start.yml
+trace_refs:
+- .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/trace-pointers.yml
+external_index_refs:
+- .octon/state/evidence/external-index/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts.yml
+updated_at: 2026-06-13T19:26:24.460131Z

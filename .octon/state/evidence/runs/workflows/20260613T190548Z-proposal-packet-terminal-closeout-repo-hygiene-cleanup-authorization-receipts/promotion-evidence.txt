@@ -1,0 +1,2 @@
+.octon/state/evidence/runs/workflows/2026-06-13-promote-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts
+.octon/state/evidence/runs/workflows/2026-06-13-promote-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts-1

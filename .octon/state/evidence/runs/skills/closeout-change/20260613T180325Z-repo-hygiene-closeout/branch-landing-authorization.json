@@ -1,0 +1,24 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-repo-hygiene-cleanup-receipts-closeout-7a34bc348cba",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/repo-hygiene-cleanup-receipts-closeout",
+  "source_ref": "7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68",
+  "remote_source_ref": "7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68",
+  "target_pre_ref": "3bd446e1ce8f7d206d4e35c72644a8232f87b822",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "empty-check-set-explicitly-allowed@7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68"
+  ],
+  "allow_empty_check_set": true,
+  "rollback_handle": "revert-commit:7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-06-13T18:51:04Z"
+}

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/context-pack.json
+context_pack_sha256: sha256:53a70bd8fdc5038227ac027aa882a16e613db35cbaeea131496cbbe09bff5230
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:255900bbe32501a977eadf570e1ab3c6dd887243f4ebda393f55da0ee88ef1b8
+receipt_sha256: sha256:92362f389363238815db33a25ec6f1d1cf6914e07cdb417f4a471f1db96bcb31
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-13T19:26:27.243219Z
+validity_state: valid

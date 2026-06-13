@@ -1,0 +1,39 @@
+{
+  "adapter_projection_refs": [],
+  "authority_refs": [
+    ".octon/framework/constitution/CHARTER.md",
+    ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  ],
+  "context_compaction_refs": [],
+  "context_pack_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/context/context-pack-receipt.json",
+  "context_pack_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/context/context-pack.json",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "context_rebuild_refs": [],
+  "generated_at": "2026-06-13T19:26:23.520312Z",
+  "generated_by": "octon-authority-engine",
+  "mission_refs": [],
+  "model_visible_context_ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/context/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:0a8c46d9bb775f002ec1c04a8cdb413b4a5aeddb7ac5d808414c6f1be62084f8",
+  "precedence_stack": [
+    "constitutional-kernel",
+    "workspace-charter",
+    "run-contract",
+    "authorization-policy",
+    "instruction-layer"
+  ],
+  "run_contract_ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/run-contract.yml",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts",
+  "run_mode": "run-only",
+  "schema_version": "instruction-layer-manifest-v2",
+  "source_digests": [
+    "upstream 0000000000000000000000000000000000000000000000000000000000000000",
+    "octon-system 0000000000000000000000000000000000000000000000000000000000000000",
+    "AGENTS.md e3cfa0970e341b4b0b6720b126a7f78dd71da432731760147987f9486bc9fe7c",
+    "execution-request ed168b9c47778f26712c7e79c67c76858f47e83d94855a21e6c36f989592e4f8"
+  ],
+  "support_target_tuple_id": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+  "workspace_charter_refs": [
+    ".octon/instance/charter/workspace.md",
+    ".octon/instance/charter/workspace.yml"
+  ]
+}

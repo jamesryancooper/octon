@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+ledger_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:d86651714b5c01c03d199654809fadc6b40f71969b7446ac2f9899c97204b4be
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+  sequence: 1
+  event_hash: sha256:7deafe4bc261f9c8577611a5133bd406b05df84bd383eebd929706f022ac2a35
+last_event_ref:
+  event_id: evt-checkpoint-start-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+  sequence: 20
+  event_hash: sha256:77815a391b19c97ee02fde75723d36fe7f1338133aed22b6ca4e649aa3bc67e1
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:7deafe4bc261f9c8577611a5133bd406b05df84bd383eebd929706f022ac2a35
+  tail_event_hash: sha256:77815a391b19c97ee02fde75723d36fe7f1338133aed22b6ca4e649aa3bc67e1
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+  context_pack_ref: evt-context-pack-bound-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-753cf0deea5d
+  run_contract_ref: evt-001-run-created-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+  run_manifest_ref: evt-002-run-bound-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+  runtime_state_ref: evt-capability-authorized-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+  stage_attempt_ref: evt-stage-started-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:77815a391b19c97ee02fde75723d36fe7f1338133aed22b6ca4e649aa3bc67e1
+  materialized_at: 2026-06-13T19:06:00.153033Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-13T19:06:00.153033Z

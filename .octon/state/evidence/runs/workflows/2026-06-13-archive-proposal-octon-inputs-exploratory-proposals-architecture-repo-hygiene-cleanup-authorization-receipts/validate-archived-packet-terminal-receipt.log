@@ -1,0 +1,111 @@
+== Proposal Packet Terminal Closeout Receipt Validation ==
+[OK] receipt schema exists
+[OK] receipt schema JSON parses
+[OK] schema token present: "proposal-packet-terminal-closeout-receipt-v1"
+[OK] schema token present: "terminal_verdict"
+[OK] schema token present: "archive-ready"
+[OK] schema token present: "blocked"
+[OK] schema token present: "state_ledger"
+[OK] schema token present: "target_owned_evidence_policy"
+[OK] receipt file exists: .octon/inputs/exploratory/proposals/.archive/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-terminal-closeout.yml
+[OK] receipt YAML parses
+[OK] receipt schema_version correct
+[OK] terminal_run_id declared
+[OK] terminalized_at declared
+[OK] packet.proposal_id declared
+[OK] packet.path declared
+[OK] packet.proposal_kind declared
+[OK] packet.status declared
+[OK] target_outcome declared
+[OK] profile.profile_ref declared
+[OK] profile.profile_digest declared
+[OK] profile.profile_validation_evidence_ref declared
+[OK] terminal_verdict allowed
+[OK] state ledger has at least ten entries
+[OK] state ledger includes bind-profile
+[OK] state ledger includes verify-durable-implementation-state
+[OK] state ledger includes verify-implementation-conformance
+[OK] state ledger includes verify-post-implementation-drift
+[OK] state ledger includes validate-publication-freshness
+[OK] state ledger includes classify-repo-hygiene
+[OK] state ledger includes classify-worktree-hygiene
+[OK] state ledger includes run-evidence-only-reviews
+[OK] state ledger includes resolve-git-github-route
+[OK] state ledger includes emit-terminal-receipt
+[OK] durable implementation state evidence refs non-empty
+[OK] implementation conformance receipt ref declared
+[OK] implementation conformance validator ref declared
+[OK] post-implementation drift receipt ref declared
+[OK] post-implementation drift validator ref declared
+[OK] direct generated output edit used is false
+[OK] generated input non-authority validation ref declared
+[OK] generated_input_non_authority.proposal_inputs_non_authority is true
+[OK] generated_input_non_authority.generated_outputs_non_authority is true
+[OK] generated_input_non_authority.generated_prompts_non_authority is true
+[OK] generated_input_non_authority.host_state_non_authority is true
+[OK] generated_input_non_authority.chat_state_non_authority is true
+[OK] generated_input_non_authority.tool_state_non_authority is true
+[OK] generated_input_non_authority.model_memory_non_authority is true
+[OK] repo hygiene classification ref declared
+[OK] repo hygiene unauthorized deletion is false
+[OK] worktree hygiene classification ref declared
+[OK] worktree hygiene verdict declared
+[OK] worktree foreign or ambiguous count declared
+[OK] worktree dirty flag declared
+[OK] evidence-only post_integration_architecture_review ref declared
+[OK] evidence-only post_integration_architecture_review authority
+[OK] evidence-only packet_terminal_evaluator ref declared
+[OK] evidence-only packet_terminal_evaluator authority
+[OK] evidence-only lifecycle_postmortem ref declared
+[OK] evidence-only lifecycle_postmortem authority
+[OK] Git/GitHub mutation delegated is true
+[OK] exact SHA checks ref declared
+[OK] landing authorization ref declared
+[OK] branch cleanup authorization ref declared
+[OK] archive owner ref correct
+[OK] archive relocation performed is false
+[OK] target-owned evidence cited is true
+[OK] aggregate receipt replaces target-owned receipts is false
+[OK] expected no new evidence loop is true
+[OK] proposal inputs non-authority declaration
+[OK] generated outputs non-authority declaration
+[OK] generated_prompts non-authority declaration
+[OK] host_state non-authority declaration
+[OK] dashboards non-authority declaration
+[OK] chat non-authority declaration
+[OK] tool_state non-authority declaration
+[OK] model_memory non-authority declaration
+[OK] implementation conformance freshness is true
+[OK] post-implementation drift freshness is true
+[OK] publication_freshness.validators non-empty
+[OK] publication validator[0] validator_ref declared
+[OK] publication validator[0] evidence_ref declared
+[OK] publication validator[0] verdict pass
+[OK] publication validator[0] fresh
+[OK] publication validator[1] validator_ref declared
+[OK] publication validator[1] evidence_ref declared
+[OK] publication validator[1] verdict pass
+[OK] publication validator[1] fresh
+[OK] publication validator[2] validator_ref declared
+[OK] publication validator[2] evidence_ref declared
+[OK] publication validator[2] verdict pass
+[OK] publication validator[2] fresh
+[OK] publication validator[3] validator_ref declared
+[OK] publication validator[3] evidence_ref declared
+[OK] publication validator[3] verdict pass
+[OK] publication validator[3] fresh
+[OK] publication validator[4] validator_ref declared
+[OK] publication validator[4] evidence_ref declared
+[OK] publication validator[4] verdict pass
+[OK] publication validator[4] fresh
+[OK] run health validation_ref declared
+[OK] run health verdict pass
+[OK] capability publication validation_ref declared
+[OK] capability publication verdict pass
+[OK] extension publication validation_ref declared
+[OK] extension publication verdict pass
+[OK] worktree hygiene pass
+[OK] no foreign or ambiguous worktree residue
+[OK] worktree not dirty
+[OK] archive-ready blocker class none
+Validation summary: errors=0

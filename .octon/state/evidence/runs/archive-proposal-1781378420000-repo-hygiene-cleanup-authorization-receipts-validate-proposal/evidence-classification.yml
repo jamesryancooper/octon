@@ -1,0 +1,36 @@
+artifacts:
+- artifact_id: run-contract
+  artifact_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: run-manifest
+  artifact_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-manifest.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: runtime-state
+  artifact_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/runtime-state.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: retry-record
+  artifact_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/retry-records/baseline.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: contamination-record
+  artifact_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/contamination/current.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: replay-pointers
+  artifact_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/replay-pointers.yml
+  evidence_class: B
+  storage_class: git-pointer
+- artifact_id: trace-pointers
+  artifact_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/trace-pointers.yml
+  evidence_class: B
+  storage_class: git-pointer
+- artifact_id: external-replay-index
+  artifact_ref: .octon/state/evidence/external-index/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml
+  evidence_class: B
+  storage_class: git-pointer
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+schema_version: run-evidence-classification-v1
+updated_at: 2026-06-13T19:26:24.686392Z

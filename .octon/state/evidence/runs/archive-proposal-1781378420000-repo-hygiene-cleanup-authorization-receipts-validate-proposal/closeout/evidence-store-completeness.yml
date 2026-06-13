@@ -1,0 +1,16 @@
+completeness_status: complete
+evidence_manifest_snapshot_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-journal/events.manifest.snapshot.yml
+final_lifecycle_state: succeeded
+journal_snapshot_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-journal/events.snapshot.ndjson
+recorded_at: 2026-06-13T19:26:26.219009Z
+replay_disclosure_ready: true
+replay_manifest_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/replay/manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/retained-run-evidence.yml
+review_dispositions_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/authority/review-dispositions.yml
+risk_disposition_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/authority/review-dispositions.yml
+rollback_posture_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/rollback-posture.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-card.yml
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+schema_version: run-closeout-evidence-store-completeness-v1
+terminal_checkpoint_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/checkpoints/execution-complete.yml
+unresolved_risk_count: 0

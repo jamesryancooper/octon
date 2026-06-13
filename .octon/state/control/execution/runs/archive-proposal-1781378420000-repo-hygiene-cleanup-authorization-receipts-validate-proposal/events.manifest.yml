@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+ledger_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:1ddb12087a6d22399b4fb463e34a5381035eb717db59a817dabab127358befb8
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  sequence: 1
+  event_hash: sha256:3f684202d5feb97c81fb2c5c9270d6855b9834b67f5dae7d0a9525fb6929ac6a
+last_event_ref:
+  event_id: evt-run-closed-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  sequence: 29
+  event_hash: sha256:9774ae8b4e8fa4ac5890138cbd62593c19066e1da6ce55e24e7845668bd2b861
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:3f684202d5feb97c81fb2c5c9270d6855b9834b67f5dae7d0a9525fb6929ac6a
+  tail_event_hash: sha256:9774ae8b4e8fa4ac5890138cbd62593c19066e1da6ce55e24e7845668bd2b861
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  context_pack_ref: evt-context-pack-bound-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  disclosure_ref: evt-run-closed-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-ef96b73a6660
+  run_contract_ref: evt-001-run-created-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  run_manifest_ref: evt-002-run-bound-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  runtime_state_ref: evt-run-closed-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  stage_attempt_ref: evt-stage-started-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:9774ae8b4e8fa4ac5890138cbd62593c19066e1da6ce55e24e7845668bd2b861
+  materialized_at: 2026-06-13T19:26:26.219009Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-13T19:26:26.974949Z

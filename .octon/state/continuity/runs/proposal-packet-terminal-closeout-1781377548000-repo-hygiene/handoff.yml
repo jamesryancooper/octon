@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+status: running
+run_contract_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/receipts/grant-bundle.json
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/checkpoints/execution-start.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: Resume from the current stage attempt using the retained receipt and checkpoint roots.
+updated_at: 2026-06-13T19:06:00.220554Z

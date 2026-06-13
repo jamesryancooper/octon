@@ -1,0 +1,36 @@
+artifacts:
+- artifact_id: run-contract
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/run-contract.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: run-manifest
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/run-manifest.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: runtime-state
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/runtime-state.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: retry-record
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/retry-records/baseline.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: contamination-record
+  artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/contamination/current.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: replay-pointers
+  artifact_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/replay-pointers.yml
+  evidence_class: B
+  storage_class: git-pointer
+- artifact_id: trace-pointers
+  artifact_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene/trace-pointers.yml
+  evidence_class: B
+  storage_class: git-pointer
+- artifact_id: external-replay-index
+  artifact_ref: .octon/state/evidence/external-index/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene.yml
+  evidence_class: B
+  storage_class: git-pointer
+run_id: proposal-packet-terminal-closeout-1781377548000-repo-hygiene
+schema_version: run-evidence-classification-v1
+updated_at: 2026-06-13T19:05:59.142033Z

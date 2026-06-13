@@ -1,0 +1,8 @@
+schema_version: run-trace-pointers-v1
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal
+trace_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal-trace-index
+trace_refs: []
+external_index_refs:
+- .octon/state/evidence/external-index/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal.yml
+notes: No separate class-C trace payload was retained at bind time; canonical trace pointers are updated as the run completes.
+updated_at: 2026-06-13T19:26:27.223725Z

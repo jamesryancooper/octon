@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts
+status: running
+run_contract_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/grant-bundle.json
+last_checkpoint_ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/checkpoints/execution-start.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: Resume from the current stage attempt using the retained receipt and checkpoint roots.
+updated_at: 2026-06-13T19:26:24.453535Z

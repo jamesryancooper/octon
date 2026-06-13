@@ -1,0 +1,27 @@
+schema_version: retained-run-evidence-v1
+run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts
+evidence_refs:
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts.yml
+  authority_grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts.yml
+  authorization_phase_grant: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/authorization-phases/grant.json
+  authorization_phase_preflight: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/authorization-phases/preflight.json
+  authorization_phase_request_materialization: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/authorization-phases/request-materialization.json
+  contamination_record: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/contamination/current.yml
+  context_pack: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/context/context-pack.json
+  context_pack_receipt: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/context/context-pack-receipt.json
+  control_checkpoint: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/checkpoints/bound.yml
+  evidence_checkpoint: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/checkpoints/bound.yml
+  execution_request: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/execution-request.json
+  grant_bundle: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/grant-bundle.json
+  instruction_manifest: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/instruction-layer-manifest.json
+  policy_decision: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/policy-decision.json
+  policy_digest: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/policy-digest.latest.md
+  policy_receipt: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/receipts/policy-receipt.latest.json
+  replay_pointers: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/replay-pointers.yml
+  retry_record: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/retry-records/baseline.yml
+  rollback_posture: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/rollback-posture.yml
+  run_contract: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/run-manifest.yml
+  runtime_state: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/runtime-state.yml
+  trace_pointers: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts/trace-pointers.yml
+updated_at: 2026-06-13T19:26:24.462131Z

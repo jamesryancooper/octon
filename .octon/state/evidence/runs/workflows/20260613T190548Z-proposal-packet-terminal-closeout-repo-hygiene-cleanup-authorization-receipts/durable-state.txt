@@ -1,0 +1,5 @@
+proposal_id: repo-hygiene-cleanup-authorization-receipts
+proposal_kind: architecture
+status: implemented
+head: 7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68
+origin_main: 7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68

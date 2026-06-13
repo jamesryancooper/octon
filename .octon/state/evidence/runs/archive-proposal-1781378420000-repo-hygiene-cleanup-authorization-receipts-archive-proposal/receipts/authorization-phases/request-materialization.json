@@ -1,0 +1,28 @@
+{
+  "schema_version": "authorization-phase-result-v1",
+  "request_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal",
+  "phase_id": "request-materialization",
+  "phase_status": "completed",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "REQUEST_MATERIALIZED"
+  ],
+  "artifact_refs": {
+    "execution_request": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/receipts/execution-request.json",
+    "grant_bundle": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/receipts/grant-bundle.json",
+    "policy_decision": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-archive-proposal/receipts/policy-decision.json"
+  },
+  "details": {
+    "resolved_autonomy_context": null,
+    "resolved_execution_role_ref": {
+      "id": "octon-kernel",
+      "kind": "system"
+    },
+    "resolved_intent_ref": {
+      "id": "workspace-charter://octon/octon-governed-harness",
+      "version": "1.3.0"
+    }
+  },
+  "generated_at": "2026-06-13T19:26:28.182523Z"
+}
