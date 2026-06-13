@@ -1,0 +1,383 @@
+== Change Closeout Lifecycle Alignment Validation ==
+[OK] found .octon/framework/product/contracts/default-work-unit.yml
+[OK] found .octon/framework/product/contracts/default-work-unit.md
+[OK] found .octon/framework/product/contracts/change-closeout-state-machine.yml
+[OK] found .octon/framework/product/contracts/change-closeout-state-machine.md
+[OK] found .octon/framework/product/contracts/change-receipt-v1.schema.json
+[OK] found .octon/framework/product/contracts/branch-landing-authorization-v1.schema.json
+[OK] found .octon/framework/product/contracts/branch-cleanup-authorization-v1.schema.json
+[OK] found .octon/framework/product/contracts/lifecycle-terminal-current-state-proof-v1.schema.json
+[OK] found .octon/framework/product/contracts/lifecycle-correction-branch-aggregate-receipt-v1.schema.json
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-terminal-current-state-proof.sh
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-correction-branch-aggregate-receipt.sh
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-direct-main-landed.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-branch-no-pr-branch-local-complete.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-branch-no-pr-published-branch.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-branch-pr-ready.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/valid-hosted-branch-no-pr-landed.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/invalid-pushed-only-branch-claimed-landed.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/invalid-published-branch-completed-closeout.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/invalid-stale-remote-branch-ref.json
+[OK] found .octon/framework/product/contracts/examples/change-receipts/invalid-draft-pr-claimed-full-closeout.json
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md
+[OK] found .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md
+[OK] found .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+[OK] policy exposes route direct-main
+[OK] policy exposes route branch-no-pr
+[OK] policy exposes route branch-pr
+[OK] policy exposes route stage-only-escalate
+[OK] branch landing without PR remains a branch-no-pr lifecycle outcome
+[OK] receipt schema accepts outcome preserved
+[OK] receipt schema accepts outcome branch-local-complete
+[OK] receipt schema accepts outcome published-branch
+[OK] receipt schema accepts outcome published
+[OK] receipt schema accepts outcome ready
+[OK] receipt schema accepts outcome landed
+[OK] receipt schema accepts outcome cleaned
+[OK] receipt schema accepts outcome deferred
+[OK] receipt schema accepts outcome blocked
+[OK] receipt schema accepts outcome escalated
+[OK] receipt schema accepts outcome denied
+[OK] receipt schema defaults unspecified closeout target to cleaned
+[OK] receipt schema requires target_lifecycle_outcome
+[OK] receipt schema requires lifecycle_outcome
+[OK] receipt schema requires outcome_intent
+[OK] receipt schema requires integration_status
+[OK] receipt schema requires publication_status
+[OK] receipt schema requires cleanup_status
+[OK] receipt schema models outcome intent
+[OK] receipt schema models initial_route
+[OK] receipt schema models route_transition_reason
+[OK] receipt schema models route_transition_authority
+[OK] receipt schema models route_transition_authority_ref
+[OK] receipt schema models route_transition_evidence_refs
+[OK] receipt schema models branch_pr_predicate
+[OK] receipt schema models branch_pr_predicate_evidence
+[OK] receipt schema accepts route transition authority explicit-operator-reroute
+[OK] receipt schema accepts route transition authority policy-reroute-after-new-evidence
+[OK] receipt schema accepts route transition authority none
+[OK] receipt schema accepts branch-pr predicate explicit-operator-pr-request
+[OK] policy defines branch-pr predicate explicit-operator-pr-request
+[OK] receipt schema accepts branch-pr predicate existing-pr-context
+[OK] policy defines branch-pr predicate existing-pr-context
+[OK] receipt schema accepts branch-pr predicate release-automation
+[OK] policy defines branch-pr predicate release-automation
+[OK] receipt schema accepts branch-pr predicate preview-publication-required
+[OK] policy defines branch-pr predicate preview-publication-required
+[OK] receipt schema accepts branch-pr predicate hosted-review-required
+[OK] policy defines branch-pr predicate hosted-review-required
+[OK] receipt schema accepts branch-pr predicate external-signoff-required
+[OK] policy defines branch-pr predicate external-signoff-required
+[OK] receipt schema accepts branch-pr predicate protected-or-high-impact-remote-review-required
+[OK] policy defines branch-pr predicate protected-or-high-impact-remote-review-required
+[OK] receipt schema accepts branch-pr predicate provider-ruleset-requires-pr-for-requested-pr-backed-landing
+[OK] policy defines branch-pr predicate provider-ruleset-requires-pr-for-requested-pr-backed-landing
+[OK] receipt schema requires branch-pr predicate evidence for branch-pr
+[OK] receipt schema requires branch-no-pr rejection reason for branch-pr predicate evidence
+[OK] policy defines branch-pr predicate evidence requirements
+[OK] policy defines route transition authority explicit-operator-reroute
+[OK] policy defines route transition authority policy-reroute-after-new-evidence
+[OK] policy defines route transition authority none
+[OK] lifecycle validator requires branch_pr_predicate for branch-pr
+[OK] lifecycle validator requires branch_pr_predicate_evidence for branch-pr
+[OK] receipt schema models landing evaluation
+[OK] receipt schema models structured landing stop reason
+[OK] receipt schema models structured cleanup stop reason
+[OK] receipt schema models governed landing authorization ref
+[OK] receipt schema requires governed authorization for branch-no-pr landing
+[OK] receipt schema models governed cleanup authorization ref
+[OK] receipt schema models terminal current-state proof ref
+[OK] receipt schema models correction branch aggregate receipt ref
+[OK] terminal proof schema has stable version
+[OK] correction aggregate schema has stable version
+[OK] policy fails closed without terminal current-state proof
+[OK] policy fails closed without correction aggregate receipt
+[OK] state machine requires terminal current-state proof for applicable cleaned claims
+[OK] closeout-change documents terminal current-state proof refs
+[OK] closeout-change documents correction aggregate refs
+[OK] receipt schema requires governed authorization for completed branch cleanup
+[OK] authorization schema has stable version
+[OK] authorization schema models approval result
+[OK] authorization schema requires no-PR proof
+[OK] authorization schema preserves host safety controls
+[OK] cleanup authorization schema has stable version
+[OK] cleanup authorization schema scopes cleanup to cleaned target
+[OK] cleanup authorization requires local main sync proof
+[OK] cleanup authorization requires source branch containment proof
+[OK] cleanup authorization forbids protected branch cleanup
+[OK] cleanup authorization requires no-open-PR proof
+[OK] cleanup authorization preserves host safety controls
+[OK] receipt schema models final main alignment
+[OK] receipt schema models post-landing origin fetch evidence
+[OK] receipt schema models local main sync evidence
+[OK] receipt schema models origin/main landed-ref containment
+[OK] receipt schema models local main landed-ref containment
+[OK] receipt schema models source branch integration evidence
+[OK] receipt schema models source branch cleanup disposition
+[OK] receipt schema models hosted main update publication status
+[OK] receipt schema requires provider ruleset evidence for hosted landing
+[OK] receipt schema requires exact-SHA check refs for hosted landing
+[OK] evidence tier validator gates hosted/shared closeout evidence refs
+[OK] receipt schema models stateful closeout evidence
+[OK] receipt schema requires stateful evidence for completed closeout
+[OK] receipt schema blocks completed landed branch closeout with pending cleanup
+[OK] receipt schema blocks published-branch completed closeout
+[OK] branch-no-pr supports landed lifecycle outcome
+[OK] branch-no-pr landed requires route-neutral provider rules
+[OK] branch-no-pr landed requires governed authorization
+[OK] branch-no-pr cleaned requires governed cleanup authorization
+[OK] branch-no-pr landed requires current authorization refs
+[OK] branch-no-pr landed requires origin/main equality
+[OK] branch-no-pr landed requires source branch integration evidence
+[OK] branch-no-pr landed requires post-landing fetch evidence
+[OK] branch-no-pr landed requires branch cleanup or deferred cleanup record
+[OK] branch-no-pr landed requires local main landed-ref containment
+[OK] branch-no-pr landed requires local/main/origin alignment proof
+[OK] policy references Change Closeout State Machine
+[OK] state machine contract has stable id
+[OK] state machine references branch landing authorization schema
+[OK] state machine references branch cleanup authorization schema
+[OK] state machine keeps Closeout Worktree as wrapper
+[OK] state machine defaults unspecified closeout target to cleaned
+[OK] state machine separates narrower lifecycle targets from route requests
+[OK] state machine treats stage-only-escalate as route request
+[OK] state machine references repo-hygiene cleanup subroute
+[OK] state machine references run-health generator route
+[OK] state machine encodes generic cleaned target autonomy
+[OK] state machine allows autonomous partition/delegation
+[OK] state machine allows branch creation for unambiguous delegated candidates
+[OK] state machine routes local run residue to repo-hygiene cleanup
+[OK] state machine contract defines residue classification phase
+[OK] state machine denies detection-only cleanup
+[OK] branch-pr supports ready lifecycle outcome
+[OK] branch-pr landed requires source branch integration evidence
+[OK] branch-pr landed requires branch cleanup or deferred cleanup record
+[OK] branch-pr landed requires post-landing fetch evidence
+[OK] branch-pr landed requires local/main/origin alignment proof
+[OK] direct-main closeout requires local main sync after fetch
+[OK] direct-main closeout requires landed ref containment after fetch
+[OK] policy fails closed on landed branch closeout without cleanup disposition
+[OK] policy fails closed on landed branch closeout without source branch integration evidence
+[OK] policy fails closed on landed branch closeout without post-landing fetch/sync evidence
+[OK] policy fails closed on pushed branch handoff reported as completed
+[OK] policy fails closed on branch-pr receipt without predicate
+[OK] policy fails closed on branch-pr receipt without predicate evidence
+[OK] policy fails closed when branch-pr evidence lacks independent PR requirement
+[OK] policy fails closed on route transition without authority
+[OK] policy fails closed on silent branch-pr reroute
+[OK] policy defaults unspecified closeout target to cleaned
+[OK] policy separates narrower lifecycle outcomes from route requests
+[OK] policy treats stage-only-escalate as route request
+[OK] policy defines routine closeout cleaned target
+[OK] policy allows autonomous unambiguous worktree partitioning
+[OK] policy encodes autonomous branch-no-pr cleanup progression
+[OK] policy routes local artifact residue to repo-hygiene-cleanup
+[OK] policy routes run-health projections to generator
+[OK] policy requires safety proof for detached worktree cleanup
+[OK] policy fails closed when unspecified closeout target is not cleaned
+[OK] policy fails closed on missing landing evaluation for landing targets
+[OK] policy fails closed on missing landing stop reason
+[OK] policy fails closed on missing cleanup stop reason
+[OK] policy fails closed on runtime denial without matching authorization
+[OK] policy fails closed on cleaned with deferred cleanup
+[OK] policy fails closed without governed landing authorization
+[OK] policy fails closed on stale or denied authorization
+[OK] policy fails closed without governed cleanup authorization
+[OK] policy fails closed on stale or denied cleanup authorization
+[OK] policy fails closed on stale recorded remote branch refs
+[OK] policy fails closed on missing post-landing local main sync
+[OK] policy fails closed on unsafe branch cleanup
+[OK] policy docs separate route from outcome
+[OK] policy docs define routine closeout autonomy
+[OK] policy docs define residue authority routing
+[OK] policy docs separate target and actual outcome
+[OK] policy docs define cleaned as default target
+[OK] policy docs define published-branch as continued handoff
+[OK] policy docs require direct-main origin push for closeout
+[OK] policy docs require branch-no-pr origin push for closeout
+[OK] policy docs define post-landing cleanup and sync
+[OK] policy docs protect unsafe branches from cleanup
+[OK] policy docs require final local main alignment
+[OK] policy docs fail closed when provider requires PR
+[OK] policy docs separate route selection from transition
+[OK] policy docs reject blocked landing as PR predicate
+[OK] closeout-change blocks false no-PR landing claims
+[OK] closeout-change resolves target outcome
+[OK] closeout-change defaults unspecified closeout target to cleaned
+[OK] closeout-change blocks published-branch completion overclaim
+[OK] closeout-change can push direct-main and branch publication refs
+[OK] closeout-change can invoke branch publication helper
+[OK] closeout-change can invoke exact-SHA check helper
+[OK] closeout-change can invoke hosted no-PR preflight helper
+[OK] closeout-change can invoke hosted no-PR authorization helper
+[OK] closeout-change requires governed landing authorization
+[OK] closeout-change can invoke hosted no-PR landing helper
+[OK] closeout-change requires direct-main origin push
+[OK] closeout-change requires branch-no-pr origin push
+[OK] closeout-change requires hosted no-PR preflight
+[OK] closeout-change requires post-landing cleanup and sync
+[OK] closeout-change documents routine autonomy
+[OK] closeout-change can create task branches for delegated candidates
+[OK] closeout-change routes local artifact residue out of branch cleanup
+[OK] closeout-change requires source branch integration before full closeout
+[OK] closeout-change requires landed-ref containment before full closeout
+[OK] closeout-change separates route selection from transition
+[OK] closeout-change requires branch-pr predicate evidence
+[OK] closeout-change forbids unsafe branch cleanup
+[OK] closeout-worktree delegates singular closeout-change runs
+[OK] closeout-worktree partitions unambiguous candidates autonomously
+[OK] closeout-worktree delegates repo-hygiene residue
+[OK] closeout-worktree forbids direct material route actions
+[OK] closeout-pr blocks draft/open full closeout claims
+[OK] closeout-pr requires post-merge branch cleanup
+[OK] closeout-pr escalates unprovable cleanup or sync
+[OK] workflow blocks false landed claims
+[OK] workflow distinguishes pushed-branch handoff from completed closeout
+[OK] workflow requires landed branch cleanup
+[OK] workflow requires post-cleanup local main alignment
+[OK] workflow classifies local run/control/evidence residue before cleaned closeout
+[OK] branch landing helper is route guarded
+[OK] hosted no-PR authorization helper is route guarded
+[OK] hosted no-PR landing helper is route guarded
+[OK] worktree contract applies post-landing cleanup to branch-no-pr
+[OK] worktree contract applies post-landing cleanup to branch-pr
+[OK] worktree contract exposes Closeout Worktree wrapper
+[OK] worktree contract requires origin/main containment before cleanup
+[OK] worktree contract requires retained rollback posture before cleanup
+[OK] worktree contract blocks open-PR or unprovable no-PR cleanup
+[OK] branch cleanup helper refuses protected branches
+[OK] branch cleanup helper requires governed cleanup authorization
+[OK] branch cleanup helper emits origin/main containment evidence
+[OK] branch cleanup helper requires retained rollback posture
+[OK] branch cleanup helper refuses open-PR branches
+[OK] branch cleanup authorization helper emits governed authorization
+[OK] branch cleanup authorization helper records runtime safety boundary
+[OK] hosted preflight blocks PR-required provider rules
+[OK] hosted authorization helper emits governed authorization
+[OK] hosted authorization helper records runtime safety boundary
+[OK] hosted land helper requires authorization
+[OK] hosted land helper blocks stale authorization
+[OK] hosted land helper emits origin/main equality evidence
+[OK] receipt example covers direct-main landed closeout
+[OK] receipt example covers branch-no-pr branch-local completion
+[OK] receipt example covers branch-no-pr pushed-branch handoff
+[OK] receipt example covers branch-pr ready without landed closeout
+[OK] receipt example covers hosted branch-no-pr landing
+[OK] receipt example covers pushed-only landed overclaim
+[OK] receipt example covers pushed-branch completed-closeout overclaim
+[OK] receipt example covers stale remote branch ref
+[OK] receipt example covers draft/open PR full-closeout overclaim
+[OK] receipt parses as JSON
+[OK] hosted/shared closeout avoids local-only and generated evidence dependencies
+[OK] receipt has selected route
+[OK] receipt has target lifecycle outcome
+[OK] receipt has lifecycle outcome
+[OK] receipt has outcome intent
+[OK] receipt has integration status
+[OK] receipt has publication status
+[OK] receipt has cleanup status
+[OK] branch-no-pr target outcome is branch-only scoped
+[OK] branch-no-pr outcome is branch-only scoped
+[OK] branch-no-pr receipt has no PR metadata
+[OK] branch-no-pr receipt avoids PR publication status
+[OK] branch-no-pr landed has hosted main update status
+[OK] branch-no-pr landed uses fast-forward integration
+[OK] branch-no-pr landed has landing evaluation
+[OK] branch-no-pr landed has hosted landing evidence
+[OK] branch-no-pr landed claim has landing authorization ref
+[OK] landing authorization parses as JSON
+[OK] landing authorization schema version valid
+[OK] landing authorization is approved
+[OK] landing authorization route is branch-no-pr
+[OK] landing authorization target is landing scoped
+[OK] landing authorization remote matches hosted landing
+[OK] landing authorization target branch matches hosted landing
+[OK] landing authorization source branch matches receipt
+[OK] landing authorization source ref matches hosted landing
+[OK] landing authorization remote source ref matches source
+[OK] landing authorization target pre-ref matches hosted landing
+[OK] landing authorization provider ruleset matches hosted landing
+[OK] landing authorization check refs match hosted landing
+[OK] landing authorization proves no PR required
+[OK] landing authorization records passed preflight
+[OK] landing authorization records exact-SHA check evidence
+[OK] landing authorization records rollback handle
+[OK] landing authorization preserves host controls
+[OK] hosted landing has provider ruleset evidence
+[OK] hosted landing has exact-SHA check refs
+[OK] hosted landing is fast-forward only
+[OK] hosted landing validates exact source SHA
+[OK] origin/main target post-ref equals landed ref
+[OK] branch-no-pr fast-forward integrates exact source ref into origin/main
+[OK] landed claim has landed ref
+[OK] landed claim has target branch ref
+[OK] landed claim has final main alignment evidence
+[OK] main alignment records landed ref
+[OK] main alignment records local main ref
+[OK] main alignment records origin/main ref
+[OK] main alignment landed_ref matches receipt landed_ref
+[OK] local main, origin/main, and landed_ref align
+[OK] landed claim has rollback handle
+[OK] landed claim has validation evidence
+[OK] landed claim uses commit, branch, or PR durable history
+[OK] completed or cleaned closeout has stateful_closeout evidence
+[OK] stateful closeout has initial inventory ref
+[OK] stateful closeout has residue classification ref
+[OK] stateful closeout has phase exit refs
+[OK] stateful closeout has cleanup decision refs
+[OK] stateful closeout has cleanup safety class
+[OK] stateful closeout has final verification ref
+[OK] stateful closeout names current state machine
+[OK] completed cleanup has evidence refs
+[OK] completed branch closeout has landed or cleaned lifecycle outcome
+[OK] completed branch closeout records source branch
+[OK] completed branch closeout has source branch integration evidence
+[OK] source branch integration is affirmed
+[OK] source branch integration has evidence refs
+[OK] source branch integration names the receipt source branch
+[OK] source branch integration landed_ref matches receipt landed_ref
+[OK] source branch integration origin/main ref matches final alignment
+[OK] completed branch closeout records post-landing fetch evidence
+[OK] completed branch closeout records local main sync evidence
+[OK] origin/main containment of landed_ref is proven
+[OK] local main containment of landed_ref is proven
+[OK] completed landed branch closeout has cleanup completed or deferred
+[OK] completed landed branch closeout has source branch cleanup disposition
+[OK] source branch cleanup disposition is terminal or explicitly deferred
+[OK] completed branch cleanup has cleanup authorization ref
+[OK] cleanup authorization parses as JSON
+[OK] cleanup authorization schema version valid
+[OK] cleanup authorization is approved
+[OK] cleanup authorization route matches receipt
+[OK] cleanup authorization target is cleaned
+[OK] cleanup authorization remote matches receipt
+[OK] cleanup authorization base branch is main
+[OK] cleanup authorization source branch matches receipt
+[OK] cleanup authorization landed ref matches receipt
+[OK] cleanup authorization origin/main ref matches final alignment
+[OK] cleanup authorization local main ref matches final alignment
+[OK] cleanup authorization rollback handle matches receipt
+[OK] cleanup authorization proves local main sync
+[OK] cleanup authorization proves landed-ref containment
+[OK] cleanup authorization proves source branch containment
+[OK] cleanup authorization proves source branch is not protected
+[OK] cleanup authorization proves no open PR
+[OK] cleanup authorization proves cleanup policy allowed
+[OK] cleanup authorization preserves host controls
+[OK] cleaned outcome has completed cleanup status
+[OK] cleaned branch outcome has completed source branch cleanup
+
+Validation summary: errors=0

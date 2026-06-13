@@ -1,0 +1,10 @@
+[OK] Live provider ruleset allows route-neutral hosted no-PR landing.
+[OK] Source ref is current with origin/main.
+[OK] Empty check set explicitly allowed.
+[OK] Exact-SHA required checks satisfied for 331170b8bcafef4860b65094c6bdf68e7bc866e2.
+[OK] Hosted no-PR landing preflight passed.
+[OK] Route guard: branch-no-pr.
+[OK] Source branch: chore/archive-repo-hygiene-cleanup-receipts
+[OK] Source ref: 331170b8bcafef4860b65094c6bdf68e7bc866e2
+[OK] Target branch: main
+[OK] Target remote ref: 7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68

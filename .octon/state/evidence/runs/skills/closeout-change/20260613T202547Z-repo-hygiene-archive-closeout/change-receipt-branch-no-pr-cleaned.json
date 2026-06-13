@@ -1,0 +1,142 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "repo-hygiene-cleanup-authorization-receipts-archive-20260613T202547Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Archive the repo-hygiene-cleanup-authorization-receipts packet after terminal closeout reached archive-ready, without creating a PR.",
+  "scope": {
+    "summary": "Canonical archive move for the implemented proposal packet, generated proposal projection refresh through owning generators, terminal/archive route evidence retention, and branch-no-pr closeout evidence.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/repo-hygiene-cleanup-authorization-receipts/",
+      ".octon/generated/proposals/",
+      ".octon/state/evidence/runs/workflows/20260613T190548Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/",
+      ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/",
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/"
+    ],
+    "diff_refs": [
+      "origin/main@7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68",
+      "commit:331170b8bcafef4860b65094c6bdf68e7bc866e2"
+    ]
+  },
+  "source_branch_ref": "chore/archive-repo-hygiene-cleanup-receipts",
+  "target_branch_ref": "origin/main@331170b8bcafef4860b65094c6bdf68e7bc866e2",
+  "remote_branch_ref": "origin/chore/archive-repo-hygiene-cleanup-receipts@331170b8bcafef4860b65094c6bdf68e7bc866e2",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "target_ref": "origin/main@331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/git-branch-hosted-preflight.log",
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/git-branch-authorize-hosted-no-pr.log",
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/git-branch-land-hosted-no-pr.log"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/archive-repo-hygiene-cleanup-receipts",
+    "source_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "target_pre_ref": "7a34bc348cbaf19ec5a07b0a9ed5297d8a5c9b68",
+    "target_post_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "validated_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@331170b8bcafef4860b65094c6bdf68e7bc866e2"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "331170b8bcafef4860b65094c6bdf68e7bc866e2:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/archive-repo-hygiene-cleanup-receipts",
+    "source_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "landed_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "origin_main_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "origin/main@331170b8bcafef4860b65094c6bdf68e7bc866e2 contains chore/archive-repo-hygiene-cleanup-receipts@331170b8bcafef4860b65094c6bdf68e7bc866e2"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "origin_main_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "landed_ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "aligned": true,
+    "origin_fetch_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/git-branch-authorize-cleanup.log",
+    "local_main_sync_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/git-branch-cleanup.log",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/post-archive-main-refs.txt"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "branch-cleanup-authorization-v1:.octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/branch-cleanup-authorization.json",
+    ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/git-branch-cleanup.log"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/archive-repo-hygiene-cleanup-receipts",
+    "remote_branch": "origin/chore/archive-repo-hygiene-cleanup-receipts",
+    "evidence_refs": [
+      "git-branch-cleanup.sh --confirm completed",
+      "origin/main containment verified for landed ref and source branch refs",
+      "no open PR existed for chore/archive-repo-hygiene-cleanup-receipts"
+    ]
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/workflows/20260613T190548Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-terminal-receipt.log",
+    ".octon/state/evidence/runs/workflows/20260613T190548Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-packet-terminal-receipt.log",
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/standard-validator.log",
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/validate-archived-terminal-freshness-post-generator.log",
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/validate-run-health-read-model-post-archive.log",
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-repo-hygiene-cleanup-authorization-receipts/git-diff-check-post-archive.log"
+  ],
+  "review_waiver_refs": [
+    "operator-selected branch-no-pr route; no PR requested"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "branch": "chore/archive-repo-hygiene-cleanup-receipts"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "331170b8bcafef4860b65094c6bdf68e7bc866e2",
+    "instructions": "Revert commit 331170b8bcafef4860b65094c6bdf68e7bc866e2 from main if post-landing verification fails."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/post-archive-cleanup-status.txt",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/post-archive-cleanup-status.txt",
+    "phase_exit_refs": [
+      "branch-local commit 331170b8bcafef4860b65094c6bdf68e7bc866e2",
+      "origin branch pushed without PR",
+      "origin/main fast-forwarded to landed ref",
+      "source branch cleanup completed"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T202547Z-repo-hygiene-archive-closeout/post-archive-main-refs.txt"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-13T20:30:00Z"
+}
