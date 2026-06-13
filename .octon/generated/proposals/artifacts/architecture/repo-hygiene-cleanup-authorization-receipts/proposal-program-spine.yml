@@ -1,0 +1,167 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": null,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": null,
+      "verdict": null
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:3ba010e261bb3fd920dfb48f5012f307149f88d81d6584638c52bf92e8631f89",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Promote only after the implementation adds a durable authorization schema, helper revalidation behavior, validator and fixture coverage, narrow skill routing, and closeout boundary updates outside proposal-local paths. Archive after promotion evidence proves the durable targets stand alone.",
+    "status": "implemented",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/repo-hygiene-cleanup-authorization-receipts/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/instance/governance/policies/repo-hygiene.yml",
+    ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+    ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh",
+    ".octon/instance/capabilities/runtime/commands/repo-hygiene/README.md",
+    ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md",
+    ".octon/framework/capabilities/runtime/skills/manifest.yml",
+    ".octon/framework/capabilities/runtime/skills/registry.yml",
+    ".octon/framework/capabilities/runtime/skills/capabilities.yml",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+  ],
+  "proposal_id": "repo-hygiene-cleanup-authorization-receipts",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 36487,
+      "estimated_tokens": 9122,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/executable-implementation-prompt.md",
+      "sha256": "sha256:edabdb9905c30cf2197db1e70024a3e871cb6c5f8a17d3f869cbff629963b1be"
+    },
+    {
+      "byte_size": 4238,
+      "estimated_tokens": 1060,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-conformance-review.md",
+      "sha256": "sha256:c6e19a77b22c55a6cc8ddc9286642b660733c037767c7a51dcb5c78a87c8b5a0"
+    },
+    {
+      "byte_size": 4066,
+      "estimated_tokens": 1017,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:25fbb629b7220ca4c5b2fabd31562410a486c35ed480f7b94c72cad3555972be"
+    },
+    {
+      "byte_size": 7783,
+      "estimated_tokens": 1946,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-run.md",
+      "sha256": "sha256:7645e3d94c09eae01a90a4bcfba68a82bc1663fddd139136bb7143941239c092"
+    },
+    {
+      "byte_size": 4324,
+      "estimated_tokens": 1081,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:05968707d54861d687a98ceca94335cda097e19aacdaa6a67606dc42f3ca5d98"
+    },
+    {
+      "byte_size": 3286,
+      "estimated_tokens": 822,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-closeout.md",
+      "sha256": "sha256:f67ffdb25abd60ed69bb2ec5fe9b430fa7c2371448950eb3f7241519a38ceee5"
+    },
+    {
+      "byte_size": 5962,
+      "estimated_tokens": 1491,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-review.md",
+      "sha256": "sha256:6d26e4da99764dbc58681ff7a30b79c9cde1d476c338cfe1f70674fa25a991a0"
+    },
+    {
+      "byte_size": 3559,
+      "estimated_tokens": 890,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/validation.md",
+      "sha256": "sha256:6dd7ce558f95b20d4c9a2c4b6b885d3cb9e5bdc96f51ce853f18bac54aa02da1"
+    }
+  ],
+  "related_proposals": [
+    "change-closeout-state-machine"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture-proposal.yml": "sha256:0dc5f9d631bee10e0c07955ef9359dae16b9d0e11d434f0ce0337fd9787e2468",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture/acceptance-criteria.md": "sha256:ee54520ccf229cbe84907998ec18cbeb3118189b9befdd1406a656b5382e3848",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture/implementation-plan.md": "sha256:d47b98cb027cf3d3eb98017f3152316c1c351f3870310f64ee0728e9f263e521",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/navigation/artifact-catalog.md": "sha256:72f7e9b06d966cd90f1c241571af5ff67997744a37b55cbe8d2284e6707d4a1a",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/navigation/source-of-truth-map.md": "sha256:be4932ecadd9d65ffb61ba6ebc834e20ff981dc7bca0ac0cf581ff59fb519ccd",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/proposal.yml": "sha256:82a8a4a93d0cd4814fb9ef52de573a2d1d2ddd8932ad3a47eac21cfc742c07b4",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/executable-implementation-prompt.md": "sha256:edabdb9905c30cf2197db1e70024a3e871cb6c5f8a17d3f869cbff629963b1be",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-grade-completeness-review.md": "sha256:25fbb629b7220ca4c5b2fabd31562410a486c35ed480f7b94c72cad3555972be",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-review.md": "sha256:6d26e4da99764dbc58681ff7a30b79c9cde1d476c338cfe1f70674fa25a991a0"
+  },
+  "source_lineage": [
+    "resources/source-prompt.md",
+    "resources/source-findings.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-review.md"
+  ],
+  "status": "implemented"
+}

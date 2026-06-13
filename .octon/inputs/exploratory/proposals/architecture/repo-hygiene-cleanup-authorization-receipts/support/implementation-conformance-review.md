@@ -3,7 +3,7 @@
 - verdict: `pass`
 - unresolved_items_count: `0`
 - proposal_id: `repo-hygiene-cleanup-authorization-receipts`
-- review_run_id: `20260613T003439Z`
+- review_run_id: `20260613T180325Z`
 
 ## Blockers
 
@@ -14,7 +14,7 @@ None for implementation conformance.
 Checked the proposal manifest, architecture manifest, accepted proposal review,
 implementation readiness receipt, executable implementation prompt, declared
 promotion target list, durable target state, and validation outputs under
-`.octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/`.
+`.octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/`.
 
 ## Promotion Target Coverage
 
@@ -44,17 +44,25 @@ Validators run:
 - `validate-repo-hygiene-governance.sh`
 - `test-cleanup-local-run-artifacts.sh`
 - `validate-closeout-worktree-wrapper.sh`
+- `validate-default-work-unit-alignment.sh`
+- `validate-change-closeout-lifecycle-alignment.sh`
+- `validate-change-closeout-state-machine.sh`
 - `validate-run-health-read-model.sh`
+- `validate-generated-non-authority.sh`
+- `validate-capability-publication-state.sh`
+- `validate-extension-publication-state.sh`
 - `validate-skills.sh repo-hygiene-cleanup`
+- `validate-promote-proposal-workflow.sh`
+- `validate-proposal-packet-terminal-closeout-workflow.sh`
 - `validate-proposal-implementation-conformance.sh --package ...`
 - `validate-proposal-post-implementation-drift.sh --package ...`
 - `git diff --check`
 
 The proposal-standard validator reports `errors=0 warnings=1`; the warning is
-the pre-existing artifact-catalog warning for visible support files. The
-`repo-hygiene-cleanup` skill validator reports one non-failing manifest
-description token-budget warning. Neither warning blocks implementation
-conformance.
+from an unrelated active policy packet whose future promotion target is not
+present yet. The `repo-hygiene-cleanup` skill validator reports one
+non-failing manifest description token-budget warning. Neither warning blocks
+implementation conformance.
 
 ## Generated Output Coverage
 
@@ -80,8 +88,9 @@ introduced into durable runtime or policy surfaces.
 ## Terminal Closeout Note
 
 Implementation conformance passes. Terminal archive readiness remains blocked
-until a durable terminal closeout workflow and receipt contract exist and a
-separate authorized archive route runs.
+until the canonical `promote-proposal` lifecycle route records durable
+`implemented` state and promotion evidence, after which the terminal closeout
+workflow can emit an archive-ready or blocked receipt.
 
 ## Exclusions
 

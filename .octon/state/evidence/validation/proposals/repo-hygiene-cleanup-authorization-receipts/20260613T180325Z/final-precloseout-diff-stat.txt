@@ -1,0 +1,8 @@
+ .octon/generated/proposals/registry.yml            |   2 +-
+ .../proposal.yml                                   | 144 +++++++++------------
+ .../support/implementation-conformance-review.md   |  25 ++--
+ .../support/implementation-run.md                  |  68 +++++-----
+ .../post-implementation-drift-churn-review.md      |  26 ++--
+ .../support/validation.md                          |  21 ++-
+ .../repo/capabilities/acp-decisions.jsonl          |   4 +
+ 7 files changed, 148 insertions(+), 142 deletions(-)

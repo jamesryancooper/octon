@@ -97,7 +97,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts"
     title: "Repo Hygiene Cleanup Authorization Receipts"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/instance/governance/policies/repo-hygiene.yml"
       - ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"

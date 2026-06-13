@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: promote-proposal-1781374570346-58963-promote-proposal
+state: running
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/promote-proposal-1781374570346-58963-promote-proposal/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/promote-proposal-1781374570346-58963-promote-proposal/run-manifest.yml
+current_stage_attempt_id: promote-proposal--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/promote-proposal-1781374570346-58963-promote-proposal/checkpoints/execution-start.yml
+last_receipt_ref: .octon/state/evidence/runs/promote-proposal-1781374570346-58963-promote-proposal/receipts/grant-bundle.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/promote-proposal-1781374570346-58963/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/promote-proposal-1781374570346-58963-promote-proposal/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/promote-proposal-1781374570346-58963-promote-proposal/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/promote-proposal-1781374570346-58963-promote-proposal/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/promote-proposal-1781374570346-58963-promote-proposal/rollback-posture.yml
+last_applied_event_id: evt-checkpoint-start-promote-proposal-1781374570346-58963-promote-proposal
+last_applied_sequence: 20
+last_applied_event_hash: sha256:cadc129ba78170b9946041522f2f5e825422a63b4ff6cd067fbf201b3204ae62
+materialized_at: 2026-06-13T18:16:17.111841Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-13T18:16:16.186111Z
+updated_at: 2026-06-13T18:16:17.111841Z

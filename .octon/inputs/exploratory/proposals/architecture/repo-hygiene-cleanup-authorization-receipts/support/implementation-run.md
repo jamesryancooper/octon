@@ -1,16 +1,16 @@
 # Implementation Run
 
 - proposal_id: `repo-hygiene-cleanup-authorization-receipts`
-- run_id: `20260613T003439Z`
+- run_id: `20260613T180325Z`
 - lifecycle_skill: `octon-proposal-lifecycle-run-packet-implementation`
 - implementation_profile: `atomic`
 - package_status_after_run: `accepted`
-- durable_evidence_root: `.octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/`
+- durable_evidence_root: `.octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/`
 
 ## Run Outcome
 
 This run verified and refreshed the accepted packet implementation against the
-current repository state. The durable promotion targets already contained the
+current repository state. The durable promotion targets already contain the
 packet's approved architecture, so no additional durable target edit was
 required in this run.
 
@@ -66,83 +66,81 @@ All declared promotion targets were verified:
 
 Evidence is retained outside `inputs/**` under:
 
-`.octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/`
+`.octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/`
 
-The run captured pre-edit gates, implementation validators, skill validation,
-run-health validation, proposal lifecycle validators, conformance validation,
-post-implementation drift validation, and `git diff --check`.
+The run captured implementation gates, implementation validators, closeout
+alignment validators, skill validation, run-health validation, generated/input
+non-authority validation, capability and extension publication validation,
+proposal lifecycle validators, conformance validation, post-implementation
+drift validation, terminal workflow validation, promote workflow validation,
+and `git diff --check`.
 
 ## Terminal Closeout Readiness
 
 - implementation_complete: `true`
 - terminal_archive_ready: `false`
-- terminal_closeout_status: `blocked-terminal-closeout-workflow-missing`
+- terminal_closeout_status: `blocked-pending-promote-proposal`
 - archive_move_performed: `false`
 - archive_move_owner: `archive-proposal`
-- next_canonical_route: `proposal-packet-terminal-closeout`
+- next_canonical_route: `promote-proposal`
 
 The implementation is complete for the accepted packet, but terminal archive
-readiness remains blocked because the durable terminal closeout workflow and
-receipt contract referenced by the controlling prompt are not yet present as
-runtime authority. This run therefore records terminal-readiness mapping only;
-it does not archive the packet.
+readiness remains blocked until the canonical `promote-proposal` lifecycle
+route records durable `implemented` state and promotion evidence. This run does
+not mutate proposal status and does not archive the packet.
 
 ## Terminal Readiness Map
 
 ```yaml
 terminal_receipt_schema_version: standalone-packet-terminal-closeout-profile-v0
-terminal_verdict: terminal-readiness-map-only
-terminalized_at: "2026-06-13T00:57:00Z"
+terminal_verdict: blocked
+terminalized_at: "2026-06-13T18:03:25Z"
 target_packet: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
 target_outcome_requested: archive-ready
-target_outcome_actual: implemented
+target_outcome_actual: implementation-complete-pending-promotion
 implementation_completion_source: support/implementation-conformance-review.md
 implementation_completion_verdict: pass
 proposal_standard_gate:
   verdict: pass-with-warning
-  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/validate-proposal-standard.log
+  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/validate-proposal-standard.log
 architecture_gate:
   verdict: pass
-  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/validate-architecture-proposal.log
+  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/validate-architecture-proposal.log
 review_gate:
   verdict: pass
-  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/validate-proposal-review-gate.log
+  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/validate-proposal-review-gate.log
 readiness_gate:
   verdict: pass
-  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/validate-proposal-implementation-readiness.log
+  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/validate-proposal-implementation-readiness.log
 implementation_conformance_gate:
   verdict: pass
-  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/validate-proposal-implementation-conformance.log
+  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/validate-proposal-implementation-conformance-pre-support-refresh.log
 post_implementation_drift_gate:
   verdict: pass
-  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/validate-proposal-post-implementation-drift.log
+  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/validate-proposal-post-implementation-drift-pre-support-refresh.log
 repo_hygiene_gate:
   verdict: pass
-  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/validate-repo-hygiene-governance.log
+  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/validate-repo-hygiene-governance.log
 git_diff_check:
   verdict: pass
-  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T003439Z/git-diff-check.log
+  evidence: .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260613T180325Z/git-diff-check-pre-support-refresh.log
 hygiene_classification_ref: not-applicable-no-cleanup-performed
 worktree_state_ref: support/implementation-run.md#baseline-and-final-worktree-state
 packet_terminal_evaluator_ref: not-applicable-missing-durable-terminal-route
 git_github_route_ref: not-applicable-no-git-mutation-required
 archive_movement_owner: archive-proposal
 archive_movement_performed: false
-blocker_class: missing-terminal-workflow
-blocker_detail: durable proposal-packet-terminal-closeout workflow and receipt schema are not present as runtime authority
-next_canonical_route: proposal-packet-terminal-closeout
+blocker_class: missing-evidence
+blocker_detail: durable proposal state remains accepted and no canonical promote-proposal evidence exists yet
+next_canonical_route: promote-proposal
 ```
 
 ## Baseline And Final Worktree State
 
-Before support receipt refresh, the only tracked worktree change was the
-pre-existing modified controlling prompt:
-
-`M .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/executable-implementation-prompt.md`
-
-After this run, tracked changes are limited to that pre-existing prompt and the
-refreshed packet support receipts. The retained validation evidence directory
-is untracked evidence under `.octon/state/evidence/**`.
+Before support receipt refresh, the worktree was on `main` with no staged files
+and no tracked or untracked non-ignored changes. After this run, tracked
+changes are limited to the refreshed packet support receipts. The retained
+validation evidence directory is local evidence under `.octon/state/evidence/**`.
 
 ## Rollback Posture
 

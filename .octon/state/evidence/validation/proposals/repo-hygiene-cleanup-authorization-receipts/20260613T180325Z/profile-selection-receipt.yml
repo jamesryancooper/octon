@@ -1,0 +1,21 @@
+schema_version: profile-selection-receipt-v1
+run_id: 20260613T180325Z
+proposal_id: repo-hygiene-cleanup-authorization-receipts
+proposal_path: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+release_state: pre-1.0
+change_profile: atomic
+transitional_exception_authorized: false
+selection_basis:
+  - .octon/instance/charter/workspace.yml
+  - .octon/framework/execution-roles/practices/standards/ai-assisted-development-discipline.md
+  - .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/executable-implementation-prompt.md
+scope_statement: >
+  Verify and refresh implementation evidence for the accepted packet without
+  widening approved promotion targets. Durable lifecycle status mutation is
+  reserved for the canonical promote-proposal route.
+non_authority_boundaries:
+  proposal_inputs: non-authority
+  generated_outputs: derived-only
+  host_state: non-authority
+  chat_history: non-authority
+  tool_state: non-authority

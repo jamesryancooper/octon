@@ -3,7 +3,7 @@
 - verdict: `pass`
 - unresolved_items_count: `0`
 - proposal_id: `repo-hygiene-cleanup-authorization-receipts`
-- review_run_id: `20260613T003439Z`
+- review_run_id: `20260613T180325Z`
 
 ## Blockers
 
@@ -66,8 +66,16 @@ Validators run:
 - `validate-repo-hygiene-governance.sh`
 - `test-cleanup-local-run-artifacts.sh`
 - `validate-closeout-worktree-wrapper.sh`
+- `validate-default-work-unit-alignment.sh`
+- `validate-change-closeout-lifecycle-alignment.sh`
+- `validate-change-closeout-state-machine.sh`
 - `validate-run-health-read-model.sh`
+- `validate-generated-non-authority.sh`
+- `validate-capability-publication-state.sh`
+- `validate-extension-publication-state.sh`
 - `validate-skills.sh repo-hygiene-cleanup`
+- `validate-promote-proposal-workflow.sh`
+- `validate-proposal-packet-terminal-closeout-workflow.sh`
 - `validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts`
 - `validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts`
 - `git diff --check`
@@ -75,17 +83,19 @@ Validators run:
 ## Terminal Closeout Note
 
 No implementation drift blocks this packet. Terminal archive readiness remains
-blocked by the missing durable terminal closeout workflow and receipt contract;
-archive movement remains owned by a separate `archive-proposal` route.
+blocked until the canonical `promote-proposal` lifecycle route records durable
+`implemented` state and promotion evidence; archive movement remains owned by a
+separate `archive-proposal` route.
 
 ## Exclusions
 
-Excluded surfaces: generated/effective projections, proposal registry authority,
+Excluded surfaces: generated/effective projections edited by hand,
 host/provider state, branch cleanup, PR mutation, destructive cleanup of
-current worktree residue, and lifecycle status promotion or archival.
+current worktree residue, and lifecycle status promotion or archival outside
+the canonical lifecycle routes.
 
 ## Final Closeout Recommendation
 
-The promoted target set shows no implementation drift requiring correction.
-Proceed with packet lifecycle verification from the accepted state, then route
-terminal closeout only after the durable terminal closeout workflow exists.
+The approved target set shows no implementation drift requiring correction.
+Proceed with `promote-proposal` from the accepted state, then route terminal
+closeout through the durable terminal closeout workflow.
