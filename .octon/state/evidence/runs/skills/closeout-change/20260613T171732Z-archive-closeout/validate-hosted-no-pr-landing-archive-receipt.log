@@ -1,0 +1,112 @@
+== Hosted No-PR Landing Validation ==
+[OK] found .octon/framework/product/contracts/default-work-unit.yml
+[OK] found .octon/framework/product/contracts/change-receipt-v1.schema.json
+[OK] found .octon/framework/product/contracts/branch-landing-authorization-v1.schema.json
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] found .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md
+[OK] found .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh
+[OK] found .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh
+[OK] found .octon/framework/execution-roles/practices/standards/github-control-plane-contract.json
+[OK] policy requires route-neutral provider rules for hosted no-PR landing
+[OK] policy requires governed landing authorization for hosted no-PR landing
+[OK] policy requires current authorization source/target refs
+[OK] policy requires pushed source branch for hosted no-PR landing
+[OK] policy requires source branch integration for hosted no-PR landing
+[OK] policy requires origin/main equality after hosted no-PR landing
+[OK] policy requires post-landing fetch for hosted no-PR landing
+[OK] policy requires synced local main containment for hosted no-PR landing
+[OK] policy fails closed without governed landing authorization
+[OK] policy fails closed on stale or denied landing authorization
+[OK] policy requires authorization before hosted mutation
+[OK] authorization schema version valid
+[OK] authorization schema requires no-PR proof
+[OK] authorization schema preserves host controls
+[OK] receipt schema models landing authorization ref
+[OK] receipt schema requires landing authorization for branch-no-pr landing
+[OK] receipt schema requires hosted source ref
+[OK] receipt schema requires hosted target post-ref
+[OK] receipt schema requires hosted required check refs
+[OK] receipt schema requires source branch integration evidence refs
+[OK] receipt schema models post-landing fetch evidence
+[OK] receipt schema models local main sync evidence
+[OK] closeout skill requires hosted no-PR preflight
+[OK] closeout skill requires governed landing authorization
+[OK] workflow requires exact source SHA required checks
+[OK] worktree contract registers hosted no-PR authorization helper
+[OK] worktree contract registers hosted no-PR landing helper
+[OK] required-check helper validates exact commit SHA
+[OK] preflight fails closed when provider requires PR
+[OK] authorization helper emits governed receipt
+[OK] authorization helper runs hosted preflight
+[OK] authorization helper records host safety boundary
+[OK] hosted land helper requires authorization before mutation
+[OK] hosted land helper blocks stale authorization
+[OK] hosted land helper uses non-force target push
+[OK] control contract exposes route-neutral required checks
+[OK] receipt parses as JSON
+[OK] receipt route is branch-no-pr
+[OK] receipt target outcome is hosted landing scoped
+[OK] receipt outcome is hosted landing scoped
+[OK] branch-no-pr hosted landing has no PR metadata
+[OK] publication status records hosted main update
+[OK] integration status is landed
+[OK] integration method is fast-forward
+[OK] durable history can support hosted landing
+[OK] receipt has hosted_landing evidence
+[OK] receipt has landing evaluation evidence
+[OK] receipt has landing authorization ref
+[OK] landing authorization parses as JSON
+[OK] landing authorization schema version valid
+[OK] landing authorization is approved
+[OK] landing authorization route is branch-no-pr
+[OK] landing authorization target is landing scoped
+[OK] landing authorization remote matches hosted landing
+[OK] landing authorization target branch matches hosted landing
+[OK] landing authorization source branch matches receipt
+[OK] landing authorization source ref matches hosted landing
+[OK] landing authorization remote source ref matches source
+[OK] landing authorization target pre-ref matches hosted landing
+[OK] landing authorization provider ruleset matches hosted landing
+[OK] landing authorization check refs match hosted landing
+[OK] landing authorization proves no PR required
+[OK] landing authorization records passed preflight
+[OK] landing authorization records check evidence
+[OK] landing authorization records rollback handle
+[OK] landing authorization preserves host controls
+[OK] receipt has final main alignment evidence
+[OK] hosted landing has provider ruleset ref
+[OK] hosted landing has required check refs
+[OK] hosted landing has source branch evidence
+[OK] hosted landing has pushed remote branch ref
+[OK] source branch ref matches hosted source branch
+[OK] remote branch ref proves pushed source branch
+[OK] hosted landing is fast-forward-only
+[OK] validated ref equals source ref
+[OK] target post-ref equals landed ref
+[OK] hosted no-PR source ref is the landed ref
+[OK] local main, origin/main, and landed ref align
+[OK] hosted landing records post-landing origin fetch evidence
+[OK] hosted landing records local main sync evidence
+[OK] origin/main containment of landed_ref is proven
+[OK] local main containment of landed_ref is proven
+[OK] hosted landing records source branch integration evidence
+[OK] source branch integration is affirmed
+[OK] source branch integration has evidence refs
+[OK] source branch integration names source branch
+[OK] source branch integration names exact source ref
+[OK] source branch integration landed ref matches receipt
+[OK] source branch integration origin/main ref matches final alignment
+[OK] cleanup status is explicit
+[ERROR] hosted landing missing exact-SHA check ref for route_neutral_closeout_validation
+[ERROR] hosted landing missing exact-SHA check ref for branch_naming_validation
+[ERROR] hosted landing missing exact-SHA check ref for route_aware_autonomy_validation
+[ERROR] hosted landing missing exact-SHA check ref for exact_source_sha_validation
+[OK] cleaned hosted landing has terminal or explicitly deferred cleanup status
+[OK] completed cleanup has evidence refs
+[OK] receipt has source branch cleanup disposition
+[OK] origin/main equals recorded landed ref
+
+Validation summary: errors=4

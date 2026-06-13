@@ -1,0 +1,151 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "archive-packet-terminal-closeout-20260613T171732Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Archive the packet-lifecycle-terminal-closeout proposal after terminal closeout reached archive-ready, without creating a PR.",
+  "scope": {
+    "summary": "Canonical archive-proposal relocation for packet-lifecycle-terminal-closeout, generated proposal projections refreshed by owning generators, terminal closeout evidence retained, and repo-hygiene packet terminal evidence retained as blocked.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/",
+      ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/",
+      ".octon/generated/proposals/",
+      ".octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/",
+      ".octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/",
+      ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/",
+      ".octon/state/evidence/validation/analysis/2026-06-13-archive-proposal.md",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053/",
+      ".octon/state/continuity/runs/archive-proposal-1781368130239-25053/"
+    ],
+    "diff_refs": [
+      "origin/main@7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+      "commit:7e2de219ac2aa811dbd587c012aac2ccdadbf6c5"
+    ]
+  },
+  "source_branch_ref": "chore/archive-packet-terminal-closeout",
+  "target_branch_ref": "origin/main@7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+  "remote_branch_ref": "origin/chore/archive-packet-terminal-closeout@7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/branch-landing-authorization-archive.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/branch-cleanup-authorization-archive.json",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/archive-packet-terminal-closeout",
+    "source_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "target_pre_ref": "4a1a7cf2d7ce0f496ee35e04747732645b900a4f",
+    "target_post_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "validated_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@7e2de219ac2aa811dbd587c012aac2ccdadbf6c5"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "target_ref": "origin/main@7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/hosted-preflight-archive.log",
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/authorize-hosted-no-pr-archive.log",
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/land-hosted-no-pr-archive.log"
+    ]
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "chore/archive-packet-terminal-closeout",
+    "source_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "landed_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "origin_main_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "origin/main@7e2de219ac2aa811dbd587c012aac2ccdadbf6c5 contains chore/archive-packet-terminal-closeout@7e2de219ac2aa811dbd587c012aac2ccdadbf6c5"
+    ]
+  },
+  "landed_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+  "main_alignment": {
+    "local_main_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "origin_main_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "landed_ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "aligned": true,
+    "origin_fetch_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/authorize-cleanup-archive.log",
+    "local_main_sync_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/local-main-ff-archive.log",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/post-archive-cleanup-main-refs.txt"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "branch-cleanup-authorization-v1:.octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/branch-cleanup-authorization-archive.json",
+    ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/cleanup-archive-branch.log"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/archive-packet-terminal-closeout",
+    "remote_branch": "origin/chore/archive-packet-terminal-closeout",
+    "evidence_refs": [
+      "git-branch-cleanup.sh --confirm completed",
+      "origin/main containment verified for landed ref and source branch refs",
+      "no open PR existed for chore/archive-packet-terminal-closeout"
+    ]
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/terminal-freshness-post-artifact-refresh.log",
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/registry-check-after-invalid-projection-removal.log",
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/artifact-index-spine-post-refresh.log",
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/terminal-receipt-validation-post-archive.log",
+    ".octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/terminal-receipt-validation-evidence-blocked.log",
+    ".octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/proposal-review-gate-after-invalid-projection-removal.log",
+    ".octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/git-diff-check-after-archive-cleanup.log"
+  ],
+  "review_waiver_refs": [
+    "operator-selected branch-no-pr route; no PR requested"
+  ],
+  "terminal_current_state_proof_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml",
+  "durable_history": {
+    "kind": "commit",
+    "ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "branch": "chore/archive-packet-terminal-closeout"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+    "instructions": "Revert commit 7e2de219ac2aa811dbd587c012aac2ccdadbf6c5 from main if post-landing verification fails."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/pre-closeout-status-short.txt",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/pre-closeout-ignored-status.txt",
+    "phase_exit_refs": [
+      "branch-local commit 7e2de219ac2aa811dbd587c012aac2ccdadbf6c5",
+      "origin branch pushed without PR",
+      "origin/main fast-forwarded to landed ref",
+      "source branch cleanup completed"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/branch-cleanup-authorization-archive.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment-and-no-open-pr",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/branch-landing-authorization-archive.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/branch-cleanup-authorization-archive.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/post-archive-cleanup-main-refs.txt"
+  },
+  "closeout_outcome": "completed",
+  "remaining_blockers": [
+    "repo-hygiene-cleanup-authorization-receipts cannot be archived from current local authority: proposal manifest status is accepted and no matching promotion evidence directory exists under .octon/state/evidence/runs/workflows."
+  ],
+  "created_at": "2026-06-13T17:24:00Z"
+}

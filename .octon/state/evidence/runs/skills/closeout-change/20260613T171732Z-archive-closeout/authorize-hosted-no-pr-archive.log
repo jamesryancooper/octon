@@ -1,0 +1,16 @@
+[OK] Live provider ruleset allows route-neutral hosted no-PR landing.
+[OK] Source ref is current with origin/main.
+[OK] Empty check set explicitly allowed.
+[OK] Exact-SHA required checks satisfied for 7e2de219ac2aa811dbd587c012aac2ccdadbf6c5.
+[OK] Hosted no-PR landing preflight passed.
+[OK] Route guard: branch-no-pr.
+[OK] Source branch: chore/archive-packet-terminal-closeout
+[OK] Source ref: 7e2de219ac2aa811dbd587c012aac2ccdadbf6c5
+[OK] Target branch: main
+[OK] Target remote ref: 4a1a7cf2d7ce0f496ee35e04747732645b900a4f
+[OK] Hosted no-PR landing authorization emitted.
+[OK] Authorization receipt: .octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/branch-landing-authorization-archive.json
+[OK] Source branch: chore/archive-packet-terminal-closeout
+[OK] Source ref: 7e2de219ac2aa811dbd587c012aac2ccdadbf6c5
+[OK] Target branch: main
+[OK] Target pre-ref: 4a1a7cf2d7ce0f496ee35e04747732645b900a4f

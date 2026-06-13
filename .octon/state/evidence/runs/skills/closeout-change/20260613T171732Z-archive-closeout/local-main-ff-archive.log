@@ -1,0 +1,337 @@
+Updating 4a1a7cf2d..7e2de219a
+Fast-forward
+ .../proposal-artifact-index.yml                    |  109 +-
+ .../proposal-program-spine.yml                     |   62 +-
+ .octon/generated/proposals/registry.yml            |   28 -
+ .../packet-lifecycle-terminal-closeout/README.md   |    0
+ .../architecture-proposal.yml                      |    0
+ .../architecture/acceptance-criteria.md            |    0
+ .../architecture/implementation-plan.md            |    0
+ .../architecture/target-architecture.md            |    0
+ .../navigation/artifact-catalog.md                 |   34 +
+ .../navigation/source-of-truth-map.md              |    0
+ .../proposal.yml                                   |    9 +-
+ .../resources/repository-reconnaissance.md         |    0
+ .../resources/source-findings.md                   |    0
+ .../support/executable-implementation-prompt.md    |    0
+ .../support/implementation-conformance-review.md   |    0
+ .../implementation-grade-completeness-review.md    |    0
+ .../support/implementation-run.md                  |    0
+ .../post-implementation-drift-churn-review.md      |    0
+ .../pre-integration-architecture-review.yml        |    0
+ .../support/proposal-creation.md                   |    0
+ .../support/proposal-review.md                     |    0
+ .../support/proposal-terminal-closeout.yml         |  263 +
+ .../support/validation.md                          |    0
+ .../navigation/artifact-catalog.md                 |   47 -
+ .../support/proposal-terminal-closeout.yml         |  271 -
+ .../handoff.yml                                    |   15 +
+ .../handoff.yml                                    |   15 +
+ .../handoff.yml                                    |   15 +
+ .../authority/review-dispositions.yml              |   19 +
+ .../checkpoints/bound.yml                          |   11 +
+ .../checkpoints/execution-complete.yml             |   11 +
+ .../checkpoints/execution-start.yml                |   11 +
+ .../contamination/current.yml                      |   12 +
+ .../context/active-context-pack.yml                |   11 +
+ .../context/status.yml                             |    9 +
+ ...ffect-token-evidence-mutation-eae758a32a9e.json |   72 +
+ ...-token-state-control-mutation-0bf23fd5c7e8.json |   72 +
+ .../events.manifest.yml                            |   46 +
+ .../events.ndjson                                  |   29 +
+ .../retry-records/baseline.yml                     |   12 +
+ .../rollback-posture.yml                           |   17 +
+ .../run-contract.yml                               |   92 +
+ .../run-manifest.yml                               |   50 +
+ .../runtime-state.yml                              |   28 +
+ .../stage-attempts/archive-proposal--initial.yml   |   39 +
+ .../authority/review-dispositions.yml              |   19 +
+ .../checkpoints/bound.yml                          |   11 +
+ .../checkpoints/execution-complete.yml             |   11 +
+ .../checkpoints/execution-start.yml                |   11 +
+ .../contamination/current.yml                      |   12 +
+ .../context/active-context-pack.yml                |   11 +
+ .../context/status.yml                             |    9 +
+ ...ffect-token-evidence-mutation-89f5cb52a23b.json |   71 +
+ ...-token-state-control-mutation-b6f4aad06cb9.json |   71 +
+ .../events.manifest.yml                            |   46 +
+ .../events.ndjson                                  |   29 +
+ .../retry-records/baseline.yml                     |   12 +
+ .../rollback-posture.yml                           |   17 +
+ .../run-contract.yml                               |   90 +
+ .../run-manifest.yml                               |   50 +
+ .../runtime-state.yml                              |   28 +
+ .../stage-attempts/validate-proposal--initial.yml  |   37 +
+ .../authority/review-dispositions.yml              |   19 +
+ .../checkpoints/bound.yml                          |   11 +
+ .../checkpoints/execution-complete.yml             |   11 +
+ .../checkpoints/execution-start.yml                |   11 +
+ .../contamination/current.yml                      |   12 +
+ .../context/active-context-pack.yml                |   11 +
+ .../context/status.yml                             |    9 +
+ ...ffect-token-evidence-mutation-ec26a4499e51.json |   72 +
+ ...-token-state-control-mutation-5c19aca68e40.json |   72 +
+ .../events.manifest.yml                            |   46 +
+ .../events.ndjson                                  |   29 +
+ .../retry-records/baseline.yml                     |   12 +
+ .../rollback-posture.yml                           |   17 +
+ .../run-contract.yml                               |   92 +
+ .../run-manifest.yml                               |   50 +
+ .../runtime-state.yml                              |   28 +
+ .../stage-attempts/initial.yml                     |   39 +
+ ...oposal-1781368130239-25053-archive-proposal.yml |   83 +
+ ...posal-1781368130239-25053-validate-proposal.yml |   80 +
+ ...cision-archive-proposal-1781368130239-25053.yml |   83 +
+ ...oposal-1781368130239-25053-archive-proposal.yml |   47 +
+ ...posal-1781368130239-25053-validate-proposal.yml |   47 +
+ ...bundle-archive-proposal-1781368130239-25053.yml |   47 +
+ .../repo/capabilities/acp-decisions.jsonl          |    3 +
+ ...oposal-1781368130239-25053-archive-proposal.yml |   24 +
+ ...posal-1781368130239-25053-validate-proposal.yml |   24 +
+ .../runs/archive-proposal-1781368130239-25053.yml  |   24 +
+ .../pre-closeout-diff-name-status.txt              |   24 +
+ .../pre-closeout-ignored-status.txt                |    4 +
+ .../pre-closeout-status-short.txt                  |   41 +
+ .../pre-closeout-untracked.txt                     |   68 +
+ .../artifact-index-spine-post-refresh.log          |  201 +
+ .../bundle.yml                                     |   28 +
+ .../commands.md                                    |    4 +
+ .../inventory.md                                   |   25 +
+ ...stry-check-after-invalid-projection-removal.log | 6359 +++++++++++++++++++
+ .../registry-check-post-artifact-refresh.log       | 6376 +++++++++++++++++++
+ .../repo-hygiene-summary-post-archive.log          |   11 +
+ .../stages/archive-proposal/execution-receipt.json |  200 +
+ .../stages/archive-proposal/execution-request.json |  113 +
+ .../stages/archive-proposal/grant-bundle.json      |  183 +
+ .../stages/archive-proposal/outcome.json           |    6 +
+ .../stages/archive-proposal/policy-decision.json   |    9 +
+ .../stages/archive-proposal/side-effects.json      |   38 +
+ .../validate-proposal/execution-receipt.json       |  196 +
+ .../validate-proposal/execution-request.json       |  111 +
+ .../stages/validate-proposal/grant-bundle.json     |  177 +
+ .../stages/validate-proposal/outcome.json          |    6 +
+ .../stages/validate-proposal/policy-decision.json  |    9 +
+ .../stages/validate-proposal/side-effects.json     |   37 +
+ .../summary.md                                     |   11 +
+ .../terminal-freshness-post-artifact-refresh.log   | 6569 ++++++++++++++++++++
+ .../terminal-receipt-validation-post-archive.log   |  108 +
+ .../validation.md                                  |    7 +
+ .../workflow-execution/execution-receipt.json      |  202 +
+ .../workflow-execution/execution-request.json      |  112 +
+ .../workflow-execution/grant-bundle.json           |  183 +
+ .../workflow-execution/outcome.json                |    6 +
+ .../workflow-execution/policy-decision.json        |    9 +
+ .../workflow-execution/side-effects.json           |   39 +
+ .../durable-state.txt                              |    3 +
+ .../git-diff-check.log                             |    0
+ .../git-github-route-resolution.md                 |   10 +
+ .../git-route-head-origin-main.txt                 |    2 +
+ .../lifecycle-postmortem.md                        |    6 +
+ .../packet-terminal-evaluator.md                   |    6 +
+ .../post-integration-architecture-review.md        |    6 +
+ .../profile.yml                                    |   79 +
+ .../promotion-evidence.txt                         |    3 +
+ .../repo-hygiene-summary.log                       |   11 +
+ .../terminal-receipt.yml                           |  263 +
+ .../validate-capability-publication-state.log      | 1154 ++++
+ .../validate-extension-publication-state.log       | 2464 ++++++++
+ .../validate-generated-non-authority.log           |   20 +
+ .../validate-implementation-conformance.log        |  118 +
+ .../validate-post-implementation-drift.log         |  188 +
+ .../validate-profile.log                           |   41 +
+ .../validate-run-health-read-model.log             |    6 +
+ .../validate-terminal-receipt.log                  |  108 +
+ .../validate-workflow.log                          |   42 +
+ .../worktree-hygiene-classification.yml            |   10 +
+ .../worktree-status-short.txt                      |    0
+ .../durable-state.txt                              |    3 +
+ .../git-diff-check.log                             |    0
+ .../git-github-route-resolution.md                 |   10 +
+ .../git-route-head-origin-main.txt                 |    2 +
+ .../lifecycle-postmortem.md                        |    6 +
+ .../packet-terminal-evaluator.md                   |    6 +
+ .../post-integration-architecture-review.md        |    6 +
+ .../profile.yml                                    |   79 +
+ .../promotion-evidence.txt                         |    1 +
+ ...eview-gate-after-invalid-projection-removal.log |   94 +
+ .../repo-hygiene-summary.log                       |   11 +
+ ...erminal-receipt-validation-evidence-blocked.log |   83 +
+ .../terminal-receipt.yml                           |  262 +
+ .../validate-capability-publication-state.log      | 1154 ++++
+ .../validate-extension-publication-state.log       | 2464 ++++++++
+ .../validate-generated-non-authority.log           |   20 +
+ .../validate-implementation-conformance.log        |   30 +
+ .../validate-post-implementation-drift.log         |   49 +
+ .../validate-profile.log                           |   41 +
+ .../validate-run-health-read-model.log             |    6 +
+ .../validate-terminal-receipt.log                  |   83 +
+ .../validate-workflow.log                          |   42 +
+ .../worktree-hygiene-classification.yml            |   10 +
+ .../worktree-status-short.txt                      |    0
+ .../analysis/2026-06-13-archive-proposal.md        |   11 +
+ 169 files changed, 33009 insertions(+), 423 deletions(-)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/README.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md (100%)
+ create mode 100644 .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/proposal.yml (95%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md (100%)
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md (100%)
+ create mode 100644 .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+ rename .octon/inputs/exploratory/proposals/{ => .archive}/architecture/packet-lifecycle-terminal-closeout/support/validation.md (100%)
+ delete mode 100644 .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+ delete mode 100644 .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+ create mode 100644 .octon/state/continuity/runs/archive-proposal-1781368130239-25053-archive-proposal/handoff.yml
+ create mode 100644 .octon/state/continuity/runs/archive-proposal-1781368130239-25053-validate-proposal/handoff.yml
+ create mode 100644 .octon/state/continuity/runs/archive-proposal-1781368130239-25053/handoff.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/authority/review-dispositions.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/checkpoints/bound.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/checkpoints/execution-complete.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/checkpoints/execution-start.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/contamination/current.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/context/active-context-pack.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/context/status.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/effect-tokens/effect-token-evidence-mutation-eae758a32a9e.json
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/effect-tokens/effect-token-state-control-mutation-0bf23fd5c7e8.json
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/events.manifest.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/events.ndjson
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/retry-records/baseline.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/rollback-posture.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/run-contract.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/run-manifest.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/runtime-state.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/stage-attempts/archive-proposal--initial.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/authority/review-dispositions.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/checkpoints/bound.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/checkpoints/execution-complete.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/checkpoints/execution-start.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/contamination/current.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/context/active-context-pack.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/context/status.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/effect-tokens/effect-token-evidence-mutation-89f5cb52a23b.json
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/effect-tokens/effect-token-state-control-mutation-b6f4aad06cb9.json
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/events.manifest.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/events.ndjson
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/retry-records/baseline.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/rollback-posture.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/run-contract.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/run-manifest.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/runtime-state.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/stage-attempts/validate-proposal--initial.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/authority/review-dispositions.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/checkpoints/bound.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/checkpoints/execution-complete.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/checkpoints/execution-start.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/contamination/current.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/context/active-context-pack.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/context/status.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/effect-tokens/effect-token-evidence-mutation-ec26a4499e51.json
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/effect-tokens/effect-token-state-control-mutation-5c19aca68e40.json
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/events.manifest.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/events.ndjson
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/retry-records/baseline.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/rollback-posture.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/run-contract.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/run-manifest.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/runtime-state.yml
+ create mode 100644 .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/stage-attempts/initial.yml
+ create mode 100644 .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781368130239-25053-archive-proposal.yml
+ create mode 100644 .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781368130239-25053-validate-proposal.yml
+ create mode 100644 .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781368130239-25053.yml
+ create mode 100644 .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781368130239-25053-archive-proposal.yml
+ create mode 100644 .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781368130239-25053-validate-proposal.yml
+ create mode 100644 .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781368130239-25053.yml
+ create mode 100644 .octon/state/evidence/external-index/runs/archive-proposal-1781368130239-25053-archive-proposal.yml
+ create mode 100644 .octon/state/evidence/external-index/runs/archive-proposal-1781368130239-25053-validate-proposal.yml
+ create mode 100644 .octon/state/evidence/external-index/runs/archive-proposal-1781368130239-25053.yml
+ create mode 100644 .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/pre-closeout-diff-name-status.txt
+ create mode 100644 .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/pre-closeout-ignored-status.txt
+ create mode 100644 .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/pre-closeout-status-short.txt
+ create mode 100644 .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/pre-closeout-untracked.txt
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/artifact-index-spine-post-refresh.log
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/bundle.yml
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/commands.md
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/inventory.md
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/registry-check-after-invalid-projection-removal.log
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/registry-check-post-artifact-refresh.log
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/repo-hygiene-summary-post-archive.log
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/archive-proposal/execution-receipt.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/archive-proposal/execution-request.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/archive-proposal/grant-bundle.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/archive-proposal/outcome.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/archive-proposal/policy-decision.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/archive-proposal/side-effects.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/validate-proposal/execution-receipt.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/validate-proposal/execution-request.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/validate-proposal/grant-bundle.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/validate-proposal/outcome.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/validate-proposal/policy-decision.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/validate-proposal/side-effects.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/summary.md
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/terminal-freshness-post-artifact-refresh.log
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/terminal-receipt-validation-post-archive.log
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/validation.md
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/workflow-execution/execution-receipt.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/workflow-execution/execution-request.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/workflow-execution/grant-bundle.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/workflow-execution/outcome.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/workflow-execution/policy-decision.json
+ create mode 100644 .octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/workflow-execution/side-effects.json
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/durable-state.txt
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/git-diff-check.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/git-github-route-resolution.md
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/git-route-head-origin-main.txt
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/lifecycle-postmortem.md
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/packet-terminal-evaluator.md
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/post-integration-architecture-review.md
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/profile.yml
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/promotion-evidence.txt
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/repo-hygiene-summary.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/terminal-receipt.yml
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-capability-publication-state.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-extension-publication-state.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-generated-non-authority.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-implementation-conformance.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-post-implementation-drift.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-profile.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-run-health-read-model.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-terminal-receipt.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/validate-workflow.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/worktree-hygiene-classification.yml
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout/worktree-status-short.txt
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/durable-state.txt
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/git-diff-check.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/git-github-route-resolution.md
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/git-route-head-origin-main.txt
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/lifecycle-postmortem.md
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/packet-terminal-evaluator.md
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/post-integration-architecture-review.md
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/profile.yml
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/promotion-evidence.txt
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/proposal-review-gate-after-invalid-projection-removal.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/repo-hygiene-summary.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/terminal-receipt-validation-evidence-blocked.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/terminal-receipt.yml
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-capability-publication-state.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-extension-publication-state.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-generated-non-authority.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-implementation-conformance.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-post-implementation-drift.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-profile.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-run-health-read-model.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-terminal-receipt.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/validate-workflow.log
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/worktree-hygiene-classification.yml
+ create mode 100644 .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/worktree-status-short.txt
+ create mode 100644 .octon/state/evidence/validation/analysis/2026-06-13-archive-proposal.md

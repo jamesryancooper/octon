@@ -1,0 +1,5 @@
+?? .octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/git-diff-check-after-archive-cleanup.log
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/post-archive-cleanup-branch.txt
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/post-archive-cleanup-main-refs.txt
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/post-archive-cleanup-status-short.txt

@@ -1,0 +1,12 @@
+From github.com:jamesryancooper/octon
+   ea1a7d880..4188f0473  release-please--branches--main--components--octon -> origin/release-please--branches--main--components--octon
+[OK] origin/main contains landed ref
+[OK] main contains landed ref
+[OK] local source branch is contained in origin/main
+[OK] remote source branch is contained in origin/main
+[OK] Branch cleanup authorization receipt written: .octon/state/evidence/runs/skills/closeout-change/20260613T171732Z-archive-closeout/branch-cleanup-authorization-archive.json
+[OK] Source branch: chore/archive-packet-terminal-closeout
+[OK] Landed ref: 7e2de219ac2aa811dbd587c012aac2ccdadbf6c5
+[OK] Local main and origin/main synchronized: 7e2de219ac2aa811dbd587c012aac2ccdadbf6c5
+[OK] No open PR exists for chore/archive-packet-terminal-closeout.
+[OK] Cleanup authorization preserves platform, sandbox, provider, and host safety controls.
