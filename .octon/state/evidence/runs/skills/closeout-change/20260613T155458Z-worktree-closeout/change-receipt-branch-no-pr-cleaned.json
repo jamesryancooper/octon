@@ -1,0 +1,151 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "packet-terminal-closeout-20260613T155458Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out and land the packet-lifecycle-terminal-closeout implementation without creating a PR.",
+  "scope": {
+    "summary": "Packet terminal closeout workflow, contracts, validators, command surfaces, publication outputs, retained evidence, and route-owned cleanup receipts.",
+    "touched_paths": [
+      ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/",
+      ".octon/framework/product/contracts/proposal-packet-terminal-closeout-profile-v1.schema.json",
+      ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-terminal-closeout.sh",
+      ".octon/framework/capabilities/runtime/commands/proposal-packet-terminal-closeout.md",
+      ".octon/framework/capabilities/runtime/skills/operations/proposal-packet-terminal-closeout/SKILL.md",
+      ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/",
+      ".octon/generated/",
+      ".octon/state/evidence/"
+    ],
+    "diff_refs": [
+      "origin/main@65e136734eb6ebcae9417683d8e915b511316bd8",
+      "commit:65e136734eb6ebcae9417683d8e915b511316bd8"
+    ]
+  },
+  "source_branch_ref": "chore/packet-terminal-closeout",
+  "target_branch_ref": "origin/main@65e136734eb6ebcae9417683d8e915b511316bd8",
+  "remote_branch_ref": "origin/chore/packet-terminal-closeout@65e136734eb6ebcae9417683d8e915b511316bd8",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T155458Z-worktree-closeout/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/20260613T155458Z-worktree-closeout/branch-cleanup-authorization.json",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/packet-terminal-closeout",
+    "source_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "target_pre_ref": "aa8307c5359e96af0c483afa828b8846176d0d49",
+    "target_post_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "validated_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@65e136734eb6ebcae9417683d8e915b511316bd8"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "65e136734eb6ebcae9417683d8e915b511316bd8:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "target_ref": "origin/main@65e136734eb6ebcae9417683d8e915b511316bd8",
+    "evidence_refs": [
+      "branch-no-pr hosted preflight passed for 65e136734eb6ebcae9417683d8e915b511316bd8",
+      "branch landing authorization matched source_ref and target_pre_ref"
+    ]
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "chore/packet-terminal-closeout",
+    "source_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "landed_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "origin_main_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "origin/main@65e136734eb6ebcae9417683d8e915b511316bd8 contains chore/packet-terminal-closeout@65e136734eb6ebcae9417683d8e915b511316bd8"
+    ]
+  },
+  "landed_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+  "main_alignment": {
+    "local_main_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "origin_main_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "landed_ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin during branch cleanup authorization",
+    "local_main_sync_evidence_ref": "git checkout main && git merge --ff-only origin/main",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse main origin/main == 65e136734eb6ebcae9417683d8e915b511316bd8"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "branch-cleanup-authorization-v1:.octon/state/evidence/runs/skills/closeout-change/20260613T155458Z-worktree-closeout/branch-cleanup-authorization.json",
+    "local branch chore/packet-terminal-closeout deleted after origin/main containment proof",
+    "remote branch origin/chore/packet-terminal-closeout deleted after no-open-PR proof"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/packet-terminal-closeout",
+    "remote_branch": "origin/chore/packet-terminal-closeout",
+    "evidence_refs": [
+      "git-branch-cleanup.sh --confirm completed",
+      "origin/main containment verified for landed ref and source branch refs"
+    ]
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/revalidate-proposal-packet-terminal-closeout-workflow-post-cleanup.log",
+    ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/revalidate-repo-hygiene-governance-post-cleanup.log",
+    ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/revalidate-closeout-worktree-wrapper-post-cleanup.log",
+    ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/revalidate-change-closeout-lifecycle-alignment-post-cleanup.log",
+    ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/revalidate-change-closeout-state-machine-post-cleanup.log",
+    ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/revalidate-run-health-after-cleanup-refresh.log",
+    ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/git-diff-check-post-cleanup.log"
+  ],
+  "review_waiver_refs": [
+    "operator-selected branch-no-pr route; no PR requested"
+  ],
+  "terminal_current_state_proof_ref": ".octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml",
+  "durable_history": {
+    "kind": "commit",
+    "ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "branch": "chore/packet-terminal-closeout"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "65e136734eb6ebcae9417683d8e915b511316bd8",
+    "instructions": "Revert commit 65e136734eb6ebcae9417683d8e915b511316bd8 from main if post-landing verification fails."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/classify-change-closeout-residue.yml",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-worktree/20260613T155458Z-worktree-closeout/classify-change-closeout-residue-after-cleanup.yml",
+    "phase_exit_refs": [
+      "branch-local commit 65e136734eb6ebcae9417683d8e915b511316bd8",
+      "origin branch pushed without PR",
+      "origin/main fast-forwarded to landed ref",
+      "source branch cleanup completed"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260613T155458Z-worktree-closeout/cleanup-authorization-valid-applied.json",
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T155458Z-worktree-closeout/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment-and-no-open-pr",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T155458Z-worktree-closeout/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260613T155458Z-worktree-closeout/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": "git rev-parse main origin/main == 65e136734eb6ebcae9417683d8e915b511316bd8"
+  },
+  "closeout_outcome": "completed",
+  "remaining_blockers": [
+    "repo-hygiene-cleanup-authorization-receipts cannot be archived: local proposal manifest status is accepted, and no matching promotion evidence directory exists under .octon/state/evidence/runs/workflows"
+  ],
+  "created_at": "2026-06-13T16:09:49Z"
+}
