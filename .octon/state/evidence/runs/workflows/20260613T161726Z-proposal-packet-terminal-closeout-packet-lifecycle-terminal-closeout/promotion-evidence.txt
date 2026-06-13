@@ -1,0 +1,3 @@
+.octon/state/evidence/runs/workflows/20260613T153046Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout
+.octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-packet-lifecycle-terminal-closeout
+.octon/state/evidence/runs/workflows/2026-06-13-promote-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout

@@ -1,0 +1,41 @@
+ M .octon/generated/proposals/artifacts/architecture/packet-lifecycle-terminal-closeout/proposal-artifact-index.yml
+ M .octon/generated/proposals/artifacts/architecture/packet-lifecycle-terminal-closeout/proposal-program-spine.yml
+ M .octon/generated/proposals/registry.yml
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/README.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+ D .octon/inputs/exploratory/proposals/architecture/packet-lifecycle-terminal-closeout/support/validation.md
+ M .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+?? .octon/state/continuity/runs/archive-proposal-1781368130239-25053-archive-proposal/
+?? .octon/state/continuity/runs/archive-proposal-1781368130239-25053-validate-proposal/
+?? .octon/state/continuity/runs/archive-proposal-1781368130239-25053/
+?? .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-archive-proposal/
+?? .octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/
+?? .octon/state/control/execution/runs/archive-proposal-1781368130239-25053/
+?? .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781368130239-25053-archive-proposal.yml
+?? .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781368130239-25053-validate-proposal.yml
+?? .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781368130239-25053.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781368130239-25053-archive-proposal.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781368130239-25053-validate-proposal.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781368130239-25053.yml
+?? .octon/state/evidence/external-index/runs/archive-proposal-1781368130239-25053-archive-proposal.yml
+?? .octon/state/evidence/external-index/runs/archive-proposal-1781368130239-25053-validate-proposal.yml
+?? .octon/state/evidence/external-index/runs/archive-proposal-1781368130239-25053.yml
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260613T171732Z-archive-closeout/
+?? .octon/state/evidence/validation/analysis/2026-06-13-archive-proposal.md

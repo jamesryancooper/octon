@@ -1,0 +1,10 @@
+schema_version: proposal-packet-terminal-worktree-hygiene-v1
+target: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+classified_at: "2026-06-13T16:17:26Z"
+status_evidence_ref: .octon/state/evidence/runs/workflows/20260613T161726Z-proposal-packet-terminal-closeout-repo-hygiene-cleanup-authorization-receipts/worktree-status-short.txt
+verdict: pass
+dirty_worktree: false
+foreign_or_ambiguous_count: 0
+notes:
+  - git status --short --untracked-files=all was empty at terminal hygiene classification.
+  - Route-owned ignored terminal evidence is not classified as foreign residue.

@@ -1,0 +1,201 @@
+[OK] proposal manifest exists
+[OK] proposal artifact index exists
+[OK] proposal program spine exists
+[OK] proposal artifact index schema is octon-proposal-artifact-index-v1
+[OK] proposal program spine schema is octon-proposal-program-spine-v1
+[OK] proposal artifact index authority boundary replaces_source_evidence
+[OK] proposal artifact index authority boundary authorizes_execution
+[OK] proposal artifact index authority boundary proposal_input_authority
+[OK] proposal artifact index authority boundary generated_output_authority
+[OK] proposal artifact index authority boundary raw_evidence_retained
+[OK] proposal artifact index authority boundary generated_registry_replaces_manifest
+[OK] proposal program spine authority boundary replaces_source_evidence
+[OK] proposal program spine authority boundary authorizes_execution
+[OK] proposal program spine authority boundary proposal_input_authority
+[OK] proposal program spine authority boundary generated_output_authority
+[OK] proposal program spine authority boundary raw_evidence_retained
+[OK] proposal program spine authority boundary generated_registry_replaces_manifest
+[OK] reader preferences require escalation before raw packet body reads
+[OK] proposal artifact index points at proposal path
+[OK] proposal program spine points at proposal path
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/README.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/README.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/README.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/README.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/README.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/README.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/README.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/target-architecture.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/repository-reconnaissance.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/resources/source-findings.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-conformance-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-run.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/pre-integration-architecture-review.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-creation.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-terminal-closeout.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/validation.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/validation.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/validation.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/validation.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/validation.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/validation.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/validation.md
+[OK] required packet artifact indexed: architecture-proposal.yml
+[OK] required packet artifact indexed: proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture-proposal.yml
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/acceptance-criteria.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/architecture/implementation-plan.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/artifact-catalog.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/navigation/source-of-truth-map.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/proposal.yml
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/executable-implementation-prompt.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/implementation-grade-completeness-review.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout/support/proposal-review.md
+[OK] compact output role present: proposal-program-spine
+[OK] compact output role present: proposal-artifact-index
+Proposal artifact spine validation summary: errors=0

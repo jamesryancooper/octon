@@ -1,0 +1,39 @@
+{
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout",
+    "/Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/.archive/architecture/packet-lifecycle-terminal-closeout",
+    "/Users/jamesryancooper/Projects/octon/.octon/generated/proposals/registry.yml"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": null,
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-ec26a4499e51",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/workflow-execution",
+      "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053/effect-tokens/effect-token-evidence-mutation-ec26a4499e51.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1781368130239-25053/receipts/effect-tokens/effect-token-evidence-mutation-ec26a4499e51/consumption-8cb5ebc73362.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-ec26a4499e51",
+        ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-ec26a4499e51"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-5c19aca68e40",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/workflow-execution",
+      "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053/effect-tokens/effect-token-state-control-mutation-5c19aca68e40.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1781368130239-25053/receipts/effect-tokens/effect-token-state-control-mutation-5c19aca68e40/consumption-a734ea8a7f83.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-5c19aca68e40",
+        ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-5c19aca68e40"
+      ]
+    }
+  ]
+}

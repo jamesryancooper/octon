@@ -1,0 +1,49 @@
+[OK] proposal manifest parses
+[OK] proposal kind supports post-implementation drift/churn gate
+[OK] post-implementation drift/churn review exists
+[OK] drift/churn verdict is explicit
+[OK] unresolved item count is numeric
+[OK] drift/churn review includes section: Blockers
+[OK] drift/churn review includes section: Checked Evidence
+[OK] drift/churn review includes section: Backreference Scan
+[OK] drift/churn review includes section: Naming Drift
+[OK] drift/churn review includes section: Generated Projection Freshness
+[OK] drift/churn review includes section: Manifest And Schema Validity
+[OK] drift/churn review includes section: Repo-Local Projection Boundaries
+[OK] drift/churn review includes section: Target Family Boundaries
+[OK] drift/churn review includes section: Churn Review
+[OK] drift/churn review includes section: Validators Run
+[OK] drift/churn review includes section: Exclusions
+[OK] drift/churn review includes section: Final Closeout Recommendation
+[OK] subtype manifest parses
+[OK] proposal registry parses
+[OK] proposal registry contains current packet entry
+[OK] promotion target scope is coherent
+[OK] .github/** projection boundary is coherent
+[OK] promotion target has no active proposal backreferences: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] promotion target has no active proposal backreferences: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+[OK] promotion target has no active proposal backreferences: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+[OK] promotion target has no active proposal backreferences: .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+[OK] promotion target has no active proposal backreferences: .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+[OK] promotion target has no active proposal backreferences: .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+[OK] promotion target has no active proposal backreferences: .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+[OK] promotion target has no active proposal backreferences: .octon/framework/capabilities/runtime/skills/manifest.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/capabilities/runtime/skills/manifest.yml
+[OK] promotion target has no active proposal backreferences: .octon/framework/capabilities/runtime/skills/registry.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/capabilities/runtime/skills/registry.yml
+[OK] promotion target has no active proposal backreferences: .octon/framework/capabilities/runtime/skills/capabilities.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/capabilities/runtime/skills/capabilities.yml
+[OK] promotion target has no active proposal backreferences: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] promotion target has no active proposal backreferences: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] promotion target has no active proposal backreferences: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+Validation summary: errors=0 warnings=0

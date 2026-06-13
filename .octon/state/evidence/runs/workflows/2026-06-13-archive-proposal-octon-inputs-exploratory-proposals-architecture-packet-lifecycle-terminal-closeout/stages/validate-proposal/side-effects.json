@@ -1,0 +1,37 @@
+{
+  "touched_scope": [
+    ".octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/standard-validator.log"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": "read_only_analysis",
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-89f5cb52a23b",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/validate-proposal",
+      "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/effect-tokens/effect-token-evidence-mutation-89f5cb52a23b.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1781368130239-25053-validate-proposal/receipts/effect-tokens/effect-token-evidence-mutation-89f5cb52a23b/consumption-394208041eab.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-89f5cb52a23b",
+        ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-89f5cb52a23b"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-b6f4aad06cb9",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-13-archive-proposal-octon-inputs-exploratory-proposals-architecture-packet-lifecycle-terminal-closeout/stages/validate-proposal",
+      "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/effect-tokens/effect-token-state-control-mutation-b6f4aad06cb9.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1781368130239-25053-validate-proposal/receipts/effect-tokens/effect-token-state-control-mutation-b6f4aad06cb9/consumption-be9e6219f90a.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-b6f4aad06cb9",
+        ".octon/state/control/execution/runs/archive-proposal-1781368130239-25053-validate-proposal/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-b6f4aad06cb9"
+      ]
+    }
+  ]
+}
