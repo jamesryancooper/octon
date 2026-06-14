@@ -1,5 +1,5 @@
 {
-  "artifact_count": 20,
+  "artifact_count": 21,
   "artifacts": [
     {
       "byte_size": 2296,
@@ -331,6 +331,25 @@
       ],
       "role": "pre-integration-architecture-review",
       "sha256": "sha256:63ba55b7795c836f656a0cbc4fc023bb35076953dd4eb98ad7b8ff509ac32496",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2729,
+      "estimated_tokens": 683,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:44dcbf853d3b0029df9f1eaef0f5bac5f900d1636b0837ed821bfe9b61ce256d",
       "stage_relevance": [
         "support-review"
       ],

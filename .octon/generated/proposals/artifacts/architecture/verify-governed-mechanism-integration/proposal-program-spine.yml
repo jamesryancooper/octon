@@ -120,6 +120,12 @@
       "sha256": "sha256:814f2b36868804ab8119b4167e4a9c057295bf1ff92ea1869c818d02977a68da"
     },
     {
+      "byte_size": 2729,
+      "estimated_tokens": 683,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-closeout.md",
+      "sha256": "sha256:44dcbf853d3b0029df9f1eaef0f5bac5f900d1636b0837ed821bfe9b61ce256d"
+    },
+    {
       "byte_size": 2871,
       "estimated_tokens": 718,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-creation.md",
