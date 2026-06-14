@@ -28,7 +28,17 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
   - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
-status: "accepted"
+status: "archived"
+archive:
+  archived_at: "2026-06-14T00:54:38Z"
+  archived_from_status: "accepted"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/verify-governed-mechanism-integration/20260613T215252Z/preflight-validation.md"
+    - ".octon/state/evidence/validation/proposals/verify-governed-mechanism-integration/20260613T215252Z/implementation-evidence.md"
+    - ".octon/state/evidence/validation/proposals/verify-governed-mechanism-integration/20260613T215252Z/final-validation.md"
+    - ".octon/state/evidence/validation/proposals/verify-governed-mechanism-integration/20260614T002340Z/closeout-hygiene.yml"
 lifecycle:
   temporary: true
   exit_expectation: >-

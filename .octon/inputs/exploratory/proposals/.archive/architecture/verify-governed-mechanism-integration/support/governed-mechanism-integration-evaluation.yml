@@ -1,14 +1,14 @@
 schema_version: governed-mechanism-integration-receipt-v1
 mechanism_id: governed-mechanism-integration-verification
-proposal_path: .octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration
+proposal_path: .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration
 verdict: pass
 unresolved_items_count: 0
 blockers: []
 mechanism_profile_ref: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/profiles/governed-mechanism-integration-verification.profile.yml
 implemented_packet_digest: sha256:3f27c0e2940a178bc07c023fc48ede4cf2841781aec3fe4254bb8edb86310814
 current_state_architecture_review_ref: "not-applicable: evidence-only lens was not selected for implementation-mode receipt"
-implementation_conformance_ref: .octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-conformance-review.md
-post_implementation_drift_ref: .octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/post-implementation-drift-churn-review.md
+implementation_conformance_ref: .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-conformance-review.md
+post_implementation_drift_ref: .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/post-implementation-drift-churn-review.md
 generated_publication_refs:
   - .octon/generated/proposals/registry.yml
   - .octon/state/evidence/validation/proposals/verify-governed-mechanism-integration/20260613T215252Z/preflight-validation.md
@@ -21,10 +21,10 @@ validator_refs:
   - .octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh
   - .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
 evidence_refs:
-  - .octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-run.md
-  - .octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-conformance-review.md
-  - .octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/post-implementation-drift-churn-review.md
-  - .octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/validation.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/validation.md
   - .octon/state/evidence/runs/workflows/20260613T215252Z-verify-governed-mechanism-integration/governed-mechanism-integration/governed-mechanism-integration-verification/
 authority_boundary_verdict: pass
 surface_coverage:

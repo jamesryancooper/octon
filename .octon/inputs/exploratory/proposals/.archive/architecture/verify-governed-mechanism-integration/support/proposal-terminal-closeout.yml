@@ -1,0 +1,275 @@
+schema_version: proposal-packet-terminal-closeout-receipt-v1
+terminal_run_id: 20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration
+terminalized_at: "2026-06-14T01:11:16Z"
+packet:
+  proposal_id: verify-governed-mechanism-integration
+  path: .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration
+  proposal_kind: architecture
+  status: archived
+target_outcome: archive-ready
+terminal_verdict: archive-ready
+profile:
+  profile_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/profile.yml
+  profile_digest: sha256:2f438162b1f70d24eeb72f3783fdc97179972f81e71e01b765eba932ef079843
+  profile_validation_evidence_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-profile.log
+state_ledger:
+  - state_id: bind-profile
+    input_refs:
+      - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/proposal.yml
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/profile.yml
+    validator_command_refs:
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh --profile .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/profile.yml
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-profile.log
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-durable-implementation-state
+    input_refs:
+      - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/proposal.yml
+      - .octon/state/evidence/validation/proposals/verify-governed-mechanism-integration/20260613T215252Z/implementation-evidence.md
+    validator_command_refs:
+      - yq -r '.proposal_id, .proposal_kind, .status' .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/proposal.yml
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/durable-state.txt
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/promotion-evidence.txt
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-implementation-conformance
+    input_refs:
+      - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-conformance-review.md
+    validator_command_refs:
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-implementation-conformance.log
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-post-implementation-drift
+    input_refs:
+      - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/post-implementation-drift-churn-review.md
+    validator_command_refs:
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-post-implementation-drift.log
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: validate-publication-freshness
+    input_refs:
+      - .octon/generated/proposals/registry.yml
+      - .octon/generated/effective/extensions/catalog.effective.yml
+      - .octon/generated/effective/capabilities/routing.effective.yml
+      - .octon/generated/effective/runtime/route-bundle.yml
+    validator_command_refs:
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh --proposal .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration --run-registry-check
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-terminal-freshness.log
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-generated-non-authority.log
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-run-health-read-model.log
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-capability-publication-state.log
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-extension-publication-state.log
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-publication-freshness-gates.log
+    state_verdict: pass
+    retry_count: 1
+    resume_cursor: complete
+  - state_id: classify-repo-hygiene
+    input_refs:
+      - .octon/instance/governance/policies/repo-hygiene.yml
+    validator_command_refs:
+      - bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/repo-hygiene-summary.log
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: classify-worktree-hygiene
+    input_refs:
+      - .octon/state/evidence/validation/proposals/verify-governed-mechanism-integration/20260614T002340Z/closeout-hygiene.yml
+    validator_command_refs:
+      - bash .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh --target .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration --lifecycle proposal-packet --format yaml
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/worktree-hygiene-classification.yml
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/worktree-status-short.txt
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: run-evidence-only-reviews
+    input_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-implementation-conformance.log
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-post-implementation-drift.log
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/worktree-hygiene-classification.yml
+    validator_command_refs:
+      - evidence-only terminal review
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/post-integration-architecture-review.md
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/packet-terminal-evaluator.md
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/lifecycle-postmortem.md
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: resolve-git-github-route
+    input_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-github-route-resolution.md
+    validator_command_refs:
+      - git rev-parse HEAD origin/main
+      - bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh --target main --remote origin --allow-empty-check-set
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-route-head-origin-main.txt
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-github-route-resolution.md
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: emit-terminal-receipt
+    input_refs:
+      - .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/proposal-terminal-closeout.yml
+    validator_command_refs:
+      - bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh --receipt .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/proposal-terminal-closeout.yml
+      - git diff --check
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-terminal-receipt.log
+      - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-diff-check.log
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+implementation:
+  conformance_receipt_ref: .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-conformance-review.md
+  conformance_validator_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-implementation-conformance.log
+  conformance_fresh: true
+  post_implementation_drift_receipt_ref: .octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/post-implementation-drift-churn-review.md
+  post_implementation_drift_validator_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-post-implementation-drift.log
+  post_implementation_drift_fresh: true
+durable_implementation_state_evidence_refs:
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/durable-state.txt
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/promotion-evidence.txt
+publication_freshness:
+  validators:
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-terminal-freshness.log
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-generated-non-authority.log
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-run-health-read-model.log
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-capability-publication-state.log
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-extension-publication-state.log
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-publication-freshness-gates.log
+      verdict: pass
+      fresh: true
+  publisher_refresh_receipts:
+    - .octon/state/evidence/validation/publication/extensions/2026-06-14T01-14-32Z-extensions-e539e7c8b239.yml
+    - .octon/state/evidence/validation/publication/capabilities/2026-06-14T01-19-00Z-capabilities-757cfa2ee865.yml
+    - .octon/state/evidence/validation/publication/capabilities/2026-06-14T01-19-08Z-pack-routes-3d2cc4bb7870.yml
+    - .octon/state/evidence/validation/publication/runtime/2026-06-14T01-19-16Z-runtime-route-bundle-d832aab6f332.yml
+  rerun_evidence_refs:
+    - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/publish-extension-state.log
+    - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/publish-capability-routing.log
+    - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/publish-pack-routes.log
+    - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/publish-runtime-route-bundle.log
+    - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/publish-host-projections.log
+  direct_generated_output_edit_used: false
+generated_input_non_authority:
+  validation_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-generated-non-authority.log
+  proposal_inputs_non_authority: true
+  generated_outputs_non_authority: true
+  generated_prompts_non_authority: true
+  host_state_non_authority: true
+  chat_state_non_authority: true
+  tool_state_non_authority: true
+  model_memory_non_authority: true
+run_health:
+  validation_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-run-health-read-model.log
+  verdict: pass
+capability_publication:
+  validation_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-capability-publication-state.log
+  verdict: pass
+extension_publication:
+  validation_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-extension-publication-state.log
+  verdict: pass
+repo_hygiene:
+  classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260614T012200Z-verify-governed-mechanism-integration/summary.yml
+  cleanup_performed: true
+  cleanup_authorization_refs:
+    - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260614T012200Z-verify-governed-mechanism-integration/summary.yml
+  unauthorized_deletion_performed: false
+worktree_hygiene:
+  classification_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/worktree-hygiene-classification.yml
+  verdict: pass
+  foreign_or_ambiguous_count: 0
+  dirty_worktree: false
+evidence_only_reviews:
+  post_integration_architecture_review_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/post-integration-architecture-review.md
+  post_integration_architecture_review_authority: evidence-only
+  packet_terminal_evaluator_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/packet-terminal-evaluator.md
+  packet_terminal_evaluator_authority: evidence-only
+  lifecycle_postmortem_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/lifecycle-postmortem.md
+  lifecycle_postmortem_authority: evidence-only
+git_github_route:
+  route_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-github-route-resolution.md
+  branch_no_pr: true
+  mutation_delegated: true
+  exact_sha_checks_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-branch-hosted-preflight.log
+  landing_authorization_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/branch-landing-authorization.json
+  branch_cleanup_required: true
+  branch_cleanup_authorization_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/branch-cleanup-authorization.json
+archive_boundary:
+  archive_owner_ref: .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml
+  relocation_performed: false
+blocker:
+  class: none
+  detail: "All terminal closeout gates passed; archive relocation is delegated to archive-proposal and Git/GitHub mutation is delegated to branch-no-pr closeout."
+  failing_evidence_ref: .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/terminal-receipt.yml
+  next_canonical_route: archive-proposal
+retained_evidence_inventory:
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/profile.yml
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-profile.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/durable-state.txt
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/promotion-evidence.txt
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-implementation-conformance.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-post-implementation-drift.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-terminal-freshness.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-generated-non-authority.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-run-health-read-model.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-capability-publication-state.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-extension-publication-state.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/validate-publication-freshness-gates.log
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/repo-hygiene-summary.log
+  - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260614T012200Z-verify-governed-mechanism-integration/summary.yml
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/worktree-hygiene-classification.yml
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/post-integration-architecture-review.md
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/packet-terminal-evaluator.md
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/lifecycle-postmortem.md
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-github-route-resolution.md
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-route-head-origin-main.txt
+  - .octon/state/evidence/runs/workflows/20260614T011116Z-proposal-packet-terminal-closeout-verify-governed-mechanism-integration/git-diff-check.log
+expected_no_new_evidence_loop: true
+non_authority_declarations:
+  proposal_inputs: non-authority
+  generated_outputs: derived-only-non-authority
+  generated_prompts: non-authority
+  host_state: non-authority
+  dashboards: non-authority
+  chat: non-authority
+  tool_state: non-authority
+  model_memory: non-authority
+target_owned_evidence_policy:
+  cites_target_owned_evidence: true
+  aggregate_receipt_replaces_target_owned_receipts: false

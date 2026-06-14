@@ -25,3 +25,10 @@ For implemented closeout, include the required post-implementation gates:
 and `validate-proposal-post-implementation-drift.sh --package <proposal_path>`.
 The closeout prompt must refuse implemented, closeout, or archive-ready claims
 while either receipt is missing, failing, unresolved, or blocked.
+
+If the packet declares governed mechanism integration gates, the generated
+prompt must also require
+`support/governed-mechanism-integration-evaluation.yml`,
+`validate-governed-mechanism-integration-receipt.sh --receipt <proposal_path>/support/governed-mechanism-integration-evaluation.yml --package <proposal_path>`,
+generated publication freshness evidence, terminal freshness evidence when
+archive readiness is claimed, and explicit non-authority classifications.

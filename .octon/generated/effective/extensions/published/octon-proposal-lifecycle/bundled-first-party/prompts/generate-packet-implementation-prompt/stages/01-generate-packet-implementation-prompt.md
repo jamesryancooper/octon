@@ -40,6 +40,14 @@ exclusions. It must leave `proposal.yml#status` as `accepted` so the
 and it must refuse implemented, closeout, or archive-ready claims while either
 post-implementation receipt is missing, failing, unresolved, or blocked.
 
+When the packet declares governed mechanism integration gates, the generated
+prompt must include the selected mechanism profile, require
+`support/governed-mechanism-integration-evaluation.yml`, run
+`validate-governed-mechanism-integration-profile.sh` and
+`validate-governed-mechanism-integration-receipt.sh`, require generated
+publication freshness evidence, and preserve current-state architecture review
+and lifecycle postmortem outputs as evidence-only.
+
 When the user or packet explicitly authorizes delegated implementation, the
 prompt may split work across bounded agents or workers with disjoint write
 scopes and an integration owner. Otherwise, keep delegation optional and do not

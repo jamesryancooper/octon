@@ -73,6 +73,13 @@ and owns the rewrite to `implemented`. `closeout-packet` writes
 `support/proposal-closeout.md`; `archive-proposal` consumes that receipt and
 owns archival.
 
+Packets that declare governed mechanism integration gates add
+`support/governed-mechanism-integration-evaluation.yml` as a required
+packet-local evidence receipt before implemented closeout or implemented
+archive readiness. That receipt does not replace target-owned durable
+authority, generated publication freshness, current-state architecture review
+evidence, lifecycle postmortem evidence, or terminal freshness validation.
+
 The generic lifecycle runner owns orchestration, gate evaluation, stale receipt
 detection, loop bounds, evidence, checkpoints, and resume. By default, it stops
 at a gated `route-ready` handoff. When invoked with `--execute-routes`, it

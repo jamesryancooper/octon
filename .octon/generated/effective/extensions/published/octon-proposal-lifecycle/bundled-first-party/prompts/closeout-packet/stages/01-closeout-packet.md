@@ -40,6 +40,17 @@ the packet preserves accepted review evidence, and closeout must still fail
 closed if implementation-run, conformance, drift/churn, validation, promotion
 evidence, or hygiene gates fail.
 
+If the packet declares governed mechanism integration gates, also require
+`support/governed-mechanism-integration-evaluation.yml` and run:
+
+```sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-receipt.sh --receipt <proposal_path>/support/governed-mechanism-integration-evaluation.yml --package <proposal_path>
+```
+
+Archive-ready claims must also retain terminal freshness evidence. Current-state
+mechanism architecture review and lifecycle postmortem evidence remain
+evidence-only.
+
 If the correctly scoped classifier still reports foreign or ambiguous paths,
 write or refresh `support/proposal-closeout.md` with `verdict: blocked`,
 `archive_authorized: no`, the hygiene counts and evidence path, and

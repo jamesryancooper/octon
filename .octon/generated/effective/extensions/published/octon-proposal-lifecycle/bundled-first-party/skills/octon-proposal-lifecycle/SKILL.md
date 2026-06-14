@@ -56,6 +56,13 @@ Resolve `bundle` or `lifecycle_action` through
   implementation, closeout must also prove `support/implementation-conformance-review.md`
   and `support/post-implementation-drift-churn-review.md` pass with
   `verdict: pass` and `unresolved_items_count: 0`.
+- When a packet declares governed mechanism integration gates, implementation,
+  closeout, and archive readiness must also validate
+  `support/governed-mechanism-integration-evaluation.yml` with
+  `validate-governed-mechanism-integration-receipt.sh`. The receipt is
+  proposal-local evidence only; it does not replace durable target authority,
+  generated publication freshness, current-state architecture review evidence,
+  lifecycle postmortem evidence, or terminal freshness gates.
 - Use `run-packet-implementation` as the lifecycle bridge after
   `generate-packet-implementation-prompt` and before verification or closeout. It may
   promote durable targets only from an accepted packet with a fresh accepted

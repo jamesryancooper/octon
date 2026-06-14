@@ -29,6 +29,14 @@ no unresolved items, or the packet records an explicit blocked/deferred report
 outcome or a rejected/superseded/historical archive disposition instead of a
 successful closeout.
 
+For packets that declare governed mechanism integration gates, also refuse
+implemented closeout or implemented archival unless
+`support/governed-mechanism-integration-evaluation.yml` passes
+`validate-governed-mechanism-integration-receipt.sh --package <proposal_path>`.
+Do not treat current-state mechanism architecture review, lifecycle postmortem,
+generated outputs, host state, chat, tool state, dashboards, or model memory as
+authority.
+
 For already implemented packets, verify review preservation with the baseline
 review gate. Do not require
 `validate-proposal-review-gate.sh --require-implementation-authorization`

@@ -30,14 +30,14 @@
   "gate_states": {
     "implementation_readiness": {
       "clarification_required": null,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
       "unresolved_questions_count": null,
       "verdict": null
     },
     "proposal_review": {
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/proposal-review.md",
       "reviewed_packet_digest": "sha256:c84cb26c32080e7a00f4166d2c681adb6de2ecd87830beb7c6c28c091a1f8d47",
       "verdict": "accepted"
     },
@@ -51,7 +51,7 @@
   },
   "lifecycle": {
     "exit_expectation": "Promote only after proposal review accepts the packet, strict pre-integration architecture review passes, durable workflow/schema/profile validator changes land outside proposal-local paths, generated projections are refreshed through canonical publication scripts, and implementation conformance plus post-implementation drift/churn receipts pass. Archive only after the governed mechanism integration receipt is current, passing, and tied to the implemented packet digest.",
-    "status": "accepted",
+    "status": "archived",
     "temporary": true
   },
   "output_ref": ".octon/generated/proposals/artifacts/architecture/verify-governed-mechanism-integration/proposal-program-spine.yml",
@@ -79,7 +79,7 @@
   ],
   "proposal_id": "verify-governed-mechanism-integration",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -92,55 +92,55 @@
     {
       "byte_size": 31107,
       "estimated_tokens": 7777,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/executable-implementation-prompt.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/executable-implementation-prompt.md",
       "sha256": "sha256:a80ed60ba4e12f54f179722afec284b517432887bb2b64fd9cd2198e72c00f75"
     },
     {
       "byte_size": 3376,
       "estimated_tokens": 844,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-conformance-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-conformance-review.md",
       "sha256": "sha256:5ca183ea974ac07b6e834344ae3566b1c4485a44e755872cb5baf93e8613dec8"
     },
     {
       "byte_size": 4149,
       "estimated_tokens": 1038,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
       "sha256": "sha256:69527041298eaa30c11a1672070aafab276704faa8b2bf3d7a6bd14b26f6b549"
     },
     {
       "byte_size": 2009,
       "estimated_tokens": 503,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-run.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-run.md",
       "sha256": "sha256:b5cb8e248e38f2248418e812f5ad8fa24dcf5dfd0faae2ab2119cc8a6343e221"
     },
     {
       "byte_size": 2955,
       "estimated_tokens": 739,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/post-implementation-drift-churn-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/post-implementation-drift-churn-review.md",
       "sha256": "sha256:814f2b36868804ab8119b4167e4a9c057295bf1ff92ea1869c818d02977a68da"
     },
     {
       "byte_size": 2729,
       "estimated_tokens": 683,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-closeout.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/proposal-closeout.md",
       "sha256": "sha256:44dcbf853d3b0029df9f1eaef0f5bac5f900d1636b0837ed821bfe9b61ce256d"
     },
     {
       "byte_size": 2871,
       "estimated_tokens": 718,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-creation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/proposal-creation.md",
       "sha256": "sha256:ed1f90d2554823ca8d5fc080bcffd85ef46225ba4cc13ff3da017613210e0a56"
     },
     {
       "byte_size": 5797,
       "estimated_tokens": 1450,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/proposal-review.md",
       "sha256": "sha256:51103a8c1fc7f42665cb1f90df6916768691fbeddb29c9bd4f19c69d8093265f"
     },
     {
       "byte_size": 2514,
       "estimated_tokens": 629,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/validation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/validation.md",
       "sha256": "sha256:8bdfc194024044cc7d82daac9de332087e1c13760e85babc3a6ad73bcd381318"
     }
   ],
@@ -151,30 +151,30 @@
   ],
   "schema_version": "octon-proposal-program-spine-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/architecture-proposal.yml": "sha256:34422083da27a1e5094407df3a91865f12978697f0583cba87f6c83353d6b433",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/architecture/acceptance-criteria.md": "sha256:b42617cd8bbc1be9fe3ca4d2b2a52477250977d0e740a6e25bceb8047dc2355b",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/architecture/implementation-plan.md": "sha256:aaab47d51014493848ad1bbeba74d4d0953d085d42f1a3b02cc7acb74ae81f0a",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/navigation/artifact-catalog.md": "sha256:7cadc94fed283153d5bb4a336977e5a92aff2a441bda70c0668123417b8c7522",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/navigation/source-of-truth-map.md": "sha256:cae219c7ec7758f6510f6a3cef23d5f5d5436c32b1d2cfc36597c54d25f6b0c2",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/proposal.yml": "sha256:987fa6291ba116d28c1ce0bb73d50346aecd3c0679939eb6bfc45a3fa5fb14e1",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/executable-implementation-prompt.md": "sha256:a80ed60ba4e12f54f179722afec284b517432887bb2b64fd9cd2198e72c00f75",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-grade-completeness-review.md": "sha256:69527041298eaa30c11a1672070aafab276704faa8b2bf3d7a6bd14b26f6b549",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-review.md": "sha256:51103a8c1fc7f42665cb1f90df6916768691fbeddb29c9bd4f19c69d8093265f"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/architecture-proposal.yml": "sha256:34422083da27a1e5094407df3a91865f12978697f0583cba87f6c83353d6b433",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/architecture/acceptance-criteria.md": "sha256:b42617cd8bbc1be9fe3ca4d2b2a52477250977d0e740a6e25bceb8047dc2355b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/architecture/implementation-plan.md": "sha256:aaab47d51014493848ad1bbeba74d4d0953d085d42f1a3b02cc7acb74ae81f0a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/navigation/artifact-catalog.md": "sha256:30b32aa58e398c1323204876b119fa32866b54a2c54ca2fc6066c831baa45cb4",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/navigation/source-of-truth-map.md": "sha256:cae219c7ec7758f6510f6a3cef23d5f5d5436c32b1d2cfc36597c54d25f6b0c2",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/proposal.yml": "sha256:f1de46ad484ae5cf08169b55eb8ac35305d6c342cf140f88d146282d1c4b865e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/executable-implementation-prompt.md": "sha256:a80ed60ba4e12f54f179722afec284b517432887bb2b64fd9cd2198e72c00f75",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-grade-completeness-review.md": "sha256:69527041298eaa30c11a1672070aafab276704faa8b2bf3d7a6bd14b26f6b549",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/proposal-review.md": "sha256:51103a8c1fc7f42665cb1f90df6916768691fbeddb29c9bd4f19c69d8093265f"
   },
   "source_lineage": [
     "resources/source-prompt.md",
     "resources/repository-reconnaissance.md"
   ],
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/verify-governed-mechanism-integration/support/proposal-review.md"
   ],
-  "status": "accepted"
+  "status": "archived"
 }

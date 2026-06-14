@@ -23,6 +23,14 @@ and `validate-proposal-post-implementation-drift.sh --package <proposal_path>`.
 It must refuse implemented, closeout, or archive-ready claims while either
 post-implementation receipt is missing, failing, unresolved, or blocked.
 
+When the packet declares governed mechanism integration gates, the generated
+prompt must also require
+`support/governed-mechanism-integration-evaluation.yml`,
+`validate-governed-mechanism-integration-receipt.sh --receipt <proposal_path>/support/governed-mechanism-integration-evaluation.yml --package <proposal_path>`,
+fresh generated publication validation, and terminal freshness validation
+before archive readiness. The prompt must keep current-state architecture
+review and lifecycle postmortem evidence evidence-only.
+
 When any required check is red, the prompt must require a remediation loop:
 inspect every failing check, job, and script; identify the failing contract;
 make the smallest target-architecture-correct fix; validate locally when
