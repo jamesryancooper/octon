@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon://framework/product/contracts/governed-mechanism-integration-profile-v1.schema.json",
+  "title": "Governed Mechanism Integration Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "mechanism",
+    "owners",
+    "product_feature_refs",
+    "doctrine_refs",
+    "documentation_refs",
+    "workflows",
+    "skills",
+    "commands",
+    "schemas",
+    "validators",
+    "generated_projections",
+    "evidence_roots",
+    "lifecycle_hooks",
+    "extension_boundaries",
+    "authority_boundaries",
+    "non_authority_boundaries",
+    "not_applicable"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "governed-mechanism-integration-profile-v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mechanism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mechanism_id",
+        "display_name",
+        "index_ref"
+      ],
+      "properties": {
+        "mechanism_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "index_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "owners": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "product_feature_refs": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "doctrine_refs": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "documentation_refs": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "workflows": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "skills": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "commands": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "schemas": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "validators": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "generated_projections": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "evidence_roots": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "lifecycle_hooks": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "extension_boundaries": {
+      "$ref": "#/$defs/ref_array"
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minProperties": 1
+    },
+    "non_authority_boundaries": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minProperties": 1
+    },
+    "not_applicable": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "surface_class",
+          "rationale"
+        ],
+        "properties": {
+          "surface_class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "role"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_class": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "ref_array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ref"
+      }
+    }
+  }
+}

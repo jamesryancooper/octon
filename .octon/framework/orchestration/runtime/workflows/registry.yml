@@ -1860,6 +1860,64 @@ workflows:
           format: mixed
           determinism: unique
           description: "Workflow bundle containing post-implementation drift/churn metadata and outputs"
+  verify-governed-mechanism-integration:
+    version: "1.0.0"
+    commands: ["/verify-governed-mechanism-integration"]
+    parameters:
+      - name: proposal_path
+        type: folder
+        required: true
+        description: "Root proposal directory whose governed mechanism integration is being verified"
+      - name: mechanism_id
+        type: text
+        required: true
+        description: "Governed cross-surface mechanism identifier"
+      - name: mechanism_profile_ref
+        type: file
+        required: true
+        description: "Repo-relative governed mechanism integration profile"
+      - name: mode
+        type: text
+        required: false
+        default: "implementation"
+        description: "Verification mode: implementation, closeout, or archive"
+      - name: run_id
+        type: text
+        required: false
+        description: "Optional retained evidence run id"
+    access: human
+    depends_on:
+      - workflow: verify-implementation-conformance
+        condition: "required before a pass verdict"
+      - workflow: audit-post-implementation-drift
+        condition: "required before a pass verdict"
+    io:
+      inputs:
+        - name: proposal_root
+          path: "{{proposal_path}}"
+          kind: directory
+          format: mixed
+          required: true
+          description: "Proposal packet under governed mechanism integration verification"
+        - name: mechanism_profile
+          path: "{{mechanism_profile_ref}}"
+          kind: file
+          format: yaml
+          required: true
+          description: "Governed mechanism integration profile"
+      outputs:
+        - name: governed_mechanism_integration_receipt
+          path: "{{proposal_path}}/support/governed-mechanism-integration-evaluation.yml"
+          kind: file
+          format: yaml
+          determinism: replace
+          description: "Packet-local governed mechanism integration receipt"
+        - name: governed_mechanism_integration_bundle
+          path: "/.octon/state/evidence/runs/workflows/{{run_id}}/governed-mechanism-integration/{{mechanism_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Retained workflow evidence bundle for governed mechanism integration"
   proposal-packet-terminal-closeout:
     version: "1.0.0"
     commands: ["/proposal-packet-terminal-closeout"]

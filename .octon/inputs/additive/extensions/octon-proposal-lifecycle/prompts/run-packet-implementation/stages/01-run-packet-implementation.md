@@ -27,6 +27,14 @@ receipt must include at least `verdict`, `implemented_at`, and
 `promotion_evidence_count`; use `verdict: pass` only when durable promotion
 work has landed and promotion evidence is available.
 
+If the packet declares governed mechanism integration gates, also create or
+update `support/governed-mechanism-integration-evaluation.yml` after durable
+changes land and validate it with
+`validate-governed-mechanism-integration-receipt.sh --receipt <proposal_path>/support/governed-mechanism-integration-evaluation.yml --package <proposal_path>`.
+The receipt must classify proposal-local support files, generated outputs,
+current-state architecture review evidence, lifecycle postmortem evidence,
+host state, chat, tool state, dashboards, and model memory as non-authority.
+
 Run structural, subtype, implementation-readiness, implementation-conformance,
 and post-implementation drift validators, plus all validators declared by the
 packet and affected durable surfaces. Leave `proposal.yml#status` as

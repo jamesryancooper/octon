@@ -86,6 +86,9 @@ Each mechanism entry must name:
 
 - authored authority surfaces
 - product contracts and product feature navigation, when present
+- governed mechanism integration profiles, when the mechanism needs lifecycle
+  closeout verification across durable, generated, extension, and evidence
+  surfaces
 - runtime specs and runtime implementations
 - mutable operational truth
 - retained evidence
@@ -115,6 +118,7 @@ The machine-readable coverage index is `index.yml`. It covers:
 - Mission Plan compiler
 - Generated effective/runtime resolution
 - Operator read models
+- Governed mechanism integration verification
 
 ## Boundary Notes
 
@@ -141,11 +145,17 @@ validation verdicts, promotion targets, acceptance criteria, conformance
 receipts, drift/churn receipts, closeout receipts, and archive metadata remain
 child-owned.
 
+Governed mechanism integration profiles describe coverage across product,
+runtime, extension, generated, validation, and evidence surfaces. The profiles
+are navigation and verification inputs; they do not create a mechanism-level
+control plane.
+
 ## Detail Pages
 
 - `mechanisms/governed-lifecycle-orchestration.md`
 - `mechanisms/change-closeout-and-repo-hygiene.md`
 - `mechanisms/operator-read-models.md`
+- `mechanisms/governed-mechanism-integration-verification.md`
 
 ## Closeout Coverage
 

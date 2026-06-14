@@ -1,0 +1,116 @@
+schema_version: governed-mechanism-integration-profile-v1
+profile_id: governed-mechanism-integration-verification
+mechanism:
+  mechanism_id: governed-mechanism-integration-verification
+  display_name: Governed Mechanism Integration Verification
+  index_ref: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml
+owners:
+  - ref: .octon/framework/product/features/governed-mechanism-integration-verification.md
+    role: product navigation owner
+    authority_class: navigation-only
+product_feature_refs:
+  - ref: .octon/framework/product/features/catalog.yml
+    role: product feature catalog entry
+    authority_class: navigation-only
+  - ref: .octon/framework/product/features/governed-mechanism-integration-verification.md
+    role: product feature note
+    authority_class: navigation-only
+doctrine_refs:
+  - ref: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md
+    role: mechanism index doctrine
+    authority_class: architecture-governance-navigation
+documentation_refs:
+  - ref: .octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/README.md
+    role: workflow guide
+    authority_class: runtime-workflow
+  - ref: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/governed-mechanism-integration-verification.md
+    role: mechanism detail
+    authority_class: navigation-only
+workflows:
+  - ref: .octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/workflow.yml
+    role: governed mechanism integration workflow
+    authority_class: runtime-workflow
+skills:
+  - ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle/SKILL.md
+    role: proposal lifecycle lifecycle hook guidance
+    authority_class: publication-input-only
+  - ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-packet-implementation/SKILL.md
+    role: implementation route evidence hook
+    authority_class: publication-input-only
+commands:
+  - ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-packet-implementation.md
+    role: implementation command hook
+    authority_class: publication-input-only
+  - ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-closeout-packet.md
+    role: closeout command hook
+    authority_class: publication-input-only
+schemas:
+  - ref: .octon/framework/product/contracts/governed-mechanism-integration-profile-v1.schema.json
+    role: profile schema
+    authority_class: product-contract
+  - ref: .octon/framework/product/contracts/governed-mechanism-integration-receipt-v1.schema.json
+    role: receipt schema
+    authority_class: product-contract
+validators:
+  - ref: .octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-profile.sh
+    role: profile validator
+    authority_class: runtime-validator
+  - ref: .octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-receipt.sh
+    role: receipt validator
+    authority_class: runtime-validator
+  - ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh
+    role: implementation conformance integration validator
+    authority_class: runtime-validator
+  - ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh
+    role: drift/churn integration validator
+    authority_class: runtime-validator
+  - ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+    role: terminal freshness integration validator
+    authority_class: runtime-validator
+generated_projections:
+  - ref: .octon/generated/proposals/registry.yml
+    role: generated proposal registry freshness projection
+    authority_class: generated-operator-read-model
+  - ref: .octon/generated/proposals/artifacts/<proposal-id>/artifact-index.yml
+    role: generated artifact index freshness projection
+    authority_class: generated-operator-read-model
+  - ref: .octon/generated/effective/extensions/<projection>.yml
+    role: generated extension publication projection
+    authority_class: generated-effective-non-authority
+evidence_roots:
+  - ref: .octon/state/evidence/runs/workflows/<run-id>/governed-mechanism-integration/<mechanism-id>/
+    role: retained governed mechanism integration workflow evidence
+    authority_class: retained-evidence-pattern
+  - ref: .octon/state/evidence/validation/proposals/<proposal-id>/<timestamp>/
+    role: retained proposal validation evidence
+    authority_class: retained-evidence-pattern
+lifecycle_hooks:
+  - ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/run-packet-implementation/stages/01-run-packet-implementation.md
+    role: packet implementation evidence hook
+    authority_class: publication-input-only
+  - ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-packet/stages/01-closeout-packet.md
+    role: packet closeout gate hook
+    authority_class: publication-input-only
+  - ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/generate-packet-closeout-prompt/stages/01-generate-packet-closeout-prompt.md
+    role: generated closeout prompt hook
+    authority_class: publication-input-only
+extension_boundaries:
+  - ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/
+    role: proposal lifecycle extension publication input
+    authority_class: publication-input-only
+authority_boundaries:
+  durable_authority: durable authority lands only in framework, product, lifecycle extension input, and mechanism index targets.
+  proposal_support: proposal-local support receipts are evidence only.
+  generated_outputs: generated outputs are derived-only and refresh-owned by canonical generators.
+non_authority_boundaries:
+  proposal_inputs: non-authority
+  generated_outputs: derived-only-non-authority
+  generated_prompts: non-authority
+  host_state: non-authority
+  dashboards: non-authority
+  chat: non-authority
+  tool_state: non-authority
+  model_memory: non-authority
+  current_state_architecture_review: evidence-only
+  lifecycle_postmortem: evidence-only
+not_applicable: []

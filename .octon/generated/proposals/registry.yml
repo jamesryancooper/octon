@@ -97,7 +97,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/verify-governed-mechanism-integration"
     title: "Verify Governed Mechanism Integration"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/"
       - ".octon/framework/orchestration/runtime/workflows/registry.yml"

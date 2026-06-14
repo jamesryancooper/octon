@@ -7,6 +7,7 @@ ROOT_DIR="$(cd -- "$SCRIPT_DIR/../../../../../.." && pwd)"
 TARGET=""
 CHILDREN_FILE=""
 RUN_REGISTRY_CHECK=0
+GMI_RECEIPT_VALIDATOR="$SCRIPT_DIR/validate-governed-mechanism-integration-receipt.sh"
 errors=0
 
 usage() {
@@ -17,7 +18,8 @@ usage:
 
 Validates late proposal lifecycle freshness for the scoped packet set by
 checking generated proposal registry freshness when requested, artifact index
-freshness, and artifact spine freshness after the last proposal mutation.
+freshness, artifact spine freshness, and governed mechanism integration
+receipt freshness when the scoped proposal declares that gate.
 EOF
 }
 
@@ -132,6 +134,22 @@ for proposal in "${PROPOSALS[@]}"; do
     bash "$SCRIPT_DIR/generate-proposal-artifact-index.sh" --root "$ROOT_DIR" --proposal "$proposal" --check
   run_check "proposal artifact spine validates: $(rel_path "$proposal")" \
     bash "$SCRIPT_DIR/validate-proposal-artifact-index-spine.sh" --root "$ROOT_DIR" --proposal "$proposal"
+
+  receipt="$proposal/support/governed-mechanism-integration-evaluation.yml"
+  requires_gmi=0
+  if yq -r '.validation_gates[]?' "$proposal/proposal.yml" 2>/dev/null | grep -Fqi "governed mechanism integration"; then
+    requires_gmi=1
+  fi
+  status="$(yq -r '.status // ""' "$proposal/proposal.yml" 2>/dev/null || true)"
+  archive_disposition="$(yq -r '.archive.disposition // ""' "$proposal/proposal.yml" 2>/dev/null || true)"
+  if [[ -f "$receipt" ]]; then
+    run_check "governed mechanism integration receipt validates: $(rel_path "$proposal")" \
+      bash "$GMI_RECEIPT_VALIDATOR" --receipt "$receipt" --package "$(rel_path "$proposal")"
+  elif [[ "$requires_gmi" -eq 1 && ( "$status" == "implemented" || ( "$status" == "archived" && "$archive_disposition" == "implemented" ) ) ]]; then
+    fail "governed mechanism integration receipt exists for implemented terminal freshness: $(rel_path "$proposal")"
+  else
+    pass "governed mechanism integration receipt not required for current lifecycle state: $(rel_path "$proposal")"
+  fi
 done
 
 printf 'Terminal freshness validation summary: checked=%s errors=%s\n' "${#PROPOSALS[@]}" "$errors"

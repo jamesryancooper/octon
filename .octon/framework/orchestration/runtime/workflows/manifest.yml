@@ -232,6 +232,18 @@ workflows:
       - "audit post implementation drift"
       - "check proposal drift after implementation"
       - "run proposal drift churn gate"
+  - id: verify-governed-mechanism-integration
+    display_name: Verify Governed Mechanism Integration
+    group: meta
+    domain: proposals
+    path: meta/verify-governed-mechanism-integration/
+    execution_profile: core
+    summary: Verify governed mechanism cross-surface evidence, authority boundaries, and publication freshness before packet closeout.
+    status: active
+    triggers:
+      - "verify governed mechanism integration"
+      - "check governed mechanism integration"
+      - "run governed mechanism integration gate"
   - id: proposal-packet-terminal-closeout
     display_name: Proposal Packet Terminal Closeout
     group: meta

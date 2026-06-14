@@ -7,6 +7,7 @@ FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 CONFORMANCE_VALIDATOR="$SCRIPT_DIR/validate-proposal-implementation-conformance.sh"
+GMI_RECEIPT_VALIDATOR="$SCRIPT_DIR/validate-governed-mechanism-integration-receipt.sh"
 
 PROPOSAL_PATH=""
 errors=0
@@ -58,6 +59,7 @@ fi
 
 MANIFEST="$PROPOSAL_DIR/proposal.yml"
 REVIEW="$PROPOSAL_DIR/support/post-implementation-drift-churn-review.md"
+GMI_RECEIPT="$PROPOSAL_DIR/support/governed-mechanism-integration-evaluation.yml"
 REGISTRY="$ROOT_DIR/.octon/generated/proposals/registry.yml"
 legacy_archive=0
 
@@ -87,6 +89,10 @@ status="$(yq -r '.status // ""' "$MANIFEST")"
 archive_disposition="$(yq -r '.archive.disposition // ""' "$MANIFEST")"
 promotion_scope="$(yq -r '.promotion_scope // ""' "$MANIFEST")"
 proposal_rel="${PROPOSAL_DIR#$ROOT_DIR/}"
+requires_gmi=0
+if yq -r '.validation_gates[]?' "$MANIFEST" 2>/dev/null | grep -Fqi "governed mechanism integration"; then
+  requires_gmi=1
+fi
 
 case "$PROPOSAL_DIR" in
   */.octon/inputs/exploratory/proposals/.archive/*)
@@ -187,6 +193,7 @@ if [[ -f "$REVIEW" ]]; then
     "Backreference Scan" \
     "Naming Drift" \
     "Generated Projection Freshness" \
+    "Governed Mechanism Integration Coverage" \
     "Manifest And Schema Validity" \
     "Repo-Local Projection Boundaries" \
     "Target Family Boundaries" \
@@ -218,6 +225,24 @@ else
     warn "legacy archived proposal has no post-implementation drift/churn review"
   else
     warn "post-implementation drift/churn review is not required before implementation"
+  fi
+fi
+
+if [[ "$requires_gmi" -eq 1 ]]; then
+  if [[ -f "$GMI_RECEIPT" ]]; then
+    pass "governed mechanism integration receipt exists"
+    if bash "$GMI_RECEIPT_VALIDATOR" --receipt "$GMI_RECEIPT" --package "$PROPOSAL_PATH"; then
+      pass "governed mechanism integration receipt validates"
+    else
+      fail "governed mechanism integration receipt validates"
+    fi
+    if [[ -f "$REVIEW" ]]; then
+      require_section "Governed Mechanism Integration Coverage"
+    fi
+  elif [[ "$requires_pass" -eq 1 ]]; then
+    fail "governed mechanism integration receipt exists"
+  else
+    warn "governed mechanism integration receipt is not required before implementation"
   fi
 fi
 
@@ -312,6 +337,11 @@ scan_target() {
 
 scan_target_naming_drift() {
   local target_abs="$1"
+  case "$target_abs" in
+    */validate-proposal-post-implementation-drift.sh)
+      return 0
+      ;;
+  esac
   if command -v rg >/dev/null 2>&1; then
     rg -n -i -e 'Work Package' "$target_abs" \
       -g '!validate-default-work-unit-alignment.sh' \

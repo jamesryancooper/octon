@@ -1,0 +1,273 @@
+---
+schema_version: workflow-contract-v2
+name: verify-governed-mechanism-integration
+description: Verify that a governed mechanism implementation has complete cross-surface profile evidence, validated receipts, publication freshness, and authority-boundary protection before proposal closeout.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
+execution_controls:
+  cancel_safe: false
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - workflow_group
+    - workflow_id
+    - mechanism_id
+  format: workflow:{workflow_group}/{workflow_id}:{mechanism_id}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: proposal_path
+    type: folder
+    required: true
+    description: Root proposal directory whose governed mechanism integration is being verified
+  - name: mechanism_id
+    type: text
+    required: true
+    description: Governed cross-surface mechanism identifier from the mechanism index
+  - name: mechanism_profile_ref
+    type: file
+    required: true
+    description: Repo-relative governed mechanism integration profile to validate
+  - name: mode
+    type: text
+    required: false
+    default: implementation
+    description: "Verification mode: implementation, closeout, or archive"
+  - name: run_id
+    type: text
+    required: false
+    description: Optional retained evidence run id
+stages:
+  - id: bind-profile
+    asset: stages/01-bind-profile.md
+    kind: analysis
+    consumes: []
+    produces:
+      - stage:bind-profile
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+      side_effects:
+        write_repo: false
+        write_evidence: false
+        shell: false
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: validate-profile
+    asset: stages/02-validate-profile.md
+    kind: verification
+    consumes:
+      - stage:bind-profile
+    produces:
+      - stage:validate-profile
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - shell.execute
+      side_effects:
+        write_repo: false
+        write_evidence: false
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: collect-evidence
+    asset: stages/03-collect-evidence.md
+    kind: analysis
+    consumes:
+      - stage:validate-profile
+    produces:
+      - stage:collect-evidence
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - shell.execute
+      side_effects:
+        write_repo: false
+        write_evidence: false
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: run-validators
+    asset: stages/04-run-validators.md
+    kind: verification
+    consumes:
+      - stage:collect-evidence
+    produces:
+      - stage:run-validators
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - shell.execute
+      side_effects:
+        write_repo: false
+        write_evidence: false
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: emit-receipt
+    asset: stages/05-emit-receipt.md
+    kind: mutation
+    consumes:
+      - stage:run-validators
+    produces:
+      - stage:emit-receipt
+    mutation_scope:
+      - proposal-support-receipt
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - file.write
+      side_effects:
+        write_repo: true
+        write_evidence: false
+        shell: false
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - proposal-support-receipt
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - repo_write
+  - id: retain-evidence
+    asset: stages/06-retain-evidence.md
+    kind: mutation
+    consumes:
+      - stage:emit-receipt
+    produces:
+      - stage:retain-evidence
+    mutation_scope:
+      - workflow-evidence
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: false
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - repo_write
+artifacts:
+  - name: governed_mechanism_integration_receipt
+    path: "{{proposal_path}}/support/governed-mechanism-integration-evaluation.yml"
+    kind: file
+    format: yaml
+    determinism: replace
+    description: Packet-local evidence receipt for governed mechanism integration verification
+  - name: governed_mechanism_integration_bundle
+    path: "/.octon/state/evidence/runs/workflows/{{run_id}}/governed-mechanism-integration/{{mechanism_id}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: Retained workflow evidence bundle containing profile, receipt, validation logs, and evidence inventory
+done_gate:
+  checks:
+    - "validate-governed-mechanism-integration-profile.sh passes for `mechanism_profile_ref`"
+    - "validate-governed-mechanism-integration-receipt.sh passes for `support/governed-mechanism-integration-evaluation.yml`"
+    - "validate-proposal-implementation-conformance.sh and validate-proposal-post-implementation-drift.sh pass before an implementation verdict is accepted"
+    - "generated publication refs are regenerated by canonical publishers or explicitly validated fresh, never edited by hand"
+    - "current-state mechanism architecture review and lifecycle postmortem outputs are recorded only as evidence refs, not acceptance gates"
+    - "proposal-local files, generated outputs, chat/tool state, dashboards, host state, and model memory are classified as non-authority"
+    - "closeout and archive modes also pass validate-proposal-lifecycle-terminal-freshness.sh"
+constraints:
+  fail_closed: true
+  forbid_design_packages: false
+  require_relative_local_assets: true
+  no_direct_generated_publication_edits: true
+  no_mechanism_control_plane: true

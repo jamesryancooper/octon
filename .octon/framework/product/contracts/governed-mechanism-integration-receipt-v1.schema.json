@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon://framework/product/contracts/governed-mechanism-integration-receipt-v1.schema.json",
+  "title": "Governed Mechanism Integration Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "mechanism_id",
+    "proposal_path",
+    "verdict",
+    "unresolved_items_count",
+    "blockers",
+    "mechanism_profile_ref",
+    "implemented_packet_digest",
+    "current_state_architecture_review_ref",
+    "implementation_conformance_ref",
+    "post_implementation_drift_ref",
+    "generated_publication_refs",
+    "terminal_freshness_refs",
+    "validator_refs",
+    "evidence_refs",
+    "authority_boundary_verdict",
+    "surface_coverage",
+    "non_authority_classification",
+    "mode_specific_coverage"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "governed-mechanism-integration-receipt-v1"
+    },
+    "mechanism_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+    },
+    "proposal_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verdict": {
+      "enum": [
+        "pass",
+        "fail",
+        "blocked",
+        "deferred",
+        "not_applicable"
+      ]
+    },
+    "unresolved_items_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mechanism_profile_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implemented_packet_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "current_state_architecture_review_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implementation_conformance_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "post_implementation_drift_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_publication_refs": {
+      "$ref": "#/$defs/string_array"
+    },
+    "terminal_freshness_refs": {
+      "$ref": "#/$defs/string_array"
+    },
+    "validator_refs": {
+      "$ref": "#/$defs/string_array"
+    },
+    "evidence_refs": {
+      "$ref": "#/$defs/string_array"
+    },
+    "authority_boundary_verdict": {
+      "enum": [
+        "pass",
+        "fail",
+        "blocked"
+      ]
+    },
+    "surface_coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "surface_class",
+          "status",
+          "evidence_ref"
+        ],
+        "properties": {
+          "surface_class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "covered",
+              "not_applicable",
+              "missing"
+            ]
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rationale": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "non_authority_classification": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "required": [
+        "proposal_inputs",
+        "generated_outputs",
+        "generated_prompts",
+        "host_state",
+        "dashboards",
+        "chat",
+        "tool_state",
+        "model_memory",
+        "current_state_architecture_review",
+        "lifecycle_postmortem"
+      ],
+      "properties": {
+        "proposal_inputs": {
+          "const": "non-authority"
+        },
+        "generated_outputs": {
+          "const": "derived-only-non-authority"
+        },
+        "generated_prompts": {
+          "const": "non-authority"
+        },
+        "host_state": {
+          "const": "non-authority"
+        },
+        "dashboards": {
+          "const": "non-authority"
+        },
+        "chat": {
+          "const": "non-authority"
+        },
+        "tool_state": {
+          "const": "non-authority"
+        },
+        "model_memory": {
+          "const": "non-authority"
+        },
+        "current_state_architecture_review": {
+          "const": "evidence-only"
+        },
+        "lifecycle_postmortem": {
+          "const": "evidence-only"
+        }
+      }
+    },
+    "mode_specific_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "terminal_freshness_required",
+        "terminal_freshness_status",
+        "current_state_architecture_review_role",
+        "lifecycle_postmortem_authority"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "implementation",
+            "closeout",
+            "archive"
+          ]
+        },
+        "terminal_freshness_required": {
+          "type": "boolean"
+        },
+        "terminal_freshness_status": {
+          "enum": [
+            "pass",
+            "not_applicable",
+            "fail",
+            "blocked"
+          ]
+        },
+        "current_state_architecture_review_role": {
+          "const": "evidence-only"
+        },
+        "lifecycle_postmortem_authority": {
+          "const": "evidence-only"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

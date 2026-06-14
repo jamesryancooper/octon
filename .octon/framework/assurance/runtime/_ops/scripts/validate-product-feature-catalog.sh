@@ -207,6 +207,26 @@ validate_governed_lifecycle_orchestration_support_claims() {
   validate_no_unqualified_support_claims "$doc" "governed-lifecycle-orchestration feature note"
 }
 
+validate_governed_mechanism_integration_support_claims() {
+  local doc="$OCTON_DIR/framework/product/features/governed-mechanism-integration-verification.md"
+  if ! yq -e '.features[]? | select(.feature_id == "governed-mechanism-integration-verification")' "$CATALOG_PATH" >/dev/null 2>&1; then
+    return
+  fi
+
+  if [[ ! -f "$doc" ]]; then
+    fail "governed-mechanism-integration-verification feature note missing for support-claim validation"
+    return
+  fi
+
+  validate_required_support_phrase "$doc" "governed-mechanism-integration-verification feature note" "navigation-only"
+  validate_required_support_phrase "$doc" "governed-mechanism-integration-verification feature note" "does not create a mechanism-level control plane"
+  validate_required_support_phrase "$doc" "governed-mechanism-integration-verification feature note" "current-state mechanism architecture review remains evidence-only"
+  validate_required_support_phrase "$doc" "governed-mechanism-integration-verification feature note" "lifecycle postmortem remains evidence-only"
+  validate_required_support_phrase "$doc" "governed-mechanism-integration-verification feature note" "generated outputs remain derived-only"
+  validate_required_support_phrase "$doc" "governed-mechanism-integration-verification feature note" "proposal-local receipts remain evidence only"
+  validate_no_unqualified_support_claims "$doc" "governed-mechanism-integration-verification feature note"
+}
+
 require_yq() {
   if ! command -v yq >/dev/null 2>&1; then
     echo "[ERROR] yq is required for product feature catalog validation" >&2
@@ -403,6 +423,7 @@ main() {
     validate_feature "$index"
   done
   validate_governed_lifecycle_orchestration_support_claims
+  validate_governed_mechanism_integration_support_claims
 
   echo "Validation summary: errors=$errors"
   if [[ "$errors" -gt 0 ]]; then

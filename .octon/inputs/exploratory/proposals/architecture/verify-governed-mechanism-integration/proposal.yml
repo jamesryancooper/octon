@@ -28,7 +28,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
   - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
-status: "in-review"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-

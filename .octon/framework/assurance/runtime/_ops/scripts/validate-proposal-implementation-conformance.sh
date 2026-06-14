@@ -7,6 +7,7 @@ FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 READINESS_VALIDATOR="$SCRIPT_DIR/validate-proposal-implementation-readiness.sh"
+GMI_RECEIPT_VALIDATOR="$SCRIPT_DIR/validate-governed-mechanism-integration-receipt.sh"
 
 PROPOSAL_PATH=""
 errors=0
@@ -58,6 +59,7 @@ fi
 
 MANIFEST="$PROPOSAL_DIR/proposal.yml"
 REVIEW="$PROPOSAL_DIR/support/implementation-conformance-review.md"
+GMI_RECEIPT="$PROPOSAL_DIR/support/governed-mechanism-integration-evaluation.yml"
 legacy_archive=0
 
 if [[ ! -d "$PROPOSAL_DIR" ]]; then
@@ -83,6 +85,10 @@ proposal_kind="$(yq -r '.proposal_kind // ""' "$MANIFEST")"
 proposal_id="$(yq -r '.proposal_id // ""' "$MANIFEST")"
 status="$(yq -r '.status // ""' "$MANIFEST")"
 archive_disposition="$(yq -r '.archive.disposition // ""' "$MANIFEST")"
+requires_gmi=0
+if yq -r '.validation_gates[]?' "$MANIFEST" 2>/dev/null | grep -Fqi "governed mechanism integration"; then
+  requires_gmi=1
+fi
 
 case "$PROPOSAL_DIR" in
   */.octon/inputs/exploratory/proposals/.archive/*)
@@ -184,6 +190,7 @@ if [[ -f "$REVIEW" ]]; then
     "Implementation Map Coverage" \
     "Validator Coverage" \
     "Generated Output Coverage" \
+    "Governed Mechanism Integration Coverage" \
     "Rollback Coverage" \
     "Downstream Reference Coverage" \
     "Exclusions" \
@@ -212,6 +219,24 @@ else
     warn "legacy archived proposal has no implementation conformance review"
   else
     warn "post-implementation conformance review is not required before implementation"
+  fi
+fi
+
+if [[ "$requires_gmi" -eq 1 ]]; then
+  if [[ -f "$GMI_RECEIPT" ]]; then
+    pass "governed mechanism integration receipt exists"
+    if bash "$GMI_RECEIPT_VALIDATOR" --receipt "$GMI_RECEIPT" --package "$PROPOSAL_PATH"; then
+      pass "governed mechanism integration receipt validates"
+    else
+      fail "governed mechanism integration receipt validates"
+    fi
+    if [[ -f "$REVIEW" ]]; then
+      require_section "Governed Mechanism Integration Coverage"
+    fi
+  elif [[ "$requires_pass" -eq 1 ]]; then
+    fail "governed mechanism integration receipt exists"
+  else
+    warn "governed mechanism integration receipt is not required before implementation"
   fi
 fi
 
@@ -267,6 +292,7 @@ if [[ "$requires_pass" -eq 1 && -f "$REVIEW" ]]; then
     "Implementation Map Coverage" \
     "Validator Coverage" \
     "Generated Output Coverage" \
+    "Governed Mechanism Integration Coverage" \
     "Rollback Coverage" \
     "Downstream Reference Coverage"; do
     if grep -Fqi "$required_term" "$REVIEW"; then

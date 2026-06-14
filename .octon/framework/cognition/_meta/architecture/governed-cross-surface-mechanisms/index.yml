@@ -632,3 +632,58 @@ mechanisms:
     non_authority_boundaries:
       - "Operator read models cannot satisfy runtime, policy, support, closeout, archive, or evidence gates."
       - "Freshness or traceability gaps make the view stale or invalid."
+  - mechanism_id: "governed-mechanism-integration-verification"
+    name: "Governed Mechanism Integration Verification"
+    product_feature_refs:
+      - ".octon/framework/product/features/governed-mechanism-integration-verification.md"
+    authored_authority_refs:
+      - ".octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/workflow.yml"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/profiles/governed-mechanism-integration-verification.profile.yml"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/governed-mechanism-integration-verification.md"
+    product_contract_refs:
+      - ".octon/framework/product/contracts/governed-mechanism-integration-profile-v1.schema.json"
+      - ".octon/framework/product/contracts/governed-mechanism-integration-receipt-v1.schema.json"
+    runtime_spec_refs:
+      - ".octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/workflow.yml"
+    runtime_implementation_refs:
+      - ".octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-profile.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-receipt.sh"
+    mutable_operational_truth_refs:
+      - "not-applicable: the workflow emits packet-local evidence and retained evidence; it does not create mutable mechanism control truth"
+    retained_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/<run-id>/governed-mechanism-integration/<mechanism-id>/"
+      - ".octon/state/evidence/validation/proposals/<proposal-id>/<timestamp>/"
+    generated_effective_non_authority_refs:
+      - ".octon/generated/effective/extensions/<projection>.yml"
+    generated_operator_read_model_refs:
+      - ".octon/generated/proposals/registry.yml"
+      - ".octon/generated/proposals/artifacts/<proposal-id>/artifact-index.yml"
+    raw_input_refs:
+      - ".octon/inputs/exploratory/proposals/**"
+      - ".octon/inputs/exploratory/proposals/**/support/governed-mechanism-integration-evaluation.yml"
+    publication_input_only_refs:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/**"
+    navigation_only_refs:
+      - ".octon/framework/product/features/catalog.yml"
+      - ".octon/framework/product/features/governed-mechanism-integration-verification.md"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md"
+    compatibility_only_refs:
+      - "not-applicable: this workflow introduces no compatibility shim or alias"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-profile.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-receipt.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-governed-mechanism-integration.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
+    ownership_boundaries:
+      - "Implementation conformance remains owned by the proposal implementation conformance gate."
+      - "Post-implementation drift/churn remains owned by the drift/churn gate."
+      - "Publication freshness remains owned by canonical generators, publishers, and validators."
+      - "Terminal closeout and archive relocation remain separate lifecycle routes."
+    non_authority_boundaries:
+      - "Proposal-local integration receipts are evidence only."
+      - "Current-state mechanism architecture review remains evidence-only."
+      - "Lifecycle postmortem remains evidence-only."
+      - "Generated outputs, generated prompts, host state, dashboards, chat, tool state, and model memory are not authority."

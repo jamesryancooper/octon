@@ -26,5 +26,14 @@
 - `README.md` - Findings-first proposal summary.
 - `support/proposal-creation.md` - Creation receipts and impact map.
 - `support/implementation-grade-completeness-review.md` - Proposal readiness receipt.
-- `support/implementation-conformance-review.md` - Post-promotion conformance receipt scaffold.
-- `support/post-implementation-drift-churn-review.md` - Post-promotion drift and churn receipt scaffold.
+- `support/proposal-review.md` - Accepted proposal review and implementation
+  prompt authorization receipt.
+- `support/pre-integration-architecture-review.yml` - Strict pre-integration
+  architecture review support receipt.
+- `support/executable-implementation-prompt.md` - Implementation and packet
+  delivery orchestration prompt.
+- `support/implementation-run.md` - Implementation run receipt.
+- `support/implementation-conformance-review.md` - Post-implementation conformance receipt.
+- `support/post-implementation-drift-churn-review.md` - Post-implementation drift and churn receipt.
+- `support/governed-mechanism-integration-evaluation.yml` - Governed mechanism integration evaluation receipt.
+- `support/validation.md` - Validation command summary.

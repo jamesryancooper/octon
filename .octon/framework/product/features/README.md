@@ -16,6 +16,8 @@ The catalog answers four questions for agents and operators:
 - `<feature-id>.md`: human-readable feature notes for individual mechanisms.
 - `proposal-packet-terminal-closeout.md`: terminal readiness receipt for
   implemented proposal packets before archive relocation.
+- `governed-mechanism-integration-verification.md`: cross-surface mechanism
+  integration verification before proposal closeout/archive readiness.
 
 ## Non-Authority Posture
 

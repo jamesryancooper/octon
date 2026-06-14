@@ -15,6 +15,7 @@ README="$MECHANISM_ROOT/README.md"
 CLOSEOUT_TEMPLATE="$MECHANISM_ROOT/aggregate-closeout-evidence-template.md"
 OPERATOR_MAP="$REPO_ROOT/.octon/generated/cognition/projections/materialized/governed-cross-surface-mechanisms/operator-map.md"
 PRODUCT_CATALOG="$REPO_ROOT/.octon/framework/product/features/catalog.yml"
+GMI_PROFILE_VALIDATOR="$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-profile.sh"
 errors=0
 
 pass() { printf '[OK] %s\n' "$1"; }
@@ -62,6 +63,7 @@ required_mechanisms=(
   mission-plan-compiler
   generated-effective-runtime-resolution
   operator-read-models
+  governed-mechanism-integration-verification
 )
 
 required_sections=(
@@ -93,7 +95,8 @@ validate_readme() {
     "lifecycles, workflows, routes, state machines, receipts, commands, and skills" \
     '`state/control/**` is mutable operational truth, not retained evidence' \
     "Lifecycle interaction receipts are advisory dependency context" \
-    "Parent proposal-program evidence may summarize child outcomes"; do
+    "Parent proposal-program evidence may summarize child outcomes" \
+    "governed mechanism integration profiles"; do
     if has_text "$README" "$phrase"; then
       pass "README boundary phrase present: $phrase"
     else
@@ -138,10 +141,10 @@ validate_index_shape() {
 
   local count
   count="$(yq -r '(.mechanisms // []) | length' "$INDEX")"
-  if [[ "$count" -ge 14 ]]; then
-    pass "mechanism index covers at least 14 mechanisms"
+  if [[ "$count" -ge 15 ]]; then
+    pass "mechanism index covers at least 15 mechanisms"
   else
-    fail "mechanism index must cover at least 14 mechanisms"
+    fail "mechanism index must cover at least 15 mechanisms"
   fi
 
   local id
@@ -152,6 +155,31 @@ validate_index_shape() {
       fail "required mechanism missing: $id"
     fi
   done
+}
+
+validate_governed_mechanism_profiles() {
+  local profile_count profile
+  [[ -d "$MECHANISM_ROOT/profiles" ]] || {
+    fail "governed mechanism profile directory missing"
+    return
+  }
+
+  profile_count="$(find "$MECHANISM_ROOT/profiles" -maxdepth 1 -name '*.profile.yml' -type f 2>/dev/null | wc -l | tr -d ' ')"
+  if [[ "$profile_count" -gt 0 ]]; then
+    pass "governed mechanism profiles present"
+  else
+    fail "governed mechanism profiles missing"
+    return
+  fi
+
+  while IFS= read -r profile; do
+    [[ -n "$profile" ]] || continue
+    if bash "$GMI_PROFILE_VALIDATOR" --profile "$profile"; then
+      pass "governed mechanism profile validates: ${profile#$REPO_ROOT/}"
+    else
+      fail "governed mechanism profile validates: ${profile#$REPO_ROOT/}"
+    fi
+  done < <(find "$MECHANISM_ROOT/profiles" -maxdepth 1 -name '*.profile.yml' -type f | sort)
 }
 
 validate_mechanism_sections() {
@@ -259,6 +287,7 @@ main() {
   validate_index_shape
   validate_mechanism_sections
   validate_path_class_boundaries
+  validate_governed_mechanism_profiles
   validate_closeout_template
   validate_operator_map
   echo "Validation summary: errors=$errors"
