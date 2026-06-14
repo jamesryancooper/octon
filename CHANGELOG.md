@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.92](https://github.com/jamesryancooper/octon/compare/octon-v0.6.91...octon-v0.6.92) (2026-06-14)
+
+
+### Features
+
+* **governance:** add governed mechanism integration gate ([7547fb9](https://github.com/jamesryancooper/octon/commit/7547fb9328c470f2260a4cb384bdef580eff3721))
+* **lifecycle:** add packet terminal closeout ([65e1367](https://github.com/jamesryancooper/octon/commit/65e136734eb6ebcae9417683d8e915b511316bd8))
+
 ## [0.6.91](https://github.com/jamesryancooper/octon/compare/octon-v0.6.90...octon-v0.6.91) (2026-06-12)
 
 
