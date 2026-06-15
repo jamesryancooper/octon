@@ -1,0 +1,145 @@
+---
+schema_version: workflow-contract-v2
+name: fixture-retention-closeout
+description: Retain a temporary proposal fixture as evidence-only validation residue without granting archive, cleanup, Git, or packet evidence authority.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: evidence-only
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - fixture_path
+    - owner_scope
+  format: fixture-retention-closeout:{fixture_path}:{owner_scope}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: fixture_path
+    type: folder
+    required: true
+    description: Temporary implemented proposal fixture to retain as validation evidence.
+  - name: purpose
+    type: text
+    required: false
+    description: Validation purpose for retaining the fixture residue.
+  - name: owner_scope
+    type: text
+    required: true
+    description: Owning repair or Change scope that created or uses the fixture.
+  - name: evidence_refs
+    type: text
+    required: true
+    description: Comma-separated source evidence refs proving the fixture was used.
+stages:
+  - id: resolve-fixture-identity
+    asset: stages/01-resolve-fixture-identity.md
+    kind: verification
+    consumes: []
+    produces:
+      - stage:resolve-fixture-identity
+    mutation_scope: []
+    authorization: &evidence_only_authorization
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: bind-retention-scope
+    asset: stages/02-bind-retention-scope.md
+    kind: verification
+    consumes:
+      - stage:resolve-fixture-identity
+    produces:
+      - stage:bind-retention-scope
+    mutation_scope: []
+    authorization: *evidence_only_authorization
+  - id: verify-retained-evidence
+    asset: stages/03-verify-retained-evidence.md
+    kind: verification
+    consumes:
+      - stage:bind-retention-scope
+    produces:
+      - stage:verify-retained-evidence
+    mutation_scope: []
+    authorization: *evidence_only_authorization
+  - id: classify-retained-path-set
+    asset: stages/04-classify-retained-path-set.md
+    kind: analysis
+    consumes:
+      - stage:verify-retained-evidence
+    produces:
+      - stage:classify-retained-path-set
+    mutation_scope: []
+    authorization: *evidence_only_authorization
+  - id: emit-retention-receipt
+    asset: stages/05-emit-retention-receipt.md
+    kind: projection
+    consumes:
+      - stage:classify-retained-path-set
+    produces:
+      - stage:emit-retention-receipt
+      - fixture-retention-closeout-receipt-v1
+    mutation_scope: []
+    authorization: *evidence_only_authorization
+artifacts:
+  - name: retention_closeout_bundle
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-fixture-retention-closeout-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: Workflow-owned evidence bundle with stage inputs, reports, logs, outcomes, and retained path-set receipt.
+  - name: retention_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-fixture-retention-closeout-{{slug}}/retention-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: fixture-retention-closeout-receipt-v1 retained fixture evidence contract.
+  - name: retention_summary
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-fixture-retention-closeout.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Human-readable fixture retention closeout summary.
+done_gate:
+  checks:
+    - "fixture identity is derived from proposal.yml proposal_id, proposal_kind, path, status, promotion_targets, and lifecycle.temporary"
+    - "retained path set exactly matches current scoped git status"
+    - "retained_path_set_digest and git_status_digest are current"
+    - "evidence_refs are source evidence and are not generated outputs, generated prompts, proposal-local prose, or parent summaries"
+    - "generated artifact refs are derived-only non-authority"
+    - "stage reports and stage outcomes exist for every route stage"
+    - "fixture-retention-closeout-receipt-v1 validates"
+    - "receipt states that retention is nonblocking only for unrelated packet terminal readiness under exact receipt checks"
+    - "receipt states that it does not authorize archive-ready or cleaned claims"
+constraints:
+  fail_closed: true
+  require_relative_local_assets: true
+  no_archive_relocation: true
+  no_proposal_status_mutation: true
+  no_direct_generated_publication: true
+  no_git_mutation: true
+  no_residue_deletion: true
+  no_repo_hygiene_deletion_authority: true
+  exact path-set match: true
