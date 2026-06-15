@@ -412,6 +412,160 @@ closed_workflow_run_residue_run_id() {
   return 1
 }
 
+run_id_for_control_residue_path() {
+  local rel="$1"
+  local run_id=""
+
+  case "$rel" in
+    .octon/state/control/execution/runs/*/*)
+      run_id="${rel#.octon/state/control/execution/runs/}"
+      run_id="${run_id%%/*}"
+      ;;
+    .octon/state/continuity/runs/*/*)
+      run_id="${rel#.octon/state/continuity/runs/}"
+      run_id="${run_id%%/*}"
+      ;;
+    .octon/state/control/execution/approvals/requests/*.yml)
+      run_id="${rel#.octon/state/control/execution/approvals/requests/}"
+      run_id="${run_id%.yml}"
+      ;;
+    .octon/state/evidence/control/execution/authority-decision-*.yml)
+      run_id="${rel#.octon/state/evidence/control/execution/authority-decision-}"
+      run_id="${run_id%.yml}"
+      ;;
+    .octon/state/evidence/control/execution/authority-grant-bundle-*.yml)
+      run_id="${rel#.octon/state/evidence/control/execution/authority-grant-bundle-}"
+      run_id="${run_id%.yml}"
+      ;;
+    .octon/state/evidence/external-index/runs/*.yml)
+      run_id="${rel#.octon/state/evidence/external-index/runs/}"
+      run_id="${run_id%.yml}"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+
+  [[ -n "$run_id" ]] || return 1
+  printf '%s\n' "$run_id"
+}
+
+proposal_inputs_root_rel() {
+  printf '.octon/%s/%s/%s\n' "inputs" "exploratory" "proposals"
+}
+
+proposal_path_from_archive_contract() {
+  local run_id="$1"
+  local run_contract="$ROOT_DIR/.octon/state/control/execution/runs/$run_id/run-contract.yml"
+  [[ -f "$run_contract" ]] || return 1
+
+  local proposals_root
+  proposals_root="$(proposal_inputs_root_rel)"
+
+  python3 - "$ROOT_DIR" "$run_contract" "$proposals_root" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1]).resolve()
+contract = Path(sys.argv[2])
+prefix = sys.argv[3].rstrip("/") + "/"
+
+for raw_line in contract.read_text(encoding="utf-8").splitlines():
+    stripped = raw_line.strip()
+    if not stripped.startswith("- "):
+        continue
+    value = stripped[2:].strip().strip('"').strip("'")
+    if not value:
+        continue
+    candidate = value
+    if candidate.startswith(str(root) + "/"):
+        try:
+            candidate = Path(candidate).resolve().relative_to(root).as_posix()
+        except ValueError:
+            continue
+    elif candidate.startswith("./"):
+        candidate = candidate[2:]
+    if not candidate.startswith(prefix):
+        continue
+    if candidate.startswith(prefix + ".archive/") or "/.archive/" in candidate:
+        continue
+    print(candidate.rstrip("/"))
+    sys.exit(0)
+
+sys.exit(1)
+PY
+}
+
+archived_path_for_proposal_path() {
+  local proposal_path="$1"
+  local proposals_root
+  proposals_root="$(proposal_inputs_root_rel)"
+
+  local remainder="${proposal_path#"$proposals_root"/}"
+  local proposal_kind="${remainder%%/*}"
+  local proposal_tail="${remainder#*/}"
+  local proposal_id="${proposal_tail%%/*}"
+
+  [[ -n "$proposal_kind" && -n "$proposal_id" && "$proposal_kind" != "$remainder" ]] || return 1
+  printf '%s/.archive/%s/%s\n' "$proposals_root" "$proposal_kind" "$proposal_id"
+}
+
+successful_archive_workflow_summary_exists() {
+  local proposal_path="$1"
+  local archived_path="$2"
+  local summaries_root="$ROOT_DIR/.octon/state/evidence/runs/workflows"
+  local summary
+
+  [[ -d "$summaries_root" ]] || return 1
+  while IFS= read -r summary; do
+    grep -Fqx -- "- workflow_id: \`archive-proposal\`" "$summary" || continue
+    grep -Fqx -- "- final_verdict: \`archived\`" "$summary" || continue
+    grep -Fqx -- "- proposal_path: \`$proposal_path\`" "$summary" || continue
+    grep -Fqx -- "- archived_path: \`$archived_path\`" "$summary" || continue
+    return 0
+  done < <(find "$summaries_root" -mindepth 2 -maxdepth 2 -type f -name summary.md 2>/dev/null | sort)
+
+  return 1
+}
+
+is_stale_archive_proposal_starter_run_id() {
+  local run_id="$1"
+  [[ "$run_id" == archive-proposal-* ]] || return 1
+
+  local control_dir="$ROOT_DIR/.octon/state/control/execution/runs/$run_id"
+  local runtime_state="$control_dir/runtime-state.yml"
+  local start_checkpoint="$control_dir/checkpoints/execution-start.yml"
+  local complete_checkpoint="$control_dir/checkpoints/execution-complete.yml"
+  local run_contract="$control_dir/run-contract.yml"
+
+  [[ -f "$runtime_state" ]] || return 1
+  [[ -f "$start_checkpoint" ]] || return 1
+  [[ ! -e "$complete_checkpoint" ]] || return 1
+  [[ -f "$run_contract" ]] || return 1
+  grep -Eq '^[[:space:]]*state:[[:space:]]*running([[:space:]]|$)' "$runtime_state" || return 1
+  grep -Fq "checkpoints/execution-start.yml" "$runtime_state" || return 1
+  grep -Fq "archive-proposal" "$run_contract" || return 1
+
+  local proposal_path archived_path
+  proposal_path="$(proposal_path_from_archive_contract "$run_id")" || return 1
+  archived_path="$(archived_path_for_proposal_path "$proposal_path")" || return 1
+  [[ -d "$ROOT_DIR/$archived_path" ]] || return 1
+  successful_archive_workflow_summary_exists "$proposal_path" "$archived_path"
+}
+
+stale_archive_proposal_starter_residue_run_id() {
+  local rel="$1"
+  local run_id
+
+  run_id="$(run_id_for_control_residue_path "$rel")" || return 1
+  if is_stale_archive_proposal_starter_run_id "$run_id"; then
+    printf '%s\n' "$run_id"
+    return 0
+  fi
+
+  return 1
+}
+
 classify_path() {
   local rel="$1"
 
@@ -428,6 +582,12 @@ classify_path() {
   local closed_run_id
   if closed_run_id="$(closed_workflow_run_residue_run_id "$rel")"; then
     set_classification "local_run_residue" "cleanup_candidate" "unreferenced closed workflow-engine run residue: $closed_run_id"
+    return
+  fi
+
+  local stale_archive_run_id
+  if stale_archive_run_id="$(stale_archive_proposal_starter_residue_run_id "$rel")"; then
+    set_classification "local_run_residue" "cleanup_candidate" "unreferenced stale archive-proposal starter residue superseded by durable archive evidence: $stale_archive_run_id"
     return
   fi
 
