@@ -95,7 +95,7 @@ skill_group_definitions:
   operations:
     description: Operational response and incident handling workflows
     path: operations/
-    members: [incident-response, proposal-packet-terminal-closeout]
+    members: [incident-response, proposal-packet-terminal-closeout, fixture-retention-closeout, proposal-program-delivery]
 
   refactor:
     description: Execute verified structural codebase refactors

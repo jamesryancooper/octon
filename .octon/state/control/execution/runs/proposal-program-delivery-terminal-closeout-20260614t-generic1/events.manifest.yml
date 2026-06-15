@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1
+ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:b2ef2003c4baba19c61e9deb8ebd49667f3c420ca0ddc20abed9d65d00d45421
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  sequence: 1
+  event_hash: sha256:0a774828f77ebc44723fdfb1d6ea729dae215ff26da7b974eaa96c547d2a2f94
+last_event_ref:
+  event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  sequence: 29
+  event_hash: sha256:e9b9f81a0491c91ed09e84b643f5dd1cba42130ca8e53beb96fc812ffc504983
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:0a774828f77ebc44723fdfb1d6ea729dae215ff26da7b974eaa96c547d2a2f94
+  tail_event_hash: sha256:e9b9f81a0491c91ed09e84b643f5dd1cba42130ca8e53beb96fc812ffc504983
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  context_pack_ref: evt-context-pack-bound-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  disclosure_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-3b8144873c13
+  run_contract_ref: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  run_manifest_ref: evt-002-run-bound-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  runtime_state_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  stage_attempt_ref: evt-stage-started-proposal-program-delivery-terminal-closeout-20260614t-generic1
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:e9b9f81a0491c91ed09e84b643f5dd1cba42130ca8e53beb96fc812ffc504983
+  materialized_at: 2026-06-14T15:22:54.977281Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:22:55.788251Z

@@ -57,10 +57,26 @@
 - `support/proposal-creation.md` records creation receipts.
 - `support/implementation-grade-completeness-review.md` records readiness for
   proposal review.
-- `support/implementation-conformance-review.md` is a scaffolded
-  post-implementation gate receipt.
-- `support/post-implementation-drift-churn-review.md` is a scaffolded
-  post-implementation drift gate receipt.
+- `support/proposal-review.md` records accepted review, implementation prompt
+  authorization, and reviewed packet digest.
+- `support/pre-integration-architecture-review.yml` records the strict
+  pre-integration architecture review support receipt required by the review
+  gate.
+- `support/executable-implementation-prompt.md` records the operational
+  implementation and packet delivery orchestration prompt.
+- `support/implementation-run.md` records the implementation run, explicit
+  operator authorization grant, and materialized control artifacts used by
+  owning lifecycles.
+- `support/governed-mechanism-integration-evaluation.yml` records the governed
+  mechanism integration receipt for this implemented packet.
+- `support/implementation-conformance-review.md` records the passed
+  post-implementation conformance gate.
+- `support/post-implementation-drift-churn-review.md` records the passed
+  post-implementation drift and churn gate.
+- `support/validation.md` records implementation validation evidence.
+- `support/proposal-closeout.md` records packet closeout and archive readiness
+  only; archive relocation and Change closeout remain owned by their separate
+  lifecycles.
 
 ## Non-Authority Boundaries
 

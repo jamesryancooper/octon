@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: fixture-retention-closeout-1781484204063-17775-verify-retained-evidence
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/run-manifest.yml
+current_stage_attempt_id: verify-retained-evidence--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/rollback-posture.yml
+last_applied_event_id: evt-run-closed-fixture-retention-closeout-1781484204063-17775-verify-retained-evidence
+last_applied_sequence: 29
+last_applied_event_hash: sha256:4c3aae434dd7080b8dd42ba2a1ff85ce0d33b752b9a42f2057edfbc121b55044
+materialized_at: 2026-06-15T00:43:31.405094Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-15T00:43:29.625413Z
+updated_at: 2026-06-15T00:43:31.405094Z

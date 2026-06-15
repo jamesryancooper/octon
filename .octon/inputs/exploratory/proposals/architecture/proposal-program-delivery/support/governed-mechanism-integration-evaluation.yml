@@ -1,0 +1,79 @@
+schema_version: governed-mechanism-integration-receipt-v1
+mechanism_id: proposal-program-delivery
+proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+verdict: pass
+unresolved_items_count: 0
+blockers: []
+mechanism_profile_ref: .octon/framework/product/features/governed-proposal-delivery.md
+implemented_packet_digest: sha256:e6439d01c14fc7ea08c418520f58069dc8b43d9356348f4016051dc75da74b00
+current_state_architecture_review_ref: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/pre-integration-architecture-review.yml
+implementation_conformance_ref: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/implementation-conformance-review.md
+post_implementation_drift_ref: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/post-implementation-drift-churn-review.md
+generated_publication_refs:
+  - .octon/state/evidence/validation/publication/extensions/2026-06-14T03-55-49Z-extensions-e539e7c8b239.yml
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-14T03-59-54Z-capabilities-3e4264ef4393.yml
+  - .octon/generated/effective/extensions/catalog.effective.yml
+  - .octon/generated/effective/capabilities/routing.effective.yml
+terminal_freshness_refs: []
+validator_refs:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-receipt.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+evidence_refs:
+  - .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/validation.md
+  - .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T034048Z/profile-selection-receipt.yml
+authority_boundary_verdict: pass
+surface_coverage:
+  - surface_class: profile-contract
+    status: covered
+    evidence_ref: .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+  - surface_class: receipt-contract
+    status: covered
+    evidence_ref: .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+  - surface_class: workflow
+    status: covered
+    evidence_ref: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+  - surface_class: validators
+    status: covered
+    evidence_ref: .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+  - surface_class: product-navigation
+    status: covered
+    evidence_ref: .octon/framework/product/features/governed-proposal-delivery.md
+  - surface_class: lifecycle-hooks
+    status: covered
+    evidence_ref: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  - surface_class: generated-publication-freshness
+    status: covered
+    evidence_ref: .octon/state/evidence/validation/publication/capabilities/2026-06-14T03-59-54Z-capabilities-3e4264ef4393.yml
+  - surface_class: current-state-architecture-review
+    status: not_applicable
+    evidence_ref: evidence-only-pre-integration-review
+    rationale: Current-state mechanism architecture review remains evidence-only for this implementation-mode receipt.
+  - surface_class: lifecycle-postmortem
+    status: not_applicable
+    evidence_ref: evidence-only-route-not-selected
+    rationale: Lifecycle postmortem remains evidence-only and was not selected as a closeout prerequisite.
+non_authority_classification:
+  proposal_inputs: non-authority
+  generated_outputs: derived-only-non-authority
+  generated_prompts: non-authority
+  host_state: non-authority
+  dashboards: non-authority
+  chat: non-authority
+  tool_state: non-authority
+  model_memory: non-authority
+  current_state_architecture_review: evidence-only
+  lifecycle_postmortem: evidence-only
+mode_specific_coverage:
+  mode: implementation
+  terminal_freshness_required: false
+  terminal_freshness_status: not_applicable
+  current_state_architecture_review_role: evidence-only
+  lifecycle_postmortem_authority: evidence-only

@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:cae78604dedb6d63eb4ea8ad7078555bb37c3b820e11dec0983b1960a32acaa3
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  sequence: 1
+  event_hash: sha256:29a8185cd2eb2a7530c7d89e5e2cb9a5ec3b446690657bc7ebe30b0f546a7d78
+last_event_ref:
+  event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  sequence: 29
+  event_hash: sha256:88f2e46c362cf8a260726da1065972421db90e7e80ac90e27e957c69bd903a4e
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:29a8185cd2eb2a7530c7d89e5e2cb9a5ec3b446690657bc7ebe30b0f546a7d78
+  tail_event_hash: sha256:88f2e46c362cf8a260726da1065972421db90e7e80ac90e27e957c69bd903a4e
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  context_pack_ref: evt-context-pack-bound-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  disclosure_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-2cf334dc2f5f
+  run_contract_ref: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  run_manifest_ref: evt-002-run-bound-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  runtime_state_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  stage_attempt_ref: evt-stage-started-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-emit-terminal-receipt
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:88f2e46c362cf8a260726da1065972421db90e7e80ac90e27e957c69bd903a4e
+  materialized_at: 2026-06-14T15:22:53.20958Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:22:53.998224Z

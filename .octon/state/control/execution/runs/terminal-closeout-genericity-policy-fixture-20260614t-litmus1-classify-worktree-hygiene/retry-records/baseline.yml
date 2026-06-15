@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-14T15:52:42.442037Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene-baseline
+route_taken: allow
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+schema_version: run-retry-record-v1
+stage_attempt_id: classify-worktree-hygiene--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/stage-attempts/classify-worktree-hygiene--initial.yml

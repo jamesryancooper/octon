@@ -4248,6 +4248,142 @@ skills:
       fingerprints:
         tech_tags: []
         language_tags: []
+  fixture-retention-closeout:
+    version: 1.0.0
+    commands:
+    - /fixture-retention-closeout
+    parameters:
+    - name: fixture_path
+      type: folder
+      required: true
+      description: Temporary implemented proposal fixture to retain
+    - name: purpose
+      type: text
+      required: false
+      default: terminal-closeout-genericity-validation-fixture
+      description: Validation purpose for fixture retention
+    - name: owner_scope
+      type: text
+      required: true
+      description: Owning repair or Change scope
+    - name: evidence_refs
+      type: text
+      required: true
+      description: Comma-separated source evidence refs proving fixture use
+    requires:
+      context:
+      - .octon/framework/orchestration/runtime/workflows/meta/fixture-retention-closeout/workflow.yml
+      - .octon/framework/product/contracts/fixture-retention-closeout-receipt-v1.schema.json
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-workflow.sh
+    io:
+      inputs:
+      - name: fixture_root
+        path: '{{fixture_path}}'
+        kind: directory
+        format: mixed
+        required: true
+        description: Temporary proposal fixture under evidence-only retention
+      outputs:
+      - name: retention_summary
+        path: /.octon/state/evidence/validation/analysis/{{date}}-fixture-retention-closeout.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Fixture retention closeout summary
+      - name: retention_bundle
+        path: /.octon/state/evidence/runs/workflows/{{date}}-fixture-retention-closeout-{{run_id}}/
+        kind: directory
+        format: mixed
+        determinism: unique
+        description: Evidence-only fixture retention bundle
+      - name: retention_receipt
+        path: /.octon/state/evidence/runs/workflows/{{date}}-fixture-retention-closeout-{{run_id}}/retention-receipt.yml
+        kind: file
+        format: yaml
+        determinism: unique
+        description: fixture-retention-closeout-receipt-v1 receipt
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
+  proposal-program-delivery:
+    version: 1.0.0
+    commands:
+    - /proposal-program-delivery
+    parameters:
+    - name: proposal_program_path
+      type: folder
+      required: true
+      description: Accepted proposal program to deliver
+    - name: target_outcome
+      type: text
+      required: false
+      default: cleaned
+      description: Requested delivery outcome, normally cleaned
+    - name: profile_path
+      type: file
+      required: false
+      description: Optional proposal-program-delivery-profile-v1 profile
+    - name: delivery_run_id
+      type: text
+      required: false
+      description: Optional retained delivery run id
+    requires:
+      context:
+      - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+      - .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+      - .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+    io:
+      inputs:
+      - name: proposal_program_root
+        path: '{{proposal_program_path}}'
+        kind: directory
+        format: mixed
+        required: true
+        description: Accepted proposal program under delivery coordination
+      outputs:
+      - name: delivery_summary
+        path: /.octon/state/evidence/validation/analysis/{{date}}-proposal-program-delivery.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Top-level proposal program delivery summary
+      - name: delivery_bundle
+        path: /.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{run_id}}/
+        kind: directory
+        format: mixed
+        determinism: unique
+        description: Workflow evidence bundle with profile, inventory, and receipt
+      - name: delivery_receipt
+        path: /.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{run_id}}/proposal-program-delivery-receipt.yml
+        kind: file
+        format: yaml
+        determinism: unique
+        description: Aggregate proposal program delivery receipt
+      - name: skill_run_log
+        path: /.octon/state/evidence/runs/skills/proposal-program-delivery/{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Execution log for proposal-program-delivery runs
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
   postgres-best-practices:
     version: 1.0.0
     commands:

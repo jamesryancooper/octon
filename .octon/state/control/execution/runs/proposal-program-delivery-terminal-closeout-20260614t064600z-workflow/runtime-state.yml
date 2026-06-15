@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t064600z-workflow
+state: running
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t064600z-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t064600z-workflow/run-manifest.yml
+current_stage_attempt_id: initial
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t064600z-workflow/checkpoints/execution-start.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t064600z-workflow/receipts/grant-bundle.json
+mission_id: null
+parent_run_ref: null
+source_ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t064600z-workflow/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t064600z-workflow/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t064600z-workflow/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t064600z-workflow/rollback-posture.yml
+last_applied_event_id: evt-checkpoint-start-proposal-program-delivery-terminal-closeout-20260614t064600z-workflow
+last_applied_sequence: 20
+last_applied_event_hash: sha256:e2aed2a292e07ea19bdecf0274aa17e91d5c2e5a113532477f2b3e3d1d349562
+materialized_at: 2026-06-14T06:46:17.374866Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-14T06:46:16.229323Z
+updated_at: 2026-06-14T06:46:17.374866Z

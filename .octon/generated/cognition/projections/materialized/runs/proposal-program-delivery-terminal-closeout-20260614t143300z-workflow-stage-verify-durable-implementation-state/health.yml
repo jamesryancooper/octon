@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
-generated_at: '2026-06-15T02:34:59Z'
+generated_at: '2026-06-15T13:57:43Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:43db6cb0834a13beb382b782b41029d4dba3cb3cb6ac617e3d7d2673d60d3d84
-  checked_at: '2026-06-15T02:34:59Z'
+  combined_source_digest: sha256:57a0a277a1b05289240bd5b1a933b3bb85f51bef37e0e139da05ecde6e5023bb
+  checked_at: '2026-06-15T13:57:43Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state/events.manifest.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:d8bb9ee5b4d90157e75191118ac5135feaf31ac064949c5e1a2725683374a529
+    digest: sha256:65a2a3379b47ccb28a6c3e1ba3d632871275468fcc503f27a55da22c0dd92a6d
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml

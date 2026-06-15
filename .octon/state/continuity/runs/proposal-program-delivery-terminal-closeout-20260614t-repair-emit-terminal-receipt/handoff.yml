@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair-emit-terminal-receipt
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-emit-terminal-receipt/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-emit-terminal-receipt/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-emit-terminal-receipt/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-emit-terminal-receipt/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-emit-terminal-receipt/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-emit-terminal-receipt/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-emit-terminal-receipt/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: emit-terminal-receipt--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair/run-contract.yml
+next_action: null
+updated_at: 2026-06-14T15:10:18.746258Z

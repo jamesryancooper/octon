@@ -1,0 +1,133 @@
+schema_version: workflow-contract-v2
+workflow:
+  id: proposal-program-delivery
+  name: Proposal Program Delivery
+  lifecycle_type: meta
+  owner: framework-orchestration
+  status: active
+  purpose: >
+    Coordinate an accepted proposal program through child packet implementation,
+    publication freshness, packet closeout, archive handoff, Change closeout,
+    hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+  authority:
+    aggregate_receipt_only: true
+    child_receipts_remain_target_owned: true
+    generated_outputs_are_non_authority: true
+    git_mutation_owner: closeout-change
+    archive_owner: proposal-archive-lifecycle
+    hygiene_cleanup_owner: repo-hygiene-cleanup
+  inputs:
+    - name: profile_path
+      required: true
+      description: Profile conforming to proposal-program-delivery-profile-v1.
+    - name: target_program_path
+      required: true
+      description: Accepted proposal program path supplied by the caller.
+    - name: target_outcome
+      required: true
+      description: Requested outcome; downstream claims require fresh owning evidence.
+    - name: delivery_run_id
+      required: true
+      description: Stable evidence and receipt run identifier.
+  outputs:
+    - name: delivery_receipt
+      schema_ref: .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+      description: Aggregate receipt that records source receipts without replacing them.
+  validators:
+    profile: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+    receipt: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+    workflow: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+  stages:
+    - id: bind-profile
+      title: Bind delivery profile
+      asset: stages/01-bind-profile.md
+      required: true
+      fail_closed_on:
+        - missing_profile
+        - malformed_profile
+        - pr_fallback_when_forbidden
+        - stash_policy_widening
+    - id: validate-program-state
+      title: Validate current program state
+      asset: stages/02-validate-program-state.md
+      required: true
+      fail_closed_on:
+        - stale_review_digest
+        - unaccepted_program
+        - ambiguous_child_scope
+        - proposal_local_file_used_as_authority
+    - id: run-or-resume-child-lifecycles
+      title: Run or resume child packet lifecycles
+      asset: stages/03-run-or-resume-child-lifecycles.md
+      required: true
+      fail_closed_on:
+        - missing_child_receipt
+        - stale_child_receipt
+        - parent_summary_substituted_for_child_receipts
+    - id: validate-child-receipts
+      title: Validate target-owned child receipts
+      asset: stages/04-validate-child-receipts.md
+      required: true
+      fail_closed_on:
+        - missing_implementation_conformance
+        - missing_post_implementation_drift_churn
+        - stale_generated_publication_evidence
+        - missing_governed_mechanism_integration_receipt
+    - id: route-closeout-and-archive
+      title: Route packet closeout and archive handoff
+      asset: stages/05-route-closeout-and-archive.md
+      required: true
+      fail_closed_on:
+        - packet_closeout_blocker
+        - archive_blocker
+        - fresh_unvalidated_archive_mutation
+    - id: route-change-closeout
+      title: Route Change closeout
+      asset: stages/06-route-change-closeout.md
+      required: true
+      fail_closed_on:
+        - branch_no_pr_landing_without_authorization
+        - pr_fallback_when_profile_forbids_pr
+        - unsupported_hosted_mutation
+    - id: validate-cleanup-sync-proof
+      title: Validate cleanup, final sync, and terminal proof
+      asset: stages/07-validate-cleanup-sync-proof.md
+      required: true
+      fail_closed_on:
+        - branch_cleanup_without_authorization
+        - repo_hygiene_deletion_without_cleanup_authorization
+        - missing_terminal_current_state_proof
+        - main_origin_landed_ref_mismatch
+        - dirty_worktree_cleaned_overclaim
+    - id: emit-delivery-receipt
+      title: Emit delivery receipt
+      asset: stages/08-emit-delivery-receipt.md
+      required: true
+      fail_closed_on:
+        - aggregate_receipt_replaces_target_receipts
+        - generated_prompt_used_as_authority
+        - unresolved_blocker
+  terminal_claim_rules:
+    implemented:
+      requires:
+        - target_owned_implementation_run
+        - implementation_conformance_pass
+        - post_implementation_drift_churn_pass
+    archive-ready:
+      requires:
+        - packet_closeout_pass
+        - archive_authorized_yes
+    landed:
+      requires:
+        - change_closeout_pass
+        - hosted_landing_evidence
+    synced:
+      requires:
+        - local_main_equals_origin_main
+        - origin_main_equals_landed_ref
+    cleaned:
+      requires:
+        - branch_cleanup_authorized_and_done
+        - repo_hygiene_cleanup_authorized_and_done_or_not_needed
+        - terminal_current_state_proof_pass
+        - worktree_hygiene_pass

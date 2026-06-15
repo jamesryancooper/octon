@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:682f906afbd7eed8f78ed5e47074f816b2250d6e07084efe729048489efa1a8e
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt/replay/manifest.yml
+  recorded_at: 2026-06-14T15:18:46.742925Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:2136397dae61a8a7f5bfb61447811c52c30aa56dee82e670a79aec9105608ad6
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt/replay/manifest.yml
+  recorded_at: 2026-06-14T15:18:46.742925Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt
+  storage_class: external-immutable
+index_id: external-replay-proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair3-emit-terminal-receipt
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:18:46.742925Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1/context/context-pack.json
+context_pack_sha256: sha256:3f5bae3861f6b6a21c3e484210166f1bd3ae9cb797b149ed0109fbe4e8959128
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1/context/model-visible-context.json
+model_visible_context_sha256: sha256:27fc01b2080aa0cf8ec2d514abed3c018b1ab8d63df922bf813a58d8b5c1b501
+receipt_sha256: sha256:d8aebb02498d49532e4834d97edab33298a3caad2ae13dbc33e14a99600dd803
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1
+schema_version: active-context-pack-v1
+updated_at: 2026-06-14T15:51:16.18548Z
+validity_state: valid

@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance/run-manifest.yml
+current_stage_attempt_id: verify-implementation-conformance--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance/rollback-posture.yml
+last_applied_event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-repair3-verify-implementation-conformance
+last_applied_sequence: 29
+last_applied_event_hash: sha256:2972d017e4fdb09b8bedf7558d4efaf177b712dbc5ec28ce361ebe1cfc41ac57
+materialized_at: 2026-06-14T15:17:25.002941Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-14T15:17:23.032602Z
+updated_at: 2026-06-14T15:17:25.002941Z

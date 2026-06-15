@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-verify-durable-implementation-state
+status: running
+run_contract_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-verify-durable-implementation-state/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-verify-durable-implementation-state/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-verify-durable-implementation-state/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-verify-durable-implementation-state/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-verify-durable-implementation-state/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-verify-durable-implementation-state/receipts/grant-bundle.json
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-verify-durable-implementation-state/checkpoints/execution-start.yml
+resume_from_stage_attempt_id: verify-durable-implementation-state--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow/run-contract.yml
+next_action: Resume from the current stage attempt using the retained receipt and checkpoint roots.
+updated_at: 2026-06-14T07:06:59.991742Z

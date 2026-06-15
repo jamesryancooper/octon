@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: fixture-retention-closeout-1781484204063-17775-verify-retained-evidence
+checkpoint_id: execution-start
+stage_attempt_id: verify-retained-evidence--initial
+checkpoint_kind: execution-start
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/checkpoints/execution-start.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/checkpoints/execution-start.yml
+notes: Execution artifacts materialized under the canonical run root.
+created_at: 2026-06-15T00:43:30.561004Z
+updated_at: 2026-06-15T00:43:30.561004Z

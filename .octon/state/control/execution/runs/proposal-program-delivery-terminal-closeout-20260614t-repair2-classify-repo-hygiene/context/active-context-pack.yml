@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:62e2f983368bd015d5ae207f1df5f0522cf0b270ff8801ab357d6ad51b637873
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:82ace8d6994c1c5654e687b297716d95abe4d496059f25eee78666c8c7c431f8
+receipt_sha256: sha256:d0638a368121fc823ca267ec970c1bb6d6e749613a98522e7f4435f6f9951f5b
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-14T15:13:44.855745Z
+validity_state: valid

@@ -1,0 +1,359 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: 20260615T031247Z-proposal-program-delivery-hygiene-after-repo-hygiene-cleanup
+default_work_unit: Change
+observed_change_set_count: 10
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260615T031247Z-proposal-program-delivery-hygiene-after-repo-hygiene-cleanup/repo-hygiene-classification.yml
+repo_hygiene_cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T031247Z-local-artifact-cleanup-after-publication-refresh/receipt.yml
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T031247Z-local-artifact-cleanup-after-publication-refresh/cleanup-authorization.json
+repo_hygiene_cleanup_outcome: delegated-retained
+repo_hygiene_summary:
+  cleanup_candidates: 6
+  protected_referenced: 1165
+  manual_review: 1434
+repo_hygiene_next_route_condition: "Helper-eligible candidates now consist of this current closeout-worktree diagnostic evidence bundle. It is retained only to explain the nonterminal state; protected/manual-review residue must still be retained, closed by its owning lifecycle, or explicitly classified."
+worktree_terminal_state: nonterminal
+initial_inventory_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260615T031247Z-proposal-program-delivery-hygiene-after-repo-hygiene-cleanup/initial-inventory.yml
+residue_classification_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260615T031247Z-proposal-program-delivery-hygiene-after-repo-hygiene-cleanup/residue-classification.yml
+final_inventory_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260615T031247Z-proposal-program-delivery-hygiene-after-repo-hygiene-cleanup/final-inventory.yml
+selected_candidate_id: candidate-state-control-and-evidence-residue
+candidates:
+  - candidate_id: candidate-target-packet-lifecycle-residue
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: proposal-packet-lifecycle-and-change-closeout
+    route_hint: closeout-change-after-terminal-readiness
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Preserve target packet files on chore/proposal-program-delivery; no archive or cleanup authority is available until terminal closeout is archive-ready."
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+        - .octon/generated/proposals/artifacts/architecture/proposal-program-delivery
+        - .octon/state/evidence/validation/proposals/proposal-program-delivery
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture
+        - .octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture
+  - candidate_id: candidate-fixture-retained
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: fixture-retention-closeout
+    route_hint: fixture-retention-closeout
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: "Preserve fixture as validation evidence under validated retention receipt; it is not target packet evidence and does not authorize archive-ready or cleaned claims."
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+    boundaries:
+      include_paths:
+        - .octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture/proposal-artifact-index.yml
+        - .octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture/proposal-program-spine.yml
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/README.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/implementation/implementation-map.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/artifact-catalog.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/source-of-truth-map.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy-proposal.yml
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/decision.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/enforcement-plan.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/policy-delta.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/proposal.yml
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/executable-implementation-prompt.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/implementation-conformance-review.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/implementation-grade-completeness-review.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/post-implementation-drift-churn-review.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-closeout.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-review.md
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-terminal-closeout.yml
+      exclude_paths: []
+  - candidate_id: candidate-terminal-closeout-repair-sources
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: proposal-packet-terminal-closeout-repair
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Branch-local checkpoint exists; no hosted landing, branch cleanup, main sync, or cleaned claim is made."
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260615T023134Z-terminal-closeout-repair/change-receipt.json
+    boundaries:
+      include_paths:
+        - .codex/skills/closeout-worktree
+        - .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-terminal-closeout.sh
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+        - .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs
+        - .octon/framework/engine/runtime/crates/kernel/src/workflow.rs
+        - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout
+        - .octon/framework/product/contracts/proposal-packet-terminal-closeout-profile-v1.schema.json
+        - .octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json
+      exclude_paths:
+        - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+        - .octon/instance/governance/policies/repo-hygiene.yml
+  - candidate_id: candidate-repo-hygiene-helper-repair-sources
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: repo-hygiene-cleanup-route-repair
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Branch-local checkpoint exists; helper cleanup authority remains receipt-bound."
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260615T023300Z-repo-hygiene-helper-repair/change-receipt.json
+    boundaries:
+      include_paths:
+        - .codex/skills/repo-hygiene-cleanup/SKILL.md
+        - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+        - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+        - .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+        - .octon/instance/governance/policies/repo-hygiene.yml
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+  - candidate_id: candidate-run-health-read-model-refresh
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: generated-run-health-read-model
+    route_hint: generator-owned-read-model-route-and-closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Generator-owned refresh completed and run-health validation passed; generated read models remain non-authoritative and still need coherent Change closeout."
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260615T023500Z-run-health-read-model-refresh/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/generated/cognition/projections/materialized/runs
+      exclude_paths:
+        - .octon/generated/effective
+  - candidate_id: candidate-fixture-retention-route-sources
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: fixture-retention-closeout-route-change
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Branch-local checkpoint exists; fixture retention evidence remains evidence-only."
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260615T023900Z-fixture-retention-route/change-receipt.json
+    boundaries:
+      include_paths:
+        - .codex/commands/fixture-retention-closeout.md
+        - .cursor/commands/fixture-retention-closeout.md
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-workflow.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-validate-fixture-retention-closeout.sh
+        - .octon/framework/capabilities/runtime/commands/fixture-retention-closeout.md
+        - .octon/framework/capabilities/runtime/skills/operations/fixture-retention-closeout
+        - .octon/framework/orchestration/runtime/workflows/meta/fixture-retention-closeout
+        - .octon/framework/product/contracts/fixture-retention-closeout-receipt-v1.schema.json
+        - .octon/framework/product/features/fixture-retention-closeout.md
+      exclude_paths: []
+  - candidate_id: candidate-program-delivery-implementation-sources
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: proposal-program-delivery-change
+    route_hint: packet-lifecycle-then-closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Preserve branch-local implementation material; user instruction requires routing through packet/change lifecycle after terminal readiness is no longer blocked."
+    boundaries:
+      include_paths:
+        - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+        - .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+        - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery
+        - .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+        - .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+        - .octon/framework/product/features/governed-proposal-delivery.md
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+  - candidate_id: candidate-generated-publication-refresh
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: capability-extension-runtime-product-publishers
+    route_hint: publisher-owned-refresh-then-closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Retain publisher-produced generated and control changes; do not hand-edit generated outputs or mutate control truth from closeout-worktree."
+    boundaries:
+      include_paths:
+        - .octon/generated/effective
+        - .octon/generated/proposals/registry.yml
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/control/extensions/quarantine.yml
+        - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+        - .octon/state/evidence/validation/publication
+        - .octon/state/evidence/validation/extensions/prompt-alignment
+        - .octon/state/evidence/validation/compatibility/extensions
+      exclude_paths:
+        - .octon/generated/cognition/projections/materialized/runs
+  - candidate_id: candidate-state-control-and-evidence-residue
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: state-control-and-retained-evidence-routes
+    route_hint: closeout-change-or-owning-lifecycle-classification
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Retain protected/manual-review residue; wrapper has no deletion or control-state mutation authority."
+    boundaries:
+      include_paths:
+        - .octon/state/control
+        - .octon/state/continuity
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs
+        - .octon/state/evidence/validation/analysis
+      exclude_paths:
+        - .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T031247Z-local-artifact-cleanup-after-publication-refresh
+  - candidate_id: candidate-ignored-local-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: local-ignored-filesystem-residue
+    route_hint: manual-review-or-platform-local-retention
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: "Retain ignored local residue; closeout-worktree does not delete ignored/user-owned paths."
+    boundaries:
+      include_paths:
+        - .DS_Store
+        - .git/.DS_Store
+      exclude_paths:
+        - .octon/inputs
+iterations: []
+final_candidate_dispositions:
+  candidate-target-packet-lifecycle-residue:
+    state: blocked
+    reason: "Target packet cannot be archive-ready while foreign/manual-review worktree residue remains."
+  candidate-fixture-retained:
+    state: retained
+    reason: "Validated fixture-retention-closeout receipt covers the exact retained fixture path set."
+  candidate-terminal-closeout-repair-sources:
+    state: deferred
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260615T023134Z-terminal-closeout-repair/change-receipt.json
+    reason: "Closeout-change receipt is branch-local and continued; no landing or cleaned outcome."
+  candidate-repo-hygiene-helper-repair-sources:
+    state: deferred
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260615T023300Z-repo-hygiene-helper-repair/change-receipt.json
+    reason: "Closeout-change receipt is branch-local and continued; no landing or cleaned outcome."
+  candidate-run-health-read-model-refresh:
+    state: deferred
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260615T023500Z-run-health-read-model-refresh/change-receipt.json
+    reason: "Generator-owned refresh completed and run-health validation passed; branch-local closeout-change receipt remains continued, with no landing or cleaned outcome."
+  candidate-fixture-retention-route-sources:
+    state: deferred
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260615T023900Z-fixture-retention-route/change-receipt.json
+    reason: "Closeout-change receipt is branch-local and continued; route evidence does not authorize downstream packet effects."
+  candidate-program-delivery-implementation-sources:
+    state: blocked
+    reason: "Program-delivery implementation candidate waits for terminal readiness and packet/change lifecycle routing."
+  candidate-generated-publication-refresh:
+    state: blocked
+    reason: "Publisher-produced generated/control changes still need owner-routed closeout; wrapper cannot hand-edit or close them."
+  candidate-state-control-and-evidence-residue:
+    state: blocked
+    reason: "Protected/manual-review state/control/evidence residue remains and must be classified or closed by owning lifecycles."
+  candidate-ignored-local-residue:
+    state: foreign
+    reason: "Ignored local filesystem residue is retained for manual/platform-local review."
+retained_residue:
+  - candidate_id: candidate-fixture-retained
+    path: .octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture/proposal-artifact-index.yml
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture/proposal-program-spine.yml
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/README.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/implementation/implementation-map.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/artifact-catalog.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/source-of-truth-map.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy-proposal.yml
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/decision.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/enforcement-plan.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/policy-delta.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/proposal.yml
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/executable-implementation-prompt.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/implementation-conformance-review.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/implementation-grade-completeness-review.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/post-implementation-drift-churn-review.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-closeout.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-review.md
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-fixture-retained
+    path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-terminal-closeout.yml
+    disposition: retained fixture evidence
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+  - candidate_id: candidate-ignored-local-residue
+    path: .DS_Store
+    disposition: foreign ignored local filesystem residue retained for manual review
+  - candidate_id: candidate-ignored-local-residue
+    path: .git/.DS_Store
+    disposition: foreign ignored local filesystem residue retained for manual review outside Octon cleanup authority
+blockers:
+  - candidate_id: candidate-target-packet-lifecycle-residue
+    blocker: "Target packet cannot be archive-ready until closeout-worktree or closeout-change resolves current lifecycle and worktree residue."
+  - candidate_id: candidate-program-delivery-implementation-sources
+    blocker: "Program-delivery implementation candidate is held for packet/change lifecycle routing after terminal readiness is no longer blocked."
+  - candidate_id: candidate-generated-publication-refresh
+    blocker: "Publisher-owned generated/control changes remain dirty and require owner-routed closeout; closeout-worktree cannot hand-edit generated outputs or mutate control truth."
+  - candidate_id: candidate-state-control-and-evidence-residue
+    blocker: "State/control/evidence residue includes protected and manual-review paths that require owning lifecycle classification or closeout evidence."
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 30
+  untracked: 690
+  ignored: 7655
+  generated_effective_output: 10
+  host_projection: 0
+  retained_evidence: 412
+  state_control: 2064
+  release_version: 0
+  input_surface: 32
+fixture_retention_receipt_refs:
+  - .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml
+next_route_condition: "Do not rerun terminal closeout. Route protected/manual-review state/control/evidence residue, generated publication refresh residue, and target packet implementation residue through their owning lifecycles or singular closeout-change receipts first."

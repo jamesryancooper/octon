@@ -1,0 +1,49 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "run-health-read-model-refresh-20260615T023500Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "branch-local-complete",
+  "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "local-only",
+  "intent": "Checkpoint the generator-owned run-health read-model refresh as a branch-local Change without hosted landing.",
+  "scope": {
+    "summary": "Generated non-authoritative run-health read-model projections refreshed through generate-run-health-read-model.sh --all-runs.",
+    "touched_paths": [
+      ".octon/generated/cognition/projections/materialized/runs",
+      ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+    ],
+    "diff_refs": [
+      "chore/proposal-program-delivery@f0204affee84e817f5afa9e444469d2b2647d290"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-delivery",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh --all-runs",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh",
+    ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml",
+    "git diff --check"
+  ],
+  "review_waiver_refs": [
+    "solo-maintainer branch-no-pr local-only checkpoint; no PR selected or created"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "f0204affee84e817f5afa9e444469d2b2647d290",
+    "branch": "chore/proposal-program-delivery"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "f0204affee84e817f5afa9e444469d2b2647d290",
+    "instructions": "Revert commit f0204affee84e817f5afa9e444469d2b2647d290 on chore/proposal-program-delivery if the generated run-health refresh checkpoint must be backed out."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Branch-local checkpoint is not landed on main.",
+    "Generated run-health read models are non-authoritative and do not prove target packet implementation, archive readiness, landing, cleanup, or cleaned state."
+  ],
+  "created_at": "2026-06-15T02:36:54Z"
+}

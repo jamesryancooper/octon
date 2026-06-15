@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:a4e9ad29cf7d8cdfd90c85c0b68892f3bfd1410753f35cd34c17c9d2a5752815
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-14T15:08:49.042744Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:c62acc5fce498b3982fb00d0b6791ad1225ef46652cf20e86305f7edf11ebbd6
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-14T15:08:49.042744Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance
+  storage_class: external-immutable
+index_id: external-replay-proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair-verify-implementation-conformance
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:08:49.042744Z

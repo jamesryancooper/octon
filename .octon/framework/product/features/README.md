@@ -16,6 +16,11 @@ The catalog answers four questions for agents and operators:
 - `<feature-id>.md`: human-readable feature notes for individual mechanisms.
 - `proposal-packet-terminal-closeout.md`: terminal readiness receipt for
   implemented proposal packets before archive relocation.
+- `fixture-retention-closeout.md`: evidence-only retention receipt for
+  temporary proposal fixtures used as validation residue.
+- `governed-proposal-delivery.md`: accepted proposal program delivery
+  coordination through target-owned lifecycles, closeout, archive handoff,
+  Change closeout, final sync, cleanup, and terminal proof.
 - `governed-mechanism-integration-verification.md`: cross-surface mechanism
   integration verification before proposal closeout/archive readiness.
 

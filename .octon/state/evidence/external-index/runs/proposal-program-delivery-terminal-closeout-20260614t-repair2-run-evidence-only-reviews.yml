@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:0493946e6f062beea0825c1607a9671d15dd4704e24a44a597364649b4eaaab9
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-14T15:13:50.194654Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:175b83b340b68b3a280f62b142a3954bfa84343e1b79c2b126c5f7e4d2fba59f
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-14T15:13:50.194654Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews
+  storage_class: external-immutable
+index_id: external-replay-proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-run-evidence-only-reviews
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:13:50.194654Z

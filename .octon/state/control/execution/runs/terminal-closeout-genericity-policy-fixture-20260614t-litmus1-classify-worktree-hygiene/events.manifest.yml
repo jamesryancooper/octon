@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+ledger_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:0e9b583a16de9d77b434360f35a4286d7cde2ac6082bc0d7a7bc31dc0467f7d9
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  sequence: 1
+  event_hash: sha256:fe1e7529ec8f315334695f78421ccaa290c0c3a065cd09e53c4ffaf79347ad1c
+last_event_ref:
+  event_id: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  sequence: 29
+  event_hash: sha256:f25869c9c3d11a90a61fb9fe44a9dbfeaa3ec5fa722a464dca717048d5d3af9a
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:fe1e7529ec8f315334695f78421ccaa290c0c3a065cd09e53c4ffaf79347ad1c
+  tail_event_hash: sha256:f25869c9c3d11a90a61fb9fe44a9dbfeaa3ec5fa722a464dca717048d5d3af9a
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  context_pack_ref: evt-context-pack-bound-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  disclosure_ref: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  evidence_snapshot_ref: evt-evidence-snapshot-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-127bbd4f0f45
+  run_contract_ref: evt-001-run-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  run_manifest_ref: evt-002-run-bound-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  runtime_state_ref: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  stage_attempt_ref: evt-stage-started-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/runtime-state.yml
+  last_applied_event_id: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:f25869c9c3d11a90a61fb9fe44a9dbfeaa3ec5fa722a464dca717048d5d3af9a
+  materialized_at: 2026-06-14T15:52:43.506871Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:52:44.285323Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-verify-post-implementation-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-verify-post-implementation-drift/context/context-pack.json
+context_pack_sha256: sha256:6bbf9e1a452bb237b5510428148882e4e3980a341f5464c5862edab44abc4fe8
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-verify-post-implementation-drift/context/model-visible-context.json
+model_visible_context_sha256: sha256:7b0337e862f3bd438c341f30b7d07ecc46960d8a82dfbcfd7a434b476d53735f
+receipt_sha256: sha256:3e833267241dbe7ad48d5b25fce14363e70944a243da7b98bbf815ca8cb60a73
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-verify-post-implementation-drift
+schema_version: active-context-pack-v1
+updated_at: 2026-06-14T15:12:30.890258Z
+validity_state: valid

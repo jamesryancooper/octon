@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:82a25d8b65d924c725ba6b10e909c6814d92512e8f21aa0d1f44c2cc6c0f3717
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-14T15:22:50.997156Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:0ad97238a597d454ef2052f8a2d182497cbdac68ccfb6d232c34ba9c6da5bbc3
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-14T15:22:50.997156Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route
+  storage_class: external-immutable
+index_id: external-replay-proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route
+run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-resolve-git-github-route
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:22:50.997156Z

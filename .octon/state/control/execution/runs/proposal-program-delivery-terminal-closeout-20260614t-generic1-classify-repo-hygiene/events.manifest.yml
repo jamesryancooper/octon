@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:af0d1c17f6f68a3ca7699826af391d552bce1a41907516d3c55bbc8d81647a66
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  sequence: 1
+  event_hash: sha256:33750fa8c76bba9ab11eaec2d396892bd66edcaea796be7a81abd90b61c22a7c
+last_event_ref:
+  event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  sequence: 29
+  event_hash: sha256:cd5d9eeaecfbece9695234f09db816fe254b6d3f714329102ecca03d29a9f6ce
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:33750fa8c76bba9ab11eaec2d396892bd66edcaea796be7a81abd90b61c22a7c
+  tail_event_hash: sha256:cd5d9eeaecfbece9695234f09db816fe254b6d3f714329102ecca03d29a9f6ce
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  context_pack_ref: evt-context-pack-bound-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  disclosure_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-46b2c73c24dc
+  run_contract_ref: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  run_manifest_ref: evt-002-run-bound-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  runtime_state_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  stage_attempt_ref: evt-stage-started-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-classify-repo-hygiene
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:cd5d9eeaecfbece9695234f09db816fe254b6d3f714329102ecca03d29a9f6ce
+  materialized_at: 2026-06-14T15:22:44.392036Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:22:45.164639Z

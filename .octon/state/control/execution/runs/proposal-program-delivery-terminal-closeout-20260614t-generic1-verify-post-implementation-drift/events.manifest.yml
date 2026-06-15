@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:6b08f4dcfb298d95945e05da8548e834570cc8086295b101069ad207d3945f9b
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  sequence: 1
+  event_hash: sha256:9e5ff1959ab3c0326258ad181d91c10948b7bc29ebd1f4f96ce69db0391cfd34
+last_event_ref:
+  event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  sequence: 29
+  event_hash: sha256:74f959b7f057640a438c2a34aae46b93b997ed3e5e7d60f2f44518cedddc99fe
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:9e5ff1959ab3c0326258ad181d91c10948b7bc29ebd1f4f96ce69db0391cfd34
+  tail_event_hash: sha256:74f959b7f057640a438c2a34aae46b93b997ed3e5e7d60f2f44518cedddc99fe
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  context_pack_ref: evt-context-pack-bound-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  disclosure_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-843adb582567
+  run_contract_ref: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  run_manifest_ref: evt-002-run-bound-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  runtime_state_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  stage_attempt_ref: evt-stage-started-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-generic1-verify-post-implementation-drift
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:74f959b7f057640a438c2a34aae46b93b997ed3e5e7d60f2f44518cedddc99fe
+  materialized_at: 2026-06-14T15:21:29.826342Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:21:30.639644Z

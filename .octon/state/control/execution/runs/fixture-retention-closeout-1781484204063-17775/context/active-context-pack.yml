@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775/context/context-pack.json
+context_pack_sha256: sha256:2d6df21a66845f78e4619295f36b0821e42bf2323fefb7b94a7e5f7ce743c972
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775/context/model-visible-context.json
+model_visible_context_sha256: sha256:785af893141105021a912b2a2e57101c5ddc14dfdc8815813493551a4572e3f2
+receipt_sha256: sha256:efe2067eb7bfbc3498cc207972be50f14ce8364ad9b889d4606655164249e80f
+run_id: fixture-retention-closeout-1781484204063-17775
+schema_version: active-context-pack-v1
+updated_at: 2026-06-15T00:43:24.30411Z
+validity_state: valid

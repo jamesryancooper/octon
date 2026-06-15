@@ -1,0 +1,557 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/proposal-program-delivery-receipt-v1.schema.json",
+  "title": "Proposal Program Delivery Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "emitted_at",
+    "profile",
+    "target_program",
+    "target_outcome",
+    "actual_outcome",
+    "parent_program_lifecycle",
+    "child_packet_coverage",
+    "child_receipts",
+    "implementation_conformance",
+    "post_implementation_drift_churn",
+    "generated_publication",
+    "governed_mechanism_integration",
+    "lifecycle_residue_cleanup",
+    "change_closeout",
+    "branch_authorization",
+    "final_sync",
+    "terminal_current_state_proof",
+    "worktree_hygiene",
+    "blockers",
+    "non_authority_classification",
+    "target_owned_evidence_policy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proposal-program-delivery-receipt-v1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "emitted_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_ref",
+        "validated_at",
+        "verdict"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profile_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validated_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        }
+      }
+    },
+    "target_program": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "status",
+        "accepted_review_digest"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "accepted_review_digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "target_outcome": {
+      "enum": [
+        "implemented",
+        "archive-ready",
+        "landed",
+        "synced",
+        "cleaned"
+      ]
+    },
+    "actual_outcome": {
+      "enum": [
+        "blocked",
+        "implemented",
+        "archive-ready",
+        "landed",
+        "synced",
+        "cleaned"
+      ]
+    },
+    "parent_program_lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow_ref",
+        "receipt_ref",
+        "verdict",
+        "replanned_after_material_changes"
+      ],
+      "properties": {
+        "workflow_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "receipt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "blocked"
+          ]
+        },
+        "replanned_after_material_changes": {
+          "type": "boolean"
+        }
+      }
+    },
+    "child_packet_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parent_summary_satisfies_child_receipts",
+        "children"
+      ],
+      "properties": {
+        "parent_summary_satisfies_child_receipts": {
+          "type": "boolean"
+        },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "status",
+              "required_receipts",
+              "fresh"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "required_receipts": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "fresh": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "child_receipts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implementation_run",
+        "implementation_conformance",
+        "post_implementation_drift_churn",
+        "packet_closeout",
+        "archive",
+        "change_closeout"
+      ],
+      "properties": {
+        "implementation_run": {
+          "$ref": "#/$defs/receipt_ref_array"
+        },
+        "implementation_conformance": {
+          "$ref": "#/$defs/receipt_ref_array"
+        },
+        "post_implementation_drift_churn": {
+          "$ref": "#/$defs/receipt_ref_array"
+        },
+        "packet_closeout": {
+          "$ref": "#/$defs/receipt_ref_array"
+        },
+        "archive": {
+          "$ref": "#/$defs/receipt_ref_array"
+        },
+        "change_closeout": {
+          "$ref": "#/$defs/receipt_ref_array"
+        }
+      }
+    },
+    "implementation_conformance": {
+      "$ref": "#/$defs/fresh_receipt_verdict"
+    },
+    "post_implementation_drift_churn": {
+      "$ref": "#/$defs/fresh_receipt_verdict"
+    },
+    "generated_publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validator",
+        "publisher_refs",
+        "fresh",
+        "direct_generated_output_edit_used"
+      ],
+      "properties": {
+        "validator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "fresh": {
+          "type": "boolean"
+        },
+        "direct_generated_output_edit_used": {
+          "type": "boolean"
+        }
+      }
+    },
+    "governed_mechanism_integration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "verdict",
+        "receipt_refs",
+        "not_applicable_rationale"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "not-applicable"
+          ]
+        },
+        "receipt_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "not_applicable_rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "lifecycle_residue_cleanup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cleanup_performed",
+        "cleanup_authorization_refs",
+        "unauthorized_deletion_performed"
+      ],
+      "properties": {
+        "cleanup_performed": {
+          "type": "boolean"
+        },
+        "cleanup_authorization_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unauthorized_deletion_performed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "change_closeout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "receipt_ref",
+        "verdict"
+      ],
+      "properties": {
+        "route": {
+          "enum": [
+            "direct-main",
+            "branch-only",
+            "branch-no-pr",
+            "branch-pr",
+            "stage-only",
+            "not-run"
+          ]
+        },
+        "receipt_ref": {
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "blocked",
+            "not-run"
+          ]
+        }
+      }
+    },
+    "branch_authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "landing_performed",
+        "landing_authorization_ref",
+        "branch_cleanup_performed",
+        "cleanup_authorization_ref",
+        "branch_deleted"
+      ],
+      "properties": {
+        "landing_performed": {
+          "type": "boolean"
+        },
+        "landing_authorization_ref": {
+          "type": "string"
+        },
+        "branch_cleanup_performed": {
+          "type": "boolean"
+        },
+        "cleanup_authorization_ref": {
+          "type": "string"
+        },
+        "branch_deleted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "final_sync": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "landed_ref",
+        "local_main_ref",
+        "origin_main_ref",
+        "main_origin_landed_ref_equal"
+      ],
+      "properties": {
+        "landed_ref": {
+          "type": "string"
+        },
+        "local_main_ref": {
+          "type": "string"
+        },
+        "origin_main_ref": {
+          "type": "string"
+        },
+        "main_origin_landed_ref_equal": {
+          "type": "boolean"
+        }
+      }
+    },
+    "terminal_current_state_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_ref",
+        "fresh_after_last_mutation",
+        "verdict"
+      ],
+      "properties": {
+        "evidence_ref": {
+          "type": "string"
+        },
+        "fresh_after_last_mutation": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "not-run"
+          ]
+        }
+      }
+    },
+    "worktree_hygiene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_ref",
+        "dirty_worktree",
+        "verdict"
+      ],
+      "properties": {
+        "evidence_ref": {
+          "type": "string"
+        },
+        "dirty_worktree": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "not-run"
+          ]
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "class",
+          "evidence_ref",
+          "status"
+        ],
+        "properties": {
+          "class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "open",
+              "resolved"
+            ]
+          }
+        }
+      }
+    },
+    "non_authority_classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_local_files",
+        "generated_prompts",
+        "generated_outputs",
+        "dashboards",
+        "chat_or_model_memory"
+      ],
+      "properties": {
+        "proposal_local_files": {
+          "const": "non-authority"
+        },
+        "generated_prompts": {
+          "const": "non-authority"
+        },
+        "generated_outputs": {
+          "const": "derived-only-non-authority"
+        },
+        "dashboards": {
+          "const": "non-authority"
+        },
+        "chat_or_model_memory": {
+          "const": "non-authority"
+        }
+      }
+    },
+    "target_owned_evidence_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_owned_receipts_required",
+        "aggregate_receipt_replaces_target_owned_receipts"
+      ],
+      "properties": {
+        "target_owned_receipts_required": {
+          "type": "boolean"
+        },
+        "aggregate_receipt_replaces_target_owned_receipts": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "receipt_ref_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "fresh_receipt_verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_ref",
+        "fresh",
+        "verdict"
+      ],
+      "properties": {
+        "receipt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fresh": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        }
+      }
+    }
+  }
+}

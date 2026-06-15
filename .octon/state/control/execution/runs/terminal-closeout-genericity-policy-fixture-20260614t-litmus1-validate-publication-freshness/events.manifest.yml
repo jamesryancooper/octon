@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+ledger_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:2454d23c1e6d2cf4f26a25773e9fa7faa6a9b8ac7c4e5fe493bec9b309e5e17a
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  sequence: 1
+  event_hash: sha256:2592f252b6c4283fcec4a1652180b50d01bc9171b444b41a8021732e7d2417af
+last_event_ref:
+  event_id: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  sequence: 29
+  event_hash: sha256:d98328f33ee81518152922770df730749f4ea13cbaa8c904f50c2c3450f0ebdb
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:2592f252b6c4283fcec4a1652180b50d01bc9171b444b41a8021732e7d2417af
+  tail_event_hash: sha256:d98328f33ee81518152922770df730749f4ea13cbaa8c904f50c2c3450f0ebdb
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  context_pack_ref: evt-context-pack-bound-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  disclosure_ref: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  evidence_snapshot_ref: evt-evidence-snapshot-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-23d3d0ce27ad
+  run_contract_ref: evt-001-run-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  run_manifest_ref: evt-002-run-bound-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  runtime_state_ref: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  stage_attempt_ref: evt-stage-started-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness/runtime-state.yml
+  last_applied_event_id: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-validate-publication-freshness
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:d98328f33ee81518152922770df730749f4ea13cbaa8c904f50c2c3450f0ebdb
+  materialized_at: 2026-06-14T15:52:38.984047Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:52:39.772123Z

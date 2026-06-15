@@ -1,0 +1,47 @@
+schema_version: repo-hygiene-cleanup-run-receipt-v1
+run_id: 20260615T031247Z-local-artifact-cleanup-after-publication-refresh
+route: repo-hygiene-cleanup
+created_at: "2026-06-15T03:24:30Z"
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T031247Z-local-artifact-cleanup-after-publication-refresh/cleanup-authorization.json
+authorization_id: repo-hygiene-cleanup-9e42ee7f3552e900
+authorization_receipt_sha256: sha256:f50013a4f75f3aff1b6bd55148d2492eb6bf30440940ac63b3943e0c8cf05c44
+pre_cleanup_summary:
+  cleanup_candidates: 445
+  eligible_cleanup_candidates: 445
+  protected_referenced: 1165
+  manual_review: 1432
+  git_status_digest: sha256:fc44f5c112c84c6b5eedddaa69b10de46ac95ca31bde04968b323c3ac99f7b56
+  classification_digest: sha256:267e7f631b94f6f82a06706a523b7ff4ec0c9695252e545a0f8a59fc4e7d91a4
+  cleanup_path_set_digest: sha256:7392b667ddc7552983af93b27fada05b177fa9f4d50c9d8acd46cd9a46fe6c56
+  protected_paths_digest: sha256:573ab9dacb1d5282de526443a45505b55df73ff654d40e972bd5f53edbd92295
+  manual_review_paths_digest: sha256:9f7ad0235f75a7d25fa310093dfe83c3fe6e57868ec450875793fdc3fc36f679
+post_cleanup_summary:
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 1165
+  manual_review: 1433
+  git_status_digest: sha256:a279ff605bfe8dba3b5cc757d835d0792a0fd2a9e0a31dd4b3f77b6ed05b807c
+  classification_digest: sha256:17b13f2d7668c47e93e623dac26be3a317dd523c288dc0bc688362a121f6cca5
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:573ab9dacb1d5282de526443a45505b55df73ff654d40e972bd5f53edbd92295
+  manual_review_paths_digest: sha256:5d8794483037f26a55426b9b6003d8e24d8460b55110ee62b8ac1db23c78f5c3
+deleted_count: 445
+deleted_by: validating repo-hygiene-cleanup authorization receipt
+deleted_path_classes:
+  - local_filesystem_metadata
+  - stale_unreferenced_publication_attempt
+  - local_unreferenced_run_artifact
+  - local_unreferenced_control_artifact
+retained_protected_count: 1165
+retained_manual_review_count: 1433
+proposal_input_files_deleted: false
+generated_run_health_deleted: false
+active_control_deleted: false
+durable_evidence_deleted: false
+generated_authority_deleted: false
+unauthorized_deletion: false
+inputs_ds_store_absent: true
+outcome: deleted-authorized-local-artifacts
+blocker: none

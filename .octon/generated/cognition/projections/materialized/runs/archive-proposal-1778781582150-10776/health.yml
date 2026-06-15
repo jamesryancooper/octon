@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: archive-proposal-1778781582150-10776
-generated_at: '2026-06-15T02:34:59Z'
+generated_at: '2026-06-15T13:57:43Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:247848843af2d5428a3919d6886eceeb2ba7f1f4a9be09a55366f96f9f9af64a
-  checked_at: '2026-06-15T02:34:59Z'
+  combined_source_digest: sha256:13de53cb126b0913b9217f4fb63a8c2d04f73c69f020ff7186c683b2f1051fb5
+  checked_at: '2026-06-15T13:57:43Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/archive-proposal-1778781582150-10776/events.manifest.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:d8bb9ee5b4d90157e75191118ac5135feaf31ac064949c5e1a2725683374a529
+    digest: sha256:65a2a3379b47ccb28a6c3e1ba3d632871275468fcc503f27a55da22c0dd92a6d
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml

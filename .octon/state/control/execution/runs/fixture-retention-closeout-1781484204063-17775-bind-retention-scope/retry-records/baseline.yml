@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-15T00:43:27.625586Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope-baseline
+route_taken: allow
+run_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope
+schema_version: run-retry-record-v1
+stage_attempt_id: bind-retention-scope--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/stage-attempts/bind-retention-scope--initial.yml

@@ -1,0 +1,16 @@
+schema_version: closeout-worktree-inventory-v1
+captured_at: "2026-06-15T03:24:30Z"
+branch: chore/proposal-program-delivery
+head_ref: f0fec1d96df427e0e58813fc68d30055f23ce598
+source: git status --short after repo-hygiene cleanup, before this wrapper evidence was materialized
+summary:
+  staged: 0
+  unstaged_tracked: 30
+  untracked: 690
+  ignored: 7655
+  generated_effective_output: 10
+  host_projection: 0
+  retained_evidence: 412
+  state_control: 2064
+  release_version: 0
+  input_surface: 32

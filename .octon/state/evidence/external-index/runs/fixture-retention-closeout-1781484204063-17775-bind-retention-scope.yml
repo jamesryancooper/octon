@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:68409c0ee8f191e6bd60b9c3e8680ecd17c57525a66458b09d7b3d8c3e5341f2
+  entry_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/replay/manifest.yml
+  recorded_at: 2026-06-15T00:43:28.649183Z
+  run_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:dc1d2c53984bb995e852593917ceecc8b5ed3d18c7cb5a3110f970c98d139754
+  entry_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/replay/manifest.yml
+  recorded_at: 2026-06-15T00:43:28.649183Z
+  run_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope
+  storage_class: external-immutable
+index_id: external-replay-fixture-retention-closeout-1781484204063-17775-bind-retention-scope
+run_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-15T00:43:28.649183Z

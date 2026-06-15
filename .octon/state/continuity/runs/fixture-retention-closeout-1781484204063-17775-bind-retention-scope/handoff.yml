@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: bind-retention-scope--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775/run-contract.yml
+next_action: null
+updated_at: 2026-06-15T00:43:29.401662Z

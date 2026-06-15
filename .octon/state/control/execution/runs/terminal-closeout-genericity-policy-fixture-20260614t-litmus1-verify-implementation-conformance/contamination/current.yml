@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-implementation-conformance-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-06-14T15:51:22.190048Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-implementation-conformance
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-implementation-conformance/checkpoints/bound.yml

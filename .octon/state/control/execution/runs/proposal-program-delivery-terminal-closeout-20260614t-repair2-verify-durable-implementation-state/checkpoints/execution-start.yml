@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-verify-durable-implementation-state
+checkpoint_id: execution-start
+stage_attempt_id: verify-durable-implementation-state--initial
+checkpoint_kind: execution-start
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-verify-durable-implementation-state/checkpoints/execution-start.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-verify-durable-implementation-state/checkpoints/execution-start.yml
+notes: Execution artifacts materialized under the canonical run root.
+created_at: 2026-06-14T15:12:26.478369Z
+updated_at: 2026-06-14T15:12:26.478369Z

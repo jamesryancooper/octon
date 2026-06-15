@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/context/context-pack.json
+context_pack_sha256: sha256:1955ac26cf49582e6916a655609dcaed87136b2514f6e12ad6fb8108a96a2de6
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-bind-retention-scope/context/model-visible-context.json
+model_visible_context_sha256: sha256:176f00e05c5795f181ce893be26f25bd2c740b94d8ca7d13f5f4fbf56dc7c6a8
+receipt_sha256: sha256:aaaa3d43db0103f1adb085fa6cd1157e6ccff26c7d90ac7e96b170baf17980e1
+run_id: fixture-retention-closeout-1781484204063-17775-bind-retention-scope
+schema_version: active-context-pack-v1
+updated_at: 2026-06-15T00:43:27.643614Z
+validity_state: valid

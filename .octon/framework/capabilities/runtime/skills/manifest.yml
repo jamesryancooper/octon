@@ -1493,6 +1493,47 @@ skills:
     skill_sets: []
     capabilities: []
 
+  - id: fixture-retention-closeout
+    display_name: Fixture Retention Closeout
+    group: operations
+    path: operations/fixture-retention-closeout/
+    skill_class: invocable
+    summary: "Retain temporary proposal fixtures as evidence-only validation residue."
+    status: active
+    tags:
+      - proposals
+      - lifecycle
+      - fixture
+      - retention
+    triggers:
+      - "fixture retention closeout"
+      - "retain validation fixture"
+      - "classify fixture residue"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - safety-bounded
+
+  - id: proposal-program-delivery
+    display_name: Proposal Program Delivery
+    group: operations
+    path: operations/proposal-program-delivery/
+    skill_class: invocable
+    summary: "Coordinate accepted proposal program delivery without taking over target-owned lifecycles."
+    status: active
+    tags:
+      - proposals
+      - lifecycle
+      - delivery
+      - closeout
+    triggers:
+      - "proposal program delivery"
+      - "deliver proposal program"
+      - "run proposal program delivery"
+    skill_sets: []
+    capabilities: []
+
   - id: postgres-best-practices
     display_name: Postgres Best Practices
     group: foundations

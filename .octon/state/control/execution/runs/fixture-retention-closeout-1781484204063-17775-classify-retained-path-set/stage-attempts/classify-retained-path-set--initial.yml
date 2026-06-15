@@ -1,0 +1,37 @@
+allowed_capabilities:
+- workflow.stage.execute
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set
+- .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set
+attempt_kind: initial
+completion_status: criteria-pending
+created_at: 2026-06-15T00:43:31.629307Z
+entry_criteria:
+- Run contract is bound under the canonical run root.
+- Support-target tuple remains admitted for the bounded consequential envelope.
+evidence_refs:
+- .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/receipts/grant-bundle.json
+- .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/receipts/execution-receipt.json
+exit_criteria:
+- Stage receipts, replay refs, and disclosure refs are retained under canonical run roots.
+- Stage status reaches a terminal state that agrees with the decision artifact.
+issued_by: octon-kernel
+objective_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/run-contract.yml
+objective_slice: Stage workflow-stage:classify-retained-path-set for target fixture-retention-closeout::classify-retained-path-set
+predecessor_refs: []
+requested_capabilities:
+- workflow.stage.execute
+- evidence.write
+retry_class: manual_review_required
+rollback_candidate: true
+rollback_notes: Restore from the canonical checkpoint and reissue the stage if retained evidence becomes inconsistent.
+run_id: fixture-retention-closeout-1781484204063-17775-classify-retained-path-set
+schema_version: stage-attempt-v1
+stage_attempt_id: classify-retained-path-set--initial
+stage_ref: workflow-stage:classify-retained-path-set
+status: succeeded
+successor_refs: []
+updated_at: 2026-06-15T00:43:33.276634Z
+validated_by: octon-kernel

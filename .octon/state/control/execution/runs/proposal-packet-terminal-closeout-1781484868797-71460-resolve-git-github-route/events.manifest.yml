@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+ledger_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:d3b4fe17b498990f04c78a3a48527de2fc8f864d7311f16810011e1aa36c9dc6
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  sequence: 1
+  event_hash: sha256:0f60e0c7c3e65ba016fa7b39ed697bec32cb98177494bff1f8a9d6c5ec876a7c
+last_event_ref:
+  event_id: evt-run-closed-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  sequence: 29
+  event_hash: sha256:2de3744b83bc9689a04a094dabff962278e30e187c58faa2c33a2d59b4a6bc3d
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:0f60e0c7c3e65ba016fa7b39ed697bec32cb98177494bff1f8a9d6c5ec876a7c
+  tail_event_hash: sha256:2de3744b83bc9689a04a094dabff962278e30e187c58faa2c33a2d59b4a6bc3d
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  context_pack_ref: evt-context-pack-bound-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  disclosure_ref: evt-run-closed-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-d9f16310a431
+  run_contract_ref: evt-001-run-created-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  run_manifest_ref: evt-002-run-bound-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  runtime_state_ref: evt-run-closed-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  stage_attempt_ref: evt-stage-started-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-packet-terminal-closeout-1781484868797-71460-resolve-git-github-route
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:2de3744b83bc9689a04a094dabff962278e30e187c58faa2c33a2d59b4a6bc3d
+  materialized_at: 2026-06-15T00:55:54.684136Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-15T00:55:55.423847Z

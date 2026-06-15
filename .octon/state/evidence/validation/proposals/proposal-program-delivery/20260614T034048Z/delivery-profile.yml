@@ -1,0 +1,62 @@
+schema_version: proposal-program-delivery-profile-v1
+profile_id: proposal-program-delivery-atomic-cleaned-20260614T034048Z
+created_at: "2026-06-14T04:02:09Z"
+target_program_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+target_outcome: cleaned
+route_preference:
+  work_unit_route: branch-no-pr
+  landing_route: branch-no-pr
+  pr_creation_allowed: false
+pr_policy:
+  mode: forbid-pr
+  allow_pr_creation: false
+  fallback_to_pr: false
+stash_policy:
+  mode: forbidden
+  preserve_unrelated_work: true
+child_execution:
+  replan_after_material_changes: true
+  target_owned_receipts_required: true
+  parent_summary_satisfies_child_receipts: false
+required_proposal_validators:
+  - validate-proposal-review-gate.sh
+  - validate-proposal-implementation-readiness.sh
+  - validate-architecture-proposal.sh
+required_implementation_validators:
+  - validate-proposal-program-delivery-profile.sh
+  - validate-proposal-program-delivery-receipt.sh
+  - validate-proposal-program-delivery-workflow.sh
+  - test-validate-proposal-program-delivery.sh
+  - validate-product-feature-catalog.sh
+  - validate-capability-publication-state.sh
+  - validate-extension-publication-state.sh
+  - validate-proposal-implementation-conformance.sh
+  - validate-proposal-post-implementation-drift.sh
+  - validate-proposal-lifecycle-terminal-freshness.sh
+publication_checks:
+  owning_publishers_only: true
+  generated_outputs_are_non_authority: true
+  freshness_validator: validate-capability-publication-state.sh
+  direct_generated_output_edits_allowed: false
+mechanism_integration_checks:
+  required_when_applicable: true
+  receipt_required_when_required: true
+closeout_requirements:
+  packet_closeout_required: true
+  archive_lifecycle_required: true
+  change_closeout_required: true
+  delegate_git_mutation_to_change_closeout: true
+hygiene_requirements:
+  cleanup_authorization_required: true
+  classification_alone_authorizes_deletion: false
+terminal_proof_requirements:
+  terminal_current_state_proof_required: true
+  worktree_hygiene_required: true
+final_sync_requirements:
+  main_origin_landed_ref_equality_required: true
+non_authority_boundaries:
+  proposal_local_files: non-authority
+  generated_prompts: non-authority
+  generated_outputs: derived-only-non-authority
+  dashboards: non-authority
+  chat_or_model_memory: non-authority

@@ -1,0 +1,32 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-program-delivery-pre-integration-architecture-review-20260614T052900Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery"
+packet_digest: "sha256:4ad3bae4209dc40547d2cd0bb9aef62684554a9d8126cd14e2b30c1acdfa0572"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/proposal-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/implementation-conformance-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/post-implementation-drift-churn-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/governed-mechanism-integration-evaluation.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/RISK-REGISTER.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/balanced-architecture-review-method.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  charter_scope: "covered"
+  authority_boundaries: "covered"
+  target_owned_lifecycle_delegation: "covered"
+  branch_no_pr_and_cleanup_boundaries: "covered"
+  terminal_proof_boundary: "covered"
+  implementation_authorization: "covered"
+  evidence_contract: "covered"
+  governed_mechanism_integration_receipt: "covered"
+  terminal_freshness_recovery: "covered"

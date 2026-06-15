@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:b780e2756fe430d25705b7c7db162defc266a489a9644b43749bbe7f3eeb33f6
+  entry_id: proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-15T00:58:34.623873Z
+  run_id: proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:c7a7c5f17a14e7b72983072db1baa4d754ccc97e4a9e7899da84761fb28d9054
+  entry_id: proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-15T00:58:34.623873Z
+  run_id: proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state
+  storage_class: external-immutable
+index_id: external-replay-proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state
+run_id: proposal-packet-terminal-closeout-1781485109759-19805-verify-durable-implementation-state
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-15T00:58:34.623873Z

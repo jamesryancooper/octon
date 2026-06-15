@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+ledger_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:f8e818cb4b6d590679de1dc9d5be02ba2c066286c5d1d281b56660d8985f4551
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  sequence: 1
+  event_hash: sha256:ab27bed78411e7ba003fcb9ae0b4aa654d0ab3c828278c0e099e67aae6eae2e2
+last_event_ref:
+  event_id: evt-run-closed-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  sequence: 29
+  event_hash: sha256:ba9d75d8f490e6b3a2bcd7c5b66e4b53b08762064bd555b6ffd1236235e6d51a
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:ab27bed78411e7ba003fcb9ae0b4aa654d0ab3c828278c0e099e67aae6eae2e2
+  tail_event_hash: sha256:ba9d75d8f490e6b3a2bcd7c5b66e4b53b08762064bd555b6ffd1236235e6d51a
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  context_pack_ref: evt-context-pack-bound-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  disclosure_ref: evt-run-closed-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  evidence_snapshot_ref: evt-evidence-snapshot-created-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-a9245b1b674c
+  run_contract_ref: evt-001-run-created-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  run_manifest_ref: evt-002-run-bound-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  runtime_state_ref: evt-run-closed-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  stage_attempt_ref: evt-stage-started-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity/runtime-state.yml
+  last_applied_event_id: evt-run-closed-fixture-retention-closeout-1781484204063-17775-resolve-fixture-identity
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:ba9d75d8f490e6b3a2bcd7c5b66e4b53b08762064bd555b6ffd1236235e6d51a
+  materialized_at: 2026-06-15T00:43:26.621283Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-15T00:43:27.378562Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:4f2caefe516c3deafc2a2a989dfdc92bf98d63548c3a67daf2728e275a0329fc
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:4616783ed8be66da7d2ad4bc28f9937f9fcce53b57970189724009c3291dc386
+receipt_sha256: sha256:ef15a596d3457af4f15be2ebfc53725acff88c851fc904df89f86496b955ec9f
+run_id: proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-15T00:59:54.69302Z
+validity_state: valid

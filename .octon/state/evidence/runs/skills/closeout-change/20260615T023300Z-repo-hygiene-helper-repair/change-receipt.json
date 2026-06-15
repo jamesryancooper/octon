@@ -1,0 +1,56 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "repo-hygiene-helper-repair-20260615T023300Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "branch-local-complete",
+  "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "local-only",
+  "intent": "Checkpoint the repo-hygiene selected-path metadata cleanup repair as a branch-local Change without hosted landing.",
+  "scope": {
+    "summary": "Repo-hygiene helper, policy, schema, docs, and negative-control test repair for untracked metadata cleanup under inputs.",
+    "touched_paths": [
+      ".codex/skills/repo-hygiene-cleanup/SKILL.md",
+      ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh",
+      ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md",
+      ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+      ".octon/instance/governance/policies/repo-hygiene.yml"
+    ],
+    "diff_refs": [
+      "chore/proposal-program-delivery@72cf0714e0e105a9bff0cebf56bcf6e3542178f4"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-delivery",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh",
+    "git diff --check",
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T-input-ds-store-metadata-cleanup/cleanup-authorization.json",
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T-input-ds-store-metadata-cleanup/receipt.yml"
+  ],
+  "review_waiver_refs": [
+    "solo-maintainer branch-no-pr local-only checkpoint; no PR selected or created"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "72cf0714e0e105a9bff0cebf56bcf6e3542178f4",
+    "branch": "chore/proposal-program-delivery"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "72cf0714e0e105a9bff0cebf56bcf6e3542178f4",
+    "instructions": "Revert commit 72cf0714e0e105a9bff0cebf56bcf6e3542178f4 on chore/proposal-program-delivery if the repo-hygiene helper repair checkpoint must be backed out."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Branch-local checkpoint is not landed on main.",
+    "This receipt does not authorize archive, hosted landing, branch cleanup, main sync, or a cleaned claim."
+  ],
+  "created_at": "2026-06-15T02:32:28Z"
+}

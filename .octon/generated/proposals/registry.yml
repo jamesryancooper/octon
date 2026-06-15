@@ -71,7 +71,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery"
     title: "Governed Proposal Delivery: Proposal Program Delivery"
-    status: "in-review"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
       - ".octon/framework/orchestration/runtime/workflows/registry.yml"
@@ -126,6 +126,15 @@ active:
       - ".github/workflows/codex-pr-review.yml"
       - ".github/workflows/alignment-check.yml"
       - ".github/workflows/harness-self-containment.yml"
+  - id: "terminal-closeout-genericity-policy-fixture"
+    kind: "policy"
+    scope: "octon-internal"
+    path: ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture"
+    title: "Terminal Closeout Genericity Policy Fixture"
+    status: "implemented"
+    promotion_targets:
+      - ".octon/framework/execution-roles/practices/standards/ai-assisted-development-discipline.md"
+      - ".octon/framework/execution-roles/practices/standards/validation-evidence-quality.md"
 archived:
   - id: "agent-node-model-call-contract"
     kind: "architecture"

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:e38f8930b7fbea3938918400f997aaedc3e61b25182fedc5cf98f744cbce3dff
+  entry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-14T15:52:47.713144Z
+  run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:71aa8a4db87b209c411e9a5daf83315296c04a179ee28fc2149b66ea975e6b4c
+  entry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-14T15:52:47.713144Z
+  run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  storage_class: external-immutable
+index_id: external-replay-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:52:47.713144Z

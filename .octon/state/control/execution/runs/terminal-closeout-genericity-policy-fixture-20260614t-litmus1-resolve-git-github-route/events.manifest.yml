@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+ledger_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:a5bb8a2e3a860dceda180e7129e99fc636199937bb985fab520f5d8f29320a68
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  sequence: 1
+  event_hash: sha256:e3423e15706843618f76cc17abe1f379ce1ac60949ff7f4dcd2382149350a6f2
+last_event_ref:
+  event_id: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  sequence: 29
+  event_hash: sha256:9a39f3336bf1a5b1bd487f9ae068de1b12885df80f5aad56b8ecef51feaa8c9e
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:e3423e15706843618f76cc17abe1f379ce1ac60949ff7f4dcd2382149350a6f2
+  tail_event_hash: sha256:9a39f3336bf1a5b1bd487f9ae068de1b12885df80f5aad56b8ecef51feaa8c9e
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  context_pack_ref: evt-context-pack-bound-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  disclosure_ref: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  evidence_snapshot_ref: evt-evidence-snapshot-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-c6c6f1b47218
+  run_contract_ref: evt-001-run-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  run_manifest_ref: evt-002-run-bound-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  runtime_state_ref: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  stage_attempt_ref: evt-stage-started-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route/runtime-state.yml
+  last_applied_event_id: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-resolve-git-github-route
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:9a39f3336bf1a5b1bd487f9ae068de1b12885df80f5aad56b8ecef51feaa8c9e
+  materialized_at: 2026-06-14T15:52:47.713144Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:52:48.489942Z

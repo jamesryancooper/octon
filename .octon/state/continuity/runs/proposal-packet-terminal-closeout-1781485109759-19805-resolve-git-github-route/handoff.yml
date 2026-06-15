@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781485109759-19805-resolve-git-github-route/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: resolve-git-github-route--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781485109759-19805/run-contract.yml
+next_action: null
+updated_at: 2026-06-15T00:59:56.393823Z
