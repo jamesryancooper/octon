@@ -93,8 +93,11 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    `target_lifecycle_outcome: cleaned`,
    `residue_routing_class: publishable_closeout_evidence`, and explicit
    include/exclude paths. Recursive final-branch operational evidence created
-   by closeout itself is retained locally under local-private evidence and must
-   not create another publishable closeout-evidence loop. Do not classify
+   by closeout itself must be written through
+   `write-terminal-closeout-local-evidence.sh` under
+   `.octon/state/evidence/local/terminal-closeout/<change-id>/` as
+   digest-backed local-private terminal evidence and must not create another
+   publishable closeout-evidence loop. Do not classify
    `closeout-worktree` skill run logs under
    `.octon/state/evidence/runs/skills/closeout-worktree/**` as publishable
    closeout evidence.
@@ -159,7 +162,11 @@ local workflow evidence to be published as material Change content.
   terminal claims must cite `terminal_current_state_proof_ref` evidence from the
   delegated singular Change. If post-primary branch-no-pr correction branches
   occurred, the delegated Change must also cite
-  `correction_branch_aggregate_receipt_ref`.
+  `correction_branch_aggregate_receipt_ref`. Ignored terminal sink residue
+  under `.octon/state/evidence/local/terminal-closeout/<change-id>/` may remain
+  only when its `terminal-closeout-local-evidence-v1` manifest validates by
+  exact path, schema version, SHA-256 digest, `retained-evidence-only`
+  non-authority classification, and live ref alignment.
 - `disposition_complete_with_retained_residue`: every candidate is `closed`,
   `retained`, or `foreign` with authority-backed evidence, retained/foreign
   residue is classified as `local_private_retained` or
@@ -284,8 +291,11 @@ retention evidence fails closed.
 - Do not claim full worktree closeout while any retained, blocked, ambiguous,
   or foreign candidate remains undocumented.
 - Do not claim `git_clean_terminal` while untracked retained evidence or other
-  non-ignored residue remains; use `disposition_complete_with_retained_residue`
-  when all remaining residue is authority-backed and intentionally retained.
+  non-ignored residue remains. Ignored terminal local evidence sink files may
+  remain for `git_clean_terminal` only when validated by
+  `validate-terminal-closeout-local-evidence.sh`; otherwise use
+  `disposition_complete_with_retained_residue` when all remaining residue is
+  authority-backed and intentionally retained.
 - Do not treat compact wrapper views (`closeout-projection.yml`,
   `publication-summary.yml`, `structured-receipt.yml`, or
   `expanded-report-request.yml`) as cleanup, Git, hosted-provider, rollback,

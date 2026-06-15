@@ -14,6 +14,9 @@ RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.
 AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-landing-authorization-v1.schema.json"
 CLEANUP_AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"
 TERMINAL_PROOF_SCHEMA="$OCTON_DIR/framework/product/contracts/lifecycle-terminal-current-state-proof-v1.schema.json"
+TERMINAL_LOCAL_EVIDENCE_SCHEMA="$OCTON_DIR/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"
+TERMINAL_LOCAL_EVIDENCE_WRITER="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"
+TERMINAL_LOCAL_EVIDENCE_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-terminal-closeout-local-evidence.sh"
 CORRECTION_AGGREGATE_SCHEMA="$OCTON_DIR/framework/product/contracts/lifecycle-correction-branch-aggregate-receipt-v1.schema.json"
 TERMINAL_FRESHNESS_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
 TERMINAL_PROOF_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-lifecycle-terminal-current-state-proof.sh"
@@ -171,8 +174,63 @@ resolve_ref_path() {
   esac
 }
 
+digest_file() {
+  local file="$1"
+  local digest
+  digest="$(shasum -a 256 "$file" | awk '{print $1}')"
+  printf 'sha256:%s\n' "$digest"
+}
+
+is_terminal_local_ref() {
+  local ref="$1"
+  [[ "$ref" == .octon/state/evidence/local/terminal-closeout/* ]]
+}
+
+validate_terminal_local_proof_ref() {
+  local ref expected_digest proof_path manifest_path change_id landed_ref actual_digest sink_dir final_verification_ref
+  ref="$(json_value '.terminal_current_state_proof_ref')"
+  [[ -n "$ref" ]] || return 0
+
+  if ! is_terminal_local_ref "$ref"; then
+    return 0
+  fi
+
+  expected_digest="$(json_value '.terminal_current_state_proof_digest')"
+  if [[ -z "$expected_digest" ]]; then
+    fail "local terminal proof ref requires terminal_current_state_proof_digest"
+    return
+  fi
+  if [[ ! "$expected_digest" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+    fail "terminal_current_state_proof_digest must be sha256:<64 hex>"
+    return
+  fi
+
+  proof_path="$(resolve_ref_path "$ref")" || { fail "terminal_current_state_proof_ref cannot be resolved"; return; }
+  [[ -f "$proof_path" ]] || { fail "local terminal proof ref resolves to an existing file"; return; }
+  actual_digest="$(digest_file "$proof_path")"
+  [[ "$actual_digest" == "$expected_digest" ]] && pass "local terminal proof digest matches" || fail "local terminal proof digest must match terminal_current_state_proof_digest"
+
+  sink_dir="$(dirname -- "$proof_path")"
+  manifest_path="$sink_dir/manifest.json"
+  [[ -f "$manifest_path" ]] || { fail "local terminal evidence manifest exists beside proof"; return; }
+  change_id="$(json_value '.change_id')"
+  landed_ref="$(json_value '.landed_ref')"
+  if "$TERMINAL_LOCAL_EVIDENCE_VALIDATOR" --manifest "$manifest_path" --change-id "$change_id" --landed-ref "$landed_ref" >/dev/null; then
+    pass "local terminal evidence manifest validates"
+  else
+    fail "local terminal evidence manifest must validate"
+  fi
+
+  final_verification_ref="$(json_value '.stateful_closeout.final_verification_ref')"
+  if is_terminal_local_ref "$final_verification_ref"; then
+    fail "stateful_closeout.final_verification_ref must not point at local terminal evidence sink"
+  else
+    pass "stateful final verification does not use local terminal sink"
+  fi
+}
+
 validate_contracts() {
-  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$CLEANUP_AUTHORIZATION_SCHEMA" "$TERMINAL_PROOF_SCHEMA" "$CORRECTION_AGGREGATE_SCHEMA" "$TERMINAL_FRESHNESS_VALIDATOR" "$TERMINAL_PROOF_VALIDATOR" "$CORRECTION_AGGREGATE_VALIDATOR" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$BRANCH_CLEANUP_AUTH_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_AUTH_SCRIPT" "$HOSTED_LAND_SCRIPT" "$EVIDENCE_TIER_VALIDATOR"; do
+  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$CLEANUP_AUTHORIZATION_SCHEMA" "$TERMINAL_PROOF_SCHEMA" "$TERMINAL_LOCAL_EVIDENCE_SCHEMA" "$TERMINAL_LOCAL_EVIDENCE_WRITER" "$TERMINAL_LOCAL_EVIDENCE_VALIDATOR" "$CORRECTION_AGGREGATE_SCHEMA" "$TERMINAL_FRESHNESS_VALIDATOR" "$TERMINAL_PROOF_VALIDATOR" "$CORRECTION_AGGREGATE_VALIDATOR" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$BRANCH_CLEANUP_AUTH_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_AUTH_SCRIPT" "$HOSTED_LAND_SCRIPT" "$EVIDENCE_TIER_VALIDATOR"; do
     require_file "$file"
   done
 
@@ -218,13 +276,17 @@ validate_contracts() {
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
   require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_authorization_ref' "receipt schema models governed cleanup authorization ref" "receipt schema must model cleanup_authorization_ref"
   require_jq "$RECEIPT_SCHEMA" '.properties.terminal_current_state_proof_ref' "receipt schema models terminal current-state proof ref" "receipt schema must model terminal_current_state_proof_ref"
+  require_jq "$RECEIPT_SCHEMA" '.properties.terminal_current_state_proof_digest."$ref" == "#/$defs/sha256Digest"' "receipt schema models terminal current-state proof digest" "receipt schema must model terminal_current_state_proof_digest"
   require_jq "$RECEIPT_SCHEMA" '.properties.correction_branch_aggregate_receipt_ref' "receipt schema models correction branch aggregate receipt ref" "receipt schema must model correction_branch_aggregate_receipt_ref"
   require_jq "$TERMINAL_PROOF_SCHEMA" '.properties.schema_version.const == "lifecycle-terminal-current-state-proof-v1"' "terminal proof schema has stable version" "terminal proof schema must define lifecycle-terminal-current-state-proof-v1"
+  require_jq "$TERMINAL_LOCAL_EVIDENCE_SCHEMA" '.properties.schema_version.const == "terminal-closeout-local-evidence-v1"' "terminal local evidence schema has stable version" "terminal local evidence schema must define terminal-closeout-local-evidence-v1"
   require_jq "$CORRECTION_AGGREGATE_SCHEMA" '.properties.schema_version.const == "lifecycle-correction-branch-aggregate-receipt-v1"' "correction aggregate schema has stable version" "correction aggregate schema must define lifecycle-correction-branch-aggregate-receipt-v1"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "cleaned_closeout_missing_terminal_current_state_proof")' "policy fails closed without terminal current-state proof" "policy must fail closed without terminal current-state proof"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "post_primary_correction_branch_missing_aggregate_receipt")' "policy fails closed without correction aggregate receipt" "policy must fail closed without correction aggregate receipt"
   require_yq "$STATE_MACHINE" '.evidence_gates.cleaned.required[]? | select(test("terminal_current_state_proof_ref"))' "state machine requires terminal current-state proof for applicable cleaned claims" "state machine must require terminal_current_state_proof_ref for applicable cleaned claims"
+  require_yq "$STATE_MACHINE" '.terminal_local_evidence_sink.required_digest_field == "terminal_current_state_proof_digest"' "state machine models digest-backed terminal local evidence sink" "state machine must model digest-backed terminal local evidence sink"
   require_literal "$CLOSEOUT_CHANGE" "terminal_current_state_proof_ref" "closeout-change documents terminal current-state proof refs" "closeout-change must document terminal_current_state_proof_ref"
+  require_literal "$CLOSEOUT_CHANGE" "write-terminal-closeout-local-evidence.sh" "closeout-change documents terminal local evidence sink writer" "closeout-change must document terminal local evidence sink writer"
   require_literal "$CLOSEOUT_CHANGE" "correction_branch_aggregate_receipt_ref" "closeout-change documents correction aggregate refs" "closeout-change must document correction_branch_aggregate_receipt_ref"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "cleanup_authorization_ref")' "receipt schema requires governed authorization for completed branch cleanup" "receipt schema must require cleanup_authorization_ref for completed branch cleanup claims"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema has stable version" "authorization schema must define branch-landing-authorization-v1"
@@ -893,6 +955,7 @@ validate_receipt() {
     json_has_nonempty '.stateful_closeout.safe_cleanup_evidence_class' && pass "stateful closeout has cleanup safety class" || fail "stateful_closeout requires safe_cleanup_evidence_class"
     json_has_nonempty '.stateful_closeout.final_verification_ref' && pass "stateful closeout has final verification ref" || fail "stateful_closeout requires final_verification_ref"
     [[ "$(json_value '.stateful_closeout.state_machine_version')" == "change-closeout-state-machine-v1" ]] && pass "stateful closeout names current state machine" || fail "stateful_closeout must name change-closeout-state-machine-v1"
+    validate_terminal_local_proof_ref
   fi
 
   if [[ "$route" == "branch-pr" ]]; then

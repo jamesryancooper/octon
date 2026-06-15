@@ -104,6 +104,18 @@ Hosted/shared closeout claims, and claims intended to leave the local machine,
 also require digest-backed repo-publishable receipt references rather than raw
 local evidence or local-only paths.
 
+Final post-mutation terminal proof snapshots may be retained locally under
+`.octon/state/evidence/local/terminal-closeout/<change-id>/` when writing them
+under `.octon/state/evidence/runs/**` would create recursive closeout residue.
+That terminal local evidence sink is ignored by git and is local/operator
+evidence only. It is never landing authorization, cleanup authorization,
+hosted check evidence, packet evidence, archive evidence, generated publication
+freshness evidence, mutation authority, policy authority, or hosted/shared
+closeout proof. A Change receipt may cite a sink proof only with
+`terminal_current_state_proof_ref` plus a matching
+`terminal_current_state_proof_digest`, and live refs must still prove local
+`HEAD`, local `main`, `origin/main`, and `landed_ref` alignment.
+
 `Closeout Worktree` is the optional wrapper for dirty worktrees. It decomposes
 multiple local residue groups into singular `Closeout Change` executions. It
 does not replace the default work unit, mint a `Closeout Changes` model, or
@@ -146,6 +158,11 @@ Repo-hygiene cleanup claims that are shared outside the local machine must cite
 a `publishable-evidence-receipt-v1` summary receipt; the raw cleanup evidence
 remains retained or local-only according to the evidence disclosure tier
 contract.
+Recursive final terminal proof files are not generic repo-hygiene cleanup
+candidates. They should be written through
+`write-terminal-closeout-local-evidence.sh` into the ignored terminal local
+sink, where `closeout-worktree` treats them as `local_private_retained` only
+after exact path, digest, schema, non-authority, and live-ref checks pass.
 
 When the operator asks for `branch-no-pr` closeout and does not name a target
 outcome, resolve the target to `cleaned` and attempt the full route lifecycle

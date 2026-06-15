@@ -164,6 +164,12 @@ validate_static() {
   require_literal "$WRAPPER_IO" "git_clean_terminal" \
     "I/O contract documents Git-clean terminal state" \
     "I/O contract must document git_clean_terminal"
+  require_literal "$WRAPPER_IO" ".octon/state/evidence/local/terminal-closeout/<change-id>/" \
+    "I/O contract documents terminal local evidence sink" \
+    "I/O contract must document terminal local evidence sink"
+  require_literal "$WRAPPER_IO" "terminal-closeout-local-evidence-v1" \
+    "I/O contract documents terminal local evidence manifest" \
+    "I/O contract must document terminal local evidence manifest"
   require_literal "$WRAPPER_IO" "residue_routing_class" \
     "I/O contract documents residue routing classes" \
     "I/O contract must document residue_routing_class"
@@ -185,6 +191,9 @@ validate_static() {
   require_literal "$WRAPPER_VALIDATION" "worktree_terminal_state" \
     "wrapper validation documents terminal state checks" \
     "wrapper validation must document worktree_terminal_state checks"
+  require_literal "$WRAPPER_VALIDATION" "terminal-closeout-local-evidence-v1" \
+    "wrapper validation documents terminal local evidence manifest checks" \
+    "wrapper validation must document terminal local evidence manifest checks"
   require_literal "$WRAPPER_VALIDATION" "residue_routing_class" \
     "wrapper validation documents residue routing-class checks" \
     "wrapper validation must document residue_routing_class checks"
@@ -220,6 +229,7 @@ EVIDENCE_ROOT = Path(os.environ.get("CLOSEOUT_WORKTREE_EVIDENCE_ROOT", str(ROOT_
 CLOSEOUT_CHANGE_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/skills/closeout-change").resolve()
 REPO_HYGIENE_CLEANUP_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/skills/repo-hygiene-cleanup").resolve()
 FIXTURE_RETENTION_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/workflows").resolve()
+TERMINAL_LOCAL_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/local/terminal-closeout").resolve()
 
 
 def fail(message):
@@ -884,6 +894,165 @@ def path_is_local_private_retained(value):
     return path_is_under_any(value, LOCAL_PRIVATE_RETAINED_PREFIXES)
 
 
+def path_is_terminal_local_sink(value):
+    return path_is_under(value, ".octon/state/evidence/local/terminal-closeout")
+
+
+def sha256_digest(path):
+    import hashlib
+
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+            h.update(chunk)
+    return f"sha256:{h.hexdigest()}"
+
+
+def terminal_sink_parts(value, field):
+    validate_repo_path(value, field)
+    if not is_nonempty_string(value):
+        return None
+    parts = PurePosixPath(value).parts
+    expected_prefix = (".octon", "state", "evidence", "local", "terminal-closeout")
+    if len(parts) < len(expected_prefix) + 1 or parts[: len(expected_prefix)] != expected_prefix:
+        fail(f"{field} must stay under .octon/state/evidence/local/terminal-closeout/<change-id>/")
+        return None
+    return parts
+
+
+def terminal_sink_manifest_for(value, field):
+    parts = terminal_sink_parts(value, field)
+    if parts is None:
+        return None, None, None
+    change_id = parts[5]
+    sink_rel = PurePosixPath(*parts[:6])
+    manifest_rel = sink_rel / "manifest.json"
+    manifest_path = (EVIDENCE_ROOT / Path(*manifest_rel.parts)).resolve()
+    sink_path = (EVIDENCE_ROOT / Path(*sink_rel.parts)).resolve()
+    try:
+        sink_path.relative_to(TERMINAL_LOCAL_ROOT)
+        manifest_path.relative_to(TERMINAL_LOCAL_ROOT)
+    except ValueError:
+        fail(f"{field} must resolve inside .octon/state/evidence/local/terminal-closeout/")
+        return None, None, None
+    return change_id, sink_rel, manifest_path
+
+
+def validate_terminal_local_manifest_for_path(value, field):
+    change_id, sink_rel, manifest_path = terminal_sink_manifest_for(value, field)
+    if change_id is None:
+        return False
+    if not manifest_path.is_file():
+        fail(f"{field} terminal local evidence manifest must exist: {sink_rel}/manifest.json")
+        return False
+    try:
+        manifest = json.loads(manifest_path.read_text())
+    except Exception as exc:
+        fail(f"{field} terminal local evidence manifest must parse as JSON: {exc}")
+        return False
+    if not isinstance(manifest, dict):
+        fail(f"{field} terminal local evidence manifest must be a JSON object")
+        return False
+
+    expected_sink_path = str(sink_rel)
+    required_values = {
+        "schema_version": "terminal-closeout-local-evidence-v1",
+        "change_id": change_id,
+        "sink_root": ".octon/state/evidence/local/terminal-closeout",
+        "sink_path": expected_sink_path,
+        "disclosure_tier": "local-private",
+        "non_authority_classification": "retained-evidence-only",
+    }
+    for key, expected in required_values.items():
+        if manifest.get(key) != expected:
+            fail(f"{field} terminal local evidence manifest {key} must be {expected}")
+            return False
+
+    boundaries = manifest.get("authority_boundaries")
+    if not isinstance(boundaries, dict):
+        fail(f"{field} terminal local evidence manifest requires authority_boundaries")
+        return False
+    for key in (
+        "not_landing_authorization",
+        "not_cleanup_authorization",
+        "not_hosted_check_evidence",
+        "not_packet_evidence",
+        "not_archive_evidence",
+        "not_generated_publication_evidence",
+        "not_policy_authority",
+        "not_mutation_authority",
+    ):
+        if boundaries.get(key) is not True:
+            fail(f"{field} terminal local evidence manifest authority_boundaries.{key} must be true")
+            return False
+
+    final_refs = manifest.get("final_refs") if isinstance(manifest.get("final_refs"), dict) else {}
+    alignment = manifest.get("alignment") if isinstance(manifest.get("alignment"), dict) else {}
+    landed_ref = final_refs.get("landed_ref")
+    if not is_nonempty_string(landed_ref):
+        fail(f"{field} terminal local evidence manifest requires final_refs.landed_ref")
+        return False
+    for key in ("head_ref", "main_ref", "origin_main_ref"):
+        if final_refs.get(key) != landed_ref:
+            fail(f"{field} terminal local evidence manifest final_refs.{key} must equal landed_ref")
+            return False
+    for key in (
+        "head_equals_local_main",
+        "local_main_equals_origin_main",
+        "origin_main_contains_landed_ref",
+        "local_main_contains_landed_ref",
+    ):
+        if alignment.get(key) is not True:
+            fail(f"{field} terminal local evidence manifest alignment.{key} must be true")
+            return False
+
+    copied_files = manifest.get("copied_files")
+    if not isinstance(copied_files, list) or not copied_files:
+        fail(f"{field} terminal local evidence manifest requires copied_files")
+        return False
+    listed_paths = {}
+    for index, item in enumerate(copied_files):
+        if not isinstance(item, dict):
+            fail(f"{field} terminal local evidence manifest copied_files[{index}] must be an object")
+            return False
+        item_path = item.get("path")
+        digest = item.get("digest")
+        if not is_nonempty_string(item_path) or not path_is_under(item_path, expected_sink_path):
+            fail(f"{field} terminal local evidence copied_files[{index}].path must stay inside {expected_sink_path}")
+            return False
+        if not is_nonempty_string(digest) or not digest.startswith("sha256:"):
+            fail(f"{field} terminal local evidence copied_files[{index}].digest must be sha256-prefixed")
+            return False
+        resolved = (EVIDENCE_ROOT / Path(*PurePosixPath(item_path).parts)).resolve()
+        try:
+            resolved.relative_to(TERMINAL_LOCAL_ROOT)
+        except ValueError:
+            fail(f"{field} terminal local evidence copied file must stay inside terminal local root")
+            return False
+        if not resolved.is_file():
+            fail(f"{field} terminal local evidence copied file must exist: {item_path}")
+            return False
+        if sha256_digest(resolved) != digest:
+            fail(f"{field} terminal local evidence copied file digest must match: {item_path}")
+            return False
+        listed_paths[item_path] = digest
+
+    proof_ref = (manifest.get("source_refs") or {}).get("terminal_current_state_proof_ref")
+    proof_digest = manifest.get("terminal_current_state_proof_digest")
+    if not is_nonempty_string(proof_ref) or proof_ref not in listed_paths:
+        fail(f"{field} terminal local evidence manifest must list source_refs.terminal_current_state_proof_ref in copied_files")
+        return False
+    if proof_digest != listed_paths[proof_ref]:
+        fail(f"{field} terminal local evidence terminal_current_state_proof_digest must match copied proof digest")
+        return False
+
+    text = path_text(value)
+    if text != expected_sink_path and text != str(PurePosixPath(expected_sink_path) / "manifest.json") and text not in listed_paths:
+        fail(f"{field} terminal local evidence path must be the sink path, manifest, or a listed copied file")
+        return False
+    return True
+
+
 def path_is_raw_private_or_unsafe(value):
     text = path_text(value)
     lower = text.lower()
@@ -917,6 +1086,9 @@ def validate_candidate_routing_paths(candidate_id, routing_class, include_paths,
     elif routing_class == "local_private_retained":
         fixture_receipt = candidate_fixture_retention_receipt(candidate, include_paths, prefix)
         for include_path in include_paths:
+            if path_is_terminal_local_sink(include_path):
+                validate_terminal_local_manifest_for_path(include_path, f"{prefix}.boundaries.include_paths")
+                continue
             if not path_is_local_private_retained(include_path) and fixture_receipt is None:
                 fail(f"{prefix}.residue_routing_class local_private_retained may include only local private retained evidence paths unless fixture_retention_receipt_ref validates: {include_path}")
     elif routing_class == "foreign_manual_review":
@@ -940,6 +1112,8 @@ def retained_evidence_matches_routing(candidate_id, routing_class, item, prefix)
 
     if routing_class == "local_private_retained":
         fixture_ref = item.get("fixture_retention_receipt_ref") if isinstance(item, dict) else None
+        if path_is_terminal_local_sink(item_path):
+            return validate_terminal_local_manifest_for_path(item_path, f"{prefix}.path")
         if not path_is_local_private_retained(item_path) and not is_nonempty_string(fixture_ref):
             fail(f"{prefix} local_private_retained residue evidence must cite .octon/state/evidence/local/ paths or fixture_retention_receipt_ref")
             return False
@@ -1578,6 +1752,28 @@ def has_ignored_local_retained_evidence(candidate_id):
             return True
     return False
 
+
+def has_ignored_terminal_local_retained_evidence(candidate_id):
+    for item in retained_by_candidate.get(candidate_id, []):
+        if not isinstance(item, dict):
+            continue
+        candidate = candidates_by_id.get(candidate_id)
+        evidence_text = " ".join(
+            str(value)
+            for value in (
+                candidate_id,
+                candidate.get("ownership") if isinstance(candidate, dict) else "",
+                item.get("path"),
+                item.get("disposition"),
+            )
+            if value is not None
+        ).lower()
+        if ("ignored" not in evidence_text and "local" not in evidence_text) or not path_is_terminal_local_sink(item.get("path")):
+            continue
+        if validate_terminal_local_manifest_for_path(item.get("path"), f"git_clean_terminal retained terminal evidence {candidate_id}"):
+            return True
+    return False
+
 if worktree_terminal_state == "nonterminal":
     if terminal_next_route:
         fail("next_route_condition must not be terminal when worktree_terminal_state is nonterminal")
@@ -1641,10 +1837,16 @@ elif worktree_terminal_state == "git_clean_terminal":
         fail("git_clean_terminal is not allowed while closed branch receipts still defer source branch cleanup")
     for candidate_id in non_closed_final_states:
         state = final_states.get(candidate_id)
-        if state != "foreign" or not has_ignored_local_retained_evidence(candidate_id):
-            fail("git_clean_terminal allows non-closed candidates only for covered ignored/local foreign residue")
-        if candidate_routing_classes.get(candidate_id) != "foreign_manual_review":
-            fail("git_clean_terminal non-closed foreign residue must use foreign_manual_review residue_routing_class")
+        routing_class = candidate_routing_classes.get(candidate_id)
+        if state == "foreign":
+            if not has_ignored_local_retained_evidence(candidate_id):
+                fail("git_clean_terminal non-closed foreign residue must have covered ignored/local evidence")
+            if routing_class != "foreign_manual_review":
+                fail("git_clean_terminal non-closed foreign residue must use foreign_manual_review residue_routing_class")
+            continue
+        if state == "retained" and routing_class == "local_private_retained" and has_ignored_terminal_local_retained_evidence(candidate_id):
+            continue
+        fail("git_clean_terminal allows non-closed retained residue only for validated ignored terminal local evidence")
 
 if errors:
     for message in errors:

@@ -598,6 +598,9 @@ classify_path() {
     .octon/generated/cognition/projections/materialized/runs/*)
       set_classification "generated_run_health_projection" "manual_review" "generated run-health pruning is generator-owned; run $RUN_HEALTH_GENERATOR_REF --all-runs"
       ;;
+    .octon/state/evidence/local/terminal-closeout/*)
+      set_classification "local_private_evidence" "manual_review" "terminal closeout local evidence sink is protected from generic cleanup; use an explicit local-private evidence cleanup route"
+      ;;
     .octon/inputs/*)
       set_classification "input_surface" "manual_review" "raw inputs are non-authoritative and outside local cleanup authority"
       ;;
@@ -1001,6 +1004,8 @@ for index, item in enumerate(authorized):
         fail(f"authorized path must be repo-relative and safe: {path}")
     item_class = item.get("class")
     is_local_filesystem_metadata = item_class == "local_filesystem_metadata" and path.endswith("/.DS_Store")
+    if path.startswith(".octon/state/evidence/local/terminal-closeout/"):
+        fail(f"terminal closeout local evidence sink cannot be authorized by generic cleanup: {path}")
     if path.startswith(".octon/inputs/") and not is_local_filesystem_metadata:
         fail(f"input-surface path cannot be authorized: {path}")
     if path.startswith(".octon/generated/effective/"):

@@ -92,8 +92,20 @@ Execute the Change Closeout State Machine phase loop from
     `.octon/state/evidence/runs/skills/**`; local-private raw logs under
     `.octon/state/evidence/local/**` may be cited only by digest-backed local
     evidence refs inside a publishable receipt and do not satisfy the closeout
-    claim by themselves. Also retain compact structured views when evidence is
-    available: `structured-receipt.yml`, `closeout-projection.yml`, optional
+    claim by themselves. When final post-mutation terminal proof or receipt
+    snapshots would create recursive publishable closeout residue, write those
+    snapshots with
+    `.octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh`
+    under `.octon/state/evidence/local/terminal-closeout/<change-id>/`. A
+    Change receipt may cite the sink only as a digest-backed
+    `terminal_current_state_proof_ref` paired with
+    `terminal_current_state_proof_digest` and
+    `non_authority_classification: retained-evidence-only`; the sink is not
+    landing authorization, cleanup authorization, hosted check evidence,
+    packet evidence, archive evidence, generated publication evidence,
+    mutation authority, policy authority, or hosted/shared proof. Also retain
+    compact structured views when evidence is available:
+    `structured-receipt.yml`, `closeout-projection.yml`, optional
     `publication-summary.yml`, and `expanded-report-request.yml`. These views
     must source the canonical Change receipt and retained evidence by digest;
     they are compact evidence aids only and must not replace the receipt,
@@ -224,8 +236,12 @@ approval denial, or cleanup outside a governed route.
   a full-worktree cleanliness claim.
 - Closeout evidence generated after route cleanup and landing is outside the
   already-landed Change route. When a wrapper-level Git-clean terminal state is
-  required, that evidence must be retained, blocked, or routed as a separate
-  singular Change rather than folded into the completed route receipt.
+  required, final terminal snapshots should be retained in the ignored terminal
+  local evidence sink through `write-terminal-closeout-local-evidence.sh`
+  rather than folded into the completed route receipt or emitted as fresh
+  publishable residue. Hosted/shared claims still require governed
+  authorization receipts, live ref proof, source branch cleanup proof, and
+  publishable evidence where policy requires it.
 - Eligible local Octon run/artifact residue is not branch cleanup. Route it to
   `repo-hygiene-cleanup` and its validating
   `repo-hygiene-cleanup-authorization-v1` receipt flow; generated run-health

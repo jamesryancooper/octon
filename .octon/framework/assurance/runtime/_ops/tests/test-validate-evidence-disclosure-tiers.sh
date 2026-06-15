@@ -185,6 +185,87 @@ JSON
   printf '%s\n' "$file"
 }
 
+digest_file() {
+  shasum -a 256 "$1" | awk '{print "sha256:" $1}'
+}
+
+write_local_terminal_sink() {
+  local root="$1"
+  local change_id="${2:-fixture-hosted-closeout}"
+  local content="${3:-terminal proof fixture}"
+  local dir proof manifest digest
+  dir="$root/.octon/state/evidence/local/terminal-closeout/$change_id"
+  mkdir -p "$dir"
+  proof="$dir/terminal-current-state-proof.yml"
+  manifest="$dir/manifest.json"
+  printf '%s\n' "$content" >"$proof"
+  digest="$(digest_file "$proof")"
+  cat >"$manifest" <<JSON
+{
+  "schema_version": "terminal-closeout-local-evidence-v1",
+  "change_id": "$change_id",
+  "non_authority_classification": "retained-evidence-only"
+}
+JSON
+  printf '%s %s\n' ".octon/state/evidence/local/terminal-closeout/$change_id/terminal-current-state-proof.yml" "$digest"
+}
+
+write_change_receipt_with_terminal_sink() {
+  local terminal_ref="$1"
+  local terminal_digest="$2"
+  local landing_auth_ref="${3:-.octon/state/evidence/runs/skills/closeout-change/fixture/landing-authorization.json}"
+  local required_check_ref="${4:-ci@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}"
+  local final_verification_ref="${5:-.octon/state/evidence/runs/skills/closeout-change/fixture/final-verification.yml}"
+  local file
+  file="$(mktemp "${TMPDIR:-/tmp}/change-receipt-terminal.XXXXXX")"
+  CLEANUP_FILES+=("$file")
+  cat >"$file" <<JSON
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "fixture-hosted-closeout",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Fixture hosted closeout.",
+  "scope": {
+    "summary": "Fixture hosted closeout.",
+    "diff_refs": ["origin/fixture@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+  },
+  "validation_evidence_refs": [".octon/state/evidence/validation/fixture/publishable-receipt.json"],
+  "landing_authorization_ref": "$landing_auth_ref",
+  "terminal_current_state_proof_ref": "$terminal_ref",
+  "terminal_current_state_proof_digest": "$terminal_digest",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "rollback_handle": {"kind": "git-ref", "ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+  "closeout_outcome": "completed",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "fixture",
+    "source_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "target_pre_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "target_post_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "validated_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "required_check_refs": ["$required_check_ref"],
+    "provider_ruleset_ref": "route-neutral-main",
+    "fast_forward_only": true
+  },
+  "stateful_closeout": {
+    "phase_exit_refs": [".octon/state/evidence/runs/skills/closeout-change/fixture/phase.yml"],
+    "hosted_landing_refs": [".octon/state/evidence/runs/skills/closeout-change/fixture/hosted.yml"],
+    "cleanup_decision_refs": [".octon/state/evidence/runs/skills/closeout-change/fixture/cleanup.yml"],
+    "branch_cleanup_refs": [".octon/state/evidence/runs/skills/closeout-change/fixture/branch-cleanup.yml"],
+    "final_verification_ref": "$final_verification_ref"
+  },
+  "created_at": "2026-05-28T12:00:00Z"
+}
+JSON
+  printf '%s\n' "$file"
+}
+
 run_validator() {
   local root="$1"
   shift
@@ -266,6 +347,78 @@ case_hosted_closeout_publishable_ref_passes() {
   run_validator "$root" --change-receipt "$receipt" >/dev/null
 }
 
+case_hosted_closeout_local_terminal_ref_with_digest_passes() {
+  local root sink terminal_ref terminal_digest receipt
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest")"
+  run_validator "$root" --change-receipt "$receipt" >/dev/null
+}
+
+case_hosted_closeout_local_terminal_ref_without_digest_fails() {
+  local root sink terminal_ref terminal_digest receipt tmp
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest")"
+  tmp="$(mktemp "${TMPDIR:-/tmp}/change-receipt-terminal-no-digest.XXXXXX")"
+  CLEANUP_FILES+=("$tmp")
+  jq 'del(.terminal_current_state_proof_digest)' "$receipt" >"$tmp"
+  assert_failure_contains "local terminal ref without digest is rejected" "requires terminal_current_state_proof_digest" run_validator "$root" --change-receipt "$tmp"
+}
+
+case_hosted_closeout_local_terminal_ref_digest_mismatch_fails() {
+  local root sink terminal_ref receipt
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")"
+  assert_failure_contains "local terminal digest mismatch is rejected" "digest must match" run_validator "$root" --change-receipt "$receipt"
+}
+
+case_hosted_closeout_local_terminal_wrong_change_root_fails() {
+  local root sink terminal_ref terminal_digest receipt
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root" "other-change")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest")"
+  assert_failure_contains "local terminal wrong change root is rejected" "must be under .octon/state/evidence/local/terminal-closeout/<change-id>/" run_validator "$root" --change-receipt "$receipt"
+}
+
+case_hosted_closeout_local_sink_as_landing_authorization_fails() {
+  local root sink terminal_ref terminal_digest receipt
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest" "$terminal_ref")"
+  assert_failure_contains "local sink as landing authorization is rejected" "non-publishable evidence ref" run_validator "$root" --change-receipt "$receipt"
+}
+
+case_hosted_closeout_local_sink_as_hosted_check_fails() {
+  local root sink terminal_ref terminal_digest receipt
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest" ".octon/state/evidence/runs/skills/closeout-change/fixture/landing-authorization.json" "$terminal_ref")"
+  assert_failure_contains "local sink as hosted check is rejected" "non-publishable evidence ref" run_validator "$root" --change-receipt "$receipt"
+}
+
+case_hosted_closeout_local_sink_as_final_verification_fails() {
+  local root sink terminal_ref terminal_digest receipt
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest" ".octon/state/evidence/runs/skills/closeout-change/fixture/landing-authorization.json" "ci@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" "$terminal_ref")"
+  assert_failure_contains "local sink as final verification is rejected" "non-publishable evidence ref" run_validator "$root" --change-receipt "$receipt"
+}
+
 assert_success "static evidence disclosure tier contracts pass" case_static_contract_passes
 assert_success "valid publishable receipt passes" case_valid_publishable_receipt_passes
 assert_success "missing tier metadata fails" case_missing_tier_metadata_fails
@@ -275,6 +428,13 @@ assert_success "oversized receipt fails without exception" case_oversized_receip
 assert_success "hosted closeout rejects local-only evidence" case_hosted_closeout_local_only_fails
 assert_success "hosted closeout rejects generated evidence" case_hosted_closeout_generated_ref_fails
 assert_success "hosted closeout accepts publishable evidence ref" case_hosted_closeout_publishable_ref_passes
+assert_success "hosted closeout accepts local terminal ref with digest" case_hosted_closeout_local_terminal_ref_with_digest_passes
+assert_success "hosted closeout rejects local terminal ref without digest" case_hosted_closeout_local_terminal_ref_without_digest_fails
+assert_success "hosted closeout rejects local terminal digest mismatch" case_hosted_closeout_local_terminal_ref_digest_mismatch_fails
+assert_success "hosted closeout rejects local terminal wrong change root" case_hosted_closeout_local_terminal_wrong_change_root_fails
+assert_success "hosted closeout rejects local sink as landing authorization" case_hosted_closeout_local_sink_as_landing_authorization_fails
+assert_success "hosted closeout rejects local sink as hosted check evidence" case_hosted_closeout_local_sink_as_hosted_check_fails
+assert_success "hosted closeout rejects local sink as final verification" case_hosted_closeout_local_sink_as_final_verification_fails
 
 echo "Tests passed: $pass_count"
 if [[ "$fail_count" -ne 0 ]]; then

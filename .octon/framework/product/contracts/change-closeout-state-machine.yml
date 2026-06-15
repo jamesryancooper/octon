@@ -15,6 +15,9 @@ policy_refs:
   branch_landing_authorization_schema_ref: ".octon/framework/product/contracts/branch-landing-authorization-v1.schema.json"
   branch_cleanup_authorization_schema_ref: ".octon/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"
   terminal_current_state_proof_schema_ref: ".octon/framework/product/contracts/lifecycle-terminal-current-state-proof-v1.schema.json"
+  terminal_local_evidence_schema_ref: ".octon/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"
+  terminal_local_evidence_helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"
+  terminal_local_evidence_validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-terminal-closeout-local-evidence.sh"
   correction_branch_aggregate_receipt_schema_ref: ".octon/framework/product/contracts/lifecycle-correction-branch-aggregate-receipt-v1.schema.json"
   closeout_workflow_ref: ".octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml"
   closeout_change_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
@@ -97,6 +100,7 @@ routine_autonomy:
   dirty_worktree_partitioning:
     default_when_unambiguous: "partition and delegate each coherent candidate through closeout-change"
     post_closeout_evidence_residue_rule: "When generic worktree closeout targets cleaned and only safely separable closeout evidence residue remains after re-inventory, route that residue as the next singular closeout-change candidate; if fresh repo-local evidence residue remains after the final delegated candidate, report disposition_complete_with_retained_residue rather than git_clean_terminal."
+    terminal_local_evidence_sink_rule: "When final post-mutation proof or receipt snapshots would create recursive closeout residue, retain them under .octon/state/evidence/local/terminal-closeout/<change-id>/ through write-terminal-closeout-local-evidence.sh as digest-backed local/operator evidence only."
     ask_operator_only_for:
       - "candidate boundary overlap"
       - "unsafe destructive action"
@@ -371,6 +375,7 @@ evidence_gates:
       - "origin/main and local main containment of landed_ref when landed"
       - "final main alignment when landed"
       - "terminal_current_state_proof_ref when claiming cleaned after proposal-program, generated-publication, archive, or correction-branch closeout"
+      - "terminal_current_state_proof_digest when terminal_current_state_proof_ref points under .octon/state/evidence/local/terminal-closeout/<change-id>/"
       - "correction_branch_aggregate_receipt_ref when post-primary branch-no-pr correction branches exist"
       - "stateful_closeout"
   blocked:
@@ -450,6 +455,23 @@ publishable_evidence:
     - "publishable_evidence_receipt_refs"
     - "publishable_evidence_receipt_ref"
   raw_evidence_rule: "Private raw evidence and local-only paths may be cited only through digest-backed local_evidence_refs in the publishable receipt; raw payloads are not published."
+terminal_local_evidence_sink:
+  root: ".octon/state/evidence/local/terminal-closeout/<change-id>/"
+  schema_ref: ".octon/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"
+  helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"
+  validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-terminal-closeout-local-evidence.sh"
+  disclosure_tier: "local-private"
+  non_authority_classification: "retained-evidence-only"
+  allowed_receipt_field: "terminal_current_state_proof_ref"
+  required_digest_field: "terminal_current_state_proof_digest"
+  forbidden_as:
+    - "landing_authorization_ref"
+    - "cleanup_authorization_ref"
+    - "hosted_landing.required_check_refs"
+    - "validation_evidence_refs"
+    - "stateful_closeout.final_verification_ref"
+    - "packet implementation, conformance, drift, archive, or generated-publication evidence"
+  live_ref_requirement: "HEAD == main == origin/main == landed_ref must still be proven by live refs and route-owned authorization receipts."
 forbidden_actions:
   - "force-push"
   - "reset ambiguous or user-owned work"

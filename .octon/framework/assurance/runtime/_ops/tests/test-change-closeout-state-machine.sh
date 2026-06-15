@@ -8,11 +8,15 @@ CLASSIFIER="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/classify-c
 pass_count=0
 fail_count=0
 declare -a CLEANUP_FILES=()
+declare -a CLEANUP_DIRS=()
 
 cleanup() {
-  local file
+  local file dir
   for file in "${CLEANUP_FILES[@]}"; do
     [[ -n "$file" ]] && rm -f -- "$file"
+  done
+  for dir in "${CLEANUP_DIRS[@]}"; do
+    [[ -n "$dir" ]] && rm -rf -- "$dir"
   done
 }
 trap cleanup EXIT
@@ -48,6 +52,127 @@ write_state_machine_fixture() {
 
 run_static_validator_with_state_machine() {
   CHANGE_CLOSEOUT_STATE_MACHINE_YML="$1" bash "$VALIDATOR" >/dev/null
+}
+
+digest_file() {
+  shasum -a 256 "$1" | awk '{print "sha256:" $1}'
+}
+
+write_terminal_local_sink_fixture() {
+  local change_id="$1"
+  local landed_ref="$2"
+  local dir proof receipt refs status classification manifest
+  dir="$ROOT_DIR/.octon/state/evidence/local/terminal-closeout/$change_id"
+  CLEANUP_DIRS+=("$dir")
+  mkdir -p "$dir"
+  proof="$dir/terminal-current-state-proof.yml"
+  receipt="$dir/change-receipt.json"
+  refs="$dir/refs.txt"
+  status="$dir/status.txt"
+  classification="$dir/residue-classification.yml"
+  manifest="$dir/manifest.json"
+  cat >"$proof" <<YAML
+schema_version: lifecycle-terminal-current-state-proof-v1
+proof_id: terminal-proof-$change_id
+observed_at: "2026-06-15T00:00:00Z"
+change_id: $change_id
+lifecycle_outcome: cleaned
+non_authority_classification: retained-evidence-only
+final_refs:
+  head_ref: $landed_ref
+  main_ref: $landed_ref
+  origin_main_ref: $landed_ref
+  landed_ref: $landed_ref
+alignment:
+  head_equals_local_main: true
+  local_main_equals_origin_main: true
+  origin_main_contains_landed_ref: true
+  local_main_contains_landed_ref: true
+worktree:
+  status: clean
+  status_ref: .octon/state/evidence/local/terminal-closeout/$change_id/status.txt
+  residue_counts:
+    staged: 0
+    unstaged: 0
+    untracked: 0
+cleanup_classifier_ref: .octon/state/evidence/local/terminal-closeout/$change_id/residue-classification.yml
+validator_refs:
+  - validator: fixture
+    command: fixture validator
+    cwd: $ROOT_DIR
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/local/terminal-closeout/$change_id/status.txt
+evidence_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/$change_id/change-receipt.json
+YAML
+  printf '{"schema_version":"change-receipt-v1","change_id":"%s","landed_ref":"%s"}\n' "$change_id" "$landed_ref" >"$receipt"
+  printf 'HEAD=%s\nmain=%s\norigin/main=%s\nlanded_ref=%s\n' "$landed_ref" "$landed_ref" "$landed_ref" "$landed_ref" >"$refs"
+  printf '## main...origin/main\n' >"$status"
+  printf 'schema_version: change-closeout-residue-classification-v1\n' >"$classification"
+
+  local proof_digest receipt_digest refs_digest status_digest classification_digest
+  proof_digest="$(digest_file "$proof")"
+  receipt_digest="$(digest_file "$receipt")"
+  refs_digest="$(digest_file "$refs")"
+  status_digest="$(digest_file "$status")"
+  classification_digest="$(digest_file "$classification")"
+  cat >"$manifest" <<JSON
+{
+  "schema_version": "terminal-closeout-local-evidence-v1",
+  "evidence_id": "fixture-$change_id",
+  "change_id": "$change_id",
+  "created_at": "2026-06-15T00:00:00Z",
+  "sink_root": ".octon/state/evidence/local/terminal-closeout",
+  "sink_path": ".octon/state/evidence/local/terminal-closeout/$change_id",
+  "disclosure_tier": "local-private",
+  "non_authority_classification": "retained-evidence-only",
+  "authority_boundaries": {
+    "not_landing_authorization": true,
+    "not_cleanup_authorization": true,
+    "not_hosted_check_evidence": true,
+    "not_packet_evidence": true,
+    "not_archive_evidence": true,
+    "not_generated_publication_evidence": true,
+    "not_policy_authority": true,
+    "not_mutation_authority": true
+  },
+  "final_refs": {
+    "head_ref": "$landed_ref",
+    "main_ref": "$landed_ref",
+    "origin_main_ref": "$landed_ref",
+    "landed_ref": "$landed_ref"
+  },
+  "alignment": {
+    "head_equals_local_main": true,
+    "local_main_equals_origin_main": true,
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true
+  },
+  "source_refs": {
+    "terminal_current_state_proof_ref": ".octon/state/evidence/local/terminal-closeout/$change_id/terminal-current-state-proof.yml",
+    "change_receipt_ref": ".octon/state/evidence/local/terminal-closeout/$change_id/change-receipt.json"
+  },
+  "copied_files": [
+    {"logical_name": "terminal_current_state_proof", "path": ".octon/state/evidence/local/terminal-closeout/$change_id/terminal-current-state-proof.yml", "digest": "$proof_digest"},
+    {"logical_name": "change_receipt", "path": ".octon/state/evidence/local/terminal-closeout/$change_id/change-receipt.json", "digest": "$receipt_digest"},
+    {"logical_name": "refs_snapshot", "path": ".octon/state/evidence/local/terminal-closeout/$change_id/refs.txt", "digest": "$refs_digest"},
+    {"logical_name": "status_snapshot", "path": ".octon/state/evidence/local/terminal-closeout/$change_id/status.txt", "digest": "$status_digest"},
+    {"logical_name": "residue_classification_snapshot", "path": ".octon/state/evidence/local/terminal-closeout/$change_id/residue-classification.yml", "digest": "$classification_digest"}
+  ],
+  "snapshots": {
+    "refs_ref": ".octon/state/evidence/local/terminal-closeout/$change_id/refs.txt",
+    "refs_digest": "$refs_digest",
+    "status_ref": ".octon/state/evidence/local/terminal-closeout/$change_id/status.txt",
+    "status_digest": "$status_digest",
+    "residue_classification_ref": ".octon/state/evidence/local/terminal-closeout/$change_id/residue-classification.yml",
+    "residue_classification_digest": "$classification_digest"
+  },
+  "terminal_current_state_proof_digest": "$proof_digest",
+  "change_receipt_digest": "$receipt_digest"
+}
+JSON
+  printf '%s %s\n' ".octon/state/evidence/local/terminal-closeout/$change_id/terminal-current-state-proof.yml" "$proof_digest"
 }
 
 case_live_repo_passes() {
@@ -275,6 +400,130 @@ JSON
   ! run_validator "$receipt"
 }
 
+case_local_terminal_proof_with_digest_passes() {
+  local sink proof_ref proof_digest receipt landed_ref
+  landed_ref="def0000000000000000000000000000000000000"
+  sink="$(write_terminal_local_sink_fixture valid-local-terminal "$landed_ref")"
+  proof_ref="${sink% *}"
+  proof_digest="${sink##* }"
+  receipt="$(write_receipt <<JSON
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "valid-local-terminal",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "valid local terminal proof",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/no-pr",
+  "target_branch_ref": "origin/main@$landed_ref",
+  "remote_branch_ref": "origin/feature/no-pr@$landed_ref",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/fixture/landing-authorization.json",
+  "landed_ref": "$landed_ref",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "feature/no-pr",
+    "source_ref": "$landed_ref",
+    "target_pre_ref": "abc0000000000000000000000000000000000000",
+    "target_post_ref": "$landed_ref",
+    "validated_ref": "$landed_ref",
+    "required_check_refs": ["route_neutral_closeout_validation@$landed_ref"],
+    "provider_ruleset_ref": "route-neutral-main",
+    "fast_forward_only": true
+  },
+  "main_alignment": {
+    "local_main_ref": "$landed_ref",
+    "origin_main_ref": "$landed_ref",
+    "landed_ref": "$landed_ref",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "evidence://fetch",
+    "local_main_sync_evidence_ref": "evidence://sync",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "feature/no-pr",
+    "landed_ref": "$landed_ref",
+    "origin_main_ref": "$landed_ref",
+    "integrated": true,
+    "evidence_refs": ["evidence://integration"]
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": ["evidence://cleanup"],
+  "source_branch_cleanup": {"status": "completed", "local_branch": "feature/no-pr", "remote_branch": "origin/feature/no-pr"},
+  "terminal_current_state_proof_ref": "$proof_ref",
+  "terminal_current_state_proof_digest": "$proof_digest",
+  "validation_evidence_refs": ["validation"],
+  "durable_history": {"kind": "commit", "ref": "$landed_ref", "branch": "feature/no-pr"},
+  "rollback_handle": {"kind": "revert-commit", "ref": "$landed_ref"},
+  "closeout_outcome": "completed",
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "evidence://inventory",
+    "residue_classification_ref": "evidence://residue",
+    "phase_exit_refs": ["evidence://phase/branch-cleanup"],
+    "cleanup_decision_refs": ["evidence://cleanup/detected"],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": ["evidence://hosted"],
+    "branch_cleanup_refs": ["evidence://branch-cleanup"],
+    "final_verification_ref": "evidence://final"
+  },
+  "created_at": "2026-05-21T00:00:00Z"
+}
+JSON
+)"
+  run_validator "$receipt"
+}
+
+case_local_terminal_proof_without_digest_fails() {
+  local sink proof_ref proof_digest receipt landed_ref
+  landed_ref="def0000000000000000000000000000000000000"
+  sink="$(write_terminal_local_sink_fixture missing-digest-terminal "$landed_ref")"
+  proof_ref="${sink% *}"
+  proof_digest="${sink##* }"
+  receipt="$(write_receipt <<JSON
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "missing-digest-terminal",
+  "selected_route": "direct-main",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "direct-main-landing",
+  "intent": "bad local terminal proof",
+  "scope": {"summary": "test"},
+  "target_branch_ref": "origin/main@$landed_ref",
+  "landed_ref": "$landed_ref",
+  "main_alignment": {"local_main_ref": "$landed_ref", "origin_main_ref": "$landed_ref", "landed_ref": "$landed_ref", "aligned": true},
+  "integration_method": "direct-commit",
+  "integration_status": "landed",
+  "publication_status": "none",
+  "cleanup_status": "not_applicable",
+  "terminal_current_state_proof_ref": "$proof_ref",
+  "validation_evidence_refs": ["validation"],
+  "durable_history": {"kind": "commit", "ref": "$landed_ref"},
+  "rollback_handle": {"kind": "revert-commit", "ref": "$landed_ref"},
+  "closeout_outcome": "completed",
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "evidence://inventory",
+    "residue_classification_ref": "evidence://residue",
+    "phase_exit_refs": ["evidence://phase/final"],
+    "cleanup_decision_refs": ["evidence://cleanup/not-applicable"],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "final_verification_ref": "evidence://final"
+  },
+  "created_at": "2026-05-21T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
 main() {
   assert_success "state-machine validator passes live repo" case_live_repo_passes
   assert_success "extension lifecycle contract schema fails for Change closeout" case_extension_lifecycle_contract_schema_fails
@@ -287,6 +536,8 @@ main() {
   assert_success "completed receipt without stateful evidence fails" case_completed_without_stateful_fails
   assert_success "ready PR cannot claim completed closeout" case_ready_completed_fails
   assert_success "detection-only cleanup evidence fails" case_detection_only_cleanup_fails
+  assert_success "local terminal proof with digest passes" case_local_terminal_proof_with_digest_passes
+  assert_success "local terminal proof without digest fails" case_local_terminal_proof_without_digest_fails
 
   echo
   echo "Passed: $pass_count"

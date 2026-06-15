@@ -11,6 +11,9 @@ DEFAULT_WORK_UNIT_YML="$OCTON_DIR/framework/product/contracts/default-work-unit.
 DEFAULT_WORK_UNIT_MD="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
 RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
 AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-landing-authorization-v1.schema.json"
+TERMINAL_LOCAL_EVIDENCE_SCHEMA="$OCTON_DIR/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"
+TERMINAL_LOCAL_EVIDENCE_WRITER="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"
+TERMINAL_LOCAL_EVIDENCE_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-terminal-closeout-local-evidence.sh"
 WORKFLOW="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml"
 WORKFLOW_STAGE_EVALUATE="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/stages/01-evaluate-context.md"
 WORKFLOW_STAGE_REPORT="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md"
@@ -92,8 +95,81 @@ json_bool_true() {
   jq -e "$expr == true" "$RECEIPT_PATH" >/dev/null 2>&1
 }
 
+resolve_ref_path() {
+  local ref="$1"
+  case "$ref" in
+    "")
+      return 1
+      ;;
+    /*)
+      printf '%s\n' "$ref"
+      ;;
+    evidence://*)
+      printf '%s/.octon/state/evidence/%s\n' "$ROOT_DIR" "${ref#evidence://}"
+      ;;
+    *)
+      printf '%s/%s\n' "$ROOT_DIR" "$ref"
+      ;;
+  esac
+}
+
+digest_file() {
+  local file="$1"
+  local digest
+  digest="$(shasum -a 256 "$file" | awk '{print $1}')"
+  printf 'sha256:%s\n' "$digest"
+}
+
+is_terminal_local_ref() {
+  local ref="$1"
+  [[ "$ref" == .octon/state/evidence/local/terminal-closeout/* ]]
+}
+
+validate_terminal_local_proof_ref() {
+  local ref expected_digest proof_path manifest_path change_id landed_ref actual_digest sink_dir final_verification_ref
+  ref="$(json_value '.terminal_current_state_proof_ref')"
+  [[ -n "$ref" ]] || return 0
+
+  if ! is_terminal_local_ref "$ref"; then
+    return 0
+  fi
+
+  expected_digest="$(json_value '.terminal_current_state_proof_digest')"
+  if [[ -z "$expected_digest" ]]; then
+    fail "local terminal proof ref requires terminal_current_state_proof_digest"
+    return
+  fi
+  if [[ ! "$expected_digest" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+    fail "terminal_current_state_proof_digest must be sha256:<64 hex>"
+    return
+  fi
+
+  proof_path="$(resolve_ref_path "$ref")" || { fail "terminal_current_state_proof_ref cannot be resolved"; return; }
+  [[ -f "$proof_path" ]] || { fail "local terminal proof ref resolves to an existing file"; return; }
+  actual_digest="$(digest_file "$proof_path")"
+  [[ "$actual_digest" == "$expected_digest" ]] && pass "local terminal proof digest matches" || fail "local terminal proof digest must match terminal_current_state_proof_digest"
+
+  sink_dir="$(dirname -- "$proof_path")"
+  manifest_path="$sink_dir/manifest.json"
+  [[ -f "$manifest_path" ]] || { fail "local terminal evidence manifest exists beside proof"; return; }
+  change_id="$(json_value '.change_id')"
+  landed_ref="$(json_value '.landed_ref')"
+  if "$TERMINAL_LOCAL_EVIDENCE_VALIDATOR" --manifest "$manifest_path" --change-id "$change_id" --landed-ref "$landed_ref" >/dev/null; then
+    pass "local terminal evidence manifest validates"
+  else
+    fail "local terminal evidence manifest must validate"
+  fi
+
+  final_verification_ref="$(json_value '.stateful_closeout.final_verification_ref')"
+  if is_terminal_local_ref "$final_verification_ref"; then
+    fail "stateful_closeout.final_verification_ref must not point at local terminal evidence sink"
+  else
+    pass "stateful final verification does not use local terminal sink"
+  fi
+}
+
 validate_static() {
-  for file in "$STATE_MACHINE_YML" "$STATE_MACHINE_MD" "$DEFAULT_WORK_UNIT_YML" "$DEFAULT_WORK_UNIT_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$WORKFLOW" "$WORKFLOW_STAGE_EVALUATE" "$WORKFLOW_STAGE_REPORT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_CHANGE_PHASES" "$CLOSEOUT_CHANGE_VALIDATION" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_WORKTREE_PHASES" "$CLOSEOUT_WORKTREE_VALIDATION" "$WRAPPER_REPORT_VALIDATOR" "$CLOSEOUT_PR" "$CLOSEOUT_PR_PHASES" "$WORKTREE_CONTRACT" "$RESIDUE_CLASSIFIER"; do
+  for file in "$STATE_MACHINE_YML" "$STATE_MACHINE_MD" "$DEFAULT_WORK_UNIT_YML" "$DEFAULT_WORK_UNIT_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$TERMINAL_LOCAL_EVIDENCE_SCHEMA" "$TERMINAL_LOCAL_EVIDENCE_WRITER" "$TERMINAL_LOCAL_EVIDENCE_VALIDATOR" "$WORKFLOW" "$WORKFLOW_STAGE_EVALUATE" "$WORKFLOW_STAGE_REPORT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_CHANGE_PHASES" "$CLOSEOUT_CHANGE_VALIDATION" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_WORKTREE_PHASES" "$CLOSEOUT_WORKTREE_VALIDATION" "$WRAPPER_REPORT_VALIDATOR" "$CLOSEOUT_PR" "$CLOSEOUT_PR_PHASES" "$WORKTREE_CONTRACT" "$RESIDUE_CLASSIFIER"; do
     require_file "$file"
   done
 
@@ -106,6 +182,9 @@ validate_static() {
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.route_authority == ".octon/framework/product/contracts/default-work-unit.yml"' "state machine preserves default-work-unit route authority" "state machine must preserve default-work-unit route authority"
   require_yq "$STATE_MACHINE_YML" '.policy_refs.closeout_worktree_wrapper_ref == ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"' "state machine references closeout-worktree wrapper" "state machine must reference closeout-worktree wrapper"
   require_yq "$STATE_MACHINE_YML" '.policy_refs.branch_landing_authorization_schema_ref == ".octon/framework/product/contracts/branch-landing-authorization-v1.schema.json"' "state machine references branch landing authorization schema" "state machine must reference branch landing authorization schema"
+  require_yq "$STATE_MACHINE_YML" '.policy_refs.terminal_local_evidence_schema_ref == ".octon/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"' "state machine references terminal local evidence schema" "state machine must reference terminal local evidence schema"
+  require_yq "$STATE_MACHINE_YML" '.policy_refs.terminal_local_evidence_helper_ref == ".octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"' "state machine references terminal local evidence helper" "state machine must reference terminal local evidence helper"
+  require_yq "$STATE_MACHINE_YML" '.policy_refs.terminal_local_evidence_validator_ref == ".octon/framework/assurance/runtime/_ops/scripts/validate-terminal-closeout-local-evidence.sh"' "state machine references terminal local evidence validator" "state machine must reference terminal local evidence validator"
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.dirty_worktree_wrapper.canonical_name == "Closeout Worktree"' "state machine names Closeout Worktree wrapper" "state machine must name Closeout Worktree wrapper"
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.dirty_worktree_wrapper.default_work_unit_replacement == false' "Closeout Worktree does not replace default work unit" "Closeout Worktree must not replace default work unit"
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.dirty_worktree_wrapper.decomposition_rule == "partition residue into singular Change closeouts and delegate each coherent unit to closeout-change"' "Closeout Worktree decomposes into closeout-change" "Closeout Worktree must decompose into closeout-change"
@@ -126,6 +205,7 @@ validate_static() {
   require_yq "$STATE_MACHINE_YML" '.non_authority_boundaries[]? | select(. == ".octon/inputs/**")' "state machine marks inputs non-authoritative" "state machine must mark inputs non-authoritative"
   require_literal "$STATE_MACHINE_MD" "Detection alone is not deletion authority." "state machine docs deny detection-only deletion" "state machine docs must deny detection-only deletion"
   require_literal "$STATE_MACHINE_MD" 'Completed or cleaned closeout claims must include a `stateful_closeout` object' "state machine docs require stateful receipt evidence" "state machine docs must require stateful receipt evidence"
+  require_literal "$STATE_MACHINE_MD" "write-terminal-closeout-local-evidence.sh" "state machine docs describe terminal local evidence helper" "state machine docs must describe terminal local evidence helper"
   require_literal "$STATE_MACHINE_MD" 'the state machine resolves' "state machine docs define default target resolution" "state machine docs must define default target resolution"
   require_yq "$STATE_MACHINE_YML" '.target_lifecycle_defaults.unspecified_closeout_request == "cleaned"' "state machine defaults unspecified target to cleaned" "state machine must default unspecified target to cleaned"
   require_yq "$STATE_MACHINE_YML" '.target_lifecycle_defaults.explicit_narrower_lifecycle_targets[]? | select(. == "published-branch")' "state machine models explicit narrower lifecycle targets" "state machine must model explicit narrower lifecycle targets separately from routes"
@@ -139,8 +219,12 @@ validate_static() {
   require_yq "$DEFAULT_WORK_UNIT_YML" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_with_stale_or_denied_authorization")' "default work unit fails closed on stale or denied authorization" "default work unit must fail closed on stale or denied landing authorization"
   require_yq "$DEFAULT_WORK_UNIT_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "governed_landing_authorization_receipt")' "default work unit requires governed no-PR landing authorization" "default work unit must require governed no-PR landing authorization"
   require_yq "$DEFAULT_WORK_UNIT_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "landing_authorization_matches_source_ref_and_origin_main_pre_ref")' "default work unit requires current authorization refs" "default work unit must require authorization to match source and origin/main pre-ref"
+  require_yq "$DEFAULT_WORK_UNIT_YML" '.terminal_local_evidence_schema_ref == ".octon/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"' "default work unit references terminal local evidence schema" "default work unit must reference terminal local evidence schema"
+  require_yq "$DEFAULT_WORK_UNIT_YML" '.closeout_evidence_boundaries.terminal_local_evidence_sink | test("terminal_current_state_proof_digest")' "default work unit requires digest-backed local terminal sink refs" "default work unit must require digest-backed local terminal sink refs"
+  require_yq "$DEFAULT_WORK_UNIT_YML" '.fail_closed_conditions[]? | select(. == "local_terminal_current_state_proof_ref_missing_digest")' "default work unit fails closed on missing terminal local digest" "default work unit must fail closed on missing terminal local digest"
   require_literal "$DEFAULT_WORK_UNIT_MD" "Change Closeout State Machine" "default work unit docs reference state machine" "default work unit docs must reference state machine"
   require_literal "$DEFAULT_WORK_UNIT_MD" "Stateful closeout evidence for completed or cleaned claims." "default work unit durable history includes stateful evidence" "default work unit durable history must include stateful evidence"
+  require_literal "$DEFAULT_WORK_UNIT_MD" "terminal_current_state_proof_digest" "default work unit docs describe digest-backed terminal sink refs" "default work unit docs must describe digest-backed terminal sink refs"
 
   require_jq "$RECEIPT_SCHEMA" '.properties.stateful_closeout.required[] | select(. == "state_machine_version")' "receipt schema requires state_machine_version" "receipt schema must require state_machine_version"
   require_jq "$RECEIPT_SCHEMA" '.properties.stateful_closeout.required[] | select(. == "initial_inventory_ref")' "receipt schema requires inventory ref" "receipt schema must require inventory ref"
@@ -150,6 +234,8 @@ validate_static() {
   require_jq "$RECEIPT_SCHEMA" '.properties.stateful_closeout.required[] | select(. == "safe_cleanup_evidence_class")' "receipt schema requires cleanup safety class" "receipt schema must require cleanup safety class"
   require_jq "$RECEIPT_SCHEMA" '.properties.stateful_closeout.required[] | select(. == "final_verification_ref")' "receipt schema requires final verification ref" "receipt schema must require final verification ref"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models governed landing authorization" "receipt schema must model landing_authorization_ref"
+  require_jq "$RECEIPT_SCHEMA" '.properties.terminal_current_state_proof_digest."$ref" == "#/$defs/sha256Digest"' "receipt schema models terminal proof digest" "receipt schema must model terminal_current_state_proof_digest"
+  require_jq "$TERMINAL_LOCAL_EVIDENCE_SCHEMA" '.properties.schema_version.const == "terminal-closeout-local-evidence-v1"' "terminal local evidence schema version is stable" "terminal local evidence schema must define terminal-closeout-local-evidence-v1"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for no-PR landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema has stable version" "authorization schema must define branch-landing-authorization-v1"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.no_pr_required.const == true' "authorization schema requires no-PR proof" "authorization schema must require no_pr_required true"
@@ -226,6 +312,8 @@ validate_receipt() {
   else
     pass "receipt does not claim force-push closeout"
   fi
+
+  validate_terminal_local_proof_ref
 
   if [[ "$route" == "branch-no-pr" && ( "$outcome" == "landed" || "$outcome" == "cleaned" ) ]]; then
     json_array_nonempty '.stateful_closeout.hosted_landing_refs' && pass "hosted no-PR terminal claim has hosted landing refs" || fail "hosted no-PR terminal claim requires hosted_landing_refs"

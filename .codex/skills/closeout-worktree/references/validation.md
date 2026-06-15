@@ -65,6 +65,13 @@ Successful wrapper execution proves:
   rather than silently cleaned;
 - ignored residue reported by the final classifier summary is covered by a
   retained or foreign candidate with candidate-keyed evidence;
+- ignored terminal local evidence under
+  `.octon/state/evidence/local/terminal-closeout/<change-id>/` is accepted for
+  `git_clean_terminal` only when the retained candidate is
+  `local_private_retained` and the sibling
+  `terminal-closeout-local-evidence-v1` manifest proves exact path containment,
+  SHA-256 copied-file digests, `retained-evidence-only` non-authority
+  classification, and live-ref alignment;
 - any prior wrapper partition referenced by the report is reconciled so prior
   candidates are either still present or explicitly folded, retained, blocked,
   escalated, deferred, or foreign;
@@ -111,6 +118,10 @@ Negative controls:
   candidate without reconciliation fails.
 - A wrapper report whose final residue summary reports ignored residue but
   lacks ignored/local retained or foreign evidence fails.
+- A wrapper report that claims `git_clean_terminal` with ignored terminal local
+  evidence whose manifest is missing, stale, digest-mismatched, outside
+  `.octon/state/evidence/local/terminal-closeout/<change-id>/`, or authority
+  overclaiming fails.
 - A wrapper report with a safely separable selected candidate blocked only
   because multiple candidates exist fails.
 - A wrapper report with `repo_hygiene_cleanup_actions_performed: true` fails.

@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json",
+  "title": "Octon Terminal Closeout Local Evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_id",
+    "change_id",
+    "created_at",
+    "sink_root",
+    "sink_path",
+    "disclosure_tier",
+    "non_authority_classification",
+    "authority_boundaries",
+    "final_refs",
+    "alignment",
+    "source_refs",
+    "copied_files",
+    "snapshots",
+    "terminal_current_state_proof_digest",
+    "change_receipt_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "terminal-closeout-local-evidence-v1"
+    },
+    "evidence_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sink_root": {
+      "const": ".octon/state/evidence/local/terminal-closeout"
+    },
+    "sink_path": {
+      "type": "string",
+      "pattern": "^\\.octon/state/evidence/local/terminal-closeout/[A-Za-z0-9._:-]+$"
+    },
+    "disclosure_tier": {
+      "const": "local-private"
+    },
+    "non_authority_classification": {
+      "const": "retained-evidence-only"
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "not_landing_authorization",
+        "not_cleanup_authorization",
+        "not_hosted_check_evidence",
+        "not_packet_evidence",
+        "not_archive_evidence",
+        "not_generated_publication_evidence",
+        "not_policy_authority",
+        "not_mutation_authority"
+      ],
+      "properties": {
+        "not_landing_authorization": { "const": true },
+        "not_cleanup_authorization": { "const": true },
+        "not_hosted_check_evidence": { "const": true },
+        "not_packet_evidence": { "const": true },
+        "not_archive_evidence": { "const": true },
+        "not_generated_publication_evidence": { "const": true },
+        "not_policy_authority": { "const": true },
+        "not_mutation_authority": { "const": true }
+      }
+    },
+    "final_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "head_ref",
+        "main_ref",
+        "origin_main_ref",
+        "landed_ref"
+      ],
+      "properties": {
+        "head_ref": { "$ref": "#/$defs/gitShaOrUnavailable" },
+        "main_ref": { "$ref": "#/$defs/gitShaOrUnavailable" },
+        "origin_main_ref": { "$ref": "#/$defs/gitShaOrUnavailable" },
+        "landed_ref": { "$ref": "#/$defs/gitSha" }
+      }
+    },
+    "alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "head_equals_local_main",
+        "local_main_equals_origin_main",
+        "origin_main_contains_landed_ref",
+        "local_main_contains_landed_ref"
+      ],
+      "properties": {
+        "head_equals_local_main": { "type": "boolean" },
+        "local_main_equals_origin_main": { "type": "boolean" },
+        "origin_main_contains_landed_ref": { "type": "boolean" },
+        "local_main_contains_landed_ref": { "type": "boolean" }
+      }
+    },
+    "source_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "terminal_current_state_proof_ref",
+        "change_receipt_ref"
+      ],
+      "properties": {
+        "terminal_current_state_proof_ref": { "type": "string", "minLength": 1 },
+        "change_receipt_ref": { "type": "string", "minLength": 1 },
+        "landing_authorization_ref": { "type": "string", "minLength": 1 },
+        "cleanup_authorization_ref": { "type": "string", "minLength": 1 },
+        "source_branch": { "type": "string", "minLength": 1 }
+      }
+    },
+    "copied_files": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "logical_name",
+          "path",
+          "digest"
+        ],
+        "properties": {
+          "logical_name": {
+            "type": "string",
+            "enum": [
+              "terminal_current_state_proof",
+              "change_receipt",
+              "landing_authorization",
+              "cleanup_authorization",
+              "refs_snapshot",
+              "status_snapshot",
+              "residue_classification_snapshot"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.octon/state/evidence/local/terminal-closeout/[A-Za-z0-9._:-]+/.+"
+          },
+          "digest": {
+            "$ref": "#/$defs/sha256Digest"
+          }
+        }
+      }
+    },
+    "snapshots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "refs_ref",
+        "refs_digest",
+        "status_ref",
+        "status_digest",
+        "residue_classification_ref",
+        "residue_classification_digest"
+      ],
+      "properties": {
+        "refs_ref": { "type": "string", "minLength": 1 },
+        "refs_digest": { "$ref": "#/$defs/sha256Digest" },
+        "status_ref": { "type": "string", "minLength": 1 },
+        "status_digest": { "$ref": "#/$defs/sha256Digest" },
+        "residue_classification_ref": { "type": "string", "minLength": 1 },
+        "residue_classification_digest": { "$ref": "#/$defs/sha256Digest" }
+      }
+    },
+    "terminal_current_state_proof_digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "change_receipt_digest": {
+      "$ref": "#/$defs/sha256Digest"
+    }
+  },
+  "$defs": {
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "gitSha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "gitShaOrUnavailable": {
+      "type": "string",
+      "pattern": "^([0-9a-f]{40}|unavailable)$"
+    }
+  }
+}

@@ -163,6 +163,9 @@ YAML
   mkdir -p "$root/.octon/state/evidence/validation/analysis"
   printf 'manual: true\n' >"$root/.octon/state/evidence/validation/analysis/manual.yml"
 
+  mkdir -p "$root/.octon/state/evidence/local/terminal-closeout/fixture-change"
+  printf '{}\n' >"$root/.octon/state/evidence/local/terminal-closeout/fixture-change/manifest.json"
+
   mkdir -p "$root/.octon/generated/cognition/projections/materialized/runs/publish-1"
   printf 'run_health: projection\n' >"$root/.octon/generated/cognition/projections/materialized/runs/publish-1/index.yml"
 
@@ -247,6 +250,7 @@ printf '%s\n' "$dry_run_output" | grep -F "local_filesystem_metadata" | grep -F 
 printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/proposal.yml" >/dev/null && fail "dry-run treated proposal input file as cleanup candidate"
 printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/validation/publication/capabilities/final.yml" >/dev/null || fail "dry-run did not protect referenced receipt"
 printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/validation/analysis/manual.yml" >/dev/null || fail "dry-run did not surface manual-review artifact"
+printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/local/terminal-closeout/fixture-change/manifest.json" >/dev/null || fail "dry-run did not protect terminal closeout local evidence sink"
 printf '%s\n' "$dry_run_output" | grep -F "generated_run_health_projection" >/dev/null || fail "dry-run did not route generated run-health projection to manual review"
 
 root="$(make_fixture)"
@@ -328,6 +332,7 @@ assert_missing "$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Stor
 assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/final.yml"
 assert_exists "$root/.octon/state/evidence/validation/analysis/manual.yml"
+assert_exists "$root/.octon/state/evidence/local/terminal-closeout/fixture-change/manifest.json"
 assert_exists "$root/.octon/generated/cognition/projections/materialized/runs/publish-1/index.yml"
 
 root="$(make_fixture)"
@@ -412,6 +417,11 @@ root="$(make_fixture)"
 receipt="$(authorize_fixture "$root")"
 mutate_receipt "$receipt" path ".octon/generated/cognition/projections/materialized/runs/publish-1/index.yml"
 assert_fails "generated run-health authorization receipt" bash "$HELPER" --root "$root" --authorization "$receipt"
+
+root="$(make_fixture)"
+receipt="$(authorize_fixture "$root")"
+mutate_receipt "$receipt" path ".octon/state/evidence/local/terminal-closeout/fixture-change/manifest.json"
+assert_fails "terminal closeout local evidence sink authorization receipt" bash "$HELPER" --root "$root" --authorization "$receipt"
 
 root="$(make_fixture)"
 receipt="$(authorize_fixture "$root")"

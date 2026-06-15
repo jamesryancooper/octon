@@ -127,9 +127,13 @@ include:
 - `git_clean_terminal`: no non-ignored staged, unstaged, untracked,
   retained-evidence, generated-effective, host-projection, state-control,
   release-version, or input-surface residue remains; ignored local residue may
-  remain only with foreign or retained evidence. Closed branch candidates must
-  prove local `main` equals `origin/main` equals `landed_ref`, and source
-  branch cleanup is completed with governed cleanup authorization.
+  remain only with foreign evidence or with retained terminal local evidence
+  under `.octon/state/evidence/local/terminal-closeout/<change-id>/` whose
+  `terminal-closeout-local-evidence-v1` manifest validates exact path,
+  digest, non-authority classification, schema version, and final ref
+  alignment. Closed branch candidates must prove local `main` equals
+  `origin/main` equals `landed_ref`, and source branch cleanup is completed
+  with governed cleanup authorization.
 - `disposition_complete_with_retained_residue`: every candidate is `closed`,
   `retained`, or `foreign` with authority-backed evidence, but Git-clean is not
   claimed.
@@ -217,6 +221,14 @@ route labels do not prove delegation.
 classification or final inventory summary. When `ignored` is greater than zero,
 the report must include a retained or foreign candidate with candidate-keyed
 ignored/local residue evidence.
+For ignored terminal local evidence, the retained candidate must use
+`residue_routing_class: local_private_retained`, its include path and
+retained-residue path must stay under
+`.octon/state/evidence/local/terminal-closeout/<change-id>/`, and the sibling
+`manifest.json` must validate copied-file SHA-256 digests and
+`non_authority_classification: retained-evidence-only`. This retained evidence
+does not authorize landing, cleanup, archive, packet status, generated
+publication freshness, hosted checks, or shared closeout claims.
 
 Unresolved candidates must carry candidate-keyed evidence:
 

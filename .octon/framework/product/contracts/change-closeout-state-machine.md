@@ -91,6 +91,21 @@ Those receipts summarize or attest local evidence with digest-backed local
 references; they do not publish private raw evidence and do not let local-only
 paths satisfy closeout gates by themselves.
 
+When final post-mutation terminal proof snapshots would otherwise create a
+recursive publishable closeout-evidence loop, the closeout route may retain
+local/operator snapshots under
+`.octon/state/evidence/local/terminal-closeout/<change-id>/` using
+`write-terminal-closeout-local-evidence.sh`. The sink is ignored by git and
+validated by `validate-terminal-closeout-local-evidence.sh`. A Change receipt
+may use a sink proof only in `terminal_current_state_proof_ref`, paired with
+`terminal_current_state_proof_digest`, and only when the proof itself declares
+`non_authority_classification: retained-evidence-only`. The sink is forbidden
+as landing authorization, cleanup authorization, hosted check evidence,
+packet evidence, archive evidence, generated publication evidence,
+`stateful_closeout.final_verification_ref`, mutation authority, or policy
+authority. Live refs and governed authorization receipts still prove landing,
+cleanup, and final sync.
+
 `deferred` requires preserved state plus the exact pending proof, authority,
 hosted check, sync, cleanup, or next-route condition. `blocked` requires
 preserved state plus the exact missing condition. `preserved` requires a
@@ -138,6 +153,11 @@ cleanup helper.
 Repo-hygiene cleanup receipts that become hosted/shared claim evidence must
 also cite a `publishable-evidence-receipt-v1` summary receipt instead of
 publishing local raw evidence or relying on local-only paths alone.
+Terminal local evidence sink files are protected local-private retained
+evidence. Generic repo-hygiene cleanup must not delete them unless a separate
+local-private evidence cleanup route explicitly selects them, and
+`closeout-worktree` may treat them as nonblocking only through exact path,
+schema, digest, non-authority, and live-ref validation.
 
 Receipts must reject `published-branch`, `published`, or `ready` as completed
 closeout. They must also reject force-push, ambiguous deletion, reset,

@@ -184,6 +184,15 @@ local_artifact_hygiene:
     authority_posture: "local-only raw debugging material; not authority, runtime policy, support proof, retained publishable evidence, closeout truth, archive truth, or generated-output freshness evidence"
     hosted_closeout_eligible: false
     protected_from_generic_cleanup: true
+    terminal_closeout_sink:
+      root: ".octon/state/evidence/local/terminal-closeout/<change-id>/**"
+      schema_ref: ".octon/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"
+      writer_ref: ".octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"
+      validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-terminal-closeout-local-evidence.sh"
+      purpose: "retain final post-mutation terminal closeout snapshots without creating recursive git status residue"
+      authority_posture: "digest-backed local/operator evidence only; not hosted/shared closeout proof, landing authorization, cleanup authorization, hosted check evidence, packet evidence, archive evidence, generated publication freshness evidence, mutation authority, or policy authority"
+      protected_from_generic_cleanup: true
+      cleanup_route: "explicit local-private evidence cleanup route only"
     operator_retention_rule: >-
       Retain local raw archives only while they are useful for local debugging,
       redaction, or operator audit. Discard them only by explicit operator
@@ -274,7 +283,7 @@ local_artifact_hygiene:
     local_private_evidence:
       criteria:
         - ".octon/state/evidence/local/**"
-      action: "local-only operator evidence; protected from generic cleanup and excluded from hosted/shared closeout evidence gates unless a separate publishable summary receipt is promoted outside the local root"
+      action: "local-only operator evidence; protected from generic cleanup and excluded from hosted/shared closeout evidence gates unless a separate publishable summary receipt is promoted outside the local root. Terminal closeout sink files under .octon/state/evidence/local/terminal-closeout/<change-id>/** require exact manifest, path, digest, non-authority, and live-ref validation before worktree closeout may treat them as nonblocking retained residue."
     manual_review:
       criteria:
         - "untracked .octon/state/** file outside known local residue patterns"

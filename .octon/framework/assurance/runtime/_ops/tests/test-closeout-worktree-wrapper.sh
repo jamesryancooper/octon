@@ -71,6 +71,10 @@ rewrite_fixture_json() {
   mv "$tmp" "$file"
 }
 
+digest_file() {
+  shasum -a 256 "$1" | awk '{print "sha256:" $1}'
+}
+
 write_closeout_change_fixture() {
   local suffix="$1"
   local receipt_dir authorization_ref cleanup_authorization_ref
@@ -274,6 +278,121 @@ deleted_paths:
 retained_protected_paths: []
 retained_manual_review_paths: []
 JSON
+}
+
+write_terminal_local_evidence_fixture() {
+  local change_id="$1"
+  local mode="${2:-valid}"
+  local landed_ref="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  local sink=".octon/state/evidence/local/terminal-closeout/$change_id"
+  local sink_dir="$fixture_root/$sink"
+  ensure_fixture_root
+  mkdir -p "$sink_dir"
+  cat >"$sink_dir/terminal-current-state-proof.yml" <<YAML
+schema_version: lifecycle-terminal-current-state-proof-v1
+proof_id: terminal-proof-$change_id
+observed_at: "2026-06-15T00:00:00Z"
+change_id: $change_id
+lifecycle_outcome: cleaned
+non_authority_classification: retained-evidence-only
+final_refs:
+  head_ref: $landed_ref
+  main_ref: $landed_ref
+  origin_main_ref: $landed_ref
+  landed_ref: $landed_ref
+alignment:
+  head_equals_local_main: true
+  local_main_equals_origin_main: true
+  origin_main_contains_landed_ref: true
+  local_main_contains_landed_ref: true
+worktree:
+  status: clean
+  status_ref: $sink/status.txt
+  residue_counts:
+    staged: 0
+    unstaged: 0
+    untracked: 0
+cleanup_classifier_ref: $sink/residue-classification.yml
+validator_refs:
+  - validator: fixture
+    command: fixture validator
+    cwd: $fixture_root
+    runtime: bash
+    exit_code: 0
+    evidence_ref: $sink/status.txt
+evidence_refs:
+  - evidence://fixture
+YAML
+  printf '{"schema_version":"change-receipt-v1","change_id":"%s","landed_ref":"%s"}\n' "$change_id" "$landed_ref" >"$sink_dir/change-receipt.json"
+  printf 'HEAD=%s\nmain=%s\norigin/main=%s\nlanded_ref=%s\n' "$landed_ref" "$landed_ref" "$landed_ref" "$landed_ref" >"$sink_dir/refs.txt"
+  printf '## main...origin/main\n' >"$sink_dir/status.txt"
+  printf 'schema_version: change-closeout-residue-classification-v1\n' >"$sink_dir/residue-classification.yml"
+
+  local proof_digest receipt_digest refs_digest status_digest classification_digest
+  proof_digest="$(digest_file "$sink_dir/terminal-current-state-proof.yml")"
+  receipt_digest="$(digest_file "$sink_dir/change-receipt.json")"
+  refs_digest="$(digest_file "$sink_dir/refs.txt")"
+  status_digest="$(digest_file "$sink_dir/status.txt")"
+  classification_digest="$(digest_file "$sink_dir/residue-classification.yml")"
+  cat >"$sink_dir/manifest.json" <<JSON
+{
+  "schema_version": "terminal-closeout-local-evidence-v1",
+  "evidence_id": "fixture-$change_id",
+  "change_id": "$change_id",
+  "created_at": "2026-06-15T00:00:00Z",
+  "sink_root": ".octon/state/evidence/local/terminal-closeout",
+  "sink_path": "$sink",
+  "disclosure_tier": "local-private",
+  "non_authority_classification": "retained-evidence-only",
+  "authority_boundaries": {
+    "not_landing_authorization": true,
+    "not_cleanup_authorization": true,
+    "not_hosted_check_evidence": true,
+    "not_packet_evidence": true,
+    "not_archive_evidence": true,
+    "not_generated_publication_evidence": true,
+    "not_policy_authority": true,
+    "not_mutation_authority": true
+  },
+  "final_refs": {
+    "head_ref": "$landed_ref",
+    "main_ref": "$landed_ref",
+    "origin_main_ref": "$landed_ref",
+    "landed_ref": "$landed_ref"
+  },
+  "alignment": {
+    "head_equals_local_main": true,
+    "local_main_equals_origin_main": true,
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true
+  },
+  "source_refs": {
+    "terminal_current_state_proof_ref": "$sink/terminal-current-state-proof.yml",
+    "change_receipt_ref": "$sink/change-receipt.json"
+  },
+  "copied_files": [
+    {"logical_name": "terminal_current_state_proof", "path": "$sink/terminal-current-state-proof.yml", "digest": "$proof_digest"},
+    {"logical_name": "change_receipt", "path": "$sink/change-receipt.json", "digest": "$receipt_digest"},
+    {"logical_name": "refs_snapshot", "path": "$sink/refs.txt", "digest": "$refs_digest"},
+    {"logical_name": "status_snapshot", "path": "$sink/status.txt", "digest": "$status_digest"},
+    {"logical_name": "residue_classification_snapshot", "path": "$sink/residue-classification.yml", "digest": "$classification_digest"}
+  ],
+  "snapshots": {
+    "refs_ref": "$sink/refs.txt",
+    "refs_digest": "$refs_digest",
+    "status_ref": "$sink/status.txt",
+    "status_digest": "$status_digest",
+    "residue_classification_ref": "$sink/residue-classification.yml",
+    "residue_classification_digest": "$classification_digest"
+  },
+  "terminal_current_state_proof_digest": "$proof_digest",
+  "change_receipt_digest": "$receipt_digest"
+}
+JSON
+  if [[ "$mode" == "stale-digest" ]]; then
+    printf '%s\n' "tamper" >>"$sink_dir/status.txt"
+  fi
+  printf '%s\n' "$sink"
 }
 
 run_validator_with_fixtures() {
@@ -685,6 +804,180 @@ final_residue_classes:
 next_route_condition: none
 YAML
   run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_git_clean_terminal_with_valid_terminal_sink_passes() {
+  local report sink
+  report="$(new_report)"
+  write_closeout_change_fixture "primary-terminal-sink-candidate/change-receipt.json"
+  sink="$(write_terminal_local_evidence_fixture terminal-sink-retained valid)"
+  cat >"$report" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-terminal-local-sink
+default_work_unit: Change
+observed_change_set_count: 2
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-primary
+candidates:
+  - candidate_id: candidate-primary
+    disposition: delegated
+    residue_routing_class: publishable_change
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-terminal-sink-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - src/runtime/kernel.rs
+      exclude_paths:
+        - $sink
+  - candidate_id: candidate-terminal-sink
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: retained-terminal-closeout-local-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve ignored local terminal evidence until explicit local-private cleanup
+    boundaries:
+      include_paths:
+        - $sink
+      exclude_paths:
+        - src/runtime/kernel.rs
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-primary
+    include_paths:
+      - src/runtime/kernel.rs
+    exclude_paths:
+      - $sink
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-terminal-sink-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: only ignored local terminal closeout sink evidence remains
+final_candidate_dispositions:
+  candidate-primary:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-terminal-sink-candidate/change-receipt.json
+  candidate-terminal-sink:
+    state: retained
+    reason: ignored local terminal closeout evidence has a validating manifest and digest set
+retained_residue:
+  - candidate_id: candidate-terminal-sink
+    path: $sink
+    disposition: ignored local terminal closeout evidence retained with manifest validation
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  ignored: 1
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+next_route_condition: none
+YAML
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_git_clean_terminal_with_stale_terminal_sink_fails() {
+  local report sink
+  report="$(new_report)"
+  write_closeout_change_fixture "primary-stale-terminal-sink-candidate/change-receipt.json"
+  sink="$(write_terminal_local_evidence_fixture stale-terminal-sink-retained stale-digest)"
+  cat >"$report" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-stale-terminal-local-sink
+default_work_unit: Change
+observed_change_set_count: 2
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-primary
+candidates:
+  - candidate_id: candidate-primary
+    disposition: delegated
+    residue_routing_class: publishable_change
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-stale-terminal-sink-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - src/runtime/kernel.rs
+      exclude_paths:
+        - $sink
+  - candidate_id: candidate-terminal-sink
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: retained-terminal-closeout-local-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve ignored local terminal evidence until explicit local-private cleanup
+    boundaries:
+      include_paths:
+        - $sink
+      exclude_paths:
+        - src/runtime/kernel.rs
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-primary
+    include_paths:
+      - src/runtime/kernel.rs
+    exclude_paths:
+      - $sink
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-stale-terminal-sink-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: only ignored local terminal closeout sink evidence remains
+final_candidate_dispositions:
+  candidate-primary:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-stale-terminal-sink-candidate/change-receipt.json
+  candidate-terminal-sink:
+    state: retained
+    reason: ignored local terminal closeout evidence must validate before Git-clean terminal can be claimed
+retained_residue:
+  - candidate_id: candidate-terminal-sink
+    path: $sink
+    disposition: ignored local terminal closeout evidence retained with manifest validation
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  ignored: 1
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
 }
 
 case_disposition_complete_with_retained_residue_passes() {
@@ -2565,6 +2858,33 @@ case_classifier_counts_routing_classes() {
     grep -A1 'class: unsafe' <<<"$output" | grep -Fq 'count: 2'
 }
 
+case_git_status_clean_with_ignored_terminal_sink_passes() {
+  local repo status_output classifier_output
+  repo="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.terminal-sink-repo.XXXXXX")"
+  cleanup_paths+=("$repo")
+  git -C "$repo" init -q
+  git -C "$repo" config user.email "octon@example.invalid"
+  git -C "$repo" config user.name "Octon Test"
+  mkdir -p "$repo/.octon/state/evidence/local"
+  cat >"$repo/.gitignore" <<'EOF'
+.octon/state/evidence/local/**
+!.octon/state/evidence/local/
+!.octon/state/evidence/local/README.md
+EOF
+  printf '%s\n' "# Local evidence" >"$repo/.octon/state/evidence/local/README.md"
+  printf '%s\n' "seed" >"$repo/README.md"
+  git -C "$repo" add README.md .gitignore .octon/state/evidence/local/README.md
+  git -C "$repo" commit -q -m "seed terminal sink repo"
+  mkdir -p "$repo/.octon/state/evidence/local/terminal-closeout/fixture"
+  printf '%s\n' '{"schema_version":"terminal-closeout-local-evidence-v1"}' >"$repo/.octon/state/evidence/local/terminal-closeout/fixture/manifest.json"
+
+  status_output="$(git -C "$repo" status --short --branch --untracked-files=all)"
+  classifier_output="$(bash "$CLASSIFIER" --root "$repo")"
+  [[ -z "$(grep -v '^##' <<<"$status_output")" ]] &&
+    grep -A1 'class: publishable_closeout_evidence' <<<"$classifier_output" | grep -Fq 'count: 0' &&
+    grep -A1 'class: local_private_retained' <<<"$classifier_output" | grep -Fq 'count: 1'
+}
+
 case_classifier_counts_ignored_unsafe_routing_classes() {
   local repo output
   repo="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.ignored-routing-repo.XXXXXX")"
@@ -3361,6 +3681,8 @@ main() {
   assert_success "fixture retained residue without receipt fails" case_fixture_retention_without_receipt_fails
   assert_success "repo-hygiene delegated cleanup report passes" case_repo_hygiene_delegated_cleanup_report_passes
   assert_success "git-clean terminal report after evidence-retention candidate passes" case_git_clean_terminal_after_evidence_retention_candidate_passes
+  assert_success "git-clean terminal accepts validated terminal local sink residue" case_git_clean_terminal_with_valid_terminal_sink_passes
+  assert_success "git-clean terminal rejects stale terminal local sink residue" case_git_clean_terminal_with_stale_terminal_sink_fails
   assert_success "disposition-complete retained residue report passes" case_disposition_complete_with_retained_residue_passes
   assert_success "git-clean terminal with retained evidence fails" case_git_clean_terminal_with_retained_evidence_fails
   assert_success "retained terminal report missing worktree terminal state fails" case_retained_terminal_missing_worktree_terminal_state_fails
@@ -3401,6 +3723,7 @@ main() {
   assert_success "ignored residue without foreign retained evidence fails" case_ignored_residue_without_foreign_coverage_fails
   assert_success "classifier detects staged unstaged and untracked residue" case_classifier_counts_multi_residue_classes
   assert_success "classifier detects routing classes" case_classifier_counts_routing_classes
+  assert_success "git status stays clean with ignored terminal sink evidence" case_git_status_clean_with_ignored_terminal_sink_passes
   assert_success "classifier counts ignored unsafe routing classes" case_classifier_counts_ignored_unsafe_routing_classes
   assert_success "replay multi-candidate loop validates real re-inventory" case_replay_multi_candidate_loop_passes
   assert_success "replay missing post-closeout inventory fails" case_replay_skips_reinventory_fails

@@ -206,6 +206,63 @@ is_local_only_or_generated_ref() {
   esac
 }
 
+is_terminal_local_ref() {
+  local ref="$1"
+  [[ "$ref" == .octon/state/evidence/local/terminal-closeout/* ]]
+}
+
+digest_file() {
+  local file="$1"
+  local digest
+  digest="$(shasum -a 256 "$file" | awk '{print $1}')"
+  printf 'sha256:%s\n' "$digest"
+}
+
+validate_terminal_local_ref() {
+  local file="$1"
+  local ref digest change_id expected_prefix path actual_digest manifest
+
+  ref="$(jq -r '.terminal_current_state_proof_ref // ""' "$file")"
+  [[ -n "$ref" ]] || return 0
+  if ! is_terminal_local_ref "$ref"; then
+    return 0
+  fi
+
+  change_id="$(jq -r '.change_id // ""' "$file")"
+  expected_prefix=".octon/state/evidence/local/terminal-closeout/$change_id/"
+  if [[ -z "$change_id" || "$ref" != "$expected_prefix"* ]]; then
+    fail "local terminal proof ref must be under .octon/state/evidence/local/terminal-closeout/<change-id>/"
+    return
+  fi
+
+  digest="$(jq -r '.terminal_current_state_proof_digest // ""' "$file")"
+  if [[ -z "$digest" ]]; then
+    fail "local terminal proof ref requires terminal_current_state_proof_digest"
+    return
+  fi
+  if [[ ! "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+    fail "terminal_current_state_proof_digest must be sha256:<64 hex>"
+    return
+  fi
+
+  path="$(resolve_path "$ref")"
+  if [[ -f "$path" ]]; then
+    actual_digest="$(digest_file "$path")"
+    [[ "$actual_digest" == "$digest" ]] && pass "local terminal proof digest matches" || fail "local terminal proof digest must match terminal_current_state_proof_digest"
+  else
+    fail "local terminal proof ref must resolve to a current file"
+  fi
+
+  manifest="$(dirname -- "$path")/manifest.json"
+  if [[ -f "$manifest" ]]; then
+    jq -e '.schema_version == "terminal-closeout-local-evidence-v1" and .non_authority_classification == "retained-evidence-only"' "$manifest" >/dev/null 2>&1 \
+      && pass "local terminal manifest declares retained-evidence-only" \
+      || fail "local terminal manifest must declare terminal-closeout-local-evidence-v1 retained-evidence-only"
+  else
+    fail "local terminal proof ref must have a sibling manifest.json"
+  fi
+}
+
 validate_change_receipt() {
   local file
   file="$(resolve_path "$CHANGE_RECEIPT_PATH")"
@@ -239,6 +296,9 @@ validate_change_receipt() {
   done < <(jq -r '
     [
       (.validation_evidence_refs[]?),
+      (.landing_authorization_ref?),
+      (.cleanup_authorization_ref?),
+      (.hosted_landing.required_check_refs[]?),
       (.durable_history.ref?),
       (.durable_history.refs[]?),
       (.scope.diff_refs[]?),
@@ -257,6 +317,8 @@ validate_change_receipt() {
   if [[ "$found_forbidden" -eq 0 ]]; then
     pass "hosted/shared closeout receipt avoids local-only, generated, and input evidence refs"
   fi
+
+  validate_terminal_local_ref "$file"
 
   case "$closeout:$outcome" in
     completed:*|*:cleaned|*:landed|*:ready|*:published|*:published-branch)

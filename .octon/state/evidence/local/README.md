@@ -9,13 +9,34 @@ terminal transcripts, local file paths, temporary external payload captures, and
 scratch material used to produce a publishable summary. Raw local evidence must
 not be committed or used as a hosted/shared closeout artifact.
 
+Terminal closeout snapshots may also live under
+`.octon/state/evidence/local/terminal-closeout/<change-id>/` when final
+post-mutation proof or receipt files would otherwise create recursive
+publishable closeout residue. That subroot is governed by
+`.octon/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json`
+and should be written by
+`.octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh`.
+Its manifest records digests, refs, status snapshots, residue classifier
+output, and the proof's `non_authority_classification:
+retained-evidence-only`.
+
 Forbidden consumers:
 
 - runtime, policy, support, authority, closeout, archive, and generated-output
   gates
+- landing authorization, cleanup authorization, hosted check evidence, packet
+  implementation/conformance/drift evidence, archive evidence, and generated
+  publication freshness evidence
 - generated read models and published registry projections
 - hosted CI, release disclosure, or external support claims
 - proposal packets, source inputs, host UI state, chat history, or model memory
+
+Narrow exception: a Change receipt may cite a terminal sink proof only as a
+digest-backed `terminal_current_state_proof_ref` paired with
+`terminal_current_state_proof_digest`. Live refs, governed landing
+authorization, governed cleanup authorization, and publishable evidence
+receipts still prove hosted/shared closeout claims; the local sink only retains
+operator-local terminal snapshots without dirtying `git status`.
 
 Promotion route:
 

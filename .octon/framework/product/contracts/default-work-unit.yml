@@ -25,6 +25,17 @@ closeout_evidence_boundaries:
     must retain lifecycle-terminal-current-state-proof-v1 evidence after the
     last landing, cleanup, generated publication, proposal artifact, and
     residue-classification mutation. The proof is evidence-only.
+  terminal_local_evidence_sink: >-
+    Final post-mutation terminal proof snapshots may be retained under
+    .octon/state/evidence/local/terminal-closeout/<change-id>/ only as
+    digest-backed local/operator evidence. The sink is ignored by git and is
+    never hosted/shared closeout proof, landing authorization, cleanup
+    authorization, hosted check evidence, packet evidence, archive evidence,
+    generated publication freshness evidence, mutation authority, or policy
+    authority. A Change receipt may cite a sink proof only through
+    terminal_current_state_proof_ref plus terminal_current_state_proof_digest
+    and only when live ref validation still proves HEAD, local main,
+    origin/main, and landed_ref alignment.
   correction_branch_aggregate_receipt: >-
     Branch-no-pr closeout runs that require post-primary correction branches
     must retain lifecycle-correction-branch-aggregate-receipt-v1 evidence so
@@ -80,6 +91,10 @@ routine_closeout_autonomy:
     instruction. If the wrapper cannot avoid leaving fresh repo-local evidence
     residue after the final delegated candidate, it must report
     disposition_complete_with_retained_residue rather than git_clean_terminal.
+    Final recursive terminal proof snapshots should be written to
+    .octon/state/evidence/local/terminal-closeout/<change-id>/ through the
+    terminal local evidence helper so they remain ignored local-private
+    retained evidence instead of publishable closeout residue.
   branch_no_pr_default_progression:
     when_selected_and_target_is_cleaned:
       - "create_or_select_task_branch_for_the_singular_candidate_when_branch_identity_is_absent_and_branch_isolation_is_required"
@@ -344,6 +359,7 @@ route_lifecycle_outcomes:
       - "local_main_synced_to_origin_main_after_cleanup"
       - "stateful_closeout_evidence"
       - "publishable_evidence_receipt_refs_when_cleanup_evidence_is_hosted_or_shared"
+      - "digest_backed_terminal_current_state_proof_ref_when_local_terminal_sink_is_used"
   branch-pr:
     allowed_outcomes:
       - "preserved"
@@ -516,6 +532,10 @@ fail_closed_conditions:
   - "cleanup_claim_missing_cleanup_evidence"
   - "hosted_or_shared_closeout_claim_missing_publishable_evidence_receipt"
   - "cleaned_closeout_missing_terminal_current_state_proof"
+  - "local_terminal_current_state_proof_ref_missing_digest"
+  - "local_terminal_current_state_proof_ref_digest_mismatch"
+  - "local_terminal_evidence_sink_used_as_hosted_or_shared_proof"
+  - "local_terminal_evidence_sink_used_as_authorization_or_packet_archive_generated_evidence"
   - "post_primary_correction_branch_missing_aggregate_receipt"
   - "repo_hygiene_claim_publishes_local_raw_evidence"
   - "unsupported_support_claim"
@@ -523,6 +543,7 @@ fail_closed_conditions:
   - "host_projection_claims_authority"
 receipt_schema_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json"
 state_machine_ref: ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+terminal_local_evidence_schema_ref: ".octon/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"
 hosted_provider_ruleset:
   target_model: "route-neutral protected main"
   required_main_rules:

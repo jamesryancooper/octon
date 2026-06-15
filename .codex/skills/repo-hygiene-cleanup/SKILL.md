@@ -49,6 +49,9 @@ rewrite durable framework or instance authority.
    `.octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/<run-id>/`.
    Publish only summary counts and digests unless a later receipt explicitly
    redacts and promotes a shareable summary.
+   Terminal closeout sink files under
+   `.octon/state/evidence/local/terminal-closeout/<change-id>/` are
+   local-private retained evidence and are protected from generic cleanup.
 4. **Select Route** - Use one of two delete routes only:
    `--confirm` for explicit operator action, or `--authorize <receipt.json>`
    followed by `--authorization <receipt.json>` for receipt-backed cleanup.
@@ -88,6 +91,9 @@ a tracked, referenced, protected, manual-review, proposal input file, durable
 evidence, active control, generated authority, generated run-health, or
 user-owned path. Ignored `.DS_Store` paths are eligible only when the helper
 classifies them as untracked, unreferenced local filesystem metadata.
+Terminal closeout sink files are eligible for deletion only through a separate
+explicit local-private evidence cleanup route that selects those paths by
+operator intent; they are never generic local run residue cleanup candidates.
 
 Generated run-health projection pruning remains owned by
 `generate-run-health-read-model.sh --all-runs` and its `pruned_paths` evidence.
@@ -109,8 +115,9 @@ This skill must not delete
   publishable receipts under
   `.octon/state/evidence/runs/skills/repo-hygiene-cleanup/<run-id>/`.
 - Do not delete branches, tracked files, proposal inputs, generated run-health
-  projections, durable evidence, active control state, detached Git worktrees,
-  ignored non-metadata paths, or user-owned paths.
+  projections, durable evidence, terminal closeout local evidence sink files,
+  active control state, detached Git worktrees, ignored non-metadata paths, or
+  user-owned paths.
 - Treat `lifecycle-interaction-request-v1` receipts as non-authorizing context.
   They may identify why hygiene was requested, but deletion still requires
   helper classification plus explicit confirmation or a validating
