@@ -35,13 +35,14 @@ make_fixture() {
   mkdir -p "$root"
   git -C "$root" init >/dev/null
   git -C "$root" config core.excludesFile /dev/null
+  printf '.DS_Store\n' >"$root/.gitignore"
 
   mkdir -p "$root/.octon/generated/effective/capabilities"
   cat >"$root/.octon/generated/effective/capabilities/generation.lock.yml" <<'LOCK'
 schema_version: test-lock-v1
 retained_receipt_ref: ".octon/state/evidence/validation/publication/capabilities/final.yml"
 LOCK
-  git -C "$root" add .octon/generated/effective/capabilities/generation.lock.yml
+  git -C "$root" add .gitignore .octon/generated/effective/capabilities/generation.lock.yml
   git -C "$root" -c user.name="Octon Test" -c user.email="octon@example.invalid" commit -m "test fixture" >/dev/null
 
   mkdir -p "$root/.octon/state/evidence/validation/publication/capabilities"
@@ -75,6 +76,7 @@ LOCK
 
   mkdir -p "$root/.octon/inputs/exploratory/proposals/fixture-local"
   printf 'local finder metadata\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+  printf 'proposal input must stay\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 
   mkdir -p "$root/.octon/state/evidence/validation/analysis"
   printf 'manual: true\n' >"$root/.octon/state/evidence/validation/analysis/manual.yml"
@@ -87,8 +89,13 @@ LOCK
 
 authorize_fixture() {
   local root="$1"
+  local selected_path="${2:-}"
   local receipt="$tmp_root/receipt-$fixture_index.json"
-  bash "$HELPER" --root "$root" --authorize "$receipt" >/dev/null
+  if [[ -n "$selected_path" ]]; then
+    bash "$HELPER" --root "$root" --cleanup-path "$selected_path" --authorize "$receipt" >/dev/null
+  else
+    bash "$HELPER" --root "$root" --authorize "$receipt" >/dev/null
+  fi
   echo "$receipt"
 }
 
@@ -99,7 +106,13 @@ import sys
 from pathlib import Path
 
 receipt = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-print(receipt["authorized_paths"][0]["path"])
+for item in receipt["authorized_paths"]:
+    path = item["path"]
+    if not path.endswith("/.DS_Store") and path != ".DS_Store":
+        print(path)
+        break
+else:
+    print(receipt["authorized_paths"][0]["path"])
 PY
 }
 
@@ -142,9 +155,33 @@ printf '%s\n' "$dry_run_output" | grep -F ".octon/state/evidence/validation/publ
 printf '%s\n' "$dry_run_output" | grep -F "proposal lifecycle runner residue" >/dev/null || fail "dry-run did not classify lifecycle runner residue"
 printf '%s\n' "$dry_run_output" | grep -F "closeout skill run residue" >/dev/null || fail "dry-run did not classify closeout skill run residue"
 printf '%s\n' "$dry_run_output" | grep -F "local_filesystem_metadata" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/.DS_Store" >/dev/null || fail "dry-run did not classify local filesystem metadata"
+printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/proposal.yml" >/dev/null && fail "dry-run treated proposal input file as cleanup candidate"
 printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/validation/publication/capabilities/final.yml" >/dev/null || fail "dry-run did not protect referenced receipt"
 printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/validation/analysis/manual.yml" >/dev/null || fail "dry-run did not surface manual-review artifact"
 printf '%s\n' "$dry_run_output" | grep -F "generated_run_health_projection" >/dev/null || fail "dry-run did not route generated run-health projection to manual review"
+
+root="$(make_fixture)"
+target_metadata_path=".octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+target_receipt="$(authorize_fixture "$root" "$target_metadata_path")"
+python3 - "$target_receipt" "$target_metadata_path" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+receipt = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+target = sys.argv[2]
+paths = [item["path"] for item in receipt["authorized_paths"]]
+if paths != [target]:
+    raise SystemExit(f"targeted receipt authorized unexpected paths: {paths}")
+item = receipt["authorized_paths"][0]
+if item["class"] != "local_filesystem_metadata":
+    raise SystemExit(f"targeted receipt used unexpected class: {item['class']}")
+PY
+bash "$HELPER" --root "$root" --cleanup-path "$target_metadata_path" --authorization "$target_receipt" >/dev/null
+assert_missing "$root/$target_metadata_path"
+assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
+assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/stale.yml"
+assert_exists "$root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
 
 root="$(make_fixture)"
 active_run_output="$(bash "$HELPER" --root "$root" --active-run-id lifecycle-proposal-program-1)"
@@ -173,6 +210,7 @@ assert_missing "$root/.octon/state/evidence/control/execution/authority-grant-bu
 assert_missing "$root/.octon/state/evidence/external-index/runs/lifecycle-proposal-program-1.yml"
 assert_missing "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
 assert_missing "$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/final.yml"
 assert_exists "$root/.octon/state/evidence/validation/analysis/manual.yml"
 assert_exists "$root/.octon/generated/cognition/projections/materialized/runs/publish-1/index.yml"
@@ -180,6 +218,8 @@ assert_exists "$root/.octon/generated/cognition/projections/materialized/runs/pu
 root="$(make_fixture)"
 bash "$HELPER" --root "$root" --confirm >/dev/null
 assert_missing "$root/.octon/state/evidence/validation/publication/capabilities/stale.yml"
+assert_missing "$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/final.yml"
 
 assert_fails "--fail-on-manual" bash "$HELPER" --root "$root" --fail-on-manual
@@ -245,8 +285,8 @@ assert_fails "active control authorization receipt" bash "$HELPER" --root "$root
 
 root="$(make_fixture)"
 receipt="$(authorize_fixture "$root")"
-mutate_receipt "$receipt" path ".octon/inputs/exploratory/manual.yml"
-assert_fails "input-surface authorization receipt" bash "$HELPER" --root "$root" --authorization "$receipt"
+mutate_receipt "$receipt" path ".octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
+assert_fails "proposal input file authorization receipt" bash "$HELPER" --root "$root" --authorization "$receipt"
 
 root="$(make_fixture)"
 receipt="$(authorize_fixture "$root")"

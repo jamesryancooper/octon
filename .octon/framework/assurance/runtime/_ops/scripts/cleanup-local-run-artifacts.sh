@@ -12,6 +12,7 @@ FAIL_ON_MANUAL=0
 SUMMARY_ONLY=0
 AUTHORIZE_OUT=""
 AUTHORIZATION_RECEIPT=""
+REQUESTED_CLEANUP_PATH_ARGS=()
 
 POLICY_REF=".octon/instance/governance/policies/repo-hygiene.yml"
 HELPER_REF=".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
@@ -20,7 +21,7 @@ RUN_HEALTH_GENERATOR_REF=".octon/framework/assurance/runtime/_ops/scripts/genera
 
 usage() {
   cat <<'USAGE'
-cleanup-local-run-artifacts.sh [--confirm] [--fail-on-manual] [--summary-only] [--authorize <out.json>] [--authorization <receipt.json>] [--active-run-id <run-id>] [--root <repo-root>] [--octon-dir <octon-root>]
+cleanup-local-run-artifacts.sh [--confirm] [--fail-on-manual] [--summary-only] [--cleanup-path <repo-relative-path>] [--authorize <out.json>] [--authorization <receipt.json>] [--active-run-id <run-id>] [--root <repo-root>] [--octon-dir <octon-root>]
 
 Classify untracked local Octon run/control/evidence artifacts and optionally
 remove only cleanup-safe local residue. Dry-run is the default.
@@ -28,6 +29,9 @@ remove only cleanup-safe local residue. Dry-run is the default.
 The helper protects tracked files and untracked files referenced by tracked
 files. Deletion requires either explicit --confirm or a validating
 repo-hygiene-cleanup-authorization-v1 receipt passed with --authorization.
+When --cleanup-path is supplied one or more times, cleanup is limited to those
+repo-relative paths after they have been proven to be current cleanup
+candidates by the full classification pass.
 USAGE
 }
 
@@ -59,6 +63,15 @@ while [[ $# -gt 0 ]]; do
         echo "[ERROR] --authorization requires a value" >&2
         exit 2
       }
+      shift 2
+      ;;
+    --cleanup-path)
+      requested_cleanup_path="${2:-}"
+      [[ -n "$requested_cleanup_path" ]] || {
+        echo "[ERROR] --cleanup-path requires a value" >&2
+        exit 2
+      }
+      REQUESTED_CLEANUP_PATH_ARGS+=("$requested_cleanup_path")
       shift 2
       ;;
     --active-run-id)
@@ -164,6 +177,8 @@ CLEANUP_PATHS="$TMP_DIR/cleanup-paths.txt"
 PROTECTED_PATHS="$TMP_DIR/protected-paths.txt"
 MANUAL_PATHS="$TMP_DIR/manual-paths.txt"
 AUTHORIZED_PATHS="$TMP_DIR/authorized-paths.txt"
+REQUESTED_CLEANUP_PATHS="$TMP_DIR/requested-cleanup-paths.txt"
+SELECTED_CLEANUP_PATHS="$TMP_DIR/selected-cleanup-paths.txt"
 
 : >"$EXCLUDED_PATHS"
 : >"$CLASSIFICATION_ROWS"
@@ -171,6 +186,8 @@ AUTHORIZED_PATHS="$TMP_DIR/authorized-paths.txt"
 : >"$PROTECTED_PATHS"
 : >"$MANUAL_PATHS"
 : >"$AUTHORIZED_PATHS"
+: >"$REQUESTED_CLEANUP_PATHS"
+: >"$SELECTED_CLEANUP_PATHS"
 
 repo_relative_if_under_root() {
   local candidate="$1"
@@ -246,12 +263,15 @@ HEAD_REF="$(git_ref_or_unavailable HEAD)"
 MAIN_REF="$(git_ref_or_unavailable main)"
 ORIGIN_MAIN_REF="$(git_ref_or_unavailable origin/main)"
 
-git -C "$ROOT_DIR" ls-files --others --exclude-standard -- \
-  .octon/state \
-  .octon/generated/.tmp \
-  .octon/generated/cognition/projections/materialized/runs \
-  ':(glob)**/.DS_Store' \
-  | sort -u \
+{
+  git -C "$ROOT_DIR" ls-files --others --exclude-standard -- \
+    .octon/state \
+    .octon/generated/.tmp \
+    .octon/generated/cognition/projections/materialized/runs \
+    ':(glob)**/.DS_Store'
+  git -C "$ROOT_DIR" ls-files --others --ignored --exclude-standard -- \
+    ':(glob)**/.DS_Store'
+} | sort -u \
   | filter_excluded_paths >"$UNTRACKED_PATHS"
 
 if [[ -s "$UNTRACKED_PATHS" ]]; then
@@ -261,12 +281,15 @@ else
   : >"$REFERENCED_PATHS"
 fi
 
-git -C "$ROOT_DIR" status --porcelain=v1 -uall -- \
-  .octon/state \
-  .octon/generated/.tmp \
-  .octon/generated/cognition/projections/materialized/runs \
-  ':(glob)**/.DS_Store' \
-  | sort -u \
+{
+  git -C "$ROOT_DIR" status --porcelain=v1 -uall -- \
+    .octon/state \
+    .octon/generated/.tmp \
+    .octon/generated/cognition/projections/materialized/runs \
+    ':(glob)**/.DS_Store'
+  git -C "$ROOT_DIR" status --porcelain=v1 --ignored -- \
+    ':(glob)**/.DS_Store'
+} | sort -u \
   | filter_status_rows >"$STATUS_ROWS"
 
 is_referenced_by_tracked_file() {
@@ -451,9 +474,45 @@ sort -u "$CLEANUP_PATHS" -o "$CLEANUP_PATHS"
 sort -u "$PROTECTED_PATHS" -o "$PROTECTED_PATHS"
 sort -u "$MANUAL_PATHS" -o "$MANUAL_PATHS"
 
+select_cleanup_paths() {
+  if [[ "${#REQUESTED_CLEANUP_PATH_ARGS[@]}" -eq 0 ]]; then
+    cp "$CLEANUP_PATHS" "$SELECTED_CLEANUP_PATHS"
+    return
+  fi
+
+  local raw rel
+  for raw in "${REQUESTED_CLEANUP_PATH_ARGS[@]}"; do
+    rel="${raw#./}"
+    if [[ -z "$rel" || "$rel" == /* || "$rel" == "." || "$rel" == *$'\n'* ]]; then
+      echo "[ERROR] --cleanup-path must be a non-empty repo-relative path: $raw" >&2
+      exit 2
+    fi
+    case "/$rel/" in
+      *"/../"*|*"/./"*|*"//"*)
+        echo "[ERROR] --cleanup-path must not contain unsafe path segments: $raw" >&2
+        exit 2
+        ;;
+    esac
+    printf '%s\n' "$rel" >>"$REQUESTED_CLEANUP_PATHS"
+  done
+  sort -u "$REQUESTED_CLEANUP_PATHS" -o "$REQUESTED_CLEANUP_PATHS"
+
+  while IFS= read -r rel; do
+    [[ -n "$rel" ]] || continue
+    if ! grep -Fxq -- "$rel" "$CLEANUP_PATHS"; then
+      echo "[ERROR] requested cleanup path is not a current cleanup candidate: $rel" >&2
+      exit 1
+    fi
+    printf '%s\n' "$rel" >>"$SELECTED_CLEANUP_PATHS"
+  done <"$REQUESTED_CLEANUP_PATHS"
+  sort -u "$SELECTED_CLEANUP_PATHS" -o "$SELECTED_CLEANUP_PATHS"
+}
+
+select_cleanup_paths
+
 GIT_STATUS_DIGEST="$(digest_file "$STATUS_ROWS")"
 CLASSIFICATION_DIGEST="$(digest_file "$CLASSIFICATION_ROWS")"
-CLEANUP_PATH_SET_DIGEST="$(digest_file "$CLEANUP_PATHS")"
+CLEANUP_PATH_SET_DIGEST="$(digest_file "$SELECTED_CLEANUP_PATHS")"
 PROTECTED_PATHS_DIGEST="$(digest_file "$PROTECTED_PATHS")"
 MANUAL_REVIEW_PATHS_DIGEST="$(digest_file "$MANUAL_PATHS")"
 
@@ -466,7 +525,8 @@ count_lines() {
   fi
 }
 
-cleanup_count="$(count_lines "$CLEANUP_PATHS")"
+eligible_cleanup_count="$(count_lines "$CLEANUP_PATHS")"
+cleanup_count="$(count_lines "$SELECTED_CLEANUP_PATHS")"
 protected_count="$(count_lines "$PROTECTED_PATHS")"
 manual_count="$(count_lines "$MANUAL_PATHS")"
 
@@ -487,7 +547,7 @@ write_authorization_receipt() {
   PROTECTED_PATHS_DIGEST="$PROTECTED_PATHS_DIGEST" \
   MANUAL_REVIEW_PATHS_DIGEST="$MANUAL_REVIEW_PATHS_DIGEST" \
   CLASSIFICATION_ROWS="$CLASSIFICATION_ROWS" \
-  CLEANUP_PATHS="$CLEANUP_PATHS" \
+  CLEANUP_PATHS="$SELECTED_CLEANUP_PATHS" \
   OUT="$out" \
   python3 - <<'PY'
 import hashlib
@@ -582,7 +642,8 @@ validate_authorization_receipt() {
   CLEANUP_PATH_SET_DIGEST="$CLEANUP_PATH_SET_DIGEST" \
   PROTECTED_PATHS_DIGEST="$PROTECTED_PATHS_DIGEST" \
   MANUAL_REVIEW_PATHS_DIGEST="$MANUAL_REVIEW_PATHS_DIGEST" \
-  CLEANUP_PATHS="$CLEANUP_PATHS" \
+  ALL_CLEANUP_PATHS="$CLEANUP_PATHS" \
+  SELECTED_CLEANUP_PATHS="$SELECTED_CLEANUP_PATHS" \
   AUTHORIZED_PATHS="$AUTHORIZED_PATHS" \
   python3 - <<'PY'
 import json
@@ -686,7 +747,8 @@ authorized = receipt.get("authorized_paths")
 if not isinstance(authorized, list) or not authorized:
     fail("authorization receipt must approve a non-empty path set")
 
-current_paths = read_lines(os.environ["CLEANUP_PATHS"])
+current_paths = read_lines(os.environ["ALL_CLEANUP_PATHS"])
+selected_paths = read_lines(os.environ["SELECTED_CLEANUP_PATHS"])
 receipt_paths = []
 required_proofs = [
     "untracked",
@@ -736,10 +798,20 @@ for index, item in enumerate(authorized):
             fail(f"authorized_paths[{index}].proofs.{proof} must be true")
     receipt_paths.append(path)
 
-if sorted(receipt_paths) != current_paths:
-    fail("authorization receipt path set does not match current cleanup candidates exactly")
+receipt_paths = sorted(receipt_paths)
+if receipt_paths != selected_paths:
+    fail("authorization receipt path set does not match selected cleanup candidates exactly")
+current_path_set = set(current_paths)
+for path in receipt_paths:
+    if path not in current_path_set:
+        fail(f"authorized path is not a current cleanup candidate: {path}")
 
-Path(os.environ["AUTHORIZED_PATHS"]).write_text("\n".join(current_paths) + ("\n" if current_paths else ""), encoding="utf-8")
+path_set_payload = "".join(f"{path}\n" for path in receipt_paths).encode("utf-8")
+path_set_digest = "sha256:" + __import__("hashlib").sha256(path_set_payload).hexdigest()
+if receipt.get("cleanup_path_set_digest") != path_set_digest:
+    fail("authorization receipt cleanup_path_set_digest does not match selected authorized paths")
+
+Path(os.environ["AUTHORIZED_PATHS"]).write_text("\n".join(receipt_paths) + ("\n" if receipt_paths else ""), encoding="utf-8")
 PY
 }
 
@@ -766,6 +838,7 @@ fi
 echo "summary:"
 echo "  mode: $mode"
 echo "  cleanup_candidates: $cleanup_count"
+echo "  eligible_cleanup_candidates: $eligible_cleanup_count"
 echo "  protected_referenced: $protected_count"
 echo "  manual_review: $manual_count"
 echo "  git_status_digest: $GIT_STATUS_DIGEST"
@@ -812,7 +885,7 @@ elif [[ "$CONFIRM" -eq 1 ]]; then
     else
       echo "[WARN] cleanup candidate no longer exists as a file: $rel"
     fi
-  done <"$CLEANUP_PATHS"
+  done <"$SELECTED_CLEANUP_PATHS"
   echo "[OK] removed $cleanup_count cleanup candidate file(s); protected and manual-review files were retained"
 else
   echo "[OK] dry-run complete; rerun with --confirm or --authorization <receipt.json> to remove cleanup candidates only"
