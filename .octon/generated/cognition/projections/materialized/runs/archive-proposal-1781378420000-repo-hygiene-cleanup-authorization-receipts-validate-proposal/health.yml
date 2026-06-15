@@ -1,202 +1,252 @@
-schema_version: run-health-read-model-v1
-run_id: archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
-generated_at: '2026-06-15T14:32:00Z'
-generator:
-  id: generate-run-health-read-model.sh
-  version: 1.1.0
-  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-  allowed_consumers:
-  - operators
-  - validators
-  forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
-freshness:
-  mode: digest-bound
-  status: stale
-  source_digest_algorithm: sha256
-  combined_source_digest: sha256:f325529eb52fe4e24c8f29b1df09ecbdd3c80f42c8ae88d107158b7d92bcfdce
-  checked_at: '2026-06-15T14:32:00Z'
-  expires_at: null
-  freshness_refs:
-  - .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml
-canonical_refs:
-  run_contract: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml
-  run_manifest: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-manifest.yml
-  events_journal: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson
-  events_manifest: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml
-  runtime_state: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/runtime-state.yml
-  authority_decision: .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml
-  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml
-  approval_request: null
-  approval_grants: []
-  exception_leases: []
-  revocations: []
-  rollback_posture: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/rollback-posture.yml
-  evidence_root: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
-  evidence_classification: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/evidence-classification.yml
-  retained_evidence: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/retained-run-evidence.yml
-  replay_pointers: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/replay-pointers.yml
-  intervention_log: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/interventions/log.yml
-  disclosure_run_card: .octon/state/evidence/disclosure/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-card.yml
-  support_targets: .octon/instance/governance/support-targets.yml
-  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-  run_continuity: .octon/state/continuity/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/handoff.yml
-source_digests:
-  run_contract:
-    ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml
-    digest: sha256:eefff57a2b5bf251d21d7ea0186b981b6d5bb90b47603c3e1b288f2e9ae4ad00
-    status: present
-  run_manifest:
-    ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-manifest.yml
-    digest: sha256:6aef72e0d09403c40b9aa834d8e422d6c1e6fcd835aadce837886185488ba6b5
-    status: present
-  events_journal:
-    ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson
-    digest: sha256:fffef31a41ffaae74b228cfac7df7dc524d5ac7f387a00f1a2c59315a6d45c06
-    status: present
-  events_manifest:
-    ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml
-    digest: sha256:638613a1371af8365db4905a1c4c4c1f088e7a35ebea93d0dfc1fc3e5b7e81ea
-    status: present
-  runtime_state:
-    ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/runtime-state.yml
-    digest: sha256:da0fa6d822eccd802c9d59f85cc7d188cf4ec4b6194111d9859ebf31de4495b9
-    status: present
-  authority_decision:
-    ref: .octon/state/evidence/control/execution/authority-decision-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml
-    digest: sha256:040b4d0a8e70626eb1b305d7153bb5c5f50887c65ad61bf6357dcc08fa1f018a
-    status: present
-  authority_bundle:
-    ref: .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml
-    digest: sha256:98e18b764ed4e4a8cbb3834e35b07dd8b48c78d82e9f9e87493e822ba55fa1f2
-    status: present
-  approval_request:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  approval_grants:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  exception_leases:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  revocations:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  rollback_posture:
-    ref: .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/rollback-posture.yml
-    digest: sha256:41b9030b410c7528f1403e79990683cd05bf9be5dc8509da7263f8923702261a
-    status: present
-  evidence_root:
-    ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal
-    digest: sha256:8a64835b23d62bdf10aa3058655fe643ed820f3a4851ff21c8443c13ff792af9
-    status: present
-  evidence_classification:
-    ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/evidence-classification.yml
-    digest: sha256:edbd056cefd9c3d2bd3adc73689bb93b786b89aaaa9481520483f523619fb4b3
-    status: present
-  retained_evidence:
-    ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/retained-run-evidence.yml
-    digest: sha256:1a4bc7f9cafe2446c4e015dbaa5aac3732ded706c2bf906e6f6ba3a03efa8eb5
-    status: present
-  replay_pointers:
-    ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/replay-pointers.yml
-    digest: sha256:1b2cd2e76da8b3b5c326e680e377178521faff1263c4fc9d6a70b7c2926ee720
-    status: present
-  intervention_log:
-    ref: .octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/interventions/log.yml
-    digest: sha256:85f51a847171070257a4bb16980d265b2cf0ab0946b3d5f31976ac72b9e9e44a
-    status: present
-  disclosure_run_card:
-    ref: .octon/state/evidence/disclosure/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-card.yml
-    digest: missing
-    status: missing
-  support_targets:
-    ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-    status: present
-  support_reconciliation:
-    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:3544f280774d88433f39de78541797aefa4ea8d89294b2b75ee863e3f077d869
-    status: present
-  run_continuity:
-    ref: .octon/state/continuity/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/handoff.yml
-    digest: sha256:3a753524442e2f7c6ac962d0768c5150deb8a9e48dcc7956a69cf56d016e124f
-    status: present
-  runtime_route_bundle:
-    ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:3a0166be34e2ad604062ae1c80bb6947051c5acec86b1787e8d7948c5e84c4b5
-    status: present
-  pack_routes:
-    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:658885249741dceeda57e3a217b93cb7dd87d15ca08c83e81835add9e4494069
-    status: present
-  schema:
-    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
-    status: present
-  operator_read_model_contract:
-    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
-    status: present
-health:
-  status: stale
-  summary: Run-health sources are stale relative to their digest-bound freshness checks.
-  next_required_action: regenerate from current canonical sources
-lifecycle:
-  state: closed
-  decision_state: allow
-  drift_status: in-sync
-  latest_event_hash: sha256:9774ae8b4e8fa4ac5890138cbd62593c19066e1da6ce55e24e7845668bd2b861
-  latest_sequence: 29
-support:
-  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-  route_status: allow
-  pack_status: allow
-  support_status: supported
-  requested_capability_packs:
-  - repo
-  - shell
-  - telemetry
-authorization:
-  status: authorized
-  proof_state: proof-stale
-  human_boundary_state: none
-  active_grants:
-  - .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml
-  open_approvals: []
-  active_exceptions: []
-  active_revocations: []
-evidence:
-  completeness: complete
-  missing_required: []
-rollback:
-  status: ready
-  hard_reset_required: false
-intervention:
-  status: none
-  undisclosed_count: 0
-  records: []
-disclosure:
-  status: incomplete
-closure:
-  status: not-ready
-diagnostics:
-- severity: error
-  code: journal-ledger-digest-stale
-  message: events.manifest.yml ledger_digest does not match events.ndjson.
-  refs:
-  - .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml
-  - .octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson
+{
+  "schema_version": "run-health-read-model-v1",
+  "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+  "generated_at": "2026-06-15T20:58:06Z",
+  "generator": {
+    "id": "generate-run-health-read-model.sh",
+    "version": "1.1.0",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  },
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false,
+    "allowed_consumers": [
+      "operators",
+      "validators"
+    ],
+    "forbidden_consumers": [
+      "runtime",
+      "policy",
+      "authority",
+      "support-claim-evaluation",
+      "state-reconstruction",
+      "direct-runtime-reads"
+    ]
+  },
+  "freshness": {
+    "mode": "digest-bound",
+    "status": "stale",
+    "source_digest_algorithm": "sha256",
+    "combined_source_digest": "sha256:33ff108662ef74de23770c95459828e99ddf30f9104c2b70922e67d80275518e",
+    "checked_at": "2026-06-15T20:58:06Z",
+    "expires_at": null,
+    "freshness_refs": [
+      ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml"
+    ]
+  },
+  "canonical_refs": {
+    "run_contract": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml",
+    "run_manifest": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-manifest.yml",
+    "events_journal": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson",
+    "events_manifest": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml",
+    "runtime_state": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/runtime-state.yml",
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml",
+    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml",
+    "approval_request": null,
+    "approval_grants": [],
+    "exception_leases": [],
+    "revocations": [],
+    "rollback_posture": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/rollback-posture.yml",
+    "evidence_root": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+    "evidence_classification": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/evidence-classification.yml",
+    "retained_evidence": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/retained-run-evidence.yml",
+    "replay_pointers": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/replay-pointers.yml",
+    "intervention_log": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/interventions/log.yml",
+    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-card.yml",
+    "support_targets": ".octon/instance/governance/support-targets.yml",
+    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    "run_continuity": ".octon/state/continuity/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/handoff.yml"
+  },
+  "source_digests": {
+    "run_contract": {
+      "ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-contract.yml",
+      "digest": "sha256:eefff57a2b5bf251d21d7ea0186b981b6d5bb90b47603c3e1b288f2e9ae4ad00",
+      "status": "present"
+    },
+    "run_manifest": {
+      "ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-manifest.yml",
+      "digest": "sha256:6aef72e0d09403c40b9aa834d8e422d6c1e6fcd835aadce837886185488ba6b5",
+      "status": "present"
+    },
+    "events_journal": {
+      "ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson",
+      "digest": "sha256:fffef31a41ffaae74b228cfac7df7dc524d5ac7f387a00f1a2c59315a6d45c06",
+      "status": "present"
+    },
+    "events_manifest": {
+      "ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml",
+      "digest": "sha256:638613a1371af8365db4905a1c4c4c1f088e7a35ebea93d0dfc1fc3e5b7e81ea",
+      "status": "present"
+    },
+    "runtime_state": {
+      "ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/runtime-state.yml",
+      "digest": "sha256:da0fa6d822eccd802c9d59f85cc7d188cf4ec4b6194111d9859ebf31de4495b9",
+      "status": "present"
+    },
+    "authority_decision": {
+      "ref": ".octon/state/evidence/control/execution/authority-decision-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml",
+      "digest": "sha256:040b4d0a8e70626eb1b305d7153bb5c5f50887c65ad61bf6357dcc08fa1f018a",
+      "status": "present"
+    },
+    "authority_bundle": {
+      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml",
+      "digest": "sha256:98e18b764ed4e4a8cbb3834e35b07dd8b48c78d82e9f9e87493e822ba55fa1f2",
+      "status": "present"
+    },
+    "approval_request": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "approval_grants": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "exception_leases": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "revocations": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "rollback_posture": {
+      "ref": ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/rollback-posture.yml",
+      "digest": "sha256:41b9030b410c7528f1403e79990683cd05bf9be5dc8509da7263f8923702261a",
+      "status": "present"
+    },
+    "evidence_root": {
+      "ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
+      "digest": "sha256:8a64835b23d62bdf10aa3058655fe643ed820f3a4851ff21c8443c13ff792af9",
+      "status": "present"
+    },
+    "evidence_classification": {
+      "ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/evidence-classification.yml",
+      "digest": "sha256:edbd056cefd9c3d2bd3adc73689bb93b786b89aaaa9481520483f523619fb4b3",
+      "status": "present"
+    },
+    "retained_evidence": {
+      "ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/retained-run-evidence.yml",
+      "digest": "sha256:1a4bc7f9cafe2446c4e015dbaa5aac3732ded706c2bf906e6f6ba3a03efa8eb5",
+      "status": "present"
+    },
+    "replay_pointers": {
+      "ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/replay-pointers.yml",
+      "digest": "sha256:1b2cd2e76da8b3b5c326e680e377178521faff1263c4fc9d6a70b7c2926ee720",
+      "status": "present"
+    },
+    "intervention_log": {
+      "ref": ".octon/state/evidence/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/interventions/log.yml",
+      "digest": "sha256:85f51a847171070257a4bb16980d265b2cf0ab0946b3d5f31976ac72b9e9e44a",
+      "status": "present"
+    },
+    "disclosure_run_card": {
+      "ref": ".octon/state/evidence/disclosure/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/run-card.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "support_targets": {
+      "ref": ".octon/instance/governance/support-targets.yml",
+      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "status": "present"
+    },
+    "support_reconciliation": {
+      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      "digest": "sha256:8f3df4770ced6c918f53ecbbbaf8dff31c93b171eda006bd8e4983db3a39795a",
+      "status": "present"
+    },
+    "run_continuity": {
+      "ref": ".octon/state/continuity/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/handoff.yml",
+      "digest": "sha256:3a753524442e2f7c6ac962d0768c5150deb8a9e48dcc7956a69cf56d016e124f",
+      "status": "present"
+    },
+    "runtime_route_bundle": {
+      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "digest": "sha256:82c9b4e9526a6e5d9f128f66b9878b5325fe310d84570109f5b2dca116853ba5",
+      "status": "present"
+    },
+    "pack_routes": {
+      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      "digest": "sha256:06fbe426e4d8ac5e50d9d309c515d96b517d34110deee78562218e91c5046fe9",
+      "status": "present"
+    },
+    "schema": {
+      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
+      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
+      "status": "present"
+    },
+    "operator_read_model_contract": {
+      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
+      "status": "present"
+    }
+  },
+  "health": {
+    "status": "stale",
+    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
+    "next_required_action": "regenerate from current canonical sources"
+  },
+  "lifecycle": {
+    "state": "closed",
+    "decision_state": "allow",
+    "drift_status": "in-sync",
+    "latest_event_hash": "sha256:9774ae8b4e8fa4ac5890138cbd62593c19066e1da6ce55e24e7845668bd2b861",
+    "latest_sequence": 29
+  },
+  "support": {
+    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "route_status": "allow",
+    "pack_status": "allow",
+    "support_status": "supported",
+    "requested_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ]
+  },
+  "authorization": {
+    "status": "authorized",
+    "proof_state": "proof-stale",
+    "human_boundary_state": "none",
+    "active_grants": [
+      ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal.yml"
+    ],
+    "open_approvals": [],
+    "active_exceptions": [],
+    "active_revocations": []
+  },
+  "evidence": {
+    "completeness": "complete",
+    "missing_required": []
+  },
+  "rollback": {
+    "status": "ready",
+    "hard_reset_required": false
+  },
+  "intervention": {
+    "status": "none",
+    "undisclosed_count": 0,
+    "records": []
+  },
+  "disclosure": {
+    "status": "incomplete"
+  },
+  "closure": {
+    "status": "not-ready"
+  },
+  "diagnostics": [
+    {
+      "severity": "error",
+      "code": "journal-ledger-digest-stale",
+      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
+      "refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.manifest.yml",
+        ".octon/state/control/execution/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/events.ndjson"
+      ]
+    }
+  ]
+}
