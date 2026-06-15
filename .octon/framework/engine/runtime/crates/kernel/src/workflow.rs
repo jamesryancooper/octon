@@ -5312,7 +5312,50 @@ pub fn run_archive_proposal_from_octon_dir(
     )?;
     let summary_report = unique_file(&reports_root, &format!("{date}-archive-proposal"), "md")?;
 
-    if !proposal_root.is_dir() {
+    let active_identity = parse_active_proposal_rel(&proposal_rel);
+    let (mut manifest, validation_root, recovered_partial_archive) = if proposal_root.is_dir() {
+        let manifest = load_proposal_manifest(&proposal_root)?;
+        ensure!(
+            proposal_rel
+                == expected_active_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id),
+            "proposal must be archived from the active path: {}",
+            proposal_rel
+        );
+        ensure!(
+            manifest.status != "archived",
+            "proposal is already archived: {}",
+            proposal_rel
+        );
+        (manifest, proposal_root.clone(), false)
+    } else if let Some((proposal_kind, proposal_id)) = active_identity {
+        let archived_rel = expected_archived_proposal_rel(&proposal_kind, &proposal_id);
+        let archived_root = repo_root.join(&archived_rel);
+        if !archived_root.is_dir() {
+            let message = format!("target proposal not found: {}", proposal_root.display());
+            let _ = finalize_workflow_failure(
+                &workflow_artifacts,
+                &workflow_request,
+                &workflow_grant,
+                &started_at,
+                message.clone(),
+                vec![
+                    bundle_root.display().to_string(),
+                    proposal_root.display().to_string(),
+                ],
+            );
+            bail!(message);
+        }
+        let manifest = load_proposal_manifest(&archived_root)?;
+        validate_partial_archive_recovery(
+            &manifest,
+            &proposal_kind,
+            &proposal_id,
+            &proposal_rel,
+            &options.disposition,
+            &options.promotion_evidence,
+        )?;
+        (manifest, archived_root, true)
+    } else {
         let message = format!("target proposal not found: {}", proposal_root.display());
         let _ = finalize_workflow_failure(
             &workflow_artifacts,
@@ -5326,51 +5369,15 @@ pub fn run_archive_proposal_from_octon_dir(
             ],
         );
         bail!(message);
-    }
+    };
 
-    let mut manifest = load_proposal_manifest(&proposal_root)?;
-    ensure!(
-        proposal_rel
-            == expected_active_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id),
-        "proposal must be archived from the active path: {}",
-        proposal_rel
-    );
-    ensure!(
-        manifest.status != "archived",
-        "proposal is already archived: {}",
-        proposal_rel
-    );
-    match options.disposition.as_str() {
-        "implemented" => {
-            ensure!(
-                manifest.status == "implemented",
-                "archive-proposal with disposition=implemented requires status=implemented, found {}",
-                manifest.status
-            );
-            validate_repo_relative_paths(
-                &repo_root,
-                &options.promotion_evidence,
-                "promotion_evidence",
-            )?;
-        }
-        "rejected" => {
-            ensure!(
-                manifest.status == "rejected",
-                "archive-proposal with disposition=rejected requires status=rejected, found {}",
-                manifest.status
-            );
-        }
-        "historical" | "superseded" => {
-            if !options.promotion_evidence.is_empty() {
-                validate_repo_relative_paths(
-                    &repo_root,
-                    &options.promotion_evidence,
-                    "promotion_evidence",
-                )?;
-            }
-        }
-        other => bail!("unsupported archive disposition '{}'", other),
-    }
+    validate_archive_disposition(
+        &repo_root,
+        &manifest,
+        &options.disposition,
+        &options.promotion_evidence,
+        recovered_partial_archive,
+    )?;
 
     let stage_validate = authorize_workflow_stage(
         &runtime_cfg,
@@ -5404,7 +5411,7 @@ pub fn run_archive_proposal_from_octon_dir(
     )?;
     let validator_log = match run_archive_proposal_validator_stack(
         &repo_root,
-        &proposal_root,
+        &validation_root,
         &bundle_root,
         &manifest.proposal_kind,
     ) {
@@ -5440,7 +5447,11 @@ pub fn run_archive_proposal_from_octon_dir(
         vec![rel_path(&repo_root, &validator_log)],
     )?;
 
-    let archived_from_status = manifest.status.clone();
+    let archived_from_status = manifest
+        .archive
+        .as_ref()
+        .map(|archive| archive.archived_from_status.clone())
+        .unwrap_or_else(|| manifest.status.clone());
     let archived_rel =
         expected_archived_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id);
     let archived_root = repo_root.join(&archived_rel);
@@ -5474,29 +5485,43 @@ pub fn run_archive_proposal_from_octon_dir(
         None,
     )?;
     let archive_result: Result<()> = (|| {
-        ensure!(
-            !archived_root.exists(),
-            "archive destination already exists: {}",
-            archived_root.display()
-        );
-        if let Some(parent) = archived_root.parent() {
-            fs::create_dir_all(parent).with_context(|| format!("create {}", parent.display()))?;
-        }
-        fs::rename(&proposal_root, &archived_root).with_context(|| {
-            format!(
-                "move proposal from {} to {}",
-                proposal_root.display(),
+        if recovered_partial_archive {
+            ensure!(
+                archived_root.is_dir(),
+                "partial archive recovery requires archived destination: {}",
                 archived_root.display()
-            )
-        })?;
-        manifest.status = "archived".to_string();
-        manifest.archive = Some(ProposalArchiveMetadata {
-            archived_at: today_string()?,
-            archived_from_status,
-            disposition: options.disposition.clone(),
-            original_path: proposal_rel.clone(),
-            promotion_evidence: options.promotion_evidence.clone(),
-        });
+            );
+            ensure!(
+                !proposal_root.exists(),
+                "partial archive recovery requires absent active source: {}",
+                proposal_root.display()
+            );
+        } else {
+            ensure!(
+                !archived_root.exists(),
+                "archive destination already exists: {}",
+                archived_root.display()
+            );
+            if let Some(parent) = archived_root.parent() {
+                fs::create_dir_all(parent)
+                    .with_context(|| format!("create {}", parent.display()))?;
+            }
+            fs::rename(&proposal_root, &archived_root).with_context(|| {
+                format!(
+                    "move proposal from {} to {}",
+                    proposal_root.display(),
+                    archived_root.display()
+                )
+            })?;
+            manifest.status = "archived".to_string();
+            manifest.archive = Some(ProposalArchiveMetadata {
+                archived_at: today_string()?,
+                archived_from_status,
+                disposition: options.disposition.clone(),
+                original_path: proposal_rel.clone(),
+                promotion_evidence: options.promotion_evidence.clone(),
+            });
+        }
         write_proposal_manifest(&archived_root, &manifest)?;
         fs::write(
             archived_root.join("navigation/artifact-catalog.md"),
@@ -5507,6 +5532,8 @@ pub fn run_archive_proposal_from_octon_dir(
                 &archived_rel,
             )?,
         )?;
+        ensure_archive_gitignore_allowlist(&repo_root, &archived_rel)?;
+        regenerate_proposal_artifact_index(&repo_root, &archived_rel)?;
         regenerate_proposal_registry(&repo_root, true)?;
         Ok(())
     })();
@@ -5536,6 +5563,15 @@ pub fn run_archive_proposal_from_octon_dir(
         None,
         vec![
             archived_rel.clone(),
+            ".gitignore".to_string(),
+            format!(
+                ".octon/generated/proposals/artifacts/{}/{}/proposal-artifact-index.yml",
+                manifest.proposal_kind, manifest.proposal_id
+            ),
+            format!(
+                ".octon/generated/proposals/artifacts/{}/{}/proposal-program-spine.yml",
+                manifest.proposal_kind, manifest.proposal_id
+            ),
             ".octon/generated/proposals/registry.yml".to_string(),
         ],
     )?;
@@ -7477,6 +7513,199 @@ fn expected_active_proposal_rel(proposal_kind: &str, proposal_id: &str) -> Strin
 
 fn expected_archived_proposal_rel(proposal_kind: &str, proposal_id: &str) -> String {
     format!("{PROPOSALS_ROOT_REL}/.archive/{proposal_kind}/{proposal_id}")
+}
+
+fn parse_active_proposal_rel(proposal_rel: &str) -> Option<(String, String)> {
+    let prefix = format!("{PROPOSALS_ROOT_REL}/");
+    let rest = proposal_rel.strip_prefix(&prefix)?;
+    if rest.starts_with(".archive/") {
+        return None;
+    }
+    let mut parts = rest.split('/');
+    let proposal_kind = parts.next()?;
+    let proposal_id = parts.next()?;
+    if parts.next().is_some() || proposal_kind.is_empty() || proposal_id.is_empty() {
+        return None;
+    }
+    Some((proposal_kind.to_string(), proposal_id.to_string()))
+}
+
+fn validate_partial_archive_recovery(
+    manifest: &ProposalManifest,
+    proposal_kind: &str,
+    proposal_id: &str,
+    original_path: &str,
+    disposition: &str,
+    promotion_evidence: &[String],
+) -> Result<()> {
+    ensure!(
+        manifest.proposal_kind == proposal_kind,
+        "partial archive proposal_kind mismatch: expected {}, found {}",
+        proposal_kind,
+        manifest.proposal_kind
+    );
+    ensure!(
+        manifest.proposal_id == proposal_id,
+        "partial archive proposal_id mismatch: expected {}, found {}",
+        proposal_id,
+        manifest.proposal_id
+    );
+    ensure!(
+        manifest.status == "archived",
+        "partial archive recovery requires archived status, found {}",
+        manifest.status
+    );
+    let archive = manifest
+        .archive
+        .as_ref()
+        .context("partial archive recovery requires archive metadata")?;
+    ensure!(
+        archive.original_path == original_path,
+        "partial archive original_path mismatch: expected {}, found {}",
+        original_path,
+        archive.original_path
+    );
+    ensure!(
+        archive.disposition == disposition,
+        "partial archive disposition mismatch: expected {}, found {}",
+        disposition,
+        archive.disposition
+    );
+    ensure!(
+        archive.promotion_evidence == promotion_evidence,
+        "partial archive promotion_evidence mismatch"
+    );
+    Ok(())
+}
+
+fn validate_archive_disposition(
+    repo_root: &Path,
+    manifest: &ProposalManifest,
+    disposition: &str,
+    promotion_evidence: &[String],
+    recovered_partial_archive: bool,
+) -> Result<()> {
+    match disposition {
+        "implemented" => {
+            if recovered_partial_archive {
+                let archive = manifest
+                    .archive
+                    .as_ref()
+                    .context("implemented partial archive recovery requires archive metadata")?;
+                ensure!(
+                    archive.archived_from_status == "implemented",
+                    "archive-proposal with disposition=implemented requires archived_from_status=implemented, found {}",
+                    archive.archived_from_status
+                );
+            } else {
+                ensure!(
+                    manifest.status == "implemented",
+                    "archive-proposal with disposition=implemented requires status=implemented, found {}",
+                    manifest.status
+                );
+            }
+            validate_repo_relative_paths(repo_root, promotion_evidence, "promotion_evidence")?;
+        }
+        "rejected" => {
+            if recovered_partial_archive {
+                let archive = manifest
+                    .archive
+                    .as_ref()
+                    .context("rejected partial archive recovery requires archive metadata")?;
+                ensure!(
+                    archive.archived_from_status == "rejected",
+                    "archive-proposal with disposition=rejected requires archived_from_status=rejected, found {}",
+                    archive.archived_from_status
+                );
+            } else {
+                ensure!(
+                    manifest.status == "rejected",
+                    "archive-proposal with disposition=rejected requires status=rejected, found {}",
+                    manifest.status
+                );
+            }
+        }
+        "historical" | "superseded" => {
+            if !promotion_evidence.is_empty() {
+                validate_repo_relative_paths(repo_root, promotion_evidence, "promotion_evidence")?;
+            }
+        }
+        other => bail!("unsupported archive disposition '{}'", other),
+    }
+    Ok(())
+}
+
+fn ensure_archive_gitignore_allowlist(repo_root: &Path, archived_rel: &str) -> Result<()> {
+    let gitignore_path = repo_root.join(".gitignore");
+    let mut contents = fs::read_to_string(&gitignore_path).unwrap_or_default();
+    let dir_line = format!("!{archived_rel}/");
+    let tree_line = format!("!{archived_rel}/**");
+    if contents.lines().any(|line| line == dir_line)
+        && contents.lines().any(|line| line == tree_line)
+    {
+        return Ok(());
+    }
+    let marker = "!.octon/inputs/exploratory/proposals/.archive/architecture/";
+    let mut lines: Vec<String> = contents.lines().map(ToString::to_string).collect();
+    let insert_at = lines
+        .iter()
+        .rposition(|line| line.starts_with("!.octon/inputs/exploratory/proposals/.archive/"))
+        .map(|index| index + 1)
+        .or_else(|| {
+            lines
+                .iter()
+                .position(|line| line == marker)
+                .map(|index| index + 1)
+        })
+        .unwrap_or(lines.len());
+    if !lines.iter().any(|line| line == &dir_line) {
+        lines.insert(insert_at, dir_line);
+    }
+    let tree_insert_at = lines
+        .iter()
+        .position(|line| line == &format!("!{archived_rel}/"))
+        .map(|index| index + 1)
+        .unwrap_or(insert_at + 1);
+    if !lines.iter().any(|line| line == &tree_line) {
+        lines.insert(tree_insert_at, tree_line);
+    }
+    contents = lines.join("\n");
+    contents.push('\n');
+    fs::write(&gitignore_path, contents)
+        .with_context(|| format!("write {}", gitignore_path.display()))
+}
+
+fn regenerate_proposal_artifact_index(repo_root: &Path, proposal_rel: &str) -> Result<()> {
+    let generator = repo_root.join(
+        ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+    );
+    ensure!(
+        generator.is_file(),
+        "proposal artifact index generator missing: {}",
+        generator.display()
+    );
+    let output = Command::new("bash")
+        .arg(&generator)
+        .arg("--proposal")
+        .arg(proposal_rel)
+        .arg("--write")
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| {
+            format!(
+                "run proposal artifact index generator {}",
+                generator.display()
+            )
+        })?;
+    if !output.status.success() {
+        bail!(
+            "proposal artifact index generator failed via --write (status {})\nstdout:\n{}\nstderr:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr),
+        );
+    }
+    Ok(())
 }
 
 fn static_primary_docs(kind: StaticProposalKind) -> Vec<&'static str> {

@@ -24,7 +24,19 @@ promotion_targets:
 - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
 - .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
 - .octon/inputs/additive/extensions/octon-proposal-lifecycle/
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-15
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T034048Z/profile-selection-receipt.yml
+  - .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T034048Z/delivery-profile.yml
+  - .octon/state/evidence/validation/publication/extensions/2026-06-14T03-55-49Z-extensions-e539e7c8b239.yml
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-15T14-31-05Z-capabilities-1ca0283caa75.yml
+  - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-delivery-20260614T060000Z/receipt.yml
+  - .octon/state/evidence/runs/workflows/2026-06-15-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-delivery-5/summary.md
 lifecycle:
   temporary: true
   exit_expectation: Promote only after proposal review accepts the packet, strict pre-integration architecture review passes, durable schemas, workflow, validators, tests, feature documentation, entrypoints, and lifecycle hooks land outside proposal-local paths, generated projections are refreshed through owning publishers, and implementation conformance plus post-implementation drift/churn receipts pass. Archive only after the delivery receipt is current, passing, and bound to final clean-state proof.

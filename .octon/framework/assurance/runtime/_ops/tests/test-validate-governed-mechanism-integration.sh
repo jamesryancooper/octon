@@ -199,6 +199,25 @@ expect_pass "schema-only receipt validator" bash "$RECEIPT_VALIDATOR"
 expect_pass "valid profile" bash "$PROFILE_VALIDATOR" --profile "$TMP_DIR/valid-profile.yml"
 expect_pass "valid receipt" bash "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/valid-receipt.yml" --package "$TMP_DIR/package"
 
+mkdir -p "$TMP_DIR/archive-package"
+cat >"$TMP_DIR/archive-package/proposal.yml" <<YAML
+schema_version: proposal-v1
+proposal_id: governed-mechanism-integration-verification
+proposal_kind: architecture
+status: archived
+archive:
+  original_path: $TMP_DIR/original-package
+  disposition: implemented
+YAML
+cp "$TMP_DIR/valid-receipt.yml" "$TMP_DIR/archived-source-receipt.yml"
+ORIGINAL_PACKAGE="$TMP_DIR/original-package" yq -i '.proposal_path = strenv(ORIGINAL_PACKAGE)' "$TMP_DIR/archived-source-receipt.yml"
+expect_pass "archived receipt may bind original package path" bash "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/archived-source-receipt.yml" --package "$TMP_DIR/archive-package"
+
+cp "$TMP_DIR/archive-package/proposal.yml" "$TMP_DIR/archive-package/proposal-mismatch.yml"
+MISMATCH_PACKAGE="$TMP_DIR/other-package" yq -i '.archive.original_path = strenv(MISMATCH_PACKAGE)' "$TMP_DIR/archive-package/proposal.yml"
+expect_fail "archived receipt rejects mismatched original path" bash "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/archived-source-receipt.yml" --package "$TMP_DIR/archive-package"
+mv "$TMP_DIR/archive-package/proposal-mismatch.yml" "$TMP_DIR/archive-package/proposal.yml"
+
 mutate_profile_expect_fail "profile missing required surface without rationale" '.workflows = [] | .not_applicable = []'
 mutate_profile_expect_fail "profile stale placeholder marker" '.documentation_refs[0].role = "placeholder"'
 mutate_profile_expect_fail "profile generated output authority" '.non_authority_boundaries.generated_outputs = "authority"'
