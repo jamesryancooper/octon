@@ -254,6 +254,7 @@ local_artifact_hygiene:
       criteria:
         - "untracked publish-* or service-build-* run/control/continuity/external-index artifacts"
         - "untracked lifecycle-proposal-* runner control, continuity, authority-decision, authority-grant, and external-index artifacts that are unreferenced by tracked files"
+        - "untracked closed workflow-engine run control, continuity, authority-decision, authority-grant, and external-index artifacts whose runtime-state is closed, whose execution-complete checkpoint is materialized, whose durable run evidence root exists, and whose paths are unreferenced by tracked files"
         - "untracked closeout-worktree, closeout-packet, and proposal-lifecycle closeout-packet skill run logs that are unreferenced by tracked files and have a publishable wrapper or Change receipt elsewhere"
         - "untracked runtime-agent-quorum checkpoint or evidence artifacts"
         - "no tracked file references the exact artifact path"

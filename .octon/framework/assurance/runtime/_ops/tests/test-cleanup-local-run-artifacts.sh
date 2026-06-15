@@ -71,6 +71,37 @@ LOCK
   mkdir -p "$root/.octon/state/evidence/external-index/runs"
   printf 'external-index: local\n' >"$root/.octon/state/evidence/external-index/runs/lifecycle-proposal-program-1.yml"
 
+  mkdir -p "$root/.octon/state/control/execution/runs/workflow-engine-closed-1/checkpoints"
+  cat >"$root/.octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml" <<'YAML'
+schema_version: runtime-state-v2
+run_id: workflow-engine-closed-1
+state: closed
+last_checkpoint_ref: .octon/state/control/execution/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml
+YAML
+  cat >"$root/.octon/state/control/execution/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml" <<'YAML'
+schema_version: run-checkpoint-v1
+run_id: workflow-engine-closed-1
+checkpoint_id: execution-complete
+status: materialized
+YAML
+  printf 'manifest: closed\n' >"$root/.octon/state/control/execution/runs/workflow-engine-closed-1/run-manifest.yml"
+  mkdir -p "$root/.octon/state/continuity/runs/workflow-engine-closed-1"
+  printf 'handoff: closed\n' >"$root/.octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
+  printf 'decision: closed\n' >"$root/.octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml"
+  printf 'grant: closed\n' >"$root/.octon/state/evidence/control/execution/authority-grant-bundle-workflow-engine-closed-1.yml"
+  printf 'external-index: closed\n' >"$root/.octon/state/evidence/external-index/runs/workflow-engine-closed-1.yml"
+  mkdir -p "$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints"
+  printf 'retained execution evidence\n' >"$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml"
+
+  mkdir -p "$root/.octon/state/control/execution/runs/workflow-engine-running-1/checkpoints"
+  cat >"$root/.octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" <<'YAML'
+schema_version: runtime-state-v2
+run_id: workflow-engine-running-1
+state: running
+last_checkpoint_ref: .octon/state/control/execution/runs/workflow-engine-running-1/checkpoints/execution-start.yml
+YAML
+  printf 'status: materialized\n' >"$root/.octon/state/control/execution/runs/workflow-engine-running-1/checkpoints/execution-start.yml"
+
   mkdir -p "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1"
   printf 'wrapper-log: local\n' >"$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
 
@@ -154,6 +185,10 @@ printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" >/dev/null || fail
 printf '%s\n' "$dry_run_output" | grep -F ".octon/state/evidence/validation/publication/capabilities/stale.yml" >/dev/null || fail "dry-run did not classify stale receipt"
 printf '%s\n' "$dry_run_output" | grep -F "proposal lifecycle runner residue" >/dev/null || fail "dry-run did not classify lifecycle runner residue"
 printf '%s\n' "$dry_run_output" | grep -F "closeout skill run residue" >/dev/null || fail "dry-run did not classify closeout skill run residue"
+printf '%s\n' "$dry_run_output" | grep -F "closed workflow-engine run residue: workflow-engine-closed-1" >/dev/null || fail "dry-run did not classify closed workflow-engine run residue"
+printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" >/dev/null || fail "dry-run did not retain running workflow control state for manual review"
+printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" >/dev/null && fail "dry-run treated running workflow control state as cleanup candidate"
+printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml" >/dev/null || fail "dry-run did not retain durable workflow evidence for manual review"
 printf '%s\n' "$dry_run_output" | grep -F "local_filesystem_metadata" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/.DS_Store" >/dev/null || fail "dry-run did not classify local filesystem metadata"
 printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/proposal.yml" >/dev/null && fail "dry-run treated proposal input file as cleanup candidate"
 printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/validation/publication/capabilities/final.yml" >/dev/null || fail "dry-run did not protect referenced receipt"
@@ -196,6 +231,18 @@ assert_exists "$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-w
 assert_exists "$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
 assert_missing "$root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
 
+root="$(make_fixture)"
+active_workflow_output="$(bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1)"
+printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml" >/dev/null || fail "active workflow runtime state was not protected"
+printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml" >/dev/null || fail "active workflow continuity artifact was not protected"
+printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml" >/dev/null || fail "active workflow authority decision was not protected"
+workflow_active_receipt="$tmp_root/active-workflow-receipt-$fixture_index.json"
+bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1 --authorize "$workflow_active_receipt" >/dev/null
+bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1 --authorization "$workflow_active_receipt" >/dev/null
+assert_exists "$root/.octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml"
+assert_exists "$root/.octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
+assert_exists "$root/.octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml"
+
 receipt="$(authorize_fixture "$root")"
 grep -F '"schema_version": "repo-hygiene-cleanup-authorization-v1"' "$receipt" >/dev/null || fail "authorization receipt has wrong schema version"
 bash "$HELPER" --root "$root" --authorization "$receipt" >/dev/null
@@ -208,6 +255,13 @@ assert_missing "$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-
 assert_missing "$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
 assert_missing "$root/.octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1.yml"
 assert_missing "$root/.octon/state/evidence/external-index/runs/lifecycle-proposal-program-1.yml"
+assert_missing "$root/.octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml"
+assert_missing "$root/.octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
+assert_missing "$root/.octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml"
+assert_missing "$root/.octon/state/evidence/control/execution/authority-grant-bundle-workflow-engine-closed-1.yml"
+assert_missing "$root/.octon/state/evidence/external-index/runs/workflow-engine-closed-1.yml"
+assert_exists "$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml"
+assert_exists "$root/.octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml"
 assert_missing "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
 assert_missing "$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
 assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"

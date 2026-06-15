@@ -354,6 +354,64 @@ matches_active_run_artifact() {
   return 1
 }
 
+is_closed_workflow_run_id() {
+  local run_id="$1"
+  [[ -n "$run_id" ]] || return 1
+
+  local control_dir="$ROOT_DIR/.octon/state/control/execution/runs/$run_id"
+  local runtime_state="$control_dir/runtime-state.yml"
+  local complete_checkpoint="$control_dir/checkpoints/execution-complete.yml"
+  local evidence_dir="$ROOT_DIR/.octon/state/evidence/runs/$run_id"
+
+  [[ -f "$runtime_state" ]] || return 1
+  [[ -f "$complete_checkpoint" ]] || return 1
+  [[ -d "$evidence_dir" ]] || return 1
+  grep -Eq '^[[:space:]]*state:[[:space:]]*closed([[:space:]]|$)' "$runtime_state" || return 1
+  grep -Eq '^[[:space:]]*status:[[:space:]]*materialized([[:space:]]|$)' "$complete_checkpoint" || return 1
+}
+
+closed_workflow_run_residue_run_id() {
+  local rel="$1"
+  local run_id=""
+
+  case "$rel" in
+    .octon/state/control/execution/runs/*/*)
+      run_id="${rel#.octon/state/control/execution/runs/}"
+      run_id="${run_id%%/*}"
+      ;;
+    .octon/state/continuity/runs/*/*)
+      run_id="${rel#.octon/state/continuity/runs/}"
+      run_id="${run_id%%/*}"
+      ;;
+    .octon/state/control/execution/approvals/requests/*.yml)
+      run_id="${rel#.octon/state/control/execution/approvals/requests/}"
+      run_id="${run_id%.yml}"
+      ;;
+    .octon/state/evidence/control/execution/authority-decision-*.yml)
+      run_id="${rel#.octon/state/evidence/control/execution/authority-decision-}"
+      run_id="${run_id%.yml}"
+      ;;
+    .octon/state/evidence/control/execution/authority-grant-bundle-*.yml)
+      run_id="${rel#.octon/state/evidence/control/execution/authority-grant-bundle-}"
+      run_id="${run_id%.yml}"
+      ;;
+    .octon/state/evidence/external-index/runs/*.yml)
+      run_id="${rel#.octon/state/evidence/external-index/runs/}"
+      run_id="${run_id%.yml}"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+
+  if is_closed_workflow_run_id "$run_id"; then
+    printf '%s\n' "$run_id"
+    return 0
+  fi
+
+  return 1
+}
+
 classify_path() {
   local rel="$1"
 
@@ -364,6 +422,12 @@ classify_path() {
 
   if is_referenced_by_tracked_file "$rel"; then
     set_classification "$(referenced_kind_for_path "$rel")" "protected_referenced" "referenced by a tracked control, evidence, generated, or governance file"
+    return
+  fi
+
+  local closed_run_id
+  if closed_run_id="$(closed_workflow_run_residue_run_id "$rel")"; then
+    set_classification "local_run_residue" "cleanup_candidate" "unreferenced closed workflow-engine run residue: $closed_run_id"
     return
   fi
 
