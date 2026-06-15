@@ -213,6 +213,14 @@ local_artifact_hygiene:
       Untracked, unreferenced .DS_Store paths may be selected only as
       local_filesystem_metadata, including below inputs roots; this does not
       authorize cleanup of proposal input files or packet contents.
+      Untracked archive-proposal starter control, continuity, authority-decision,
+      authority-grant, and external-index artifacts may be selected as
+      local_run_residue only when they are unreferenced, their runtime state is
+      still at execution-start with no execution-complete checkpoint, their run
+      contract identifies an archive-proposal run for a repo-local proposal
+      packet, and durable archive workflow evidence reports the same proposal
+      path archived to the derived .archive path. Unsuperseded or ambiguous
+      running archive-proposal state remains manual review.
   deletion_requires:
     - "explicit --confirm operator action"
     - "or validating repo-hygiene cleanup authorization receipt passed to cleanup-local-run-artifacts.sh with --authorization <receipt.json>"

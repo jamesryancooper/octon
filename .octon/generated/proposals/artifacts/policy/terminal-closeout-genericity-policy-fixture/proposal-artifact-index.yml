@@ -1,0 +1,392 @@
+{
+  "artifact_count": 16,
+  "artifacts": [
+    {
+      "byte_size": 403,
+      "estimated_tokens": 101,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "README.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/README.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "overview",
+      "sha256": "sha256:551b8d9ddb9928f7e9a8c00b789f842e9f52d1ef35d28bc974780d920117cb22",
+      "stage_relevance": [
+        "orientation"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 393,
+      "estimated_tokens": 99,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "implementation/implementation-map.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/implementation/implementation-map.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:97064c5d95589a23bb233bee5cf8168c867f848cb790a05fd620727e99fdb242",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 693,
+      "estimated_tokens": 174,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/artifact-catalog.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "artifact-catalog",
+      "sha256": "sha256:4da32ea23b67f1708b94dabbe1f865ac78d13e7d6e82aabf79134e8aac1a237d",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 343,
+      "estimated_tokens": 86,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/source-of-truth-map.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "source-of-truth-map",
+      "sha256": "sha256:b687996ecac0f18ea8f63b710e10d5dd80a695b23394716a1975fccec412d978",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 373,
+      "estimated_tokens": 94,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "policy/decision.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/decision.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:f0b0ca1313e9a32ca2189459a61043da190e310f86607202064e0038297ee6f0",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 473,
+      "estimated_tokens": 119,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "policy/enforcement-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/enforcement-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:7997403770e1082d52247cbbdac5303f416e539dd6a12435accd27b9cf696e44",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 593,
+      "estimated_tokens": 149,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "policy/policy-delta.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy/policy-delta.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:056b58ae6e8bb05a2f2957b080e362f0056c1049cc2de50d486c830e081e11d3",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 97,
+      "estimated_tokens": 25,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "policy-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy-proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "subtype-manifest",
+      "sha256": "sha256:ad209f3e9715e51a25a5ec0970bdac6660ceb394b88730be71fa72dcca26a4d1",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 708,
+      "estimated_tokens": 177,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "proposal-manifest",
+      "sha256": "sha256:865715b95682a54e55361d13833c59b21217f5e694dcbcfb5f77b953a05cfc8e",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 1070,
+      "estimated_tokens": 268,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/executable-implementation-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/executable-implementation-prompt.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "executable-implementation-prompt",
+      "sha256": "sha256:c6ac06b2635305607555e1e0d7f10df0c468f66505d52ffbfd9098f64c140cf4",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 1840,
+      "estimated_tokens": 460,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/implementation-conformance-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-conformance-review",
+      "sha256": "sha256:4aaf48ca887137c964538e36e6e4c53b318b6a8aacaa8278cdb7e1bd39ece0c9",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 1452,
+      "estimated_tokens": 363,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/implementation-grade-completeness-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "implementation-grade-completeness-review",
+      "sha256": "sha256:388f720f111f595d72435b00b09b5006160e2a5c48ffe7cbfb89e59611052ddd",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 1913,
+      "estimated_tokens": 479,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/post-implementation-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/post-implementation-drift-churn-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "post-implementation-drift-churn-review",
+      "sha256": "sha256:9ee51290ec6e37e84d91b45cf9b98be6c4cc4f75e5da7d5bca42f8bd16faedd0",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 183,
+      "estimated_tokens": 46,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:898a81a041975c2a109ade1d5f626691b18e6b213d75e13d6fa87c3d180bbbc8",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 976,
+      "estimated_tokens": 244,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-review",
+      "sha256": "sha256:6f3dee25649c2ad0b04c8acb989e0cc1604f17e43b7e17a14d75ee0721f2096b",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 29152,
+      "estimated_tokens": 7288,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:c524ffb81addfb719adda2a9a762de66b48bd07662b67bae2ec38be3b0c6a338",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    }
+  ],
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "compact_outputs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture/proposal-artifact-index.yml",
+      "artifact_role": "proposal-artifact-index",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture/proposal-program-spine.yml",
+      "artifact_role": "proposal-program-spine",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture/proposal-artifact-index.yml",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_id": "terminal-closeout-genericity-policy-fixture",
+  "proposal_kind": "policy",
+  "proposal_path": ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "schema_version": "octon-proposal-artifact-index-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/artifact-catalog.md": "sha256:4da32ea23b67f1708b94dabbe1f865ac78d13e7d6e82aabf79134e8aac1a237d",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/source-of-truth-map.md": "sha256:b687996ecac0f18ea8f63b710e10d5dd80a695b23394716a1975fccec412d978",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy-proposal.yml": "sha256:ad209f3e9715e51a25a5ec0970bdac6660ceb394b88730be71fa72dcca26a4d1",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/proposal.yml": "sha256:865715b95682a54e55361d13833c59b21217f5e694dcbcfb5f77b953a05cfc8e",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/executable-implementation-prompt.md": "sha256:c6ac06b2635305607555e1e0d7f10df0c468f66505d52ffbfd9098f64c140cf4",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/implementation-grade-completeness-review.md": "sha256:388f720f111f595d72435b00b09b5006160e2a5c48ffe7cbfb89e59611052ddd",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-review.md": "sha256:6f3dee25649c2ad0b04c8acb989e0cc1604f17e43b7e17a14d75ee0721f2096b"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/policy-proposal.yml",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/proposal.yml",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/support/proposal-review.md"
+  ],
+  "validation": {
+    "negative_controls": [
+      "generated-registry-cannot-replace-manifest",
+      "source-digest-mismatch-fails-closed",
+      "missing-child-handoff-fails-when-parent-program-present"
+    ],
+    "validator": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+  }
+}
