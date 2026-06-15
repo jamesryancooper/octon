@@ -1,0 +1,145 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "clean-worktree-residue-20260615-branch-no-pr",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Complete route-bound cleaned closeout for the cleanup Change that removed retained local residue through repo-hygiene and fixture-retention ownership.",
+  "scope": {
+    "summary": "Cleanup Change for previously retained worktree residue, including repo-hygiene helper/policy/test improvements, fixture residue resolution, generated proposal fixture projections, repo-hygiene cleanup evidence, and prior closeout evidence publication.",
+    "touched_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh",
+      ".octon/instance/governance/policies/repo-hygiene.yml",
+      ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture",
+      ".octon/generated/proposals/artifacts/policy/terminal-closeout-genericity-policy-fixture",
+      ".octon/state/evidence/runs/skills/closeout-change/hosted-no-pr-empty-check-set-20260615-branch-no-pr",
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/worktree-residue-cleanup-20260615/authorization.json"
+    ],
+    "diff_refs": [
+      "target_pre_ref=1b33334491292590465f81a301d7124a99dbf2e9",
+      "landed_ref=a97ff51d7c611c5ae8e6fafbcae95365a58f63bd"
+    ]
+  },
+  "source_branch_ref": "chore/clean-worktree-residue",
+  "target_branch_ref": "origin/main@a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+  "remote_branch_ref": "origin/chore/clean-worktree-residue@a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "target_ref": "origin/main@a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/landing-authorization.json",
+      "git rev-parse origin/main == a97ff51d7c611c5ae8e6fafbcae95365a58f63bd"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/clean-worktree-residue",
+    "source_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "target_pre_ref": "1b33334491292590465f81a301d7124a99dbf2e9",
+    "target_post_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "validated_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@a97ff51d7c611c5ae8e6fafbcae95365a58f63bd"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/clean-worktree-residue",
+    "source_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "landed_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "origin_main_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "git merge-base --is-ancestor a97ff51d7c611c5ae8e6fafbcae95365a58f63bd origin/main",
+      ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/branch-cleanup-authorization.json"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "origin_main_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "landed_ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin main by hosted no-PR landing and cleanup helpers",
+    "local_main_sync_evidence_ref": "git branch -f main origin/main followed by git-branch-cleanup.sh main sync",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/branch-cleanup-authorization.json",
+    "git branch --list chore/clean-worktree-residue returned empty",
+    "git ls-remote --heads origin chore/clean-worktree-residue returned empty"
+  ],
+  "terminal_current_state_proof_ref": ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/terminal-current-state-proof.yml",
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/clean-worktree-residue",
+    "remote_branch": "origin/chore/clean-worktree-residue",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/branch-cleanup-authorization.json",
+      "git branch --list chore/clean-worktree-residue returned empty",
+      "git ls-remote --heads origin chore/clean-worktree-residue returned empty"
+    ]
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch --untracked-files=all",
+    "residue_classification_ref": "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root .",
+    "phase_exit_refs": [
+      "refs verified: HEAD == main == origin/main == a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+      "terminal current-state proof validates with require-cleaned",
+      "hosted no-PR landing validator accepts authorization-bound empty check set"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/terminal-current-state-proof.yml"
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/terminal-current-state-proof.yml",
+    ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-hosted-no-pr-landing.sh",
+    ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+  ],
+  "review_waiver_refs": [
+    "branch-no-pr route selected; PR metadata is absent and provider ruleset allowed route-neutral hosted landing"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "branch": "chore/clean-worktree-residue"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "pre-landing origin/main=1b33334491292590465f81a301d7124a99dbf2e9; source=origin/chore/clean-worktree-residue@a97ff51d7c611c5ae8e6fafbcae95365a58f63bd",
+    "instructions": "Use governed rollback to restore origin/main to pre-landing ref 1b33334491292590465f81a301d7124a99dbf2e9, or use the retained source commit a97ff51d7c611c5ae8e6fafbcae95365a58f63bd under the owning rollback route."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-15T20:37:01Z",
+  "updated_at": "2026-06-15T20:37:01Z"
+}

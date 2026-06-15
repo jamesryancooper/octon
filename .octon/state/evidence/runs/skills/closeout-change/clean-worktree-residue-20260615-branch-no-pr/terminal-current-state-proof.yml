@@ -1,0 +1,70 @@
+schema_version: lifecycle-terminal-current-state-proof-v1
+proof_id: clean-worktree-residue-20260615-branch-no-pr-terminal-current-state
+observed_at: "2026-06-15T20:37:01Z"
+change_id: clean-worktree-residue-20260615-branch-no-pr
+lifecycle_outcome: cleaned
+final_refs:
+  head_ref: a97ff51d7c611c5ae8e6fafbcae95365a58f63bd
+  main_ref: a97ff51d7c611c5ae8e6fafbcae95365a58f63bd
+  origin_main_ref: a97ff51d7c611c5ae8e6fafbcae95365a58f63bd
+  landed_ref: a97ff51d7c611c5ae8e6fafbcae95365a58f63bd
+alignment:
+  head_equals_local_main: true
+  local_main_equals_origin_main: true
+  origin_main_contains_landed_ref: true
+  local_main_contains_landed_ref: true
+worktree:
+  status: retained_classified
+  status_ref: git status --short --branch --untracked-files=all
+  residue_counts:
+    untracked: 1
+    retained-evidence: 4
+    publishable_change: 0
+    publishable_closeout_evidence: 5
+    local_private_retained: 136
+    foreign_manual_review: 0
+    ambiguous: 0
+  retained_residue_refs:
+    - .octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/landing-authorization.json
+    - .octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/branch-cleanup-authorization.json
+    - .octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/terminal-current-state-proof.yml
+    - .octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/change-receipt.json
+cleanup_classifier_ref: bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root .
+validator_refs:
+  - validator: repo-hygiene-helper-tests
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: local
+    exit_code: 0
+    evidence_ref: pre-landing validation output
+  - validator: repo-hygiene-governance
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: local
+    exit_code: 0
+    evidence_ref: pre-landing validation output
+  - validator: hosted-no-pr-landing-tests
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-hosted-no-pr-landing.sh
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: local
+    exit_code: 0
+    evidence_ref: pre-landing validation output
+  - validator: change-closeout-state-machine
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: local
+    exit_code: 0
+    evidence_ref: pre-landing validation output
+  - validator: git-diff-check
+    command: git diff --check
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: local
+    exit_code: 0
+    evidence_ref: pre-landing validation output
+evidence_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/landing-authorization.json
+  - .octon/state/evidence/runs/skills/closeout-change/clean-worktree-residue-20260615-branch-no-pr/branch-cleanup-authorization.json
+  - git rev-parse HEAD main origin/main returned a97ff51d7c611c5ae8e6fafbcae95365a58f63bd for all three refs
+  - git branch --list chore/clean-worktree-residue returned empty
+  - git ls-remote --heads origin chore/clean-worktree-residue returned empty
+non_authority_classification: retained-evidence-only
