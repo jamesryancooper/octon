@@ -1,207 +1,258 @@
-schema_version: run-health-read-model-v1
-run_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness
-generated_at: '2026-06-15T14:32:00Z'
-generator:
-  id: generate-run-health-read-model.sh
-  version: 1.1.0
-  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-  allowed_consumers:
-  - operators
-  - validators
-  forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
-freshness:
-  mode: digest-bound
-  status: stale
-  source_digest_algorithm: sha256
-  combined_source_digest: sha256:b9cca34a0679182a565cdae36ee7884168285fb50ce6f691f53de223604fdef0
-  checked_at: '2026-06-15T14:32:00Z'
-  expires_at: null
-  freshness_refs:
-  - .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.manifest.yml
-canonical_refs:
-  run_contract: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-contract.yml
-  run_manifest: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-manifest.yml
-  events_journal: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.ndjson
-  events_manifest: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.manifest.yml
-  runtime_state: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/runtime-state.yml
-  authority_decision: .octon/state/evidence/control/execution/authority-decision-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml
-  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml
-  approval_request: null
-  approval_grants: []
-  exception_leases: []
-  revocations: []
-  rollback_posture: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/rollback-posture.yml
-  evidence_root: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness
-  evidence_classification: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/evidence-classification.yml
-  retained_evidence: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/retained-run-evidence.yml
-  replay_pointers: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/replay-pointers.yml
-  intervention_log: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/interventions/log.yml
-  disclosure_run_card: .octon/state/evidence/disclosure/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-card.yml
-  support_targets: .octon/instance/governance/support-targets.yml
-  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-  run_continuity: .octon/state/continuity/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/handoff.yml
-source_digests:
-  run_contract:
-    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-contract.yml
-    digest: sha256:23299f9a8461424c88a44c0f13c19504014b42463a24c34c1f7c44995358ae99
-    status: present
-  run_manifest:
-    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-manifest.yml
-    digest: sha256:77c1080bc139305c4a165fdf70274660cb387339ac5ff60d1a8d233d6d04afd9
-    status: present
-  events_journal:
-    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.ndjson
-    digest: sha256:d2f9ad2449f0f7c67c0d5c188811063270c108acdbaebfb969cf167e0341f508
-    status: present
-  events_manifest:
-    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.manifest.yml
-    digest: sha256:b66be91ca4832f1d57f3b887bcba6893b2ffd58e51264759168567e44350c777
-    status: present
-  runtime_state:
-    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/runtime-state.yml
-    digest: sha256:fcf0c17ac510b1c1a2f2a64fb39634f9e28688d0c278257a74a0ed522c19e460
-    status: present
-  authority_decision:
-    ref: .octon/state/evidence/control/execution/authority-decision-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml
-    digest: sha256:514671986ab91834abdc31e9c599bfedada5c731195c8999f005b07805051e49
-    status: present
-  authority_bundle:
-    ref: .octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml
-    digest: sha256:27c02433ab0d502f54845d4f854ab842e4230e3b999bd6b1ab861134500e7b4e
-    status: present
-  approval_request:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  approval_grants:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  exception_leases:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  revocations:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  rollback_posture:
-    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/rollback-posture.yml
-    digest: sha256:eab74387283749ec2075de2d647d99dcbbb9e9f2844abc00f052611723d06b33
-    status: present
-  evidence_root:
-    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness
-    digest: missing
-    status: missing
-  evidence_classification:
-    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/evidence-classification.yml
-    digest: missing
-    status: missing
-  retained_evidence:
-    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/retained-run-evidence.yml
-    digest: missing
-    status: missing
-  replay_pointers:
-    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/replay-pointers.yml
-    digest: missing
-    status: missing
-  intervention_log:
-    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/interventions/log.yml
-    digest: missing
-    status: missing
-  disclosure_run_card:
-    ref: .octon/state/evidence/disclosure/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-card.yml
-    digest: missing
-    status: missing
-  support_targets:
-    ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-    status: present
-  support_reconciliation:
-    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:3544f280774d88433f39de78541797aefa4ea8d89294b2b75ee863e3f077d869
-    status: present
-  run_continuity:
-    ref: .octon/state/continuity/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/handoff.yml
-    digest: sha256:9ad7625d4bc06375a0ded05a0f091ca40c1e635391aea94eb6d2090f95d30fb5
-    status: present
-  runtime_route_bundle:
-    ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:3a0166be34e2ad604062ae1c80bb6947051c5acec86b1787e8d7948c5e84c4b5
-    status: present
-  pack_routes:
-    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:658885249741dceeda57e3a217b93cb7dd87d15ca08c83e81835add9e4494069
-    status: present
-  schema:
-    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
-    status: present
-  operator_read_model_contract:
-    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
-    status: present
-health:
-  status: stale
-  summary: Run-health sources are stale relative to their digest-bound freshness checks.
-  next_required_action: regenerate from current canonical sources
-lifecycle:
-  state: closed
-  decision_state: allow
-  drift_status: in-sync
-  latest_event_hash: sha256:6e808fe7ff382e5b182c89a6ffff5f23c9a471182a2bb635aa8598a7920f7ad2
-  latest_sequence: 29
-support:
-  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-  route_status: allow
-  pack_status: allow
-  support_status: supported
-  requested_capability_packs:
-  - repo
-  - shell
-  - telemetry
-authorization:
-  status: authorized
-  proof_state: proof-stale
-  human_boundary_state: none
-  active_grants:
-  - .octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml
-  open_approvals: []
-  active_exceptions: []
-  active_revocations: []
-evidence:
-  completeness: incomplete
-  missing_required:
-  - evidence_classification
-  - retained_evidence
-  - replay_pointers
-  - journal_snapshot
-  - journal_manifest_snapshot
-rollback:
-  status: ready
-  hard_reset_required: false
-intervention:
-  status: unknown
-  undisclosed_count: 0
-  records: []
-disclosure:
-  status: incomplete
-closure:
-  status: not-ready
-diagnostics:
-- severity: error
-  code: journal-ledger-digest-stale
-  message: events.manifest.yml ledger_digest does not match events.ndjson.
-  refs:
-  - .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.manifest.yml
-  - .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.ndjson
+{
+  "schema_version": "run-health-read-model-v1",
+  "run_id": "proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness",
+  "generated_at": "2026-06-15T20:58:06Z",
+  "generator": {
+    "id": "generate-run-health-read-model.sh",
+    "version": "1.1.0",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  },
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false,
+    "allowed_consumers": [
+      "operators",
+      "validators"
+    ],
+    "forbidden_consumers": [
+      "runtime",
+      "policy",
+      "authority",
+      "support-claim-evaluation",
+      "state-reconstruction",
+      "direct-runtime-reads"
+    ]
+  },
+  "freshness": {
+    "mode": "digest-bound",
+    "status": "stale",
+    "source_digest_algorithm": "sha256",
+    "combined_source_digest": "sha256:46fdc5a1fb2e11bdddb2c03d96b85df82a35e516c7db8c9b3df1392304cab277",
+    "checked_at": "2026-06-15T20:58:06Z",
+    "expires_at": null,
+    "freshness_refs": [
+      ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.manifest.yml"
+    ]
+  },
+  "canonical_refs": {
+    "run_contract": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-contract.yml",
+    "run_manifest": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-manifest.yml",
+    "events_journal": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.ndjson",
+    "events_manifest": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.manifest.yml",
+    "runtime_state": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/runtime-state.yml",
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml",
+    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml",
+    "approval_request": null,
+    "approval_grants": [],
+    "exception_leases": [],
+    "revocations": [],
+    "rollback_posture": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/rollback-posture.yml",
+    "evidence_root": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness",
+    "evidence_classification": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/evidence-classification.yml",
+    "retained_evidence": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/retained-run-evidence.yml",
+    "replay_pointers": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/replay-pointers.yml",
+    "intervention_log": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/interventions/log.yml",
+    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-card.yml",
+    "support_targets": ".octon/instance/governance/support-targets.yml",
+    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    "run_continuity": ".octon/state/continuity/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/handoff.yml"
+  },
+  "source_digests": {
+    "run_contract": {
+      "ref": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-contract.yml",
+      "digest": "sha256:23299f9a8461424c88a44c0f13c19504014b42463a24c34c1f7c44995358ae99",
+      "status": "present"
+    },
+    "run_manifest": {
+      "ref": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-manifest.yml",
+      "digest": "sha256:77c1080bc139305c4a165fdf70274660cb387339ac5ff60d1a8d233d6d04afd9",
+      "status": "present"
+    },
+    "events_journal": {
+      "ref": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.ndjson",
+      "digest": "sha256:d2f9ad2449f0f7c67c0d5c188811063270c108acdbaebfb969cf167e0341f508",
+      "status": "present"
+    },
+    "events_manifest": {
+      "ref": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.manifest.yml",
+      "digest": "sha256:b66be91ca4832f1d57f3b887bcba6893b2ffd58e51264759168567e44350c777",
+      "status": "present"
+    },
+    "runtime_state": {
+      "ref": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/runtime-state.yml",
+      "digest": "sha256:fcf0c17ac510b1c1a2f2a64fb39634f9e28688d0c278257a74a0ed522c19e460",
+      "status": "present"
+    },
+    "authority_decision": {
+      "ref": ".octon/state/evidence/control/execution/authority-decision-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml",
+      "digest": "sha256:514671986ab91834abdc31e9c599bfedada5c731195c8999f005b07805051e49",
+      "status": "present"
+    },
+    "authority_bundle": {
+      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml",
+      "digest": "sha256:27c02433ab0d502f54845d4f854ab842e4230e3b999bd6b1ab861134500e7b4e",
+      "status": "present"
+    },
+    "approval_request": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "approval_grants": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "exception_leases": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "revocations": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "rollback_posture": {
+      "ref": ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/rollback-posture.yml",
+      "digest": "sha256:eab74387283749ec2075de2d647d99dcbbb9e9f2844abc00f052611723d06b33",
+      "status": "present"
+    },
+    "evidence_root": {
+      "ref": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "evidence_classification": {
+      "ref": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/evidence-classification.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "retained_evidence": {
+      "ref": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/retained-run-evidence.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "replay_pointers": {
+      "ref": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/replay-pointers.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "intervention_log": {
+      "ref": ".octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/interventions/log.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "disclosure_run_card": {
+      "ref": ".octon/state/evidence/disclosure/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/run-card.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "support_targets": {
+      "ref": ".octon/instance/governance/support-targets.yml",
+      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "status": "present"
+    },
+    "support_reconciliation": {
+      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      "digest": "sha256:8f3df4770ced6c918f53ecbbbaf8dff31c93b171eda006bd8e4983db3a39795a",
+      "status": "present"
+    },
+    "run_continuity": {
+      "ref": ".octon/state/continuity/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/handoff.yml",
+      "digest": "sha256:9ad7625d4bc06375a0ded05a0f091ca40c1e635391aea94eb6d2090f95d30fb5",
+      "status": "present"
+    },
+    "runtime_route_bundle": {
+      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "digest": "sha256:82c9b4e9526a6e5d9f128f66b9878b5325fe310d84570109f5b2dca116853ba5",
+      "status": "present"
+    },
+    "pack_routes": {
+      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      "digest": "sha256:06fbe426e4d8ac5e50d9d309c515d96b517d34110deee78562218e91c5046fe9",
+      "status": "present"
+    },
+    "schema": {
+      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
+      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
+      "status": "present"
+    },
+    "operator_read_model_contract": {
+      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
+      "status": "present"
+    }
+  },
+  "health": {
+    "status": "stale",
+    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
+    "next_required_action": "regenerate from current canonical sources"
+  },
+  "lifecycle": {
+    "state": "closed",
+    "decision_state": "allow",
+    "drift_status": "in-sync",
+    "latest_event_hash": "sha256:6e808fe7ff382e5b182c89a6ffff5f23c9a471182a2bb635aa8598a7920f7ad2",
+    "latest_sequence": 29
+  },
+  "support": {
+    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "route_status": "allow",
+    "pack_status": "allow",
+    "support_status": "supported",
+    "requested_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ]
+  },
+  "authorization": {
+    "status": "authorized",
+    "proof_state": "proof-stale",
+    "human_boundary_state": "none",
+    "active_grants": [
+      ".octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness.yml"
+    ],
+    "open_approvals": [],
+    "active_exceptions": [],
+    "active_revocations": []
+  },
+  "evidence": {
+    "completeness": "incomplete",
+    "missing_required": [
+      "evidence_classification",
+      "retained_evidence",
+      "replay_pointers",
+      "journal_snapshot",
+      "journal_manifest_snapshot"
+    ]
+  },
+  "rollback": {
+    "status": "ready",
+    "hard_reset_required": false
+  },
+  "intervention": {
+    "status": "unknown",
+    "undisclosed_count": 0,
+    "records": []
+  },
+  "disclosure": {
+    "status": "incomplete"
+  },
+  "closure": {
+    "status": "not-ready"
+  },
+  "diagnostics": [
+    {
+      "severity": "error",
+      "code": "journal-ledger-digest-stale",
+      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
+      "refs": [
+        ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.manifest.yml",
+        ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-validate-publication-freshness/events.ndjson"
+      ]
+    }
+  ]
+}
