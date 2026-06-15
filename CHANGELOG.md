@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.93](https://github.com/jamesryancooper/octon/compare/octon-v0.6.92...octon-v0.6.93) (2026-06-15)
+
+
+### Features
+
+* **fixture-retention:** add evidence-only fixture closeout route ([f0fec1d](https://github.com/jamesryancooper/octon/commit/f0fec1d96df427e0e58813fc68d30055f23ce598))
+* **proposal-program-delivery:** checkpoint lifecycle delivery ([5372cbf](https://github.com/jamesryancooper/octon/commit/5372cbf10623c24cc0b1bc028b9a9ebf2cd4872d))
+
+
+### Bug Fixes
+
+* **closeout:** accept authorized empty check set ([1b33334](https://github.com/jamesryancooper/octon/commit/1b33334491292590465f81a301d7124a99dbf2e9))
+* **repo-hygiene:** classify closed workflow residue ([b90778c](https://github.com/jamesryancooper/octon/commit/b90778c4d81feb7f889c6a84de18a9f0676db33f))
+* **repo-hygiene:** classify input metadata cleanup safely ([72cf071](https://github.com/jamesryancooper/octon/commit/72cf0714e0e105a9bff0cebf56bcf6e3542178f4))
+* **terminal-closeout:** accept route-owned acp ledger ([455732d](https://github.com/jamesryancooper/octon/commit/455732d120c6829e5e18035e390c5c274f364fa6))
+* **terminal-closeout:** classify current-run acp decisions ([b947d0a](https://github.com/jamesryancooper/octon/commit/b947d0ae2674245414856896a6ccbb5d1143f2ca))
+* **terminal-closeout:** make packet closeout hygiene deterministic ([9b93977](https://github.com/jamesryancooper/octon/commit/9b93977dbb03478cd5fe3267f2c42cee7a3ebeec))
+
 ## [0.6.92](https://github.com/jamesryancooper/octon/compare/octon-v0.6.91...octon-v0.6.92) (2026-06-14)
 
 
