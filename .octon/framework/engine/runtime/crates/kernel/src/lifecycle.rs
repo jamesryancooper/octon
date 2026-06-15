@@ -1574,7 +1574,10 @@ fn lifecycle_postmortem_child_evidence_ref_index(
         "retained-child-evidence-dereference",
         "evidence-only-non-substitutive",
         &[
-            ("child-validation-ref-index", "aggregate-terminal-blockers.yml"),
+            (
+                "child-validation-ref-index",
+                "aggregate-terminal-blockers.yml",
+            ),
             ("child-receipt-ref-index", "aggregate-closeout-receipt.yml"),
             ("child-rollback-ref-index", "aggregate-closeout.yml"),
             ("child-closeout-ref-index", "aggregate-closeout-receipt.yml"),

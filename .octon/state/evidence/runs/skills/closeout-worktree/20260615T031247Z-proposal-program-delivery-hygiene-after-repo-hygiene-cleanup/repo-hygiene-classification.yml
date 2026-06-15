@@ -1,0 +1,13 @@
+schema_version: repo-hygiene-cleanup-classification-summary-v1
+captured_at: "2026-06-15T03:29:19Z"
+mode: dry-run
+cleanup_candidates: 6
+eligible_cleanup_candidates: 6
+protected_referenced: 1165
+manual_review: 1434
+git_status_digest: sha256:adf7ba41f9891c61b71081ea1feed10b539ce87f81654e8ccbdc5ad0338e7089
+classification_digest: sha256:10b80f05ba0558bbff59ee805ab99009ef5ad93aa6dee82ee548b1f5187be3f1
+cleanup_path_set_digest: sha256:848d41794c54a6947760ab5f9fa6d877bfe43be7e861d6a2c911df9a59cea265
+protected_paths_digest: sha256:573ab9dacb1d5282de526443a45505b55df73ff654d40e972bd5f53edbd92295
+manual_review_paths_digest: sha256:ea0bd99fbe817f3850ec8094db3af7e13df0b25f42946315e637423eadf2032d
+post_cleanup_receipt_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T031247Z-local-artifact-cleanup-after-publication-refresh/receipt.yml

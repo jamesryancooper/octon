@@ -1,0 +1,19 @@
+dispositions:
+- blocking: true
+  disposition_id: closeout-completeness
+  evidence_refs:
+  - .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484868797-71460-emit-terminal-receipt/retained-run-evidence.yml
+  - .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484868797-71460-emit-terminal-receipt/replay/manifest.yml
+  status: resolved
+recorded_at: 2026-06-15T00:55:56.638656Z
+review_disposition:
+  outcome: approved
+  status: resolved
+  summary: Run closeout review and risk disposition were materialized before closed lifecycle entry.
+risk_disposition:
+  accepted_risks: []
+  status: resolved
+  unresolved_risk_count: 0
+  unresolved_risks: []
+run_id: proposal-packet-terminal-closeout-1781484868797-71460-emit-terminal-receipt
+schema_version: review-dispositions-v1

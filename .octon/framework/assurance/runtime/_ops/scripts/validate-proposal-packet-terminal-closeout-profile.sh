@@ -165,7 +165,8 @@ if [[ -n "$PROFILE_PATH" ]]; then
     residue_deletion \
     generated_direct_publication \
     host_state_authority \
-    chat_or_model_memory_authority; do
+    chat_or_model_memory_authority \
+    tool_authority; do
     require_bool_false ".forbidden_authority_requests.$key" "forbidden_authority_requests.$key"
   done
 fi

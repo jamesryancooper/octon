@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:568a7b5ef007bc542c4299b0b928959d8798ab16870004d80c393a636af651a6
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-14T15:08:44.864249Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:b49bcfe2e036d742fa5217432c286269ea9ab82349339c4501426354207c234a
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-14T15:08:44.864249Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  storage_class: external-immutable
+index_id: external-replay-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:08:44.864249Z

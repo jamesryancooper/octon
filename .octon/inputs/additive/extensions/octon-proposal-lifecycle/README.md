@@ -23,6 +23,9 @@ The pack owns reusable routes for:
 - closing out individual proposal packets,
 - terminalizing implemented proposal packets as archive-ready or blocked
   without archiving them,
+- coordinating accepted proposal program delivery through target-owned child
+  lifecycles, packet closeout, archive handoff, Change closeout, final sync,
+  cleanup, and terminal proof,
 - creating, explaining, reviewing, revising, and operating proposal programs
   across canonical child packets,
 - generating program implementation, verification, correction, and closeout
@@ -105,6 +108,12 @@ new `proposal.yml` statuses.
 between proposal closeout and `archive-proposal`. It can report
 `archive-ready` or `blocked`, but archive relocation remains a separate
 explicitly authorized workflow route.
+`proposal-program-delivery` adds a durable delivery coordination receipt for
+accepted proposal programs. It can aggregate target-owned child packet
+evidence, packet closeout results, archive handoff evidence, Change closeout
+evidence, final sync proof, branch cleanup proof, and terminal hygiene proof,
+but it does not replace child receipts or own archive, Git, hosted mutation,
+branch cleanup, residue deletion, or generated publication authority.
 
 `/octon-proposal-run-program-lifecycle` wraps
 `octon lifecycle run --lifecycle proposal-program --target

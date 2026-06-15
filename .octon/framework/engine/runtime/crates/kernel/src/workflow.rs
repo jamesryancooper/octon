@@ -460,6 +460,26 @@ pub struct RunArchiveProposalOptions {
 }
 
 #[derive(Clone, Debug)]
+pub struct RunProposalPacketTerminalCloseoutOptions {
+    pub run_id: Option<String>,
+    pub resume_existing: bool,
+    pub proposal_path: PathBuf,
+    pub target_outcome: String,
+    pub profile_path: Option<PathBuf>,
+    pub terminal_run_id: Option<String>,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunFixtureRetentionCloseoutOptions {
+    pub run_id: Option<String>,
+    pub resume_existing: bool,
+    pub fixture_path: PathBuf,
+    pub purpose: String,
+    pub owner_scope: String,
+    pub evidence_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug)]
 pub struct RunProposalOperationResult {
     pub bundle_root: PathBuf,
     pub summary_report: PathBuf,
@@ -3011,6 +3031,2197 @@ pub fn run_promote_proposal_from_octon_dir(
     })
 }
 
+const TERMINAL_CLOSEOUT_WORKFLOW_ID: &str = "proposal-packet-terminal-closeout";
+const TERMINAL_CLOSEOUT_STAGES: &[&str] = &[
+    "bind-profile",
+    "verify-durable-implementation-state",
+    "verify-implementation-conformance",
+    "verify-post-implementation-drift",
+    "validate-publication-freshness",
+    "classify-repo-hygiene",
+    "classify-worktree-hygiene",
+    "run-evidence-only-reviews",
+    "resolve-git-github-route",
+    "emit-terminal-receipt",
+];
+
+#[derive(Clone, Debug)]
+struct TerminalValidationResult {
+    command: String,
+    log_rel: String,
+    success: bool,
+}
+
+#[derive(Clone, Debug)]
+struct TerminalStageRecord {
+    state_id: String,
+    input_refs: Vec<String>,
+    validator_command_refs: Vec<String>,
+    output_evidence_refs: Vec<String>,
+    state_verdict: String,
+}
+
+#[derive(Clone, Debug)]
+struct TerminalBlocker {
+    class: String,
+    detail: String,
+    failing_evidence_ref: String,
+    next_canonical_route: String,
+}
+
+pub fn run_proposal_packet_terminal_closeout_from_octon_dir(
+    octon_dir: &Path,
+    options: RunProposalPacketTerminalCloseoutOptions,
+) -> Result<RunProposalOperationResult> {
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
+    let repo_root = octon_dir
+        .parent()
+        .context("failed to resolve repository root from .octon directory")?
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+    let proposal_root = resolve_repo_relative_path(&repo_root, &options.proposal_path)?;
+    ensure!(
+        proposal_root.starts_with(&repo_root),
+        "proposal_path must stay inside repository root: {}",
+        proposal_root.display()
+    );
+    ensure!(
+        proposal_root.is_dir(),
+        "target proposal not found: {}",
+        proposal_root.display()
+    );
+    let proposal_rel = rel_path(&repo_root, &proposal_root);
+    let manifest = load_proposal_manifest(&proposal_root)?;
+    ensure!(
+        options.target_outcome == "archive-ready" || options.target_outcome == "blocked",
+        "target_outcome must be archive-ready or blocked"
+    );
+
+    let terminal_run_id = options.terminal_run_id.clone().unwrap_or_else(|| {
+        options.run_id.clone().unwrap_or_else(|| {
+            format!(
+                "{}-{}",
+                TERMINAL_CLOSEOUT_WORKFLOW_ID,
+                slugify(&proposal_rel)
+            )
+        })
+    });
+    let workflow_request_id = resolve_requested_workflow_run_id(
+        &runtime_cfg,
+        options.run_id.as_deref(),
+        TERMINAL_CLOSEOUT_WORKFLOW_ID,
+        options.resume_existing,
+    )?;
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
+        &runtime_cfg,
+        BTreeMap::from([(
+            "workflow_id".to_string(),
+            TERMINAL_CLOSEOUT_WORKFLOW_ID.to_string(),
+        )]),
+    )?;
+    let workflow_request = ExecutionRequest {
+        request_id: workflow_request_id.clone(),
+        caller_path: "workflow".to_string(),
+        action_type: "execute_workflow".to_string(),
+        target_id: TERMINAL_CLOSEOUT_WORKFLOW_ID.to_string(),
+        requested_capabilities: vec![
+            "workflow.execute".to_string(),
+            "repo.write".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_repo: true,
+            write_evidence: true,
+            shell: true,
+            network: false,
+            model_invoke: false,
+            state_mutation: false,
+            publication: false,
+            branch_mutation: false,
+        },
+        risk_tier: "medium".to_string(),
+        workflow_mode: request::role_mediated_mode(),
+        locality_scope: None,
+        intent_ref: Some(intent_ref),
+        autonomy_context: None,
+        execution_role_ref: Some(execution_role_ref),
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: vec![
+                proposal_root.display().to_string(),
+                reports_root.display().to_string(),
+                workflow_bundles_root.display().to_string(),
+            ],
+            executor_profile: Some("scoped_repo_mutation".to_string()),
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata,
+        ..ExecutionRequest::default()
+    };
+    let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
+    fs::create_dir_all(&reports_root)?;
+    fs::create_dir_all(&workflow_bundles_root)?;
+    let date = today_string()?;
+    let started_at = auth_now_rfc3339()?;
+    let bundle_root = unique_directory(
+        &workflow_bundles_root,
+        &format!(
+            "{date}-{}-{}",
+            TERMINAL_CLOSEOUT_WORKFLOW_ID,
+            slugify(&proposal_rel)
+        ),
+    )?;
+    fs::create_dir_all(bundle_root.join("reports"))?;
+    fs::create_dir_all(bundle_root.join("stage-inputs"))?;
+    fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_grant)?;
+    let workflow_artifacts = write_execution_start(
+        &workflow_artifact_root,
+        &workflow_request,
+        &workflow_grant,
+        &workflow_effects,
+    )?;
+    let summary_report = unique_file(
+        &reports_root,
+        &format!("{date}-{TERMINAL_CLOSEOUT_WORKFLOW_ID}"),
+        "md",
+    )?;
+
+    let mut stages = Vec::<TerminalStageRecord>::new();
+    let mut command_log = Vec::<String>::new();
+    let mut retained_inventory = Vec::<String>::new();
+    let mut blocker: Option<TerminalBlocker> = None;
+
+    let profile_path = bundle_root.join("profile.yml");
+    if let Some(source_profile) = options.profile_path.as_ref() {
+        let source_profile = resolve_repo_relative_path(&repo_root, source_profile)?;
+        fs::copy(&source_profile, &profile_path).with_context(|| {
+            format!(
+                "copy supplied terminal closeout profile {} to {}",
+                source_profile.display(),
+                profile_path.display()
+            )
+        })?;
+    } else {
+        fs::write(
+            &profile_path,
+            default_terminal_closeout_profile(
+                &manifest,
+                &proposal_rel,
+                &options.target_outcome,
+                &terminal_run_id,
+            ),
+        )?;
+    }
+    let profile_rel = rel_path(&repo_root, &profile_path);
+    let profile_digest = format!(
+        "sha256:{}",
+        hex::encode(Sha256::digest(fs::read(&profile_path)?))
+    );
+    let profile_validation = run_terminal_validator(
+        &repo_root,
+        &bundle_root,
+        "bind-profile-profile-validation",
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh",
+        &[String::from("--profile"), profile_rel.clone()],
+    )?;
+    command_log.push(format!(
+        "- {} | log={} | status={}",
+        profile_validation.command, profile_validation.log_rel, profile_validation.success
+    ));
+    if !profile_validation.success {
+        set_terminal_blocker(
+            &mut blocker,
+            "validator-failed",
+            "terminal closeout profile validation failed",
+            &profile_validation.log_rel,
+            "manual-intervention",
+        );
+    }
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "bind-profile",
+        false,
+        "pass",
+        vec![
+            format!("{proposal_rel}/proposal.yml"),
+            profile_rel.clone(),
+        ],
+        vec![profile_validation.command.clone()],
+        vec![profile_validation.log_rel.clone(), profile_rel.clone()],
+        format!(
+            "# Bind Profile\n\n- proposal_path: `{proposal_rel}`\n- target_outcome: `{}`\n- profile_ref: `{profile_rel}`\n- profile_digest: `{profile_digest}`\n- profile_validation: `{}`\n",
+            options.target_outcome,
+            profile_validation.log_rel
+        ),
+    )?);
+    retained_inventory.extend([profile_rel.clone(), profile_validation.log_rel.clone()]);
+
+    let durable_report = bundle_root.join("reports/durable-implementation-state.md");
+    let mut durable_notes = Vec::<String>::new();
+    if manifest.status != "implemented" && options.target_outcome == "archive-ready" {
+        set_terminal_blocker(
+            &mut blocker,
+            "missing-evidence",
+            &format!(
+                "archive-ready terminal closeout requires implemented status, found {}",
+                manifest.status
+            ),
+            &format!("{proposal_rel}/proposal.yml"),
+            "promote-proposal",
+        );
+    }
+    for target in &manifest.promotion_targets {
+        let target_path = repo_root.join(target);
+        if target_path.exists() {
+            durable_notes.push(format!("- [x] promotion target exists: `{target}`"));
+        } else {
+            durable_notes.push(format!("- [ ] promotion target missing: `{target}`"));
+            set_terminal_blocker(
+                &mut blocker,
+                "missing-evidence",
+                &format!("promotion target missing: {target}"),
+                &format!("{proposal_rel}/proposal.yml"),
+                "run-packet-implementation",
+            );
+        }
+    }
+    fs::write(
+        &durable_report,
+        format!(
+            "# Durable Implementation State\n\n- proposal_status: `{}`\n- promotion_target_count: `{}`\n\n{}\n",
+            manifest.status,
+            manifest.promotion_targets.len(),
+            durable_notes.join("\n")
+        ),
+    )?;
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "verify-durable-implementation-state",
+        false,
+        if blocker.is_some() { "blocked" } else { "pass" },
+        vec![format!("{proposal_rel}/proposal.yml")],
+        vec!["deterministic promotion target existence check".to_string()],
+        vec![rel_path(&repo_root, &durable_report)],
+        fs::read_to_string(&durable_report)?,
+    )?);
+    retained_inventory.push(rel_path(&repo_root, &durable_report));
+
+    let conformance = run_terminal_validator(
+        &repo_root,
+        &bundle_root,
+        "implementation-conformance",
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh",
+        &[String::from("--package"), proposal_rel.clone()],
+    )?;
+    command_log.push(format!(
+        "- {} | log={} | status={}",
+        conformance.command, conformance.log_rel, conformance.success
+    ));
+    if !conformance.success {
+        set_terminal_blocker(
+            &mut blocker,
+            "validator-failed",
+            "implementation conformance validator failed",
+            &conformance.log_rel,
+            "run-packet-verification-and-correction-loop",
+        );
+    }
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "verify-implementation-conformance",
+        false,
+        if conformance.success {
+            "pass"
+        } else {
+            "blocked"
+        },
+        vec![format!(
+            "{proposal_rel}/support/implementation-conformance-review.md"
+        )],
+        vec![conformance.command.clone()],
+        vec![conformance.log_rel.clone()],
+        format!(
+            "# Verify Implementation Conformance\n\n- validator_log: `{}`\n- verdict: `{}`\n",
+            conformance.log_rel,
+            if conformance.success {
+                "pass"
+            } else {
+                "blocked"
+            }
+        ),
+    )?);
+    retained_inventory.push(conformance.log_rel.clone());
+
+    let drift = run_terminal_validator(
+        &repo_root,
+        &bundle_root,
+        "post-implementation-drift",
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh",
+        &[String::from("--package"), proposal_rel.clone()],
+    )?;
+    command_log.push(format!(
+        "- {} | log={} | status={}",
+        drift.command, drift.log_rel, drift.success
+    ));
+    if !drift.success {
+        set_terminal_blocker(
+            &mut blocker,
+            "validator-failed",
+            "post-implementation drift validator failed",
+            &drift.log_rel,
+            "run-packet-verification-and-correction-loop",
+        );
+    }
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "verify-post-implementation-drift",
+        false,
+        if drift.success { "pass" } else { "blocked" },
+        vec![format!(
+            "{proposal_rel}/support/post-implementation-drift-churn-review.md"
+        )],
+        vec![drift.command.clone()],
+        vec![drift.log_rel.clone()],
+        format!(
+            "# Verify Post-Implementation Drift\n\n- validator_log: `{}`\n- verdict: `{}`\n",
+            drift.log_rel,
+            if drift.success { "pass" } else { "blocked" }
+        ),
+    )?);
+    retained_inventory.push(drift.log_rel.clone());
+
+    let publication_validators = [
+        (
+            "generated-non-authority",
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh",
+            Vec::<String>::new(),
+        ),
+        (
+            "input-non-authority",
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh",
+            Vec::<String>::new(),
+        ),
+        (
+            "run-health-read-model",
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh",
+            Vec::<String>::new(),
+        ),
+        (
+            "capability-publication-state",
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh",
+            Vec::<String>::new(),
+        ),
+        (
+            "extension-publication-state",
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh",
+            Vec::<String>::new(),
+        ),
+        (
+            "product-feature-catalog",
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh",
+            Vec::<String>::new(),
+        ),
+    ];
+    let mut publication_results = Vec::<TerminalValidationResult>::new();
+    for (log_name, script_rel, args) in publication_validators {
+        let result = run_terminal_validator(&repo_root, &bundle_root, log_name, script_rel, &args)?;
+        command_log.push(format!(
+            "- {} | log={} | status={}",
+            result.command, result.log_rel, result.success
+        ));
+        if !result.success {
+            set_terminal_blocker(
+                &mut blocker,
+                "publication-freshness-blocked",
+                &format!("publication or non-authority validator failed: {script_rel}"),
+                &result.log_rel,
+                "blocked",
+            );
+        }
+        retained_inventory.push(result.log_rel.clone());
+        publication_results.push(result);
+    }
+    let publication_logs = publication_results
+        .iter()
+        .map(|result| result.log_rel.clone())
+        .collect::<Vec<_>>();
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "validate-publication-freshness",
+        false,
+        if publication_results.iter().all(|result| result.success) {
+            "pass"
+        } else {
+            "blocked"
+        },
+        vec!["terminal closeout publication validator selection".to_string()],
+        publication_results
+            .iter()
+            .map(|result| result.command.clone())
+            .collect(),
+        publication_logs.clone(),
+        format!(
+            "# Validate Publication Freshness\n\n{}\n",
+            publication_results
+                .iter()
+                .map(|result| format!(
+                    "- `{}` -> `{}`",
+                    result.command,
+                    if result.success { "pass" } else { "blocked" }
+                ))
+                .collect::<Vec<_>>()
+                .join("\n")
+        ),
+    )?);
+
+    let repo_hygiene_report = bundle_root.join("reports/repo-hygiene-classification.md");
+    fs::write(
+        &repo_hygiene_report,
+        "# Repo Hygiene Classification\n\n- cleanup_performed: `false`\n- unauthorized_deletion_performed: `false`\n- deletion_authority: `not-granted-by-terminal-closeout`\n",
+    )?;
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "classify-repo-hygiene",
+        false,
+        "pass",
+        publication_logs.clone(),
+        vec!["deterministic repo hygiene classification".to_string()],
+        vec![rel_path(&repo_root, &repo_hygiene_report)],
+        fs::read_to_string(&repo_hygiene_report)?,
+    )?);
+    retained_inventory.push(rel_path(&repo_root, &repo_hygiene_report));
+
+    let worktree = classify_terminal_worktree(
+        &repo_root,
+        &bundle_root,
+        &proposal_rel,
+        &manifest,
+        &workflow_request_id,
+    )?;
+    if worktree.foreign_or_ambiguous_count > 0 {
+        set_terminal_blocker(
+            &mut blocker,
+            "hygiene-blocked",
+            &format!(
+                "foreign or ambiguous worktree residue remains: {} paths",
+                worktree.foreign_or_ambiguous_count
+            ),
+            &worktree.report_rel,
+            "closeout-worktree",
+        );
+    }
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "classify-worktree-hygiene",
+        false,
+        if worktree.foreign_or_ambiguous_count == 0 {
+            "pass"
+        } else {
+            "blocked"
+        },
+        vec![rel_path(&repo_root, &repo_hygiene_report)],
+        vec!["git status --porcelain".to_string()],
+        vec![worktree.report_rel.clone()],
+        worktree.report_body.clone(),
+    )?);
+    retained_inventory.push(worktree.report_rel.clone());
+
+    let evidence_review_report = bundle_root.join("reports/evidence-only-reviews.md");
+    fs::write(
+        &evidence_review_report,
+        format!(
+            "# Evidence-Only Reviews\n\n- proposal_kind: `{}`\n- post_integration_architecture_review_authority: `evidence-only`\n- packet_terminal_evaluator_authority: `evidence-only`\n- lifecycle_postmortem_authority: `evidence-only`\n- terminal_receipt_authority: `terminal-closeout-workflow-only`\n",
+            manifest.proposal_kind
+        ),
+    )?;
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "run-evidence-only-reviews",
+        false,
+        "pass",
+        vec![worktree.report_rel.clone()],
+        vec!["deterministic evidence-only review classification".to_string()],
+        vec![rel_path(&repo_root, &evidence_review_report)],
+        fs::read_to_string(&evidence_review_report)?,
+    )?);
+    retained_inventory.push(rel_path(&repo_root, &evidence_review_report));
+
+    let git_route_report = bundle_root.join("reports/git-github-route.md");
+    let git_next_route = if worktree.foreign_or_ambiguous_count > 0 {
+        "closeout-worktree"
+    } else {
+        "archive-proposal"
+    };
+    fs::write(
+        &git_route_report,
+        format!(
+            "# Git And GitHub Route\n\n- mutation_delegated: `true`\n- branch_no_pr: `false`\n- route_ref: `{git_next_route}`\n- exact_sha_checks_ref: `not-applicable`\n- landing_authorization_ref: `not-applicable`\n- branch_cleanup_required: `false`\n- branch_cleanup_authorization_ref: `not-applicable`\n"
+        ),
+    )?;
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "resolve-git-github-route",
+        false,
+        if worktree.foreign_or_ambiguous_count == 0 {
+            "pass"
+        } else {
+            "blocked"
+        },
+        vec![worktree.report_rel.clone()],
+        vec!["deterministic Git/GitHub route classification".to_string()],
+        vec![rel_path(&repo_root, &git_route_report)],
+        fs::read_to_string(&git_route_report)?,
+    )?);
+    retained_inventory.push(rel_path(&repo_root, &git_route_report));
+
+    let final_blocker = blocker.unwrap_or_else(|| TerminalBlocker {
+        class: "none".to_string(),
+        detail: "no blocker".to_string(),
+        failing_evidence_ref: "not-applicable".to_string(),
+        next_canonical_route: "archive-proposal".to_string(),
+    });
+    let terminal_verdict = if options.target_outcome == "archive-ready"
+        && final_blocker.class == "none"
+        && conformance.success
+        && drift.success
+        && publication_results.iter().all(|result| result.success)
+        && worktree.foreign_or_ambiguous_count == 0
+    {
+        "archive-ready"
+    } else {
+        "blocked"
+    };
+    let receipt_path = bundle_root.join("terminal-receipt.yml");
+    let packet_receipt_path = proposal_root.join("support/proposal-terminal-closeout.yml");
+    let receipt_rel = rel_path(&repo_root, &receipt_path);
+    let packet_receipt_rel = rel_path(&repo_root, &packet_receipt_path);
+    let receipt_validation_log_rel = rel_path(
+        &repo_root,
+        &bundle_root
+            .join("stage-logs")
+            .join("terminal-receipt-validation.log"),
+    );
+    retained_inventory.extend([
+        receipt_rel.clone(),
+        packet_receipt_rel.clone(),
+        format!("{proposal_rel}/support/implementation-conformance-review.md"),
+        format!("{proposal_rel}/support/post-implementation-drift-churn-review.md"),
+        format!("{proposal_rel}/support/proposal-closeout.md"),
+    ]);
+    retained_inventory.sort();
+    retained_inventory.dedup();
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "emit-terminal-receipt",
+        true,
+        terminal_verdict,
+        vec![rel_path(&repo_root, &git_route_report)],
+        vec![format!(
+            "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh --receipt {receipt_rel}"
+        )],
+        vec![
+            receipt_rel.clone(),
+            packet_receipt_rel.clone(),
+            receipt_validation_log_rel.clone(),
+        ],
+        format!(
+            "# Emit Terminal Receipt\n\n- terminal_verdict: `{terminal_verdict}`\n- receipt_ref: `{receipt_rel}`\n- packet_receipt_ref: `{packet_receipt_rel}`\n- receipt_validation_ref: `{receipt_validation_log_rel}`\n",
+        ),
+    )?);
+    let receipt_yaml = build_terminal_receipt_yaml(
+        &repo_root,
+        &terminal_run_id,
+        &auth_now_rfc3339()?,
+        &manifest,
+        &proposal_rel,
+        &options.target_outcome,
+        terminal_verdict,
+        &profile_rel,
+        &profile_digest,
+        &profile_validation.log_rel,
+        &stages,
+        &conformance,
+        &drift,
+        &publication_results,
+        &repo_hygiene_report,
+        &worktree,
+        &evidence_review_report,
+        &git_route_report,
+        &final_blocker,
+        &retained_inventory,
+    );
+    fs::write(&receipt_path, &receipt_yaml)?;
+    if let Some(parent) = packet_receipt_path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    fs::write(&packet_receipt_path, &receipt_yaml)?;
+    let receipt_validation = run_terminal_validator(
+        &repo_root,
+        &bundle_root,
+        "terminal-receipt-validation",
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh",
+        &[String::from("--receipt"), receipt_rel.clone()],
+    )?;
+    command_log.push(format!(
+        "- {} | log={} | status={}",
+        receipt_validation.command, receipt_validation.log_rel, receipt_validation.success
+    ));
+    write_terminal_state_ledger(
+        &repo_root,
+        &bundle_root,
+        &terminal_run_id,
+        &workflow_request_id,
+        &manifest,
+        &proposal_rel,
+        &options.target_outcome,
+        &profile_rel,
+        &profile_digest,
+        &profile_validation.log_rel,
+        &stages,
+    )?;
+    if !receipt_validation.success {
+        let error = format!(
+            "terminal closeout receipt validation failed (see {})",
+            receipt_validation.log_rel
+        );
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            error.clone(),
+            vec![
+                bundle_root.display().to_string(),
+                packet_receipt_path.display().to_string(),
+            ],
+        );
+        bail!(error);
+    }
+
+    write_create_inventory(&bundle_root, &proposal_root)?;
+    write_create_commands_log(&bundle_root, &command_log)?;
+    let summary = format!(
+        "# Proposal Packet Terminal Closeout Summary\n\n- workflow_id: `{TERMINAL_CLOSEOUT_WORKFLOW_ID}`\n- proposal_path: `{proposal_rel}`\n- terminal_verdict: `{terminal_verdict}`\n- blocker_class: `{}`\n- next_canonical_route: `{}`\n- receipt_ref: `{receipt_rel}`\n- packet_receipt_ref: `{packet_receipt_rel}`\n- bundle_root: `{}`\n",
+        final_blocker.class,
+        final_blocker.next_canonical_route,
+        rel_path(&repo_root, &bundle_root)
+    );
+    fs::write(bundle_root.join("summary.md"), &summary)?;
+    fs::write(&summary_report, &summary)?;
+    fs::write(
+        bundle_root.join("validation.md"),
+        format!(
+            "# Validation\n\n- final_verdict: `{terminal_verdict}`\n- receipt_validation: `passed`\n- terminal_receipt: `{receipt_rel}`\n- packet_terminal_receipt: `{packet_receipt_rel}`\n- archive_relocation_performed: `false`\n- git_mutation_performed: `false`\n- residue_deletion_performed: `false`\n"
+        ),
+    )?;
+    fs::write(
+        bundle_root.join("bundle.yml"),
+        serde_yaml::to_string(&BundleMetadata {
+            kind: "workflow-execution-bundle".to_string(),
+            id: bundle_root
+                .file_name()
+                .and_then(|value| value.to_str())
+                .unwrap_or("workflow-bundle")
+                .to_string(),
+            workflow_id: TERMINAL_CLOSEOUT_WORKFLOW_ID.to_string(),
+            package_path: proposal_rel.clone(),
+            mode: "n/a".to_string(),
+            executor: "deterministic".to_string(),
+            prepare_only: false,
+            slug: slugify(&proposal_rel),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            summary: "summary.md".to_string(),
+            reports_dir: "reports".to_string(),
+            stage_inputs_dir: "stage-inputs".to_string(),
+            stage_logs_dir: "stage-logs".to_string(),
+            selected_stages: TERMINAL_CLOSEOUT_STAGES
+                .iter()
+                .map(|stage| stage.to_string())
+                .collect(),
+            report_paths: stages
+                .iter()
+                .map(|stage| {
+                    (
+                        stage.state_id.clone(),
+                        format!("reports/{}-report.md", stage.state_id),
+                    )
+                })
+                .collect(),
+            changed_files: BTreeMap::new(),
+            plan: "state-ledger.yml".to_string(),
+            inventory: "inventory.md".to_string(),
+            commands: "commands.md".to_string(),
+            validation: "validation.md".to_string(),
+            summary_report: rel_path(&repo_root, &summary_report),
+            final_verdict: terminal_verdict.to_string(),
+            failure_class: None,
+            failed_stage: None,
+        })?,
+    )?;
+    finalize_execution(
+        &workflow_artifacts,
+        &workflow_request,
+        &workflow_grant,
+        &workflow_effects,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![
+                bundle_root.display().to_string(),
+                receipt_path.display().to_string(),
+                packet_receipt_path.display().to_string(),
+            ],
+            ..SideEffectSummary::default()
+        },
+    )?;
+
+    Ok(RunProposalOperationResult {
+        bundle_root,
+        summary_report,
+        final_verdict: terminal_verdict.to_string(),
+    })
+}
+
+#[derive(Clone, Debug)]
+struct TerminalWorktreeClassification {
+    report_rel: String,
+    report_body: String,
+    foreign_or_ambiguous_count: usize,
+    retained_fixture_path_count: usize,
+    retained_fixture_receipt_refs: Vec<String>,
+    dirty_worktree: bool,
+}
+
+const FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID: &str = "fixture-retention-closeout";
+#[derive(Clone, Debug)]
+struct FixtureRetentionStageRecord {
+    state_id: String,
+    input_refs: Vec<String>,
+    validator_command_refs: Vec<String>,
+    output_evidence_refs: Vec<String>,
+    state_verdict: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct FixtureRetentionConsumption {
+    receipt_ref: String,
+    #[serde(default)]
+    retained_status_entries: Vec<FixtureRetentionStatusEntry>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct FixtureRetentionStatusEntry {
+    status: String,
+    path: String,
+}
+
+#[derive(Clone, Debug)]
+struct FixtureRetentionCoverage {
+    by_path: BTreeMap<String, (String, String)>,
+    receipt_refs: BTreeSet<String>,
+    ambiguous_paths: BTreeSet<String>,
+}
+
+#[derive(Clone, Debug)]
+struct GitStatusEntry {
+    status: String,
+    path: String,
+}
+
+pub fn run_fixture_retention_closeout_from_octon_dir(
+    octon_dir: &Path,
+    options: RunFixtureRetentionCloseoutOptions,
+) -> Result<RunProposalOperationResult> {
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
+    let repo_root = octon_dir
+        .parent()
+        .context("failed to resolve repository root from .octon directory")?
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+    let fixture_root = resolve_repo_relative_path(&repo_root, &options.fixture_path)?;
+    ensure!(
+        fixture_root.starts_with(&repo_root),
+        "fixture_path must stay inside repository root: {}",
+        fixture_root.display()
+    );
+    ensure!(
+        fixture_root.is_dir(),
+        "fixture proposal not found: {}",
+        fixture_root.display()
+    );
+    let fixture_rel = rel_path(&repo_root, &fixture_root);
+    let manifest = load_proposal_manifest(&fixture_root)?;
+    ensure!(
+        manifest.lifecycle.temporary,
+        "fixture-retention-closeout requires proposal.yml lifecycle.temporary: true"
+    );
+    ensure!(
+        !options.owner_scope.trim().is_empty(),
+        "fixture-retention-closeout requires owner_scope"
+    );
+    ensure!(
+        !options.evidence_refs.is_empty(),
+        "fixture-retention-closeout requires non-empty evidence_refs proving fixture use"
+    );
+    validate_repo_relative_paths(&repo_root, &options.evidence_refs, "fixture evidence_refs")?;
+    for evidence_ref in &options.evidence_refs {
+        ensure!(
+            fixture_retention_evidence_ref_allowed(evidence_ref),
+            "fixture evidence_ref is not an allowed source evidence ref: {}",
+            evidence_ref
+        );
+    }
+
+    let retention_run_id = options.run_id.clone().unwrap_or_else(|| {
+        format!(
+            "{}-{}",
+            FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID,
+            slugify(&fixture_rel)
+        )
+    });
+    let workflow_request_id = resolve_requested_workflow_run_id(
+        &runtime_cfg,
+        options.run_id.as_deref(),
+        FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID,
+        options.resume_existing,
+    )?;
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
+        &runtime_cfg,
+        BTreeMap::from([(
+            "workflow_id".to_string(),
+            FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID.to_string(),
+        )]),
+    )?;
+    let workflow_request = ExecutionRequest {
+        request_id: workflow_request_id.clone(),
+        caller_path: "workflow".to_string(),
+        action_type: "execute_workflow".to_string(),
+        target_id: FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID.to_string(),
+        requested_capabilities: vec!["workflow.execute".to_string(), "evidence.write".to_string()],
+        side_effect_flags: SideEffectFlags {
+            write_repo: false,
+            write_evidence: true,
+            shell: true,
+            network: false,
+            model_invoke: false,
+            state_mutation: false,
+            publication: false,
+            branch_mutation: false,
+        },
+        risk_tier: "low".to_string(),
+        workflow_mode: request::role_mediated_mode(),
+        locality_scope: None,
+        intent_ref: Some(intent_ref),
+        autonomy_context: None,
+        execution_role_ref: Some(execution_role_ref),
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: vec![
+                reports_root.display().to_string(),
+                workflow_bundles_root.display().to_string(),
+            ],
+            executor_profile: Some("read_only_analysis".to_string()),
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata,
+        ..ExecutionRequest::default()
+    };
+    let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
+    fs::create_dir_all(&reports_root)?;
+    fs::create_dir_all(&workflow_bundles_root)?;
+    let date = today_string()?;
+    let started_at = auth_now_rfc3339()?;
+    let bundle_root = unique_directory(
+        &workflow_bundles_root,
+        &format!(
+            "{date}-{}-{}",
+            FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID,
+            slugify(&fixture_rel)
+        ),
+    )?;
+    fs::create_dir_all(bundle_root.join("reports"))?;
+    fs::create_dir_all(bundle_root.join("stage-inputs"))?;
+    fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_grant)?;
+    let workflow_artifacts = write_execution_start(
+        &workflow_artifact_root,
+        &workflow_request,
+        &workflow_grant,
+        &workflow_effects,
+    )?;
+    let summary_report = unique_file(
+        &reports_root,
+        &format!("{date}-{FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID}"),
+        "md",
+    )?;
+
+    let generated_artifact_root = format!(
+        ".octon/generated/proposals/artifacts/{}/{}",
+        manifest.proposal_kind, manifest.proposal_id
+    );
+    let validation_root = format!(
+        ".octon/state/evidence/validation/proposals/{}",
+        manifest.proposal_id
+    );
+    let fixture_scope_roots = vec![
+        fixture_rel.clone(),
+        generated_artifact_root.clone(),
+        validation_root.clone(),
+    ];
+    let retained_entries = git_status_entries_for_roots(&repo_root, &fixture_scope_roots)?;
+    let retained_paths = retained_entries
+        .iter()
+        .map(|entry| entry.path.clone())
+        .collect::<Vec<_>>();
+    let path_set_digest = digest_lines(retained_paths.iter().map(String::as_str));
+    let git_status_lines = retained_entries
+        .iter()
+        .map(|entry| format!("{}\t{}", entry.status, entry.path))
+        .collect::<Vec<_>>();
+    let git_status_digest = digest_lines(git_status_lines.iter().map(String::as_str));
+    let source_digests = fixture_source_digests(&repo_root, &fixture_scope_roots)?;
+    let generated_artifact_refs = retained_paths
+        .iter()
+        .filter(|path| {
+            path == &&generated_artifact_root
+                || path.starts_with(&format!("{generated_artifact_root}/"))
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+
+    let mut stages = Vec::<FixtureRetentionStageRecord>::new();
+    let mut blocker = TerminalBlocker {
+        class: "none".to_string(),
+        detail: "no blocker".to_string(),
+        failing_evidence_ref: "not-applicable".to_string(),
+        next_canonical_route: "not-applicable".to_string(),
+    };
+    if retained_entries.is_empty() {
+        blocker = TerminalBlocker {
+            class: "missing-retained-path-set".to_string(),
+            detail: "fixture retention requires current retained path-set evidence".to_string(),
+            failing_evidence_ref: fixture_rel.clone(),
+            next_canonical_route: "closeout-worktree".to_string(),
+        };
+    }
+
+    stages.push(write_fixture_retention_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "resolve-fixture-identity",
+        "pass",
+        vec![format!("{fixture_rel}/proposal.yml")],
+        vec!["proposal.yml manifest parse".to_string()],
+        Vec::new(),
+        format!(
+            "# Resolve Fixture Identity\n\n- fixture_path: `{fixture_rel}`\n- proposal_id: `{}`\n- proposal_kind: `{}`\n- status: `{}`\n- lifecycle_temporary: `{}`\n",
+            manifest.proposal_id, manifest.proposal_kind, manifest.status, manifest.lifecycle.temporary
+        ),
+    )?);
+    stages.push(write_fixture_retention_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "bind-retention-scope",
+        "pass",
+        vec![format!("{fixture_rel}/proposal.yml")],
+        vec!["derive fixture scope from proposal_path, proposal_kind, proposal_id, and generated artifact conventions".to_string()],
+        Vec::new(),
+        format!(
+            "# Bind Retention Scope\n\n- purpose: `{}`\n- owner_scope: `{}`\n- retained_scope_roots:\n{}\n",
+            options.purpose,
+            options.owner_scope,
+            terminal_yaml_array(&fixture_scope_roots, "")
+        ),
+    )?);
+    stages.push(write_fixture_retention_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "verify-retained-evidence",
+        if blocker.class == "none" { "pass" } else { "blocked" },
+        options.evidence_refs.clone(),
+        vec!["validate evidence_refs exist and are not generated/proposal-local authority".to_string()],
+        Vec::new(),
+        format!(
+            "# Verify Retained Evidence\n\n- evidence_ref_count: `{}`\n- authority_model: `source-evidence-by-reference`\n- generated_artifacts_authority: `derived-only-non-authority`\n\n{}\n",
+            options.evidence_refs.len(),
+            terminal_bullets(&options.evidence_refs)
+        ),
+    )?);
+    stages.push(write_fixture_retention_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "classify-retained-path-set",
+        if blocker.class == "none" { "pass" } else { "blocked" },
+        fixture_scope_roots.clone(),
+        vec!["git status --porcelain=v1 --untracked-files=all -- <fixture-scope-roots>".to_string()],
+        Vec::new(),
+        format!(
+            "# Classify Retained Path Set\n\n- retained_path_count: `{}`\n- retained_path_set_digest: `{}`\n- git_status_digest: `{}`\n\n## Retained Status Entries\n\n{}\n",
+            retained_entries.len(),
+            path_set_digest,
+            git_status_digest,
+            terminal_bullets(
+                &retained_entries
+                    .iter()
+                    .map(|entry| format!("{} {}", entry.status, entry.path))
+                    .collect::<Vec<_>>()
+            )
+        ),
+    )?);
+
+    let receipt_path = bundle_root.join("retention-receipt.yml");
+    let receipt_rel = rel_path(&repo_root, &receipt_path);
+    let receipt_validation_log_rel = rel_path(
+        &repo_root,
+        &bundle_root
+            .join("stage-logs")
+            .join("fixture-retention-receipt-validation.log"),
+    );
+    let retention_verdict = if blocker.class == "none" {
+        "retained"
+    } else {
+        "blocked"
+    };
+    stages.push(write_fixture_retention_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "emit-retention-receipt",
+        retention_verdict,
+        vec![fixture_rel.clone()],
+        vec![format!(
+            "bash .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh --receipt {receipt_rel}"
+        )],
+        vec![receipt_rel.clone(), receipt_validation_log_rel.clone()],
+        format!(
+            "# Emit Retention Receipt\n\n- retention_verdict: `{retention_verdict}`\n- receipt_ref: `{receipt_rel}`\n- receipt_validation_ref: `{receipt_validation_log_rel}`\n",
+        ),
+    )?);
+
+    let receipt_yaml = build_fixture_retention_receipt_yaml(
+        &retention_run_id,
+        &auth_now_rfc3339()?,
+        retention_verdict,
+        &manifest,
+        &fixture_rel,
+        &options.purpose,
+        &options.owner_scope,
+        &options.evidence_refs,
+        &fixture_scope_roots,
+        &retained_entries,
+        &path_set_digest,
+        &git_status_digest,
+        &source_digests,
+        &generated_artifact_refs,
+        &receipt_validation_log_rel,
+        &blocker,
+        &stages,
+    );
+    fs::write(&receipt_path, receipt_yaml)?;
+
+    let receipt_validation = run_terminal_validator(
+        &repo_root,
+        &bundle_root,
+        "fixture-retention-receipt-validation",
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh",
+        &[String::from("--receipt"), receipt_rel.clone()],
+    )?;
+    let final_verdict = if retention_verdict == "retained" && receipt_validation.success {
+        "retained"
+    } else {
+        "blocked"
+    };
+    fs::write(
+        &summary_report,
+        format!(
+            "# Fixture Retention Closeout Summary\n\n- workflow_id: `{FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID}`\n- fixture_path: `{fixture_rel}`\n- proposal_id: `{}`\n- proposal_kind: `{}`\n- final_verdict: `{final_verdict}`\n- bundle_root: `{}`\n- retention_receipt: `{receipt_rel}`\n- retained_path_set_digest: `{}`\n- git_status_digest: `{}`\n- receipt_validation: `{}`\n",
+            manifest.proposal_id,
+            manifest.proposal_kind,
+            rel_path(&repo_root, &bundle_root),
+            path_set_digest,
+            git_status_digest,
+            receipt_validation.log_rel
+        ),
+    )?;
+
+    finalize_execution(
+        &workflow_artifacts,
+        &workflow_request,
+        &workflow_grant,
+        &workflow_effects,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![
+                bundle_root.display().to_string(),
+                summary_report.display().to_string(),
+            ],
+            ..SideEffectSummary::default()
+        },
+    )?;
+
+    Ok(RunProposalOperationResult {
+        bundle_root,
+        summary_report,
+        final_verdict: final_verdict.to_string(),
+    })
+}
+
+fn default_terminal_closeout_profile(
+    manifest: &ProposalManifest,
+    proposal_rel: &str,
+    target_outcome: &str,
+    terminal_run_id: &str,
+) -> String {
+    format!(
+        r#"schema_version: proposal-packet-terminal-closeout-profile-v1
+profile_id: proposal-packet-terminal-closeout-{profile_slug}
+created_at: "{created_at}"
+packet:
+  proposal_id: {proposal_id}
+  path: {proposal_path}
+  expected_status: implemented
+target_outcome: {target_outcome}
+route_preference: none-closeout-only
+pr_policy:
+  allow_pr_creation: false
+  allow_branch_no_pr: false
+  exact_sha_required: true
+publication_freshness_policy:
+  canonical_publisher_only: true
+  direct_generated_edits_forbidden: true
+  validator_family_map:
+    - target_family: publication
+      validators:
+        - validate-generated-non-authority.sh
+        - validate-run-health-read-model.sh
+        - validate-capability-publication-state.sh
+        - validate-extension-publication-state.sh
+hygiene_policy:
+  repo_hygiene_delegation_only: true
+  worktree_foreign_residue_blocks_archive_ready: true
+  cleanup_authorization_required: true
+expected_retained_evidence:
+  - evidence_id: implementation-conformance
+    required: true
+    owner: proposal-packet
+    path_pattern: "{proposal_path}/support/implementation-conformance-review.md"
+  - evidence_id: post-implementation-drift
+    required: true
+    owner: proposal-packet
+    path_pattern: "{proposal_path}/support/post-implementation-drift-churn-review.md"
+required_validators_by_target_family:
+  - target_family: terminal-closeout
+    validators:
+      - validate-proposal-implementation-conformance.sh
+      - validate-proposal-post-implementation-drift.sh
+      - validate-proposal-packet-terminal-closeout-receipt.sh
+post_integration_architecture_review_policy:
+  run_when_applicable: true
+  evidence_only: true
+packet_terminal_evaluator_policy:
+  required_for:
+    - blocked
+    - nonterminal
+    - cancelled
+    - rollback
+    - repeated-retry
+  evidence_only: true
+git_github_hosted_check_policy:
+  delegate_to_closeout_routes: true
+  exact_sha_required_when_hosted: true
+  landing_authorization_required: true
+  branch_cleanup_authorization_required: true
+blocker_reporting:
+  required: true
+  allowed_blocker_classes:
+    - none
+    - missing-evidence
+    - stale-evidence
+    - validator-failed
+    - publication-freshness-blocked
+    - hygiene-blocked
+    - git-route-blocked
+    - scope-overrun
+    - archive-boundary-violation
+  allowed_next_routes:
+    - archive-proposal
+    - promote-proposal
+    - run-packet-implementation
+    - run-packet-verification-and-correction-loop
+    - repo-hygiene-cleanup
+    - closeout-worktree
+    - closeout-change
+    - blocked
+    - manual-intervention
+forbidden_authority_requests:
+  archive_relocation: false
+  proposal_status_mutation: false
+  generated_direct_publication: false
+  git_mutation: false
+  residue_deletion: false
+  host_state_authority: false
+  chat_or_model_memory_authority: false
+  tool_authority: false
+"#,
+        profile_slug = slugify(terminal_run_id),
+        created_at = now_rfc3339().unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string()),
+        proposal_id = manifest.proposal_id,
+        proposal_path = proposal_rel,
+        target_outcome = target_outcome
+    )
+}
+
+fn run_terminal_validator(
+    repo_root: &Path,
+    bundle_root: &Path,
+    log_name: &str,
+    script_rel: &str,
+    args: &[String],
+) -> Result<TerminalValidationResult> {
+    let log_path = bundle_root
+        .join("stage-logs")
+        .join(format!("{log_name}.log"));
+    let log_rel = rel_path(repo_root, &log_path);
+    let command = if args.is_empty() {
+        format!("bash {script_rel}")
+    } else {
+        format!("bash {} {}", script_rel, args.join(" "))
+    };
+    let script = repo_root.join(script_rel);
+    if !script.is_file() {
+        fs::write(
+            &log_path,
+            format!(
+                "# Terminal Closeout Validator\n\n- command: `{}`\n- status: `missing-script`\n- script: `{}`\n",
+                command,
+                script.display()
+            ),
+        )?;
+        return Ok(TerminalValidationResult {
+            command,
+            log_rel,
+            success: false,
+        });
+    }
+    let output = Command::new("bash")
+        .arg(&script)
+        .args(args)
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| format!("run terminal closeout validator {script_rel}"))?;
+    fs::write(
+        &log_path,
+        format!(
+            "# Terminal Closeout Validator\n\n- command: `{}`\n- status: `{}`\n\n## stdout\n\n```\n{}\n```\n\n## stderr\n\n```\n{}\n```\n",
+            command,
+            output.status,
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        ),
+    )?;
+    Ok(TerminalValidationResult {
+        command,
+        log_rel,
+        success: output.status.success(),
+    })
+}
+
+fn write_terminal_stage_record(
+    runtime_cfg: &RuntimeConfig,
+    policy: &PolicyEngine,
+    repo_root: &Path,
+    bundle_root: &Path,
+    workflow_request_id: &str,
+    state_id: &str,
+    write_repo: bool,
+    state_verdict: &str,
+    input_refs: Vec<String>,
+    validator_command_refs: Vec<String>,
+    output_refs: Vec<String>,
+    report_body: String,
+) -> Result<TerminalStageRecord> {
+    let stage = authorize_workflow_stage(
+        runtime_cfg,
+        policy,
+        bundle_root,
+        TERMINAL_CLOSEOUT_WORKFLOW_ID,
+        workflow_request_id,
+        state_id,
+        "execute_stage",
+        &format!("{TERMINAL_CLOSEOUT_WORKFLOW_ID}::{state_id}"),
+        if write_repo {
+            vec![
+                "workflow.stage.execute".to_string(),
+                "repo.write".to_string(),
+                "evidence.write".to_string(),
+            ]
+        } else {
+            vec![
+                "workflow.stage.execute".to_string(),
+                "evidence.write".to_string(),
+            ]
+        },
+        vec![bundle_root.display().to_string()],
+        true,
+        write_repo,
+        if write_repo { "medium" } else { "low" },
+        Some(if write_repo {
+            "scoped_repo_mutation"
+        } else {
+            "read_only_analysis"
+        }),
+        None,
+        None,
+    )?;
+    let input_path = bundle_root
+        .join("stage-inputs")
+        .join(format!("{state_id}-packet.md"));
+    fs::write(
+        &input_path,
+        format!(
+            "# Stage Input: {state_id}\n\n## Input Refs\n\n{}\n\n## Validator Commands\n\n{}\n",
+            terminal_bullets(&input_refs),
+            terminal_bullets(&validator_command_refs)
+        ),
+    )?;
+    let report_path = bundle_root
+        .join("reports")
+        .join(format!("{state_id}-report.md"));
+    fs::write(&report_path, report_body)?;
+    finalize_workflow_stage(
+        &stage,
+        "succeeded",
+        None,
+        vec![report_path.display().to_string()],
+    )?;
+    let mut outputs = vec![
+        rel_path(repo_root, &report_path),
+        rel_path(repo_root, &stage.artifacts.root.join("outcome.json")),
+    ];
+    outputs.extend(output_refs);
+    outputs.sort();
+    outputs.dedup();
+    Ok(TerminalStageRecord {
+        state_id: state_id.to_string(),
+        input_refs,
+        validator_command_refs,
+        output_evidence_refs: outputs,
+        state_verdict: state_verdict.to_string(),
+    })
+}
+
+fn classify_terminal_worktree(
+    repo_root: &Path,
+    bundle_root: &Path,
+    proposal_rel: &str,
+    manifest: &ProposalManifest,
+    workflow_request_id: &str,
+) -> Result<TerminalWorktreeClassification> {
+    let fixture_coverage = load_valid_fixture_retention_coverage(repo_root)?;
+    let output = Command::new("git")
+        .args(["status", "--porcelain=v1", "--untracked-files=all"])
+        .current_dir(repo_root)
+        .output()
+        .context("run git status --porcelain for terminal closeout")?;
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let mut in_scope = Vec::<String>::new();
+    let mut retained_fixture = Vec::<String>::new();
+    let mut foreign = Vec::<String>::new();
+    for line in stdout.lines() {
+        if line.len() < 4 {
+            continue;
+        }
+        let status = line[0..2].trim().to_string();
+        let raw_path = line[3..].trim();
+        let path = raw_path
+            .rsplit(" -> ")
+            .next()
+            .unwrap_or(raw_path)
+            .trim()
+            .to_string();
+        if terminal_path_in_scope(&path, proposal_rel, manifest)
+            || terminal_current_run_acp_decision_log_append(
+                repo_root,
+                &path,
+                &status,
+                workflow_request_id,
+            )?
+        {
+            in_scope.push(path);
+        } else if fixture_coverage
+            .by_path
+            .get(&path)
+            .map(|(covered_status, _)| covered_status == &status)
+            .unwrap_or(false)
+        {
+            let receipt_ref = fixture_coverage
+                .by_path
+                .get(&path)
+                .map(|(_, receipt_ref)| receipt_ref.clone())
+                .unwrap_or_else(|| "unknown-fixture-retention-receipt".to_string());
+            retained_fixture.push(format!("{status} {path} (receipt: {receipt_ref})"));
+        } else {
+            foreign.push(path);
+        }
+    }
+    let retained_fixture_receipt_refs = fixture_coverage
+        .receipt_refs
+        .iter()
+        .cloned()
+        .collect::<Vec<_>>();
+    let report_path = bundle_root.join("reports/worktree-hygiene-classification.md");
+    let report_body = format!(
+        "# Worktree Hygiene Classification\n\n- git_status_exit: `{}`\n- in_scope_path_count: `{}`\n- retained_fixture_path_count: `{}`\n- fixture_retention_receipt_count: `{}`\n- fixture_retention_ambiguous_path_count: `{}`\n- foreign_or_ambiguous_count: `{}`\n- dirty_worktree: `{}`\n\n## In Scope\n\n{}\n\n## Retained Fixture Evidence\n\n{}\n\n## Fixture Retention Receipts\n\n{}\n\n## Ambiguous Fixture Retention Coverage\n\n{}\n\n## Foreign Or Ambiguous\n\n{}\n",
+        output.status,
+        in_scope.len(),
+        retained_fixture.len(),
+        retained_fixture_receipt_refs.len(),
+        fixture_coverage.ambiguous_paths.len(),
+        foreign.len(),
+        !foreign.is_empty(),
+        terminal_bullets(&in_scope),
+        terminal_bullets(&retained_fixture),
+        terminal_bullets(&retained_fixture_receipt_refs),
+        terminal_bullets(
+            &fixture_coverage
+                .ambiguous_paths
+                .iter()
+                .cloned()
+                .collect::<Vec<_>>()
+        ),
+        terminal_bullets(&foreign)
+    );
+    fs::write(&report_path, &report_body)?;
+    Ok(TerminalWorktreeClassification {
+        report_rel: rel_path(repo_root, &report_path),
+        report_body,
+        foreign_or_ambiguous_count: foreign.len(),
+        retained_fixture_path_count: retained_fixture.len(),
+        retained_fixture_receipt_refs,
+        dirty_worktree: !foreign.is_empty(),
+    })
+}
+
+fn terminal_path_in_scope(path: &str, proposal_rel: &str, manifest: &ProposalManifest) -> bool {
+    let proposal_validation_prefix = format!(
+        ".octon/state/evidence/validation/proposals/{}/",
+        manifest.proposal_id
+    );
+    path == proposal_rel
+        || path.starts_with(&format!("{proposal_rel}/"))
+        || path.starts_with(".octon/state/evidence/runs/workflows/")
+        || path.starts_with(".octon/state/evidence/control/execution/")
+        || path.starts_with(".octon/state/control/execution/runs/")
+        || path.starts_with(".octon/state/continuity/runs/")
+        || path.starts_with(".octon/state/evidence/external-index/runs/")
+        || path.starts_with(&proposal_validation_prefix)
+        || manifest.promotion_targets.iter().any(|target| {
+            path == target || path.starts_with(&format!("{}/", target.trim_end_matches('/')))
+        })
+}
+
+fn terminal_current_run_acp_decision_log_append(
+    repo_root: &Path,
+    path: &str,
+    status: &str,
+    workflow_request_id: &str,
+) -> Result<bool> {
+    if path != ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+        || status != "M"
+        || workflow_request_id.trim().is_empty()
+    {
+        return Ok(false);
+    }
+    let tracked = Command::new("git")
+        .args(["ls-files", "--error-unmatch", "--", path])
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| format!("check tracked status for {path}"))?;
+    if !tracked.status.success() {
+        return Ok(false);
+    }
+    let diff = Command::new("git")
+        .args(["diff", "--unified=0", "--", path])
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| format!("read current ACP decision log diff for {path}"))?;
+    if !diff.status.success() {
+        return Ok(false);
+    }
+    Ok(terminal_acp_diff_additions_belong_to_run(
+        &String::from_utf8_lossy(&diff.stdout),
+        workflow_request_id,
+    ))
+}
+
+fn terminal_acp_diff_additions_belong_to_run(diff: &str, workflow_request_id: &str) -> bool {
+    let mut added_rows = 0usize;
+    let stage_prefix = format!("{workflow_request_id}-");
+    for line in diff.lines() {
+        if line.starts_with("---") || line.starts_with("+++") {
+            continue;
+        }
+        if line.starts_with('-') {
+            return false;
+        }
+        if !line.starts_with('+') {
+            continue;
+        }
+        added_rows += 1;
+        let row = &line[1..];
+        let Ok(value) = serde_json::from_str::<serde_json::Value>(row) else {
+            return false;
+        };
+        let Some(run_id) = value.get("run_id").and_then(|value| value.as_str()) else {
+            return false;
+        };
+        if run_id != workflow_request_id && !run_id.starts_with(&stage_prefix) {
+            return false;
+        }
+    }
+    added_rows > 0
+}
+
+fn load_valid_fixture_retention_coverage(repo_root: &Path) -> Result<FixtureRetentionCoverage> {
+    let mut coverage = FixtureRetentionCoverage {
+        by_path: BTreeMap::new(),
+        receipt_refs: BTreeSet::new(),
+        ambiguous_paths: BTreeSet::new(),
+    };
+    let validator = repo_root.join(
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh",
+    );
+    if !validator.is_file() {
+        return Ok(coverage);
+    }
+    let workflows_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    if !workflows_root.is_dir() {
+        return Ok(coverage);
+    }
+    for entry in WalkDir::new(&workflows_root)
+        .follow_links(false)
+        .into_iter()
+        .filter_map(|entry| entry.ok())
+    {
+        if !entry.file_type().is_file() || entry.file_name() != OsStr::new("retention-receipt.yml")
+        {
+            continue;
+        }
+        let receipt_rel = rel_path(repo_root, entry.path());
+        let output = Command::new("bash")
+            .arg(&validator)
+            .args(["--receipt", &receipt_rel, "--emit-consumption-json"])
+            .current_dir(repo_root)
+            .output()
+            .with_context(|| format!("validate fixture retention receipt {receipt_rel}"))?;
+        if !output.status.success() {
+            continue;
+        }
+        let parsed: FixtureRetentionConsumption = serde_json::from_slice(&output.stdout)
+            .with_context(|| {
+                format!("parse fixture retention consumption JSON for {receipt_rel}")
+            })?;
+        coverage.receipt_refs.insert(parsed.receipt_ref.clone());
+        for retained in parsed.retained_status_entries {
+            if coverage.by_path.contains_key(&retained.path) {
+                coverage.by_path.remove(&retained.path);
+                coverage.ambiguous_paths.insert(retained.path);
+            } else if !coverage.ambiguous_paths.contains(&retained.path) {
+                coverage
+                    .by_path
+                    .insert(retained.path, (retained.status, parsed.receipt_ref.clone()));
+            }
+        }
+    }
+    Ok(coverage)
+}
+
+fn fixture_retention_evidence_ref_allowed(path: &str) -> bool {
+    !(path.starts_with(".octon/generated/")
+        || path.contains("/generated/")
+        || path.ends_with("/support/proposal-closeout.md")
+        || path.ends_with("/support/executable-implementation-prompt.md"))
+}
+
+fn git_status_entries_for_roots(repo_root: &Path, roots: &[String]) -> Result<Vec<GitStatusEntry>> {
+    let mut command = Command::new("git");
+    command
+        .args(["status", "--porcelain=v1", "--untracked-files=all", "--"])
+        .args(roots)
+        .current_dir(repo_root);
+    let output = command
+        .output()
+        .context("run git status for fixture retention scope")?;
+    ensure!(
+        output.status.success(),
+        "git status for fixture retention scope failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let mut entries = Vec::new();
+    for line in String::from_utf8_lossy(&output.stdout).lines() {
+        if line.len() < 4 {
+            continue;
+        }
+        let status = line[0..2].trim().to_string();
+        let raw_path = line[3..].trim();
+        let path = raw_path
+            .rsplit(" -> ")
+            .next()
+            .unwrap_or(raw_path)
+            .trim()
+            .trim_end_matches('/')
+            .to_string();
+        if path.is_empty() {
+            continue;
+        }
+        entries.push(GitStatusEntry { status, path });
+    }
+    entries.sort_by(|left, right| {
+        left.path
+            .cmp(&right.path)
+            .then(left.status.cmp(&right.status))
+    });
+    entries.dedup_by(|left, right| left.path == right.path && left.status == right.status);
+    Ok(entries)
+}
+
+fn digest_lines<'a>(values: impl Iterator<Item = &'a str>) -> String {
+    let mut lines = values.map(ToString::to_string).collect::<Vec<_>>();
+    lines.sort();
+    let joined = if lines.is_empty() {
+        String::new()
+    } else {
+        format!("{}\n", lines.join("\n"))
+    };
+    format!("sha256:{}", hex::encode(Sha256::digest(joined.as_bytes())))
+}
+
+fn fixture_source_digests(
+    repo_root: &Path,
+    fixture_scope_roots: &[String],
+) -> Result<Vec<(String, String)>> {
+    let mut digests = Vec::new();
+    for root_rel in fixture_scope_roots {
+        let root = repo_root.join(root_rel);
+        if root.is_file() {
+            let digest = format!("sha256:{}", hex::encode(Sha256::digest(fs::read(&root)?)));
+            digests.push((root_rel.clone(), digest));
+            continue;
+        }
+        if !root.is_dir() {
+            continue;
+        }
+        for entry in WalkDir::new(&root)
+            .follow_links(false)
+            .into_iter()
+            .filter_map(|entry| entry.ok())
+        {
+            if !entry.file_type().is_file() {
+                continue;
+            }
+            let path = entry.path();
+            let rel = rel_path(repo_root, path);
+            let digest = format!("sha256:{}", hex::encode(Sha256::digest(fs::read(path)?)));
+            digests.push((rel, digest));
+        }
+    }
+    digests.sort_by(|left, right| left.0.cmp(&right.0));
+    digests.dedup_by(|left, right| left.0 == right.0);
+    Ok(digests)
+}
+
+fn write_fixture_retention_stage_record(
+    runtime_cfg: &RuntimeConfig,
+    policy: &PolicyEngine,
+    repo_root: &Path,
+    bundle_root: &Path,
+    workflow_request_id: &str,
+    state_id: &str,
+    state_verdict: &str,
+    input_refs: Vec<String>,
+    validator_command_refs: Vec<String>,
+    output_refs: Vec<String>,
+    report_body: String,
+) -> Result<FixtureRetentionStageRecord> {
+    let stage = authorize_workflow_stage(
+        runtime_cfg,
+        policy,
+        bundle_root,
+        FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID,
+        workflow_request_id,
+        state_id,
+        "execute_stage",
+        &format!("{FIXTURE_RETENTION_CLOSEOUT_WORKFLOW_ID}::{state_id}"),
+        vec![
+            "workflow.stage.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![bundle_root.display().to_string()],
+        true,
+        false,
+        "low",
+        Some("read_only_analysis"),
+        None,
+        None,
+    )?;
+    let input_path = bundle_root
+        .join("stage-inputs")
+        .join(format!("{state_id}-fixture.md"));
+    fs::write(
+        &input_path,
+        format!(
+            "# Stage Input: {state_id}\n\n## Input Refs\n\n{}\n\n## Validator Commands\n\n{}\n",
+            terminal_bullets(&input_refs),
+            terminal_bullets(&validator_command_refs)
+        ),
+    )?;
+    let report_path = bundle_root
+        .join("reports")
+        .join(format!("{state_id}-report.md"));
+    fs::write(&report_path, report_body)?;
+    finalize_workflow_stage(
+        &stage,
+        "succeeded",
+        None,
+        vec![report_path.display().to_string()],
+    )?;
+    let mut outputs = vec![
+        rel_path(repo_root, &report_path),
+        rel_path(repo_root, &stage.artifacts.root.join("outcome.json")),
+    ];
+    outputs.extend(output_refs);
+    outputs.sort();
+    outputs.dedup();
+    Ok(FixtureRetentionStageRecord {
+        state_id: state_id.to_string(),
+        input_refs,
+        validator_command_refs,
+        output_evidence_refs: outputs,
+        state_verdict: state_verdict.to_string(),
+    })
+}
+
+fn build_fixture_retention_receipt_yaml(
+    retention_run_id: &str,
+    retained_at: &str,
+    retention_verdict: &str,
+    manifest: &ProposalManifest,
+    fixture_rel: &str,
+    purpose: &str,
+    owner_scope: &str,
+    evidence_refs: &[String],
+    fixture_scope_roots: &[String],
+    retained_entries: &[GitStatusEntry],
+    retained_path_set_digest: &str,
+    git_status_digest: &str,
+    source_digests: &[(String, String)],
+    generated_artifact_refs: &[String],
+    validation_ref: &str,
+    blocker: &TerminalBlocker,
+    stages: &[FixtureRetentionStageRecord],
+) -> String {
+    let retained_paths = retained_entries
+        .iter()
+        .map(|entry| entry.path.clone())
+        .collect::<Vec<_>>();
+    let retained_status_yaml = if retained_entries.is_empty() {
+        "  []\n".to_string()
+    } else {
+        retained_entries
+            .iter()
+            .map(|entry| {
+                format!(
+                    "  - status: {}\n    path: {}\n",
+                    terminal_yaml_quote(&entry.status),
+                    terminal_yaml_quote(&entry.path)
+                )
+            })
+            .collect::<String>()
+    };
+    let source_digest_yaml = if source_digests.is_empty() {
+        "  []\n".to_string()
+    } else {
+        source_digests
+            .iter()
+            .map(|(path, digest)| {
+                format!(
+                    "  - path: {}\n    digest: {}\n",
+                    terminal_yaml_quote(path),
+                    terminal_yaml_quote(digest)
+                )
+            })
+            .collect::<String>()
+    };
+    let generated_artifact_yaml = if generated_artifact_refs.is_empty() {
+        "  []\n".to_string()
+    } else {
+        generated_artifact_refs
+            .iter()
+            .map(|path| {
+                format!(
+                    "  - path: {}\n    authority: derived-only-non-authority\n",
+                    terminal_yaml_quote(path)
+                )
+            })
+            .collect::<String>()
+    };
+    format!(
+        "schema_version: fixture-retention-closeout-receipt-v1\nroute_id: fixture-retention-closeout\nretention_run_id: {}\nretained_at: {}\nretention_verdict: {}\nfixture:\n  proposal_id: {}\n  proposal_kind: {}\n  path: {}\n  status: {}\n  temporary_lifecycle: {}\n  promotion_targets:\n{}purpose: {}\nowner_scope: {}\nused_as_evidence_for:\n  - {}\nevidence_refs:\n{}fixture_scope:\n  roots:\n{}retained_paths:\n{}retained_status_entries:\n{}retained_path_set_digest: {}\ngit_status_digest: {}\nsource_digests:\n{}generated_artifact_refs:\n{}freshness:\n  mode: current-git-status-and-source-digest-bound\n  status: {}\nvalidation_refs:\n  - {}\nterminal_worktree_hygiene_consumption:\n  allowed: true\n  exact_path_set_match_required: true\n  current_digest_match_required: true\n  schema_route_version_match_required: true\n  purpose_owner_scope_match_required: true\n  all_retained_paths_inside_declared_scope_required: true\n  unrelated_residue_coverage_forbidden: true\n  nonblocking_only_for_unrelated_packet_terminal_readiness: true\n  target_packet_evidence_authority: false\n  purpose: {}\n  owner_scope: {}\n  does_not_authorize:\n    - archive-ready-claim\n    - cleaned-claim\n    - archive-relocation\n    - proposal-status-mutation\n    - generated-publication-edit\n    - git-mutation\n    - repo-hygiene-deletion\n    - target-packet-implementation-evidence\n    - target-packet-conformance-evidence\n    - target-packet-drift-evidence\nauthority_boundaries:\n  archive_relocation: false\n  proposal_status_mutation: false\n  generated_publication_edit: false\n  git_mutation: false\n  residue_deletion: false\n  repo_hygiene_deletion_authority: false\n  target_packet_evidence_authority: false\nblocker:\n  class: {}\n  detail: {}\n  failing_evidence_ref: {}\n  next_canonical_route: {}\nstate_ledger:\n{}",
+        terminal_yaml_quote(retention_run_id),
+        terminal_yaml_quote(retained_at),
+        terminal_yaml_quote(retention_verdict),
+        terminal_yaml_quote(&manifest.proposal_id),
+        terminal_yaml_quote(&manifest.proposal_kind),
+        terminal_yaml_quote(fixture_rel),
+        terminal_yaml_quote(&manifest.status),
+        if manifest.lifecycle.temporary { "true" } else { "false" },
+        terminal_yaml_array(&manifest.promotion_targets, "  "),
+        terminal_yaml_quote(purpose),
+        terminal_yaml_quote(owner_scope),
+        terminal_yaml_quote(purpose),
+        terminal_yaml_array(evidence_refs, ""),
+        terminal_yaml_array(fixture_scope_roots, "  "),
+        terminal_yaml_array(&retained_paths, ""),
+        retained_status_yaml,
+        terminal_yaml_quote(retained_path_set_digest),
+        terminal_yaml_quote(git_status_digest),
+        source_digest_yaml,
+        generated_artifact_yaml,
+        if retention_verdict == "retained" { "fresh" } else { "blocked" },
+        terminal_yaml_quote(validation_ref),
+        terminal_yaml_quote(purpose),
+        terminal_yaml_quote(owner_scope),
+        terminal_yaml_quote(&blocker.class),
+        terminal_yaml_quote(&blocker.detail),
+        terminal_yaml_quote(&blocker.failing_evidence_ref),
+        terminal_yaml_quote(&blocker.next_canonical_route),
+        fixture_retention_stage_ledger_yaml(stages, "  ")
+    )
+}
+
+fn fixture_retention_stage_ledger_yaml(
+    stages: &[FixtureRetentionStageRecord],
+    indent: &str,
+) -> String {
+    stages
+        .iter()
+        .map(|stage| {
+            format!(
+                "{indent}- state_id: {}\n{indent}  input_refs:\n{}{indent}  validator_command_refs:\n{}{indent}  output_evidence_refs:\n{}{indent}  state_verdict: {}\n{indent}  retry_count: 0\n{indent}  resume_cursor: complete\n",
+                stage.state_id,
+                terminal_yaml_array(&stage.input_refs, &format!("{indent}    ")),
+                terminal_yaml_array(&stage.validator_command_refs, &format!("{indent}    ")),
+                terminal_yaml_array(&stage.output_evidence_refs, &format!("{indent}    ")),
+                stage.state_verdict
+            )
+        })
+        .collect::<String>()
+}
+
+fn set_terminal_blocker(
+    blocker: &mut Option<TerminalBlocker>,
+    class: &str,
+    detail: &str,
+    failing_evidence_ref: &str,
+    next_canonical_route: &str,
+) {
+    if blocker.is_none() {
+        *blocker = Some(TerminalBlocker {
+            class: class.to_string(),
+            detail: detail.to_string(),
+            failing_evidence_ref: failing_evidence_ref.to_string(),
+            next_canonical_route: next_canonical_route.to_string(),
+        });
+    }
+}
+
+fn write_terminal_state_ledger(
+    repo_root: &Path,
+    bundle_root: &Path,
+    terminal_run_id: &str,
+    workflow_request_id: &str,
+    manifest: &ProposalManifest,
+    proposal_rel: &str,
+    target_outcome: &str,
+    profile_rel: &str,
+    profile_digest: &str,
+    profile_validation_ref: &str,
+    stages: &[TerminalStageRecord],
+) -> Result<()> {
+    let mut body = format!(
+        "schema_version: proposal-packet-terminal-closeout-state-ledger-v1\nterminal_run_id: {}\nworkflow_run_id: {}\npacket:\n  proposal_id: {}\n  path: {}\n  proposal_kind: {}\n  status: {}\ntarget_outcome: {}\nprofile:\n  profile_ref: {}\n  profile_digest: {}\n  profile_validation_evidence_ref: {}\nstate_ledger:\n",
+        terminal_yaml_quote(terminal_run_id),
+        terminal_yaml_quote(workflow_request_id),
+        terminal_yaml_quote(&manifest.proposal_id),
+        terminal_yaml_quote(proposal_rel),
+        terminal_yaml_quote(&manifest.proposal_kind),
+        terminal_yaml_quote(&manifest.status),
+        terminal_yaml_quote(target_outcome),
+        terminal_yaml_quote(profile_rel),
+        terminal_yaml_quote(profile_digest),
+        terminal_yaml_quote(profile_validation_ref)
+    );
+    body.push_str(&terminal_stage_ledger_yaml(stages, "  "));
+    fs::write(bundle_root.join("state-ledger.yml"), body)
+        .with_context(|| format!("write {}", bundle_root.join("state-ledger.yml").display()))?;
+    let _ = repo_root;
+    Ok(())
+}
+
+fn build_terminal_receipt_yaml(
+    repo_root: &Path,
+    terminal_run_id: &str,
+    terminalized_at: &str,
+    manifest: &ProposalManifest,
+    proposal_rel: &str,
+    target_outcome: &str,
+    terminal_verdict: &str,
+    profile_rel: &str,
+    profile_digest: &str,
+    profile_validation_ref: &str,
+    stages: &[TerminalStageRecord],
+    conformance: &TerminalValidationResult,
+    drift: &TerminalValidationResult,
+    publication_results: &[TerminalValidationResult],
+    repo_hygiene_report: &Path,
+    worktree: &TerminalWorktreeClassification,
+    evidence_review_report: &Path,
+    git_route_report: &Path,
+    blocker: &TerminalBlocker,
+    retained_inventory: &[String],
+) -> String {
+    let generated_non_authority = publication_results
+        .iter()
+        .find(|result| {
+            result
+                .command
+                .contains("validate-generated-non-authority.sh")
+        })
+        .unwrap_or(&publication_results[0]);
+    let run_health = publication_results
+        .iter()
+        .find(|result| result.command.contains("validate-run-health-read-model.sh"))
+        .unwrap_or(&publication_results[0]);
+    let capability = publication_results
+        .iter()
+        .find(|result| {
+            result
+                .command
+                .contains("validate-capability-publication-state.sh")
+        })
+        .unwrap_or(&publication_results[0]);
+    let extension = publication_results
+        .iter()
+        .find(|result| {
+            result
+                .command
+                .contains("validate-extension-publication-state.sh")
+        })
+        .unwrap_or(&publication_results[0]);
+    let repo_hygiene_rel = rel_path(repo_root, repo_hygiene_report);
+    let evidence_review_rel = rel_path(repo_root, evidence_review_report);
+    let git_route_rel = rel_path(repo_root, git_route_report);
+    let publication_validator_yaml = publication_results
+        .iter()
+        .map(|result| {
+            format!(
+                "    - validator_ref: {}\n      evidence_ref: {}\n      verdict: {}\n      fresh: {}\n",
+                terminal_yaml_quote(&result.command),
+                terminal_yaml_quote(&result.log_rel),
+                if result.success { "pass" } else { "blocked" },
+                if result.success { "true" } else { "false" }
+            )
+        })
+        .collect::<String>();
+    format!(
+        "schema_version: proposal-packet-terminal-closeout-receipt-v1\nterminal_run_id: {}\nterminalized_at: {}\npacket:\n  proposal_id: {}\n  path: {}\n  proposal_kind: {}\n  status: {}\ntarget_outcome: {}\nterminal_verdict: {}\nprofile:\n  profile_ref: {}\n  profile_digest: {}\n  profile_validation_evidence_ref: {}\nstate_ledger:\n{}implementation:\n  conformance_receipt_ref: {}\n  conformance_validator_ref: {}\n  conformance_fresh: {}\n  post_implementation_drift_receipt_ref: {}\n  post_implementation_drift_validator_ref: {}\n  post_implementation_drift_fresh: {}\ndurable_implementation_state_evidence_refs:\n{}\npublication_freshness:\n  validators:\n{}  publisher_refresh_receipts: []\n  rerun_evidence_refs:\n{}\n  direct_generated_output_edit_used: false\ngenerated_input_non_authority:\n  validation_ref: {}\n  proposal_inputs_non_authority: true\n  generated_outputs_non_authority: true\n  generated_prompts_non_authority: true\n  host_state_non_authority: true\n  chat_state_non_authority: true\n  tool_state_non_authority: true\n  model_memory_non_authority: true\nrun_health:\n  validation_ref: {}\n  verdict: {}\ncapability_publication:\n  validation_ref: {}\n  verdict: {}\nextension_publication:\n  validation_ref: {}\n  verdict: {}\nrepo_hygiene:\n  classification_ref: {}\n  cleanup_performed: false\n  cleanup_authorization_refs: []\n  unauthorized_deletion_performed: false\nworktree_hygiene:\n  classification_ref: {}\n  verdict: {}\n  foreign_or_ambiguous_count: {}\n  retained_fixture_path_count: {}\n  fixture_retention_refs:\n{}  dirty_worktree: {}\nevidence_only_reviews:\n  post_integration_architecture_review_ref: {}\n  post_integration_architecture_review_authority: evidence-only\n  packet_terminal_evaluator_ref: {}\n  packet_terminal_evaluator_authority: evidence-only\n  lifecycle_postmortem_ref: {}\n  lifecycle_postmortem_authority: evidence-only\ngit_github_route:\n  route_ref: {}\n  branch_no_pr: false\n  mutation_delegated: true\n  exact_sha_checks_ref: not-applicable\n  landing_authorization_ref: not-applicable\n  branch_cleanup_required: false\n  branch_cleanup_authorization_ref: not-applicable\narchive_boundary:\n  archive_owner_ref: .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml\n  relocation_performed: false\nblocker:\n  class: {}\n  detail: {}\n  failing_evidence_ref: {}\n  next_canonical_route: {}\nretained_evidence_inventory:\n{}\nexpected_no_new_evidence_loop: true\nnon_authority_declarations:\n  proposal_inputs: non-authority\n  generated_outputs: derived-only-non-authority\n  generated_prompts: non-authority\n  host_state: non-authority\n  dashboards: non-authority\n  chat: non-authority\n  tool_state: non-authority\n  model_memory: non-authority\ntarget_owned_evidence_policy:\n  cites_target_owned_evidence: true\n  aggregate_receipt_replaces_target_owned_receipts: false\n",
+        terminal_yaml_quote(terminal_run_id),
+        terminal_yaml_quote(terminalized_at),
+        terminal_yaml_quote(&manifest.proposal_id),
+        terminal_yaml_quote(proposal_rel),
+        terminal_yaml_quote(&manifest.proposal_kind),
+        terminal_yaml_quote(&manifest.status),
+        terminal_yaml_quote(target_outcome),
+        terminal_yaml_quote(terminal_verdict),
+        terminal_yaml_quote(profile_rel),
+        terminal_yaml_quote(profile_digest),
+        terminal_yaml_quote(profile_validation_ref),
+        terminal_stage_ledger_yaml(stages, "  "),
+        terminal_yaml_quote(&format!("{proposal_rel}/support/implementation-conformance-review.md")),
+        terminal_yaml_quote(&conformance.log_rel),
+        if conformance.success { "true" } else { "false" },
+        terminal_yaml_quote(&format!(
+            "{proposal_rel}/support/post-implementation-drift-churn-review.md"
+        )),
+        terminal_yaml_quote(&drift.log_rel),
+        if drift.success { "true" } else { "false" },
+        terminal_yaml_array(&[
+            format!("{proposal_rel}/proposal.yml"),
+            format!("{proposal_rel}/support/implementation-run.md"),
+            format!("{proposal_rel}/support/proposal-closeout.md")
+        ], "  "),
+        publication_validator_yaml,
+        terminal_yaml_array(
+            &publication_results
+                .iter()
+                .map(|result| result.log_rel.clone())
+                .collect::<Vec<_>>(),
+            "  "
+        ),
+        terminal_yaml_quote(&generated_non_authority.log_rel),
+        terminal_yaml_quote(&run_health.log_rel),
+        if run_health.success { "pass" } else { "blocked" },
+        terminal_yaml_quote(&capability.log_rel),
+        if capability.success { "pass" } else { "blocked" },
+        terminal_yaml_quote(&extension.log_rel),
+        if extension.success { "pass" } else { "blocked" },
+        terminal_yaml_quote(&repo_hygiene_rel),
+        terminal_yaml_quote(&worktree.report_rel),
+        if worktree.foreign_or_ambiguous_count == 0 {
+            "pass"
+        } else {
+            "blocked"
+        },
+        worktree.foreign_or_ambiguous_count,
+        worktree.retained_fixture_path_count,
+        terminal_yaml_array(&worktree.retained_fixture_receipt_refs, "  "),
+        if worktree.dirty_worktree { "true" } else { "false" },
+        terminal_yaml_quote(&evidence_review_rel),
+        terminal_yaml_quote(&evidence_review_rel),
+        terminal_yaml_quote(&evidence_review_rel),
+        terminal_yaml_quote(&git_route_rel),
+        terminal_yaml_quote(&blocker.class),
+        terminal_yaml_quote(&blocker.detail),
+        terminal_yaml_quote(&blocker.failing_evidence_ref),
+        terminal_yaml_quote(&blocker.next_canonical_route),
+        terminal_yaml_array(retained_inventory, "")
+    )
+}
+
+fn terminal_stage_ledger_yaml(stages: &[TerminalStageRecord], indent: &str) -> String {
+    stages
+        .iter()
+        .map(|stage| {
+            format!(
+                "{indent}- state_id: {}\n{indent}  input_refs:\n{}{indent}  validator_command_refs:\n{}{indent}  output_evidence_refs:\n{}{indent}  state_verdict: {}\n{indent}  retry_count: 0\n{indent}  resume_cursor: complete\n",
+                stage.state_id,
+                terminal_yaml_array(&stage.input_refs, &format!("{indent}    ")),
+                terminal_yaml_array(&stage.validator_command_refs, &format!("{indent}    ")),
+                terminal_yaml_array(&stage.output_evidence_refs, &format!("{indent}    ")),
+                stage.state_verdict
+            )
+        })
+        .collect::<String>()
+}
+
+fn terminal_yaml_array(values: &[String], indent: &str) -> String {
+    if values.is_empty() {
+        return format!("{indent}- not-applicable\n");
+    }
+    values
+        .iter()
+        .map(|value| format!("{indent}- {}\n", terminal_yaml_quote(value)))
+        .collect()
+}
+
+fn terminal_bullets(values: &[String]) -> String {
+    if values.is_empty() {
+        return "- none".to_string();
+    }
+    values
+        .iter()
+        .map(|value| format!("- `{value}`"))
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
+fn terminal_yaml_quote(value: &str) -> String {
+    format!("\"{}\"", value.replace('\\', "\\\\").replace('"', "\\\""))
+}
+
 pub fn run_archive_proposal_from_octon_dir(
     octon_dir: &Path,
     options: RunArchiveProposalOptions,
@@ -3101,7 +5312,50 @@ pub fn run_archive_proposal_from_octon_dir(
     )?;
     let summary_report = unique_file(&reports_root, &format!("{date}-archive-proposal"), "md")?;
 
-    if !proposal_root.is_dir() {
+    let active_identity = parse_active_proposal_rel(&proposal_rel);
+    let (mut manifest, validation_root, recovered_partial_archive) = if proposal_root.is_dir() {
+        let manifest = load_proposal_manifest(&proposal_root)?;
+        ensure!(
+            proposal_rel
+                == expected_active_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id),
+            "proposal must be archived from the active path: {}",
+            proposal_rel
+        );
+        ensure!(
+            manifest.status != "archived",
+            "proposal is already archived: {}",
+            proposal_rel
+        );
+        (manifest, proposal_root.clone(), false)
+    } else if let Some((proposal_kind, proposal_id)) = active_identity {
+        let archived_rel = expected_archived_proposal_rel(&proposal_kind, &proposal_id);
+        let archived_root = repo_root.join(&archived_rel);
+        if !archived_root.is_dir() {
+            let message = format!("target proposal not found: {}", proposal_root.display());
+            let _ = finalize_workflow_failure(
+                &workflow_artifacts,
+                &workflow_request,
+                &workflow_grant,
+                &started_at,
+                message.clone(),
+                vec![
+                    bundle_root.display().to_string(),
+                    proposal_root.display().to_string(),
+                ],
+            );
+            bail!(message);
+        }
+        let manifest = load_proposal_manifest(&archived_root)?;
+        validate_partial_archive_recovery(
+            &manifest,
+            &proposal_kind,
+            &proposal_id,
+            &proposal_rel,
+            &options.disposition,
+            &options.promotion_evidence,
+        )?;
+        (manifest, archived_root, true)
+    } else {
         let message = format!("target proposal not found: {}", proposal_root.display());
         let _ = finalize_workflow_failure(
             &workflow_artifacts,
@@ -3115,51 +5369,15 @@ pub fn run_archive_proposal_from_octon_dir(
             ],
         );
         bail!(message);
-    }
+    };
 
-    let mut manifest = load_proposal_manifest(&proposal_root)?;
-    ensure!(
-        proposal_rel
-            == expected_active_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id),
-        "proposal must be archived from the active path: {}",
-        proposal_rel
-    );
-    ensure!(
-        manifest.status != "archived",
-        "proposal is already archived: {}",
-        proposal_rel
-    );
-    match options.disposition.as_str() {
-        "implemented" => {
-            ensure!(
-                manifest.status == "implemented",
-                "archive-proposal with disposition=implemented requires status=implemented, found {}",
-                manifest.status
-            );
-            validate_repo_relative_paths(
-                &repo_root,
-                &options.promotion_evidence,
-                "promotion_evidence",
-            )?;
-        }
-        "rejected" => {
-            ensure!(
-                manifest.status == "rejected",
-                "archive-proposal with disposition=rejected requires status=rejected, found {}",
-                manifest.status
-            );
-        }
-        "historical" | "superseded" => {
-            if !options.promotion_evidence.is_empty() {
-                validate_repo_relative_paths(
-                    &repo_root,
-                    &options.promotion_evidence,
-                    "promotion_evidence",
-                )?;
-            }
-        }
-        other => bail!("unsupported archive disposition '{}'", other),
-    }
+    validate_archive_disposition(
+        &repo_root,
+        &manifest,
+        &options.disposition,
+        &options.promotion_evidence,
+        recovered_partial_archive,
+    )?;
 
     let stage_validate = authorize_workflow_stage(
         &runtime_cfg,
@@ -3193,7 +5411,7 @@ pub fn run_archive_proposal_from_octon_dir(
     )?;
     let validator_log = match run_archive_proposal_validator_stack(
         &repo_root,
-        &proposal_root,
+        &validation_root,
         &bundle_root,
         &manifest.proposal_kind,
     ) {
@@ -3229,7 +5447,11 @@ pub fn run_archive_proposal_from_octon_dir(
         vec![rel_path(&repo_root, &validator_log)],
     )?;
 
-    let archived_from_status = manifest.status.clone();
+    let archived_from_status = manifest
+        .archive
+        .as_ref()
+        .map(|archive| archive.archived_from_status.clone())
+        .unwrap_or_else(|| manifest.status.clone());
     let archived_rel =
         expected_archived_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id);
     let archived_root = repo_root.join(&archived_rel);
@@ -3263,29 +5485,43 @@ pub fn run_archive_proposal_from_octon_dir(
         None,
     )?;
     let archive_result: Result<()> = (|| {
-        ensure!(
-            !archived_root.exists(),
-            "archive destination already exists: {}",
-            archived_root.display()
-        );
-        if let Some(parent) = archived_root.parent() {
-            fs::create_dir_all(parent).with_context(|| format!("create {}", parent.display()))?;
-        }
-        fs::rename(&proposal_root, &archived_root).with_context(|| {
-            format!(
-                "move proposal from {} to {}",
-                proposal_root.display(),
+        if recovered_partial_archive {
+            ensure!(
+                archived_root.is_dir(),
+                "partial archive recovery requires archived destination: {}",
                 archived_root.display()
-            )
-        })?;
-        manifest.status = "archived".to_string();
-        manifest.archive = Some(ProposalArchiveMetadata {
-            archived_at: today_string()?,
-            archived_from_status,
-            disposition: options.disposition.clone(),
-            original_path: proposal_rel.clone(),
-            promotion_evidence: options.promotion_evidence.clone(),
-        });
+            );
+            ensure!(
+                !proposal_root.exists(),
+                "partial archive recovery requires absent active source: {}",
+                proposal_root.display()
+            );
+        } else {
+            ensure!(
+                !archived_root.exists(),
+                "archive destination already exists: {}",
+                archived_root.display()
+            );
+            if let Some(parent) = archived_root.parent() {
+                fs::create_dir_all(parent)
+                    .with_context(|| format!("create {}", parent.display()))?;
+            }
+            fs::rename(&proposal_root, &archived_root).with_context(|| {
+                format!(
+                    "move proposal from {} to {}",
+                    proposal_root.display(),
+                    archived_root.display()
+                )
+            })?;
+            manifest.status = "archived".to_string();
+            manifest.archive = Some(ProposalArchiveMetadata {
+                archived_at: today_string()?,
+                archived_from_status,
+                disposition: options.disposition.clone(),
+                original_path: proposal_rel.clone(),
+                promotion_evidence: options.promotion_evidence.clone(),
+            });
+        }
         write_proposal_manifest(&archived_root, &manifest)?;
         fs::write(
             archived_root.join("navigation/artifact-catalog.md"),
@@ -3296,6 +5532,8 @@ pub fn run_archive_proposal_from_octon_dir(
                 &archived_rel,
             )?,
         )?;
+        ensure_archive_gitignore_allowlist(&repo_root, &archived_rel)?;
+        regenerate_proposal_artifact_index(&repo_root, &archived_rel)?;
         regenerate_proposal_registry(&repo_root, true)?;
         Ok(())
     })();
@@ -3325,6 +5563,15 @@ pub fn run_archive_proposal_from_octon_dir(
         None,
         vec![
             archived_rel.clone(),
+            ".gitignore".to_string(),
+            format!(
+                ".octon/generated/proposals/artifacts/{}/{}/proposal-artifact-index.yml",
+                manifest.proposal_kind, manifest.proposal_id
+            ),
+            format!(
+                ".octon/generated/proposals/artifacts/{}/{}/proposal-program-spine.yml",
+                manifest.proposal_kind, manifest.proposal_id
+            ),
             ".octon/generated/proposals/registry.yml".to_string(),
         ],
     )?;
@@ -5268,6 +7515,199 @@ fn expected_archived_proposal_rel(proposal_kind: &str, proposal_id: &str) -> Str
     format!("{PROPOSALS_ROOT_REL}/.archive/{proposal_kind}/{proposal_id}")
 }
 
+fn parse_active_proposal_rel(proposal_rel: &str) -> Option<(String, String)> {
+    let prefix = format!("{PROPOSALS_ROOT_REL}/");
+    let rest = proposal_rel.strip_prefix(&prefix)?;
+    if rest.starts_with(".archive/") {
+        return None;
+    }
+    let mut parts = rest.split('/');
+    let proposal_kind = parts.next()?;
+    let proposal_id = parts.next()?;
+    if parts.next().is_some() || proposal_kind.is_empty() || proposal_id.is_empty() {
+        return None;
+    }
+    Some((proposal_kind.to_string(), proposal_id.to_string()))
+}
+
+fn validate_partial_archive_recovery(
+    manifest: &ProposalManifest,
+    proposal_kind: &str,
+    proposal_id: &str,
+    original_path: &str,
+    disposition: &str,
+    promotion_evidence: &[String],
+) -> Result<()> {
+    ensure!(
+        manifest.proposal_kind == proposal_kind,
+        "partial archive proposal_kind mismatch: expected {}, found {}",
+        proposal_kind,
+        manifest.proposal_kind
+    );
+    ensure!(
+        manifest.proposal_id == proposal_id,
+        "partial archive proposal_id mismatch: expected {}, found {}",
+        proposal_id,
+        manifest.proposal_id
+    );
+    ensure!(
+        manifest.status == "archived",
+        "partial archive recovery requires archived status, found {}",
+        manifest.status
+    );
+    let archive = manifest
+        .archive
+        .as_ref()
+        .context("partial archive recovery requires archive metadata")?;
+    ensure!(
+        archive.original_path == original_path,
+        "partial archive original_path mismatch: expected {}, found {}",
+        original_path,
+        archive.original_path
+    );
+    ensure!(
+        archive.disposition == disposition,
+        "partial archive disposition mismatch: expected {}, found {}",
+        disposition,
+        archive.disposition
+    );
+    ensure!(
+        archive.promotion_evidence == promotion_evidence,
+        "partial archive promotion_evidence mismatch"
+    );
+    Ok(())
+}
+
+fn validate_archive_disposition(
+    repo_root: &Path,
+    manifest: &ProposalManifest,
+    disposition: &str,
+    promotion_evidence: &[String],
+    recovered_partial_archive: bool,
+) -> Result<()> {
+    match disposition {
+        "implemented" => {
+            if recovered_partial_archive {
+                let archive = manifest
+                    .archive
+                    .as_ref()
+                    .context("implemented partial archive recovery requires archive metadata")?;
+                ensure!(
+                    archive.archived_from_status == "implemented",
+                    "archive-proposal with disposition=implemented requires archived_from_status=implemented, found {}",
+                    archive.archived_from_status
+                );
+            } else {
+                ensure!(
+                    manifest.status == "implemented",
+                    "archive-proposal with disposition=implemented requires status=implemented, found {}",
+                    manifest.status
+                );
+            }
+            validate_repo_relative_paths(repo_root, promotion_evidence, "promotion_evidence")?;
+        }
+        "rejected" => {
+            if recovered_partial_archive {
+                let archive = manifest
+                    .archive
+                    .as_ref()
+                    .context("rejected partial archive recovery requires archive metadata")?;
+                ensure!(
+                    archive.archived_from_status == "rejected",
+                    "archive-proposal with disposition=rejected requires archived_from_status=rejected, found {}",
+                    archive.archived_from_status
+                );
+            } else {
+                ensure!(
+                    manifest.status == "rejected",
+                    "archive-proposal with disposition=rejected requires status=rejected, found {}",
+                    manifest.status
+                );
+            }
+        }
+        "historical" | "superseded" => {
+            if !promotion_evidence.is_empty() {
+                validate_repo_relative_paths(repo_root, promotion_evidence, "promotion_evidence")?;
+            }
+        }
+        other => bail!("unsupported archive disposition '{}'", other),
+    }
+    Ok(())
+}
+
+fn ensure_archive_gitignore_allowlist(repo_root: &Path, archived_rel: &str) -> Result<()> {
+    let gitignore_path = repo_root.join(".gitignore");
+    let mut contents = fs::read_to_string(&gitignore_path).unwrap_or_default();
+    let dir_line = format!("!{archived_rel}/");
+    let tree_line = format!("!{archived_rel}/**");
+    if contents.lines().any(|line| line == dir_line)
+        && contents.lines().any(|line| line == tree_line)
+    {
+        return Ok(());
+    }
+    let marker = "!.octon/inputs/exploratory/proposals/.archive/architecture/";
+    let mut lines: Vec<String> = contents.lines().map(ToString::to_string).collect();
+    let insert_at = lines
+        .iter()
+        .rposition(|line| line.starts_with("!.octon/inputs/exploratory/proposals/.archive/"))
+        .map(|index| index + 1)
+        .or_else(|| {
+            lines
+                .iter()
+                .position(|line| line == marker)
+                .map(|index| index + 1)
+        })
+        .unwrap_or(lines.len());
+    if !lines.iter().any(|line| line == &dir_line) {
+        lines.insert(insert_at, dir_line);
+    }
+    let tree_insert_at = lines
+        .iter()
+        .position(|line| line == &format!("!{archived_rel}/"))
+        .map(|index| index + 1)
+        .unwrap_or(insert_at + 1);
+    if !lines.iter().any(|line| line == &tree_line) {
+        lines.insert(tree_insert_at, tree_line);
+    }
+    contents = lines.join("\n");
+    contents.push('\n');
+    fs::write(&gitignore_path, contents)
+        .with_context(|| format!("write {}", gitignore_path.display()))
+}
+
+fn regenerate_proposal_artifact_index(repo_root: &Path, proposal_rel: &str) -> Result<()> {
+    let generator = repo_root.join(
+        ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+    );
+    ensure!(
+        generator.is_file(),
+        "proposal artifact index generator missing: {}",
+        generator.display()
+    );
+    let output = Command::new("bash")
+        .arg(&generator)
+        .arg("--proposal")
+        .arg(proposal_rel)
+        .arg("--write")
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| {
+            format!(
+                "run proposal artifact index generator {}",
+                generator.display()
+            )
+        })?;
+    if !output.status.success() {
+        bail!(
+            "proposal artifact index generator failed via --write (status {})\nstdout:\n{}\nstderr:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr),
+        );
+    }
+    Ok(())
+}
+
 fn static_primary_docs(kind: StaticProposalKind) -> Vec<&'static str> {
     match kind {
         StaticProposalKind::Migration => vec![
@@ -6528,6 +8968,42 @@ mod tests {
             fs::create_dir_all(parent).expect("parent directory should exist");
         }
         fs::write(path, contents).expect("file should be written");
+    }
+
+    #[test]
+    fn terminal_acp_diff_accepts_only_current_run_appends() {
+        let run_id = "proposal-packet-terminal-closeout-123-456";
+        let accepted = r#"diff --git a/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl b/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+index 1111111..2222222 100644
+--- a/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
++++ b/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+@@ -1,0 +2,2 @@
++{"run_id":"proposal-packet-terminal-closeout-123-456","decision":"allow"}
++{"run_id":"proposal-packet-terminal-closeout-123-456-bind-profile","decision":"allow"}
+"#;
+        assert!(terminal_acp_diff_additions_belong_to_run(accepted, run_id));
+
+        let wrong_run = accepted.replace(
+            "proposal-packet-terminal-closeout-123-456-bind-profile",
+            "proposal-packet-terminal-closeout-999-000-bind-profile",
+        );
+        assert!(!terminal_acp_diff_additions_belong_to_run(
+            &wrong_run, run_id
+        ));
+
+        let removed = format!("{accepted}-{{\"run_id\":\"{run_id}\",\"decision\":\"old\"}}\n");
+        assert!(!terminal_acp_diff_additions_belong_to_run(&removed, run_id));
+
+        let malformed = format!("{accepted}+not-json\n");
+        assert!(!terminal_acp_diff_additions_belong_to_run(
+            &malformed, run_id
+        ));
+
+        let missing_run_id = format!("{accepted}+{{\"decision\":\"allow\"}}\n");
+        assert!(!terminal_acp_diff_additions_belong_to_run(
+            &missing_run_id,
+            run_id
+        ));
     }
 
     #[test]

@@ -294,6 +294,47 @@ case_check_ref_without_source_sha_fails() {
   ! run_hosted_validator "$receipt"
 }
 
+case_authorized_empty_check_set_passes() {
+  local receipt auth
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" '
+    .hosted_landing.required_check_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    | .landing_evaluation.evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    | .validation_evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+  '
+  auth="$(attach_valid_landing_authorization "$receipt")"
+  rewrite_json_file "$auth" '.allow_empty_check_set = true'
+  run_hosted_validator "$receipt"
+}
+
+case_unauthorized_empty_check_set_fails() {
+  local receipt
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" '
+    .hosted_landing.required_check_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    | .landing_evaluation.evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    | .validation_evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+  '
+  attach_valid_landing_authorization "$receipt" >/dev/null
+  ! run_hosted_validator "$receipt"
+}
+
+case_empty_check_set_authorization_mismatch_fails() {
+  local receipt auth
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" '
+    .hosted_landing.required_check_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    | .landing_evaluation.evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    | .validation_evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+  '
+  auth="$(attach_valid_landing_authorization "$receipt")"
+  rewrite_json_file "$auth" '
+    .allow_empty_check_set = true
+    | .required_check_refs = ["empty-check-set-explicitly-allowed@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"]
+  '
+  ! run_hosted_validator "$receipt"
+}
+
 case_missing_pushed_source_branch_evidence_fails() {
   local receipt
   receipt="$(copy_valid_hosted_receipt)"
@@ -455,6 +496,9 @@ main() {
   assert_success "mismatched landed ref fails" case_mismatched_landed_ref_fails
   assert_success "hosted no-PR receipt missing one route-neutral check fails" case_missing_route_neutral_check_fails
   assert_success "hosted no-PR check ref not bound to source SHA fails" case_check_ref_without_source_sha_fails
+  assert_success "authorized empty-check-set hosted no-PR receipt passes" case_authorized_empty_check_set_passes
+  assert_success "unauthorized empty-check-set hosted no-PR receipt fails" case_unauthorized_empty_check_set_fails
+  assert_success "empty-check-set receipt and authorization mismatch fails" case_empty_check_set_authorization_mismatch_fails
   assert_success "hosted no-PR receipt missing pushed source branch evidence fails" case_missing_pushed_source_branch_evidence_fails
   assert_success "hosted no-PR receipt missing landing authorization fails" case_missing_landing_authorization_fails
   assert_success "hosted no-PR receipt denied landing authorization fails" case_denied_landing_authorization_fails

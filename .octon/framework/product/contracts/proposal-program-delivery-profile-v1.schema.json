@@ -1,0 +1,300 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/proposal-program-delivery-profile-v1.schema.json",
+  "title": "Proposal Program Delivery Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "created_at",
+    "target_program_path",
+    "target_outcome",
+    "route_preference",
+    "pr_policy",
+    "stash_policy",
+    "child_execution",
+    "required_proposal_validators",
+    "required_implementation_validators",
+    "publication_checks",
+    "mechanism_integration_checks",
+    "closeout_requirements",
+    "hygiene_requirements",
+    "terminal_proof_requirements",
+    "final_sync_requirements",
+    "non_authority_boundaries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proposal-program-delivery-profile-v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_program_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_outcome": {
+      "enum": [
+        "implemented",
+        "archive-ready",
+        "landed",
+        "synced",
+        "cleaned"
+      ]
+    },
+    "route_preference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_unit_route",
+        "landing_route",
+        "pr_creation_allowed"
+      ],
+      "properties": {
+        "work_unit_route": {
+          "enum": [
+            "direct-main",
+            "branch-only",
+            "branch-no-pr",
+            "branch-pr",
+            "stage-only"
+          ]
+        },
+        "landing_route": {
+          "enum": [
+            "direct-main",
+            "branch-no-pr",
+            "branch-pr",
+            "not-applicable"
+          ]
+        },
+        "pr_creation_allowed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pr_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "allow_pr_creation",
+        "fallback_to_pr"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "forbid-pr",
+            "allow-pr",
+            "require-pr"
+          ]
+        },
+        "allow_pr_creation": {
+          "type": "boolean"
+        },
+        "fallback_to_pr": {
+          "type": "boolean"
+        }
+      }
+    },
+    "stash_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "preserve_unrelated_work"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "forbidden",
+            "allowed"
+          ]
+        },
+        "preserve_unrelated_work": {
+          "type": "boolean"
+        }
+      }
+    },
+    "child_execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replan_after_material_changes",
+        "target_owned_receipts_required",
+        "parent_summary_satisfies_child_receipts"
+      ],
+      "properties": {
+        "replan_after_material_changes": {
+          "type": "boolean"
+        },
+        "target_owned_receipts_required": {
+          "type": "boolean"
+        },
+        "parent_summary_satisfies_child_receipts": {
+          "type": "boolean"
+        }
+      }
+    },
+    "required_proposal_validators": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required_implementation_validators": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "publication_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owning_publishers_only",
+        "generated_outputs_are_non_authority",
+        "freshness_validator",
+        "direct_generated_output_edits_allowed"
+      ],
+      "properties": {
+        "owning_publishers_only": {
+          "type": "boolean"
+        },
+        "generated_outputs_are_non_authority": {
+          "type": "boolean"
+        },
+        "freshness_validator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direct_generated_output_edits_allowed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "mechanism_integration_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_when_applicable",
+        "receipt_required_when_required"
+      ],
+      "properties": {
+        "required_when_applicable": {
+          "type": "boolean"
+        },
+        "receipt_required_when_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "closeout_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "packet_closeout_required",
+        "archive_lifecycle_required",
+        "change_closeout_required",
+        "delegate_git_mutation_to_change_closeout"
+      ],
+      "properties": {
+        "packet_closeout_required": {
+          "type": "boolean"
+        },
+        "archive_lifecycle_required": {
+          "type": "boolean"
+        },
+        "change_closeout_required": {
+          "type": "boolean"
+        },
+        "delegate_git_mutation_to_change_closeout": {
+          "type": "boolean"
+        }
+      }
+    },
+    "hygiene_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cleanup_authorization_required",
+        "classification_alone_authorizes_deletion"
+      ],
+      "properties": {
+        "cleanup_authorization_required": {
+          "type": "boolean"
+        },
+        "classification_alone_authorizes_deletion": {
+          "type": "boolean"
+        }
+      }
+    },
+    "terminal_proof_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "terminal_current_state_proof_required",
+        "worktree_hygiene_required"
+      ],
+      "properties": {
+        "terminal_current_state_proof_required": {
+          "type": "boolean"
+        },
+        "worktree_hygiene_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "final_sync_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "main_origin_landed_ref_equality_required"
+      ],
+      "properties": {
+        "main_origin_landed_ref_equality_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "non_authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_local_files",
+        "generated_prompts",
+        "generated_outputs",
+        "dashboards",
+        "chat_or_model_memory"
+      ],
+      "properties": {
+        "proposal_local_files": {
+          "const": "non-authority"
+        },
+        "generated_prompts": {
+          "const": "non-authority"
+        },
+        "generated_outputs": {
+          "const": "derived-only-non-authority"
+        },
+        "dashboards": {
+          "const": "non-authority"
+        },
+        "chat_or_model_memory": {
+          "const": "non-authority"
+        }
+      }
+    }
+  }
+}

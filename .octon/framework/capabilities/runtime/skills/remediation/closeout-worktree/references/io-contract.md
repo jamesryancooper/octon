@@ -119,6 +119,7 @@ include:
 - optional `repo_hygiene_cleanup_authorization_ref`
 - optional `repo_hygiene_cleanup_outcome`
 - optional `repo_hygiene_next_route_condition`
+- optional `fixture_retention_receipt_refs`
 - `next_route_condition`
 
 `worktree_terminal_state` must be one of:
@@ -153,6 +154,16 @@ candidate-keyed retained evidence. `unsafe` and `ambiguous` force
 A selected candidate may stop before delegation only when candidate-keyed
 blocker evidence explains why the selected candidate itself cannot safely run
 through `closeout-change`.
+
+A fixture residue candidate may use `residue_routing_class:
+local_private_retained` only when it includes
+`fixture_retention_receipt_ref` pointing to a validating
+`fixture-retention-closeout-receipt-v1` receipt. The wrapper consumes that
+receipt but does not own fixture-retention authority. The receipt must prove
+exact retained path-set match, current status digest, current schema/route
+version, matching purpose and owner scope, freshness, and no archive-ready,
+cleaned, deletion, Git, publication, status-mutation, or target packet evidence
+authority.
 
 When a `publishable_change` candidate includes lifecycle-owned proposal input
 surfaces, archived proposal inputs, generated effective publication outputs,

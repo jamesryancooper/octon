@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/context/context-pack.json
+context_pack_sha256: sha256:909d0e425d99aeec8a2f0cdf8cec22a12e385b4a1cf391c5b1a4c11851a9cb17
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:bb7c1011347590240149914b81e8c824bd215819d36cfcecc260d6eedadb55f4
+receipt_sha256: sha256:ae6af2714a0bee981103a4cdb6086f1d7c0dce46401c971e1e31d1397a994907
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-worktree-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-14T15:52:42.461336Z
+validity_state: valid

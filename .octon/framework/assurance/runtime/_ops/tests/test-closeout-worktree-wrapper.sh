@@ -3152,11 +3152,213 @@ case_lifecycle_publishable_change_without_authority_fails() {
   ! run_validator_with_fixtures "$report" >/dev/null
 }
 
+write_fixture_retention_receipt_fixture() {
+  local receipt_dir path
+  ensure_fixture_root
+  receipt_dir="$fixture_root/.octon/state/evidence/runs/workflows/fixture-retention-closeout-test"
+  mkdir -p "$receipt_dir"
+  path=".octon/inputs/exploratory/proposals/policy/example-retention-fixture/proposal.yml"
+  cat >"$receipt_dir/retention-receipt.yml" <<YAML
+schema_version: fixture-retention-closeout-receipt-v1
+route_id: fixture-retention-closeout
+retention_run_id: fixture-retention-closeout-test
+retained_at: "2026-06-14T00:00:00Z"
+retention_verdict: retained
+fixture:
+  proposal_id: example-retention-fixture
+  proposal_kind: policy
+  path: .octon/inputs/exploratory/proposals/policy/example-retention-fixture
+  status: implemented
+  temporary_lifecycle: true
+  promotion_targets:
+    - docs/example-policy.md
+purpose: terminal-closeout-genericity-validation-fixture
+owner_scope: terminal-closeout-route-repair
+used_as_evidence_for:
+  - terminal-closeout-genericity-validation-fixture
+evidence_refs:
+  - .octon/state/evidence/runs/workflows/example-terminal-closeout/terminal-receipt.yml
+fixture_scope:
+  roots:
+    - .octon/inputs/exploratory/proposals/policy/example-retention-fixture
+retained_paths:
+  - $path
+retained_status_entries:
+  - status: "??"
+    path: $path
+retained_path_set_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+git_status_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+source_digests:
+  - path: $path
+    digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+generated_artifact_refs: []
+freshness:
+  mode: current-git-status-and-source-digest-bound
+  status: fresh
+validation_refs:
+  - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/stage-logs/fixture-retention-receipt-validation.log
+terminal_worktree_hygiene_consumption:
+  allowed: true
+  exact_path_set_match_required: true
+  current_digest_match_required: true
+  schema_route_version_match_required: true
+  purpose_owner_scope_match_required: true
+  all_retained_paths_inside_declared_scope_required: true
+  unrelated_residue_coverage_forbidden: true
+  nonblocking_only_for_unrelated_packet_terminal_readiness: true
+  target_packet_evidence_authority: false
+  purpose: terminal-closeout-genericity-validation-fixture
+  owner_scope: terminal-closeout-route-repair
+  does_not_authorize:
+    - archive-ready-claim
+    - cleaned-claim
+authority_boundaries:
+  archive_relocation: false
+  proposal_status_mutation: false
+  generated_publication_edit: false
+  git_mutation: false
+  residue_deletion: false
+  repo_hygiene_deletion_authority: false
+  target_packet_evidence_authority: false
+blocker:
+  class: none
+  detail: no blocker
+  failing_evidence_ref: not-applicable
+  next_canonical_route: not-applicable
+state_ledger:
+  - state_id: resolve-fixture-identity
+    input_refs: [$path]
+    validator_command_refs: [validate-fixture-retention-closeout-receipt.sh]
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/reports/resolve-fixture-identity-report.md
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/stages/resolve-fixture-identity/outcome.json
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: bind-retention-scope
+    input_refs: [$path]
+    validator_command_refs: [validate-fixture-retention-closeout-receipt.sh]
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/reports/bind-retention-scope-report.md
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/stages/bind-retention-scope/outcome.json
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-retained-evidence
+    input_refs: [$path]
+    validator_command_refs: [validate-fixture-retention-closeout-receipt.sh]
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/reports/verify-retained-evidence-report.md
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/stages/verify-retained-evidence/outcome.json
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: classify-retained-path-set
+    input_refs: [$path]
+    validator_command_refs: [validate-fixture-retention-closeout-receipt.sh]
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/reports/classify-retained-path-set-report.md
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/stages/classify-retained-path-set/outcome.json
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: emit-retention-receipt
+    input_refs: [$path]
+    validator_command_refs: [validate-fixture-retention-closeout-receipt.sh]
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/reports/emit-retention-receipt-report.md
+      - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/stages/emit-retention-receipt/outcome.json
+    state_verdict: retained
+    retry_count: 0
+    resume_cursor: complete
+YAML
+}
+
+write_fixture_retention_wrapper_report() {
+  local report="$1" include_receipt="$2" path
+  path=".octon/inputs/exploratory/proposals/policy/example-retention-fixture/proposal.yml"
+  cat >"$report" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-retention
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-fixture
+candidates:
+  - candidate_id: candidate-fixture
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: fixture-retention
+    route_hint: fixture-retention-closeout
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve fixture as validation evidence
+YAML
+  if [[ "$include_receipt" == "yes" ]]; then
+    cat >>"$report" <<'YAML'
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/retention-receipt.yml
+YAML
+  fi
+  cat >>"$report" <<YAML
+    boundaries:
+      include_paths:
+        - $path
+      exclude_paths: []
+iterations: []
+final_candidate_dispositions:
+  candidate-fixture:
+    state: retained
+    reason: fixture retention receipt covers exact path set
+retained_residue:
+  - candidate_id: candidate-fixture
+    path: $path
+    disposition: retained fixture evidence
+YAML
+  if [[ "$include_receipt" == "yes" ]]; then
+    cat >>"$report" <<'YAML'
+    fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/retention-receipt.yml
+YAML
+  fi
+  cat >>"$report" <<'YAML'
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  untracked: 1
+  ignored: 0
+  retained_evidence: 1
+fixture_retention_receipt_refs:
+  - .octon/state/evidence/runs/workflows/fixture-retention-closeout-test/retention-receipt.yml
+next_route_condition: retained fixture residue remains nonblocking only under fixture-retention-closeout receipt
+YAML
+}
+
+case_fixture_retention_with_receipt_passes() {
+  local report
+  report="$(new_report)"
+  write_fixture_retention_receipt_fixture
+  write_fixture_retention_wrapper_report "$report" yes
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_fixture_retention_without_receipt_fails() {
+  local report
+  report="$(new_report)"
+  write_fixture_retention_wrapper_report "$report" no
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
 main() {
   assert_success "static closeout-worktree registration and projection pass" case_static_validator_passes
   assert_success "valid multi-candidate wrapper orchestration report passes" case_valid_multi_candidate_report_passes
   assert_success "lifecycle publishable candidate with authority passes" case_lifecycle_publishable_change_with_authority_passes
   assert_success "lifecycle publishable candidate without authority fails" case_lifecycle_publishable_change_without_authority_fails
+  assert_success "fixture retained residue with receipt passes" case_fixture_retention_with_receipt_passes
+  assert_success "fixture retained residue without receipt fails" case_fixture_retention_without_receipt_fails
   assert_success "repo-hygiene delegated cleanup report passes" case_repo_hygiene_delegated_cleanup_report_passes
   assert_success "git-clean terminal report after evidence-retention candidate passes" case_git_clean_terminal_after_evidence_retention_candidate_passes
   assert_success "disposition-complete retained residue report passes" case_disposition_complete_with_retained_residue_passes

@@ -76,7 +76,16 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    wrapper may record the classification, delegated run, authorization ref, and
    next-route condition, but `repo_hygiene_cleanup_actions_performed` must
    remain false because this wrapper did not delete anything.
-9. **Re-inventory** — After each delegated closeout attempt or delegated
+9. **Delegate Fixture Retention Residue** — When classification identifies a
+   temporary proposal fixture candidate from manifest-derived fields, delegate
+   classification to `fixture-retention-closeout`. The wrapper may record the
+   delegated retention receipt ref and treat the exact covered residue as
+   `local_private_retained` only when
+   `validate-fixture-retention-closeout-receipt.sh` validates the receipt,
+   path-set digest, current git status digest, purpose, owner scope, freshness,
+   and non-authority boundaries. The wrapper does not delete, archive, status
+   mutate, publish, stage, commit, push, or clean fixture residue itself.
+10. **Re-inventory** — After each delegated closeout attempt or delegated
    repo-hygiene cleanup, re-run inventory and classification before selecting
    another candidate. When the generic target is `cleaned` and the only new
    non-ignored residue is unambiguous closeout evidence under retained evidence
@@ -89,12 +98,12 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    `closeout-worktree` skill run logs under
    `.octon/state/evidence/runs/skills/closeout-worktree/**` as publishable
    closeout evidence.
-10. **Repeat Or Stop** — Continue selecting and delegating one candidate at a
+11. **Repeat Or Stop** — Continue selecting and delegating one candidate at a
    time while coherent candidates remain. Stop only when every candidate is
    closed, retained, blocked, escalated, deferred, or foreign with evidence and
    the wrapper can truthfully report a `worktree_terminal_state`, or when the
    next selected candidate has a candidate-keyed blocker.
-11. **Wrapper Report** — Record the final worktree disposition: closed
+12. **Wrapper Report** — Record the final worktree disposition: closed
     Changes, retained candidates, blocked or escalated items, evidence refs,
     repo-hygiene classification refs, delegated repo-hygiene cleanup refs,
     repo-hygiene cleanup authorization refs when available, detached worktree
@@ -233,6 +242,17 @@ Reports whose final classifier summary shows ignored residue must include
 retained or foreign ignored-residue evidence. Validate the report with
 `.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report <path>`
 before claiming worktree closeout.
+
+Temporary proposal fixture candidates are not retained by wrapper judgment
+alone. A candidate may use `residue_routing_class: local_private_retained` for
+fixture residue only when it carries `fixture_retention_receipt_ref` pointing
+to a validating `fixture-retention-closeout-receipt-v1` receipt. The receipt
+must cover the exact included path set, must be current by retained path-set
+digest and git status digest, must derive fixture identity from the fixture
+manifest, must mark generated artifact refs as derived-only non-authority, and
+must state that it does not authorize archive-ready or cleaned claims. Missing,
+stale, digest-mismatched, owner-scope-mismatched, or overclaiming fixture
+retention evidence fails closed.
 
 ## Boundaries
 

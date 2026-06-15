@@ -1,0 +1,113 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-delivery
+title: 'Governed Proposal Delivery: Proposal Program Delivery'
+summary: Add a native Governed Proposal Delivery process with the first concrete mode, Proposal Program Delivery. The delivery runner sequences existing proposal-program, proposal-packet, conformance, drift, publication, mechanism-integration, closeout, repo-hygiene, branch cleanup, sync, and terminal-proof lifecycles while validating their target-owned receipts.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/orchestration/runtime/workflows/registry.yml
+- .octon/framework/orchestration/runtime/workflows/manifest.yml
+- .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+- .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+- .octon/framework/product/features/governed-proposal-delivery.md
+- .octon/framework/product/features/catalog.yml
+- .octon/framework/product/features/README.md
+- .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+- .octon/framework/capabilities/runtime/commands/manifest.yml
+- .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+- .octon/framework/capabilities/runtime/skills/manifest.yml
+- .octon/framework/capabilities/runtime/skills/registry.yml
+- .octon/framework/capabilities/runtime/skills/capabilities.yml
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/
+status: archived
+archive:
+  archived_at: 2026-06-15
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T034048Z/profile-selection-receipt.yml
+  - .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T034048Z/delivery-profile.yml
+  - .octon/state/evidence/validation/publication/extensions/2026-06-14T03-55-49Z-extensions-e539e7c8b239.yml
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-15T14-31-05Z-capabilities-1ca0283caa75.yml
+  - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-delivery-20260614T060000Z/receipt.yml
+  - .octon/state/evidence/runs/workflows/2026-06-15-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-delivery-5/summary.md
+lifecycle:
+  temporary: true
+  exit_expectation: Promote only after proposal review accepts the packet, strict pre-integration architecture review passes, durable schemas, workflow, validators, tests, feature documentation, entrypoints, and lifecycle hooks land outside proposal-local paths, generated projections are refreshed through owning publishers, and implementation conformance plus post-implementation drift/churn receipts pass. Archive only after the delivery receipt is current, passing, and bound to final clean-state proof.
+related_proposals:
+- change-closeout-state-machine
+- repo-hygiene-cleanup-authorization-receipts
+- verify-governed-mechanism-integration
+- proposal-lifecycle-terminal-freshness-and-proof
+- proposal-program-freshness-readiness-projection
+- proposal-program-runner-cleanup-hygiene
+- proposal-program-runner-planning-replan-loop
+acceptance_criteria_summary: The proposal is acceptable when it defines a delivery workflow that selects and sequences target-owned lifecycles, passes scoped non-authorizing context, validates each target-owned receipt, replans from current repo state, and aggregates evidence into one strict delivery receipt without minting a second control plane.
+authority_class_impact:
+  framework: Proposes durable workflow, schema, validator, feature, command, and skill changes after promotion.
+  instance: No instance authority change is required by this packet.
+  state_control: No live control truth changes from this proposal packet.
+  state_evidence: Future delivery runs retain delivery evidence and cited target-owned receipts under state/evidence roots.
+  generated: Generated proposal registries and future generated projections remain derived-only and must be refreshed through canonical publishers.
+  inputs: This proposal packet and source lineage are non-authoritative exploratory input.
+change_profile: atomic
+created_date: 2026-06-12
+evidence_requirements:
+- Proposal Program Delivery profile validation receipt.
+- Proposal Program Delivery aggregate receipt validation receipt.
+- Fresh parent proposal-program lifecycle result.
+- Fresh child packet lifecycle receipts for every required child.
+- Child-owned review, implementation, conformance, drift, closeout, and archive receipts.
+- Generated registry and publication freshness evidence.
+- Governed mechanism integration evidence when a child changes a governed mechanism.
+- Lifecycle residue cleanup evidence.
+- Change receipt and closeout route evidence.
+- Branch landing and branch cleanup authorization evidence when branch-no-pr is used.
+- Terminal current-state proof after the final mutation.
+- Final local main, origin/main, and landed_ref equality proof.
+- Final worktree hygiene result.
+explicit_runtime_non_implementation_statement: This packet does not create the delivery runner or authorize delivery by itself. Existing proposal lifecycle, conformance, drift, publication, mechanism-integration, closeout, repo-hygiene, branch authorization, and terminal-proof contracts remain canonical until durable implementation lands.
+generated_input_authority_impact: Reinforces that generated outputs, raw inputs, proposal packets, generated prompts, host state, dashboards, chat, and model memory cannot authorize delivery, closeout, publication, archive, cleanup, landing, or branch deletion.
+non_goals:
+- No expansion of proposal-program into Git, branch cleanup, repo hygiene, or Change closeout authority.
+- No replacement for closeout-change, closeout-worktree, repo-hygiene-cleanup, or branch authorization receipts.
+- No lifecycle postmortem hard-gate role.
+- No generated implementation prompt authority.
+- No parent proposal-program summary substituting for child packet receipts.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+rollback_summary: Remove the new delivery workflow, profile schema, receipt schema, validators, tests, feature documentation, command, skill, and lifecycle hook updates as one atomic rollback. Retain emitted validation and delivery run evidence under state/evidence for auditability.
+runtime_behavior_impact: None from this packet. Runtime and lifecycle behavior change only after the durable delivery workflow, profile schema, receipt schema, validators, entrypoints, and lifecycle hooks are promoted outside inputs/exploratory.
+scope_statement: Define one delivery runner that coordinates existing target-owned lifecycles for proposal-program delivery to a cleaned outcome. The implementation must add a schema-backed profile, strict aggregate receipt, native workflow, validators, tests, lifecycle hooks, and thin command/skill entrypoint while preserving current ownership of proposal lifecycle, implementation conformance, drift/churn, generated publication, governed mechanism integration, Change closeout, worktree closeout, repo hygiene, branch landing, branch cleanup, and terminal proof.
+selected_implementation_target: native Governed Proposal Delivery workflow with Proposal Program Delivery mode
+source_lineage:
+- resources/source-prompt.md
+- resources/repository-reconnaissance.md
+validation_gates:
+- proposal standard validation
+- architecture proposal validation
+- implementation-readiness validation
+- strict pre-integration architecture review before acceptance
+- delivery profile schema validation
+- delivery receipt schema validation
+- workflow contract validation
+- proposal-program lifecycle receipt freshness validation
+- child packet lifecycle receipt validation
+- implementation conformance validation
+- post-implementation drift/churn validation
+- generated publication freshness validation
+- governed mechanism integration validation when applicable
+- lifecycle residue cleanup validation
+- Change closeout receipt validation
+- branch landing authorization validation before hosted mutation
+- branch cleanup authorization validation before branch deletion
+- terminal current-state proof validation
+- worktree hygiene validation
+- git diff --check

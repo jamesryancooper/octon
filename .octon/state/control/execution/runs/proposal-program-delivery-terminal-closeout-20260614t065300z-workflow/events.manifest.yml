@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:4382efac61eaa8765996be1f40d6b651253889db918bb5ab2c6a29880a8aadb7
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+  sequence: 1
+  event_hash: sha256:df38aac5044f2157af2405f9b6868939e96457650bc171a18991e057ffd8880f
+last_event_ref:
+  event_id: evt-checkpoint-start-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+  sequence: 20
+  event_hash: sha256:e56708a22e5186355457b131ffdd539eed1eeacc81d949f06be24070aebf84c0
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:df38aac5044f2157af2405f9b6868939e96457650bc171a18991e057ffd8880f
+  tail_event_hash: sha256:e56708a22e5186355457b131ffdd539eed1eeacc81d949f06be24070aebf84c0
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+  context_pack_ref: evt-context-pack-bound-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-110f0b407530
+  run_contract_ref: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+  run_manifest_ref: evt-002-run-bound-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+  runtime_state_ref: evt-capability-authorized-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+  stage_attempt_ref: evt-stage-started-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-proposal-program-delivery-terminal-closeout-20260614t065300z-workflow
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:e56708a22e5186355457b131ffdd539eed1eeacc81d949f06be24070aebf84c0
+  materialized_at: 2026-06-14T07:03:49.053071Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T07:03:49.053071Z

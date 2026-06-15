@@ -1,0 +1,16 @@
+schema_version: proposal-v1
+proposal_id: terminal-closeout-genericity-policy-fixture
+title: Terminal Closeout Genericity Policy Fixture
+summary: Fixture packet used to prove proposal-packet-terminal-closeout is generic across policy proposal packets.
+proposal_kind: policy
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/framework/execution-roles/practices/standards/ai-assisted-development-discipline.md
+  - .octon/framework/execution-roles/practices/standards/validation-evidence-quality.md
+status: implemented
+lifecycle:
+  temporary: true
+  exit_expectation: fixture removal after terminal-closeout genericity validation is no longer needed
+related_proposals:
+  - proposal-program-delivery
+

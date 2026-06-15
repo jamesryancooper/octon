@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:d1c572a758d7cf0fb7e079041342b448d727120e5fa4b07b4d7ed01cd0d40c34
+  entry_id: proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-15T00:55:50.643673Z
+  run_id: proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:c30aa0d43030af76f79af5693b341f75453685f6bb6da559544d25cfb747955d
+  entry_id: proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-15T00:55:50.643673Z
+  run_id: proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene
+  storage_class: external-immutable
+index_id: external-replay-proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene
+run_id: proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-15T00:55:50.643673Z

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:db92e504a31e783a97dfc1f2d3b23099f2993083f0a6bc080bcd5cf329116ff5
+  entry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/terminal-closeout-genericity-policy-fixture-20260614t-litmus1/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1/replay/manifest.yml
+  recorded_at: 2026-06-14T15:52:51.491413Z
+  run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:404ad06105a62a8077295582e94b48a9cc75c9e8930615530aa327d90f88858a
+  entry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/terminal-closeout-genericity-policy-fixture-20260614t-litmus1/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1/replay/manifest.yml
+  recorded_at: 2026-06-14T15:52:51.491413Z
+  run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1
+  storage_class: external-immutable
+index_id: external-replay-terminal-closeout-genericity-policy-fixture-20260614t-litmus1
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:52:51.491413Z

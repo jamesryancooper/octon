@@ -1,0 +1,32 @@
+schema_version: proposal-program-delivery-profile-selection-receipt-v1
+receipt_id: proposal-program-delivery-profile-selection-20260614T034048Z
+recorded_at: "2026-06-14T04:02:09Z"
+proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+release_state: pre-1.0
+change_profile: atomic
+route_preference: branch-no-pr
+target_outcome: cleaned
+operator_authorization_grant:
+  source: user-prompt
+  scope: accepted packet promotion targets plus owning lifecycle handoffs
+  durable_implementation_authorized: true
+  generated_publication_refresh_authorized: true
+  packet_closeout_authorized_as_grant_input: true
+  archive_routing_authorized_as_grant_input: true
+  change_closeout_authorized_as_grant_input: true
+  branch_no_pr_landing_authorized_as_grant_input: true
+  branch_cleanup_authorized_as_grant_input: true
+  local_main_sync_authorized_as_grant_input: true
+  repo_hygiene_cleanup_authorized_as_grant_input: true
+authority_boundaries:
+  direct_generated_output_edits_allowed: false
+  proposal_local_files_authority: non-authority
+  generated_prompts_authority: non-authority
+  generated_outputs_authority: derived-only-non-authority
+  git_mutation_owner: closeout-change
+  archive_owner: archive-proposal
+  repo_hygiene_cleanup_owner: repo-hygiene-cleanup
+selected_profile_ref: .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T034048Z/delivery-profile.yml
+accepted_review_digest: sha256:c91ded08da06586535981c2cddb49d7ff9f6d4527e58958ff8a709de721add4c
+verdict: pass
+blockers: []

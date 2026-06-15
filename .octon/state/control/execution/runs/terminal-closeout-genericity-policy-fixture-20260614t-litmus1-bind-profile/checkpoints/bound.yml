@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-bind-profile
+checkpoint_id: bound
+stage_attempt_id: bind-profile--initial
+checkpoint_kind: binding
+status: materialized
+control_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-bind-profile/checkpoints/bound.yml
+evidence_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-bind-profile/checkpoints/bound.yml
+notes: Canonical run root bound before consequential side effects.
+created_at: 2026-06-14T15:51:17.73047Z
+updated_at: 2026-06-14T15:51:17.73047Z

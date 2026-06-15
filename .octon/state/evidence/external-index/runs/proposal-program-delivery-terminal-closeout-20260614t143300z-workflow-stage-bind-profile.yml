@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:804ee4ddd310cd20e2208666b81505f3eeb0e9280e91c6ee642aa8e50beea223
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-14T14:34:37.30093Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:d7554128273bf69fabc271472872dcbe24990bf92ef43524bf17290a5e56b71e
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-14T14:34:37.30093Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile
+  storage_class: external-immutable
+index_id: external-replay-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile
+run_id: proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-bind-profile
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T14:34:37.30093Z

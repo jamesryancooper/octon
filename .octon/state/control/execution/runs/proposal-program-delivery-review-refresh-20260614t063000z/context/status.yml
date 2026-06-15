@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-review-refresh-20260614t063000z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-review-refresh-20260614t063000z/context/context-pack.json
+route_id: review-packet
+run_id: proposal-program-delivery-review-refresh-20260614t063000z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-14T06:25:04.964508Z
+validity_state: valid

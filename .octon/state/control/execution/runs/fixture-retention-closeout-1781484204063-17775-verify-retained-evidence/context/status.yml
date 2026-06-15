@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/context/model-visible-context.json
+run_id: fixture-retention-closeout-1781484204063-17775-verify-retained-evidence
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-15T00:43:29.643521Z
+validity_state: valid

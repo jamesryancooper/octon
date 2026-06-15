@@ -1,0 +1,75 @@
+{
+  "authorization_id": "repo-hygiene-cleanup-632786efe3ee4033",
+  "authorization_result": "approved",
+  "authorized_paths": [
+    {
+      "class": "local_filesystem_metadata",
+      "path": ".octon/inputs/exploratory/proposals/.archive/.DS_Store",
+      "pattern_id": "local_filesystem_metadata",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_filesystem_metadata",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/.DS_Store",
+      "pattern_id": "local_filesystem_metadata",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    },
+    {
+      "class": "local_filesystem_metadata",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/governed-cross-surface-mechanisms-documentation-architecture/.DS_Store",
+      "pattern_id": "local_filesystem_metadata",
+      "proofs": {
+        "allowed_cleanup_pattern": true,
+        "non_authoritative": true,
+        "not_active_control_state": true,
+        "not_durable_evidence": true,
+        "not_generated_authority": true,
+        "not_generated_run_health_projection": true,
+        "not_ignored_or_user_owned_residue": true,
+        "not_input_surface": true,
+        "unreferenced_by_tracked_files": true,
+        "untracked": true
+      }
+    }
+  ],
+  "classification_digest": "sha256:611e6bd7c2454817eaf80b9587e14c0c07d1b94de1423a69517aa8edf56f00f4",
+  "classification_ref": "inline:cleanup-local-run-artifacts.sh",
+  "cleanup_path_set_digest": "sha256:458466094b5a7098b2a1a175325bea90132f0c8bf3444d0e7ea1948bd6560d75",
+  "created_at": "2026-06-15T02:48:25Z",
+  "discard_or_rollback_posture": "delete only the exact untracked authorized path set; retain protected and manual-review residue",
+  "git_status_digest": "sha256:15f1b19f674785c92d50bbae932c507fe34ae048f49b998fa602c6a69a260e8d",
+  "head_ref": "f0fec1d96df427e0e58813fc68d30055f23ce598",
+  "helper_ref": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+  "main_ref": "2a85a36fcfd3336a87c86a54cddf29dd1c53faaf",
+  "manual_review_paths_digest": "sha256:adcc0cf9b86f94a01d1621020df6d3074375de78958ca3b77bd079eb721d8315",
+  "origin_main_ref": "2a85a36fcfd3336a87c86a54cddf29dd1c53faaf",
+  "policy_ref": ".octon/instance/governance/policies/repo-hygiene.yml",
+  "protected_paths_digest": "sha256:1898995c822c67fe4c2136f9f1f3dee3fdde9ebc6b76b1c6287472d0c53cdbfe",
+  "repo_root_ref": ".",
+  "runtime_safety_boundary": "Octon governance receipt does not bypass filesystem, sandbox, host, provider, or platform permission boundaries.",
+  "schema_ref": ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+  "schema_version": "repo-hygiene-cleanup-authorization-v1",
+  "valid_until_status_changes": true
+}

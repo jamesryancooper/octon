@@ -79,6 +79,38 @@ require_state() {
     || fail "state ledger missing $state_id"
 }
 
+require_state_materialization() {
+  local state_id="$1" outputs verdict
+  outputs="$(yq -r ".state_ledger[]? | select(.state_id == \"$state_id\") | .output_evidence_refs[]?" "$RECEIPT_PATH" 2>/dev/null || true)"
+  verdict="$(yq -r ".state_ledger[]? | select(.state_id == \"$state_id\") | .state_verdict // \"\"" "$RECEIPT_PATH" 2>/dev/null || true)"
+  grep -Fq "reports/$state_id-report.md" <<<"$outputs" \
+    && pass "state $state_id report materialized" \
+    || fail "state $state_id must reference reports/$state_id-report.md"
+  grep -Fq "stages/$state_id/outcome.json" <<<"$outputs" \
+    && pass "state $state_id outcome materialized" \
+    || fail "state $state_id must reference stages/$state_id/outcome.json"
+  if [[ "$verdict" == "pass" ]] && grep -Eiq 'timeout|timed-out|executor-timeout' <<<"$outputs"; then
+    fail "state $state_id cannot report timeout evidence as pass"
+  fi
+}
+
+require_suffix() {
+  local path_expr="$1" suffix="$2" label="$3" value
+  value="$(scalar "$path_expr")"
+  [[ "$value" == *"$suffix" ]] && pass "$label has expected receipt suffix" || fail "$label must end with $suffix"
+}
+
+reject_authority_substitution() {
+  local path_expr="$1" label="$2" value
+  value="$(scalar "$path_expr")"
+  if [[ "$value" == .octon/generated/* || "$value" == *"/generated/"* ]]; then
+    fail "$label must not use generated output as authority"
+  fi
+  if [[ "$value" == *"/support/proposal-closeout.md" || "$value" == *"/support/executable-implementation-prompt.md" ]]; then
+    fail "$label must not use proposal-local prose summary or generated prompt as child receipt authority"
+  fi
+}
+
 require_publication_validators_pass() {
   local count index verdict fresh
   count="$(yq -r '(.publication_freshness.validators // []) | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
@@ -153,6 +185,9 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   require_scalar '.profile.profile_ref' "profile.profile_ref"
   require_scalar '.profile.profile_digest' "profile.profile_digest"
   require_scalar '.profile.profile_validation_evidence_ref' "profile.profile_validation_evidence_ref"
+  [[ "$(scalar '.profile.profile_ref')" == .octon/state/evidence/runs/workflows/*/profile.yml ]] \
+    && pass "profile ref is workflow-owned" \
+    || fail "profile.profile_ref must point to workflow-owned terminal closeout profile evidence"
 
   terminal_verdict="$(scalar '.terminal_verdict')"
   case "$terminal_verdict" in
@@ -178,6 +213,7 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     resolve-git-github-route \
     emit-terminal-receipt; do
     require_state "$state_id"
+    require_state_materialization "$state_id"
   done
 
   durable_count="$(yq -r '(.durable_implementation_state_evidence_refs // []) | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
@@ -187,9 +223,14 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   require_scalar '.implementation.conformance_validator_ref' "implementation conformance validator ref"
   require_scalar '.implementation.post_implementation_drift_receipt_ref' "post-implementation drift receipt ref"
   require_scalar '.implementation.post_implementation_drift_validator_ref' "post-implementation drift validator ref"
+  require_suffix '.implementation.conformance_receipt_ref' '/support/implementation-conformance-review.md' "implementation conformance receipt ref"
+  require_suffix '.implementation.post_implementation_drift_receipt_ref' '/support/post-implementation-drift-churn-review.md' "post-implementation drift receipt ref"
+  reject_authority_substitution '.implementation.conformance_receipt_ref' "implementation conformance receipt ref"
+  reject_authority_substitution '.implementation.post_implementation_drift_receipt_ref' "post-implementation drift receipt ref"
 
   require_bool '.publication_freshness.direct_generated_output_edit_used' "false" "direct generated output edit used"
   require_scalar '.generated_input_non_authority.validation_ref' "generated input non-authority validation ref"
+  reject_authority_substitution '.generated_input_non_authority.validation_ref' "generated input non-authority validation ref"
   for key in \
     proposal_inputs_non_authority \
     generated_outputs_non_authority \
@@ -212,6 +253,20 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   require_scalar '.worktree_hygiene.verdict' "worktree hygiene verdict"
   require_scalar '.worktree_hygiene.foreign_or_ambiguous_count' "worktree foreign or ambiguous count"
   require_scalar '.worktree_hygiene.dirty_worktree' "worktree dirty flag"
+  retained_fixture_path_count="$(scalar '.worktree_hygiene.retained_fixture_path_count // 0')"
+  if [[ "$retained_fixture_path_count" =~ ^[0-9]+$ ]]; then
+    pass "worktree retained fixture path count is numeric"
+  else
+    fail "worktree_hygiene.retained_fixture_path_count must be numeric when present"
+  fi
+  fixture_ref_count="$(yq -r '(.worktree_hygiene.fixture_retention_refs // []) | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
+  for ((index=0; index<fixture_ref_count; index++)); do
+    fixture_ref="$(scalar ".worktree_hygiene.fixture_retention_refs[$index]")"
+    [[ "$fixture_ref" == .octon/state/evidence/runs/workflows/*/retention-receipt.yml ]] \
+      && pass "fixture retention ref[$index] is workflow-owned" \
+      || fail "fixture_retention_refs[$index] must point to workflow-owned retention-receipt.yml"
+    reject_authority_substitution ".worktree_hygiene.fixture_retention_refs[$index]" "fixture retention ref[$index]"
+  done
 
   for key in \
     post_integration_architecture_review \
@@ -269,6 +324,9 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     [[ "$(scalar '.worktree_hygiene.foreign_or_ambiguous_count')" == "0" ]] && pass "no foreign or ambiguous worktree residue" || fail "archive-ready requires zero foreign or ambiguous worktree residue"
     [[ "$(scalar '.worktree_hygiene.dirty_worktree')" == "false" ]] && pass "worktree not dirty" || fail "archive-ready requires dirty_worktree false"
     [[ "$(scalar '.blocker.class')" == "none" ]] && pass "archive-ready blocker class none" || fail "archive-ready requires blocker.class none"
+    if yq -r '.retained_evidence_inventory[]?' "$RECEIPT_PATH" 2>/dev/null | grep -Eiq '(^|/)cleaned($|[-./])'; then
+      fail "archive-ready terminal receipt must not claim cleaned before downstream closeout proof"
+    fi
   elif [[ "$terminal_verdict" == "blocked" ]]; then
     [[ "$(scalar '.blocker.class')" != "none" ]] && require_scalar '.blocker.class' "blocked blocker class" || fail "blocked receipt requires blocker.class other than none"
     require_scalar '.blocker.detail' "blocked blocker detail"

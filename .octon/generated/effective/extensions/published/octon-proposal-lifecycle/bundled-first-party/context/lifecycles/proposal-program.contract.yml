@@ -20,6 +20,36 @@ target:
     - "implemented"
     - "archived"
 
+delivery_modes:
+  - mode_id: "proposal-program-delivery"
+    workflow_ref: ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml"
+    profile_schema_ref: ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+    receipt_schema_ref: ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+    entrypoints:
+      - "/proposal-program-delivery"
+      - "proposal-program-delivery"
+    supported_outcomes:
+      - "implemented"
+      - "archive-ready"
+      - "landed"
+      - "synced"
+      - "cleaned"
+    authority_boundary:
+      aggregate_receipt_only: true
+      child_receipts_remain_child_owned: true
+      parent_summary_satisfies_child_receipts: false
+      owns_archive_relocation: false
+      owns_git_mutation: false
+      owns_branch_cleanup: false
+      owns_residue_deletion: false
+      owns_generated_publication_refresh: false
+    required_handoffs:
+      packet_closeout_owner: "proposal-packet-terminal-closeout"
+      archive_owner: "archive-proposal"
+      change_closeout_owner: "closeout-change-or-closeout-worktree"
+      repo_hygiene_owner: "repo-hygiene-cleanup"
+      generated_publication_owner: "owning-publisher-scripts"
+
 program:
   child_registry_path: "resources/child-packet-index.yml"
   child_lifecycle_id_default: "proposal-packet"

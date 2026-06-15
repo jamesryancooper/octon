@@ -123,6 +123,7 @@ validate_static() {
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema version valid" "authorization schema must define branch-landing-authorization-v1"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.no_pr_required.const == true' "authorization schema requires no-PR proof" "authorization schema must require no_pr_required true"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.host_controls_not_bypassed.const == true' "authorization schema preserves host controls" "authorization schema must preserve host controls"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.allow_empty_check_set.type == "boolean"' "authorization schema models explicit empty-check-set policy" "authorization schema must model allow_empty_check_set"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models landing authorization ref" "receipt schema must model landing_authorization_ref"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires landing authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landing"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "source_ref")' "receipt schema requires hosted source ref" "receipt schema must require hosted source ref"
@@ -141,6 +142,7 @@ validate_static() {
   require_literal "$HOSTED_AUTH_SCRIPT" "branch-landing-authorization-v1" "authorization helper emits governed receipt" "authorization helper must emit governed receipt"
   require_literal "$HOSTED_AUTH_SCRIPT" "git-branch-hosted-preflight.sh" "authorization helper runs hosted preflight" "authorization helper must run hosted preflight"
   require_literal "$HOSTED_AUTH_SCRIPT" "does not bypass platform, sandbox, or host safety controls" "authorization helper records host safety boundary" "authorization helper must record host safety boundary"
+  require_literal "$HOSTED_AUTH_SCRIPT" "empty-check-set-explicitly-allowed@" "authorization helper records explicit empty-check-set sentinel" "authorization helper must record explicit empty-check-set sentinel"
   require_literal "$HOSTED_LAND_SCRIPT" "requires --authorization" "hosted land helper requires authorization before mutation" "hosted land helper must require authorization before mutation"
   require_literal "$HOSTED_LAND_SCRIPT" "Landing authorization target pre-ref is stale" "hosted land helper blocks stale authorization" "hosted land helper must block stale authorization"
   require_literal "$HOSTED_LAND_SCRIPT" 'push "$REMOTE" "$SOURCE_REF:refs/heads/$TARGET_BRANCH"' "hosted land helper uses non-force target push" "hosted land helper must use non-force target push"
@@ -157,11 +159,41 @@ expected_route_neutral_checks() {
   ' "$GITHUB_CONTROL_CONTRACT"
 }
 
+empty_check_set_authorized() {
+  local source_ref="$1"
+  local auth_ref auth_path expected_ref
+
+  auth_ref="$(json_value '.landing_authorization_ref')"
+  [[ -n "$auth_ref" ]] || return 1
+  auth_path="$(resolve_ref_path "$auth_ref")" || return 1
+  [[ -f "$auth_path" ]] || return 1
+  expected_ref="empty-check-set-explicitly-allowed@${source_ref}"
+
+  jq -e --arg expected "$expected_ref" --slurpfile receipt "$RECEIPT_PATH" '
+    .allow_empty_check_set == true
+    and (.required_check_refs | type == "array" and length == 1 and .[0] == $expected)
+    and ($receipt[0].hosted_landing.required_check_refs | type == "array" and length == 1 and .[0] == $expected)
+    and ((.required_check_refs | sort) == ($receipt[0].hosted_landing.required_check_refs | sort))
+  ' "$auth_path" >/dev/null 2>&1
+}
+
 validate_required_check_refs() {
   local source_ref="$1"
   local expected_check ref found
   local -a refs=()
   mapfile -t refs < <(jq -r '.hosted_landing.required_check_refs[]?' "$RECEIPT_PATH")
+
+  if empty_check_set_authorized "$source_ref"; then
+    pass "hosted landing uses explicitly authorized empty check set bound to source SHA"
+    return
+  fi
+
+  for ref in "${refs[@]}"; do
+    if [[ "$ref" == empty-check-set-explicitly-allowed@* ]]; then
+      fail "empty check set requires matching landing authorization allow_empty_check_set"
+      return
+    fi
+  done
 
   while IFS= read -r expected_check; do
     [[ -n "$expected_check" ]] || continue

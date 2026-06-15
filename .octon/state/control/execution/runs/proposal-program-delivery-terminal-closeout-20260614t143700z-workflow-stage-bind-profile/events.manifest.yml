@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:015a2dd83c3e678bbca4794e1f9998042259614288ac15054bef07b2df41394c
+event_count: 37
+first_event_ref:
+  event_id: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  sequence: 1
+  event_hash: sha256:e0d1719913f7c592c312d60faf9fbc733d3d6a87a65fba2d2d658a437c2f3c33
+last_event_ref:
+  event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  sequence: 37
+  event_hash: sha256:e8491a971a75766e2dc3a719e545600b66423adc8b3baac92e12bd028d103de8
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:e0d1719913f7c592c312d60faf9fbc733d3d6a87a65fba2d2d658a437c2f3c33
+  tail_event_hash: sha256:e8491a971a75766e2dc3a719e545600b66423adc8b3baac92e12bd028d103de8
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  context_pack_ref: evt-context-pack-bound-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  disclosure_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-df7631a235f5
+  run_contract_ref: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  run_manifest_ref: evt-002-run-bound-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  runtime_state_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  stage_attempt_ref: evt-stage-started-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t143700z-workflow-stage-bind-profile
+  last_applied_sequence: 37
+  last_applied_event_hash: sha256:e8491a971a75766e2dc3a719e545600b66423adc8b3baac92e12bd028d103de8
+  materialized_at: 2026-06-14T14:36:59.088646Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T14:36:59.918989Z

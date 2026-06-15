@@ -1,205 +1,256 @@
-schema_version: run-health-read-model-v1
-run_id: governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal
-generated_at: '2026-06-13T16:02:44Z'
-generator:
-  id: generate-run-health-read-model.sh
-  version: 1.1.0
-  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-  allowed_consumers:
-  - operators
-  - validators
-  forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
-freshness:
-  mode: digest-bound
-  status: stale
-  source_digest_algorithm: sha256
-  combined_source_digest: sha256:7bf5456382d9d85da54c0f547cc1e959ee573e759eade4ca5829aa9e917c08a9
-  checked_at: '2026-06-13T16:02:44Z'
-  expires_at: null
-  freshness_refs:
-  - .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.manifest.yml
-canonical_refs:
-  run_contract: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-contract.yml
-  run_manifest: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-manifest.yml
-  events_journal: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.ndjson
-  events_manifest: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.manifest.yml
-  runtime_state: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/runtime-state.yml
-  authority_decision: .octon/state/evidence/control/execution/authority-decision-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml
-  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml
-  approval_request: null
-  approval_grants: []
-  exception_leases: []
-  revocations: []
-  rollback_posture: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/rollback-posture.yml
-  evidence_root: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal
-  evidence_classification: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/evidence-classification.yml
-  retained_evidence: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/retained-run-evidence.yml
-  replay_pointers: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/replay-pointers.yml
-  intervention_log: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/interventions/log.yml
-  disclosure_run_card: .octon/state/evidence/disclosure/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-card.yml
-  support_targets: .octon/instance/governance/support-targets.yml
-  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-  run_continuity: .octon/state/continuity/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/handoff.yml
-source_digests:
-  run_contract:
-    ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-contract.yml
-    digest: sha256:f13966359540b8066f02e7ef2f82f86f02e8a5e81a8a9add4e6046ce26c03fd4
-    status: present
-  run_manifest:
-    ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-manifest.yml
-    digest: sha256:d022a157ef001f82b9e811e32b27e49ad2a1b4784cf3466a3fcc6f69dabb62fd
-    status: present
-  events_journal:
-    ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.ndjson
-    digest: sha256:ef91d924395bc161c22b34677f1187cb6ba7f363564eb0cf4fc9d6abb685ee10
-    status: present
-  events_manifest:
-    ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.manifest.yml
-    digest: sha256:e83ad333f8ecc6fcef585fdcc6878f63eec6942528cbe38d03bd8db0e70fd912
-    status: present
-  runtime_state:
-    ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/runtime-state.yml
-    digest: sha256:f8d51e212a54aef05469768119598aea84a73b1b6e162f81575e8fd4396fa34c
-    status: present
-  authority_decision:
-    ref: .octon/state/evidence/control/execution/authority-decision-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml
-    digest: sha256:bd9b1bfabd20597c3b279ee6e371b1e9b42c00cc7883c4dbc65b18f8b0272e1d
-    status: present
-  authority_bundle:
-    ref: .octon/state/evidence/control/execution/authority-grant-bundle-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml
-    digest: sha256:2309b4dd0b2a7c909610125719e2e284caf9583b02e63742b47085425fb24e35
-    status: present
-  approval_request:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  approval_grants:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  exception_leases:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  revocations:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  rollback_posture:
-    ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/rollback-posture.yml
-    digest: sha256:c62f441f2d3188fafc0eead130ab902807ec9713dbe72801179f55f9301b16b6
-    status: present
-  evidence_root:
-    ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal
-    digest: missing
-    status: missing
-  evidence_classification:
-    ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/evidence-classification.yml
-    digest: missing
-    status: missing
-  retained_evidence:
-    ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/retained-run-evidence.yml
-    digest: missing
-    status: missing
-  replay_pointers:
-    ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/replay-pointers.yml
-    digest: missing
-    status: missing
-  intervention_log:
-    ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/interventions/log.yml
-    digest: missing
-    status: missing
-  disclosure_run_card:
-    ref: .octon/state/evidence/disclosure/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-card.yml
-    digest: missing
-    status: missing
-  support_targets:
-    ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-    status: present
-  support_reconciliation:
-    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:3544f280774d88433f39de78541797aefa4ea8d89294b2b75ee863e3f077d869
-    status: present
-  run_continuity:
-    ref: .octon/state/continuity/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/handoff.yml
-    digest: sha256:152f16501fb9ec2e074027b429b14ea64c9e7583ce435f1aade3319c8243c22a
-    status: present
-  runtime_route_bundle:
-    ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:51346ae6fb3aa96d7c7c4582b497fd3c09f883e14c333b6457e0721967557c4a
-    status: present
-  pack_routes:
-    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:f52d49023f708c967497a6ec5512ce9e378ebf4fe1d54a53d172678a721fcdcd
-    status: present
-  schema:
-    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
-    status: present
-  operator_read_model_contract:
-    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
-    status: present
-health:
-  status: stale
-  summary: Run-health sources are stale relative to their digest-bound freshness checks.
-  next_required_action: regenerate from current canonical sources
-lifecycle:
-  state: running
-  decision_state: allow
-  drift_status: in-sync
-  latest_event_hash: sha256:6e6b8e9561e4b93dedf5675f3b9da0acf70a69b446bb6ec4f6b13165304d4eb0
-  latest_sequence: 20
-support:
-  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-  route_status: allow
-  pack_status: allow
-  support_status: supported
-  requested_capability_packs:
-  - repo
-  - shell
-  - telemetry
-authorization:
-  status: authorized
-  proof_state: proof-stale
-  human_boundary_state: none
-  active_grants:
-  - .octon/state/evidence/control/execution/authority-grant-bundle-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml
-  open_approvals: []
-  active_exceptions: []
-  active_revocations: []
-evidence:
-  completeness: incomplete
-  missing_required:
-  - evidence_classification
-  - retained_evidence
-  - replay_pointers
-rollback:
-  status: ready
-  hard_reset_required: false
-intervention:
-  status: unknown
-  undisclosed_count: 0
-  records: []
-disclosure:
-  status: unknown
-closure:
-  status: not-ready
-diagnostics:
-- severity: error
-  code: journal-ledger-digest-stale
-  message: events.manifest.yml ledger_digest does not match events.ndjson.
-  refs:
-  - .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.manifest.yml
-  - .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.ndjson
+{
+  "schema_version": "run-health-read-model-v1",
+  "run_id": "governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal",
+  "generated_at": "2026-06-15T20:58:06Z",
+  "generator": {
+    "id": "generate-run-health-read-model.sh",
+    "version": "1.1.0",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  },
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false,
+    "allowed_consumers": [
+      "operators",
+      "validators"
+    ],
+    "forbidden_consumers": [
+      "runtime",
+      "policy",
+      "authority",
+      "support-claim-evaluation",
+      "state-reconstruction",
+      "direct-runtime-reads"
+    ]
+  },
+  "freshness": {
+    "mode": "digest-bound",
+    "status": "stale",
+    "source_digest_algorithm": "sha256",
+    "combined_source_digest": "sha256:04e4c4ccc50bed788dea8a465930413ecc19d96e19d144768884c829bf0de5d9",
+    "checked_at": "2026-06-15T20:58:06Z",
+    "expires_at": null,
+    "freshness_refs": [
+      ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.manifest.yml"
+    ]
+  },
+  "canonical_refs": {
+    "run_contract": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-contract.yml",
+    "run_manifest": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-manifest.yml",
+    "events_journal": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.ndjson",
+    "events_manifest": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.manifest.yml",
+    "runtime_state": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/runtime-state.yml",
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml",
+    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml",
+    "approval_request": null,
+    "approval_grants": [],
+    "exception_leases": [],
+    "revocations": [],
+    "rollback_posture": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/rollback-posture.yml",
+    "evidence_root": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal",
+    "evidence_classification": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/evidence-classification.yml",
+    "retained_evidence": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/retained-run-evidence.yml",
+    "replay_pointers": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/replay-pointers.yml",
+    "intervention_log": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/interventions/log.yml",
+    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-card.yml",
+    "support_targets": ".octon/instance/governance/support-targets.yml",
+    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    "run_continuity": ".octon/state/continuity/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/handoff.yml"
+  },
+  "source_digests": {
+    "run_contract": {
+      "ref": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-contract.yml",
+      "digest": "sha256:f13966359540b8066f02e7ef2f82f86f02e8a5e81a8a9add4e6046ce26c03fd4",
+      "status": "present"
+    },
+    "run_manifest": {
+      "ref": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-manifest.yml",
+      "digest": "sha256:d022a157ef001f82b9e811e32b27e49ad2a1b4784cf3466a3fcc6f69dabb62fd",
+      "status": "present"
+    },
+    "events_journal": {
+      "ref": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.ndjson",
+      "digest": "sha256:ef91d924395bc161c22b34677f1187cb6ba7f363564eb0cf4fc9d6abb685ee10",
+      "status": "present"
+    },
+    "events_manifest": {
+      "ref": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.manifest.yml",
+      "digest": "sha256:e83ad333f8ecc6fcef585fdcc6878f63eec6942528cbe38d03bd8db0e70fd912",
+      "status": "present"
+    },
+    "runtime_state": {
+      "ref": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/runtime-state.yml",
+      "digest": "sha256:f8d51e212a54aef05469768119598aea84a73b1b6e162f81575e8fd4396fa34c",
+      "status": "present"
+    },
+    "authority_decision": {
+      "ref": ".octon/state/evidence/control/execution/authority-decision-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml",
+      "digest": "sha256:bd9b1bfabd20597c3b279ee6e371b1e9b42c00cc7883c4dbc65b18f8b0272e1d",
+      "status": "present"
+    },
+    "authority_bundle": {
+      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml",
+      "digest": "sha256:2309b4dd0b2a7c909610125719e2e284caf9583b02e63742b47085425fb24e35",
+      "status": "present"
+    },
+    "approval_request": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "approval_grants": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "exception_leases": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "revocations": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "rollback_posture": {
+      "ref": ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/rollback-posture.yml",
+      "digest": "sha256:c62f441f2d3188fafc0eead130ab902807ec9713dbe72801179f55f9301b16b6",
+      "status": "present"
+    },
+    "evidence_root": {
+      "ref": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "evidence_classification": {
+      "ref": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/evidence-classification.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "retained_evidence": {
+      "ref": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/retained-run-evidence.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "replay_pointers": {
+      "ref": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/replay-pointers.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "intervention_log": {
+      "ref": ".octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/interventions/log.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "disclosure_run_card": {
+      "ref": ".octon/state/evidence/disclosure/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/run-card.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "support_targets": {
+      "ref": ".octon/instance/governance/support-targets.yml",
+      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "status": "present"
+    },
+    "support_reconciliation": {
+      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      "digest": "sha256:8f3df4770ced6c918f53ecbbbaf8dff31c93b171eda006bd8e4983db3a39795a",
+      "status": "present"
+    },
+    "run_continuity": {
+      "ref": ".octon/state/continuity/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/handoff.yml",
+      "digest": "sha256:152f16501fb9ec2e074027b429b14ea64c9e7583ce435f1aade3319c8243c22a",
+      "status": "present"
+    },
+    "runtime_route_bundle": {
+      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "digest": "sha256:82c9b4e9526a6e5d9f128f66b9878b5325fe310d84570109f5b2dca116853ba5",
+      "status": "present"
+    },
+    "pack_routes": {
+      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      "digest": "sha256:06fbe426e4d8ac5e50d9d309c515d96b517d34110deee78562218e91c5046fe9",
+      "status": "present"
+    },
+    "schema": {
+      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
+      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
+      "status": "present"
+    },
+    "operator_read_model_contract": {
+      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
+      "status": "present"
+    }
+  },
+  "health": {
+    "status": "stale",
+    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
+    "next_required_action": "regenerate from current canonical sources"
+  },
+  "lifecycle": {
+    "state": "running",
+    "decision_state": "allow",
+    "drift_status": "in-sync",
+    "latest_event_hash": "sha256:6e6b8e9561e4b93dedf5675f3b9da0acf70a69b446bb6ec4f6b13165304d4eb0",
+    "latest_sequence": 20
+  },
+  "support": {
+    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "route_status": "allow",
+    "pack_status": "allow",
+    "support_status": "supported",
+    "requested_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ]
+  },
+  "authorization": {
+    "status": "authorized",
+    "proof_state": "proof-stale",
+    "human_boundary_state": "none",
+    "active_grants": [
+      ".octon/state/evidence/control/execution/authority-grant-bundle-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal.yml"
+    ],
+    "open_approvals": [],
+    "active_exceptions": [],
+    "active_revocations": []
+  },
+  "evidence": {
+    "completeness": "incomplete",
+    "missing_required": [
+      "evidence_classification",
+      "retained_evidence",
+      "replay_pointers"
+    ]
+  },
+  "rollback": {
+    "status": "ready",
+    "hard_reset_required": false
+  },
+  "intervention": {
+    "status": "unknown",
+    "undisclosed_count": 0,
+    "records": []
+  },
+  "disclosure": {
+    "status": "unknown"
+  },
+  "closure": {
+    "status": "not-ready"
+  },
+  "diagnostics": [
+    {
+      "severity": "error",
+      "code": "journal-ledger-digest-stale",
+      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
+      "refs": [
+        ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.manifest.yml",
+        ".octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/events.ndjson"
+      ]
+    }
+  ]
+}

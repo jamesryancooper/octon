@@ -13,8 +13,8 @@ use crate::request;
 use crate::workflow::{
     self, DesignPackageClass, ExecutorKind, PipelineMode, ProposalScope, RunArchiveProposalOptions,
     RunAuditStaticProposalOptions, RunCreateDesignPackageOptions, RunCreateStaticProposalOptions,
-    RunDesignPackageOptions, RunPromoteProposalOptions, RunValidateProposalOptions,
-    StaticProposalKind,
+    RunDesignPackageOptions, RunPromoteProposalOptions, RunProposalPacketTerminalCloseoutOptions,
+    RunValidateProposalOptions, StaticProposalKind,
 };
 use octon_authority_engine::{
     authorize_execution, authorized_effect_reference, build_executor_command,
@@ -454,6 +454,12 @@ pub fn run_pipeline_from_octon_dir(
     if options.pipeline_id == "archive-proposal" {
         return run_archive_proposal_pipeline(octon_dir, options);
     }
+    if options.pipeline_id == "proposal-packet-terminal-closeout" {
+        return run_proposal_packet_terminal_closeout_pipeline(octon_dir, options);
+    }
+    if options.pipeline_id == "fixture-retention-closeout" {
+        return run_fixture_retention_closeout_pipeline(octon_dir, options);
+    }
     run_generic_pipeline(octon_dir, options)
 }
 
@@ -770,6 +776,112 @@ fn run_archive_proposal_pipeline(
             proposal_path: proposal_path.into(),
             disposition,
             promotion_evidence: parse_csv_list(&promotion_evidence),
+        },
+    )?;
+
+    Ok(RunPipelineResult {
+        bundle_root: result.bundle_root,
+        summary_report: result.summary_report,
+        final_verdict: result.final_verdict,
+    })
+}
+
+fn run_proposal_packet_terminal_closeout_pipeline(
+    octon_dir: &Path,
+    options: RunPipelineOptions,
+) -> Result<RunPipelineResult> {
+    let proposal_path = options
+        .input_overrides
+        .get("proposal_path")
+        .or_else(|| options.input_overrides.get("target"))
+        .cloned()
+        .ok_or_else(|| {
+            anyhow::anyhow!(
+                "workflow 'proposal-packet-terminal-closeout' requires --set proposal_path=<path>"
+            )
+        })?;
+    let target_outcome = options
+        .input_overrides
+        .get("target_outcome")
+        .or_else(|| options.input_overrides.get("outcome"))
+        .cloned()
+        .unwrap_or_else(|| "archive-ready".to_string());
+    let profile_path = options
+        .input_overrides
+        .get("profile_path")
+        .filter(|value| !value.trim().is_empty())
+        .map(PathBuf::from);
+    let terminal_run_id = options
+        .input_overrides
+        .get("terminal_run_id")
+        .filter(|value| !value.trim().is_empty())
+        .cloned();
+
+    let result = workflow::run_proposal_packet_terminal_closeout_from_octon_dir(
+        octon_dir,
+        RunProposalPacketTerminalCloseoutOptions {
+            run_id: options.run_id,
+            resume_existing: options.resume_existing,
+            proposal_path: proposal_path.into(),
+            target_outcome,
+            profile_path,
+            terminal_run_id,
+        },
+    )?;
+
+    Ok(RunPipelineResult {
+        bundle_root: result.bundle_root,
+        summary_report: result.summary_report,
+        final_verdict: result.final_verdict,
+    })
+}
+
+fn run_fixture_retention_closeout_pipeline(
+    octon_dir: &Path,
+    options: RunPipelineOptions,
+) -> Result<RunPipelineResult> {
+    let fixture_path = options
+        .input_overrides
+        .get("fixture_path")
+        .or_else(|| options.input_overrides.get("proposal_path"))
+        .or_else(|| options.input_overrides.get("target"))
+        .cloned()
+        .ok_or_else(|| {
+            anyhow::anyhow!(
+                "workflow 'fixture-retention-closeout' requires --set fixture_path=<path>"
+            )
+        })?;
+    let purpose = options
+        .input_overrides
+        .get("purpose")
+        .cloned()
+        .unwrap_or_else(|| "terminal-closeout-genericity-validation-fixture".to_string());
+    let owner_scope = options
+        .input_overrides
+        .get("owner_scope")
+        .cloned()
+        .ok_or_else(|| {
+            anyhow::anyhow!(
+                "workflow 'fixture-retention-closeout' requires --set owner_scope=<scope>"
+            )
+        })?;
+    let evidence_refs = parse_csv_list(
+        options
+            .input_overrides
+            .get("evidence_refs")
+            .map(String::as_str)
+            .unwrap_or(""),
+    );
+
+    let result = workflow::run_fixture_retention_closeout_from_octon_dir(
+        octon_dir,
+        workflow::RunFixtureRetentionCloseoutOptions {
+            run_id: options.run_id,
+            resume_existing: options.resume_existing,
+            fixture_path: fixture_path.into(),
+            purpose,
+            owner_scope,
+            evidence_refs,
         },
     )?;
 

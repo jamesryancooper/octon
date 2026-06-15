@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+ledger_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:eee7c0bbfa9a57a1344ac4fed9867addfddc319d53e78230369604159c698461
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  sequence: 1
+  event_hash: sha256:7aeaa8961cbc3e34d714ccacfb47177113bc8354d3b7d854fba96238d8635cb9
+last_event_ref:
+  event_id: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  sequence: 29
+  event_hash: sha256:e5d35d0fd068bdea69792aabc41b7a3c66aa89e2521abd01b1fa922f5bae8fae
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:7aeaa8961cbc3e34d714ccacfb47177113bc8354d3b7d854fba96238d8635cb9
+  tail_event_hash: sha256:e5d35d0fd068bdea69792aabc41b7a3c66aa89e2521abd01b1fa922f5bae8fae
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  context_pack_ref: evt-context-pack-bound-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  disclosure_ref: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  evidence_snapshot_ref: evt-evidence-snapshot-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-87e67ad1b7b2
+  run_contract_ref: evt-001-run-created-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  run_manifest_ref: evt-002-run-bound-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  runtime_state_ref: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  stage_attempt_ref: evt-stage-started-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/runtime-state.yml
+  last_applied_event_id: evt-run-closed-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:e5d35d0fd068bdea69792aabc41b7a3c66aa89e2521abd01b1fa922f5bae8fae
+  materialized_at: 2026-06-14T15:52:41.092614Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:52:41.865929Z

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:65803b73d2564fcd6b7cbd55876a3175d1f9e8f430a7de17b0677dc66ab5aec6
+  entry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-14T15:51:20.873237Z
+  run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:748150c80b2e0dedd1e533b68e85e12319512327604ac86bc132fe518c8f8bdb
+  entry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-14T15:51:20.873237Z
+  run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state
+  storage_class: external-immutable
+index_id: external-replay-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:51:20.873237Z

@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-review-refresh-20260614t063100z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-review-refresh-20260614t063100z/context/context-pack.json
+context_pack_sha256: sha256:1dee455696082726d86a8ea1b6934bcf63bdccad4c4a50ddf78ea82f98ffff8e
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-review-refresh-20260614t063100z/context/model-visible-context.json
+model_visible_context_sha256: sha256:7bfdd2984dcc0f2d848d95f0c8b090bf1e497bc54414486aae5cc9e7a16e4d4a
+receipt_sha256: sha256:ee2c02b96c0c35ff4a9e66cda384aaf35337bcd035dc4e7d1b5db8d865237957
+route_id: review-packet
+run_id: proposal-program-delivery-review-refresh-20260614t063100z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-14T06:25:30.773691Z
+validity_state: valid

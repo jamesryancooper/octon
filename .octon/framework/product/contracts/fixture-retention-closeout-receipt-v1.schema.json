@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/fixture-retention-closeout-receipt-v1.schema.json",
+  "title": "Fixture Retention Closeout Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "route_id",
+    "retention_run_id",
+    "retained_at",
+    "retention_verdict",
+    "fixture",
+    "purpose",
+    "owner_scope",
+    "used_as_evidence_for",
+    "evidence_refs",
+    "fixture_scope",
+    "retained_paths",
+    "retained_status_entries",
+    "retained_path_set_digest",
+    "git_status_digest",
+    "source_digests",
+    "generated_artifact_refs",
+    "freshness",
+    "validation_refs",
+    "terminal_worktree_hygiene_consumption",
+    "authority_boundaries",
+    "blocker",
+    "state_ledger"
+  ],
+  "properties": {
+    "schema_version": { "const": "fixture-retention-closeout-receipt-v1" },
+    "route_id": { "const": "fixture-retention-closeout" },
+    "retention_run_id": { "type": "string", "minLength": 1 },
+    "retained_at": { "type": "string", "format": "date-time" },
+    "retention_verdict": { "enum": ["retained", "blocked"] },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_id",
+        "proposal_kind",
+        "path",
+        "status",
+        "temporary_lifecycle",
+        "promotion_targets"
+      ],
+      "properties": {
+        "proposal_id": { "$ref": "#/$defs/identifier" },
+        "proposal_kind": { "$ref": "#/$defs/identifier" },
+        "path": { "$ref": "#/$defs/repoRelativePath" },
+        "status": { "type": "string", "minLength": 1 },
+        "temporary_lifecycle": { "const": true },
+        "promotion_targets": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/repoRelativePath" }
+        }
+      }
+    },
+    "purpose": { "type": "string", "minLength": 1 },
+    "owner_scope": { "type": "string", "minLength": 1 },
+    "used_as_evidence_for": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/repoRelativePath" }
+    },
+    "fixture_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["roots"],
+      "properties": {
+        "roots": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/repoRelativePath" }
+        }
+      }
+    },
+    "retained_paths": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/repoRelativePath" }
+    },
+    "retained_status_entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "path"],
+        "properties": {
+          "status": { "type": "string", "minLength": 1 },
+          "path": { "$ref": "#/$defs/repoRelativePath" }
+        }
+      }
+    },
+    "retained_path_set_digest": { "$ref": "#/$defs/sha256Digest" },
+    "git_status_digest": { "$ref": "#/$defs/sha256Digest" },
+    "source_digests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "digest"],
+        "properties": {
+          "path": { "$ref": "#/$defs/repoRelativePath" },
+          "digest": { "$ref": "#/$defs/sha256Digest" }
+        }
+      }
+    },
+    "generated_artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "authority"],
+        "properties": {
+          "path": { "$ref": "#/$defs/repoRelativePath" },
+          "authority": { "const": "derived-only-non-authority" }
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "status"],
+      "properties": {
+        "mode": { "const": "current-git-status-and-source-digest-bound" },
+        "status": { "enum": ["fresh", "blocked"] }
+      }
+    },
+    "validation_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/repoRelativePath" }
+    },
+    "terminal_worktree_hygiene_consumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed",
+        "exact_path_set_match_required",
+        "current_digest_match_required",
+        "schema_route_version_match_required",
+        "purpose_owner_scope_match_required",
+        "all_retained_paths_inside_declared_scope_required",
+        "unrelated_residue_coverage_forbidden",
+        "nonblocking_only_for_unrelated_packet_terminal_readiness",
+        "target_packet_evidence_authority",
+        "purpose",
+        "owner_scope",
+        "does_not_authorize"
+      ],
+      "properties": {
+        "allowed": { "const": true },
+        "exact_path_set_match_required": { "const": true },
+        "current_digest_match_required": { "const": true },
+        "schema_route_version_match_required": { "const": true },
+        "purpose_owner_scope_match_required": { "const": true },
+        "all_retained_paths_inside_declared_scope_required": { "const": true },
+        "unrelated_residue_coverage_forbidden": { "const": true },
+        "nonblocking_only_for_unrelated_packet_terminal_readiness": { "const": true },
+        "target_packet_evidence_authority": { "const": false },
+        "purpose": { "type": "string", "minLength": 1 },
+        "owner_scope": { "type": "string", "minLength": 1 },
+        "does_not_authorize": {
+          "type": "array",
+          "contains": { "const": "archive-ready-claim" },
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archive_relocation",
+        "proposal_status_mutation",
+        "generated_publication_edit",
+        "git_mutation",
+        "residue_deletion",
+        "repo_hygiene_deletion_authority",
+        "target_packet_evidence_authority"
+      ],
+      "properties": {
+        "archive_relocation": { "const": false },
+        "proposal_status_mutation": { "const": false },
+        "generated_publication_edit": { "const": false },
+        "git_mutation": { "const": false },
+        "residue_deletion": { "const": false },
+        "repo_hygiene_deletion_authority": { "const": false },
+        "target_packet_evidence_authority": { "const": false }
+      }
+    },
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class", "detail", "failing_evidence_ref", "next_canonical_route"],
+      "properties": {
+        "class": { "type": "string", "minLength": 1 },
+        "detail": { "type": "string", "minLength": 1 },
+        "failing_evidence_ref": { "type": "string", "minLength": 1 },
+        "next_canonical_route": { "type": "string", "minLength": 1 }
+      }
+    },
+    "state_ledger": {
+      "type": "array",
+      "minItems": 5,
+      "items": { "$ref": "#/$defs/stateLedgerEntry" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "^(?:/|\\.\\.|.*(?:^|/)\\.\\.(?:/|$))" }
+    },
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "stateLedgerEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_id",
+        "input_refs",
+        "validator_command_refs",
+        "output_evidence_refs",
+        "state_verdict",
+        "retry_count",
+        "resume_cursor"
+      ],
+      "properties": {
+        "state_id": { "type": "string", "minLength": 1 },
+        "input_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "validator_command_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "output_evidence_refs": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "state_verdict": { "enum": ["pass", "retained", "blocked"] },
+        "retry_count": { "type": "integer", "minimum": 0 },
+        "resume_cursor": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

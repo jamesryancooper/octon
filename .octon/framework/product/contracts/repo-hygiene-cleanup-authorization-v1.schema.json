@@ -185,12 +185,37 @@
     "repoRelativePath": {
       "type": "string",
       "minLength": 1,
-      "pattern": "^(?!/)(?!.*(^|/)\\.\\.(/|$))(?!\\.octon/inputs/)(?!\\.octon/generated/effective/)(?!\\.octon/generated/cognition/projections/materialized/runs/).+"
+      "pattern": "^(?!/)(?!.*(^|/)\\.\\.(/|$))(?!\\.octon/generated/effective/)(?!\\.octon/generated/cognition/projections/materialized/runs/).+"
     },
     "authorizedPath": {
       "type": "object",
       "additionalProperties": false,
       "required": ["path", "class", "pattern_id", "proofs"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "path": {
+                "pattern": "^\\.octon/inputs/"
+              }
+            },
+            "required": ["path"]
+          },
+          "then": {
+            "properties": {
+              "path": {
+                "pattern": "(^|/)\\.DS_Store$"
+              },
+              "class": {
+                "const": "local_filesystem_metadata"
+              },
+              "pattern_id": {
+                "const": "local_filesystem_metadata"
+              }
+            }
+          }
+        }
+      ],
       "properties": {
         "path": {
           "$ref": "#/$defs/repoRelativePath"

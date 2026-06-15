@@ -206,14 +206,26 @@ local_artifact_hygiene:
     rule: >-
       A routine closeout may use the helper's --authorize then --authorization
       route without another operator prompt when the current dry-run
-      classification and validating receipt cover only exact untracked,
-      unreferenced cleanup candidates and protected, manual-review, ignored,
+      classification and validating receipt cover only exact selected
+      untracked, unreferenced cleanup candidates and protected, manual-review,
       user-owned, generated run-health, durable evidence, active control,
-      input, tracked, and generated-authority paths are excluded.
+      tracked, generated-authority, and proposal-input file paths are excluded.
+      Untracked, unreferenced .DS_Store paths may be selected only as
+      local_filesystem_metadata, including below inputs roots; this does not
+      authorize cleanup of proposal input files or packet contents.
+      Untracked archive-proposal starter control, continuity, authority-decision,
+      authority-grant, and external-index artifacts may be selected as
+      local_run_residue only when they are unreferenced, their runtime state is
+      still at execution-start with no execution-complete checkpoint, their run
+      contract identifies an archive-proposal run for a repo-local proposal
+      packet, and durable archive workflow evidence reports the same proposal
+      path archived to the derived .archive path. Unsuperseded or ambiguous
+      running archive-proposal state remains manual review.
   deletion_requires:
     - "explicit --confirm operator action"
     - "or validating repo-hygiene cleanup authorization receipt passed to cleanup-local-run-artifacts.sh with --authorization <receipt.json>"
     - "path matches a known local residue or stale publication-attempt pattern"
+    - "optional --cleanup-path selections are a subset of current cleanup candidates and are covered by the receipt cleanup path-set digest"
     - "path is not tracked by git"
     - "path is not referenced by any tracked control, evidence, generated, governance, workflow, or documentation file"
     - "helper revalidates git refs, status digest, classification digest, cleanup path-set digest, protected paths digest, and manual-review paths digest immediately before deletion"
@@ -250,6 +262,7 @@ local_artifact_hygiene:
       criteria:
         - "untracked publish-* or service-build-* run/control/continuity/external-index artifacts"
         - "untracked lifecycle-proposal-* runner control, continuity, authority-decision, authority-grant, and external-index artifacts that are unreferenced by tracked files"
+        - "untracked closed workflow-engine run control, continuity, authority-decision, authority-grant, and external-index artifacts whose runtime-state is closed, whose execution-complete checkpoint is materialized, whose durable run evidence root exists, and whose paths are unreferenced by tracked files"
         - "untracked closeout-worktree, closeout-packet, and proposal-lifecycle closeout-packet skill run logs that are unreferenced by tracked files and have a publishable wrapper or Change receipt elsewhere"
         - "untracked runtime-agent-quorum checkpoint or evidence artifacts"
         - "no tracked file references the exact artifact path"
@@ -316,7 +329,7 @@ same_change_requirements:
       - "cleaned-closeout-claim-when-unclassified-residue-is-used-as-evidence"
       - "safe-to-delete-routing-for-referenced-evidence"
   - id: "RH-006"
-    condition: "A cleanup authorization receipt is missing, malformed, denied, expired, stale, path-mismatched, proof-incomplete, or attempts to authorize protected, referenced, tracked, input, active control, durable evidence, generated authority, generated run-health, ignored, or user-owned residue."
+    condition: "A cleanup authorization receipt is missing, malformed, denied, expired, stale, path-mismatched, proof-incomplete, or attempts to authorize protected, referenced, tracked, proposal input files, active control, durable evidence, generated authority, generated run-health, or user-owned residue. Ignored .DS_Store paths are allowed only when classified as untracked, unreferenced local_filesystem_metadata."
     required_outcome:
       - "fail-closed-before-deletion"
       - "retain-current-residue"

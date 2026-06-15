@@ -1,0 +1,64 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "terminal-closeout-repair-20260615T023134Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "branch-local-complete",
+  "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "local-only",
+  "intent": "Checkpoint the deterministic proposal-packet-terminal-closeout repair as a branch-local Change without hosted landing.",
+  "scope": {
+    "summary": "Terminal closeout route and worktree-hygiene repair sources.",
+    "touched_paths": [
+      ".codex/skills/closeout-worktree",
+      ".octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-terminal-closeout.sh",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs",
+      ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout",
+      ".octon/framework/product/contracts/proposal-packet-terminal-closeout-profile-v1.schema.json",
+      ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json"
+    ],
+    "diff_refs": [
+      "chore/proposal-program-delivery@9b93977dbb03478cd5fe3267f2c42cee7a3ebeec"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-delivery",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh --receipt .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery/support/proposal-terminal-closeout.yml",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-terminal-closeout.sh",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh",
+    "cargo check --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel",
+    "git diff --check"
+  ],
+  "review_waiver_refs": [
+    "solo-maintainer branch-no-pr local-only checkpoint; no PR selected or created"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "9b93977dbb03478cd5fe3267f2c42cee7a3ebeec",
+    "branch": "chore/proposal-program-delivery"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "9b93977dbb03478cd5fe3267f2c42cee7a3ebeec",
+    "instructions": "Revert commit 9b93977dbb03478cd5fe3267f2c42cee7a3ebeec on chore/proposal-program-delivery if the terminal-closeout repair checkpoint must be backed out."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Branch-local checkpoint is not landed on main.",
+    "No archive, hosted landing, branch cleanup, main sync, or cleaned claim is authorized by this receipt."
+  ],
+  "created_at": "2026-06-15T02:31:34Z"
+}

@@ -1,0 +1,47 @@
+schema_version: repo-hygiene-cleanup-run-receipt-v1
+run_id: 20260615T-input-ds-store-metadata-cleanup
+target: .octon/inputs/.DS_Store
+route: selected-path-authorization-receipt
+verdict: pass
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T-input-ds-store-metadata-cleanup/cleanup-authorization.json
+authorization_id: repo-hygiene-cleanup-6f0083f61ca00183
+authorization_digest: sha256:7babc96461020e3c32a6af0e712c3b1709e4bad72ebf550e4dff04e426e5cc10
+authorized_paths:
+  - path: .octon/inputs/.DS_Store
+    class: local_filesystem_metadata
+    disposition: deleted
+    proof_summary:
+      untracked: true
+      unreferenced_by_tracked_files: true
+      selected_cleanup_path: true
+      proposal_input_file: false
+summary:
+  deleted_count: 1
+  cleanup_candidate_count: 1
+  eligible_cleanup_candidate_count: 283
+  protected_referenced_count: 174
+  manual_review_count: 2468
+digests:
+  git_status_digest: sha256:2755d27f42a6f0020f267d1f4661bd192b6c62a269546386a2a26b1e937e3c61
+  classification_digest: sha256:ab322a60c79a7985c051a41f5fbfff312e30442b793a323d4b044f48d7a2f737
+  cleanup_path_set_digest: sha256:4ce152b65401a733f2b571c5393e106205dd7eea36d38cf60c497015ea800c33
+  protected_paths_digest: sha256:62428eda9e8fd38eac97adbab6951430b50e3c754dcb217af63ba424508ed37e
+  manual_review_paths_digest: sha256:a2e3d1e9e6185ac2f9ceffcad03aa8a4675ba680286f220863b24a2367d9c8ed
+post_cleanup_verification:
+  removed_path_absent: true
+  input_non_authority_validation:
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+    result: pass
+  proposal_input_files_deleted: false
+  broader_cleanup_candidates_deleted: false
+validation_refs:
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+    result: pass
+redaction_posture: publishable summary only; raw helper path listings are intentionally omitted
+blockers: []

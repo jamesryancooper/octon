@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:a739509b1899867ae545db30ad13f59605e694f5806b84252654259f4372b482
+  entry_id: fixture-retention-closeout-1781484204063-17775-verify-retained-evidence-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/replay/manifest.yml
+  recorded_at: 2026-06-15T00:43:30.641703Z
+  run_id: fixture-retention-closeout-1781484204063-17775-verify-retained-evidence
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:321fc6d5fcf600cc330e119e22d58a0825b8394ad62f3d6f49105e2947dd0ad1
+  entry_id: fixture-retention-closeout-1781484204063-17775-verify-retained-evidence-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-verify-retained-evidence/replay/manifest.yml
+  recorded_at: 2026-06-15T00:43:30.641703Z
+  run_id: fixture-retention-closeout-1781484204063-17775-verify-retained-evidence
+  storage_class: external-immutable
+index_id: external-replay-fixture-retention-closeout-1781484204063-17775-verify-retained-evidence
+run_id: fixture-retention-closeout-1781484204063-17775-verify-retained-evidence
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-15T00:43:30.641703Z

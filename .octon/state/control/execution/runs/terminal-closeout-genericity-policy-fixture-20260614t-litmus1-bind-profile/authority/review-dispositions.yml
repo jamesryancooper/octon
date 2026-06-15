@@ -1,0 +1,19 @@
+dispositions:
+- blocking: true
+  disposition_id: closeout-completeness
+  evidence_refs:
+  - .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-bind-profile/retained-run-evidence.yml
+  - .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-bind-profile/replay/manifest.yml
+  status: resolved
+recorded_at: 2026-06-14T15:51:18.785976Z
+review_disposition:
+  outcome: approved
+  status: resolved
+  summary: Run closeout review and risk disposition were materialized before closed lifecycle entry.
+risk_disposition:
+  accepted_risks: []
+  status: resolved
+  unresolved_risk_count: 0
+  unresolved_risks: []
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-bind-profile
+schema_version: review-dispositions-v1

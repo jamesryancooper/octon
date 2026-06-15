@@ -588,6 +588,38 @@ YAML
     assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
 }
 
+case_current_run_acp_decision_log_append_does_not_block() {
+  local root output log_path
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  log_path="$root/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+  mkdir -p "$(dirname "$log_path")"
+  printf '%s\n' '{"run_id":"prior-run","decision":"ALLOW"}' >"$log_path"
+  git -C "$root" add "$log_path"
+  git -C "$root" commit -qm acp-baseline
+  printf '%s\n' '{"run_id":"run-1-classify-worktree-hygiene","decision":"ALLOW"}' >>"$log_path"
+  run_classifier "$root" proposal-packet "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_owned_path_count: 1" &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
+}
+
+case_other_run_acp_decision_log_append_still_blocks() {
+  local root output log_path
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  log_path="$root/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+  mkdir -p "$(dirname "$log_path")"
+  printf '%s\n' '{"run_id":"prior-run","decision":"ALLOW"}' >"$log_path"
+  git -C "$root" add "$log_path"
+  git -C "$root" commit -qm acp-baseline
+  printf '%s\n' '{"run_id":"other-run","decision":"ALLOW"}' >>"$log_path"
+  run_classifier "$root" proposal-packet "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "blocked"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 1" &&
+    assert_contains "$output" 'path: ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"'
+}
+
 case_same_program_lifecycle_artifacts_do_not_block_packet_child_target() {
   local root output run_dir prior_run_id prior_run_dir
   root="$(new_fixture_repo)"
@@ -746,6 +778,8 @@ main() {
   assert_success "same-scope repo-hygiene cleanup receipts with retained workflow checkpoint do not block" case_same_scope_repo_hygiene_cleanup_receipts_with_retained_workflow_checkpoint_do_not_block
   assert_success "same-scope lifecycle run artifacts do not block" case_same_scope_lifecycle_runs_do_not_block
   assert_success "same-scope lifecycle evidence artifacts do not block" case_same_scope_lifecycle_evidence_runs_do_not_block
+  assert_success "current-run ACP decision log append does not block" case_current_run_acp_decision_log_append_does_not_block
+  assert_success "other-run ACP decision log append still blocks" case_other_run_acp_decision_log_append_still_blocks
   assert_success "same program lifecycle artifacts do not block packet child target" case_same_program_lifecycle_artifacts_do_not_block_packet_child_target
   assert_success "program generated projections do not block" case_program_generated_projection_scope_does_not_block
   assert_success "program generated projection scope applies to packet child target" case_program_generated_projection_scope_applies_to_packet_child_target

@@ -29,9 +29,10 @@ title: Closeout Worktree Phases
    explicit include and exclude path boundaries.
 8. Delegate eligible local Octon run/artifact residue to
    `repo-hygiene-cleanup`; route generated run-health projections to the
-   run-health generator; retain or block any detached worktree residue until
-   Git worktree cleanup proof is available. Do not delete any of these classes
-   directly from the wrapper.
+   run-health generator; delegate temporary proposal fixture candidates to
+   `fixture-retention-closeout`; retain or block any detached worktree residue
+   until Git worktree cleanup proof is available. Do not delete any of these
+   classes directly from the wrapper.
 9. Re-run inventory and residue classification after the singular closeout
    completes, blocks, or escalates.
 10. Repeat candidate selection when the next candidate is coherent and safely

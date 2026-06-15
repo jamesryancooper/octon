@@ -217,3 +217,5 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/delegated-governance-cutover-closeout/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration/
 !.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery/**

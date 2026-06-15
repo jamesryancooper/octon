@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-15T00:58:35.869578Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: proposal-packet-terminal-closeout-1781485109759-19805-verify-implementation-conformance-baseline
+route_taken: allow
+run_id: proposal-packet-terminal-closeout-1781485109759-19805-verify-implementation-conformance
+schema_version: run-retry-record-v1
+stage_attempt_id: verify-implementation-conformance--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781485109759-19805-verify-implementation-conformance/stage-attempts/verify-implementation-conformance--initial.yml

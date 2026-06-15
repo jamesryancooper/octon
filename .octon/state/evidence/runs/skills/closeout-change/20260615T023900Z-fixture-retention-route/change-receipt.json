@@ -1,0 +1,59 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "fixture-retention-route-20260615T023900Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "branch-local-complete",
+  "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "local-only",
+  "intent": "Checkpoint the evidence-only fixture-retention closeout route source files as a branch-local Change without hosted landing.",
+  "scope": {
+    "summary": "Dedicated fixture-retention-closeout route source files, validators, tests, commands, skill, workflow, contract, and feature doc.",
+    "touched_paths": [
+      ".codex/commands/fixture-retention-closeout.md",
+      ".cursor/commands/fixture-retention-closeout.md",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-workflow.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-fixture-retention-closeout.sh",
+      ".octon/framework/capabilities/runtime/commands/fixture-retention-closeout.md",
+      ".octon/framework/capabilities/runtime/skills/operations/fixture-retention-closeout",
+      ".octon/framework/orchestration/runtime/workflows/meta/fixture-retention-closeout",
+      ".octon/framework/product/contracts/fixture-retention-closeout-receipt-v1.schema.json",
+      ".octon/framework/product/features/fixture-retention-closeout.md"
+    ],
+    "diff_refs": [
+      "chore/proposal-program-delivery@f0fec1d96df427e0e58813fc68d30055f23ce598"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-delivery",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-workflow.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh --receipt .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-fixture-retention-closeout.sh",
+    ".octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml",
+    "git diff --check"
+  ],
+  "review_waiver_refs": [
+    "solo-maintainer branch-no-pr local-only checkpoint; no PR selected or created"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "f0fec1d96df427e0e58813fc68d30055f23ce598",
+    "branch": "chore/proposal-program-delivery"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "f0fec1d96df427e0e58813fc68d30055f23ce598",
+    "instructions": "Revert commit f0fec1d96df427e0e58813fc68d30055f23ce598 on chore/proposal-program-delivery if the fixture-retention route source checkpoint must be backed out."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Branch-local checkpoint is not landed on main.",
+    "Shared manifest/registry publication changes remain in the target packet implementation partition and are not claimed complete by this receipt.",
+    "This receipt does not authorize archive, hosted landing, branch cleanup, main sync, or cleaned state."
+  ],
+  "created_at": "2026-06-15T02:39:55Z"
+}

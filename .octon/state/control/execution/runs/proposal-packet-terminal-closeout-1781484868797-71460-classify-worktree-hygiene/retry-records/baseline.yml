@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-15T00:55:49.620811Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene-baseline
+route_taken: allow
+run_id: proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene
+schema_version: run-retry-record-v1
+stage_attempt_id: classify-worktree-hygiene--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484868797-71460-classify-worktree-hygiene/stage-attempts/classify-worktree-hygiene--initial.yml

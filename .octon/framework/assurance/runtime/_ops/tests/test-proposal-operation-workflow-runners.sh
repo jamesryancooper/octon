@@ -264,6 +264,29 @@ open_blocking_findings_count: 0
 
 - generate-implementation-prompt
 EOF
+
+  write_file "$proposal_dir/support/pre-integration-architecture-review.yml" <<EOF
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "fixture-pre-integration-architecture-review"
+proposal_path: "$proposal_rel"
+packet_digest: "$digest"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - "$proposal_rel/support/proposal-review.md"
+  - "$proposal_rel/support/implementation-grade-completeness-review.md"
+  - "$proposal_rel/architecture/target-architecture.md"
+  - "$proposal_rel/architecture/acceptance-criteria.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  fixture_scope: "covered"
+  authority_boundaries: "covered"
+EOF
 }
 
 run_workflow() {
@@ -335,7 +358,7 @@ case_promote_rejects_non_accepted_status() {
 }
 
 case_archive_passes() {
-  local fixture_root output bundle_root archived_manifest registry
+  local fixture_root output bundle_root archived_manifest registry artifact_index
   fixture_root="$(new_fixture_repo)"
   write_active_architecture_proposal "$fixture_root" "implemented"
   write_registry_for_active_status "$fixture_root" "implemented"
@@ -343,11 +366,17 @@ case_archive_passes() {
   bundle_root="$(printf '%s\n' "$output" | sed -n 's/^bundle_root: //p' | tail -n 1)"
   archived_manifest="$fixture_root/.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal/proposal.yml"
   registry="$fixture_root/.octon/generated/proposals/registry.yml"
+  artifact_index="$fixture_root/.octon/generated/proposals/artifacts/architecture/fixture-proposal/proposal-artifact-index.yml"
   assert_file_exists "$bundle_root/summary.md" || return 1
+  assert_file_exists "$bundle_root/stages/archive-proposal/outcome.json" || return 1
   grep -Fq -- '--skip-registry-check' "$bundle_root/standard-validator.log" || return 1
   assert_file_exists "$archived_manifest" || return 1
+  assert_file_exists "$artifact_index" || return 1
   [[ "$(yq -r '.status' "$archived_manifest")" == "archived" ]] || return 1
+  grep -Fq '!.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal/' "$fixture_root/.gitignore" || return 1
+  grep -Fq '!.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal/**' "$fixture_root/.gitignore" || return 1
   grep -Fq '.archive/architecture/fixture-proposal' "$registry" || return 1
+  grep -Fq '.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal' "$artifact_index" || return 1
 }
 
 case_archive_passes_with_retained_closed_stage_runs() {
@@ -360,6 +389,47 @@ case_archive_passes_with_retained_closed_stage_runs() {
   write_active_architecture_proposal "$fixture_root" "implemented"
   write_registry_for_active_status "$fixture_root" "implemented"
   run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md" >/dev/null
+}
+
+case_archive_recovers_partial_post_move_archive() {
+  local fixture_root active_dir archived_dir output bundle_root archived_manifest
+  fixture_root="$(new_fixture_repo)"
+  write_active_architecture_proposal "$fixture_root" "implemented"
+  write_registry_for_active_status "$fixture_root" "implemented"
+  active_dir="$fixture_root/.octon/inputs/exploratory/proposals/architecture/fixture-proposal"
+  archived_dir="$fixture_root/.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal"
+  mkdir -p "$(dirname "$archived_dir")"
+  mv "$active_dir" "$archived_dir"
+  write_file "$archived_dir/proposal.yml" <<'EOF'
+schema_version: "proposal-v1"
+proposal_id: "fixture-proposal"
+title: "Fixture Proposal"
+summary: "Architecture fixture."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/README.md"
+status: "archived"
+archive:
+  archived_at: "2026-06-15"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/fixture-proposal"
+  promotion_evidence:
+    - ".octon/README.md"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promote and archive."
+related_proposals: []
+EOF
+  output="$(run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md")"
+  bundle_root="$(printf '%s\n' "$output" | sed -n 's/^bundle_root: //p' | tail -n 1)"
+  archived_manifest="$archived_dir/proposal.yml"
+  assert_file_exists "$bundle_root/summary.md" || return 1
+  assert_file_exists "$bundle_root/stages/archive-proposal/outcome.json" || return 1
+  [[ "$(yq -r '.status' "$archived_manifest")" == "archived" ]] || return 1
+  grep -Fq '!.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal/' "$fixture_root/.gitignore" || return 1
+  grep -Fq '.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal' "$fixture_root/.octon/generated/proposals/artifacts/architecture/fixture-proposal/proposal-artifact-index.yml" || return 1
 }
 
 case_archive_rejects_non_implemented_disposition() {
@@ -386,6 +456,7 @@ main() {
   fi
   case_archive_passes && pass "archive-proposal workflow archives an implemented proposal and regenerates registry" || fail "archive-proposal workflow archives an implemented proposal and regenerates registry"
   case_archive_passes_with_retained_closed_stage_runs && pass "archive-proposal workflow reruns with retained closed stage runs" || fail "archive-proposal workflow reruns with retained closed stage runs"
+  case_archive_recovers_partial_post_move_archive && pass "archive-proposal workflow recovers exact partial post-move archive" || fail "archive-proposal workflow recovers exact partial post-move archive"
   if ! case_archive_rejects_non_implemented_disposition >/dev/null 2>&1; then
     pass "archive-proposal rejects implemented disposition when the proposal is not implemented"
   else

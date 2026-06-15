@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:9c83c1c1654ed7f5d864b542e58b15fd43bb4701ebfb45c64ae3e3fe2a7f9c11
+event_count: 24
+first_event_ref:
+  event_id: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+  sequence: 1
+  event_hash: sha256:e78a563d67380cfeeae58eae524add780e8c3888c00d9aaab959fbfeeb752bc1
+last_event_ref:
+  event_id: evt-checkpoint-start-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+  sequence: 24
+  event_hash: sha256:27773b32f9a063dd57f0e14d999ef7d7a118164b49c15728f7a53723d4d4942d
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:e78a563d67380cfeeae58eae524add780e8c3888c00d9aaab959fbfeeb752bc1
+  tail_event_hash: sha256:27773b32f9a063dd57f0e14d999ef7d7a118164b49c15728f7a53723d4d4942d
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+  context_pack_ref: evt-context-pack-bound-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-eab9b00ca868
+  run_contract_ref: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+  run_manifest_ref: evt-002-run-bound-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+  runtime_state_ref: evt-capability-authorized-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+  stage_attempt_ref: evt-stage-started-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-proposal-program-delivery-terminal-closeout-20260614t143300z-workflow-stage-verify-durable-implementation-state
+  last_applied_sequence: 24
+  last_applied_event_hash: sha256:27773b32f9a063dd57f0e14d999ef7d7a118164b49c15728f7a53723d4d4942d
+  materialized_at: 2026-06-14T14:34:39.540275Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T14:34:39.540275Z

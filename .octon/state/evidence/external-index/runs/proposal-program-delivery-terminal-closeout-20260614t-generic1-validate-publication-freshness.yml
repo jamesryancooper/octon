@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:b5ad903099fc6d607d9e87d136b4fcc80233dc90a9829974e7ef0008ee1dedd1
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-14T15:22:42.289163Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:4e3bb1a4867c3200ca2514eb9900a5bcc4c5d7a04fe49288b5bb0ee630e349f7
+  entry_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-14T15:22:42.289163Z
+  run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness
+  storage_class: external-immutable
+index_id: external-replay-proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness
+run_id: proposal-program-delivery-terminal-closeout-20260614t-generic1-validate-publication-freshness
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:22:42.289163Z

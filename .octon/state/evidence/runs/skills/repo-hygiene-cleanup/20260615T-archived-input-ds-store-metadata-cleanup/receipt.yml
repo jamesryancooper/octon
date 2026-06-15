@@ -1,0 +1,31 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+run_id: "20260615T-archived-input-ds-store-metadata-cleanup"
+route: "repo-hygiene-cleanup"
+cleanup_scope: "archived proposal input local filesystem metadata"
+cleanup_class: "local_filesystem_metadata"
+started_from: "operator requested repo-hygiene cleanup after input non-authority .DS_Store blocker"
+authorization_receipt_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260615T-archived-input-ds-store-metadata-cleanup/cleanup-authorization.json"
+authorization_id: "repo-hygiene-cleanup-632786efe3ee4033"
+authorization_receipt_sha256: "sha256:693897c3581cb9eaf9636f948b7ff29e87b9d2fd91bd1a299efd5834a4215b89"
+authorization_created_at: "2026-06-15T02:48:25Z"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+selected_path_set_digest: "sha256:458466094b5a7098b2a1a175325bea90132f0c8bf3444d0e7ea1948bd6560d75"
+classification_digest: "sha256:611e6bd7c2454817eaf80b9587e14c0c07d1b94de1423a69517aa8edf56f00f4"
+git_status_digest: "sha256:15f1b19f674785c92d50bbae932c507fe34ae048f49b998fa602c6a69a260e8d"
+protected_paths_digest: "sha256:1898995c822c67fe4c2136f9f1f3dee3fdde9ebc6b76b1c6287472d0c53cdbfe"
+manual_review_paths_digest: "sha256:adcc0cf9b86f94a01d1621020df6d3074375de78958ca3b77bd079eb721d8315"
+deleted_count: 3
+retained_protected_count: 1165
+retained_manual_review_count: 1430
+raw_deleted_path_list_embedded: false
+proposal_input_files_deleted: false
+generated_run_health_deleted: false
+unauthorized_deletion: false
+post_cleanup_checks:
+  inputs_ds_store_absent: true
+  protected_and_manual_review_retained: true
+  helper_validation_route: "authorization"
+outcome: "deleted-authorized-local-filesystem-metadata"
+blocker: "none"

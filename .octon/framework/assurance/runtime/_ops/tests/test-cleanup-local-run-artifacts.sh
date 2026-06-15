@@ -35,13 +35,14 @@ make_fixture() {
   mkdir -p "$root"
   git -C "$root" init >/dev/null
   git -C "$root" config core.excludesFile /dev/null
+  printf '.DS_Store\n' >"$root/.gitignore"
 
   mkdir -p "$root/.octon/generated/effective/capabilities"
   cat >"$root/.octon/generated/effective/capabilities/generation.lock.yml" <<'LOCK'
 schema_version: test-lock-v1
 retained_receipt_ref: ".octon/state/evidence/validation/publication/capabilities/final.yml"
 LOCK
-  git -C "$root" add .octon/generated/effective/capabilities/generation.lock.yml
+  git -C "$root" add .gitignore .octon/generated/effective/capabilities/generation.lock.yml
   git -C "$root" -c user.name="Octon Test" -c user.email="octon@example.invalid" commit -m "test fixture" >/dev/null
 
   mkdir -p "$root/.octon/state/evidence/validation/publication/capabilities"
@@ -70,11 +71,94 @@ LOCK
   mkdir -p "$root/.octon/state/evidence/external-index/runs"
   printf 'external-index: local\n' >"$root/.octon/state/evidence/external-index/runs/lifecycle-proposal-program-1.yml"
 
+  mkdir -p "$root/.octon/state/control/execution/runs/workflow-engine-closed-1/checkpoints"
+  cat >"$root/.octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml" <<'YAML'
+schema_version: runtime-state-v2
+run_id: workflow-engine-closed-1
+state: closed
+last_checkpoint_ref: .octon/state/control/execution/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml
+YAML
+  cat >"$root/.octon/state/control/execution/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml" <<'YAML'
+schema_version: run-checkpoint-v1
+run_id: workflow-engine-closed-1
+checkpoint_id: execution-complete
+status: materialized
+YAML
+  printf 'manifest: closed\n' >"$root/.octon/state/control/execution/runs/workflow-engine-closed-1/run-manifest.yml"
+  mkdir -p "$root/.octon/state/continuity/runs/workflow-engine-closed-1"
+  printf 'handoff: closed\n' >"$root/.octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
+  printf 'decision: closed\n' >"$root/.octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml"
+  printf 'grant: closed\n' >"$root/.octon/state/evidence/control/execution/authority-grant-bundle-workflow-engine-closed-1.yml"
+  printf 'external-index: closed\n' >"$root/.octon/state/evidence/external-index/runs/workflow-engine-closed-1.yml"
+  mkdir -p "$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints"
+  printf 'retained execution evidence\n' >"$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml"
+
+  mkdir -p "$root/.octon/state/control/execution/runs/workflow-engine-running-1/checkpoints"
+  cat >"$root/.octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" <<'YAML'
+schema_version: runtime-state-v2
+run_id: workflow-engine-running-1
+state: running
+last_checkpoint_ref: .octon/state/control/execution/runs/workflow-engine-running-1/checkpoints/execution-start.yml
+YAML
+  printf 'status: materialized\n' >"$root/.octon/state/control/execution/runs/workflow-engine-running-1/checkpoints/execution-start.yml"
+
+  mkdir -p "$root/.octon/inputs/exploratory/proposals/architecture/archive-fixture"
+  printf 'proposal_id: archive-fixture\nproposal_kind: architecture\n' >"$root/.octon/inputs/exploratory/proposals/architecture/archive-fixture/proposal.yml"
+  mkdir -p "$root/.octon/inputs/exploratory/proposals/.archive/architecture/archive-fixture"
+  printf 'proposal_id: archive-fixture\nproposal_kind: architecture\n' >"$root/.octon/inputs/exploratory/proposals/.archive/architecture/archive-fixture/proposal.yml"
+
+  mkdir -p "$root/.octon/state/control/execution/runs/archive-proposal-stale-1/checkpoints"
+  cat >"$root/.octon/state/control/execution/runs/archive-proposal-stale-1/runtime-state.yml" <<'YAML'
+schema_version: runtime-state-v2
+run_id: archive-proposal-stale-1
+state: running
+last_checkpoint_ref: .octon/state/control/execution/runs/archive-proposal-stale-1/checkpoints/execution-start.yml
+YAML
+  printf 'status: materialized\n' >"$root/.octon/state/control/execution/runs/archive-proposal-stale-1/checkpoints/execution-start.yml"
+  cat >"$root/.octon/state/control/execution/runs/archive-proposal-stale-1/run-contract.yml" <<'YAML'
+schema_version: run-contract-v1
+run_id: archive-proposal-stale-1
+objective_summary: Execute archive-proposal for archive fixture
+scope_out:
+  - .octon/inputs/exploratory/proposals/architecture/archive-fixture
+  - .octon/inputs/exploratory/proposals/.archive/architecture/archive-fixture
+YAML
+  mkdir -p "$root/.octon/state/continuity/runs/archive-proposal-stale-1"
+  printf 'handoff: archive stale\n' >"$root/.octon/state/continuity/runs/archive-proposal-stale-1/handoff.yml"
+  printf 'decision: archive stale\n' >"$root/.octon/state/evidence/control/execution/authority-decision-archive-proposal-stale-1.yml"
+  printf 'grant: archive stale\n' >"$root/.octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-stale-1.yml"
+  printf 'external-index: archive stale\n' >"$root/.octon/state/evidence/external-index/runs/archive-proposal-stale-1.yml"
+  mkdir -p "$root/.octon/state/evidence/runs/workflows/2026-06-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-archive-fixture"
+  cat >"$root/.octon/state/evidence/runs/workflows/2026-06-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-archive-fixture/summary.md" <<'MARKDOWN'
+- workflow_id: `archive-proposal`
+- proposal_path: `.octon/inputs/exploratory/proposals/architecture/archive-fixture`
+- archived_path: `.octon/inputs/exploratory/proposals/.archive/architecture/archive-fixture`
+- final_verdict: `archived`
+MARKDOWN
+
+  mkdir -p "$root/.octon/state/control/execution/runs/archive-proposal-unsuperseded-1/checkpoints"
+  cat >"$root/.octon/state/control/execution/runs/archive-proposal-unsuperseded-1/runtime-state.yml" <<'YAML'
+schema_version: runtime-state-v2
+run_id: archive-proposal-unsuperseded-1
+state: running
+last_checkpoint_ref: .octon/state/control/execution/runs/archive-proposal-unsuperseded-1/checkpoints/execution-start.yml
+YAML
+  printf 'status: materialized\n' >"$root/.octon/state/control/execution/runs/archive-proposal-unsuperseded-1/checkpoints/execution-start.yml"
+  cat >"$root/.octon/state/control/execution/runs/archive-proposal-unsuperseded-1/run-contract.yml" <<'YAML'
+schema_version: run-contract-v1
+run_id: archive-proposal-unsuperseded-1
+objective_summary: Execute archive-proposal for unsuperseded fixture
+scope_out:
+  - .octon/inputs/exploratory/proposals/architecture/unsuperseded-fixture
+  - .octon/inputs/exploratory/proposals/.archive/architecture/unsuperseded-fixture
+YAML
+
   mkdir -p "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1"
   printf 'wrapper-log: local\n' >"$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
 
   mkdir -p "$root/.octon/inputs/exploratory/proposals/fixture-local"
   printf 'local finder metadata\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+  printf 'proposal input must stay\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 
   mkdir -p "$root/.octon/state/evidence/validation/analysis"
   printf 'manual: true\n' >"$root/.octon/state/evidence/validation/analysis/manual.yml"
@@ -87,8 +171,13 @@ LOCK
 
 authorize_fixture() {
   local root="$1"
+  local selected_path="${2:-}"
   local receipt="$tmp_root/receipt-$fixture_index.json"
-  bash "$HELPER" --root "$root" --authorize "$receipt" >/dev/null
+  if [[ -n "$selected_path" ]]; then
+    bash "$HELPER" --root "$root" --cleanup-path "$selected_path" --authorize "$receipt" >/dev/null
+  else
+    bash "$HELPER" --root "$root" --authorize "$receipt" >/dev/null
+  fi
   echo "$receipt"
 }
 
@@ -99,7 +188,13 @@ import sys
 from pathlib import Path
 
 receipt = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-print(receipt["authorized_paths"][0]["path"])
+for item in receipt["authorized_paths"]:
+    path = item["path"]
+    if not path.endswith("/.DS_Store") and path != ".DS_Store":
+        print(path)
+        break
+else:
+    print(receipt["authorized_paths"][0]["path"])
 PY
 }
 
@@ -141,10 +236,41 @@ printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" >/dev/null || fail
 printf '%s\n' "$dry_run_output" | grep -F ".octon/state/evidence/validation/publication/capabilities/stale.yml" >/dev/null || fail "dry-run did not classify stale receipt"
 printf '%s\n' "$dry_run_output" | grep -F "proposal lifecycle runner residue" >/dev/null || fail "dry-run did not classify lifecycle runner residue"
 printf '%s\n' "$dry_run_output" | grep -F "closeout skill run residue" >/dev/null || fail "dry-run did not classify closeout skill run residue"
+printf '%s\n' "$dry_run_output" | grep -F "closed workflow-engine run residue: workflow-engine-closed-1" >/dev/null || fail "dry-run did not classify closed workflow-engine run residue"
+printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" >/dev/null || fail "dry-run did not retain running workflow control state for manual review"
+printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" >/dev/null && fail "dry-run treated running workflow control state as cleanup candidate"
+printf '%s\n' "$dry_run_output" | grep -F "stale archive-proposal starter residue superseded by durable archive evidence: archive-proposal-stale-1" >/dev/null || fail "dry-run did not classify stale archive-proposal starter residue"
+printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/control/execution/runs/archive-proposal-unsuperseded-1/runtime-state.yml" >/dev/null || fail "dry-run did not retain unsuperseded archive-proposal starter for manual review"
+printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/control/execution/runs/archive-proposal-unsuperseded-1/runtime-state.yml" >/dev/null && fail "dry-run treated unsuperseded archive-proposal starter as cleanup candidate"
+printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml" >/dev/null || fail "dry-run did not retain durable workflow evidence for manual review"
 printf '%s\n' "$dry_run_output" | grep -F "local_filesystem_metadata" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/.DS_Store" >/dev/null || fail "dry-run did not classify local filesystem metadata"
+printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/proposal.yml" >/dev/null && fail "dry-run treated proposal input file as cleanup candidate"
 printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/validation/publication/capabilities/final.yml" >/dev/null || fail "dry-run did not protect referenced receipt"
 printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/validation/analysis/manual.yml" >/dev/null || fail "dry-run did not surface manual-review artifact"
 printf '%s\n' "$dry_run_output" | grep -F "generated_run_health_projection" >/dev/null || fail "dry-run did not route generated run-health projection to manual review"
+
+root="$(make_fixture)"
+target_metadata_path=".octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+target_receipt="$(authorize_fixture "$root" "$target_metadata_path")"
+python3 - "$target_receipt" "$target_metadata_path" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+receipt = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+target = sys.argv[2]
+paths = [item["path"] for item in receipt["authorized_paths"]]
+if paths != [target]:
+    raise SystemExit(f"targeted receipt authorized unexpected paths: {paths}")
+item = receipt["authorized_paths"][0]
+if item["class"] != "local_filesystem_metadata":
+    raise SystemExit(f"targeted receipt used unexpected class: {item['class']}")
+PY
+bash "$HELPER" --root "$root" --cleanup-path "$target_metadata_path" --authorization "$target_receipt" >/dev/null
+assert_missing "$root/$target_metadata_path"
+assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
+assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/stale.yml"
+assert_exists "$root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
 
 root="$(make_fixture)"
 active_run_output="$(bash "$HELPER" --root "$root" --active-run-id lifecycle-proposal-program-1)"
@@ -159,6 +285,18 @@ assert_exists "$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-w
 assert_exists "$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
 assert_missing "$root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
 
+root="$(make_fixture)"
+active_workflow_output="$(bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1)"
+printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml" >/dev/null || fail "active workflow runtime state was not protected"
+printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml" >/dev/null || fail "active workflow continuity artifact was not protected"
+printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml" >/dev/null || fail "active workflow authority decision was not protected"
+workflow_active_receipt="$tmp_root/active-workflow-receipt-$fixture_index.json"
+bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1 --authorize "$workflow_active_receipt" >/dev/null
+bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1 --authorization "$workflow_active_receipt" >/dev/null
+assert_exists "$root/.octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml"
+assert_exists "$root/.octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
+assert_exists "$root/.octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml"
+
 receipt="$(authorize_fixture "$root")"
 grep -F '"schema_version": "repo-hygiene-cleanup-authorization-v1"' "$receipt" >/dev/null || fail "authorization receipt has wrong schema version"
 bash "$HELPER" --root "$root" --authorization "$receipt" >/dev/null
@@ -171,8 +309,23 @@ assert_missing "$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-
 assert_missing "$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
 assert_missing "$root/.octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1.yml"
 assert_missing "$root/.octon/state/evidence/external-index/runs/lifecycle-proposal-program-1.yml"
+assert_missing "$root/.octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml"
+assert_missing "$root/.octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
+assert_missing "$root/.octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml"
+assert_missing "$root/.octon/state/evidence/control/execution/authority-grant-bundle-workflow-engine-closed-1.yml"
+assert_missing "$root/.octon/state/evidence/external-index/runs/workflow-engine-closed-1.yml"
+assert_missing "$root/.octon/state/control/execution/runs/archive-proposal-stale-1/runtime-state.yml"
+assert_missing "$root/.octon/state/continuity/runs/archive-proposal-stale-1/handoff.yml"
+assert_missing "$root/.octon/state/evidence/control/execution/authority-decision-archive-proposal-stale-1.yml"
+assert_missing "$root/.octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-stale-1.yml"
+assert_missing "$root/.octon/state/evidence/external-index/runs/archive-proposal-stale-1.yml"
+assert_exists "$root/.octon/state/control/execution/runs/archive-proposal-unsuperseded-1/runtime-state.yml"
+assert_exists "$root/.octon/state/evidence/runs/workflows/2026-06-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-archive-fixture/summary.md"
+assert_exists "$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml"
+assert_exists "$root/.octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml"
 assert_missing "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
 assert_missing "$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/final.yml"
 assert_exists "$root/.octon/state/evidence/validation/analysis/manual.yml"
 assert_exists "$root/.octon/generated/cognition/projections/materialized/runs/publish-1/index.yml"
@@ -180,6 +333,8 @@ assert_exists "$root/.octon/generated/cognition/projections/materialized/runs/pu
 root="$(make_fixture)"
 bash "$HELPER" --root "$root" --confirm >/dev/null
 assert_missing "$root/.octon/state/evidence/validation/publication/capabilities/stale.yml"
+assert_missing "$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/final.yml"
 
 assert_fails "--fail-on-manual" bash "$HELPER" --root "$root" --fail-on-manual
@@ -245,8 +400,8 @@ assert_fails "active control authorization receipt" bash "$HELPER" --root "$root
 
 root="$(make_fixture)"
 receipt="$(authorize_fixture "$root")"
-mutate_receipt "$receipt" path ".octon/inputs/exploratory/manual.yml"
-assert_fails "input-surface authorization receipt" bash "$HELPER" --root "$root" --authorization "$receipt"
+mutate_receipt "$receipt" path ".octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
+assert_fails "proposal input file authorization receipt" bash "$HELPER" --root "$root" --authorization "$receipt"
 
 root="$(make_fixture)"
 receipt="$(authorize_fixture "$root")"

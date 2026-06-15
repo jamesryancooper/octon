@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: proposal-packet-terminal-closeout-1781484250284-21530-run-evidence-only-reviews
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484250284-21530-run-evidence-only-reviews/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484250284-21530-run-evidence-only-reviews/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484250284-21530-run-evidence-only-reviews/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484250284-21530-run-evidence-only-reviews/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484250284-21530-run-evidence-only-reviews/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781484250284-21530-run-evidence-only-reviews/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484250284-21530-run-evidence-only-reviews/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: run-evidence-only-reviews--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484250284-21530/run-contract.yml
+next_action: null
+updated_at: 2026-06-15T00:45:38.707215Z

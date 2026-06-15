@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-bind-profile
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-bind-profile/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-bind-profile/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-bind-profile/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-bind-profile/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-bind-profile/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-bind-profile/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow-stage-bind-profile/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: bind-profile--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t065300z-workflow/run-contract.yml
+next_action: null
+updated_at: 2026-06-14T07:06:58.344834Z

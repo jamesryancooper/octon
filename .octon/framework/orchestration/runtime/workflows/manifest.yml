@@ -256,6 +256,30 @@ workflows:
       - "proposal packet terminal closeout"
       - "terminal closeout proposal packet"
       - "mark proposal packet archive ready"
+  - id: fixture-retention-closeout
+    display_name: Fixture Retention Closeout
+    group: meta
+    domain: lifecycle-assurance
+    path: meta/fixture-retention-closeout/
+    execution_profile: core
+    summary: Retain a temporary proposal fixture as evidence-only validation residue under an exact digest-bound receipt contract.
+    status: active
+    triggers:
+      - "fixture retention closeout"
+      - "retain validation fixture"
+      - "close out fixture residue"
+  - id: proposal-program-delivery
+    display_name: Proposal Program Delivery
+    group: meta
+    domain: proposals
+    path: meta/proposal-program-delivery/
+    execution_profile: core
+    summary: Coordinate accepted proposal program delivery through target-owned child lifecycles, closeout, archive handoff, Change closeout, landing, sync, cleanup, and terminal proof.
+    status: active
+    triggers:
+      - "proposal program delivery"
+      - "deliver proposal program"
+      - "run proposal program delivery"
   - id: archive-proposal
     display_name: Archive Proposal
     group: meta

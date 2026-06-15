@@ -1,0 +1,25 @@
+schema_version: repo-hygiene-cleanup-run-receipt-v1
+run_id: proposal-program-delivery-20260614T060000Z
+parent_run_id: lifecycle-proposal-program-delivery-20260614T034048Z
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+route: authorization-receipt
+verdict: pass
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-delivery-20260614T060000Z/cleanup-authorization.json
+authorization_id: repo-hygiene-cleanup-1bd83c6d9cbe0675
+summary:
+  deleted_count: 81
+  retained_protected_count: 45
+  retained_manual_review_count: 1
+  cleanup_candidate_count: 81
+  protected_referenced_count: 45
+  manual_review_count: 1
+digests:
+  git_status_digest: sha256:835306fdd421088d4d1072608c1554488ace67dee4b889c77f4e57bb35f9a175
+  classification_digest: sha256:d923b5fc3afedf38fe904e7b5329cb4e3dde3c9601d862d23a3926b59c19c249
+  cleanup_path_set_digest: sha256:0172188aa15453fe35ca2fc81c2b18296ec7aacc3d7e3606386b0d38cdef2c8d
+  protected_paths_digest: sha256:58a1b5ae4c2f0e9f1a1c8b5eddf52fa08444ac545e068af160bcf6b2cde0e4c6
+  manual_review_paths_digest: sha256:22f6e134b90ad763951c2fc1e59fda8167d0d4863c7522805fd8b146622052f1
+redaction_posture: publishable summary only; raw deleted and retained path lists are intentionally omitted
+local_evidence_ref: not-retained-in-shared-evidence
+blockers: []

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:6c86094cae93b212ad23a4c0238edb3fefa76a8ef5f14d136bba3d5e742cb615
+  entry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-14T15:52:41.092614Z
+  run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:f1a8f5bfa1c8638c601d09ea15884d2bf18a5c5a053a720b726d1ebc5a51a970
+  entry_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-14T15:52:41.092614Z
+  run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+  storage_class: external-immutable
+index_id: external-replay-terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-classify-repo-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-14T15:52:41.092614Z

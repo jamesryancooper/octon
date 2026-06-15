@@ -52,18 +52,22 @@ rewrite durable framework or instance authority.
 4. **Select Route** - Use one of two delete routes only:
    `--confirm` for explicit operator action, or `--authorize <receipt.json>`
    followed by `--authorization <receipt.json>` for receipt-backed cleanup.
-   The receipt route may proceed without another operator prompt only when the
-   helper's current classification contains exact untracked, unreferenced
-   cleanup candidates and no protected, manual-review, ignored, user-owned,
-   generated run-health, active control, durable evidence, input, tracked, or
-   generated-authority path is included. If neither delete route is available
-   or valid, stop after classification.
+   Use `--cleanup-path <repo-relative-path>` when the cleanup should be
+   limited to one or more selected current cleanup candidates. The receipt
+   route may proceed without another operator prompt only when the helper's
+   current classification contains exact selected untracked, unreferenced
+   cleanup candidates and no protected, manual-review, user-owned, generated
+   run-health, active control, durable evidence, tracked,
+   generated-authority, or proposal-input file path is included. Untracked,
+   unreferenced `.DS_Store` paths may be selected only as
+   `local_filesystem_metadata`, including below inputs roots. If neither delete
+   route is available or valid, stop after classification.
 5. **Receipt Route** - When using the receipt route, store the emitted
    `repo-hygiene-cleanup-authorization-v1` receipt under retained evidence,
    then invoke the helper with `--authorization`. The helper must revalidate
    current git refs, status digest, classification digest, path-set digest,
-   protected digest, manual-review digest, proof bits, and exact path set
-   before deleting anything. Raw receipt-generation logs stay local-private
+   protected digest, manual-review digest, proof bits, and exact selected path
+   set before deleting anything. Raw receipt-generation logs stay local-private
    when they include local paths or operator-sensitive details.
 6. **Record Evidence** - Write a concise publishable receipt under
    `.octon/state/evidence/runs/skills/repo-hygiene-cleanup/<run-id>/` with the
@@ -80,9 +84,10 @@ rewrite durable framework or instance authority.
 
 Stop before deletion when the receipt is missing, unreadable, malformed,
 denied, expired, stale, path-mismatched, proof-incomplete, or attempts to cover
-a tracked, referenced, protected, manual-review, input, durable evidence,
-active control, generated authority, generated run-health, ignored, or
-user-owned path.
+a tracked, referenced, protected, manual-review, proposal input file, durable
+evidence, active control, generated authority, generated run-health, or
+user-owned path. Ignored `.DS_Store` paths are eligible only when the helper
+classifies them as untracked, unreferenced local filesystem metadata.
 
 Generated run-health projection pruning remains owned by
 `generate-run-health-read-model.sh --all-runs` and its `pruned_paths` evidence.
@@ -105,9 +110,9 @@ This skill must not delete
   `.octon/state/evidence/runs/skills/repo-hygiene-cleanup/<run-id>/`.
 - Do not delete branches, tracked files, proposal inputs, generated run-health
   projections, durable evidence, active control state, detached Git worktrees,
-  ignored paths, or user-owned paths.
+  ignored non-metadata paths, or user-owned paths.
 - Treat `lifecycle-interaction-request-v1` receipts as non-authorizing context.
   They may identify why hygiene was requested, but deletion still requires
   helper classification plus explicit confirmation or a validating
-  `repo-hygiene-cleanup-authorization-v1` receipt that matches the current
-  path set and proof bits.
+  `repo-hygiene-cleanup-authorization-v1` receipt that matches the selected
+  current path set and proof bits.

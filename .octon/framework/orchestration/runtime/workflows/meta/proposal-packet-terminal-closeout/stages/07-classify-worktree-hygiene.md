@@ -18,9 +18,13 @@ description: Block archive-ready when foreign or ambiguous worktree residue rema
 ## Actions
 
 1. Run proposal worktree hygiene classification for the target packet.
-2. Record owned, in-scope, and foreign-or-ambiguous counts.
-3. Block `archive-ready` when foreign or ambiguous residue remains.
-4. Route non-packet residue to `closeout-worktree` or `closeout-change`.
+2. Consume `fixture-retention-closeout-receipt-v1` receipts only when the
+   receipt validates, the retained path set exactly matches current status,
+   purpose and owner scope match, freshness is current, and retained paths are
+   inside the declared fixture scope.
+3. Record owned, in-scope, retained fixture, and foreign-or-ambiguous counts.
+4. Block `archive-ready` when foreign or ambiguous residue remains.
+5. Route non-packet residue to `closeout-worktree` or `closeout-change`.
 
 ## Side Effect Class
 
@@ -41,5 +45,7 @@ when worktree hygiene is blocked.
 - `worktree_hygiene.classification_ref`
 - `worktree_hygiene.verdict`
 - `worktree_hygiene.foreign_or_ambiguous_count`
+- `worktree_hygiene.retained_fixture_path_count`
+- `worktree_hygiene.fixture_retention_refs`
 - `worktree_hygiene.dirty_worktree`
 - `state_ledger[].state_id: classify-worktree-hygiene`

@@ -1,0 +1,141 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-delivery-20260615-branch-no-pr",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Complete route-bound cleaned closeout for the archived proposal-program-delivery Change after governed hosted no-PR landing and branch cleanup.",
+  "scope": {
+    "summary": "Archived proposal-program-delivery implementation and its governed branch-no-pr landing closeout.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery",
+      ".octon/generated/proposals/artifacts/architecture/proposal-program-delivery",
+      ".octon/state/evidence/runs/workflows/2026-06-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-program-delivery-3",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr"
+    ],
+    "diff_refs": [
+      "target_pre_ref=2a85a36fcfd3336a87c86a54cddf29dd1c53faaf",
+      "landed_ref=b90778c4d81feb7f889c6a84de18a9f0676db33f"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-delivery",
+  "target_branch_ref": "origin/main@b90778c4d81feb7f889c6a84de18a9f0676db33f",
+  "remote_branch_ref": "origin/chore/proposal-program-delivery@b90778c4d81feb7f889c6a84de18a9f0676db33f",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "target_ref": "origin/main@b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/landing-authorization.json",
+      "git rev-parse origin/main == b90778c4d81feb7f889c6a84de18a9f0676db33f"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/proposal-program-delivery",
+    "source_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "target_pre_ref": "2a85a36fcfd3336a87c86a54cddf29dd1c53faaf",
+    "target_post_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "validated_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@b90778c4d81feb7f889c6a84de18a9f0676db33f"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "b90778c4d81feb7f889c6a84de18a9f0676db33f:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/proposal-program-delivery",
+    "source_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "landed_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "origin_main_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "git merge-base --is-ancestor b90778c4d81feb7f889c6a84de18a9f0676db33f origin/main",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/branch-cleanup-authorization.json"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "origin_main_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "landed_ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git rev-parse origin/main == b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "local_main_sync_evidence_ref": "git rev-parse main == b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/branch-cleanup-authorization.json",
+    "git branch --list chore/proposal-program-delivery returned empty",
+    "git ls-remote --heads origin chore/proposal-program-delivery returned empty"
+  ],
+  "terminal_current_state_proof_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/terminal-current-state-proof.yml",
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/proposal-program-delivery",
+    "remote_branch": "origin/chore/proposal-program-delivery",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/branch-cleanup-authorization.json",
+      "git branch --list chore/proposal-program-delivery returned empty",
+      "git ls-remote --heads origin chore/proposal-program-delivery returned empty"
+    ]
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch --untracked-files=all",
+    "residue_classification_ref": "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root .",
+    "phase_exit_refs": [
+      "refs verified: HEAD == main == origin/main == b90778c4d81feb7f889c6a84de18a9f0676db33f",
+      "terminal current-state proof validates with require-cleaned",
+      "hosted no-PR landing validator accepts authorization-bound empty check set"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/terminal-current-state-proof.yml"
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/workflows/2026-06-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-program-delivery-3",
+    ".octon/state/evidence/runs/skills/closeout-change/proposal-program-delivery-20260615-branch-no-pr/terminal-current-state-proof.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-hosted-no-pr-landing.sh"
+  ],
+  "review_waiver_refs": [
+    "branch-no-pr route selected by governed authorization; PR metadata is absent"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "branch": "chore/proposal-program-delivery"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "pre-landing origin/main=2a85a36fcfd3336a87c86a54cddf29dd1c53faaf; source=origin/chore/proposal-program-delivery@b90778c4d81feb7f889c6a84de18a9f0676db33f",
+    "instructions": "Use governed rollback to restore origin/main to pre-landing ref 2a85a36fcfd3336a87c86a54cddf29dd1c53faaf, or use the retained source ref origin/chore/proposal-program-delivery@b90778c4d81feb7f889c6a84de18a9f0676db33f under the owning rollback route."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-15T18:22:27Z",
+  "updated_at": "2026-06-15T18:22:27Z"
+}

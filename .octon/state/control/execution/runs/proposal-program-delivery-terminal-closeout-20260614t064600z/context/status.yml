@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-terminal-closeout-20260614t064600z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-terminal-closeout-20260614t064600z/context/context-pack.json
+route_id: proposal-packet-terminal-closeout
+run_id: proposal-program-delivery-terminal-closeout-20260614t064600z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-14T06:46:15.746Z
+validity_state: valid

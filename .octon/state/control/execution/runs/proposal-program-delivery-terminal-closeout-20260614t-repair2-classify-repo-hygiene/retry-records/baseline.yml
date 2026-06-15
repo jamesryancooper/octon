@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-14T15:13:44.834738Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-classify-repo-hygiene-baseline
+route_taken: allow
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair2-classify-repo-hygiene
+schema_version: run-retry-record-v1
+stage_attempt_id: classify-repo-hygiene--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair2-classify-repo-hygiene/stage-attempts/classify-repo-hygiene--initial.yml

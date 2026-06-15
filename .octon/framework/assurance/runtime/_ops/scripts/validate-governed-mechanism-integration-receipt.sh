@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 FRAMEWORK_DIR="$(cd -- "$SCRIPT_DIR/../../../../" && pwd)"
+REPO_ROOT="$(cd -- "$SCRIPT_DIR/../../../../../.." && pwd)"
 SCHEMA_PATH="$FRAMEWORK_DIR/product/contracts/governed-mechanism-integration-receipt-v1.schema.json"
 RECEIPT_PATH=""
 PACKAGE_PATH=""
@@ -54,6 +55,41 @@ need_tool() {
 
 scalar() {
   yq -r "$1" "$RECEIPT_PATH" 2>/dev/null || true
+}
+
+package_path_variants() {
+  local package_path="$1"
+  printf '%s\n' "$package_path"
+  if [[ "$package_path" = /* && "$package_path" == "$REPO_ROOT/"* ]]; then
+    printf '%s\n' "${package_path#$REPO_ROOT/}"
+  fi
+}
+
+package_abs_path() {
+  local package_path="$1"
+  if [[ "$package_path" = /* ]]; then
+    printf '%s\n' "$package_path"
+  else
+    printf '%s/%s\n' "$REPO_ROOT" "$package_path"
+  fi
+}
+
+receipt_matches_package_path() {
+  local receipt_proposal_path="$1" package_path="$2" variant
+  while IFS= read -r variant; do
+    [[ "$receipt_proposal_path" == "$variant" ]] && return 0
+  done < <(package_path_variants "$package_path")
+  return 1
+}
+
+receipt_matches_archived_original_path() {
+  local receipt_proposal_path="$1" package_path="$2" package_abs manifest status original_path
+  package_abs="$(package_abs_path "$package_path")"
+  manifest="$package_abs/proposal.yml"
+  [[ -f "$manifest" ]] || return 1
+  status="$(yq -r '.status // ""' "$manifest" 2>/dev/null || true)"
+  original_path="$(yq -r '.archive.original_path // ""' "$manifest" 2>/dev/null || true)"
+  [[ "$status" == "archived" && -n "$original_path" && "$original_path" != "null" && "$receipt_proposal_path" == "$original_path" ]]
 }
 
 require_scalar() {
@@ -153,8 +189,16 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   fi
 
   if [[ -n "$PACKAGE_PATH" ]]; then
-    [[ -d "$PACKAGE_PATH" ]] && pass "package path exists" || fail "package path missing: $PACKAGE_PATH"
-    [[ "$(scalar '.proposal_path')" == "$PACKAGE_PATH" ]] && pass "proposal_path matches --package" || fail "proposal_path must match --package"
+    PACKAGE_ABS="$(package_abs_path "$PACKAGE_PATH")"
+    RECEIPT_PROPOSAL_PATH="$(scalar '.proposal_path')"
+    [[ -d "$PACKAGE_ABS" ]] && pass "package path exists" || fail "package path missing: $PACKAGE_PATH"
+    if receipt_matches_package_path "$RECEIPT_PROPOSAL_PATH" "$PACKAGE_PATH"; then
+      pass "proposal_path matches --package"
+    elif receipt_matches_archived_original_path "$RECEIPT_PROPOSAL_PATH" "$PACKAGE_PATH"; then
+      pass "proposal_path matches archived package original_path"
+    else
+      fail "proposal_path must match --package or archived package original_path"
+    fi
   fi
 
   require_array_nonempty '.surface_coverage' "surface_coverage"

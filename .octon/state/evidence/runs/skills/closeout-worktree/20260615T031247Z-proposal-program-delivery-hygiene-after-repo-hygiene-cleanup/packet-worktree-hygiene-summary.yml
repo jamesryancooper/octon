@@ -1,0 +1,13 @@
+schema_version: octon-proposal-worktree-hygiene-summary-v1
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery
+lifecycle: proposal-packet
+captured_at: "2026-06-15T03:29:19Z"
+worktree_hygiene_verdict: blocked
+worktree_hygiene_blocker_class: worktree-hygiene-blocked
+worktree_hygiene_owned_path_count: 2
+worktree_hygiene_in_scope_path_count: 47
+worktree_hygiene_retained_fixture_path_count: 18
+worktree_hygiene_foreign_path_count: 3064
+worktree_hygiene_foreign_fingerprint: sha256:1e3f3e02c29c8f09e8e4a77d1fd18033ab47f410a9395648810b19a17cd638b0
+next_route_condition: route through closeout-change or operator scope resolution before proposal archive authorization
+fixture_retention_receipt_ref: .octon/state/evidence/runs/workflows/2026-06-15-fixture-retention-closeout-octon-inputs-exploratory-proposals-policy-terminal-closeout-genericity-policy-fixture/retention-receipt.yml

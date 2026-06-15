@@ -213,7 +213,8 @@
         "git_mutation",
         "residue_deletion",
         "host_state_authority",
-        "chat_or_model_memory_authority"
+        "chat_or_model_memory_authority",
+        "tool_authority"
       ],
       "properties": {
         "archive_relocation": {
@@ -235,6 +236,9 @@
           "const": false
         },
         "chat_or_model_memory_authority": {
+          "const": false
+        },
+        "tool_authority": {
           "const": false
         }
       }

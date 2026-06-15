@@ -69,6 +69,40 @@ commands:
   host_adapters:
   - cursor
   - codex
+- id: fixture-retention-closeout
+  display_name: Fixture Retention Closeout
+  path: fixture-retention-closeout.md
+  summary: Invoke the evidence-only route that retains a temporary proposal fixture as validation residue.
+  access: agent
+  argument_hint: fixture_path=<proposal-fixture-path> owner_scope=<scope> evidence_refs=<csv> [purpose=<purpose>]
+  routing:
+    selectors:
+      include:
+      - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+  host_adapters:
+  - cursor
+  - codex
+- id: proposal-program-delivery
+  display_name: Proposal Program Delivery
+  path: proposal-program-delivery.md
+  summary: Invoke accepted proposal program delivery coordination without replacing target-owned lifecycles.
+  access: agent
+  argument_hint: target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]
+  routing:
+    selectors:
+      include:
+      - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+  host_adapters:
+  - cursor
+  - codex
 - id: current-state-mechanism-architecture-review
   display_name: Current-State Mechanism Architecture Review
   path: current-state-mechanism-architecture-review.md

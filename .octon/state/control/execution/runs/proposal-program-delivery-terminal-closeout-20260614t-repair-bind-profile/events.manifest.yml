@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+ledger_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:03e0700210cb08b15c2bef6869485856f80a35b636ca397e462201a7d87c94fc
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  sequence: 1
+  event_hash: sha256:1e60ed31db01074bc587bbfcf9b6f0e8b08c44a97596c35366295d224ad7d288
+last_event_ref:
+  event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  sequence: 29
+  event_hash: sha256:a1728ceb3c3038c51468e9a28373b6f6f97fb4810ff90c73f12dd0d8416f6c43
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:1e60ed31db01074bc587bbfcf9b6f0e8b08c44a97596c35366295d224ad7d288
+  tail_event_hash: sha256:a1728ceb3c3038c51468e9a28373b6f6f97fb4810ff90c73f12dd0d8416f6c43
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  context_pack_ref: evt-context-pack-bound-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  disclosure_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-de24f9c403b3
+  run_contract_ref: evt-001-run-created-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  run_manifest_ref: evt-002-run-bound-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  runtime_state_ref: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  stage_attempt_ref: evt-stage-started-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-program-delivery-terminal-closeout-20260614t-repair-bind-profile
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:a1728ceb3c3038c51468e9a28373b6f6f97fb4810ff90c73f12dd0d8416f6c43
+  materialized_at: 2026-06-14T15:08:44.864249Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-14T15:08:45.596084Z

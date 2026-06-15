@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:cd9b14f49dac23f56c282d22816974de1169815125339a4fbf99c92e7d0cf251
+  entry_id: fixture-retention-closeout-1781484204063-17775-classify-retained-path-set-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/replay/manifest.yml
+  recorded_at: 2026-06-15T00:43:32.658572Z
+  run_id: fixture-retention-closeout-1781484204063-17775-classify-retained-path-set
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:d54b32c6f8ca4dd88ce24096ad41208740b7e96b5b1aac4d86599c31e41d97c2
+  entry_id: fixture-retention-closeout-1781484204063-17775-classify-retained-path-set-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/replay/manifest.yml
+  recorded_at: 2026-06-15T00:43:32.658572Z
+  run_id: fixture-retention-closeout-1781484204063-17775-classify-retained-path-set
+  storage_class: external-immutable
+index_id: external-replay-fixture-retention-closeout-1781484204063-17775-classify-retained-path-set
+run_id: fixture-retention-closeout-1781484204063-17775-classify-retained-path-set
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-15T00:43:32.658572Z
