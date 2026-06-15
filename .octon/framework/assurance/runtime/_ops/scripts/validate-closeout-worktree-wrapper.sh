@@ -119,6 +119,15 @@ validate_static() {
   require_literal "$WRAPPER" "repo_hygiene_cleanup_ref" \
     "wrapper documents delegated repo-hygiene cleanup evidence" \
     "wrapper must document repo_hygiene_cleanup_ref"
+  require_literal "$WRAPPER" "fixture-retention-closeout" \
+    "wrapper documents delegated fixture retention route" \
+    "wrapper must document fixture-retention-closeout delegation"
+  require_literal "$WRAPPER_IO" "fixture_retention_receipt_ref" \
+    "I/O contract documents fixture retention receipt refs" \
+    "I/O contract must document fixture_retention_receipt_ref"
+  require_literal "$WRAPPER_IO" "fixture-retention-closeout-receipt-v1" \
+    "I/O contract documents fixture retention receipt contract" \
+    "I/O contract must document fixture retention receipt contract"
   require_literal "$WRAPPER" "worktree_terminal_state" \
     "wrapper documents worktree terminal state" \
     "wrapper must document worktree_terminal_state"
@@ -210,6 +219,7 @@ ROOT_DIR = Path(os.environ["ROOT_DIR"]).resolve()
 EVIDENCE_ROOT = Path(os.environ.get("CLOSEOUT_WORKTREE_EVIDENCE_ROOT", str(ROOT_DIR))).resolve()
 CLOSEOUT_CHANGE_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/skills/closeout-change").resolve()
 REPO_HYGIENE_CLEANUP_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/skills/repo-hygiene-cleanup").resolve()
+FIXTURE_RETENTION_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/workflows").resolve()
 
 
 def fail(message):
@@ -715,6 +725,73 @@ def load_yaml_as_json(path, field):
         return {}
 
 
+def load_fixture_retention_receipt(ref, field):
+    validate_repo_path(ref, field)
+    if not is_nonempty_string(ref):
+        return None
+    if not ref.startswith(".octon/state/evidence/runs/workflows/") or not ref.endswith("/retention-receipt.yml"):
+        fail(f"{field} must point to workflow-owned fixture retention-receipt.yml")
+        return None
+    path = (EVIDENCE_ROOT / Path(*PurePosixPath(ref).parts)).resolve()
+    try:
+        path.relative_to(FIXTURE_RETENTION_ROOT)
+    except ValueError:
+        fail(f"{field} must stay under .octon/state/evidence/runs/workflows/")
+        return None
+    if not path.is_file():
+        fail(f"{field} must resolve to a fixture retention receipt file")
+        return None
+    receipt = load_yaml_as_json(path, field)
+    if not isinstance(receipt, dict):
+        return None
+    if receipt.get("schema_version") != "fixture-retention-closeout-receipt-v1":
+        fail(f"{field} must have schema_version fixture-retention-closeout-receipt-v1")
+    if receipt.get("route_id") != "fixture-retention-closeout":
+        fail(f"{field} must have route_id fixture-retention-closeout")
+    if receipt.get("retention_verdict") != "retained":
+        fail(f"{field} must have retention_verdict retained")
+    if (receipt.get("freshness") or {}).get("status") != "fresh":
+        fail(f"{field} must have freshness.status fresh")
+    if (receipt.get("blocker") or {}).get("class") != "none":
+        fail(f"{field} must have blocker.class none")
+    boundaries = receipt.get("authority_boundaries") or {}
+    for key in (
+        "archive_relocation",
+        "proposal_status_mutation",
+        "generated_publication_edit",
+        "git_mutation",
+        "residue_deletion",
+        "repo_hygiene_deletion_authority",
+        "target_packet_evidence_authority",
+    ):
+        if boundaries.get(key) is not False:
+            fail(f"{field}.authority_boundaries.{key} must be false")
+    consumption = receipt.get("terminal_worktree_hygiene_consumption") or {}
+    forbidden = set(consumption.get("does_not_authorize") or [])
+    for token in ("archive-ready-claim", "cleaned-claim"):
+        if token not in forbidden:
+            fail(f"{field} must not authorize {token}")
+    return receipt
+
+
+def candidate_fixture_retention_receipt(candidate, include_paths, prefix):
+    ref = candidate.get("fixture_retention_receipt_ref") if isinstance(candidate, dict) else None
+    if not is_nonempty_string(ref):
+        return None
+    receipt = load_fixture_retention_receipt(ref, f"{prefix}.fixture_retention_receipt_ref")
+    if receipt is None:
+        return None
+    retained_paths = receipt.get("retained_paths")
+    if not isinstance(retained_paths, list):
+        fail(f"{prefix}.fixture_retention_receipt_ref retained_paths must be a list")
+        return receipt
+    retained_set = {path_text(path) for path in retained_paths}
+    include_set = {path_text(path) for path in include_paths}
+    if retained_set != include_set:
+        fail(f"{prefix}.fixture_retention_receipt_ref retained_paths must exactly match boundaries.include_paths")
+    return receipt
+
+
 def path_covers_boundary(evidence_path, boundary_path):
     evidence = PurePosixPath(evidence_path)
     boundary = PurePosixPath(boundary_path)
@@ -838,9 +915,10 @@ def validate_candidate_routing_paths(candidate_id, routing_class, include_paths,
             if path_is_raw_private_or_unsafe(include_path) or path_is_under(include_path, ".octon/state/"):
                 fail(f"{prefix}.residue_routing_class publishable_change must not include raw/private state or generated authority paths: {include_path}")
     elif routing_class == "local_private_retained":
+        fixture_receipt = candidate_fixture_retention_receipt(candidate, include_paths, prefix)
         for include_path in include_paths:
-            if not path_is_local_private_retained(include_path):
-                fail(f"{prefix}.residue_routing_class local_private_retained may include only local private retained evidence paths: {include_path}")
+            if not path_is_local_private_retained(include_path) and fixture_receipt is None:
+                fail(f"{prefix}.residue_routing_class local_private_retained may include only local private retained evidence paths unless fixture_retention_receipt_ref validates: {include_path}")
     elif routing_class == "foreign_manual_review":
         for include_path in include_paths:
             if path_is_raw_private_or_unsafe(include_path):
@@ -861,9 +939,16 @@ def retained_evidence_matches_routing(candidate_id, routing_class, item, prefix)
     ).lower()
 
     if routing_class == "local_private_retained":
-        if not path_is_local_private_retained(item_path):
-            fail(f"{prefix} local_private_retained residue evidence must cite .octon/state/evidence/local/ paths")
+        fixture_ref = item.get("fixture_retention_receipt_ref") if isinstance(item, dict) else None
+        if not path_is_local_private_retained(item_path) and not is_nonempty_string(fixture_ref):
+            fail(f"{prefix} local_private_retained residue evidence must cite .octon/state/evidence/local/ paths or fixture_retention_receipt_ref")
             return False
+        if is_nonempty_string(fixture_ref):
+            receipt = load_fixture_retention_receipt(fixture_ref, f"{prefix}.fixture_retention_receipt_ref")
+            retained_paths = receipt.get("retained_paths") if isinstance(receipt, dict) else []
+            if path_text(item_path) not in {path_text(path) for path in retained_paths if is_nonempty_string(path)}:
+                fail(f"{prefix}.fixture_retention_receipt_ref must cover retained residue path {item_path}")
+                return False
     elif routing_class == "foreign_manual_review":
         if path_is_raw_private_or_unsafe(item_path):
             fail(f"{prefix} foreign_manual_review residue evidence must not cite raw/private Octon state or generated authority paths")

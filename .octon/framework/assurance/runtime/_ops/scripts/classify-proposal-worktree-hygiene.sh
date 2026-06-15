@@ -91,8 +91,11 @@ OWNED_PREFIXES="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-owned.XXXXXX")"
 SCOPE_PREFIXES="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-scope.XXXXXX")"
 OWNED_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-owned-rows.XXXXXX")"
 SCOPE_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-scope-rows.XXXXXX")"
+RETAINED_FIXTURE_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-retained-fixture-rows.XXXXXX")"
+RETAINED_FIXTURE_RECEIPTS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-retained-fixture-receipts.XXXXXX")"
+RETAINED_FIXTURE_SOURCE_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-retained-fixture-source-rows.XXXXXX")"
 FOREIGN_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-foreign-rows.XXXXXX")"
-trap 'rm -f "$OWNED_PREFIXES" "$SCOPE_PREFIXES" "$OWNED_ROWS" "$SCOPE_ROWS" "$FOREIGN_ROWS"' EXIT
+trap 'rm -f "$OWNED_PREFIXES" "$SCOPE_PREFIXES" "$OWNED_ROWS" "$SCOPE_ROWS" "$RETAINED_FIXTURE_ROWS" "$RETAINED_FIXTURE_RECEIPTS" "$RETAINED_FIXTURE_SOURCE_ROWS" "$FOREIGN_ROWS"' EXIT
 
 add_prefix() {
   local file="$1"
@@ -503,6 +506,30 @@ nonblocking_local_metadata() {
   return 1
 }
 
+load_retained_fixture_receipts() {
+  local validator receipt rel json
+  validator="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh"
+  [[ -x "$validator" || -f "$validator" ]] || return 0
+  command -v jq >/dev/null 2>&1 || return 0
+  [[ -d "$ROOT_DIR/.octon/state/evidence/runs/workflows" ]] || return 0
+  while IFS= read -r receipt; do
+    [[ -f "$receipt" ]] || continue
+    rel="$(normalize_path "$receipt")"
+    if json="$(bash "$validator" --receipt "$rel" --emit-consumption-json 2>/dev/null)"; then
+      printf '%s\n' "$json" | jq -r '.retained_status_entries[]? | [.status, .path] | @tsv' >>"$RETAINED_FIXTURE_SOURCE_ROWS"
+      printf '%s\n' "$json" | jq -r '.receipt_ref // empty' >>"$RETAINED_FIXTURE_RECEIPTS"
+    fi
+  done < <(find "$ROOT_DIR/.octon/state/evidence/runs/workflows" -path '*fixture-retention-closeout*/retention-receipt.yml' -type f 2>/dev/null | sort)
+  sort -u -o "$RETAINED_FIXTURE_SOURCE_ROWS" "$RETAINED_FIXTURE_SOURCE_ROWS" 2>/dev/null || true
+  sort -u -o "$RETAINED_FIXTURE_RECEIPTS" "$RETAINED_FIXTURE_RECEIPTS" 2>/dev/null || true
+}
+
+matches_retained_fixture_receipt() {
+  local status="$1"
+  local path="$2"
+  grep -Fxq "$status	$path" "$RETAINED_FIXTURE_SOURCE_ROWS"
+}
+
 yaml_quote() {
   local value="$1"
   value="${value//\\/\\\\}"
@@ -569,6 +596,8 @@ if [[ -n "$RUN_ID" ]]; then
   add_prefix "$OWNED_PREFIXES" ".octon/state/evidence/runs/workflows/$RUN_ID"
 fi
 
+load_retained_fixture_receipts
+
 while IFS= read -r line; do
   [[ -n "$line" ]] || continue
   status="${line:0:2}"
@@ -584,6 +613,8 @@ while IFS= read -r line; do
     same_scope_repo_hygiene_cleanup_receipt "$path" ||
     nonblocking_local_metadata "$path"; then
     printf '%s\t%s\n' "$status" "$path" >>"$OWNED_ROWS"
+  elif matches_retained_fixture_receipt "$status" "$path"; then
+    printf '%s\t%s\n' "$status" "$path" >>"$RETAINED_FIXTURE_ROWS"
   elif matches_prefix_file "$path" "$SCOPE_PREFIXES" ||
     in_scope_host_projection_mirror "$path"; then
     printf '%s\t%s\n' "$status" "$path" >>"$SCOPE_ROWS"
@@ -594,6 +625,7 @@ done < <(git -C "$ROOT_DIR" status --porcelain=v1 --untracked-files=all)
 
 OWNED_COUNT="$(row_count "$OWNED_ROWS")"
 SCOPE_COUNT="$(row_count "$SCOPE_ROWS")"
+RETAINED_FIXTURE_COUNT="$(row_count "$RETAINED_FIXTURE_ROWS")"
 FOREIGN_COUNT="$(row_count "$FOREIGN_ROWS")"
 FOREIGN_FINGERPRINT="$(rows_sha256 "$FOREIGN_ROWS")"
 if [[ "$FOREIGN_COUNT" -gt 0 ]]; then
@@ -620,6 +652,7 @@ printf 'worktree_hygiene_verdict: "%s"\n' "$VERDICT"
 printf 'worktree_hygiene_blocker_class: "%s"\n' "$BLOCKER_CLASS"
 printf 'worktree_hygiene_owned_path_count: %s\n' "$OWNED_COUNT"
 printf 'worktree_hygiene_in_scope_path_count: %s\n' "$SCOPE_COUNT"
+printf 'worktree_hygiene_retained_fixture_path_count: %s\n' "$RETAINED_FIXTURE_COUNT"
 printf 'worktree_hygiene_foreign_path_count: %s\n' "$FOREIGN_COUNT"
 printf 'worktree_hygiene_foreign_fingerprint: "%s"\n' "$FOREIGN_FINGERPRINT"
 printf 'worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"\n'
@@ -632,6 +665,22 @@ cat <<'EOF'
 declared_in_scope_change:
 EOF
 emit_rows "$SCOPE_ROWS"
+cat <<'EOF'
+retained_by_fixture_retention:
+EOF
+emit_rows "$RETAINED_FIXTURE_ROWS"
+cat <<'EOF'
+fixture_retention_receipts:
+EOF
+if [[ ! -s "$RETAINED_FIXTURE_RECEIPTS" ]]; then
+  printf '  []\n'
+else
+  while IFS= read -r receipt_ref; do
+    printf '  - '
+    yaml_quote "$receipt_ref"
+    printf '\n'
+  done <"$RETAINED_FIXTURE_RECEIPTS"
+fi
 cat <<'EOF'
 foreign_or_ambiguous:
 EOF

@@ -50,6 +50,19 @@ expect_fail() {
   fi
 }
 
+expect_no_packet_specific_terminal_closeout_logic() {
+  local description="$1" matches_file
+  matches_file="$TMP_DIR/${description//[^A-Za-z0-9_.-]/_}.log"
+  if grep -nE 'proposal-program-delivery|architecture/proposal-program-delivery|state/evidence/validation/proposals/proposal-program-delivery|generated/proposals/artifacts/architecture/proposal-program-delivery' \
+    "$ROOT_DIR/.octon/framework/engine/runtime/crates/kernel/src/workflow.rs" \
+    "$ROOT_DIR/.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs" >"$matches_file" 2>&1; then
+    cat "$matches_file"
+    fail "$description"
+  else
+    pass "$description"
+  fi
+}
+
 mutate_receipt_expect_fail() {
   local description="$1" expression="$2" target
   target="$TMP_DIR/${description//[^A-Za-z0-9_.-]/_}.yml"
@@ -121,6 +134,7 @@ forbidden_authority_requests:
   generated_direct_publication: false
   host_state_authority: false
   chat_or_model_memory_authority: false
+  tool_authority: false
 YAML
 
 state_entry() {
@@ -132,6 +146,8 @@ state_entry() {
     validator_command_refs:
       - validate-proposal-packet-terminal-closeout-workflow.sh
     output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/20260613T000000Z-proposal-packet-terminal-closeout-test/reports/$state_id-report.md
+      - .octon/state/evidence/runs/workflows/20260613T000000Z-proposal-packet-terminal-closeout-test/stages/$state_id/outcome.json
       - .octon/state/evidence/validation/proposals/example-terminal-closeout/20260613T000000Z/$state_id.log
     state_verdict: pass
     retry_count: 0
@@ -262,12 +278,16 @@ expect_pass "schema-only receipt validator" "$RECEIPT_VALIDATOR"
 expect_pass "valid archive-ready receipt" "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/valid-receipt.yml"
 expect_pass "valid blocked receipt" "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/blocked-receipt.yml"
 expect_pass "workflow validator" "$WORKFLOW_VALIDATOR"
+expect_no_packet_specific_terminal_closeout_logic "generic terminal closeout production has no proposal-program-delivery hardcoding"
 
 mutate_receipt_expect_fail "missing implementation conformance receipt" 'del(.implementation.conformance_receipt_ref)'
+mutate_receipt_expect_fail "parent summary substituted for child receipt" '.implementation.conformance_receipt_ref = ".octon/inputs/exploratory/proposals/architecture/example-terminal-closeout/support/proposal-closeout.md"'
 mutate_receipt_expect_fail "stale implementation conformance evidence" '.implementation.conformance_fresh = false'
 mutate_receipt_expect_fail "missing post implementation drift receipt" 'del(.implementation.post_implementation_drift_receipt_ref)'
+mutate_receipt_expect_fail "generated prompt substituted for child receipt authority" '.implementation.post_implementation_drift_receipt_ref = ".octon/generated/prompts/example-terminal-closeout.md"'
 mutate_receipt_expect_fail "stale publication evidence" '.publication_freshness.validators[0].fresh = false'
 mutate_receipt_expect_fail "direct generated edit used" '.publication_freshness.direct_generated_output_edit_used = true'
+mutate_receipt_expect_fail "generated prompt used as non-authority validation authority" '.generated_input_non_authority.validation_ref = ".octon/generated/prompts/example-terminal-closeout.md"'
 mutate_receipt_expect_fail "missing generated non-authority validation" 'del(.generated_input_non_authority.validation_ref)'
 mutate_receipt_expect_fail "missing run-health validation" 'del(.run_health.validation_ref)'
 mutate_receipt_expect_fail "missing capability publication validation" 'del(.capability_publication.validation_ref)'
@@ -286,6 +306,11 @@ mutate_receipt_expect_fail "archive relocation performed" '.archive_boundary.rel
 mutate_receipt_expect_fail "target-owned evidence replaced" '.target_owned_evidence_policy.aggregate_receipt_replaces_target_owned_receipts = true'
 mutate_receipt_expect_fail "new evidence loop expected" '.expected_no_new_evidence_loop = false'
 mutate_receipt_expect_fail "git github mutation not delegated" '.git_github_route.mutation_delegated = false'
+mutate_receipt_expect_fail "missing stage report" 'del(.state_ledger[0].output_evidence_refs[0])'
+mutate_receipt_expect_fail "missing stage outcome" 'del(.state_ledger[0].output_evidence_refs[1])'
+mutate_receipt_expect_fail "executor timeout reported as success" '.state_ledger[0].output_evidence_refs[0] = ".octon/state/evidence/runs/workflows/20260613T000000Z-proposal-packet-terminal-closeout-test/stages/bind-profile/executor-timeout.yml"'
+mutate_receipt_expect_fail "terminal profile outside owning lifecycle" '.profile.profile_ref = ".octon/inputs/exploratory/proposals/architecture/example-terminal-closeout/support/profile.yml"'
+mutate_receipt_expect_fail "archive-ready claims cleaned before terminal proof" '.retained_evidence_inventory += [".octon/state/evidence/runs/skills/closeout-change/test/cleaned.yml"]'
 
 echo "Test summary: passed=$pass_count failed=$fail_count"
 [[ "$fail_count" -eq 0 ]]

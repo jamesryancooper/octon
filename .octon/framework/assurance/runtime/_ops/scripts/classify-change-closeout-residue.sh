@@ -93,8 +93,44 @@ is_lifecycle_closeout_publishable_path() {
   esac
 }
 
+temporary_fixture_manifest_for_path() {
+  local path="$1" suffix kind rest proposal_id manifest
+  case "$path" in
+    .octon/inputs/exploratory/proposals/.archive/*)
+      return 1
+      ;;
+    .octon/inputs/exploratory/proposals/*/*)
+      suffix="${path#.octon/inputs/exploratory/proposals/}"
+      kind="${suffix%%/*}"
+      rest="${suffix#*/}"
+      proposal_id="${rest%%/*}"
+      manifest="$ROOT_DIR/.octon/inputs/exploratory/proposals/$kind/$proposal_id/proposal.yml"
+      ;;
+    .octon/generated/proposals/artifacts/*/*)
+      suffix="${path#.octon/generated/proposals/artifacts/}"
+      kind="${suffix%%/*}"
+      rest="${suffix#*/}"
+      proposal_id="${rest%%/*}"
+      manifest="$ROOT_DIR/.octon/inputs/exploratory/proposals/$kind/$proposal_id/proposal.yml"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+  [[ -f "$manifest" ]] || return 1
+  command -v yq >/dev/null 2>&1 || return 1
+  [[ "$(yq -r '.lifecycle.temporary // false' "$manifest" 2>/dev/null || true)" == "true" ]] || return 1
+  [[ "$(yq -r '.status // ""' "$manifest" 2>/dev/null || true)" == "implemented" ]] || return 1
+  return 0
+}
+
 classify_routing_path() {
   local path="$1"
+  if temporary_fixture_manifest_for_path "$path"; then
+    printf '%s\n' "fixture_retention_candidate"
+    return
+  fi
+
   if is_lifecycle_closeout_publishable_path "$path"; then
     printf '%s\n' "publishable_change"
     return
@@ -130,6 +166,7 @@ classify_routing_path() {
 publishable_change_count=0
 publishable_closeout_evidence_count=0
 local_private_retained_count=0
+fixture_retention_candidate_count=0
 foreign_manual_review_count=0
 unsafe_count=0
 ambiguous_count=0
@@ -153,6 +190,9 @@ while IFS= read -r path; do
       ;;
     local_private_retained)
       local_private_retained_count=$((local_private_retained_count + 1))
+      ;;
+    fixture_retention_candidate)
+      fixture_retention_candidate_count=$((fixture_retention_candidate_count + 1))
       ;;
     unsafe)
       unsafe_count=$((unsafe_count + 1))
@@ -184,6 +224,9 @@ while IFS= read -r path; do
     publishable_change|local_private_retained)
       local_private_retained_count=$((local_private_retained_count + 1))
       ;;
+    fixture_retention_candidate)
+      fixture_retention_candidate_count=$((fixture_retention_candidate_count + 1))
+      ;;
   esac
 done <<<"$ignored_paths"
 
@@ -191,6 +234,7 @@ echo "routing_classes:"
 emit_count "publishable_change" "$publishable_change_count"
 emit_count "publishable_closeout_evidence" "$publishable_closeout_evidence_count"
 emit_count "local_private_retained" "$local_private_retained_count"
+emit_count "fixture_retention_candidate" "$fixture_retention_candidate_count"
 emit_count "foreign_manual_review" "$foreign_manual_review_count"
 emit_count "unsafe" "$unsafe_count"
 emit_count "ambiguous" "$ambiguous_count"

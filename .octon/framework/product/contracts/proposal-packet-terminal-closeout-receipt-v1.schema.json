@@ -248,6 +248,16 @@
           "type": "integer",
           "minimum": 0
         },
+        "retained_fixture_path_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fixture_retention_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/repoRelativePath"
+          }
+        },
         "dirty_worktree": {
           "type": "boolean"
         }
