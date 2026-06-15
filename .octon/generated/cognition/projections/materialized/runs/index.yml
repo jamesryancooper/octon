@@ -1,5 +1,5 @@
 schema_version: run-health-read-model-index-v1
-generated_at: '2026-06-15T13:57:43Z'
+generated_at: '2026-06-15T14:32:00Z'
 authority:
   classification: generated_read_model_non_authoritative
   may_authorize: false
@@ -583,6 +583,72 @@ runs:
   status: stale
 - run_id: proposal-packet-terminal-closeout-1781485109759-19805-verify-post-implementation-drift
   health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781485109759-19805-verify-post-implementation-drift/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-bind-profile
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-bind-profile/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-classify-repo-hygiene
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-classify-repo-hygiene/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-classify-worktree-hygiene
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-classify-worktree-hygiene/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-emit-terminal-receipt
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-emit-terminal-receipt/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-resolve-git-github-route
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-resolve-git-github-route/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-run-evidence-only-reviews
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-run-evidence-only-reviews/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-validate-publication-freshness
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-validate-publication-freshness/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-verify-durable-implementation-state
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-verify-durable-implementation-state/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-verify-implementation-conformance
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-verify-implementation-conformance/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532430156-31491-verify-post-implementation-drift
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532430156-31491-verify-post-implementation-drift/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-bind-profile
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-bind-profile/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-classify-repo-hygiene
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-classify-repo-hygiene/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-classify-worktree-hygiene
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-classify-worktree-hygiene/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-emit-terminal-receipt
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-emit-terminal-receipt/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-resolve-git-github-route
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-resolve-git-github-route/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-run-evidence-only-reviews
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-run-evidence-only-reviews/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-validate-publication-freshness
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-validate-publication-freshness/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-verify-durable-implementation-state
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-verify-durable-implementation-state/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-verify-implementation-conformance
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-verify-implementation-conformance/health.yml
+  status: stale
+- run_id: proposal-packet-terminal-closeout-1781532766146-81551-verify-post-implementation-drift
+  health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781532766146-81551-verify-post-implementation-drift/health.yml
   status: stale
 - run_id: proposal-program-delivery-packet-lifecycle-20260614t060100z-workflow
   health_ref: .octon/generated/cognition/projections/materialized/runs/proposal-program-delivery-packet-lifecycle-20260614t060100z-workflow/health.yml
@@ -1243,6 +1309,18 @@ runs:
   status: stale
 - run_id: publish-1781484790783-44650
   health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781484790783-44650/health.yml
+  status: stale
+- run_id: publish-1781533202152-33305
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781533202152-33305/health.yml
+  status: stale
+- run_id: publish-1781533742197-55667
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781533742197-55667/health.yml
+  status: stale
+- run_id: publish-1781533787425-73571
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781533787425-73571/health.yml
+  status: stale
+- run_id: publish-1781533848616-92992
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781533848616-92992/health.yml
   status: stale
 - run_id: repo-consequential-preflight-workflow-20260413-v4
   health_ref: .octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml
