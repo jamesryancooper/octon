@@ -3524,7 +3524,13 @@ pub fn run_proposal_packet_terminal_closeout_from_octon_dir(
     )?);
     retained_inventory.push(rel_path(&repo_root, &repo_hygiene_report));
 
-    let worktree = classify_terminal_worktree(&repo_root, &bundle_root, &proposal_rel, &manifest)?;
+    let worktree = classify_terminal_worktree(
+        &repo_root,
+        &bundle_root,
+        &proposal_rel,
+        &manifest,
+        &workflow_request_id,
+    )?;
     if worktree.foreign_or_ambiguous_count > 0 {
         set_terminal_blocker(
             &mut blocker,
@@ -4492,6 +4498,7 @@ fn classify_terminal_worktree(
     bundle_root: &Path,
     proposal_rel: &str,
     manifest: &ProposalManifest,
+    workflow_request_id: &str,
 ) -> Result<TerminalWorktreeClassification> {
     let fixture_coverage = load_valid_fixture_retention_coverage(repo_root)?;
     let output = Command::new("git")
@@ -4515,7 +4522,14 @@ fn classify_terminal_worktree(
             .unwrap_or(raw_path)
             .trim()
             .to_string();
-        if terminal_path_in_scope(&path, proposal_rel, manifest) {
+        if terminal_path_in_scope(&path, proposal_rel, manifest)
+            || terminal_current_run_acp_decision_log_append(
+                repo_root,
+                &path,
+                &status,
+                workflow_request_id,
+            )?
+        {
             in_scope.push(path);
         } else if fixture_coverage
             .by_path
@@ -4587,6 +4601,68 @@ fn terminal_path_in_scope(path: &str, proposal_rel: &str, manifest: &ProposalMan
         || manifest.promotion_targets.iter().any(|target| {
             path == target || path.starts_with(&format!("{}/", target.trim_end_matches('/')))
         })
+}
+
+fn terminal_current_run_acp_decision_log_append(
+    repo_root: &Path,
+    path: &str,
+    status: &str,
+    workflow_request_id: &str,
+) -> Result<bool> {
+    if path != ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+        || status != "M"
+        || workflow_request_id.trim().is_empty()
+    {
+        return Ok(false);
+    }
+    let tracked = Command::new("git")
+        .args(["ls-files", "--error-unmatch", "--", path])
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| format!("check tracked status for {path}"))?;
+    if !tracked.status.success() {
+        return Ok(false);
+    }
+    let diff = Command::new("git")
+        .args(["diff", "--unified=0", "--", path])
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| format!("read current ACP decision log diff for {path}"))?;
+    if !diff.status.success() {
+        return Ok(false);
+    }
+    Ok(terminal_acp_diff_additions_belong_to_run(
+        &String::from_utf8_lossy(&diff.stdout),
+        workflow_request_id,
+    ))
+}
+
+fn terminal_acp_diff_additions_belong_to_run(diff: &str, workflow_request_id: &str) -> bool {
+    let mut added_rows = 0usize;
+    let stage_prefix = format!("{workflow_request_id}-");
+    for line in diff.lines() {
+        if line.starts_with("---") || line.starts_with("+++") {
+            continue;
+        }
+        if line.starts_with('-') {
+            return false;
+        }
+        if !line.starts_with('+') {
+            continue;
+        }
+        added_rows += 1;
+        let row = &line[1..];
+        let Ok(value) = serde_json::from_str::<serde_json::Value>(row) else {
+            return false;
+        };
+        let Some(run_id) = value.get("run_id").and_then(|value| value.as_str()) else {
+            return false;
+        };
+        if run_id != workflow_request_id && !run_id.starts_with(&stage_prefix) {
+            return false;
+        }
+    }
+    added_rows > 0
 }
 
 fn load_valid_fixture_retention_coverage(repo_root: &Path) -> Result<FixtureRetentionCoverage> {
@@ -8663,6 +8739,42 @@ mod tests {
             fs::create_dir_all(parent).expect("parent directory should exist");
         }
         fs::write(path, contents).expect("file should be written");
+    }
+
+    #[test]
+    fn terminal_acp_diff_accepts_only_current_run_appends() {
+        let run_id = "proposal-packet-terminal-closeout-123-456";
+        let accepted = r#"diff --git a/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl b/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+index 1111111..2222222 100644
+--- a/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
++++ b/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+@@ -1,0 +2,2 @@
++{"run_id":"proposal-packet-terminal-closeout-123-456","decision":"allow"}
++{"run_id":"proposal-packet-terminal-closeout-123-456-bind-profile","decision":"allow"}
+"#;
+        assert!(terminal_acp_diff_additions_belong_to_run(accepted, run_id));
+
+        let wrong_run = accepted.replace(
+            "proposal-packet-terminal-closeout-123-456-bind-profile",
+            "proposal-packet-terminal-closeout-999-000-bind-profile",
+        );
+        assert!(!terminal_acp_diff_additions_belong_to_run(
+            &wrong_run, run_id
+        ));
+
+        let removed = format!("{accepted}-{{\"run_id\":\"{run_id}\",\"decision\":\"old\"}}\n");
+        assert!(!terminal_acp_diff_additions_belong_to_run(&removed, run_id));
+
+        let malformed = format!("{accepted}+not-json\n");
+        assert!(!terminal_acp_diff_additions_belong_to_run(
+            &malformed, run_id
+        ));
+
+        let missing_run_id = format!("{accepted}+{{\"decision\":\"allow\"}}\n");
+        assert!(!terminal_acp_diff_additions_belong_to_run(
+            &missing_run_id,
+            run_id
+        ));
     }
 
     #[test]
