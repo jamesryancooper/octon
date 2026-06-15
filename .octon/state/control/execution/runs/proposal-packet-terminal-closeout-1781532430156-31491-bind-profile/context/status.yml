@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781532430156-31491-bind-profile/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781532430156-31491-bind-profile/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781532430156-31491-bind-profile/context/model-visible-context.json
+run_id: proposal-packet-terminal-closeout-1781532430156-31491-bind-profile
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-15T14:07:11.73383Z
+validity_state: valid

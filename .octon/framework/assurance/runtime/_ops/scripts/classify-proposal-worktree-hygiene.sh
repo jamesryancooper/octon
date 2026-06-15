@@ -402,6 +402,30 @@ same_scope_repo_hygiene_cleanup_receipt() {
   return 1
 }
 
+matches_current_run_acp_decision_log() {
+  local path="$1"
+  local diff added_lines line decision_run_id removed_count
+  [[ "$path" == ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl" ]] || return 1
+  [[ -n "$RUN_ID" ]] || return 1
+  git -C "$ROOT_DIR" ls-files --error-unmatch -- "$path" >/dev/null 2>&1 || return 1
+
+  diff="$(git -C "$ROOT_DIR" diff --unified=0 -- "$path" 2>/dev/null || true)"
+  [[ -n "$diff" ]] || return 1
+  removed_count="$(printf '%s\n' "$diff" | awk 'substr($0,1,1) == "-" && substr($0,1,3) != "---" { c++ } END { print c+0 }')"
+  [[ "$removed_count" == "0" ]] || return 1
+  added_lines="$(printf '%s\n' "$diff" | awk 'substr($0,1,1) == "+" && substr($0,1,3) != "+++" { print substr($0,2) }')"
+  [[ -n "$added_lines" ]] || return 1
+  command -v jq >/dev/null 2>&1 || return 1
+
+  while IFS= read -r line; do
+    [[ -n "$line" ]] || continue
+    decision_run_id="$(printf '%s\n' "$line" | jq -r '.run_id // ""' 2>/dev/null || true)"
+    [[ "$decision_run_id" == "$RUN_ID" || "$decision_run_id" == "$RUN_ID-"* ]] || return 1
+  done <<<"$added_lines"
+
+  return 0
+}
+
 artifact_field_for_effective_id() {
   local effective_id="$1"
   local query="$2"
@@ -611,6 +635,7 @@ while IFS= read -r line; do
     matches_target_closeout_skill_artifact "$path" ||
     same_scope_lifecycle_run_artifact "$path" ||
     same_scope_repo_hygiene_cleanup_receipt "$path" ||
+    matches_current_run_acp_decision_log "$path" ||
     nonblocking_local_metadata "$path"; then
     printf '%s\t%s\n' "$status" "$path" >>"$OWNED_ROWS"
   elif matches_retained_fixture_receipt "$status" "$path"; then
