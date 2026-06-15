@@ -1,0 +1,207 @@
+schema_version: run-health-read-model-v1
+run_id: proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route
+generated_at: '2026-06-15T02:34:59Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.1.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:2c0f76cbe7b78583dcc15dd98fe4d297a32306a9927f2026f7176b80eeb83f8c
+  checked_at: '2026-06-15T02:34:59Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route
+  evidence_classification: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/run-contract.yml
+    digest: sha256:709494d381a94fd30cffeb49d281cee85d937b7458308753ba68ae5ac6171317
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/run-manifest.yml
+    digest: sha256:e94ee1451f78697bff016c0fb8be98a5c12ea7da8f4b7a7339d283fef8abe39e
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/events.ndjson
+    digest: sha256:f44a822901cee437df63af9cb2bfb3b71520916261f5760438b6ea567852456c
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/events.manifest.yml
+    digest: sha256:84f4f69967545c8686e04acd7642286dd963c7f9f20d7acb7bdf767de931de17
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/runtime-state.yml
+    digest: sha256:ba40fa549dac295219c624f2a636b5635d6304339bc5546ad46d2aaa6a80b93a
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route.yml
+    digest: sha256:cf1dc4baa1a530ab01848164afe0e6466dae7875a05014e5df8c7e188118c489
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route.yml
+    digest: sha256:5f23cc61f532ca28c44b47e0b66a120be1f4e112ddebd9ef99046f53637a5804
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/rollback-posture.yml
+    digest: sha256:0765aad4c37a72b0fb853609e5ff6aa6a6cfdb9cf20ecceaf13a97610bba4643
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:3544f280774d88433f39de78541797aefa4ea8d89294b2b75ee863e3f077d869
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/handoff.yml
+    digest: sha256:1e8935b1f093cac1fd0c9df7a11e3b8993dfc36a9252bb7b9fe4f14979e7a537
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:d8bb9ee5b4d90157e75191118ac5135feaf31ac064949c5e1a2725683374a529
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:28da523a9d4a8f00e63b95ed0ebcd34cd4889501b3db0fbbfaac8584325d877c
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:e1683ec4f271508480f0cc90e2016c2f7bff70401ff6d9905aeec395109a16c2
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/events.manifest.yml
+  - .octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t-repair3-resolve-git-github-route/events.ndjson
