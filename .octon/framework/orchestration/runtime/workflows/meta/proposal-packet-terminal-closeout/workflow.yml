@@ -165,12 +165,11 @@ stages:
     authorization: *read_evidence_authorization
   - id: emit-terminal-receipt
     asset: stages/10-emit-terminal-receipt.md
-    kind: projection
+    kind: mutation
     consumes:
       - stage:resolve-git-github-route
     produces:
       - stage:emit-terminal-receipt
-      - proposal-packet-terminal-closeout-receipt
     mutation_scope:
       - workflow-scope
     authorization:

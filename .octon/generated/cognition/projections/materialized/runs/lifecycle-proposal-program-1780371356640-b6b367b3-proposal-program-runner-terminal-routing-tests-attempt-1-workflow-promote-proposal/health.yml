@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal
-generated_at: '2026-06-16T14:59:32Z'
+generated_at: '2026-06-16T19:26:48Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:cae8b1dd5a2ffe3b3eb743539ff4841d050fe077e589c24408f35b1f6bca7845
-  checked_at: '2026-06-16T14:59:32Z'
+  combined_source_digest: sha256:87f75006ca0e0c52ae50de58a9d65abf4b5eadf202b800f1d24a27650eaf8c7f
+  checked_at: '2026-06-16T19:26:48Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:8f3df4770ced6c918f53ecbbbaf8dff31c93b171eda006bd8e4983db3a39795a
+    digest: sha256:84d66452bfe45e70f7d8ea6dda2c534d56939df60dd3d52b44e34f535a94c138
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal/handoff.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:56a752f85f490865b155b4cbc7c80ea3b2a7e5db8905d36e3989f4eb71eabe8f
+    digest: sha256:a1f7475c1c488a8fa91edc011369b563aea3487784f7ac2212da1ff7fe8f987a
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:72128f8a694a4b34813cfe76afaccb19efaefda90eb085a067ca955423f6d2d8
+    digest: sha256:96620d8a7942af6ed2d1693498e721a0773344f21230df8aca838bb5f727918c
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json

@@ -1,6 +1,6 @@
 ---
 name: "lifecycle-postmortem"
-description: "Run an optional read-only postmortem against a retained lifecycle run after the run has reached an inspectable terminal, blocked, cancelled, or rollback state. The workflow reconstructs evidence from retained control and evidence roots, prepares lifecycle-postmortem evaluator input, materializes optional review findings as evidence, and reports the evaluator judgment without mutating lifecycle authority."
+description: "Run an optional read-only postmortem against a retained lifecycle run after the run has reached an inspectable terminal, blocked, cancelled, or rollback state. The workflow reconstructs evidence from retained control and evidence roots, prepares a compact readiness summary and lifecycle-postmortem evaluator input, materializes optional review findings as evidence, and reports the evaluator judgment without mutating lifecycle authority."
 steps:
   - id: "bind-evidence"
     file: "stages/01-bind-evidence.md"
@@ -28,7 +28,7 @@ _Generated README from canonical workflow `lifecycle-postmortem`._
 
 ## Purpose
 
-Run an optional read-only postmortem against a retained lifecycle run after the run has reached an inspectable terminal, blocked, cancelled, or rollback state. The workflow reconstructs evidence from retained control and evidence roots, prepares lifecycle-postmortem evaluator input, materializes optional review findings as evidence, and reports the evaluator judgment without mutating lifecycle authority.
+Run an optional read-only postmortem against a retained lifecycle run after the run has reached an inspectable terminal, blocked, cancelled, or rollback state. The workflow reconstructs evidence from retained control and evidence roots, prepares a compact readiness summary and lifecycle-postmortem evaluator input, materializes optional review findings as evidence, and reports the evaluator judgment without mutating lifecycle authority.
 
 ## Target
 
@@ -79,8 +79,6 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] description: Missing retained refs are recorded as known limits or blockers instead of inferred facts.
 - [ ] id: locator-bound-as-discovery-only
 - [ ] description: Retained-run evidence index locator refs, when present, are bound as discovery and replay aids only and never as transition, closeout, child-receipt, generated-output, proposal-input, or policy authority.
-- [ ] id: child-dereference-non-substitutive
-- [ ] description: Child evidence dereference refs, when present, are evidence-only navigation aids and never satisfy child-owned validation, rollback, closeout, archive, or receipt authority.
 - [ ] id: substitutes-validated-before-use
 - [ ] description: Missing direct control refs are paired only with resolving retained workflow substitutes; unresolved substitutes, stale digests, and authority claims fail validation.
 - [ ] id: readiness-summary-derived-only

@@ -4231,7 +4231,7 @@ skills:
         path: '{{proposal_path}}/support/proposal-terminal-closeout.yml'
         kind: file
         format: yaml
-        determinism: replace
+        determinism: stable
         description: Packet-local terminal closeout receipt projection
       - name: skill_run_log
         path: /.octon/state/evidence/runs/skills/proposal-packet-terminal-closeout/{{run_id}}.md

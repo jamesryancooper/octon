@@ -94,7 +94,7 @@ stages:
     consumes:
       - stage:mechanism-review
     produces:
-      - architectural-review-support-receipt
+      - stage:receipt
     mutation_scope: []
     authorization:
       action_type: execute_stage

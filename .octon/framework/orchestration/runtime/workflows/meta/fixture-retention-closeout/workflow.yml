@@ -5,7 +5,7 @@ description: Retain a temporary proposal fixture as evidence-only validation res
 version: 1.0.0
 entry_mode: human
 execution_profile: core
-side_effect_class: evidence-only
+side_effect_class: read_only
 execution_controls:
   cancel_safe: true
 coordination_key_strategy:
@@ -100,7 +100,6 @@ stages:
       - stage:classify-retained-path-set
     produces:
       - stage:emit-retention-receipt
-      - fixture-retention-closeout-receipt-v1
     mutation_scope: []
     authorization: *evidence_only_authorization
 artifacts:

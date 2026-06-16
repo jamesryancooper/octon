@@ -1513,7 +1513,9 @@ skills:
       - executor
       - guardian
     capabilities:
+      - external-dependent
       - safety-bounded
+      - self-validating
 
   - id: proposal-program-delivery
     display_name: Proposal Program Delivery

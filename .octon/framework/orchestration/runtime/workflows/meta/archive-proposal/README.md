@@ -71,6 +71,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] the proposal moves to `.archive/<kind>/<proposal_id>/`
 - [ ] `proposal.yml` is rewritten to `status: archived` with archive metadata
 - [ ] generated/proposals/registry.yml matches the deterministic manifest projection after archival
+- [ ] post-archive local run residue is classified; detection alone never authorizes deletion
 - [ ] when lifecycle executor observation cannot prove archived-target completion, retained `octon-lifecycle-archive-blocked-evidence-v1` evidence records the fail-closed blocker
 - [ ] final archival verdict is explicit
 

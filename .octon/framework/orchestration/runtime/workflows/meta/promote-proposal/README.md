@@ -65,6 +65,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] the source proposal validates before promotion
 - [ ] the source proposal has a passing implementation-grade completeness receipt
 - [ ] the source proposal has a fresh accepted proposal-review receipt authorizing implementation
+- [ ] architecture proposals have a passing strict Pre-Integration Architecture Review receipt before promotion
 - [ ] the source proposal starts from the active path with `status: accepted`
 - [ ] every promotion target exists and contains no proposal-path backreferences
 - [ ] promotion_evidence paths are repo-relative, existing, durable-target-bound, proposal-independent, and not parent-owned or wrong-child evidence

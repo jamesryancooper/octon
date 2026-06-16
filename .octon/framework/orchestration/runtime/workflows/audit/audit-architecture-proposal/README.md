@@ -77,6 +77,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] implementation simulation and specification closure reports exist
 - [ ] support/implementation-grade-completeness-review.md exists in the packet
 - [ ] validate-proposal-implementation-readiness.sh records a structural-only, blocked, or implementation-grade gate outcome
+- [ ] validate-proposal-review-gate.sh records the Pre-Integration Architecture Review state and fails closed for accepted or implementation-authorized architecture packets without a passing strict receipt
 - [ ] Final validation verdict is explicit
 
 ## References

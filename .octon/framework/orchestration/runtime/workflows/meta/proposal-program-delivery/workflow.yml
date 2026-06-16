@@ -1,4 +1,198 @@
 schema_version: workflow-contract-v2
+name: proposal-program-delivery
+description: Coordinate an accepted proposal program through child packet implementation, publication freshness, packet closeout, archive handoff, Change closeout, hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - target_program_path
+    - target_outcome
+  format: proposal-program-delivery:{target_program_path}:{target_outcome}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: profile_path
+    type: file
+    required: true
+    description: Profile conforming to proposal-program-delivery-profile-v1.
+  - name: target_program_path
+    type: folder
+    required: true
+    description: Accepted proposal program path supplied by the caller.
+  - name: target_outcome
+    type: text
+    required: true
+    description: Requested outcome; downstream claims require fresh owning evidence.
+  - name: delivery_run_id
+    type: text
+    required: true
+    description: Stable evidence and receipt run identifier.
+stages:
+  - id: bind-profile
+    asset: stages/01-bind-profile.md
+    kind: verification
+    consumes: []
+    produces:
+      - stage:bind-profile
+    mutation_scope: []
+    authorization: &read_evidence_authorization
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: validate-program-state
+    asset: stages/02-validate-program-state.md
+    kind: verification
+    consumes:
+      - stage:bind-profile
+    produces:
+      - stage:validate-program-state
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: run-or-resume-child-lifecycles
+    asset: stages/03-run-or-resume-child-lifecycles.md
+    kind: mutation
+    consumes:
+      - stage:validate-program-state
+    produces:
+      - stage:run-or-resume-child-lifecycles
+    mutation_scope:
+      - workflow-scope
+    authorization: &repo_mutation_authorization
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - repo.write
+        - evidence.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-scope
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: true
+      allowed_executor_profiles:
+        - scoped_repo_mutation
+  - id: validate-child-receipts
+    asset: stages/04-validate-child-receipts.md
+    kind: verification
+    consumes:
+      - stage:run-or-resume-child-lifecycles
+    produces:
+      - stage:validate-child-receipts
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: route-closeout-and-archive
+    asset: stages/05-route-closeout-and-archive.md
+    kind: mutation
+    consumes:
+      - stage:validate-child-receipts
+    produces:
+      - stage:route-closeout-and-archive
+    mutation_scope:
+      - workflow-scope
+    authorization: *repo_mutation_authorization
+  - id: route-change-closeout
+    asset: stages/06-route-change-closeout.md
+    kind: mutation
+    consumes:
+      - stage:route-closeout-and-archive
+    produces:
+      - stage:route-change-closeout
+    mutation_scope:
+      - workflow-scope
+    authorization: *repo_mutation_authorization
+  - id: validate-cleanup-sync-proof
+    asset: stages/07-validate-cleanup-sync-proof.md
+    kind: verification
+    consumes:
+      - stage:route-change-closeout
+    produces:
+      - stage:validate-cleanup-sync-proof
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: emit-delivery-receipt
+    asset: stages/08-emit-delivery-receipt.md
+    kind: projection
+    consumes:
+      - stage:validate-cleanup-sync-proof
+    produces:
+      - stage:emit-delivery-receipt
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+artifacts:
+  - name: delivery_summary
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-proposal-program-delivery.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Top-level proposal program delivery summary.
+  - name: delivery_bundle
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: Workflow bundle containing delivery profile, state evidence, inventory, and receipt.
+  - name: delivery_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Aggregate proposal-program-delivery-receipt output validated by validate-proposal-program-delivery-receipt.sh.
+done_gate:
+  checks:
+    - "profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim"
+    - "child packet receipts remain target-owned and parent summary evidence does not replace them"
+    - "closeout-change or closeout-worktree owns Change closeout and any hosted mutation"
+    - "branch landing authorization exists before landed, synced, or cleaned claims"
+    - "branch cleanup authorization exists before source branch cleanup claims"
+    - "repo-hygiene-cleanup owns any local residue deletion"
+    - "terminal current-state proof shows local main, origin/main, and landed ref equality"
+    - "delivery receipt validates with validate-proposal-program-delivery-receipt.sh"
+constraints:
+  fail_closed: true
+  require_relative_local_assets: true
+  aggregate_receipt_only: true
+  child_receipts_remain_target_owned: true
+  generated_outputs_are_non_authority: true
 workflow:
   id: proposal-program-delivery
   name: Proposal Program Delivery

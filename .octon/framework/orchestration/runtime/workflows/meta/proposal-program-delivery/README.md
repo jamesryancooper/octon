@@ -1,60 +1,104 @@
-# Proposal Program Delivery Workflow
+---
+name: "proposal-program-delivery"
+description: "Coordinate an accepted proposal program through child packet implementation, publication freshness, packet closeout, archive handoff, Change closeout, hosted landing, final sync, branch cleanup, terminal proof, and final hygiene."
+steps:
+  - id: "bind-profile"
+    file: "stages/01-bind-profile.md"
+    description: "bind-profile"
+  - id: "validate-program-state"
+    file: "stages/02-validate-program-state.md"
+    description: "validate-program-state"
+  - id: "run-or-resume-child-lifecycles"
+    file: "stages/03-run-or-resume-child-lifecycles.md"
+    description: "run-or-resume-child-lifecycles"
+  - id: "validate-child-receipts"
+    file: "stages/04-validate-child-receipts.md"
+    description: "validate-child-receipts"
+  - id: "route-closeout-and-archive"
+    file: "stages/05-route-closeout-and-archive.md"
+    description: "route-closeout-and-archive"
+  - id: "route-change-closeout"
+    file: "stages/06-route-change-closeout.md"
+    description: "route-change-closeout"
+  - id: "validate-cleanup-sync-proof"
+    file: "stages/07-validate-cleanup-sync-proof.md"
+    description: "validate-cleanup-sync-proof"
+  - id: "emit-delivery-receipt"
+    file: "stages/08-emit-delivery-receipt.md"
+    description: "emit-delivery-receipt"
+---
+
+# Proposal Program Delivery
+
+_Generated README from canonical workflow `proposal-program-delivery`._
+
+## Usage
+
+```text
+/proposal-program-delivery
+```
 
 ## Purpose
 
-`proposal-program-delivery` coordinates an accepted proposal program through durable child implementation, target-owned receipt verification, generated publication freshness, packet terminal readiness, archive handoff, Change closeout handoff, final sync proof, and final hygiene proof.
+Coordinate an accepted proposal program through child packet implementation, publication freshness, packet closeout, archive handoff, Change closeout, hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
 
-The workflow emits an aggregate proposal program delivery receipt. That aggregate receipt never replaces child packet receipts, packet closeout receipts, archive receipts, Change closeout receipts, branch authorization receipts, cleanup authorization receipts, terminal current-state proof, or worktree hygiene proof.
+## Target
 
-## Authority Boundaries
+This README summarizes the canonical workflow unit at `.octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery`.
 
-- Target-owned proposal packet lifecycles own implementation, implementation conformance, post-implementation drift/churn, and packet closeout evidence.
-- The proposal archive lifecycle owns implemented archive routing.
-- `closeout-change` or `closeout-worktree` owns Git mutation, hosted landing, final sync, source branch cleanup, and Change closeout outcomes.
-- `repo-hygiene-cleanup` owns deletion of local run residue and requires cleanup authorization before deletion.
-- Owning publisher scripts own generated publication refresh.
-- Generated prompts, proposal-local summaries, generated outputs, dashboards, chat, model memory, and host state are non-authoritative.
+## Prerequisites
 
-## Inputs
+- Required workflow inputs are available.
+- Canonical workflow contract exists at `.octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml`.
 
-- `profile_path`: Path to a profile conforming to `proposal-program-delivery-profile-v1`.
-- `target_program_path`: Accepted proposal program path supplied by the caller.
-- `target_outcome`: Requested terminal outcome, usually `cleaned`.
-- `delivery_run_id`: Stable run identifier for evidence and receipt paths.
+## Parameters
 
-## Required Controls
+- `profile_path` (file, required=true): Profile conforming to proposal-program-delivery-profile-v1.
+- `target_program_path` (folder, required=true): Accepted proposal program path supplied by the caller.
+- `target_outcome` (text, required=true): Requested outcome; downstream claims require fresh owning evidence.
+- `delivery_run_id` (text, required=true): Stable evidence and receipt run identifier.
 
-The workflow is fail-closed. It rejects stale, missing, ambiguous, parent-summary-only, or authority-overclaiming proof. It must replan from the current repository state after material mutations before it advances downstream stages.
+## Failure Conditions
 
-Required validators include:
+- Required inputs are missing or invalid.
+- The canonical workflow contract or stage assets are missing.
+- Verification criteria are not satisfied.
 
-- `validate-proposal-program-delivery-profile.sh`
-- `validate-proposal-program-delivery-receipt.sh`
-- `validate-proposal-program-delivery-workflow.sh`
-- Target packet implementation conformance validators
-- Target packet post-implementation drift/churn validators
-- Generated publication freshness validators
-- Product feature catalog and capability publication state validators
+## Outputs
 
-## Stage Summary
+- `delivery_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-proposal-program-delivery.md`: Top-level proposal program delivery summary.
+- `delivery_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/`: Workflow bundle containing delivery profile, state evidence, inventory, and receipt.
+- `delivery_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-receipt.yml`: Aggregate proposal-program-delivery-receipt output validated by validate-proposal-program-delivery-receipt.sh.
 
-1. Bind the profile, target program, requested route, PR policy, and stash policy.
-2. Validate accepted program state and derive current child packet scope.
-3. Run or resume child packet lifecycles through their target-owned workflows.
-4. Validate child receipts directly; a parent summary is never sufficient.
-5. Validate implementation conformance, drift/churn, generated publication freshness, and governed mechanism integration coverage.
-6. Route lifecycle residue cleanup, packet closeout, archive handoff, and Change closeout to their owning lifecycles.
-7. Validate branch landing authorization, branch cleanup authorization, final sync equality, terminal current-state proof, and worktree hygiene proof.
-8. Emit and validate the aggregate delivery receipt.
+## Steps
 
-## Terminal Outcomes
+1. [bind-profile](./stages/01-bind-profile.md)
+2. [validate-program-state](./stages/02-validate-program-state.md)
+3. [run-or-resume-child-lifecycles](./stages/03-run-or-resume-child-lifecycles.md)
+4. [validate-child-receipts](./stages/04-validate-child-receipts.md)
+5. [route-closeout-and-archive](./stages/05-route-closeout-and-archive.md)
+6. [route-change-closeout](./stages/06-route-change-closeout.md)
+7. [validate-cleanup-sync-proof](./stages/07-validate-cleanup-sync-proof.md)
+8. [emit-delivery-receipt](./stages/08-emit-delivery-receipt.md)
 
-The workflow may report only the highest outcome with current passing evidence:
+## Verification Gate
 
-- `implemented`: all target packet implementation and implementation evidence passes.
-- `archive-ready`: packet closeout passes and authorizes archive readiness.
-- `landed`: Change closeout proves hosted landing through the selected route.
-- `synced`: local `main`, `origin/main`, and `landed_ref` are equal.
-- `cleaned`: source branch cleanup, authorized hygiene cleanup, terminal proof, and worktree hygiene all pass after the final mutation.
+- [ ] profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim
+- [ ] child packet receipts remain target-owned and parent summary evidence does not replace them
+- [ ] closeout-change or closeout-worktree owns Change closeout and any hosted mutation
+- [ ] branch landing authorization exists before landed, synced, or cleaned claims
+- [ ] branch cleanup authorization exists before source branch cleanup claims
+- [ ] repo-hygiene-cleanup owns any local residue deletion
+- [ ] terminal current-state proof shows local main, origin/main, and landed ref equality
+- [ ] delivery receipt validates with validate-proposal-program-delivery-receipt.sh
 
-If any required receipt is missing or stale, the workflow emits `blocked` with a blocker class and stops before claiming the downstream outcome.
+## References
+
+- Canonical contract: `.octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml`
+- Canonical stages: `.octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/`
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical workflow `proposal-program-delivery` |

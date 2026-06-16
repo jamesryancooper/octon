@@ -8,7 +8,7 @@ metadata:
   created: "2026-06-14"
   updated: "2026-06-14"
 skill_sets: [executor, guardian]
-capabilities: [safety-bounded, self-validating]
+capabilities: [external-dependent, safety-bounded, self-validating]
 allowed-tools: Read Glob Grep Bash(git status *) Bash(bash .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-*) Bash(cargo run *)
 ---
 
