@@ -1,0 +1,37 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+run_id: "proposal-lifecycle-closeout-friction-remediation-20260616T145851Z"
+target: ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation"
+route: "receipt-backed-cleanup"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-lifecycle-closeout-friction-remediation-20260616T145851Z/cleanup-authorization.json"
+authorization_digest: "sha256:ab5614ad1f1cb2ea24cd52f7debf4f4ecaee552aba8e92ad570229123a212306"
+authorization_id: "repo-hygiene-cleanup-7fdea2248ca6aebc"
+pre_cleanup:
+  cleanup_candidates: 136
+  protected_referenced: 15
+  manual_review: 3
+  git_status_digest: "sha256:fc2741248370432c5139ae44a0f801e3daabdcde74a17eca86304384bbabaaee"
+  classification_digest: "sha256:c4c569ae550af2e6062a505d205a138bd53c31cb2819085672ca899c9e487162"
+  cleanup_path_set_digest: "sha256:3013c015f2397e5ab25739535d26ff5798efd0ace5d4d54747a426db72fd1bd8"
+  protected_paths_digest: "sha256:3d7d0ab443a675f09cac52db1e684623bf84bc67e0b42f46e507a36794050209"
+  manual_review_paths_digest: "sha256:14d5e858b1e50e89fdd45859f94cac015100bc36be4b71731d6537c381a076fa"
+cleanup_result:
+  deleted_count: 136
+  protected_referenced_retained: 15
+  manual_review_retained: 3
+  unauthorized_deletion_performed: false
+post_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 10
+  manual_review: 4
+  git_status_digest: "sha256:8c5686d82d3a4b9b05c39df394b4c3f6b960150c79177cde926ea610fd317d82"
+  classification_digest: "sha256:3c2efd128570108b8d0d1494da5e5baa522ff5ad2f50d09bddba00accbf76873"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:0d611733c245ff936647e0930da73cd1b8b346a6b665d1f49c4a5bd57a19f895"
+  manual_review_paths_digest: "sha256:a1de3049153b09f370c9290a16fa9c50f1f5d2316f56bcce21be3f96a78350d5"
+retention:
+  raw_helper_output_published: false
+  raw_path_list_published: false
+  protected_and_manual_review_artifacts_retained: true
+  generated_run_health_cleanup_route: "generate-run-health-read-model.sh --all-runs"

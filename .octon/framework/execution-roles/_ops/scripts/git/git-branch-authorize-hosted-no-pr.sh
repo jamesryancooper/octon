@@ -10,12 +10,13 @@ ROLLBACK_HANDLE=""
 TARGET_LIFECYCLE_OUTCOME="cleaned"
 DRY_RUN=0
 ALLOW_EMPTY_CHECK_SET=0
+EMPTY_CHECK_SET_RATIONALE=""
 declare -a REQUIRED_CHECKS=()
 
 usage() {
   cat <<'USAGE'
 Usage:
-  git-branch-authorize-hosted-no-pr.sh --output <path> --rollback-handle <text> [--target-lifecycle-outcome landed|cleaned] [--target <branch>] [--remote <name>] [--receipt <path>] [--ruleset-json <path>] [--require-check <name>]... [--allow-empty-check-set] [--dry-run]
+  git-branch-authorize-hosted-no-pr.sh --output <path> --rollback-handle <text> [--target-lifecycle-outcome landed|cleaned] [--target <branch>] [--remote <name>] [--receipt <path>] [--ruleset-json <path>] [--require-check <name>]... [--allow-empty-check-set --empty-check-set-rationale <text>] [--dry-run]
 
 Governed hosted no-PR landing authorization helper.
 Route guard: call only after Change routing selects branch-no-pr.
@@ -29,9 +30,32 @@ Behavior:
 USAGE
 }
 
+sandbox_guidance() {
+  echo "[INFO] Governed rerun path: rerun this same helper in an environment authorized for the required git fetch, remote-check, push, or ref-write operation. Do not bypass platform, sandbox, provider, or host controls." >&2
+}
+
 error() {
   echo "[ERROR] $1" >&2
+  case "$1" in
+    *fetch*|*remote*|*push*|*ref*|*branch*|*sandbox*|*host*|*platform*|*provider*|*permission*|*denied*)
+      sandbox_guidance
+      ;;
+  esac
   exit 1
+}
+
+run_cmd() {
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '[DRY] '
+    printf '%q ' "$@"
+    printf '\n'
+    return 0
+  fi
+  if ! "$@"; then
+    echo "[ERROR] command failed: $*" >&2
+    sandbox_guidance
+    exit 1
+  fi
 }
 
 repo_root() {
@@ -67,6 +91,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     --allow-empty-check-set)
       ALLOW_EMPTY_CHECK_SET=1
+      ;;
+    --empty-check-set-rationale)
+      shift
+      [[ $# -gt 0 ]] || error "--empty-check-set-rationale requires a value"
+      EMPTY_CHECK_SET_RATIONALE="$1"
       ;;
     --target-lifecycle-outcome)
       shift
@@ -107,6 +136,9 @@ esac
 if [[ "${#REQUIRED_CHECKS[@]}" -eq 0 && "$ALLOW_EMPTY_CHECK_SET" -ne 1 ]]; then
   error "At least one --require-check is required unless --allow-empty-check-set is explicit."
 fi
+if [[ "$ALLOW_EMPTY_CHECK_SET" -eq 1 && -z "$EMPTY_CHECK_SET_RATIONALE" ]]; then
+  error "--empty-check-set-rationale is required when --allow-empty-check-set is explicit."
+fi
 
 REPO_ROOT="$(repo_root)"
 [[ -n "$REPO_ROOT" ]] || error "Run this command from inside a git repository."
@@ -125,7 +157,11 @@ done
 [[ "$ALLOW_EMPTY_CHECK_SET" -eq 1 ]] && PREFLIGHT_ARGS+=("--allow-empty-check-set")
 [[ "$DRY_RUN" -eq 1 ]] && PREFLIGHT_ARGS+=("--dry-run")
 
-"$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh" "${PREFLIGHT_ARGS[@]}"
+if ! "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh" "${PREFLIGHT_ARGS[@]}"; then
+  echo "[ERROR] hosted no-PR preflight failed" >&2
+  sandbox_guidance
+  exit 1
+fi
 
 SOURCE_REF="$(git -C "$REPO_ROOT" rev-parse "$SOURCE_BRANCH")"
 if [[ "$DRY_RUN" -eq 0 ]]; then
@@ -175,6 +211,7 @@ jq -n \
   --arg provider_ruleset_ref "$RULESET_REF" \
   --arg preflight_status "passed" \
   --arg rollback_handle "$ROLLBACK_HANDLE" \
+  --arg empty_check_set_rationale "$EMPTY_CHECK_SET_RATIONALE" \
   --arg created_at "$CREATED_AT" \
   --argjson required_check_refs "$CHECK_REFS_JSON" \
   --argjson allow_empty_check_set "$ALLOW_EMPTY_JSON" \
@@ -199,7 +236,7 @@ jq -n \
     host_controls_not_bypassed: true,
     runtime_safety_boundary: "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
     created_at: $created_at
-  }' >"$OUTPUT_PATH"
+  } + (if $allow_empty_check_set then {empty_check_set_rationale: $empty_check_set_rationale} else {} end)' >"$OUTPUT_PATH"
 
 echo "[OK] Hosted no-PR landing authorization emitted."
 echo "[OK] Authorization receipt: $OUTPUT_PATH"

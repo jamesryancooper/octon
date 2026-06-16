@@ -29,6 +29,13 @@
 - `architecture/implementation-plan.md`
 - `architecture/acceptance-criteria.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/proposal-review.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/executable-implementation-prompt.md`
+- `support/implementation-run.md`
+- `support/validation.md`
+- `support/implementation-conformance-review.md`
+- `support/post-implementation-drift-churn-review.md`
 - `support/revisions/20260616T032714Z-packet-delivery-wrapper-ownership.md`
 
 ## Source Lineage
@@ -46,6 +53,8 @@
   refreshed through owning publication scripts.
 - `.octon/state/evidence/**` is retained evidence, not authority to mutate
   lifecycle, branch, cleanup, or publication state.
+- `.octon/state/evidence/validation/proposals/proposal-lifecycle-closeout-friction-remediation/`
+  retains implementation-route validation evidence for this packet.
 - `.octon/state/evidence/local/**` is local/operator evidence only.
 
 ## Boundary Rules

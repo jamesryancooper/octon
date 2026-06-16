@@ -9,6 +9,10 @@ required side-effect routes, run evidence-only review hooks, and write a
 packet-local receipt projection. It must not move packets into `.archive`,
 mutate proposal status, publish generated outputs directly, mutate Git refs,
 delete residue, or replace target-owned receipts.
+Before archive-ready is claimed, the workflow must run the pre-terminal
+publication freshness bundle for capability, extension, runtime route, host
+projection, proposal registry, proposal artifact, and runtime-effective handle
+freshness.
 
 ## Command
 

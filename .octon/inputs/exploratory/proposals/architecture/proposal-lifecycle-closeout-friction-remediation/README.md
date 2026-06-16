@@ -19,9 +19,17 @@ drift/churn, archive, branch landing, cleanup, and terminal proof gates.
 6. `architecture/acceptance-criteria.md`
 7. `resources/postmortem-findings.md`
 8. `support/implementation-grade-completeness-review.md`
+9. `support/proposal-review.md`
+10. `support/pre-integration-architecture-review.yml`
+11. `support/executable-implementation-prompt.md`
+12. `support/implementation-run.md`
+13. `support/validation.md`
+14. `support/implementation-conformance-review.md`
+15. `support/post-implementation-drift-churn-review.md`
 
 ## Current Lifecycle State
 
-This packet is `in-review`. It is not accepted, implemented, or authorized for
-implementation until the proposal review and strict pre-integration
-architecture review routes pass.
+This packet is `accepted`. The implementation route has retained
+implementation, validation, conformance, and drift/churn evidence under
+`support/`, but `proposal.yml#status` remains `accepted` until a separate
+terminal closeout or promotion route performs lifecycle status mutation.

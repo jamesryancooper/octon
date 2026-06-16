@@ -44,7 +44,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation"
     title: "Proposal Lifecycle Closeout Friction Remediation"
-    status: "in-review"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/"
       - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"

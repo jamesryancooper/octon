@@ -29,8 +29,17 @@ Behavior:
 USAGE
 }
 
+sandbox_guidance() {
+  echo "[INFO] Governed rerun path: rerun this same helper in an environment authorized for the required git fetch, remote-check, push, or ref-write operation. Do not bypass platform, sandbox, provider, or host controls." >&2
+}
+
 error() {
   echo "[ERROR] $1" >&2
+  case "$1" in
+    *fetch*|*remote*|*push*|*ref*|*branch*|*sandbox*|*host*|*platform*|*provider*|*permission*|*denied*)
+      sandbox_guidance
+      ;;
+  esac
   exit 1
 }
 
@@ -45,7 +54,11 @@ run_cmd() {
     printf '\n'
     return 0
   fi
-  "$@"
+  if ! "$@"; then
+    echo "[ERROR] command failed: $*" >&2
+    sandbox_guidance
+    exit 1
+  fi
 }
 
 json_value() {
@@ -94,6 +107,10 @@ validate_authorization() {
     :
   else
     error "Landing authorization must include exact-SHA check refs or explicit empty-check evidence."
+  fi
+  if [[ "$(json_value "$authorization_path" '.allow_empty_check_set')" == "true" ]]; then
+    jq -e '.empty_check_set_rationale | type == "string" and length > 0' "$authorization_path" >/dev/null 2>&1 || error "Landing authorization empty check set requires retained rationale."
+    jq -e --arg expected "empty-check-set-explicitly-allowed@${SOURCE_REF}" '.required_check_refs | type == "array" and length == 1 and .[0] == $expected' "$authorization_path" >/dev/null 2>&1 || error "Landing authorization empty check set must be bound to the current source ref."
   fi
 
   echo "[OK] Landing authorization receipt validates."
@@ -175,7 +192,11 @@ done
 [[ "$ALLOW_EMPTY_CHECK_SET" -eq 1 ]] && PREFLIGHT_ARGS+=("--allow-empty-check-set")
 [[ "$DRY_RUN" -eq 1 ]] && PREFLIGHT_ARGS+=("--dry-run")
 
-"$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh" "${PREFLIGHT_ARGS[@]}"
+if ! "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh" "${PREFLIGHT_ARGS[@]}"; then
+  echo "[ERROR] hosted no-PR preflight failed" >&2
+  sandbox_guidance
+  exit 1
+fi
 
 if [[ "$DRY_RUN" -eq 0 ]]; then
   [[ -n "$AUTHORIZATION_PATH" ]] || error "Mutating hosted no-PR branch landing requires --authorization <branch-landing-authorization-v1 receipt>."
@@ -193,7 +214,7 @@ run_cmd git -C "$REPO_ROOT" push "$REMOTE" "$SOURCE_REF:refs/heads/$TARGET_BRANC
 if [[ "$DRY_RUN" -eq 1 ]]; then
   TARGET_POST_REF="<dry-run>"
 else
-  git -C "$REPO_ROOT" fetch --quiet "$REMOTE" "$TARGET_BRANCH"
+  run_cmd git -C "$REPO_ROOT" fetch --quiet "$REMOTE" "$TARGET_BRANCH"
   TARGET_POST_REF="$(git -C "$REPO_ROOT" rev-parse "$REMOTE/$TARGET_BRANCH")"
   [[ "$TARGET_POST_REF" == "$SOURCE_REF" ]] || error "$REMOTE/$TARGET_BRANCH does not equal landed ref $SOURCE_REF after push."
 fi

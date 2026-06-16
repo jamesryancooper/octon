@@ -37,10 +37,15 @@ validator_result_add_evidence \
   ".octon/state/evidence/validation/architecture/10of10-target-transition/publication/freshness.yml"
 validator_result_add_runtime_test \
   ".octon/framework/assurance/runtime/_ops/tests/test-runtime-effective-freshness-hard-gate.sh" \
-  ".octon/framework/assurance/runtime/_ops/tests/test-stale-digest-bound-route-bundle-denial.sh"
+  ".octon/framework/assurance/runtime/_ops/tests/test-stale-digest-bound-route-bundle-denial.sh" \
+  ".octon/framework/assurance/runtime/_ops/tests/test-validate-host-projections.sh" \
+  ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-terminal-freshness.sh"
 validator_result_add_recognized_negative_control \
   "missing-publication-receipt-denies" \
   "stale-runtime-route-bundle-denies" \
+  "stale-host-projection-denies" \
+  "stale-proposal-registry-denies" \
+  "stale-proposal-artifact-denies" \
   "invalid-freshness-mode-denies"
 validator_result_add_schema_version \
   "generated-effective-freshness-receipt-v1" \
@@ -90,6 +95,7 @@ main() {
   run_validator "validate-capability-publication-state.sh"
   run_validator "validate-extension-publication-state.sh"
   run_validator "validate-runtime-effective-route-bundle.sh"
+  run_validator "validate-host-projections.sh"
 
   echo "Validation summary: errors=$errors"
   if [[ $errors -eq 0 ]]; then

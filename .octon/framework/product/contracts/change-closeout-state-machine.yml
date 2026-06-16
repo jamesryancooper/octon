@@ -264,6 +264,7 @@ phases:
     exit_evidence:
       - "pushed source branch"
       - "exact source-SHA required checks"
+      - "retained empty-check-set rationale when no hosted checks are explicitly allowed"
       - "provider no-PR permission"
       - "governed landing authorization receipt matching source ref and target pre-ref"
       - "fast-forward/update proof"
@@ -273,6 +274,7 @@ phases:
     stop_or_escalation_conditions:
       - "provider requires PR"
       - "governed landing authorization receipt missing, malformed, stale, denied, or mismatched"
+      - "empty hosted check set lacks retained rationale"
       - "runtime platform, sandbox, or host approval boundary still blocks mutation"
       - "exact-SHA checks fail out of scope"
       - "fast-forward/update cannot be proven"
@@ -360,6 +362,7 @@ evidence_gates:
       - "hosted or origin evidence"
       - "publishable_evidence_receipt_refs when the closeout claim is hosted/shared or leaves the local machine"
       - "governed landing authorization evidence when route is branch-no-pr hosted landing"
+      - "retained empty-check-set rationale when hosted checks are explicitly absent"
       - "post-landing fetch and local main sync evidence"
       - "origin/main and local main containment of landed_ref"
       - "final main alignment"

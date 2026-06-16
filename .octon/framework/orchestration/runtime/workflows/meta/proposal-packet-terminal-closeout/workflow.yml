@@ -231,7 +231,7 @@ done_gate:
     - "profile validates under proposal-packet-terminal-closeout-profile-v1"
     - "state ledger records all ten workflow states"
     - "implementation conformance and post-implementation drift validators pass before archive-ready"
-    - "publication freshness is current or blocked with owner route"
+    - "pre-terminal publication freshness bundle covers capability, extension, runtime route, host projection, proposal registry, proposal artifact, and runtime-effective handle freshness or is blocked with owner route"
     - "repo-hygiene and worktree hygiene are classified"
     - "post-integration architecture review and terminal evaluator outputs are evidence-only"
     - "Git/GitHub route evidence is delegated or explicitly not applicable"

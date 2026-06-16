@@ -124,6 +124,8 @@ validate_static() {
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.no_pr_required.const == true' "authorization schema requires no-PR proof" "authorization schema must require no_pr_required true"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.host_controls_not_bypassed.const == true' "authorization schema preserves host controls" "authorization schema must preserve host controls"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.allow_empty_check_set.type == "boolean"' "authorization schema models explicit empty-check-set policy" "authorization schema must model allow_empty_check_set"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.empty_check_set_rationale.type == "string"' "authorization schema models empty-check-set rationale" "authorization schema must model empty_check_set_rationale"
+  require_jq "$AUTHORIZATION_SCHEMA" '.allOf[]? | select(.then.required[]? == "empty_check_set_rationale")' "authorization schema requires rationale when empty check set is allowed" "authorization schema must require empty_check_set_rationale when allow_empty_check_set is true"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models landing authorization ref" "receipt schema must model landing_authorization_ref"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires landing authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landing"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "source_ref")' "receipt schema requires hosted source ref" "receipt schema must require hosted source ref"
@@ -143,8 +145,12 @@ validate_static() {
   require_literal "$HOSTED_AUTH_SCRIPT" "git-branch-hosted-preflight.sh" "authorization helper runs hosted preflight" "authorization helper must run hosted preflight"
   require_literal "$HOSTED_AUTH_SCRIPT" "does not bypass platform, sandbox, or host safety controls" "authorization helper records host safety boundary" "authorization helper must record host safety boundary"
   require_literal "$HOSTED_AUTH_SCRIPT" "empty-check-set-explicitly-allowed@" "authorization helper records explicit empty-check-set sentinel" "authorization helper must record explicit empty-check-set sentinel"
+  require_literal "$HOSTED_AUTH_SCRIPT" "--empty-check-set-rationale" "authorization helper requires retained empty-check-set rationale" "authorization helper must require retained empty-check-set rationale"
+  require_literal "$HOSTED_AUTH_SCRIPT" "Governed rerun path" "authorization helper emits governed rerun guidance" "authorization helper must emit governed rerun guidance for sandbox/provider boundaries"
   require_literal "$HOSTED_LAND_SCRIPT" "requires --authorization" "hosted land helper requires authorization before mutation" "hosted land helper must require authorization before mutation"
   require_literal "$HOSTED_LAND_SCRIPT" "Landing authorization target pre-ref is stale" "hosted land helper blocks stale authorization" "hosted land helper must block stale authorization"
+  require_literal "$HOSTED_LAND_SCRIPT" "empty check set requires retained rationale" "hosted land helper validates empty-check-set rationale" "hosted land helper must validate empty-check-set rationale"
+  require_literal "$HOSTED_LAND_SCRIPT" "Governed rerun path" "hosted land helper emits governed rerun guidance" "hosted land helper must emit governed rerun guidance for sandbox/provider boundaries"
   require_literal "$HOSTED_LAND_SCRIPT" 'push "$REMOTE" "$SOURCE_REF:refs/heads/$TARGET_BRANCH"' "hosted land helper uses non-force target push" "hosted land helper must use non-force target push"
   require_jq "$GITHUB_CONTROL_CONTRACT" '(.rulesets.current_live_main.required_checks // []) | index("route_neutral_closeout_validation")' "control contract exposes route-neutral required checks" "control contract must expose route-neutral required checks"
 }
@@ -172,6 +178,7 @@ empty_check_set_authorized() {
   jq -e --arg expected "$expected_ref" --slurpfile receipt "$RECEIPT_PATH" '
     .allow_empty_check_set == true
     and (.required_check_refs | type == "array" and length == 1 and .[0] == $expected)
+    and (.empty_check_set_rationale | type == "string" and length > 0)
     and ($receipt[0].hosted_landing.required_check_refs | type == "array" and length == 1 and .[0] == $expected)
     and ((.required_check_refs | sort) == ($receipt[0].hosted_landing.required_check_refs | sort))
   ' "$auth_path" >/dev/null 2>&1
@@ -242,6 +249,9 @@ validate_landing_authorization_ref() {
   jq -e '.no_pr_required == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization proves no PR required" || fail "landing authorization must prove no PR required"
   jq -e '.preflight_status == "passed"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records passed preflight" || fail "landing authorization must record passed preflight"
   jq -e '.required_check_refs | type == "array" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records check evidence" || fail "landing authorization requires check evidence"
+  if jq -e '.allow_empty_check_set == true' "$auth_path" >/dev/null 2>&1; then
+    jq -e '.empty_check_set_rationale | type == "string" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records empty-check-set rationale" || fail "landing authorization empty check set requires retained rationale"
+  fi
   jq -e '.rollback_handle | type == "string" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records rollback handle" || fail "landing authorization requires rollback handle"
   jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization preserves host controls" || fail "landing authorization must preserve host controls"
 }

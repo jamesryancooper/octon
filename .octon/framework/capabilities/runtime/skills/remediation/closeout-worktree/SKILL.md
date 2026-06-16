@@ -67,9 +67,10 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    singular `closeout-change` `cleaned` remains route-bound.
    For branch-no-pr landing, the delegated `closeout-change` run must own
    hosted preflight, governed landing authorization, hosted mutation, and
-   rollback evidence. For branch cleanup, the delegated `closeout-change` run
-   must own governed cleanup authorization and any local or remote branch
-   deletion.
+   rollback evidence, including the governed helper rerun path when sandbox,
+   provider, host, remote, fetch, push, or ref-write controls block mutation.
+   For branch cleanup, the delegated `closeout-change` run must own governed
+   cleanup authorization and any local or remote branch deletion.
 8. **Delegate Repo-Hygiene Residue** — When classification identifies eligible
    local Octon run/artifact residue, delegate it to `repo-hygiene-cleanup`
    using that feature's classify-first, receipt-backed helper route. The

@@ -88,10 +88,18 @@ done
 for stage_token in \
   "validate-proposal-implementation-conformance.sh" \
   "validate-proposal-post-implementation-drift.sh" \
+  "validate-proposal-review-gate.sh --require-implementation-authorization" \
   "validate-generated-non-authority.sh" \
   "validate-run-health-read-model.sh" \
   "validate-capability-publication-state.sh" \
   "validate-extension-publication-state.sh" \
+  "validate-runtime-effective-route-bundle.sh" \
+  "validate-runtime-effective-artifact-handles.sh" \
+  "validate-host-projections.sh" \
+  "validate-proposal-lifecycle-terminal-freshness.sh" \
+  "proposal registry" \
+  "proposal artifact" \
+  "runtime-effective handle" \
   "repo-hygiene-cleanup" \
   "closeout-worktree" \
   "closeout-change" \

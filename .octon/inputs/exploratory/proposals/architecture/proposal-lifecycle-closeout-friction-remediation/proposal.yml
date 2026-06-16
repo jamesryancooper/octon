@@ -1,144 +1,94 @@
-schema_version: "proposal-v1"
-proposal_id: "proposal-lifecycle-closeout-friction-remediation"
-title: "Proposal Lifecycle Closeout Friction Remediation"
-summary: >-
-  Reduce avoidable proposal lifecycle friction observed during the
-  architectural-review mechanism documentation projection alignment run by
-  adding governed publication-freshness preflight, review digest refresh,
-  archive residue handling, branch-no-pr empty-check rationale, and helper
-  escalation guidance.
-proposal_kind: "architecture"
-promotion_scope: "octon-internal"
+schema_version: proposal-v1
+proposal_id: proposal-lifecycle-closeout-friction-remediation
+title: Proposal Lifecycle Closeout Friction Remediation
+summary: Reduce avoidable proposal lifecycle friction observed during the architectural-review mechanism documentation projection alignment run by adding governed publication-freshness preflight, review digest refresh, archive residue handling, branch-no-pr empty-check rationale, and helper escalation guidance.
+proposal_kind: architecture
+promotion_scope: octon-internal
 promotion_targets:
-  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/"
-  - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"
-  - ".octon/framework/orchestration/runtime/workflows/meta/create-architecture-proposal/"
-  - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
-  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
-  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh"
-  - ".octon/framework/assurance/runtime/_ops/scripts/validate-archive-proposal-workflow.sh"
-  - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
-  - ".octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh"
-  - ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
-  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh"
-  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
-  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh"
-  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
-  - ".octon/framework/product/contracts/default-work-unit.md"
-  - ".octon/framework/product/contracts/default-work-unit.yml"
-  - ".octon/framework/product/contracts/change-closeout-state-machine.md"
-  - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
-  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
-  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
-  - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
-  - ".octon/framework/assurance/runtime/_ops/tests/"
-status: "in-review"
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/
+- .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
+- .octon/framework/orchestration/runtime/workflows/meta/create-architecture-proposal/
+- .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-archive-proposal-workflow.sh
+- .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+- .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+- .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh
+- .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh
+- .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh
+- .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh
+- .octon/framework/product/contracts/default-work-unit.md
+- .octon/framework/product/contracts/default-work-unit.yml
+- .octon/framework/product/contracts/change-closeout-state-machine.md
+- .octon/framework/product/contracts/change-closeout-state-machine.yml
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+- .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+- .octon/framework/assurance/runtime/_ops/tests/
+status: implemented
 lifecycle:
   temporary: true
-  exit_expectation: >-
-    Promote only after proposal review, strict pre-integration architecture
-    review, implementation authorization, durable updates to the declared
-    Octon-internal workflow, validator, helper, contract, skill, and test
-    surfaces, refreshed generated projections through canonical publication
-    scripts when required, and passing implementation conformance plus
-    post-implementation drift/churn receipts.
+  exit_expectation: Promote only after proposal review, strict pre-integration architecture review, implementation authorization, durable updates to the declared Octon-internal workflow, validator, helper, contract, skill, and test surfaces, refreshed generated projections through canonical publication scripts when required, and passing implementation conformance plus post-implementation drift/churn receipts.
 related_proposals:
-  - "architectural-review-mechanism-documentation-projection-alignment"
-  - "proposal-packet-delivery-wrapper"
-dependent_proposals:
-  - proposal_id: "proposal-packet-delivery-wrapper"
-    relationship: "owns operator-facing packet delivery wrapper"
-    rationale: >-
-      This packet hardens the underlying terminal closeout, archive,
-      branch-no-pr, cleanup, and publication-freshness mechanisms. The
-      proposal-packet-delivery-wrapper packet owns the new aggregate
-      operator-facing packet delivery workflow, command, skill, profile schema,
-      receipt schema, validators, and wrapper-specific fixtures.
-acceptance_criteria_summary: >-
-  Proposal lifecycle closeout produces fewer late-stage freshness, residue,
-  branch-no-pr, and sandbox-escalation surprises while preserving fail-closed
-  authority boundaries and existing lifecycle gates.
+- architectural-review-mechanism-documentation-projection-alignment
+- proposal-packet-delivery-wrapper
+acceptance_criteria_summary: Proposal lifecycle closeout produces fewer late-stage freshness, residue, branch-no-pr, and sandbox-escalation surprises while preserving fail-closed authority boundaries and existing lifecycle gates.
 authority_class_impact:
-  framework: >-
-    Future implementation may update proposal lifecycle workflows, validators,
-    git branch helpers, closeout contracts, closeout skills, repo hygiene
-    helpers, and tests.
-  instance: "No instance authority change is expected."
-  state_control: >-
-    No live control truth change is proposed by this packet; implementation may
-    change workflow behavior that emits future control/evidence artifacts.
-  state_evidence: >-
-    Future validation, publication, branch authorization, cleanup, and terminal
-    proof evidence remains retained evidence only.
-  generated: >-
-    Generated proposal, capability, extension, runtime route, and host
-    projections remain derived-only and must be refreshed through canonical
-    scripts when implementation changes their sources.
-  inputs: >-
-    This packet and its source lineage are non-authoritative exploratory inputs.
-change_profile: "atomic"
-created_date: "2026-06-16"
+  framework: Future implementation may update proposal lifecycle workflows, validators, git branch helpers, closeout contracts, closeout skills, repo hygiene helpers, and tests.
+  instance: No instance authority change is expected.
+  state_control: No live control truth change is proposed by this packet; implementation may change workflow behavior that emits future control/evidence artifacts.
+  state_evidence: Future validation, publication, branch authorization, cleanup, and terminal proof evidence remains retained evidence only.
+  generated: Generated proposal, capability, extension, runtime route, and host projections remain derived-only and must be refreshed through canonical scripts when implementation changes their sources.
+  inputs: This packet and its source lineage are non-authoritative exploratory inputs.
+change_profile: atomic
+created_date: 2026-06-16
+dependent_proposals:
+- proposal_id: proposal-packet-delivery-wrapper
+  relationship: owns operator-facing packet delivery wrapper
+  rationale: This packet hardens the underlying terminal closeout, archive, branch-no-pr, cleanup, and publication-freshness mechanisms. The proposal-packet-delivery-wrapper packet owns the new aggregate operator-facing packet delivery workflow, command, skill, profile schema, receipt schema, validators, and wrapper-specific fixtures.
 evidence_requirements:
-  - "Proposal review receipt before acceptance or implementation authorization."
-  - "Strict pre-integration architecture review receipt before acceptance."
-  - "Implementation-grade completeness gate before acceptance."
-  - "Terminal closeout workflow validation after publication-freshness preflight changes."
-  - "Archive workflow validation after residue-classification changes."
-  - "Change closeout lifecycle validation after branch-no-pr empty-check rationale changes."
-  - "Repo hygiene governance validation after cleanup-classification changes."
-  - "Negative controls for stale publication freshness, stale review digest, undeclared archive residue deletion, missing empty-check rationale, missing branch cleanup authorization, and sandbox escalation guidance gaps."
-  - "Implementation conformance and post-implementation drift/churn receipts before implemented closeout."
-explicit_runtime_non_implementation_statement: >-
-  This packet is non-authoritative exploratory input. It does not modify
-  lifecycle behavior, authorize branch-no-pr landing, authorize cleanup,
-  refresh generated projections, or change any workflow gate.
-generated_input_authority_impact: >-
-  Reinforces that generated projections, proposal packets, local terminal
-  evidence, host state, chat, model memory, dashboards, and helper output do
-  not authorize lifecycle mutation, publication freshness, cleanup, branch
-  landing, or closeout claims.
+- Proposal review receipt before acceptance or implementation authorization.
+- Strict pre-integration architecture review receipt before acceptance.
+- Implementation-grade completeness gate before acceptance.
+- Terminal closeout workflow validation after publication-freshness preflight changes.
+- Archive workflow validation after residue-classification changes.
+- Change closeout lifecycle validation after branch-no-pr empty-check rationale changes.
+- Repo hygiene governance validation after cleanup-classification changes.
+- Negative controls for stale publication freshness, stale review digest, undeclared archive residue deletion, missing empty-check rationale, missing branch cleanup authorization, and sandbox escalation guidance gaps.
+- Implementation conformance and post-implementation drift/churn receipts before implemented closeout.
+explicit_runtime_non_implementation_statement: This packet is non-authoritative exploratory input. It does not modify lifecycle behavior, authorize branch-no-pr landing, authorize cleanup, refresh generated projections, or change any workflow gate.
+generated_input_authority_impact: Reinforces that generated projections, proposal packets, local terminal evidence, host state, chat, model memory, dashboards, and helper output do not authorize lifecycle mutation, publication freshness, cleanup, branch landing, or closeout claims.
 non_goals:
-  - "No implementation of this packet during packet creation."
-  - "No ownership of the proposal-packet-delivery aggregate workflow, command, skill, profile schema, receipt schema, or wrapper-specific validators."
-  - "No weakening of proposal review, pre-integration review, conformance, drift/churn, archive, or branch cleanup gates."
-  - "No generated projection hand edits."
-  - "No new lifecycle gate unless validator or workflow enforcement is updated in the same Change."
-  - "No automatic deletion of active control state or durable evidence."
-  - "No authority widening from product feature, host, chat, dashboard, local terminal evidence, or generated output surfaces."
+- No implementation of this packet during packet creation.
+- No ownership of the proposal-packet-delivery aggregate workflow, command, skill, profile schema, receipt schema, or wrapper-specific validators.
+- No weakening of proposal review, pre-integration review, conformance, drift/churn, archive, or branch cleanup gates.
+- No generated projection hand edits.
+- No new lifecycle gate unless validator or workflow enforcement is updated in the same Change.
+- No automatic deletion of active control state or durable evidence.
+- No authority widening from product feature, host, chat, dashboard, local terminal evidence, or generated output surfaces.
 owner:
-  role: "Octon architecture proposal author"
-  accountable_role: "human operator / repository owner"
-rollback_summary: >-
-  Revert authored workflow, validator, helper, contract, skill, and test
-  changes; regenerate derived projections from the reverted authored state;
-  retain proposal, validation, cleanup, branch, and terminal evidence for
-  auditability.
-runtime_behavior_impact: >-
-  None from this proposal packet. Durable behavior changes only if a later
-  accepted implementation promotes workflow, validator, helper, contract, skill,
-  or test updates into framework surfaces.
-scope_statement: >-
-  Convert the successful lifecycle run postmortem into a bounded, atomic
-  remediation packet that reduces repeatable operational friction without
-  bypassing fail-closed lifecycle gates or widening authority. This packet
-  hardens underlying closeout/archive/branch-no-pr/repo-hygiene mechanisms;
-  the related proposal-packet-delivery-wrapper packet owns the operator-facing
-  aggregate packet delivery route.
-selected_implementation_target: "proposal lifecycle closeout friction remediation"
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+rollback_summary: Revert authored workflow, validator, helper, contract, skill, and test changes; regenerate derived projections from the reverted authored state; retain proposal, validation, cleanup, branch, and terminal evidence for auditability.
+runtime_behavior_impact: None from this proposal packet. Durable behavior changes only if a later accepted implementation promotes workflow, validator, helper, contract, skill, or test updates into framework surfaces.
+scope_statement: Convert the successful lifecycle run postmortem into a bounded, atomic remediation packet that reduces repeatable operational friction without bypassing fail-closed lifecycle gates or widening authority. This packet hardens underlying closeout/archive/branch-no-pr/repo-hygiene mechanisms; the related proposal-packet-delivery-wrapper packet owns the operator-facing aggregate packet delivery route.
+selected_implementation_target: proposal lifecycle closeout friction remediation
 source_lineage:
-  - "resources/source-prompt.md"
-  - "resources/postmortem-findings.md"
+- resources/source-prompt.md
+- resources/postmortem-findings.md
 validation_gates:
-  - "proposal standard validation"
-  - "architecture proposal validation"
-  - "proposal implementation readiness validation"
-  - "proposal review gate"
-  - "strict pre-integration architecture review"
-  - "proposal packet terminal closeout workflow validation"
-  - "archive proposal workflow validation"
-  - "publication freshness gate validation"
-  - "change closeout lifecycle alignment validation"
-  - "repo hygiene governance validation"
-  - "branch-no-pr helper negative controls"
-  - "repo hygiene cleanup negative controls"
-  - "git diff --check"
+- proposal standard validation
+- architecture proposal validation
+- proposal implementation readiness validation
+- proposal review gate
+- strict pre-integration architecture review
+- proposal packet terminal closeout workflow validation
+- archive proposal workflow validation
+- publication freshness gate validation
+- change closeout lifecycle alignment validation
+- repo hygiene governance validation
+- branch-no-pr helper negative controls
+- repo hygiene cleanup negative controls
+- git diff --check
