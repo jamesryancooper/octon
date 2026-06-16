@@ -1,5 +1,5 @@
 {
-  "artifact_count": 19,
+  "artifact_count": 20,
   "artifacts": [
     {
       "byte_size": 1739,
@@ -7,7 +7,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "README.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/README.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/README.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -26,7 +26,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/acceptance-criteria.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/acceptance-criteria.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -46,7 +46,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/implementation-plan.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/implementation-plan.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -66,7 +66,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/target-architecture.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/target-architecture.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -86,7 +86,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "architecture-proposal.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture-proposal.yml",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
@@ -100,19 +100,19 @@
       "stage_role": "spine"
     },
     {
-      "byte_size": 1523,
-      "estimated_tokens": 381,
+      "byte_size": 1821,
+      "estimated_tokens": 456,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "navigation/artifact-catalog.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/artifact-catalog.md",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "artifact-catalog",
-      "sha256": "sha256:a3448a4d6306811eec4527abbb9dfbd41989c70e1bca62e93d48465d4f203493",
+      "sha256": "sha256:e255362aae2825778f671f221ed31fcf902568d88b179ef88ea971ba3e37aaac",
       "stage_relevance": [
         "all-routes"
       ],
@@ -124,7 +124,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "navigation/source-of-truth-map.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/source-of-truth-map.md",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
@@ -138,19 +138,19 @@
       "stage_role": "spine"
     },
     {
-      "byte_size": 7248,
-      "estimated_tokens": 1812,
+      "byte_size": 7408,
+      "estimated_tokens": 1852,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "proposal.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/proposal.yml",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "proposal-manifest",
-      "sha256": "sha256:72e7ee7729920c78c29fd806cbd4bdd22925cc394ad7afa68871a0f405fe5c5a",
+      "sha256": "sha256:f050adb0ebe31c708396d45e3daaadbbd1d1e883f8ac88e7d804942d512dc3cf",
       "stage_relevance": [
         "all-routes"
       ],
@@ -162,7 +162,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "resources/source-findings.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/resources/source-findings.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/resources/source-findings.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -181,7 +181,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "resources/source-prompt.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/resources/source-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/resources/source-prompt.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -200,14 +200,14 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/executable-implementation-prompt.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/executable-implementation-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/executable-implementation-prompt.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
         "validator-dispute"
       ],
       "role": "executable-implementation-prompt",
-      "sha256": "sha256:9e063398517cf57bb3fdac5444bcea70778181287e8d282a743e810eb08fe9a4",
+      "sha256": "sha256:472156474cfecc5542960b3db9003bf2dfe187cb44b4e4c59396ac5e4a3b7a51",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -221,7 +221,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/implementation-conformance-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-conformance-review.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -242,7 +242,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/implementation-grade-completeness-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-grade-completeness-review.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -262,7 +262,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/implementation-run.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-run.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-run.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -283,7 +283,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/post-implementation-drift-churn-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/post-implementation-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/post-implementation-drift-churn-review.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -304,14 +304,14 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/pre-integration-architecture-review.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/pre-integration-architecture-review.yml",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:b5e0bc5ca1f675096a5f223b646709a6c4cddc09b0499bc7abb1a918c87e70f1",
+      "sha256": "sha256:f8bd01978b88dc0894f8233a9da31e4cfff3861be20012e46623d48db4be5fa7",
       "stage_relevance": [
         "support-review"
       ],
@@ -323,7 +323,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-closeout.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-closeout.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -342,7 +342,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-creation.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-creation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-creation.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -361,17 +361,36 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-review.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:35739a11b38b77e338fd7af4b1ecafef708d5ada2bb08924d60f94c057182610",
+      "sha256": "sha256:04fb045817aeadb3f1d0e6a3be04404e961ce24832ae033288e1fffbb53b0ec7",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 23380,
+      "estimated_tokens": 5845,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:5c7744b798c415ea84886e4662d05f95a6a7255b02a28cbd5335715d576ce1ff",
+      "stage_relevance": [
+        "support-review"
       ],
       "stage_role": "evidence-annex"
     }
@@ -415,7 +434,7 @@
   "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
   "proposal_id": "architectural-review-mechanism-documentation-projection-alignment",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -426,26 +445,26 @@
   },
   "schema_version": "octon-proposal-artifact-index-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture-proposal.yml": "sha256:385372b7cf75a9f350227b5700753c86bd2dcb25d7095a0c05ba8b9a754c87e5",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/acceptance-criteria.md": "sha256:9b4bff31d92e9811ada549a131f29fa173a54b1dc0a8791f61dcc0d3e43bb91e",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/implementation-plan.md": "sha256:a98983f37b541808a1713a46268c35eb721835bea479974cc9b968dd8a9eba80",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/artifact-catalog.md": "sha256:a3448a4d6306811eec4527abbb9dfbd41989c70e1bca62e93d48465d4f203493",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/source-of-truth-map.md": "sha256:e7528a436262f89d674c5a31b0b7d6348d1963480f6d2d08c45d4f61c2428616",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/proposal.yml": "sha256:72e7ee7729920c78c29fd806cbd4bdd22925cc394ad7afa68871a0f405fe5c5a",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/executable-implementation-prompt.md": "sha256:9e063398517cf57bb3fdac5444bcea70778181287e8d282a743e810eb08fe9a4",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-grade-completeness-review.md": "sha256:888c30b16b32652af49f3f32097ebec98074744a9b8ec2960aa39b5c10a285a3",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-review.md": "sha256:35739a11b38b77e338fd7af4b1ecafef708d5ada2bb08924d60f94c057182610"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture-proposal.yml": "sha256:385372b7cf75a9f350227b5700753c86bd2dcb25d7095a0c05ba8b9a754c87e5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/acceptance-criteria.md": "sha256:9b4bff31d92e9811ada549a131f29fa173a54b1dc0a8791f61dcc0d3e43bb91e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/implementation-plan.md": "sha256:a98983f37b541808a1713a46268c35eb721835bea479974cc9b968dd8a9eba80",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/artifact-catalog.md": "sha256:e255362aae2825778f671f221ed31fcf902568d88b179ef88ea971ba3e37aaac",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/source-of-truth-map.md": "sha256:e7528a436262f89d674c5a31b0b7d6348d1963480f6d2d08c45d4f61c2428616",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/proposal.yml": "sha256:f050adb0ebe31c708396d45e3daaadbbd1d1e883f8ac88e7d804942d512dc3cf",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/executable-implementation-prompt.md": "sha256:472156474cfecc5542960b3db9003bf2dfe187cb44b4e4c59396ac5e4a3b7a51",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-grade-completeness-review.md": "sha256:888c30b16b32652af49f3f32097ebec98074744a9b8ec2960aa39b5c10a285a3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-review.md": "sha256:04fb045817aeadb3f1d0e6a3be04404e961ce24832ae033288e1fffbb53b0ec7"
   },
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-review.md"
   ],
   "validation": {
     "negative_controls": [

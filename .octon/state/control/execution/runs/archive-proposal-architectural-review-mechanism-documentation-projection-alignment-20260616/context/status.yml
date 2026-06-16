@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/context/model-visible-context.json
+run_id: archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-16T01:10:37.84218Z
+validity_state: valid

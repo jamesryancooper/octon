@@ -5,7 +5,7 @@
 - packet: `.octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment`
 - proposal_status_required: `accepted`
 - profile_selection: `release_state=pre-1.0`, `change_profile=atomic`
-- packet_digest: `sha256:62706955cd3e3991a577073e797538e43bdbef0b2e6da7744b8882aa69a14758`
+- packet_digest: `sha256:531de94cf7cdf6aa4a429c35be832076c05d74a3415f9b5cf4a945f64bfe7d9e`
 - implementation_authority_refs:
   - `support/proposal-review.md`
   - `support/pre-integration-architecture-review.yml`

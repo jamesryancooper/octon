@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+ledger_ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:e32b7feddb22fdc08f5d3f59d05dd766c5f46aa345836e344339ba037d515eb0
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+  sequence: 1
+  event_hash: sha256:75e1194295ca2276e3b1bc0b24e4353585e8c7cbf7522be34fbdab4cc62bc315
+last_event_ref:
+  event_id: evt-checkpoint-start-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+  sequence: 20
+  event_hash: sha256:1387164af86aa8b32705edb39eb15914a8b01335ecb0b60b4db5f48042513dd5
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:75e1194295ca2276e3b1bc0b24e4353585e8c7cbf7522be34fbdab4cc62bc315
+  tail_event_hash: sha256:1387164af86aa8b32705edb39eb15914a8b01335ecb0b60b4db5f48042513dd5
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+  context_pack_ref: evt-context-pack-bound-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-e092b4bd0b93
+  run_contract_ref: evt-001-run-created-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+  run_manifest_ref: evt-002-run-bound-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+  runtime_state_ref: evt-capability-authorized-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+  stage_attempt_ref: evt-stage-started-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616-archive-proposal
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:1387164af86aa8b32705edb39eb15914a8b01335ecb0b60b4db5f48042513dd5
+  materialized_at: 2026-06-16T01:10:42.73513Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-16T01:10:42.73513Z
