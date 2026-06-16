@@ -1,0 +1,19 @@
+schema_version: repo-hygiene-cleanup-run-log-v1
+run_id: terminal-closeout-genericity-policy-fixture-archive-20260616
+route: authorization
+cleanup_outcome: completed
+cleanup_candidates_removed: 294
+cleanup_path_set_digest: sha256:5dd800824b3dfaf96f6fa28a31aeb84b9c5bf224c112086c8ee82140d0b1385e
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/terminal-closeout-genericity-policy-fixture-archive-20260616/cleanup-authorization.json
+authorization_id: repo-hygiene-cleanup-1a90cbc876fd080c
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+post_cleanup_summary:
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 1
+  manual_review: 3
+retained_manual_review_paths:
+  - .octon/state/evidence/validation/analysis/2026-06-16-archive-proposal.md
+  - .octon/state/evidence/validation/analysis/2026-06-16-proposal-packet-terminal-closeout.md
+  - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/terminal-closeout-genericity-policy-fixture-archive-20260616/cleanup-authorization.json
+discard_or_rollback_posture: Cleanup removed only current untracked cleanup candidates authorized by the receipt; protected and manual-review residue was retained.

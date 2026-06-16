@@ -5,12 +5,19 @@ summary: Fixture packet used to prove proposal-packet-terminal-closeout is gener
 proposal_kind: policy
 promotion_scope: octon-internal
 promotion_targets:
+- .octon/framework/execution-roles/practices/standards/ai-assisted-development-discipline.md
+- .octon/framework/execution-roles/practices/standards/validation-evidence-quality.md
+status: archived
+archive:
+  archived_at: 2026-06-16
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture
+  promotion_evidence:
   - .octon/framework/execution-roles/practices/standards/ai-assisted-development-discipline.md
   - .octon/framework/execution-roles/practices/standards/validation-evidence-quality.md
-status: implemented
 lifecycle:
   temporary: true
   exit_expectation: fixture removal after terminal-closeout genericity validation is no longer needed
 related_proposals:
-  - proposal-program-delivery
-
+- proposal-program-delivery
