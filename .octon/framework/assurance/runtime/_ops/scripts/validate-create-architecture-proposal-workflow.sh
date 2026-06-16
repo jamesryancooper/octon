@@ -13,6 +13,8 @@ yq -e '.name == "create-architecture-proposal"' "$WORKFLOW_DIR/workflow.yml" >/d
 grep -Fq 'generate-proposal-registry.sh' "$WORKFLOW_DIR/stages/03-scaffold-package.md" && pass "architecture scaffold stage regenerates proposal registry" || fail "architecture scaffold stage regenerates proposal registry"
 grep -Fq 'validate-proposal-standard.sh' "$WORKFLOW_DIR/stages/04-validate-package.md" && pass "baseline proposal validator referenced" || fail "baseline proposal validator referenced"
 grep -Fq 'validate-proposal-implementation-readiness.sh' "$WORKFLOW_DIR/stages/04-validate-package.md" && pass "implementation-readiness validator referenced" || fail "implementation-readiness validator referenced"
+grep -Fq 'validate-proposal-review-gate.sh --require-implementation-authorization' "$WORKFLOW_DIR/stages/05-report.md" && pass "implementation authorization review gate rerun documented" || fail "implementation authorization review gate rerun documented"
+grep -Fq 'digest-covered packet files changed' "$WORKFLOW_DIR/stages/05-report.md" && pass "review digest refresh sequencing documented" || fail "review digest refresh sequencing documented"
 grep -Fq 'validate-architecture-proposal.sh' "$WORKFLOW_DIR/workflow.yml" && pass "architecture validator referenced" || fail "architecture validator referenced"
 yq -e '.workflows[] | select(.id == "create-architecture-proposal" and .path == "meta/create-architecture-proposal/")' "$WORKFLOW_MANIFEST" >/dev/null 2>&1 && pass "manifest registration exists" || fail "manifest registration exists"
 grep -Fq 'create-architecture-proposal:' "$WORKFLOW_REGISTRY" && pass "registry entry exists" || fail "registry entry exists"

@@ -36,6 +36,15 @@ authoring workflow.
    - unresolved question count
    - known exclusions
    - next canonical route
+7. If an accepted review and executable implementation prompt are generated or
+   refreshed after digest-covered packet files change, rerun
+   `validate-proposal-review-gate.sh --require-implementation-authorization`
+   and `validate-proposal-implementation-readiness.sh` before reporting
+   implementation authorization.
+8. If digest-covered packet files changed after the accepted review digest was
+   recorded, rerun the proposal review or refresh the review receipt before the
+   implementation route can proceed. Keep implementation-grade completeness
+   separate from review acceptance.
 
 ## Proceed When
 
@@ -44,3 +53,4 @@ authoring workflow.
 - [ ] Top-level summary exists
 - [ ] Next authoring path is explicit
 - [ ] Report does not claim final or implementation-ready status unless the completeness gate passes
+- [ ] Post-prompt digest refresh or review-gate rerun requirement is explicit

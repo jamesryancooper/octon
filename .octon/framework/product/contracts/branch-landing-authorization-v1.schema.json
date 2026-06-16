@@ -90,6 +90,10 @@
     "allow_empty_check_set": {
       "type": "boolean"
     },
+    "empty_check_set_rationale": {
+      "type": "string",
+      "minLength": 1
+    },
     "rollback_handle": {
       "type": "string",
       "minLength": 1
@@ -109,5 +113,20 @@
       "type": "string",
       "minLength": 1
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "allow_empty_check_set": {
+            "const": true
+          }
+        },
+        "required": ["allow_empty_check_set"]
+      },
+      "then": {
+        "required": ["empty_check_set_rationale"]
+      }
+    }
+  ]
 }

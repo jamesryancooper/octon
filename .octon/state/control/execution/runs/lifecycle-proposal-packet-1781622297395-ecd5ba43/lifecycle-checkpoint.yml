@@ -1,0 +1,27 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: lifecycle-proposal-packet-1781622297395-ecd5ba43
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation
+current_state: closeout-packet
+current_phase: closeout-and-hygiene
+completed_states: []
+last_route: closeout-packet
+loop_counts: {}
+phase_counts:
+  closeout-and-hygiene: 1
+last_phase_transition: phase-entered:closeout-and-hygiene
+phase_blockers:
+  final_verdict: executor-preflight-blocked
+receipt_digests:
+  proposal-review: sha256:9a7d10487264310912a9f8df6edac185d9b77011295e4c769b0913c53aa5584e
+last_validator_results: []
+run_inputs: {}
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: executor-preflight-blocked
+resume_instruction: octon lifecycle resume --run-id lifecycle-proposal-packet-1781622297395-ecd5ba43

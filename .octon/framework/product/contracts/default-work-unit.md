@@ -69,7 +69,7 @@ Before the hosted `origin/main` mutation, Closeout Change must also emit or
 reference a governed `branch-landing-authorization-v1` receipt that binds the
 selected `branch-no-pr` route, landing target, pushed source ref, current
 `origin/main` pre-ref, provider no-PR proof, exact-SHA check evidence or
-explicit empty-check policy, and rollback/discard handle. The mutating hosted
+explicit empty-check policy plus retained rationale, and rollback/discard handle. The mutating hosted
 landing helper must validate that receipt and fail closed if it is missing,
 malformed, stale, denied, or mismatched. This authorization is Octon evidence;
 it does not bypass platform, sandbox, or host safety controls.

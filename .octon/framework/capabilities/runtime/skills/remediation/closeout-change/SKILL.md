@@ -77,6 +77,7 @@ Execute the Change Closeout State Machine phase loop from
 7. **Validate** — Run the selected validation floor and route-specific checks.
 8. **Hosted No-PR Checks And Landing** — For selected `branch-no-pr` hosted
    landing, require preflight, pushed source branch, exact source-SHA checks,
+   retained rationale when an empty hosted check set is explicitly allowed,
    governed landing authorization, fast-forward/update proof,
    `origin/main == landed_ref`, rollback handle, and final local sync.
 9. **PR-Backed Delegation** — Invoke `closeout-pr` only when selected route is
@@ -207,9 +208,13 @@ approval denial, or cleanup outside a governed route.
   require the mutating helper to validate that authorization before it can
   update `origin/main`. The authorization must bind provider ruleset evidence,
   a pushed source branch, exact source SHA required checks or explicit
-  empty-check policy, the current target pre-ref, rollback/discard posture, and
-  no-PR eligibility. It does not bypass platform, sandbox, or host safety
-  controls.
+  empty-check policy plus retained rationale, the current target pre-ref,
+  rollback/discard posture, and no-PR eligibility. It does not bypass platform,
+  sandbox, or host safety controls.
+- When a governed helper reports a runtime, sandbox, provider, host, remote,
+  fetch, push, or ref-write boundary, use the helper's governed rerun path in
+  an environment authorized for that same operation. Do not bypass platform,
+  sandbox, provider, or host controls.
 - Post-Landing Cleanup And Sync: after landed `branch-no-pr` or `branch-pr` work is merged, fast-forwarded, or
   otherwise verified as contained in `origin/main`, clean up obsolete local and
   remote source branches only after emitting or referencing a validating

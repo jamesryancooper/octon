@@ -1,0 +1,46 @@
+schema_version: "octon-proposal-worktree-hygiene-v1"
+target: ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation"
+lifecycle: "proposal-packet"
+run_id: "lifecycle-proposal-packet-1781622378859-09c90209"
+worktree_hygiene_verdict: "blocked"
+worktree_hygiene_blocker_class: "worktree-hygiene-blocked"
+worktree_hygiene_owned_path_count: 10
+worktree_hygiene_in_scope_path_count: 1
+worktree_hygiene_retained_fixture_path_count: 0
+worktree_hygiene_foreign_path_count: 2
+worktree_hygiene_foreign_fingerprint: "sha256:501aa2178a53f8cb0ee1b3e2cc38c5d30c69298c314ced82dd4f2935d30ddf1b"
+worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"
+next_route_condition: "route through closeout-change or operator scope resolution before proposal archive authorization"
+owned_by_this_lifecycle_run:
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-packet-1781622297395-ecd5ba43/context/active-context-pack.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-packet-1781622297395-ecd5ba43/context/status.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-packet-1781622297395-ecd5ba43/lifecycle-checkpoint.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-packet-1781622297395-ecd5ba43/lifecycle-events.ndjson"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-packet-1781622378859-09c90209/context/active-context-pack.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-packet-1781622378859-09c90209/context/status.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-packet-1781622378859-09c90209/lifecycle-checkpoint.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-packet-1781622378859-09c90209/lifecycle-events.ndjson"
+  - status: "??"
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1781622378859-09c90209/command-status.yml"
+  - status: "??"
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1781622378859-09c90209/worktree-hygiene.yml"
+declared_in_scope_change:
+  - status: " M"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-closeout.md"
+retained_by_fixture_retention:
+  []
+fixture_retention_receipts:
+  []
+foreign_or_ambiguous:
+  - status: " M"
+    path: ".octon/generated/proposals/artifacts/architecture/proposal-lifecycle-closeout-friction-remediation/proposal-artifact-index.yml"
+  - status: " M"
+    path: ".octon/generated/proposals/artifacts/architecture/proposal-lifecycle-closeout-friction-remediation/proposal-program-spine.yml"

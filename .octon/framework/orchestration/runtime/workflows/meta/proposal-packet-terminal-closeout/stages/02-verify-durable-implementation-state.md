@@ -22,12 +22,16 @@ description: Confirm durable implementation evidence and adjacent validators bef
    next route `promote-proposal`.
 2. Confirm declared promotion targets exist or have explicit not-applicable
    rationale in implementation evidence.
-3. Run target-family validators selected by the profile, including generated
+3. Confirm accepted proposal review digest and implementation authorization are
+   current after executable implementation prompt generation or refresh by
+   rerunning `validate-proposal-review-gate.sh --require-implementation-authorization`
+   and `validate-proposal-implementation-readiness.sh`.
+4. Run target-family validators selected by the profile, including generated
    and input non-authority, run-health, capability publication, extension
    publication, closeout-worktree alignment, default-work-unit alignment,
    change-closeout alignment, Git/GitHub exact-SHA route validation, and
    hosted-no-PR validation when applicable.
-4. Record every validator command and evidence ref.
+5. Record every validator command and evidence ref.
 
 ## Side Effect Class
 

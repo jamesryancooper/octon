@@ -168,7 +168,15 @@ case_open_pr_authorization_fails() {
     --output "$tmp_root/open-pr.json" >/dev/null 2>&1)
 }
 
+case_helpers_document_governed_rerun_path() {
+  grep -Fq "Governed rerun path" "$AUTH_HELPER" &&
+    grep -Fq "Governed rerun path" "$CLEANUP_HELPER" &&
+    grep -Fq "Do not bypass platform, sandbox, provider, or host controls" "$AUTH_HELPER" &&
+    grep -Fq "Do not bypass platform, sandbox, provider, or host controls" "$CLEANUP_HELPER"
+}
+
 main() {
+  assert_success "cleanup helpers document governed rerun path" case_helpers_document_governed_rerun_path
   assert_success "valid cleanup authorization permits local and remote cleanup" case_valid_authorization_permits_cleanup
   assert_success "cleanup without authorization fails closed" case_cleanup_without_authorization_fails
   assert_success "stale cleanup authorization fails closed" case_stale_authorization_fails

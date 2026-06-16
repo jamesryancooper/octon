@@ -37,7 +37,16 @@ USAGE
 
 error() {
   echo "[ERROR] $1" >&2
+  case "$1" in
+    *fetch*|*remote*|*push*|*ref*|*branch*|*sandbox*|*host*|*platform*|*provider*|*permission*|*denied*|*gh*|*PR*)
+      sandbox_guidance
+      ;;
+  esac
   exit 1
+}
+
+sandbox_guidance() {
+  echo "[INFO] Governed rerun path: rerun this same helper in an environment authorized for the required git fetch, remote-check, push, ref-write, or provider PR lookup operation. Do not bypass platform, sandbox, provider, or host controls." >&2
 }
 
 repo_root() {
@@ -51,7 +60,11 @@ run_cmd() {
     printf '\n'
     return 0
   fi
-  "$@"
+  if ! "$@"; then
+    echo "[ERROR] command failed: $*" >&2
+    sandbox_guidance
+    exit 1
+  fi
 }
 
 is_protected_branch() {
@@ -96,10 +109,14 @@ verify_ancestor() {
 }
 
 open_pr_count() {
+  local count
   if ! command -v gh >/dev/null 2>&1; then
     error "gh is required to prove no open PR exists before branch cleanup authorization."
   fi
-  gh pr list --head "$TARGET_BRANCH" --state open --json number --jq 'length'
+  if ! count="$(gh pr list --head "$TARGET_BRANCH" --state open --json number --jq 'length')"; then
+    error "gh PR lookup failed for $TARGET_BRANCH before branch cleanup authorization."
+  fi
+  printf '%s\n' "$count"
 }
 
 while [[ $# -gt 0 ]]; do

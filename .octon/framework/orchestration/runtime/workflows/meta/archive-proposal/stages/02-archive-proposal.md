@@ -24,3 +24,11 @@ description: Move the proposal into the canonical archive path, rewrite archive 
 10. For terminal closeout, run
    `validate-proposal-lifecycle-terminal-freshness.sh --proposal <archived_path>
    --run-registry-check` after the final archive mutation.
+11. Classify post-archive local run residue with
+    `cleanup-local-run-artifacts.sh --summary-only --active-run-id <archive_run_id>`.
+    Eligible untracked, unreferenced archive starter or validation-only residue
+    may be routed to `repo-hygiene-cleanup`; active control state and durable evidence
+    remain retained or manual review.
+12. Detection alone never authorizes deletion. Archive residue classification is
+    routing evidence only unless a separate cleanup authorization route validates
+    and performs cleanup.

@@ -1,252 +1,202 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
-  "generated_at": "2026-06-15T20:58:06Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.1.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "stale",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:dc738b584f880d564870c030398243f2370913bacc7a7443882120d5c6d14086",
-    "checked_at": "2026-06-15T20:58:06Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
-    "evidence_classification": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-contract.yml",
-      "digest": "sha256:5aa380145e4ac7eca4063d8c46bc9e94139cd3a15e0fb7239860d331c898f18c",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-manifest.yml",
-      "digest": "sha256:0e2daf0772484dd35c576e01b2b93f79f98b9354b1c81708539f649fb26d559c",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson",
-      "digest": "sha256:1f8a3856358d0ab304983c16f98c9163265c1f70cda348a86caab8e4875723ab",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.manifest.yml",
-      "digest": "sha256:0ba8b2d8df4b1ee381e5303ddc91c178ca7e710e987ad534040c3fd3cd97c1c5",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/runtime-state.yml",
-      "digest": "sha256:a71016680991532bb1aae3f3729c937b33d04a3ae8a4af35fb79a979384f1d30",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml",
-      "digest": "sha256:120a8e94b987d79c48b51a20a7d2a7f41407840a0574305ad66adccf51fb21c0",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml",
-      "digest": "sha256:6ac05485f1dd9e39d053a57534530379a5119334c32b2386477d54814bafc848",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/rollback-posture.yml",
-      "digest": "sha256:739600b3f7286b0ad35a8c246fc2a015d599b80b6697dc54cceba65f1e28c61e",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile",
-      "digest": "sha256:5c733c2beaf578ebdca24746826cddf63f099e40f34e2906144cc695bd9f6f87",
-      "status": "present"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/evidence-classification.yml",
-      "digest": "sha256:d6e31da2504429e195e1871e16a30bd5a8f329fb3c5ed46d0d68524984c4db92",
-      "status": "present"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/retained-run-evidence.yml",
-      "digest": "sha256:5c238a848dbcea24e79ab9130c5fd9a01e9a4dde9224e737a5f7120b775e3a23",
-      "status": "present"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/replay-pointers.yml",
-      "digest": "sha256:e63b53b2d49c5ec11f7ef18bf2ed64f26342553c8c3d1cfb72d6ab04546243c0",
-      "status": "present"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/interventions/log.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-card.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:8f3df4770ced6c918f53ecbbbaf8dff31c93b171eda006bd8e4983db3a39795a",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/handoff.yml",
-      "digest": "sha256:2932c8d20f992b09648a18d1ee430344c3db265d4cd47700d91db1e85cb99de0",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:82c9b4e9526a6e5d9f128f66b9878b5325fe310d84570109f5b2dca116853ba5",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:06fbe426e4d8ac5e50d9d309c515d96b517d34110deee78562218e91c5046fe9",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "stale",
-    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
-    "next_required_action": "regenerate from current canonical sources"
-  },
-  "lifecycle": {
-    "state": "running",
-    "decision_state": "allow",
-    "drift_status": "in-sync",
-    "latest_event_hash": "sha256:04a2ad5189a278d96b36d07006bc667725200dcab257a18a0ee2d08913e6a207",
-    "latest_sequence": 24
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell",
-    "route_status": "allow",
-    "pack_status": "allow",
-    "support_status": "supported",
-    "requested_capability_packs": [
-      "repo",
-      "shell",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "authorized",
-    "proof_state": "proof-stale",
-    "human_boundary_state": "none",
-    "active_grants": [
-      ".octon/state/evidence/control/execution/authority-grant-bundle-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "complete",
-    "missing_required": []
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "unknown",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "unknown"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": [
-    {
-      "severity": "error",
-      "code": "journal-ledger-digest-stale",
-      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
-      "refs": [
-        ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.manifest.yml",
-        ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson"
-      ]
-    }
-  ]
-}
+schema_version: run-health-read-model-v1
+run_id: proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile
+generated_at: '2026-06-16T14:59:32Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.1.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:6d530351f26d86c3d5d1198f275974b88a7800e5f05a205d88120df96957f2a6
+  checked_at: '2026-06-16T14:59:32Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile
+  evidence_classification: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-contract.yml
+    digest: sha256:5aa380145e4ac7eca4063d8c46bc9e94139cd3a15e0fb7239860d331c898f18c
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-manifest.yml
+    digest: sha256:0e2daf0772484dd35c576e01b2b93f79f98b9354b1c81708539f649fb26d559c
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson
+    digest: sha256:1f8a3856358d0ab304983c16f98c9163265c1f70cda348a86caab8e4875723ab
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.manifest.yml
+    digest: sha256:0ba8b2d8df4b1ee381e5303ddc91c178ca7e710e987ad534040c3fd3cd97c1c5
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/runtime-state.yml
+    digest: sha256:a71016680991532bb1aae3f3729c937b33d04a3ae8a4af35fb79a979384f1d30
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml
+    digest: sha256:120a8e94b987d79c48b51a20a7d2a7f41407840a0574305ad66adccf51fb21c0
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml
+    digest: sha256:6ac05485f1dd9e39d053a57534530379a5119334c32b2386477d54814bafc848
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/rollback-posture.yml
+    digest: sha256:739600b3f7286b0ad35a8c246fc2a015d599b80b6697dc54cceba65f1e28c61e
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile
+    digest: sha256:5c733c2beaf578ebdca24746826cddf63f099e40f34e2906144cc695bd9f6f87
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/evidence-classification.yml
+    digest: sha256:d6e31da2504429e195e1871e16a30bd5a8f329fb3c5ed46d0d68524984c4db92
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/retained-run-evidence.yml
+    digest: sha256:5c238a848dbcea24e79ab9130c5fd9a01e9a4dde9224e737a5f7120b775e3a23
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/replay-pointers.yml
+    digest: sha256:e63b53b2d49c5ec11f7ef18bf2ed64f26342553c8c3d1cfb72d6ab04546243c0
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:8f3df4770ced6c918f53ecbbbaf8dff31c93b171eda006bd8e4983db3a39795a
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/handoff.yml
+    digest: sha256:2932c8d20f992b09648a18d1ee430344c3db265d4cd47700d91db1e85cb99de0
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:56a752f85f490865b155b4cbc7c80ea3b2a7e5db8905d36e3989f4eb71eabe8f
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:72128f8a694a4b34813cfe76afaccb19efaefda90eb085a067ca955423f6d2d8
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: running
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:04a2ad5189a278d96b36d07006bc667725200dcab257a18a0ee2d08913e6a207
+  latest_sequence: 24
+support:
+  tuple: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: complete
+  missing_required: []
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: unknown
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.manifest.yml
+  - .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781377548000-repo-hygiene-stage-bind-profile/events.ndjson

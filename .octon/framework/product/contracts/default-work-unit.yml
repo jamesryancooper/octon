@@ -328,6 +328,7 @@ route_lifecycle_outcomes:
       - "source_ref_current_with_origin_main"
       - "governed_landing_authorization_receipt"
       - "landing_authorization_matches_source_ref_and_origin_main_pre_ref"
+      - "empty_hosted_check_set_retained_rationale_when_allowed"
       - "source_branch_changes_integrated_into_origin_main"
       - "exact_source_sha_required_checks_passed"
       - "integration_method"
@@ -498,6 +499,7 @@ fail_closed_conditions:
   - "hosted_no_pr_landing_from_stale_branch"
   - "hosted_no_pr_landing_without_valid_governed_authorization"
   - "hosted_no_pr_landing_with_stale_or_denied_authorization"
+  - "hosted_no_pr_empty_check_set_without_retained_rationale"
   - "branch_cleanup_without_valid_governed_authorization"
   - "branch_cleanup_with_stale_or_denied_authorization"
   - "hosted_no_pr_landing_without_origin_main_equality"
@@ -567,5 +569,6 @@ hosted_provider_ruleset:
     no_pr_mutation: true
     requires_exact_sha_check_evidence: true
     requires_governed_landing_authorization: true
+    requires_empty_check_set_rationale_when_allowed: true
     requires_governed_branch_cleanup_authorization_for_cleanup: true
     post_push_verification: "origin/main equals landed_ref"

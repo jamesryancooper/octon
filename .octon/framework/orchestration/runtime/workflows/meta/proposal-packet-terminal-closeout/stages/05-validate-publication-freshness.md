@@ -25,12 +25,23 @@ description: Validate touched publication families and delegate repair only to c
 5. Block if repair would require direct generated/effective output edits or an
    unknown publisher.
 
-The minimum adjacent publication validators are:
+The minimum pre-terminal publication freshness bundle covers capability,
+extension, runtime route, host projection, proposal registry, proposal
+artifact, and runtime-effective handle freshness. Run the generic publication
+gate and the scoped proposal terminal freshness gate for the packet:
 
 - `validate-generated-non-authority.sh`
 - `validate-run-health-read-model.sh`
 - `validate-capability-publication-state.sh`
 - `validate-extension-publication-state.sh`
+- `validate-runtime-effective-route-bundle.sh`
+- `validate-runtime-effective-artifact-handles.sh`
+- `validate-host-projections.sh`
+- `validate-proposal-lifecycle-terminal-freshness.sh --proposal <proposal_path> --run-registry-check`
+
+The scoped proposal terminal freshness gate must cover the proposal registry
+and proposal artifact state for the target packet. Runtime-effective handles
+must validate before archive-ready is claimed.
 
 ## Side Effect Class
 

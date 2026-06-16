@@ -303,7 +303,10 @@ case_authorized_empty_check_set_passes() {
     | .validation_evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
   '
   auth="$(attach_valid_landing_authorization "$receipt")"
-  rewrite_json_file "$auth" '.allow_empty_check_set = true'
+  rewrite_json_file "$auth" '
+    .allow_empty_check_set = true
+    | .empty_check_set_rationale = "Fixture explicitly records why this branch-no-pr landing has no hosted required checks."
+  '
   run_hosted_validator "$receipt"
 }
 
@@ -330,8 +333,22 @@ case_empty_check_set_authorization_mismatch_fails() {
   auth="$(attach_valid_landing_authorization "$receipt")"
   rewrite_json_file "$auth" '
     .allow_empty_check_set = true
+    | .empty_check_set_rationale = "Fixture explicitly records why this branch-no-pr landing has no hosted required checks."
     | .required_check_refs = ["empty-check-set-explicitly-allowed@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"]
   '
+  ! run_hosted_validator "$receipt"
+}
+
+case_empty_check_set_missing_rationale_fails() {
+  local receipt auth
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" '
+    .hosted_landing.required_check_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    | .landing_evaluation.evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    | .validation_evidence_refs = ["empty-check-set-explicitly-allowed@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+  '
+  auth="$(attach_valid_landing_authorization "$receipt")"
+  rewrite_json_file "$auth" '.allow_empty_check_set = true'
   ! run_hosted_validator "$receipt"
 }
 
@@ -499,6 +516,7 @@ main() {
   assert_success "authorized empty-check-set hosted no-PR receipt passes" case_authorized_empty_check_set_passes
   assert_success "unauthorized empty-check-set hosted no-PR receipt fails" case_unauthorized_empty_check_set_fails
   assert_success "empty-check-set receipt and authorization mismatch fails" case_empty_check_set_authorization_mismatch_fails
+  assert_success "empty-check-set authorization missing rationale fails" case_empty_check_set_missing_rationale_fails
   assert_success "hosted no-PR receipt missing pushed source branch evidence fails" case_missing_pushed_source_branch_evidence_fails
   assert_success "hosted no-PR receipt missing landing authorization fails" case_missing_landing_authorization_fails
   assert_success "hosted no-PR receipt denied landing authorization fails" case_denied_landing_authorization_fails
