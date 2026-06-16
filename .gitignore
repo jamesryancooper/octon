@@ -156,6 +156,7 @@ Icon?
 !.octon/inputs/exploratory/proposals/**
 .octon/inputs/exploratory/proposals/.archive/**
 !.octon/inputs/exploratory/proposals/.archive/
+!.octon/inputs/exploratory/proposals/.archive/policy/
 !.octon/inputs/exploratory/proposals/.archive/architecture/
 !.octon/inputs/exploratory/proposals/.archive/architecture/self-audit-and-release-hardening/
 !.octon/inputs/exploratory/proposals/.archive/architecture/self-audit-and-release-hardening/**
@@ -223,3 +224,5 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/
 !.octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-mechanism-documentation-projection-alignment/**
+!.octon/inputs/exploratory/proposals/.archive/policy/terminal-closeout-genericity-policy-fixture/
+!.octon/inputs/exploratory/proposals/.archive/policy/terminal-closeout-genericity-policy-fixture/**
