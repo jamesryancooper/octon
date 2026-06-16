@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.95](https://github.com/jamesryancooper/octon/compare/octon-v0.6.94...octon-v0.6.95) (2026-06-16)
+
+
+### Bug Fixes
+
+* **closeout:** archive proposal lifecycle remediation ([622373a](https://github.com/jamesryancooper/octon/commit/622373a71969a8f124abbb5bc8fb1c53ed98d4da))
+
 ## [0.6.94](https://github.com/jamesryancooper/octon/compare/octon-v0.6.93...octon-v0.6.94) (2026-06-16)
 
 
