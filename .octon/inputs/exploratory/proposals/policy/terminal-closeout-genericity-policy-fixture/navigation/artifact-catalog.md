@@ -10,4 +10,6 @@
 - `support/proposal-review.md` - accepted review receipt.
 - `support/implementation-conformance-review.md` - conformance receipt.
 - `support/post-implementation-drift-churn-review.md` - drift and churn receipt.
-
+- `support/closeout-worktree-continuation-orchestration-prompt.md` - advisory
+  orchestration prompt for continuing the blocked terminal closeout through
+  `closeout-worktree`.
