@@ -27,7 +27,16 @@ promotion_targets:
 - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
 - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
 - .octon/framework/assurance/runtime/_ops/tests/
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-16T15:56:17Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation
+  promotion_evidence:
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-16T13-19-47Z-capabilities-663f837774ff.yml
+  - .octon/state/evidence/validation/proposals/proposal-lifecycle-closeout-friction-remediation/2026-06-16T13-33-13Z/implementation-route-summary.yml
+  - .octon/state/evidence/validation/proposals/proposal-lifecycle-closeout-friction-remediation/2026-06-16T13-33-13Z/validation-summary.md
 lifecycle:
   temporary: true
   exit_expectation: Promote only after proposal review, strict pre-integration architecture review, implementation authorization, durable updates to the declared Octon-internal workflow, validator, helper, contract, skill, and test surfaces, refreshed generated projections through canonical publication scripts when required, and passing implementation conformance plus post-implementation drift/churn receipts.

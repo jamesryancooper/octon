@@ -30,14 +30,14 @@
   "gate_states": {
     "implementation_readiness": {
       "clarification_required": "no",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-grade-completeness-review.md",
       "unresolved_questions_count": "0",
       "verdict": "pass"
     },
     "proposal_review": {
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-review.md",
       "reviewed_packet_digest": "sha256:9a7d10487264310912a9f8df6edac185d9b77011295e4c769b0913c53aa5584e",
       "verdict": "accepted"
     },
@@ -51,7 +51,7 @@
   },
   "lifecycle": {
     "exit_expectation": "Promote only after proposal review, strict pre-integration architecture review, implementation authorization, durable updates to the declared Octon-internal workflow, validator, helper, contract, skill, and test surfaces, refreshed generated projections through canonical publication scripts when required, and passing implementation conformance plus post-implementation drift/churn receipts.",
-    "status": "implemented",
+    "status": "archived",
     "temporary": true
   },
   "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-lifecycle-closeout-friction-remediation/proposal-program-spine.yml",
@@ -83,7 +83,7 @@
   ],
   "proposal_id": "proposal-lifecycle-closeout-friction-remediation",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -96,55 +96,55 @@
     {
       "byte_size": 22466,
       "estimated_tokens": 5617,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/executable-implementation-prompt.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/executable-implementation-prompt.md",
       "sha256": "sha256:6e55abaffd722dc4aa8ba6a426507f52528d320838c9145ad625108939eae4ae"
     },
     {
       "byte_size": 5379,
       "estimated_tokens": 1345,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-conformance-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-conformance-review.md",
       "sha256": "sha256:516ec5e29b86dbe7b28bc094b7a1c4cd3d7f809a4925ff254dc67f4901bc820d"
     },
     {
       "byte_size": 4399,
       "estimated_tokens": 1100,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-grade-completeness-review.md",
       "sha256": "sha256:20f429baa5afa4741ef64d10c0a39565ca615e77f5033fee881ed611d06c67e5"
     },
     {
       "byte_size": 6521,
       "estimated_tokens": 1631,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-run.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-run.md",
       "sha256": "sha256:c4ed9a3811b232b5f2bad0bfdf2eb84458a12ac13a06514125a0d12ae57f601f"
     },
     {
       "byte_size": 4809,
       "estimated_tokens": 1203,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/post-implementation-drift-churn-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/post-implementation-drift-churn-review.md",
       "sha256": "sha256:4ab03a1c217d9ee8933deaadd10939fdf6852806efcc90f8dd86823bd40f83c0"
     },
     {
-      "byte_size": 4205,
-      "estimated_tokens": 1052,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-closeout.md",
-      "sha256": "sha256:1f1acccf2c1d7e1e1c4271b4b406bd1bdfac015dbf8f5489129187d1bf98e5d7"
+      "byte_size": 3750,
+      "estimated_tokens": 938,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-closeout.md",
+      "sha256": "sha256:66f1862a6fd2626d222ee007e008d9ca6f3fbad71d4de407b3025ca46a666cde"
     },
     {
       "byte_size": 2293,
       "estimated_tokens": 574,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-creation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-creation.md",
       "sha256": "sha256:9ebb05b4a1decf85074bfc2c2646133725c6fd2e76ab88aeeb695a5f4f893645"
     },
     {
       "byte_size": 5079,
       "estimated_tokens": 1270,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-review.md",
       "sha256": "sha256:7325f1f33b7fa4f892179cae94e43f5539b49b6837038033b4a0b019e87496a1"
     },
     {
       "byte_size": 4616,
       "estimated_tokens": 1154,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/validation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/validation.md",
       "sha256": "sha256:51698bf82fe12b0cbd95c9ee6051eafb94eabd2326447db9f6fda88da5a0e05d"
     }
   ],
@@ -154,30 +154,30 @@
   ],
   "schema_version": "octon-proposal-program-spine-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/architecture-proposal.yml": "sha256:697f5fb7258963f7aa99c46237100907a7f4c57dcad8f6b83d1f4df2a9b07766",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/architecture/acceptance-criteria.md": "sha256:7753f5c045db37ed022b05a55108095418ff2be416a04c295a12ceb813d42fc5",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/architecture/implementation-plan.md": "sha256:7302d237e5ed58f7eafd894c8dc8538cb23ccf615affa4f8312e37f191cab01b",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/navigation/artifact-catalog.md": "sha256:6b170c3521aed226c92bcb03f7c41f3ba658c0aeef0d0ba25cfd5b810dbd7f2a",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/navigation/source-of-truth-map.md": "sha256:ba67b4c1c6cb44617d6060ea9b3cab6e9fc1436fe6a61db50abb744b85e4b2e1",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/proposal.yml": "sha256:53dafb1ad0a41ff5bb37737df7c25fab865f1af52bf855d4bae252266425e96c",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/executable-implementation-prompt.md": "sha256:6e55abaffd722dc4aa8ba6a426507f52528d320838c9145ad625108939eae4ae",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-grade-completeness-review.md": "sha256:20f429baa5afa4741ef64d10c0a39565ca615e77f5033fee881ed611d06c67e5",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-review.md": "sha256:7325f1f33b7fa4f892179cae94e43f5539b49b6837038033b4a0b019e87496a1"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/architecture-proposal.yml": "sha256:697f5fb7258963f7aa99c46237100907a7f4c57dcad8f6b83d1f4df2a9b07766",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/architecture/acceptance-criteria.md": "sha256:7753f5c045db37ed022b05a55108095418ff2be416a04c295a12ceb813d42fc5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/architecture/implementation-plan.md": "sha256:7302d237e5ed58f7eafd894c8dc8538cb23ccf615affa4f8312e37f191cab01b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/navigation/artifact-catalog.md": "sha256:ebaaaa1b7e6373f6158c06a180646e8fd73915e07c36646ecebb8c4d1e0630c6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/navigation/source-of-truth-map.md": "sha256:ba67b4c1c6cb44617d6060ea9b3cab6e9fc1436fe6a61db50abb744b85e4b2e1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/proposal.yml": "sha256:7d4f259d76e6efbc1afe952e736fc5b2b51c98e89be74cce62778a7cbe305c3d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/executable-implementation-prompt.md": "sha256:6e55abaffd722dc4aa8ba6a426507f52528d320838c9145ad625108939eae4ae",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-grade-completeness-review.md": "sha256:20f429baa5afa4741ef64d10c0a39565ca615e77f5033fee881ed611d06c67e5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-review.md": "sha256:7325f1f33b7fa4f892179cae94e43f5539b49b6837038033b4a0b019e87496a1"
   },
   "source_lineage": [
     "resources/source-prompt.md",
     "resources/postmortem-findings.md"
   ],
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-review.md"
   ],
-  "status": "implemented"
+  "status": "archived"
 }

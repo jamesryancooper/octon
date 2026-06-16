@@ -35,4 +35,5 @@ This catalog is a proposal-local inventory. It is not semantic authority.
 - `support/validation.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`
+- `support/proposal-closeout.md`
 - `support/revisions/20260616T032714Z-packet-delivery-wrapper-ownership.md`
