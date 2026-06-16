@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.94](https://github.com/jamesryancooper/octon/compare/octon-v0.6.93...octon-v0.6.94) (2026-06-16)
+
+
+### Features
+
+* align architectural review mechanism projections ([00fd0ff](https://github.com/jamesryancooper/octon/commit/00fd0ff904e4b1f4b6084ffa3dd8f9c2a922a15c))
+
 ## [0.6.93](https://github.com/jamesryancooper/octon/compare/octon-v0.6.92...octon-v0.6.93) (2026-06-15)
 
 
