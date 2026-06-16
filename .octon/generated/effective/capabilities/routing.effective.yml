@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-3a325b2b3f8d
-published_at: 2026-06-16T16:40:54Z
+generation_id: capabilities-439f5e4217bd
+published_at: 2026-06-16T19:53:04Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-16T16-40-54Z-capabilities-3a325b2b3f8d.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-16T19-53-04Z-capabilities-439f5e4217bd.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -17,9 +17,9 @@ source:
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: fa6470e0325d4fae1cc932ddf138c68b4f9adcd6f675226617c33d96b454bee5
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
-  framework_skills_manifest_sha256: 6f76f8d854708b4ab8406854c0b67a266e179d7a230e310026ff84159d90d73c
+  framework_skills_manifest_sha256: 0a02969664bbce4884dfd70fc3f18be056731cf969eaed2de0011d9d280076e0
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
-  framework_skills_registry_sha256: 3b633dd609e9b5bdfb02e3b9e0ab6e57a1adb75a229cc7d3e28f66c6428b2c64
+  framework_skills_registry_sha256: 200fbd35152fab00b5b90239236aea34b466c7c97f3633cb2933ff137c5536ed
   framework_services_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
   framework_services_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
