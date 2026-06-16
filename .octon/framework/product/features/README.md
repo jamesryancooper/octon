@@ -23,6 +23,9 @@ The catalog answers four questions for agents and operators:
   Change closeout, final sync, cleanup, and terminal proof.
 - `governed-mechanism-integration-verification.md`: cross-surface mechanism
   integration verification before proposal closeout/archive readiness.
+- `architectural-review-mechanism.md`: navigation-only entry for native
+  architectural review doctrine, modes, invocation aliases, validators, and
+  generated projections.
 
 ## Non-Authority Posture
 

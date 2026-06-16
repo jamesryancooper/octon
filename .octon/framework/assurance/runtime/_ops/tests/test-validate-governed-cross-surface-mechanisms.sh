@@ -27,10 +27,16 @@ new_fixture_root() {
   mkdir -p "$root/.octon/framework/cognition/_meta/architecture"
   mkdir -p "$root/.octon/generated/cognition/projections/materialized"
   mkdir -p "$root/.octon/framework/product/features"
+  mkdir -p "$root/.octon/framework/product/contracts"
+  mkdir -p "$root/.octon/framework/assurance/runtime/_ops/scripts"
   cp -R "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms" \
     "$root/.octon/framework/cognition/_meta/architecture/"
   cp -R "$REPO_ROOT/.octon/generated/cognition/projections/materialized/governed-cross-surface-mechanisms" \
     "$root/.octon/generated/cognition/projections/materialized/"
+  cp "$REPO_ROOT/.octon/framework/product/contracts/governed-mechanism-integration-profile-v1.schema.json" \
+    "$root/.octon/framework/product/contracts/"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-profile.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cat >"$root/.octon/framework/product/features/catalog.yml" <<'YAML'
 schema_version: "octon-product-feature-catalog-v1"
 catalog_role: "navigation-only"
@@ -84,6 +90,26 @@ root="$(new_fixture_root)"
 perl -0pi -e 's/parent_evidence_satisfies_child_receipts: false/parent_evidence_satisfies_child_receipts: true/' \
   "$root/.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/aggregate-closeout-evidence-template.md"
 assert_failure "parent evidence satisfying child receipts fails" "$root"
+
+root="$(new_fixture_root)"
+yq -i '(.mechanisms[] | select(.mechanism_id == "architectural-review-mechanism").product_feature_refs) = ["not-applicable: omitted"]' \
+  "$root/.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml"
+assert_failure "architectural-review product feature omission fails" "$root"
+
+root="$(new_fixture_root)"
+yq -i '(.mechanisms[] | select(.mechanism_id == "architectural-review-mechanism").runtime_implementation_refs) |= map(select(. != ".octon/framework/capabilities/runtime/commands/audit-domain-architecture.md"))' \
+  "$root/.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml"
+assert_failure "missing domain architecture command coverage fails" "$root"
+
+root="$(new_fixture_root)"
+yq -i '(.mechanisms[] | select(.mechanism_id == "architectural-review-mechanism").runtime_implementation_refs) += [".octon/inputs/exploratory/proposals/example/support/proposal-review.md"]' \
+  "$root/.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml"
+assert_failure "proposal-local authority backref fails" "$root"
+
+root="$(new_fixture_root)"
+yq -i '(.mechanisms[] | select(.mechanism_id == "architectural-review-mechanism").authored_authority_refs) += [".octon/generated/effective/capabilities/routing.effective.yml"]' \
+  "$root/.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml"
+assert_failure "generated authority overclaim fails" "$root"
 
 printf 'Test summary: passes=%d failures=%d\n' "$pass_count" "$fail_count"
 [[ "$fail_count" -eq 0 ]]

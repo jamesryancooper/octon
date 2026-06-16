@@ -120,6 +120,57 @@ commands:
   host_adapters:
   - cursor
   - codex
+- id: architecture-readiness-audit
+  display_name: Architecture Readiness Audit
+  path: architecture-readiness-audit.md
+  summary: Invoke the canonical architecture-readiness audit workflow for whole-harness or bounded-domain readiness evidence.
+  access: agent
+  argument_hint: <target-path> [severity_threshold=<level>]
+  routing:
+    selectors:
+      include:
+      - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+  host_adapters:
+  - cursor
+  - codex
+- id: audit-domain-architecture
+  display_name: Audit Domain Architecture
+  path: audit-domain-architecture.md
+  summary: Invoke the domain architecture audit alias for the canonical domain-architecture-audit mode.
+  access: agent
+  argument_hint: domain_path=<path> [criteria=<csv>]
+  routing:
+    selectors:
+      include:
+      - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+  host_adapters:
+  - cursor
+  - codex
+- id: audit-surface-architecture
+  display_name: Audit Surface Architecture
+  path: audit-surface-architecture.md
+  summary: Invoke the surface architecture audit alias for the canonical surface-architecture-audit mode.
+  access: agent
+  argument_hint: surface_path=<path> [surface_kind=<kind>]
+  routing:
+    selectors:
+      include:
+      - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+  host_adapters:
+  - cursor
+  - codex
 - id: alignment-check
   display_name: Alignment Check
   path: alignment-check.md

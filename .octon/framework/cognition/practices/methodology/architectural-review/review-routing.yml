@@ -30,18 +30,28 @@ routes:
     closeout_authority: "none"
   - route_id: "architecture-readiness-audit"
     display_name: "Architecture Readiness Audit"
+    command_facades:
+      - "architecture-readiness-audit"
     use_when:
       - "Whole-harness or bounded-domain implementation readiness is being evaluated."
     lifecycle_authority: "audit-evidence"
     closeout_authority: "none"
   - route_id: "domain-architecture-audit"
     display_name: "Domain Architecture Audit"
+    invocation_aliases:
+      - "audit-domain-architecture"
+    command_facades:
+      - "audit-domain-architecture"
     use_when:
       - "A bounded domain needs architecture critique."
     lifecycle_authority: "audit-evidence"
     closeout_authority: "none"
   - route_id: "surface-architecture-audit"
     display_name: "Surface Architecture Audit"
+    invocation_aliases:
+      - "audit-surface-architecture"
+    command_facades:
+      - "audit-surface-architecture"
     use_when:
       - "A single durable surface needs architecture critique."
     lifecycle_authority: "audit-evidence"

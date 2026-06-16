@@ -41,7 +41,11 @@
 - `resources/source-prompt.md`
 - `resources/source-findings.md`
 - `support/proposal-creation.md`
+- `support/proposal-review.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/executable-implementation-prompt.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/implementation-run.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`
 

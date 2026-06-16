@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment/context/context-pack.json
+route_id: promote-proposal
+run_id: lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-16T00:33:25.99127Z
+validity_state: valid

@@ -29,7 +29,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/"
   - ".octon/generated/effective/capabilities/"
-status: "in-review"
+status: implemented
 lifecycle:
   temporary: true
   exit_expectation: >-

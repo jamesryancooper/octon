@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment/context/context-pack.json
+context_pack_sha256: sha256:6249e56fdff4f7164799608ae95617df422718d9b0943d3a54b84f9e62e88b89
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment/context/model-visible-context.json
+model_visible_context_sha256: sha256:5953279ff4036cee6697e049705eec0be6bc9f836fdd627102937576f003c2e2
+receipt_sha256: sha256:9cdd02965a32e4836e5a9973e88560fd87ca360288daaa11a8e2ef0fd0777049
+route_id: promote-proposal
+run_id: lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment
+schema_version: active-context-pack-v1
+updated_at: 2026-06-16T00:33:25.99127Z
+validity_state: valid

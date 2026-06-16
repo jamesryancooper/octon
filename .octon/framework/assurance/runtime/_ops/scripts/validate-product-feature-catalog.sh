@@ -227,6 +227,49 @@ validate_governed_mechanism_integration_support_claims() {
   validate_no_unqualified_support_claims "$doc" "governed-mechanism-integration-verification feature note"
 }
 
+validate_architectural_review_mechanism_support_claims() {
+  local methodology="$OCTON_DIR/framework/cognition/practices/methodology/architectural-review"
+  local doc="$OCTON_DIR/framework/product/features/architectural-review-mechanism.md"
+
+  [[ -d "$methodology" ]] || return 0
+
+  if yq -e '.features[]? | select(.feature_id == "architectural-review-mechanism")' "$CATALOG_PATH" >/dev/null 2>&1; then
+    pass "architectural-review-mechanism product feature entry present"
+  else
+    fail "architectural-review-mechanism product feature entry present"
+    return
+  fi
+
+  if [[ ! -f "$doc" ]]; then
+    fail "architectural-review-mechanism feature note missing"
+    return
+  fi
+
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "navigation-only"
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "does not authorize review outcomes"
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "Pre-Integration Architecture Review remains mandatory"
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "Post-Integration Architecture Review remains evidence-only"
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "Current-State Mechanism Architecture Review remains evidence-only"
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "Generated outputs remain derived-only"
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "Proposal-local receipts remain evidence only"
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "audit-domain-architecture"
+  validate_required_support_phrase "$doc" "architectural-review-mechanism feature note" "audit-surface-architecture"
+
+  for command in \
+    /pre-integration-architecture-review \
+    /post-integration-architecture-review \
+    /current-state-mechanism-architecture-review \
+    /architecture-readiness-audit \
+    /audit-domain-architecture \
+    /audit-surface-architecture; do
+    if yq -e ".features[]? | select(.feature_id == \"architectural-review-mechanism\") | .entrypoints[]? | select(.kind == \"command\" and .value == \"$command\")" "$CATALOG_PATH" >/dev/null 2>&1; then
+      pass "architectural-review command entrypoint declared: $command"
+    else
+      fail "architectural-review command entrypoint declared: $command"
+    fi
+  done
+}
+
 require_yq() {
   if ! command -v yq >/dev/null 2>&1; then
     echo "[ERROR] yq is required for product feature catalog validation" >&2
@@ -424,6 +467,7 @@ main() {
   done
   validate_governed_lifecycle_orchestration_support_claims
   validate_governed_mechanism_integration_support_claims
+  validate_architectural_review_mechanism_support_claims
 
   echo "Validation summary: errors=$errors"
   if [[ "$errors" -gt 0 ]]; then

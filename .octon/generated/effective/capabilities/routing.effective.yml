@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-f6bd840160c6
-published_at: 2026-06-15T22:52:59Z
+generation_id: capabilities-e00cb3253c57
+published_at: 2026-06-16T00:00:29Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-15T22-52-59Z-capabilities-f6bd840160c6.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-16T00-00-29Z-capabilities-e00cb3253c57.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -15,7 +15,7 @@ source:
   root_manifest_path: .octon/octon.yml
   root_manifest_sha256: e55193232bbed41d0d30988fc017d2cec0c9c762a516705d38cc55c9bd71cc8b
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-  framework_commands_manifest_sha256: ed567d0e8674f6e34c1419ac52616111a7fff194d77fd4fbcfb1f39cbf78a96e
+  framework_commands_manifest_sha256: fa6470e0325d4fae1cc932ddf138c68b4f9adcd6f675226617c33d96b454bee5
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
   framework_skills_manifest_sha256: 6f76f8d854708b4ab8406854c0b67a266e179d7a230e310026ff84159d90d73c
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
@@ -373,6 +373,66 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-command-framework.command.alignment-check
     projection_name: alignment-check
+  - effective_id: framework.command.architecture-readiness-audit
+    artifact_map_id: framework-command-architecture-readiness-audit
+    origin_class: framework
+    capability_kind: command
+    capability_id: architecture-readiness-audit
+    display_name: Architecture Readiness Audit
+    summary: Invoke the canonical architecture-readiness audit workflow for whole-harness or bounded-domain readiness evidence.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.architecture-readiness-audit
+    projection_name: architecture-readiness-audit
+  - effective_id: framework.command.audit-domain-architecture
+    artifact_map_id: framework-command-audit-domain-architecture
+    origin_class: framework
+    capability_kind: command
+    capability_id: audit-domain-architecture
+    display_name: Audit Domain Architecture
+    summary: Invoke the domain architecture audit alias for the canonical domain-architecture-audit mode.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.audit-domain-architecture
+    projection_name: audit-domain-architecture
   - effective_id: framework.command.audit-skills-system-expansion
     artifact_map_id: framework-command-audit-skills-system-expansion
     origin_class: framework
@@ -404,6 +464,36 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-command-framework.command.audit-skills-system-expansion
     projection_name: audit-skills-system-expansion
+  - effective_id: framework.command.audit-surface-architecture
+    artifact_map_id: framework-command-audit-surface-architecture
+    origin_class: framework
+    capability_kind: command
+    capability_id: audit-surface-architecture
+    display_name: Audit Surface Architecture
+    summary: Invoke the surface architecture audit alias for the canonical surface-architecture-audit mode.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.audit-surface-architecture
+    projection_name: audit-surface-architecture
   - effective_id: framework.command.context-budget
     artifact_map_id: framework-command-context-budget
     origin_class: framework
@@ -6808,7 +6898,10 @@ resolution_order:
   - framework.skill.repo-hygiene-cleanup
   - instance.command.repo-hygiene
   - framework.command.alignment-check
+  - framework.command.architecture-readiness-audit
+  - framework.command.audit-domain-architecture
   - framework.command.audit-skills-system-expansion
+  - framework.command.audit-surface-architecture
   - framework.command.context-budget
   - framework.command.create-workflow
   - framework.command.current-state-mechanism-architecture-review

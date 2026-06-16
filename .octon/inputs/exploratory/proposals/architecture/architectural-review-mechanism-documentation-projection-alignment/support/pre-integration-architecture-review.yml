@@ -1,0 +1,27 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-mechanism-documentation-projection-alignment-pre-integration-architecture-review-20260615"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment"
+packet_digest: "sha256:62706955cd3e3991a577073e797538e43bdbef0b2e6da7744b8882aa69a14758"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/support/proposal-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment/architecture/acceptance-criteria.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  product_navigation_decision: "navigation-only feature entry route approved"
+  canonical_mode_mapping: "domain and surface audit aliases approved with validator enforcement"
+  readiness_slug: "architecture-readiness-audit preserved as canonical"
+  lifecycle_authority: "pre-integration review remains the authorization gate"
+  evidence_only_modes: "post-integration and current-state reviews remain evidence-only"
+  generated_boundary: "generated projections remain derived-only and script-refreshed"

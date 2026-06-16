@@ -25,13 +25,29 @@ canonical_modes:
     slug: "architecture-readiness-audit"
     kind: "audit"
     workflow_dir: ".octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/"
+    command_facades:
+      - "architecture-readiness-audit"
     evidence_root: ".octon/state/evidence/runs/workflows/<run-id>/architectural-review/architecture-readiness-audit/"
   - display_name: "Domain Architecture Audit"
     slug: "domain-architecture-audit"
     kind: "audit"
+    invocation_aliases:
+      - alias: "audit-domain-architecture"
+        status: "active"
+        surface: "skill-and-command"
+    command_facades:
+      - "audit-domain-architecture"
+    evidence_root: ".octon/state/evidence/runs/skills/audit-domain-architecture/<run-id>.md"
   - display_name: "Surface Architecture Audit"
     slug: "surface-architecture-audit"
     kind: "audit"
+    invocation_aliases:
+      - alias: "audit-surface-architecture"
+        status: "active"
+        surface: "skill-and-command"
+    command_facades:
+      - "audit-surface-architecture"
+    evidence_root: ".octon/state/evidence/runs/skills/audit-surface-architecture/<run-id>.md"
   - display_name: "Architecture Revision Packet"
     slug: "architecture-revision-packet"
     kind: "extension-packet-helper"

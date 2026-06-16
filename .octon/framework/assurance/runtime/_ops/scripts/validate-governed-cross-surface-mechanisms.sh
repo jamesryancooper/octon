@@ -236,6 +236,76 @@ validate_path_class_boundaries() {
   pass "path/class boundary scan completed"
 }
 
+validate_architectural_review_mechanism_alignment() {
+  [[ -f "$INDEX" ]] || return
+
+  if ! yq -e '.mechanisms[]? | select(.mechanism_id == "architectural-review-mechanism")' "$INDEX" >/dev/null 2>&1; then
+    fail "architectural-review-mechanism entry present"
+    return
+  fi
+
+  local expr='.mechanisms[]? | select(.mechanism_id == "architectural-review-mechanism")'
+  local detail="$MECHANISM_ROOT/mechanisms/architectural-review-mechanism.md"
+
+  if yq -e "$expr | .product_feature_refs[]? | select(. == \".octon/framework/product/features/architectural-review-mechanism.md\")" "$INDEX" >/dev/null 2>&1; then
+    pass "architectural-review product feature ref present"
+  else
+    fail "architectural-review product feature ref present"
+  fi
+
+  if yq -r "$expr | .product_feature_refs[]? // \"\"" "$INDEX" | rg -q '^not-applicable:'; then
+    fail "architectural-review product feature omission removed"
+  else
+    pass "architectural-review product feature omission removed"
+  fi
+
+  for ref in \
+    ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/" \
+    ".octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/" \
+    ".octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/" \
+    ".octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/" \
+    ".octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/" \
+    ".octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/" \
+    ".octon/framework/capabilities/runtime/commands/architecture-readiness-audit.md" \
+    ".octon/framework/capabilities/runtime/commands/audit-domain-architecture.md" \
+    ".octon/framework/capabilities/runtime/commands/audit-surface-architecture.md"; do
+    if yq -e "$expr | .runtime_implementation_refs[]? | select(. == \"$ref\")" "$INDEX" >/dev/null 2>&1; then
+      pass "architectural-review runtime ref present: $ref"
+    else
+      fail "architectural-review runtime ref present: $ref"
+    fi
+  done
+
+  for text in \
+    "pre-integration-architecture-review" \
+    "post-integration-architecture-review" \
+    "current-state-mechanism-architecture-review" \
+    "architecture-readiness-audit" \
+    "domain-architecture-audit" \
+    "surface-architecture-audit" \
+    "audit-domain-architecture" \
+    "audit-surface-architecture"; do
+    if has_text "$INDEX" "$text" && [[ -f "$detail" ]] && has_text "$detail" "$text"; then
+      pass "architectural-review mode covered in index and detail: $text"
+    else
+      fail "architectural-review mode covered in index and detail: $text"
+    fi
+  done
+
+  for section in authored_authority_refs product_contract_refs runtime_spec_refs runtime_implementation_refs mutable_operational_truth_refs; do
+    while IFS= read -r ref; do
+      [[ -n "$ref" ]] || continue
+      if [[ "$ref" == *".octon/inputs/exploratory/proposals/"* || "$ref" == *"/support/"* ]]; then
+        fail "proposal-local ref absent from architectural-review authority section $section: $ref"
+      fi
+      if [[ "$ref" == *".octon/generated/"* ]]; then
+        fail "generated ref absent from architectural-review authority section $section: $ref"
+      fi
+    done < <(yq -r "$expr | .$section[]? // \"\"" "$INDEX")
+  done
+  pass "architectural-review authority sections avoid proposal-local and generated overclaims"
+}
+
 validate_closeout_template() {
   require_file "$CLOSEOUT_TEMPLATE" "aggregate closeout template"
   [[ -f "$CLOSEOUT_TEMPLATE" ]] || return
@@ -287,6 +357,7 @@ main() {
   validate_index_shape
   validate_mechanism_sections
   validate_path_class_boundaries
+  validate_architectural_review_mechanism_alignment
   validate_governed_mechanism_profiles
   validate_closeout_template
   validate_operator_map

@@ -6,7 +6,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/architectural-review-mechanism-documentation-projection-alignment"
     title: "Architectural Review Mechanism Documentation And Projection Alignment"
-    status: "in-review"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/cognition/practices/methodology/architectural-review/"
       - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"

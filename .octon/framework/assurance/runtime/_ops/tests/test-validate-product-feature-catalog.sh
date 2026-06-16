@@ -187,6 +187,11 @@ main() {
   yq -i '.features[0].validation_refs = []' "$root/.octon/framework/product/features/catalog.yml"
   assert_failure "missing validation refs fails" "$root"
 
+    root="$(new_fixture_repo missing-architectural-review-feature)"
+    write_valid_catalog "$root"
+    mkdir -p "$root/.octon/framework/cognition/practices/methodology/architectural-review"
+    assert_failure "missing architectural-review-mechanism product feature fails" "$root"
+
     root="$(new_fixture_repo support-authority)"
     write_valid_catalog "$root"
     mkdir -p "$root/proposals/example/support"

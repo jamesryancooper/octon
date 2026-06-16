@@ -114,7 +114,7 @@ mechanisms:
   - mechanism_id: "architectural-review-mechanism"
     name: "Architectural Review Mechanism"
     product_feature_refs:
-      - "not-applicable: no product feature entry is introduced by the native mechanism implementation phase"
+      - ".octon/framework/product/features/architectural-review-mechanism.md"
     authored_authority_refs:
       - ".octon/framework/cognition/practices/methodology/architectural-review/"
       - ".octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md"
@@ -142,10 +142,21 @@ mechanisms:
       - ".octon/framework/capabilities/runtime/skills/audit/post-integration-architecture-review/"
       - ".octon/framework/capabilities/runtime/skills/audit/current-state-mechanism-architecture-review/"
       - ".octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/"
+      - ".octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/"
+      - ".octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/"
+      - ".octon/framework/capabilities/runtime/commands/pre-integration-architecture-review.md"
+      - ".octon/framework/capabilities/runtime/commands/post-integration-architecture-review.md"
+      - ".octon/framework/capabilities/runtime/commands/current-state-mechanism-architecture-review.md"
+      - ".octon/framework/capabilities/runtime/commands/architecture-readiness-audit.md"
+      - ".octon/framework/capabilities/runtime/commands/audit-domain-architecture.md"
+      - ".octon/framework/capabilities/runtime/commands/audit-surface-architecture.md"
     mutable_operational_truth_refs:
       - ".octon/state/control/execution/runs/<run-id>/"
     retained_evidence_refs:
       - ".octon/state/evidence/runs/workflows/<run-id>/architectural-review/"
+      - ".octon/state/evidence/runs/workflows/<run-id>/architectural-review/architecture-readiness-audit/"
+      - ".octon/state/evidence/runs/skills/audit-domain-architecture/<run-id>.md"
+      - ".octon/state/evidence/runs/skills/audit-surface-architecture/<run-id>.md"
       - ".octon/inputs/exploratory/proposals/**/support/pre-integration-architecture-review.yml"
       - ".octon/inputs/exploratory/proposals/**/support/post-integration-architecture-review.yml"
       - ".octon/inputs/exploratory/proposals/**/support/current-state-mechanism-architecture-review.yml"
@@ -165,23 +176,31 @@ mechanisms:
     navigation_only_refs:
       - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml"
       - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/architectural-review-mechanism.md"
+      - ".octon/framework/product/features/architectural-review-mechanism.md"
     compatibility_only_refs:
       - "not-applicable: the legacy architecture-readiness invocation slug has no permanent compatibility route"
+      - "active-alias: audit-domain-architecture invokes canonical domain-architecture-audit"
+      - "active-alias: audit-surface-architecture invokes canonical surface-architecture-audit"
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-naming.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-routing.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-workflows.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lifecycle-gates.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-skills-commands.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
     ownership_boundaries:
       - "Workflows own canonical execution contracts and evidence-producing orchestration."
       - "Skills and commands are thin invocation helpers and cannot duplicate workflow authority."
       - "Proposal lifecycle gates own acceptance and implementation authorization."
       - "Extension packetization owns concept intake and packet helpers only."
+      - "Domain and surface audit command names are invocation aliases for canonical methodology mode names."
     non_authority_boundaries:
       - "Raw inputs, generated projections, proposal-local summaries, chat, host state, dashboards, tool availability, and model memory are never authority."
       - "Review reports are retained evidence only unless a lifecycle contract explicitly gates on their strict receipt."
       - "Post-Integration Architecture Review is evidence-only under current policy."
+      - "Product feature navigation is not review authority."
       - "Lifecycle postmortems cannot authorize closeout, promotion, redesign, support widening, generated publication, or constitutional amendment."
   - mechanism_id: "governed-incoming-intake-routing"
     name: "Governed Incoming Intake Routing"

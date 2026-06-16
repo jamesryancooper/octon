@@ -4,7 +4,7 @@ description: Native Octon doctrine, routing, naming, and evidence boundaries for
 owner: "cognition-owner"
 audience: internal
 scope: methodology-governance
-last_reviewed: 2026-06-11
+last_reviewed: 2026-06-15
 ---
 
 # Architectural Review Mechanism
@@ -36,6 +36,18 @@ authority.
 The canonical readiness-audit slug is `architecture-readiness-audit`.
 `audit-architecture-readiness` is retired from authored runtime, workflow,
 skill, command, and lifecycle routing surfaces.
+
+## Invocation Aliases And Command Facades
+
+`domain-architecture-audit` and `surface-architecture-audit` are the canonical
+methodology and report-schema mode names. The operator invocation surfaces keep
+the established `audit-domain-architecture` and `audit-surface-architecture`
+names as active aliases, with validators enforcing the mapping.
+
+`architecture-readiness-audit`, `audit-domain-architecture`, and
+`audit-surface-architecture` have command facades for operator discovery. These
+commands invoke the existing audit skills or workflow routes only; they do not
+create lifecycle gates or review authority.
 
 ## Native Ownership
 

@@ -1,11 +1,11 @@
 # Implementation-Grade Completeness Review
 
-- review_id: architectural-review-mechanism-documentation-projection-alignment-completeness-20260612
-- reviewed_at: 2026-06-12T00:00:00Z
-- reviewer: codex
-- verdict: pass
-- unresolved_questions_count: 0
-- clarification_required: no
+review_id: architectural-review-mechanism-documentation-projection-alignment-completeness-20260612
+reviewed_at: 2026-06-12T00:00:00Z
+reviewer: codex
+verdict: pass
+unresolved_questions_count: 0
+clarification_required: no
 
 ## Blockers
 
