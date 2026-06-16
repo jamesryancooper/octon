@@ -124,6 +124,12 @@
       "sha256": "sha256:4ab03a1c217d9ee8933deaadd10939fdf6852806efcc90f8dd86823bd40f83c0"
     },
     {
+      "byte_size": 4205,
+      "estimated_tokens": 1052,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-closeout.md",
+      "sha256": "sha256:1f1acccf2c1d7e1e1c4271b4b406bd1bdfac015dbf8f5489129187d1bf98e5d7"
+    },
+    {
       "byte_size": 2293,
       "estimated_tokens": 574,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-creation.md",

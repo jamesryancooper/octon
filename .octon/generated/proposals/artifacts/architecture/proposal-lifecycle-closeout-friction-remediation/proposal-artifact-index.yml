@@ -1,5 +1,5 @@
 {
-  "artifact_count": 20,
+  "artifact_count": 21,
   "artifacts": [
     {
       "byte_size": 1453,
@@ -312,6 +312,25 @@
       ],
       "role": "pre-integration-architecture-review",
       "sha256": "sha256:71229cd53bbdc533150972c6fd09355d9e0441792c490957bbddcb3aecfdbe36",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4205,
+      "estimated_tokens": 1052,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-closeout-friction-remediation/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:1f1acccf2c1d7e1e1c4271b4b406bd1bdfac015dbf8f5489129187d1bf98e5d7",
       "stage_relevance": [
         "support-review"
       ],
