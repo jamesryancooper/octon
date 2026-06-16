@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment-terminal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment-terminal/context/context-pack.json
+context_pack_sha256: sha256:5bf98d635209a6187564ad2a9f6a3e7428132568d0ee965bfbd8d81b42be8f47
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment-terminal/context/model-visible-context.json
+model_visible_context_sha256: sha256:6038a86159203ea7016c2fc7d42d58c4d2ca345b15a3c7157c530294de4b32a5
+receipt_sha256: sha256:9eafa62e3e0b91792ab098854533ba394a1f2a58e43ca480a531e69390bee47f
+route_id: proposal-packet-terminal-closeout
+run_id: lifecycle-proposal-packet-20260616-architectural-review-mechanism-documentation-projection-alignment-terminal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-16T00:45:27.633479Z
+validity_state: valid
