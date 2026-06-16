@@ -1,0 +1,284 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: 20260616T185402Z-closeout-worktree-octon-pr-526-worktree-cleanup
+route_entered: closeout-worktree
+target: terminal-closeout-genericity-policy-fixture
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  transitional_exception_note: none
+authority_boundary:
+  factual_authority:
+    - current Git worktree inventory before and after removal
+    - GitHub PR 526 merged state
+    - staged dirty-path comparison against PR 526 head and merge commit
+    - current repository run-id reference search
+    - detached-worktree cleanup authorization receipt
+    - deterministic closeout-worktree wrapper validator
+    - .octon/framework/product/contracts/default-work-unit.yml
+    - .octon/framework/product/contracts/change-closeout-state-machine.yml
+    - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+  non_authority:
+    - proposal-local packet files
+    - packet-local orchestration prompt
+    - generated outputs without route-owned receipt authority
+    - host state alone
+    - chat transcript or model memory
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_cleanup_actions_performed: true
+worktree_cleanup_action: git worktree remove --force /private/tmp/octon-pr-526-run
+worktree_cleanup_authorization_ref: .octon/state/evidence/validation/analysis/20260616T185151Z-octon-pr-526-worktree-cleanup-authorization.yml
+cleanup_not_from_detection_only: true
+repo_hygiene_cleanup_actions_performed: false
+repo_hygiene_cleanup_outcome: not-applicable
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+initial_inventory_ref: >-
+  Before cleanup: git worktree list --porcelain reported main at
+  23895d8eddbef7f8a524cd062e818a5c8d9f4c55 on refs/heads/main and detached
+  /private/tmp/octon-pr-526-run at
+  7d7c6add28dd941c7f7c18d62887940e732927ee.
+residue_classification_ref: >-
+  Post-cleanup classify-change-closeout-residue.sh --root . plus this final
+  report: staged=0, unstaged-tracked=0, untracked=8, ignored=7824,
+  local-branch=2, remote-branch=2, retained-evidence=13,
+  publishable_closeout_evidence=13, local_private_retained=138, unsafe=7686,
+  ambiguous=0.
+prior_blocker_ref: .octon/state/evidence/validation/analysis/20260616T183620Z-closeout-worktree-terminal-closeout-genericity-retention-resolution.yml
+observed_change_set_count: 4
+selected_candidate_id: removed-detached-worktree-octon-pr-526-run
+stale_branch_refs_observed:
+  - ref: refs/heads/chore/terminal-closeout-worktree-prompt
+    kind: local_branch
+    object: dc276baecbdb49627b8d21b68d050ae6adf552c3
+    tree: a9b214fb53e07a7f4eba673125b9c4f44d96e31b
+    current: false
+    protected: false
+    remote_head_present: false
+    open_pr_count: 0
+    origin_main_object: 23895d8eddbef7f8a524cd062e818a5c8d9f4c55
+    origin_main_tree: a9b214fb53e07a7f4eba673125b9c4f44d96e31b
+    branch_unique_commits: 1
+    origin_main_unique_commits: 1
+    containment_result: "git merge-base --is-ancestor chore/terminal-closeout-worktree-prompt origin/main -> exit 1"
+    diff_result: "git diff --stat chore/terminal-closeout-worktree-prompt..origin/main -> empty"
+    disposition: retained
+    retention_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T183509Z-terminal-closeout-genericity-stale-branch-retention/change-receipt.json
+    retention_rationale: >-
+      Retained as a local non-authority branch/rollback/review handle because
+      cleanup authorization cannot be emitted without source branch containment
+      in origin/main.
+    review_or_removal_trigger: >-
+      Revisit only after a governed route proves containment and emits
+      branch-cleanup-authorization-v1, records explicit discard authority for
+      the unique local branch commit, or supersedes this retention decision.
+  - ref: refs/remotes/origin/chore/terminal-closeout-worktree-prompt
+    kind: remote_tracking_branch
+    current_state: absent_after_required_fetch_prune
+    disposition: discard_route
+    discard_ref: git fetch origin --prune
+    discard_rationale: >-
+      The remote-tracking ref was a stale local projection of a remote head that
+      no longer exists. The exact object remains retained by the local branch
+      ref and retention receipt.
+detached_worktree_disposition:
+  path: /private/tmp/octon-pr-526-run
+  prior_state: retained pending owner/governed cleanup proof
+  final_disposition: worktree_cleanup_authorized
+  cleanup_authorization_ref: .octon/state/evidence/validation/analysis/20260616T185151Z-octon-pr-526-worktree-cleanup-authorization.yml
+  removal_command: git worktree remove --force /private/tmp/octon-pr-526-run
+  removal_result: completed
+  final_worktree_inventory: >-
+    git worktree list --porcelain now reports only
+    /Users/jamesryancooper/Projects/octon on refs/heads/main.
+  path_absent_check: test ! -e /private/tmp/octon-pr-526-run -> exit 0
+  proof_summary:
+    - PR 526 is merged at 2026-06-15T21:11:57Z.
+    - The detached worktree had no active branch ownership and was not the current worktree.
+    - The detached HEAD was a temporary merge-run commit, not the PR head or final merge commit.
+    - Dirty staged paths were already represented in PR 526 head and final merge commit.
+    - Untracked and ignored files were local publish run/control/evidence and build residue, not required publication state.
+candidates:
+  - candidate_id: retained-local-stale-branch
+    disposition: retained
+    residue_routing_class: foreign_manual_review
+    ownership: >-
+      Local retained branch ref for manual review and rollback context:
+      chore/terminal-closeout-worktree-prompt at
+      dc276baecbdb49627b8d21b68d050ae6adf552c3.
+    route_hint: >-
+      Retain as non-authority branch evidence; deletion still requires
+      closeout-change cleanup authorization or separate discard authority.
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: >-
+      The local branch itself is retained as the rollback/review handle. No
+      discard posture is claimed for the local branch.
+    retention_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T183509Z-terminal-closeout-genericity-stale-branch-retention/change-receipt.json
+    boundaries:
+      include_paths:
+        - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+      exclude_paths:
+        - .git/worktrees/octon-pr-526-run
+        - .octon/state/evidence/runs/skills/closeout-change
+        - .octon/state/evidence/validation/analysis
+        - .gitignored-local-residue
+  - candidate_id: removed-detached-worktree-octon-pr-526-run
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: >-
+      Local detached worktree at /private/tmp/octon-pr-526-run was removed after
+      explicit cleanup proof; retained evidence is the local cleanup
+      authorization and this wrapper report.
+    route_hint: worktree cleanup authorized from retained local proof
+    target_lifecycle_outcome: worktree_cleanup_authorized
+    rollback_or_discard_posture: >-
+      PR 526 final merge commit and tracked evidence remain in repository
+      history. The detached local merge-run worktree had no branch ownership and
+      no unique required publication state.
+    cleanup_authorization_ref: .octon/state/evidence/validation/analysis/20260616T185151Z-octon-pr-526-worktree-cleanup-authorization.yml
+    boundaries:
+      include_paths:
+        - .git/worktrees/octon-pr-526-run
+      exclude_paths:
+        - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+        - .octon/state/evidence/runs/skills/closeout-change
+        - .octon/state/evidence/validation/analysis
+        - .gitignored-local-residue
+  - candidate_id: retained-closeout-evidence-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: >-
+      Local retained closeout evidence from prior and current closeout-change
+      and closeout-worktree runs.
+    route_hint: retained evidence / manual review
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: >-
+      Retain evidence; it is not cleanup authority and deletion would require a
+      separate governed evidence-retention or repo-hygiene route.
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change
+        - .octon/state/evidence/validation/analysis
+      exclude_paths:
+        - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+        - .git/worktrees/octon-pr-526-run
+        - .gitignored-local-residue
+  - candidate_id: ignored-local-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: >-
+      Existing ignored local residue outside route-owned material cleanup
+      authority.
+    route_hint: ignored local residue retained
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: >-
+      Ignored local residue remains untouched and is not cleanup authority.
+    boundaries:
+      include_paths:
+        - .gitignored-local-residue
+      exclude_paths:
+        - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+        - .git/worktrees/octon-pr-526-run
+        - .octon/state/evidence/runs/skills/closeout-change
+        - .octon/state/evidence/validation/analysis
+iterations: []
+delegated_closeout_change_receipts:
+  - candidate_id: retained-local-stale-branch
+    receipt: .octon/state/evidence/runs/skills/closeout-change/20260616T183509Z-terminal-closeout-genericity-stale-branch-retention/change-receipt.json
+    outcome: continued
+    lifecycle_outcome: preserved
+cleanup_discard_actions_performed:
+  - candidate_id: removed-detached-worktree-octon-pr-526-run
+    action: git worktree remove --force /private/tmp/octon-pr-526-run
+    authorization_ref: .octon/state/evidence/validation/analysis/20260616T185151Z-octon-pr-526-worktree-cleanup-authorization.yml
+    result: completed
+retained_residue:
+  - candidate_id: retained-local-stale-branch
+    path: .git/refs/heads/chore/terminal-closeout-worktree-prompt
+    disposition: retained local branch ref for manual review; non-authority rollback and retention evidence only
+  - candidate_id: removed-detached-worktree-octon-pr-526-run
+    path: .git/worktrees/octon-pr-526-run
+    disposition: local worktree metadata removed after explicit cleanup proof; retained as historical cleanup evidence boundary
+  - candidate_id: retained-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change
+    disposition: local retained closeout-change evidence for manual review
+  - candidate_id: retained-closeout-evidence-residue
+    path: .octon/state/evidence/validation/analysis
+    disposition: local retained closeout-worktree analysis evidence for manual review
+  - candidate_id: ignored-local-residue
+    path: .gitignored-local-residue
+    disposition: ignored local residue retained under existing local/manual review boundary
+blockers: []
+final_candidate_dispositions:
+  retained-local-stale-branch:
+    state: retained
+    retention_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T183509Z-terminal-closeout-genericity-stale-branch-retention/change-receipt.json
+  removed-detached-worktree-octon-pr-526-run:
+    state: foreign
+    cleanup_authorization_ref: .octon/state/evidence/validation/analysis/20260616T185151Z-octon-pr-526-worktree-cleanup-authorization.yml
+  retained-closeout-evidence-residue:
+    state: foreign
+  ignored-local-residue:
+    state: foreign
+final_inventory_ref: >-
+  After cleanup: git worktree list --porcelain reports only
+  /Users/jamesryancooper/Projects/octon at
+  23895d8eddbef7f8a524cd062e818a5c8d9f4c55 on refs/heads/main; test ! -e
+  /private/tmp/octon-pr-526-run exits 0. git status --short --branch remains
+  clean of staged/unstaged tracked changes and shows only retained local
+  closeout evidence files as untracked.
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 8
+  ignored: 7824
+  local_branch: 2
+  remote_branch: 2
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 13
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+  publishable_closeout_evidence: 13
+  local_private_retained: 138
+  unsafe: 7686
+  ambiguous: 0
+prior_candidate_reconciliation:
+  prior_report_ref: .octon/state/evidence/validation/analysis/20260616T183620Z-closeout-worktree-terminal-closeout-genericity-retention-resolution.yml
+  candidates:
+    - prior_candidate_id: retained-local-stale-branch
+      current_candidate_id: retained-local-stale-branch
+      disposition: retained
+      rationale: local stale branch remains retained under closeout-change retention receipt
+    - prior_candidate_id: retained-detached-worktree-octon-pr-526-run
+      current_candidate_id: removed-detached-worktree-octon-pr-526-run
+      disposition: folded
+      rationale: prior retained blocker was superseded by explicit cleanup authorization and completed worktree removal
+    - prior_candidate_id: retained-closeout-evidence-residue
+      current_candidate_id: retained-closeout-evidence-residue
+      disposition: foreign
+      rationale: closeout evidence remains retained as non-authority local/manual review evidence
+    - prior_candidate_id: ignored-local-residue
+      current_candidate_id: ignored-local-residue
+      disposition: foreign
+      rationale: ignored local residue remains untouched under local/manual review boundary
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: terminal for detached worktree cleanup; retained local stale branch and closeout evidence remain non-authority retained residue
+validation_commands:
+  - command: git worktree list --porcelain
+    result: only the main worktree remains after cleanup
+  - command: test ! -e /private/tmp/octon-pr-526-run
+    result: exit 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root .
+    result: staged=0; unstaged-tracked=0; untracked=8 after this report; ignored=7824; retained-evidence=13 after this report
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report .octon/state/evidence/validation/analysis/20260616T185402Z-closeout-worktree-octon-pr-526-worktree-cleanup.yml
+    result: pending
+proposal_local_packet_files_used_as_closeout_authority: false

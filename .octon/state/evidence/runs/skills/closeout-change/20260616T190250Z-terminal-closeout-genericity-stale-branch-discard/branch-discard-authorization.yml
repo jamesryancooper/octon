@@ -1,0 +1,72 @@
+schema_version: branch-discard-authorization-v1
+authorization_result: approved
+run_id: 20260616T190250Z-terminal-closeout-genericity-stale-branch-discard
+route_entered: closeout-change
+target: refs/heads/chore/terminal-closeout-worktree-prompt
+detection_is_deletion_authority: false
+cleanup_not_from_detection_only: true
+operator_request:
+  requested_action: remove redundant local stale branch ref
+  request_text: Ok. Remove it.
+authority_boundary:
+  factual_authority:
+    - current repository state after git fetch origin --prune
+    - git tree equality proof between the stale branch and origin/main
+    - empty git diff proof between the stale branch and origin/main
+    - open PR query for the branch head
+    - closeout-change branch cleanup and safe cleanup policy
+  non_authority:
+    - proposal-local packet files
+    - packet-local orchestration prompt
+    - detection-only gone/upstream state
+    - chat transcript as factual repository evidence
+branch_ref:
+  name: chore/terminal-closeout-worktree-prompt
+  full_ref: refs/heads/chore/terminal-closeout-worktree-prompt
+  tip: dc276baecbdb49627b8d21b68d050ae6adf552c3
+  tree: a9b214fb53e07a7f4eba673125b9c4f44d96e31b
+  subject: "docs(proposals): add closeout worktree orchestration prompt"
+main_refs:
+  local_main: 23895d8eddbef7f8a524cd062e818a5c8d9f4c55
+  origin_main: 23895d8eddbef7f8a524cd062e818a5c8d9f4c55
+  origin_main_tree: a9b214fb53e07a7f4eba673125b9c4f44d96e31b
+proofs:
+  current_branch: main
+  branch_is_current: false
+  branch_is_protected: false
+  remote_head_present: false
+  open_pr_count: 0
+  origin_main_contains_branch_tip: false
+  tree_equals_origin_main: true
+  diff_against_origin_main_empty: true
+  unique_commits_relative_to_origin_main:
+    - dc276baecbdb49627b8d21b68d050ae6adf552c3
+  unique_commit_needs_retention: false
+  retention_reason_not_required: >-
+    The branch's unique commit does not carry unique tree content relative to
+    origin/main; the current main tree already contains the branch's changes.
+disposition:
+  selected: discard_route
+  cleanup_authorized: false
+  cleanup_authorized_reason: >-
+    Ordinary branch cleanup is not claimed because the branch tip is not
+    ancestor-contained in origin/main.
+  discard_authorized: true
+  discard_rationale: >-
+    The local branch is redundant: it is non-current, has no remote head, has no
+    open PR, and has the same tree/content as origin/main. Operator requested
+    removal after these facts were reported.
+  rollback_posture: >-
+    The exact tip SHA, tree SHA, subject, and proof are retained in this
+    authorization receipt. Restoring the local label, if ever needed, can be
+    done with git branch chore/terminal-closeout-worktree-prompt
+    dc276baecbdb49627b8d21b68d050ae6adf552c3.
+authorized_action:
+  command: git branch -D chore/terminal-closeout-worktree-prompt
+  scope:
+    - refs/heads/chore/terminal-closeout-worktree-prompt
+  excluded_scope:
+    - refs/heads/main
+    - refs/remotes/origin/main
+    - /Users/jamesryancooper/Projects/octon
+    - .octon/state/evidence

@@ -1,0 +1,5 @@
+[DRY] git -C /Users/jamesryancooper/Projects/octon fetch --prune origin
+[OK] origin/main contains landed ref
+[OK] main contains landed ref
+[ERROR] local source branch is contained in origin/main failed.
+[INFO] Governed rerun path: rerun this same helper in an environment authorized for the required git fetch, remote-check, push, ref-write, or provider PR lookup operation. Do not bypass platform, sandbox, provider, or host controls.

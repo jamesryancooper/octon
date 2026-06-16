@@ -1,0 +1,61 @@
+schema_version: structured-receipt-v1
+artifact_kind: structured-receipt
+artifact_id: 20260616T174741Z-terminal-closeout-genericity-stale-branch-structured-receipt
+authority_status: retained-evidence-aid non-authoritative
+producer:
+  id: closeout-change
+  produced_at: 2026-06-16T17:47:41Z
+consumer:
+  default_reader: closeout-change
+  model_route: compact-default
+reader_preference:
+  default: structured
+  raw_default: false
+model_visible_token_estimate: 1200
+source_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/change-receipt.json
+  - .octon/state/evidence/validation/analysis/20260616T174741Z-change-closeout-terminal-closeout-genericity-stale-branch.md
+  - .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/run-log.md
+source_digests:
+  - source_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/change-receipt.json
+    sha256: sha256:aee4922d244e9169bbbeba97b6157e07000373b6f24722a8dc34b500cd2d5579
+  - source_ref: .octon/state/evidence/validation/analysis/20260616T174741Z-change-closeout-terminal-closeout-genericity-stale-branch.md
+    sha256: sha256:ab6f32a59e8b1231eb64bd4cb1a0f1773a1d0556c6fc92d21230bda31ae48b68
+  - source_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/run-log.md
+    sha256: sha256:22d8fa8c2a7ba8eb099dca85b09e7f2f74f7e9b64b8231cfe478a60d848aeb94
+evidence_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/branch-cleanup-authorization-dry-run.log
+  - .octon/state/evidence/validation/analysis/20260616T173322Z-closeout-worktree-terminal-closeout-genericity-policy-fixture.yml
+validation:
+  status: valid
+  validator: validate-structured-receipt-artifacts.sh
+  validation_refs:
+    - pending-current-run-validation
+freshness:
+  state: fresh
+failure_behavior:
+  on_missing_source: fail_closed
+  on_digest_mismatch: fail_closed
+  on_stale_freshness: fail_closed
+  on_authority_conflict: fail_closed
+authority_boundary:
+  proposal_inputs_authoritative: false
+  generated_outputs_authoritative: false
+  raw_evidence_replaced: false
+  engine_authorization_bypassed: false
+route:
+  entered: closeout-change
+  selected: branch-no-pr
+  target_lifecycle_outcome: cleaned
+  lifecycle_outcome: blocked
+candidate:
+  id: stale-equivalent-branch-residue
+  disposition: blocked
+blockers:
+  - source branch is not contained in origin/main
+  - branch cleanup authorization receipt was not emitted
+rollback_refs:
+  - chore/terminal-closeout-worktree-prompt@dc276baecbdb49627b8d21b68d050ae6adf552c3
+exclusions:
+  - proposal packet paths remain excluded and advisory only
+  - detached dirty worktree remains excluded

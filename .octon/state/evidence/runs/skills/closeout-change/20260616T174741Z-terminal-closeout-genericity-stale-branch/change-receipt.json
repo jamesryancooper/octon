@@ -1,0 +1,95 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "terminal-closeout-genericity-stale-branch",
+  "selected_route": "branch-no-pr",
+  "initial_route": "branch-no-pr",
+  "route_transition_authority": "none",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "blocked",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Continue the closeout-worktree selected stale-equivalent branch-ref cleanup candidate through singular closeout-change without touching excluded proposal packet, wrapper evidence, ignored local residue, or detached worktree content.",
+  "scope": {
+    "summary": "Branch-ref cleanup candidate for chore/terminal-closeout-worktree-prompt. The branch tree equals origin/main, but governed cleanup authorization requires ancestor containment in origin/main and the source branch fails that proof.",
+    "touched_paths": [
+      ".git/refs/heads/chore/terminal-closeout-worktree-prompt",
+      ".git/refs/remotes/origin/chore/terminal-closeout-worktree-prompt"
+    ],
+    "diff_refs": [
+      "main@23895d8eddbef7f8a524cd062e818a5c8d9f4c55",
+      "origin/main@23895d8eddbef7f8a524cd062e818a5c8d9f4c55",
+      "chore/terminal-closeout-worktree-prompt@dc276baecbdb49627b8d21b68d050ae6adf552c3",
+      "origin/chore/terminal-closeout-worktree-prompt@dc276baecbdb49627b8d21b68d050ae6adf552c3",
+      "tree-equivalence:a9b214fb53e07a7f4eba673125b9c4f44d96e31b"
+    ],
+    "excluded_paths": [
+      ".octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture/",
+      ".octon/state/evidence/validation/analysis/20260616T173322Z-closeout-worktree-terminal-closeout-genericity-policy-fixture.yml",
+      ".gitignored-local-residue",
+      ".git/worktrees/octon-pr-526-run"
+    ]
+  },
+  "source_branch_ref": "chore/terminal-closeout-worktree-prompt",
+  "target_branch_ref": "origin/main",
+  "landing_evaluation": {
+    "status": "blocked",
+    "source_ref": "dc276baecbdb49627b8d21b68d050ae6adf552c3",
+    "target_ref": "23895d8eddbef7f8a524cd062e818a5c8d9f4c55",
+    "blocker_reason": "No landing or cleanup mutation was performed. The cleanup authorization helper failed because local source branch chore/terminal-closeout-worktree-prompt is not contained in origin/main.",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/branch-cleanup-authorization-dry-run.log",
+      ".octon/state/evidence/validation/analysis/20260616T173322Z-closeout-worktree-terminal-closeout-genericity-policy-fixture.yml",
+      "git merge-base --is-ancestor chore/terminal-closeout-worktree-prompt origin/main -> exit 1",
+      "git diff --stat chore/terminal-closeout-worktree-prompt..origin/main -> empty",
+      "git rev-parse chore/terminal-closeout-worktree-prompt^{tree} origin/main^{tree} -> both a9b214fb53e07a7f4eba673125b9c4f44d96e31b"
+    ]
+  },
+  "not_landed_reason": "The selected candidate is a branch-ref cleanup candidate, but the source branch is not ancestor-contained in origin/main. Tree equivalence does not satisfy the governed branch cleanup authorization helper's source-branch containment requirement.",
+  "not_cleaned_reason": "Branch cleanup authorization was not emitted because source branch containment in origin/main failed; deleting or pruning the local branch or stale remote-tracking ref would be cleanup without valid route-owned authorization.",
+  "landing_stop_reason": "source_branch_stale",
+  "cleanup_stop_reason": "containment_missing",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "deferred",
+  "source_branch_cleanup": {
+    "status": "blocked",
+    "local_branch": "chore/terminal-closeout-worktree-prompt",
+    "remote_branch": "origin/chore/terminal-closeout-worktree-prompt",
+    "blocker_reason": "Governed branch cleanup authorization requires source branch containment in origin/main. The helper dry-run failed that proof and no authorization receipt was written.",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/branch-cleanup-authorization-dry-run.log"
+    ]
+  },
+  "external_blocker_refs": [
+    ".octon/state/evidence/validation/analysis/20260616T173322Z-closeout-worktree-terminal-closeout-genericity-policy-fixture.yml",
+    ".octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/branch-cleanup-authorization-dry-run.log"
+  ],
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/branch-cleanup-authorization-dry-run.log",
+    "git status --short --branch --untracked-files=all -> wrapper report only before this closeout evidence was written",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root . -> untracked=1 retained-evidence=1 publishable_closeout_evidence=1 before this closeout evidence was written",
+    "git diff --check -> pass before this closeout evidence was written"
+  ],
+  "durable_history": {
+    "kind": "branch",
+    "ref": "dc276baecbdb49627b8d21b68d050ae6adf552c3",
+    "branch": "chore/terminal-closeout-worktree-prompt"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/terminal-closeout-worktree-prompt@dc276baecbdb49627b8d21b68d050ae6adf552c3",
+    "instructions": "No mutation occurred in this closeout-change run. Preserve the branch refs until a future route either proves containment and cleanup authorization, records explicit retention authority, or supplies a governed discard route."
+  },
+  "review_waiver_refs": [
+    "No PR was opened or updated. This route recorded blocker evidence only for a closeout-worktree delegated branch-ref cleanup candidate."
+  ],
+  "closeout_outcome": "blocked",
+  "remaining_blockers": [
+    "chore/terminal-closeout-worktree-prompt is not ancestor-contained in origin/main, so branch-cleanup-authorization-v1 cannot be emitted by the governed helper.",
+    "The branch tree equals origin/main, but tree equivalence alone is not deletion authority under the branch cleanup helper.",
+    "No local branch deletion, remote-tracking ref pruning, fetch/prune mutation, reset, restore, overwrite, PR action, or branch cleanup was performed.",
+    "The dirty detached worktree at /private/tmp/octon-pr-526-run remains outside this candidate and is still excluded from this closeout-change route."
+  ],
+  "created_at": "2026-06-16T17:47:41Z",
+  "updated_at": "2026-06-16T17:47:41Z"
+}

@@ -1,0 +1,112 @@
+schema_version: detached-worktree-cleanup-authorization-v1
+authorization_result: approved
+run_id: 20260616T185151Z-octon-pr-526-worktree-cleanup-authorization
+route_entered: closeout-worktree
+target_worktree: /private/tmp/octon-pr-526-run
+cleanup_action_authorized: git worktree remove --force /private/tmp/octon-pr-526-run
+detection_is_deletion_authority: false
+cleanup_not_from_detection_only: true
+authority_boundary:
+  factual_authority:
+    - current Git worktree inventory
+    - current detached worktree non-destructive status inspection
+    - GitHub PR 526 merged state
+    - PR 526 head and merge commit object identity
+    - path-level comparison of dirty staged files against PR 526 head and merge commit
+    - current repository reference search for detached-worktree run IDs
+    - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+  non_authority:
+    - proposal-local packet files
+    - packet-local orchestration prompt
+    - chat transcript
+    - detection-only dirty status
+worktree_identity:
+  path: /private/tmp/octon-pr-526-run
+  is_git_worktree: true
+  current_worktree: false
+  detached: true
+  active_branch_ownership: none
+  head: 7d7c6add28dd941c7f7c18d62887940e732927ee
+  head_summary: Merge b1179e0cfe495408736047f85e71c16835877a3a into a97ff51d7c611c5ae8e6fafbcae95365a58f63bd
+  parent_refs:
+    - a97ff51d7c611c5ae8e6fafbcae95365a58f63bd
+    - b1179e0cfe495408736047f85e71c16835877a3a
+pr_context:
+  pr_number: 526
+  pr_url: https://github.com/jamesryancooper/octon/pull/526
+  pr_title: "chore(main): release octon 0.6.93"
+  pr_state: MERGED
+  merged_at: 2026-06-15T21:11:57Z
+  base_ref: main
+  head_ref: release-please--branches--main--components--octon
+  head_ref_oid: 7cfae850e5a588071e09b612ebd967e357391f98
+  merge_commit: 958d025d1066c9238861e8b864231dcf4b2c72da
+content_classification:
+  status_branch: "## HEAD (no branch)"
+  staged_paths: 59
+  unstaged_tracked_paths: 0
+  untracked_paths: 106
+  ignored_paths: 7729
+  status_code_counts:
+    "M ": 13
+    "A ": 46
+    "??": 106
+    "!!": 7729
+  staged_classes:
+    - generated_effective_output
+    - state_control
+    - retained_validation_evidence
+    - retained_decision_evidence
+  untracked_classes:
+    - continuity_run_state
+    - execution_control_state
+    - control_execution_evidence
+    - external_index_evidence
+  ignored_classes:
+    - generated_tmp_build_residue
+    - ignored_publish_run_residue
+    - ignored_kernel_or_disclosure_run_residue
+proofs:
+  non_current_worktree: true
+  detached_no_active_branch: true
+  no_open_pr_dependency: true
+  pr_dependency_resolution: PR 526 is merged; this worktree is not the PR head or final merge commit.
+  staged_content_not_unique:
+    result: true
+    evidence: 59 staged paths matched PR 526 head and PR 526 final merge commit at the same paths.
+  untracked_content_not_published:
+    result: true
+    evidence: 106 untracked paths were absent from origin/main, PR 526 head, and PR 526 merge commit.
+  untracked_content_classification: local publish run/control/evidence residue under .octon/state/continuity, .octon/state/control/execution, .octon/state/evidence/control/execution, and .octon/state/evidence/external-index.
+  ignored_content_classification:
+    result: local ignored build/run residue
+    ignored_digest: sha256:d615e66acfe30412cc39a1c9721dc85d62340483b61d9880b06a8de88a940cc3
+    ignored_roots:
+      - .octon/generated/.tmp/engine/build
+      - .octon/state/evidence/runs/publish-1781556408877-86683
+      - .octon/state/evidence/runs/publish-1781556601961-43032
+      - .octon/state/evidence/runs/publish-1781556624181-51574
+      - .octon/state/evidence/runs/publish-1781556632816-52333
+      - .octon/state/evidence/runs/kernel
+      - .octon/state/evidence/disclosure/runs
+  current_repo_run_id_search:
+    result: no retained run directories for publish-1781556408877-86683, publish-1781556601961-43032, publish-1781556624181-51574, or publish-1781556632816-52333 exist in the main worktree.
+    retained_reference: current tracked acp-decisions.jsonl contains decision-log entries for those publish run IDs.
+cleanup_safety_disposition:
+  disposition: worktree_cleanup_authorized
+  contents_needed_for_current_repo: false
+  contents_needed_for_pr_526_merge: false
+  dirty_contents_required_publication_state: false
+  dirty_contents_required_retained_evidence: false
+  dirty_contents_user_owned: false
+  rollback_posture: PR 526 final merge commit and tracked evidence remain in repository history; the detached worktree has no branch ownership.
+  removal_scope:
+    - /private/tmp/octon-pr-526-run
+    - .git/worktrees/octon-pr-526-run
+  excluded_scope:
+    - /Users/jamesryancooper/Projects/octon
+    - refs/heads/main
+    - refs/heads/chore/terminal-closeout-worktree-prompt
+    - .octon/state/evidence/validation/analysis
+    - .octon/state/evidence/runs/skills/closeout-change

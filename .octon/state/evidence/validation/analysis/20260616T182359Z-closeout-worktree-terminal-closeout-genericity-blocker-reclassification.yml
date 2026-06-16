@@ -1,0 +1,262 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: 20260616T182359Z-closeout-worktree-terminal-closeout-genericity-blocker-reclassification
+route_entered: closeout-worktree
+target: terminal-closeout-genericity-policy-fixture
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  transitional_exception_note: none
+authority_boundary:
+  factual_authority:
+    - current repository state
+    - retained closeout evidence
+    - deterministic validator and helper output
+    - .octon/framework/product/contracts/default-work-unit.yml
+    - .octon/framework/product/contracts/change-closeout-state-machine.yml
+    - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+  non_authority:
+    - proposal-local packet files
+    - packet-local orchestration prompt
+    - generated outputs without route-owned receipt authority
+    - host state
+    - chat transcript or model memory
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+repo_hygiene_cleanup_outcome: not-applicable
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+initial_inventory_ref: >-
+  2026-06-16T18:23:59Z inventory: branch=main; HEAD=main=origin/main=23895d8eddbef7f8a524cd062e818a5c8d9f4c55; local branches main and chore/terminal-closeout-worktree-prompt@dc276baecbdb49627b8d21b68d050ae6adf552c3; remote-tracking refs origin/main and stale origin/chore/terminal-closeout-worktree-prompt@dc276baecbdb49627b8d21b68d050ae6adf552c3; worktrees main plus detached /private/tmp/octon-pr-526-run@7d7c6add28dd941c7f7c18d62887940e732927ee; main worktree status contains only closeout evidence paths before this report.
+residue_classification_ref: >-
+  bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root . at 2026-06-16T18:23:59Z: staged=0, unstaged-tracked=0, untracked=3, ignored=7824, local-branch=2, remote-branch=3, retained-evidence=8, publishable_closeout_evidence=8, local_private_retained=138, unsafe=7686, ambiguous=0.
+prior_blocker_ref: .octon/state/evidence/validation/analysis/20260616T174741Z-change-closeout-terminal-closeout-genericity-stale-branch.md
+observed_change_set_count: 4
+selected_candidate_id: stale-equivalent-branch-refs
+stale_branch_refs_observed:
+  - ref: refs/heads/chore/terminal-closeout-worktree-prompt
+    kind: local_branch
+    object: dc276baecbdb49627b8d21b68d050ae6adf552c3
+    tree: a9b214fb53e07a7f4eba673125b9c4f44d96e31b
+    remote_head_present: false
+    open_pr_count: 0
+    origin_main_object: 23895d8eddbef7f8a524cd062e818a5c8d9f4c55
+    origin_main_tree: a9b214fb53e07a7f4eba673125b9c4f44d96e31b
+    containment_result: "git merge-base --is-ancestor chore/terminal-closeout-worktree-prompt origin/main -> exit 1"
+    disposition: blocked
+    blocker: cleanup_authorization_absent_source_branch_not_ancestor_contained
+  - ref: refs/remotes/origin/chore/terminal-closeout-worktree-prompt
+    kind: remote_tracking_branch
+    object: dc276baecbdb49627b8d21b68d050ae6adf552c3
+    remote_head_present: false
+    open_pr_count: 0
+    disposition: blocked
+    blocker: prune_or_delete_requires_governed_cleanup_or_discard_authority
+detached_worktree_inspection:
+  path: /private/tmp/octon-pr-526-run
+  is_git_worktree: true
+  toplevel: /private/tmp/octon-pr-526-run
+  branch: HEAD
+  detached: true
+  head: 7d7c6add28dd941c7f7c18d62887940e732927ee
+  status_branch: "## HEAD (no branch)"
+  staged_paths: 59
+  unstaged_tracked_paths: 0
+  untracked_paths: 106
+  ignored_paths: 7729
+  full_status_path_count: 7894
+  full_status_digest: sha256:aafbd2cb3cfa4a24e2cd1fa62a0f4e986c32fed97fa1e6da3c0bac1fc9f85398
+  staged_diff_stat: "59 files changed, 4208 insertions(+), 282 deletions(-)"
+  classification:
+    user_owned: ambiguous
+    retained_evidence: present
+    generated_residue: present
+    disposable_residue: unproven
+    ambiguous: present
+    unsafe: present
+  disposition: blocked
+  blocker: dirty_detached_worktree_contains_staged_generated_state_control_and_evidence_bearing_paths
+candidates:
+  - candidate_id: stale-equivalent-branch-refs
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: >-
+      Git branch-ref residue for chore/terminal-closeout-worktree-prompt. The local branch and stale remote-tracking ref are tree-equivalent to origin/main, but the local branch is not ancestor-contained in origin/main.
+    route_hint: >-
+      Branch cleanup belongs to closeout-change and requires branch-cleanup-authorization-v1, explicit retention authority, or a governed discard route before any ref deletion or pruning.
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: >-
+      No mutation occurred. Both refs remain preserved as rollback handles; tree equivalence is not discard authority.
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/change-receipt.json
+    boundaries:
+      include_paths:
+        - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+        - .git/refs/remotes/origin/chore/terminal-closeout-worktree-prompt
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture
+        - .octon/state/evidence/validation/analysis/20260616T173322Z-closeout-worktree-terminal-closeout-genericity-policy-fixture.yml
+        - .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch
+        - .git/worktrees/octon-pr-526-run
+        - .gitignored-local-residue
+  - candidate_id: detached-dirty-worktree-octon-pr-526-run
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: >-
+      Detached Git worktree metadata for /private/tmp/octon-pr-526-run; the worktree is detached at 7d7c6add28dd941c7f7c18d62887940e732927ee and dirty.
+    route_hint: >-
+      Worktree removal requires explicit worktree cleanup safety proof. Dirty contents that include generated effective state, state-control files, validation evidence, and execution residue require owner handling or governed retention/discard evidence.
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: >-
+      No removal, reset, restore, or clean operation occurred. The worktree remains intact because disposable, non-evidence-bearing status is unproven.
+    boundaries:
+      include_paths:
+        - .git/worktrees/octon-pr-526-run
+      exclude_paths:
+        - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+        - .git/refs/remotes/origin/chore/terminal-closeout-worktree-prompt
+        - .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch
+        - .gitignored-local-residue
+  - candidate_id: closeout-route-evidence
+    disposition: deferred
+    residue_routing_class: publishable_closeout_evidence
+    ownership: >-
+      Closeout wrapper and delegated closeout-change evidence created to preserve the nonterminal stale-branch and dirty-worktree blocker record.
+    route_hint: >-
+      Keep as closeout evidence until a future closeout-worktree route either resolves the stale refs and detached worktree or records a governed terminal retained-residue state.
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: >-
+      Evidence is retained; it is not cleanup authority and does not authorize deleting refs, pruning remote-tracking refs, or removing worktrees.
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch
+        - .octon/state/evidence/validation/analysis/20260616T173322Z-closeout-worktree-terminal-closeout-genericity-policy-fixture.yml
+        - .octon/state/evidence/validation/analysis/20260616T174741Z-change-closeout-terminal-closeout-genericity-stale-branch.md
+        - .octon/state/evidence/validation/analysis/20260616T182359Z-closeout-worktree-terminal-closeout-genericity-blocker-reclassification.yml
+      exclude_paths:
+        - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+        - .git/refs/remotes/origin/chore/terminal-closeout-worktree-prompt
+        - .git/worktrees/octon-pr-526-run
+        - .gitignored-local-residue
+  - candidate_id: ignored-local-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: >-
+      Existing ignored local residue outside the closeout-change branch-ref candidate and outside route-owned wrapper evidence.
+    route_hint: >-
+      Manual or repo-hygiene classification only; the closeout-worktree wrapper did not delete ignored local residue.
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: >-
+      Ignored local residue remains untouched and is not used as cleanup authority.
+    boundaries:
+      include_paths:
+        - .gitignored-local-residue
+      exclude_paths:
+        - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+        - .git/refs/remotes/origin/chore/terminal-closeout-worktree-prompt
+        - .git/worktrees/octon-pr-526-run
+        - .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch
+iterations:
+  - iteration_id: delegated-stale-branch-cleanup-blocked
+    pre_inventory_ref: >-
+      main/origin-main aligned at 23895d8eddbef7f8a524cd062e818a5c8d9f4c55; stale branch refs chore/terminal-closeout-worktree-prompt and origin/chore/terminal-closeout-worktree-prompt at dc276baecbdb49627b8d21b68d050ae6adf552c3.
+    pre_classification_ref: >-
+      stale branch tree equals origin/main tree a9b214fb53e07a7f4eba673125b9c4f44d96e31b, remote head absent, open PR list empty, containment check fails with exit 1.
+    selected_candidate_id: stale-equivalent-branch-refs
+    include_paths:
+      - .git/refs/heads/chore/terminal-closeout-worktree-prompt
+      - .git/refs/remotes/origin/chore/terminal-closeout-worktree-prompt
+    exclude_paths:
+      - .octon/inputs/exploratory/proposals/policy/terminal-closeout-genericity-policy-fixture
+      - .octon/state/evidence/validation/analysis/20260616T173322Z-closeout-worktree-terminal-closeout-genericity-policy-fixture.yml
+      - .git/worktrees/octon-pr-526-run
+      - .gitignored-local-residue
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/change-receipt.json
+    closeout_change_outcome: blocked
+    post_inventory_ref: >-
+      No local branch deletion, remote-tracking prune, fetch/prune mutation, staging, commit, push, PR action, reset, restore, overwrite, or worktree cleanup occurred.
+    post_classification_ref: >-
+      Branch cleanup authorization dry-run failed: local source branch is contained in origin/main failed.
+    next_selection_reason: >-
+      Continue closeout-worktree only after governed cleanup authorization, explicit retention authority, or governed discard authority exists for the stale refs; dirty detached worktree remains separately blocked.
+delegated_closeout_change_receipts:
+  - candidate_id: stale-equivalent-branch-refs
+    receipt: .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/change-receipt.json
+    report: .octon/state/evidence/validation/analysis/20260616T174741Z-change-closeout-terminal-closeout-genericity-stale-branch.md
+    blocker_log: .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/branch-cleanup-authorization-dry-run.log
+    outcome: blocked
+retained_residue:
+  - candidate_id: ignored-local-residue
+    path: .gitignored-local-residue
+    disposition: foreign ignored local residue retained for manual review; no cleanup performed by closeout-worktree.
+blockers:
+  - candidate_id: stale-equivalent-branch-refs
+    blocker: cleanup_authorization_absent
+    reason: >-
+      branch-cleanup-authorization-v1 was not emitted because git merge-base --is-ancestor chore/terminal-closeout-worktree-prompt origin/main returned exit 1; tree equivalence does not satisfy source-branch containment.
+    blocker_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/branch-cleanup-authorization-dry-run.log
+    next_route_condition: >-
+      Provide governed containment and cleanup authorization, explicit retention authority, or a governed discard route before deleting or pruning the stale branch refs.
+  - candidate_id: detached-dirty-worktree-octon-pr-526-run
+    blocker: dirty_worktree_cleanup_safety_unproven
+    reason: >-
+      /private/tmp/octon-pr-526-run is a detached Git worktree with 59 staged paths, 106 untracked paths, and 7729 ignored paths, including generated effective files, state-control files, validation evidence, and execution residue. Disposable and non-evidence-bearing status is unproven.
+    blocker_ref: git worktree list --porcelain plus git -C /private/tmp/octon-pr-526-run status --short --branch --untracked-files=all
+    next_route_condition: >-
+      Owner handling, explicit retention authority, governed discard proof, or worktree cleanup safety proof is required before removal or cleaning.
+  - candidate_id: closeout-route-evidence
+    blocker: nonterminal_closeout_evidence
+    reason: >-
+      Closeout evidence remains because the stale refs and dirty detached worktree are unresolved; it is evidence only and not cleanup authority.
+    blocker_ref: .octon/state/evidence/validation/analysis/20260616T182359Z-closeout-worktree-terminal-closeout-genericity-blocker-reclassification.yml
+final_candidate_dispositions:
+  stale-equivalent-branch-refs:
+    state: blocked
+    reason: cleanup_authorization_absent_source_branch_not_ancestor_contained
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260616T174741Z-terminal-closeout-genericity-stale-branch/change-receipt.json
+  detached-dirty-worktree-octon-pr-526-run:
+    state: blocked
+    reason: dirty detached worktree contains staged and untracked evidence-bearing or authority-sensitive paths; no worktree cleanup safety proof exists.
+  closeout-route-evidence:
+    state: deferred
+    reason: retained as closeout evidence until the unresolved refs and detached worktree receive governed disposition.
+  ignored-local-residue:
+    state: foreign
+    reason: ignored local residue remains outside route-owned cleanup authority.
+final_inventory_ref: >-
+  After this report is written, main remains on main with HEAD=main=origin/main=23895d8eddbef7f8a524cd062e818a5c8d9f4c55; stale refs remain present; detached worktree /private/tmp/octon-pr-526-run remains present and dirty; no direct material cleanup, ref deletion, worktree removal, reset, restore, clean, stage, commit, push, or PR action was performed.
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 4
+  ignored: 7824
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 9
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+  publishable_change: 0
+  publishable_closeout_evidence: 9
+  local_private_retained: 138
+  fixture_retention_candidate: 0
+  foreign_manual_review: 0
+  unsafe: 7686
+  ambiguous: 0
+worktree_terminal_state: nonterminal
+next_route_condition: >-
+  Nonterminal: stale branch refs require governed cleanup authorization, explicit retention authority, or governed discard authority; detached dirty worktree requires owner handling, explicit retention authority, governed discard proof, or worktree cleanup safety proof. Proposal-local packet files and this wrapper report are not closeout authority.
+cleanup_actions_performed: []
+discard_actions_performed: []
+validation_plan:
+  - bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report .octon/state/evidence/validation/analysis/20260616T182359Z-closeout-worktree-terminal-closeout-genericity-blocker-reclassification.yml
+validation_results:
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report .octon/state/evidence/validation/analysis/20260616T182359Z-closeout-worktree-terminal-closeout-genericity-blocker-reclassification.yml
+    result: passed
+    summary: "Validation summary: errors=0"
