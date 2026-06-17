@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:cefd84341605bf82184f227446700a72c3d44cf7424ede3fe0c56c65f9759b31
+  entry_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-17T13:39:56.755945Z
+  run_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:6e9b01185aa3f13a8120409011f4c7d18a00b8d68cb683cf93800726b57389d2
+  entry_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-17T13:39:56.755945Z
+  run_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal
+run_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-17T13:39:56.755945Z

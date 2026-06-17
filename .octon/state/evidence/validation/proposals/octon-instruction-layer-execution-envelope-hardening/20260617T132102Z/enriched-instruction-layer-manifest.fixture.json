@@ -1,0 +1,56 @@
+{
+  "schema_version": "instruction-layer-manifest-v2",
+  "run_id": "fixture-instruction-layer-envelope-20260617",
+  "run_mode": "run-only",
+  "workspace_charter_refs": [
+    ".octon/instance/charter/workspace.yml"
+  ],
+  "run_contract_ref": ".octon/framework/engine/runtime/spec/execution-authorization-v1.md",
+  "support_target_tuple_id": "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell",
+  "authority_refs": [
+    ".octon/framework/constitution/CHARTER.md",
+    ".octon/framework/capabilities/packs/shell/manifest.yml",
+    ".octon/instance/governance/policies/repo-shell-execution-classes.yml"
+  ],
+  "precedence_stack": [
+    ".octon/framework/constitution/precedence/normative.yml",
+    ".octon/framework/constitution/precedence/epistemic.yml"
+  ],
+  "adapter_projection_refs": [],
+  "capability_pack_refs": [
+    ".octon/framework/capabilities/packs/shell/manifest.yml"
+  ],
+  "execution_class_refs": [
+    "safe-read-only"
+  ],
+  "tool_budget_policy_refs": [
+    ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/safe-read-only"
+  ],
+  "context_layers": [
+    {
+      "layer_id": "repo-shell-read-context",
+      "source_refs": [
+        ".octon/instance/ingress/AGENTS.md",
+        ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json"
+      ],
+      "disclosure_mode": "summarized",
+      "policy_ref": ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/safe-read-only",
+      "summary_ref": ".octon/state/evidence/validation/proposals/octon-instruction-layer-execution-envelope-hardening/20260617T132102Z/context-summary.fixture.md",
+      "raw_payload_refs": [
+        ".octon/state/evidence/validation/proposals/octon-instruction-layer-execution-envelope-hardening/20260617T132102Z/raw-shell-output.fixture.txt"
+      ],
+      "model_visible": true
+    }
+  ],
+  "compaction_refs": [
+    ".octon/state/evidence/validation/proposals/octon-instruction-layer-execution-envelope-hardening/20260617T132102Z/context-summary.fixture.md"
+  ],
+  "raw_payload_refs": [
+    ".octon/state/evidence/validation/proposals/octon-instruction-layer-execution-envelope-hardening/20260617T132102Z/raw-shell-output.fixture.txt"
+  ],
+  "generated_at": "2026-06-17T13:21:02Z",
+  "generated_by": "octon-proposal-lifecycle-run-packet-implementation",
+  "source_digests": [
+    "sha256:0000000000000000000000000000000000000000000000000000000000000000  fixture-only"
+  ]
+}

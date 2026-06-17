@@ -1,0 +1,64 @@
+schema_version: proposal-validation-results-v1
+proposal_id: octon-instruction-layer-execution-envelope-hardening
+generated_at: "2026-06-17T13:21:02Z"
+profile_selection:
+  selected_profile: additive-runtime-contract-hardening
+  rationale: Existing runtime, capability-pack, governance, and assurance surfaces were refined without adding new authority, control, support-target, evidence, or generated-output roots.
+repository_reconnaissance:
+  current_tool_budget_policy_path: .octon/instance/execution-roles/runtime/tool-output-budgets.yml
+  stale_packet_narrative_path: .octon/instance/agency/runtime/tool-output-budgets.yml
+  promotion_targets_only: true
+support_target_non_widening:
+  support_targets_file_changed: false
+  new_support_tuple_count: 0
+  statement: No support-target declarations or support-target admissions were widened.
+validators:
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh
+    exit_code: 0
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh
+    exit_code: 0
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh
+    exit_code: 0
+    result: pass
+    negative_controls: 4
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh
+    exit_code: 0
+    result: pass
+    negative_controls: 4
+  - command: yq -e edited JSON and YAML targets
+    exit_code: 0
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-tool-output-envelope-contracts.sh
+    exit_code: 0
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening --require-implementation-authorization
+    exit_code: 0
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+    exit_code: 0
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+    exit_code: 0
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+    exit_code: 130
+    result: interrupted-after-target-packet-validation
+    note: The command validated the target packet first, then walked 199 proposal manifests including 197 archived architecture packets; the corpus walk was stopped manually.
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh
+    exit_code: 1
+    result: fail
+    blocker: published support-envelope reconciliation is stale
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+    exit_code: 1
+    result: fail
+    blocker: 528 generated run-health files contain stale runtime_route_bundle or pack_routes digests after pack manifest changes; validator reported 1057 errors and no valid health file for negative controls.
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh
+    exit_code: 1
+    result: fail
+    blocker: support-envelope reconciliation and run-health read-model freshness failures
+rollback:
+  posture: single-revert-of-promotion-targets-and-support-evidence
+  generated_outputs_changed: false
+  reason_generated_outputs_not_changed: Generated projection refresh is outside this accepted proposal manifest and requires owning publication route or explicit lifecycle revision.

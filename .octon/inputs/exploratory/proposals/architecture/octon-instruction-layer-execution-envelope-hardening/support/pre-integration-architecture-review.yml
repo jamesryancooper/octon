@@ -1,0 +1,57 @@
+schema_version: architectural-review-support-receipt-v1
+receipt_id: octon-instruction-layer-execution-envelope-hardening-pre-integration-architecture-review-20260617T134728Z
+proposal_path: .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+packet_digest: sha256:d9db47eaf929a1dbf631639b5bdaccdd862e849f1672ead457bca38d73c88af0
+review_mode: pre-integration-architecture-review
+verdict: pass
+unresolved_count: 0
+non_authority_classification: retained-evidence-only
+evidence_refs:
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/target-architecture.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/validation-plan.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/file-change-map.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+  - .octon/framework/constitution/contracts/registry.yml
+  - .octon/framework/engine/runtime/spec/execution-request-v2.schema.json
+  - .octon/framework/engine/runtime/spec/execution-grant-v1.schema.json
+  - .octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json
+  - .octon/framework/capabilities/packs/shell/manifest.yml
+  - .octon/framework/capabilities/packs/repo/manifest.yml
+  - .octon/generated/effective/capabilities/pack-routes.effective.yml
+  - .octon/generated/effective/runtime/route-bundle.yml
+  - .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  - .octon/generated/cognition/projections/materialized/runs
+validator_refs:
+  - validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening --print-digest
+  - validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening --require-implementation-authorization
+  - validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+  - validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+blockers: []
+mode_specific_coverage:
+  authority_boundaries:
+    verdict: pass
+    notes:
+      - The packet keeps user-provided inputs, generated projections, host state, chat transcripts, and proposal support receipts outside runtime authority.
+      - Durable authority remains limited to declared runtime schemas, instance governance policy, capability-pack metadata, admission policy, and assurance validators; generated outputs are refreshed only as derived publication/read-model projections.
+  execution_envelope_depth:
+    verdict: pass
+    notes:
+      - The proposal adds explicit pack, execution-class, tool-budget, context-layer, compaction, and raw-payload-reference signals to existing request, grant, receipt, and manifest surfaces.
+      - These additions harden the existing instruction layer without creating a new control root.
+  lifecycle_ownership:
+    verdict: pass
+    notes:
+      - Implementation remains in the accepted proposal lifecycle route and leaves promotion, closeout, archive, and Change closeout to their owning workflows.
+      - Packet-local stale narrative references to the old agency tool-budget path are treated as narrative drift; durable edits use the current execution-roles runtime policy path.
+  validation_fit:
+    verdict: pass
+    notes:
+      - The proposed new validators and tests directly cover manifest depth and capability envelope normalization.
+      - Architecture conformance integration is additive and does not weaken existing request, grant, receipt, run-control, retained-evidence, publication freshness, or generated read-model checks.
+  rollback_boundaries:
+    verdict: pass
+    notes:
+      - Rollback can remove the additive schema fields, policy cross-references, capability metadata additions, admission additions, validators, tests, and derived generated refreshes without moving packet support artifacts into authority.

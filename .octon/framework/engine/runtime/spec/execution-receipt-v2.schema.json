@@ -35,6 +35,27 @@
     "granted_capabilities": { "type": "array", "items": { "type": "string" } },
     "requested_capability_packs": { "type": "array", "items": { "type": "string" } },
     "granted_capability_packs": { "type": "array", "items": { "type": "string" } },
+    "requested_pack_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "granted_pack_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "execution_class_id": { "type": "string", "minLength": 1 },
+    "execution_class_policy_ref": { "type": "string", "minLength": 1 },
+    "output_envelope_policy_ref": { "type": "string", "minLength": 1 },
+    "raw_payload_required": { "type": "boolean" },
+    "raw_payload_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "output_envelope_ref": { "type": "string", "minLength": 1 },
+    "output_summary_ref": { "type": "string", "minLength": 1 },
     "policy_mode_requested": { "type": "string", "minLength": 1 },
     "policy_mode_effective": { "type": "string", "minLength": 1 },
     "decision": { "type": "string", "enum": ["ALLOW", "STAGE_ONLY", "DENY", "ESCALATE"] },

@@ -3,6 +3,13 @@ policy_id: "repo-shell-execution-classes"
 adapter_id: "repo-shell"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 authority_boundary_ref: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+capability_pack_id: "shell"
+capability_pack_ref: ".octon/framework/capabilities/packs/shell/manifest.yml"
+output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml"
+normalization_contract_refs:
+  - ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json"
 receipt_contract_refs:
   - ".octon/framework/engine/runtime/spec/policy-receipt-v2.schema.json"
   - ".octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json"
@@ -15,8 +22,18 @@ classification_doctrine:
   - "Command and path classes must surface through canonical receipts or checkpoints rather than ad hoc shell output."
 classes:
   - class_id: "safe-read-only"
+    execution_class_id: "safe-read-only"
+    capability_pack_id: "shell"
     route: "allow"
     path_scope: "repo-read-only"
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/safe-read-only"
+    raw_payload_ref_required: true
+    receipt_required_fields:
+      - "requested_pack_ids"
+      - "granted_pack_ids"
+      - "execution_class_id"
+      - "output_envelope_policy_ref"
+      - "raw_payload_refs"
     command_prefixes:
       - "pwd"
       - "ls"
@@ -34,8 +51,18 @@ classes:
       - "git show"
     receipt_reason: "REPO_SHELL_READ_ONLY_ALLOWED"
   - class_id: "workspace-write"
+    execution_class_id: "workspace-write"
+    capability_pack_id: "shell"
     route: "allow"
     path_scope: "repo-workspace-only"
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/workspace-write"
+    raw_payload_ref_required: true
+    receipt_required_fields:
+      - "requested_pack_ids"
+      - "granted_pack_ids"
+      - "execution_class_id"
+      - "output_envelope_policy_ref"
+      - "raw_payload_refs"
     command_prefixes:
       - "apply_patch"
       - "git add"
@@ -45,8 +72,19 @@ classes:
     effect_token_class: "AuthorizedEffect<RepoMutation>"
     receipt_reason: "REPO_SHELL_WORKSPACE_WRITE_ALLOWED"
   - class_id: "broad-verification"
+    execution_class_id: "broad-verification"
+    capability_pack_id: "shell"
     route: "require-preflight"
     requires_workflow: "repo-consequential-preflight"
+    required_preflight_ref: ".octon/framework/orchestration/runtime/workflows/tasks/repo-consequential-preflight/workflow.yml"
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/broad-verification"
+    raw_payload_ref_required: true
+    receipt_required_fields:
+      - "requested_pack_ids"
+      - "granted_pack_ids"
+      - "execution_class_id"
+      - "output_envelope_policy_ref"
+      - "raw_payload_refs"
     command_prefixes:
       - "cargo test"
       - "pytest"
@@ -57,11 +95,31 @@ classes:
     effect_token_class: "AuthorizedEffect<StateControlMutation>"
     receipt_reason: "REPO_SHELL_BROAD_VERIFICATION_REQUIRES_PREFLIGHT"
   - class_id: "blocked-out-of-workspace"
+    execution_class_id: "blocked-out-of-workspace"
+    capability_pack_id: "shell"
     route: "deny"
     path_scope: "outside-repo"
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/blocked-out-of-workspace"
+    raw_payload_ref_required: true
+    receipt_required_fields:
+      - "requested_pack_ids"
+      - "granted_pack_ids"
+      - "execution_class_id"
+      - "output_envelope_policy_ref"
+      - "raw_payload_refs"
     receipt_reason: "REPO_SHELL_OUT_OF_WORKSPACE_DENIED"
   - class_id: "blocked-undeclared-shell-mutation"
+    execution_class_id: "blocked-undeclared-shell-mutation"
+    capability_pack_id: "shell"
     route: "escalate"
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/blocked-undeclared-shell-mutation"
+    raw_payload_ref_required: true
+    receipt_required_fields:
+      - "requested_pack_ids"
+      - "granted_pack_ids"
+      - "execution_class_id"
+      - "output_envelope_policy_ref"
+      - "raw_payload_refs"
     command_prefixes:
       - "rm"
       - "sudo"

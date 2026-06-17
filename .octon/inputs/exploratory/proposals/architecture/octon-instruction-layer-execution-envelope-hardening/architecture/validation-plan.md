@@ -34,10 +34,12 @@ Validate that:
 
 ## 4. Generated-output validation
 
-This packet requires **no new generated family** for closeout. If any compiled capability view is added later, validate that:
+This packet requires **no new generated family** for closeout. Existing generated effective/read-model outputs may be refreshed only by their owning publication or generation scripts after authoritative changes land. Validate that:
 - it is derived from authoritative/control sources
 - it is publication-only
 - runtime does not treat it as new authority
+- support-envelope reconciliation is current
+- run-health read models are current against the refreshed route bundle and pack routes
 
 ## 5. Operator / runtime usability validation
 

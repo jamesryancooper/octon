@@ -1,13 +1,48 @@
 schema_version: "tool-output-budgets-v1"
+policy_id: "repo-tool-output-envelope-policy"
+policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml"
 defaults:
   max_summary_bytes: 1200
   max_evidence_refs: 8
   require_raw_payload_ref: true
   truncation_allowed: true
+  output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#defaults"
+capability_packs:
+  shell:
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#capability_packs/shell"
+    require_raw_payload_ref: true
+    execution_class_refs:
+      - "safe-read-only"
+      - "workspace-write"
+      - "broad-verification"
+      - "blocked-out-of-workspace"
+      - "blocked-undeclared-shell-mutation"
+  repo:
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#capability_packs/repo"
+    require_raw_payload_ref: true
+execution_classes:
+  safe-read-only:
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/safe-read-only"
+    require_raw_payload_ref: true
+  workspace-write:
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/workspace-write"
+    require_raw_payload_ref: true
+  broad-verification:
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/broad-verification"
+    require_raw_payload_ref: true
+  blocked-out-of-workspace:
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/blocked-out-of-workspace"
+    require_raw_payload_ref: true
+  blocked-undeclared-shell-mutation:
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#execution_classes/blocked-undeclared-shell-mutation"
+    require_raw_payload_ref: true
 tools:
   proposal-integrator:
     max_summary_bytes: 900
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#tools/proposal-integrator"
   repo-search:
     max_summary_bytes: 1000
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#tools/repo-search"
   policy-evaluator:
     max_summary_bytes: 1200
+    output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#tools/policy-evaluator"

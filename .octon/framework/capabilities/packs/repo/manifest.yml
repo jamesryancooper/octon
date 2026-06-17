@@ -5,9 +5,21 @@ display_name: "Repo Surface Pack"
 description: "Repo-local file and workflow surfaces bounded by workspace scope and retained evidence."
 runtime_surface_refs:
   - ".octon/framework/engine/runtime/spec/policy-interface-v1.md"
+  - ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json"
   - ".octon/framework/orchestration/runtime/workflows/**"
+output_envelope_policy_ref: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml#capability_packs/repo"
+normalized_receipt_fields:
+  - "requested_pack_ids"
+  - "granted_pack_ids"
+  - "execution_class_id"
+  - "output_envelope_policy_ref"
+  - "raw_payload_refs"
 required_evidence:
   - "authority-decision-artifact"
+  - "execution-receipt"
+  - "raw-payload-ref"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 known_limitations:
   - "Repo scope does not automatically include branch mutation, external network access, or browser automation."

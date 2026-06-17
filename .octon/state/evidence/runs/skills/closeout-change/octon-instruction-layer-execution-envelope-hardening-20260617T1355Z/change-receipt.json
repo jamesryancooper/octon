@@ -1,0 +1,81 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "octon-instruction-layer-execution-envelope-hardening-closeout-20260617T1355Z",
+  "selected_route": "stage-only-escalate",
+  "target_lifecycle_outcome": "blocked",
+  "lifecycle_outcome": "blocked",
+  "outcome_intent": "record-blocker-only",
+  "intent": "Record the implemented proposal packet closeout blocker without mutating Git state while ownership of the remaining dirty worktree residue is unresolved.",
+  "scope": {
+    "summary": "Proposal packet implementation, generated freshness refresh, promotion evidence, packet closeout receipt, and residual publication/control/evidence paths for octon-instruction-layer-execution-envelope-hardening.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening",
+      ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json",
+      ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json",
+      ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json",
+      ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json",
+      ".octon/generated/effective",
+      ".octon/generated/cognition/projections/materialized/runs",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/state/evidence",
+      ".octon/state/control/execution/runs/publish-1781703158850-83886",
+      ".octon/state/control/execution/runs/publish-1781703168768-84779"
+    ],
+    "residue_summary": {
+      "staged": 0,
+      "unstaged_tracked": 554,
+      "untracked": 39,
+      "ignored": 8099,
+      "publishable_change": 555,
+      "publishable_closeout_evidence": 2,
+      "local_private_retained": 139,
+      "fixture_retention_candidate": 15,
+      "unsafe": 8089,
+      "ambiguous": 0
+    },
+    "git_inventory": {
+      "branch": "main",
+      "head": "4840b47830d632059b7b6180db13729e3ecbbbff",
+      "main": "4840b47830d632059b7b6180db13729e3ecbbbff",
+      "origin_main": "4840b47830d632059b7b6180db13729e3ecbbbff"
+    },
+    "diff_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/octon-instruction-layer-execution-envelope-hardening-20260617T1355Z/residue-classification.yml",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/octon-instruction-layer-execution-envelope-hardening-20260617T135051Z/worktree-hygiene.yml"
+    ]
+  },
+  "validation_evidence_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md",
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/octon-instruction-layer-execution-envelope-hardening-20260617T135051Z/worktree-hygiene.yml",
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/octon-instruction-layer-execution-envelope-hardening-20260617T135051Z/lifecycle-interaction-request.json",
+    ".octon/state/evidence/runs/skills/closeout-change/octon-instruction-layer-execution-envelope-hardening-20260617T1355Z/residue-classification.yml"
+  ],
+  "review_evidence_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/pre-integration-architecture-review.yml"
+  ],
+  "durable_history": {
+    "kind": "checkpoint",
+    "ref": ".octon/state/evidence/runs/skills/closeout-change/octon-instruction-layer-execution-envelope-hardening-20260617T1355Z/residue-classification.yml"
+  },
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md",
+    "instructions": "No Git mutation was performed by this Change closeout receipt. Preserve the dirty worktree, then route through closeout-worktree or an operator-scoped closeout-change to partition, stage, commit, publish, or clean only after ownership and cleanup authority are explicit."
+  },
+  "closeout_outcome": "blocked",
+  "remaining_blockers": [
+    "direct-main is ineligible because main is dirty and the current worktree has 554 unstaged tracked paths plus 39 untracked paths",
+    "packet archive remains unauthorized because packet worktree hygiene reports foreign-or-ambiguous paths",
+    "full clean worktree proof requires closeout-worktree decomposition or explicit operator scope resolution"
+  ],
+  "external_blocker_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md",
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/octon-instruction-layer-execution-envelope-hardening-20260617T135051Z/lifecycle-interaction-request.json"
+  ],
+  "created_at": "2026-06-17T13:55:00Z"
+}

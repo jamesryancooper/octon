@@ -19,14 +19,23 @@
 | `/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh` | framework assurance runtime | new | Enforce request/grant/receipt/class/pack/envelope coherence | no | Concept 2 | yes |
 | `/.octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh` | framework assurance runtime | new | Regression coverage for Concept 1 validator | no | Concept 1 | yes |
 | `/.octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh` | framework assurance runtime | new | Regression coverage for Concept 2 validator | no | Concept 2 | yes |
-| `.github/workflows/architecture-conformance.yml` | repo workflow | existing/edit | Call new validators and block drift | no | Concept 1 + 2 | yes |
+| `/.octon/generated/effective/capabilities/pack-routes.effective.yml` | generated effective projection | existing/refresh | Refresh derived capability-pack route publication after pack metadata changes | no; owning generator only | Concept 2 | yes for closeout freshness |
+| `/.octon/generated/effective/capabilities/pack-routes.lock.yml` | generated effective lock | existing/refresh | Refresh digest-bound pack-route publication lock | no; owning generator only | Concept 2 | yes for closeout freshness |
+| `/.octon/generated/effective/runtime/route-bundle.yml` | generated effective projection | existing/refresh | Refresh derived runtime route bundle after pack-route publication refresh | no; owning generator only | Concept 2 | yes for closeout freshness |
+| `/.octon/generated/effective/runtime/route-bundle.lock.yml` | generated effective lock | existing/refresh | Refresh digest-bound runtime route bundle lock | no; owning generator only | Concept 2 | yes for closeout freshness |
+| `/.octon/generated/effective/governance/support-envelope-reconciliation.yml` | generated effective reconciliation | existing/refresh | Refresh support-envelope reconciliation against current effective publications | no; owning generator only | Concept 2 | yes for closeout freshness |
+| `/.octon/generated/cognition/projections/materialized/runs` | generated read-model projection | existing/refresh | Refresh non-authoritative run-health read models after route-bundle and pack-route digest changes | no; owning generator only | Concept 2 | yes for closeout freshness |
+| `/.octon/state/evidence/validation/publication/capabilities` | publication evidence | existing/append | Retain pack-route publication receipts | no | Concept 2 | yes |
+| `/.octon/state/evidence/validation/publication/runtime` | publication evidence | existing/append | Retain runtime route-bundle publication receipts | no | Concept 2 | yes |
+| `/.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health` | validation evidence | existing/refresh | Retain run-health read-model generation evidence | no | Concept 2 | yes |
+| `/.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope` | validation evidence | existing/refresh | Retain support-envelope reconciliation validation evidence | no | Concept 2 | yes |
 
 ## Explicitly unchanged roots
 
 - `/.octon/state/control/**` top-level layout
 - `/.octon/state/evidence/**` top-level layout
 - `/.octon/state/continuity/**`
-- `/.octon/generated/**` top-level families
+- new `/.octon/generated/**` top-level families
 - `/.octon/framework/constitution/contracts/authority/**`
 - `/.octon/instance/governance/support-targets.yml`
 - `/.octon/instance/governance/exclusions/action-classes.yml`

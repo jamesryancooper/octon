@@ -42,13 +42,15 @@ This packet is **proposal-first**. The live repo already has the right class roo
 ## Phase 3 — Assurance and CI hardening
 1. Add `validate-capability-envelope-normalization.sh`.
 2. Add regression tests for receipt coherence and budget/ref-offload behavior.
-3. Extend `.github/workflows/architecture-conformance.yml` so both new validators run on relevant path changes.
-4. Ensure validator failure is blocking before packet closeout.
+3. Run the existing architecture conformance route directly for this packet.
+4. Treat workflow wiring as a later lifecycle-owned follow-up unless it is separately authorized as a promotion target.
+5. Ensure validator failure is blocking before packet closeout.
 
 ## Phase 4 — Evidence and sample-run proof
 1. Produce at least one reference run or synthetic fixture proving enriched instruction-layer manifest output.
 2. Produce at least one reference receipt path proving request / grant / receipt / class / pack / envelope coherence.
-3. Retain validation output sufficient for two consecutive clean passes.
+3. Refresh existing generated effective/read-model outputs only through their owning publication or generation scripts when durability edits make those projections stale.
+4. Retain validation output sufficient for two consecutive clean passes.
 
 ## Phase 5 — Closeout review
 1. Re-check support-target non-widening.

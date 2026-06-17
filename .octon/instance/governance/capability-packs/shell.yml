@@ -3,6 +3,14 @@ pack_id: shell
 status: admitted
 default_route: allow
 contract_ref: .octon/framework/capabilities/packs/shell/manifest.yml
+execution_class_policy_ref: .octon/instance/governance/policies/repo-shell-execution-classes.yml
+output_envelope_policy_ref: .octon/instance/execution-roles/runtime/tool-output-budgets.yml#capability_packs/shell
+required_receipt_fields:
+  - requested_pack_ids
+  - granted_pack_ids
+  - execution_class_id
+  - output_envelope_policy_ref
+  - raw_payload_refs
 support_target_refs:
   - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
   - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell

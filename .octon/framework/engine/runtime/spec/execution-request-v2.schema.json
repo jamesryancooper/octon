@@ -34,6 +34,15 @@
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
     },
+    "requested_pack_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "execution_class_id": { "type": "string", "minLength": 1 },
+    "execution_class_policy_ref": { "type": "string", "minLength": 1 },
+    "output_envelope_policy_ref": { "type": "string", "minLength": 1 },
+    "raw_payload_required": { "type": "boolean" },
     "context_pack_ref": { "type": ["string", "null"] },
     "risk_materiality_ref": { "type": ["string", "null"] },
     "rollback_plan_ref": { "type": ["string", "null"] },

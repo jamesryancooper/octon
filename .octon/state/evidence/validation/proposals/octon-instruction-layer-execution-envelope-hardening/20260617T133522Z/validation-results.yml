@@ -1,0 +1,41 @@
+schema_version: "proposal-validation-results-v1"
+proposal_id: "octon-instruction-layer-execution-envelope-hardening"
+validated_at: "2026-06-17T13:35:22Z"
+verdict: "pass"
+unresolved_items_count: 0
+commands:
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/publish-pack-routes.sh"
+    result: "pass"
+    notes:
+      - "Publication wrapper completed; Rust build emitted deprecation warnings only."
+    evidence_ref: ".octon/state/evidence/validation/publication/capabilities/2026-06-17T13-32-41Z-pack-routes-3d2cc4bb7870.yml"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh"
+    result: "pass"
+    notes:
+      - "Publication wrapper completed; Rust build emitted deprecation warnings only."
+    evidence_ref: ".octon/state/evidence/validation/publication/runtime/2026-06-17T13-32-51Z-runtime-route-bundle-d832aab6f332.yml"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh"
+    result: "pass"
+    evidence_ref: ".octon/generated/effective/governance/support-envelope-reconciliation.yml"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh --all-runs"
+    result: "pass"
+    summary: "Generated 530 run-health read models."
+    evidence_ref: ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+  - command: "OCTON_SUPPORT_ENVELOPE_EVIDENCE_DIR=.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh"
+    result: "pass"
+    summary: "Validation summary: errors=0"
+    evidence_ref: ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope/validation-receipt.yml"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+    result: "pass"
+    summary: "Validated health files: 530; errors=0"
+    evidence_ref: ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
+    result: "pass"
+    summary: "Validation summary: errors=0"
+freshness:
+  support_envelope_reconciliation: "pass"
+  run_health_read_model: "pass"
+  architecture_conformance: "pass"
+non_authority:
+  generated_outputs: "derived-only"
+  direct_generated_output_edit_used: false
