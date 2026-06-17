@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:09e8740a280beb2bea4106ecb989d910235ba6cf2fe5bcbe502f790734805c1d
+  entry_id: proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-17T00:13:00.713295Z
+  run_id: proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:2c824533783b550575689da820bee96a6eb531b110114a0e5559159eae962eaa
+  entry_id: proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-17T00:13:00.713295Z
+  run_id: proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene
+  storage_class: external-immutable
+index_id: external-replay-proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene
+run_id: proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-17T00:13:00.713295Z

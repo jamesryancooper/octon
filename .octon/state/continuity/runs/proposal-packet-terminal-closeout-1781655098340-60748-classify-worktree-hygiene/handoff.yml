@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: classify-worktree-hygiene--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655098340-60748/run-contract.yml
+next_action: null
+updated_at: 2026-06-17T00:13:04.775724Z

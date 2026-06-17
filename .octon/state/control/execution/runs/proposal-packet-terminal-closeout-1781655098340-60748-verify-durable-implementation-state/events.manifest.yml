@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+ledger_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:8da8c38e73b575cb8f432fbab331563befdcafb326bd38b022a8153763077b44
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  sequence: 1
+  event_hash: sha256:476f8833c459e7d2605bff14697f4149c1b7940cb211b1818e1f7208dd38de0b
+last_event_ref:
+  event_id: evt-run-closed-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  sequence: 29
+  event_hash: sha256:cc6dcf27b9e12adaf98002e10e8ac3422b915521c6cc116a5eba5ede1c35d45d
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:476f8833c459e7d2605bff14697f4149c1b7940cb211b1818e1f7208dd38de0b
+  tail_event_hash: sha256:cc6dcf27b9e12adaf98002e10e8ac3422b915521c6cc116a5eba5ede1c35d45d
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  context_pack_ref: evt-context-pack-bound-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  disclosure_ref: evt-run-closed-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-a8e6bfe14180
+  run_contract_ref: evt-001-run-created-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  run_manifest_ref: evt-002-run-bound-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  runtime_state_ref: evt-run-closed-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  stage_attempt_ref: evt-stage-started-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:cc6dcf27b9e12adaf98002e10e8ac3422b915521c6cc116a5eba5ede1c35d45d
+  materialized_at: 2026-06-17T00:11:42.984159Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-17T00:11:43.729424Z

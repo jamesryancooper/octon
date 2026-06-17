@@ -5209,7 +5209,7 @@ fn terminal_yaml_array(values: &[String], indent: &str) -> String {
 
 fn terminal_yaml_array_or_empty(values: &[String], indent: &str) -> String {
     if values.is_empty() {
-        return format!("{indent}[]\n");
+        return format!("{indent}  []\n");
     }
     terminal_yaml_array(values, indent)
 }
