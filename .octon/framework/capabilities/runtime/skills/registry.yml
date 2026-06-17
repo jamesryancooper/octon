@@ -4312,6 +4312,78 @@ skills:
       fingerprints:
         tech_tags: []
         language_tags: []
+  proposal-packet-delivery:
+    version: 1.0.0
+    commands:
+    - /proposal-packet-delivery
+    parameters:
+    - name: proposal_packet_path
+      type: folder
+      required: true
+      description: Accepted proposal packet to deliver
+    - name: target_outcome
+      type: text
+      required: false
+      default: cleaned
+      description: Requested delivery outcome, normally cleaned
+    - name: profile_path
+      type: file
+      required: false
+      description: Optional proposal-packet-delivery-profile-v1 profile
+    - name: delivery_run_id
+      type: text
+      required: false
+      description: Optional retained delivery run id
+    requires:
+      context:
+      - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml
+      - .octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json
+      - .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
+    io:
+      inputs:
+      - name: proposal_packet_root
+        path: '{{proposal_packet_path}}'
+        kind: directory
+        format: mixed
+        required: true
+        description: Accepted proposal packet under delivery coordination
+      outputs:
+      - name: delivery_summary
+        path: /.octon/state/evidence/validation/analysis/{{date}}-proposal-packet-delivery.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Top-level proposal packet delivery summary
+      - name: delivery_bundle
+        path: /.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{run_id}}/
+        kind: directory
+        format: mixed
+        determinism: unique
+        description: Workflow evidence bundle with profile, inventory, and receipt
+      - name: delivery_receipt
+        path: /.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{run_id}}/proposal-packet-delivery-receipt.yml
+        kind: file
+        format: yaml
+        determinism: unique
+        description: Aggregate proposal packet delivery receipt
+      - name: skill_run_log
+        path: /.octon/state/evidence/runs/skills/proposal-packet-delivery/{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Execution log for proposal-packet-delivery runs
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
   proposal-program-delivery:
     version: 1.0.0
     commands:

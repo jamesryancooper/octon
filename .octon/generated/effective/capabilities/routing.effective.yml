@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-439f5e4217bd
-published_at: 2026-06-16T19:53:04Z
+generation_id: capabilities-a9696b8bcc9f
+published_at: 2026-06-16T23:45:37Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-16T19-53-04Z-capabilities-439f5e4217bd.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-16T23-45-37Z-capabilities-a9696b8bcc9f.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -15,11 +15,11 @@ source:
   root_manifest_path: .octon/octon.yml
   root_manifest_sha256: 97b9ff62eaf1459383e56ed8da69399e98db9b4d44adcf544a38d99cf6ecfb86
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-  framework_commands_manifest_sha256: fa6470e0325d4fae1cc932ddf138c68b4f9adcd6f675226617c33d96b454bee5
+  framework_commands_manifest_sha256: 833a8df4d7b90f4fd4ab73111e2d45d65040c90b81913d66febb8e6c5b12d174
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
-  framework_skills_manifest_sha256: 0a02969664bbce4884dfd70fc3f18be056731cf969eaed2de0011d9d280076e0
+  framework_skills_manifest_sha256: 1554233e2d18f7f755714bdb1636eee0b6b6049c369c390c4e57111277d8bc6c
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
-  framework_skills_registry_sha256: 200fbd35152fab00b5b90239236aea34b466c7c97f3633cb2933ff137c5536ed
+  framework_skills_registry_sha256: 37d46f674ae720884154d7ea31c873249a57bc9fb43ec21a2b1d2185812b0ae3
   framework_services_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
   framework_services_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 4bcbc13099d7fd89517f4ac03a71fca417ff3685e331faee858bee87da45ca6e
+  extensions_catalog_sha256: 8a4fa6da63f81cbaae646f716028412a8b05ba89eee40696b9a36c2787f67de9
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: f15c4047485c4b2b24f5566cea180b3be8f4bb88314332848c98509017c2028e
+  extensions_generation_lock_sha256: cd6b3bbbf7c219141806a1d9b937f9135037e36925a504e86aaafb4fca1386b0
   extensions_generation_id: extensions-e539e7c8b239
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -903,6 +903,36 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-command-framework.command.process-incoming-intake
     projection_name: process-incoming-intake
+  - effective_id: framework.command.proposal-packet-delivery
+    artifact_map_id: framework-command-proposal-packet-delivery
+    origin_class: framework
+    capability_kind: command
+    capability_id: proposal-packet-delivery
+    display_name: Proposal Packet Delivery
+    summary: Invoke accepted proposal packet delivery coordination without replacing target-owned lifecycles.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.proposal-packet-delivery
+    projection_name: proposal-packet-delivery
   - effective_id: framework.command.proposal-packet-terminal-closeout
     artifact_map_id: framework-command-proposal-packet-terminal-closeout
     origin_class: framework
@@ -2831,6 +2861,34 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-skill-framework.skill.pre-integration-architecture-review
     projection_name: pre-integration-architecture-review
+  - effective_id: framework.skill.proposal-packet-delivery
+    artifact_map_id: framework-skill-proposal-packet-delivery
+    origin_class: framework
+    capability_kind: skill
+    capability_id: proposal-packet-delivery
+    display_name: Proposal Packet Delivery
+    summary: Coordinate accepted proposal packet delivery without taking over target-owned lifecycle authority.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
+    capability_domain: operations
+    host_adapters: []
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-skill-framework.skill.proposal-packet-delivery
+    projection_name: proposal-packet-delivery
   - effective_id: framework.skill.proposal-packet-terminal-closeout
     artifact_map_id: framework-skill-proposal-packet-terminal-closeout
     origin_class: framework
@@ -6916,6 +6974,7 @@ resolution_order:
   - framework.command.post-integration-architecture-review
   - framework.command.pre-integration-architecture-review
   - framework.command.process-incoming-intake
+  - framework.command.proposal-packet-delivery
   - framework.command.proposal-packet-terminal-closeout
   - framework.command.proposal-program-delivery
   - framework.command.provision-host-tools
@@ -6981,6 +7040,7 @@ resolution_order:
   - framework.skill.postgres
   - framework.skill.postgres-best-practices
   - framework.skill.pre-integration-architecture-review
+  - framework.skill.proposal-packet-delivery
   - framework.skill.proposal-packet-terminal-closeout
   - framework.skill.proposal-program-delivery
   - framework.skill.provider-github-gates

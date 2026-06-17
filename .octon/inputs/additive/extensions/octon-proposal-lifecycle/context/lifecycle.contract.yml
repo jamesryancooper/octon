@@ -106,6 +106,43 @@ lifecycle_interactions:
       target_gate_policy: "target-owned-independent-validation"
       non_authorizing: true
 
+delivery_modes:
+  - mode_id: "proposal-packet-delivery"
+    workflow_ref: ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml"
+    profile_schema_ref: ".octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json"
+    receipt_schema_ref: ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json"
+    entrypoints:
+      - "/proposal-packet-delivery"
+      - "proposal-packet-delivery"
+    supported_outcomes:
+      - "implemented"
+      - "archive-ready"
+      - "landed"
+      - "synced"
+      - "cleaned"
+    authority_boundary:
+      aggregate_receipt_only: true
+      target_receipts_remain_target_owned: true
+      aggregate_receipt_replaces_target_receipts: false
+      owns_implementation: false
+      owns_promotion: false
+      owns_packet_closeout: false
+      owns_terminal_closeout: false
+      owns_archive_relocation: false
+      owns_git_mutation: false
+      owns_branch_cleanup: false
+      owns_residue_deletion: false
+      owns_generated_publication_refresh: false
+    required_handoffs:
+      implementation_owner: "run-packet-implementation"
+      promotion_owner: "promote-proposal"
+      packet_closeout_owner: "closeout-packet"
+      terminal_closeout_owner: "proposal-packet-terminal-closeout"
+      archive_owner: "archive-proposal"
+      change_closeout_owner: "closeout-change-or-closeout-worktree"
+      repo_hygiene_owner: "repo-hygiene-cleanup"
+      generated_publication_owner: "owning-publisher-scripts"
+
 states:
   - state_id: "create"
   - state_id: "validate"

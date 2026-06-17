@@ -27,6 +27,9 @@ This catalog is a proposal-local inventory. It is not semantic authority.
 ## Support
 
 - `support/proposal-creation.md`
+- `support/proposal-review.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/executable-implementation-prompt.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`

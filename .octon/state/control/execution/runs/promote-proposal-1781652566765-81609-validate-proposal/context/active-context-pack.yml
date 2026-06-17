@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/promote-proposal-1781652566765-81609-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/promote-proposal-1781652566765-81609-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:aa640373524d55575443d65dcf710c8082c8450b7cbaadbc2389b98466b8d34e
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/promote-proposal-1781652566765-81609-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:c09095210cd6ba2c3a3ee44584da851b7b0db20c8c7fca03ee9efb11bcca7758
+receipt_sha256: sha256:84dec5b018f26e3ca33dc092651628ded166cf4afcccb95a6c793313be4312b9
+run_id: promote-proposal-1781652566765-81609-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-16T23:29:28.207273Z
+validity_state: valid

@@ -13,8 +13,9 @@
 Add `.octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/`
 with stages that mirror proposal-program-delivery while targeting one packet.
 The workflow must declare aggregate receipt-only authority and name existing
-owners for implementation, terminal closeout, archive, Change closeout,
-repo-hygiene cleanup, generated publication, and branch mutation.
+owners for implementation, promote-proposal, terminal closeout, archive, Change
+closeout, closeout-packet, repo-hygiene cleanup, generated publication, and
+branch mutation.
 
 ## Workstream 2: Command And Skill Surface
 
@@ -45,6 +46,8 @@ The receipt schema must bind refs to source receipts without replacing them:
 - implementation receipt;
 - implementation conformance receipt;
 - post-implementation drift/churn receipt;
+- promote-proposal receipt and implemented manifest proof;
+- closeout-packet receipt with archive authorization;
 - terminal closeout receipt;
 - archive receipt;
 - generated publication freshness evidence;
@@ -62,6 +65,8 @@ negative controls for:
 - missing or stale accepted review authorization;
 - missing implementation authorization;
 - scaffold conformance or drift receipts;
+- missing promote-proposal receipt or implemented status proof;
+- missing closeout-packet receipt or archive authorization;
 - missing terminal closeout receipt;
 - archive-by-hand instead of archive-proposal;
 - generated publication hand edits or stale registry/artifact projections;
@@ -75,15 +80,19 @@ negative controls for:
 
 ## Workstream 5: Publication
 
-Update capability command and skill manifests/registries through owning
-publication scripts only. Do not hand-edit `.codex/commands/**`,
-`.codex/skills/**`, or generated/effective outputs.
+Update workflow manifest/registry, product feature navigation, lifecycle
+publication input context, and capability command and skill manifests/registries
+through their owning authored sources and publication scripts. Do not hand-edit
+`.codex/commands/**`, `.codex/skills/**`, generated/effective outputs, or host
+projections.
 
 ## Evidence Plan
 
 Future implementation must retain:
 
 - implementation run and conformance/drift receipts;
+- promote-proposal receipt and implemented manifest status proof;
+- closeout-packet receipt and archive authorization;
 - terminal closeout receipt;
 - archive workflow receipt;
 - proposal registry and artifact freshness evidence;
@@ -97,6 +106,7 @@ Future implementation must retain:
 ## Rollback
 
 Rollback is a normal git revert of authored workflow, command, skill, schema,
-validator, fixture, and capability publication source changes, followed by
-regeneration of derived projections through owning scripts. Retain delivery,
-branch, cleanup, archive, and terminal proof evidence for auditability.
+validator, fixture, workflow publication, product feature, lifecycle
+publication, and capability publication source changes, followed by regeneration
+of derived projections through owning scripts. Retain delivery, branch,
+cleanup, archive, and terminal proof evidence for auditability.

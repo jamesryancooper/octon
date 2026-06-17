@@ -21,11 +21,19 @@
 | Route | Workflow | Command | Skill |
 | --- | --- | --- | --- |
 | `proposal-packet-terminal-closeout` | `proposal-packet-terminal-closeout` | `proposal-packet-terminal-closeout` | `proposal-packet-terminal-closeout` |
+| `proposal-packet-delivery` | `proposal-packet-delivery` | `proposal-packet-delivery` | `proposal-packet-delivery` |
 
 `proposal-packet-terminal-closeout` is a workflow-backed route, not a prompt
 bundle. It emits `support/proposal-terminal-closeout.yml` with an
 `archive-ready` or `blocked` verdict and never moves the packet to archive.
 Archive relocation remains the separate `archive-proposal` workflow route.
+
+`proposal-packet-delivery` is a workflow-backed route, not a prompt bundle. It
+emits an aggregate `proposal-packet-delivery-receipt-v1` receipt that cites
+target-owned packet receipts without replacing them. Implementation, promotion,
+packet closeout, terminal closeout, archive relocation, Change closeout, branch
+cleanup, repo hygiene cleanup, and generated publication freshness remain owned
+by their canonical lifecycles and publisher scripts.
 
 ## Workflow-Backed Program Delivery Routes
 

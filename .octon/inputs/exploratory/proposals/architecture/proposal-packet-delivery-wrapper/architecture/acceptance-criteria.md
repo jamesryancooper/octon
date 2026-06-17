@@ -13,6 +13,10 @@ The implementation is acceptable only when all applicable criteria pass.
 ## Authority Preservation
 
 - Packet implementation runs through the packet implementation route.
+- Proposal status transition to `implemented` runs through `promote-proposal`
+  after conformance and drift/churn receipts pass.
+- Packet archive authorization runs through `closeout-packet` and
+  `support/proposal-closeout.md`.
 - Terminal closeout runs through proposal packet terminal closeout.
 - Archive runs through archive-proposal with disposition `implemented`.
 - Git mutation, hosted landing, final sync, and branch cleanup run through
@@ -24,17 +28,19 @@ The implementation is acceptable only when all applicable criteria pass.
 ## Receipt Binding
 
 - `proposal-packet-delivery-receipt-v1` validates and records source receipt
-  refs for implementation, conformance, drift/churn, terminal closeout,
-  archive, generated publication freshness, Change closeout, hosted landing
-  authorization, cleanup authorization, terminal proof, and final git status.
+  refs for implementation, conformance, drift/churn, promote-proposal,
+  closeout-packet, terminal closeout, archive, generated publication freshness,
+  Change closeout, hosted landing authorization, cleanup authorization,
+  terminal proof, and final git status.
 - The aggregate receipt cannot replace source receipts or mint authority.
 
 ## Terminal Cleaned Claim
 
 - Cleaned requires local `main == origin/main == landed_ref`.
 - Cleaned requires `git status --short` to be empty.
-- Missing branch-no-pr authorization, archive authorization, cleanup
-  authorization, final sync proof, or clean-worktree proof blocks cleaned.
+- Missing promote-proposal receipt, closeout-packet archive authorization,
+  branch-no-pr authorization, archive authorization, cleanup authorization,
+  final sync proof, or clean-worktree proof blocks cleaned.
 
 ## Validation
 

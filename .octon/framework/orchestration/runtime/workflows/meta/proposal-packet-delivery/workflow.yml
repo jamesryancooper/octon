@@ -1,0 +1,378 @@
+schema_version: workflow-contract-v2
+name: proposal-packet-delivery
+description: Coordinate an accepted proposal packet through implementation, promotion, packet closeout, terminal closeout, archive handoff, Change closeout, hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - target_packet_path
+    - target_outcome
+  format: proposal-packet-delivery:{target_packet_path}:{target_outcome}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: profile_path
+    type: file
+    required: true
+    description: Profile conforming to proposal-packet-delivery-profile-v1.
+  - name: target_packet_path
+    type: folder
+    required: true
+    description: Accepted proposal packet path supplied by the caller.
+  - name: target_outcome
+    type: text
+    required: true
+    description: Requested outcome; downstream claims require fresh owning evidence.
+  - name: delivery_run_id
+    type: text
+    required: true
+    description: Stable evidence and receipt run identifier.
+stages:
+  - id: bind-profile
+    asset: stages/01-bind-profile.md
+    kind: verification
+    consumes: []
+    produces:
+      - stage:bind-profile
+    mutation_scope: []
+    authorization: &read_evidence_authorization
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: validate-packet-state
+    asset: stages/02-validate-packet-state.md
+    kind: verification
+    consumes:
+      - stage:bind-profile
+    produces:
+      - stage:validate-packet-state
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: run-or-resume-packet-implementation
+    asset: stages/03-run-or-resume-packet-implementation.md
+    kind: mutation
+    consumes:
+      - stage:validate-packet-state
+    produces:
+      - stage:run-or-resume-packet-implementation
+    mutation_scope:
+      - workflow-scope
+    authorization: &repo_mutation_authorization
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - repo.write
+        - evidence.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-scope
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: true
+      allowed_executor_profiles:
+        - scoped_repo_mutation
+  - id: validate-implementation-receipts
+    asset: stages/04-validate-implementation-receipts.md
+    kind: verification
+    consumes:
+      - stage:run-or-resume-packet-implementation
+    produces:
+      - stage:validate-implementation-receipts
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: promote-proposal
+    asset: stages/05-promote-proposal.md
+    kind: mutation
+    consumes:
+      - stage:validate-implementation-receipts
+    produces:
+      - stage:promote-proposal
+    mutation_scope:
+      - workflow-scope
+    authorization: *repo_mutation_authorization
+  - id: route-packet-closeout
+    asset: stages/06-route-packet-closeout.md
+    kind: mutation
+    consumes:
+      - stage:promote-proposal
+    produces:
+      - stage:route-packet-closeout
+    mutation_scope:
+      - workflow-scope
+    authorization: *repo_mutation_authorization
+  - id: route-terminal-closeout-and-archive
+    asset: stages/07-route-terminal-closeout-and-archive.md
+    kind: mutation
+    consumes:
+      - stage:route-packet-closeout
+    produces:
+      - stage:route-terminal-closeout-and-archive
+    mutation_scope:
+      - workflow-scope
+    authorization: *repo_mutation_authorization
+  - id: route-change-closeout
+    asset: stages/08-route-change-closeout.md
+    kind: mutation
+    consumes:
+      - stage:route-terminal-closeout-and-archive
+    produces:
+      - stage:route-change-closeout
+    mutation_scope:
+      - workflow-scope
+    authorization: *repo_mutation_authorization
+  - id: validate-cleanup-sync-proof
+    asset: stages/09-validate-cleanup-sync-proof.md
+    kind: verification
+    consumes:
+      - stage:route-change-closeout
+    produces:
+      - stage:validate-cleanup-sync-proof
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: emit-delivery-receipt
+    asset: stages/10-emit-delivery-receipt.md
+    kind: projection
+    consumes:
+      - stage:validate-cleanup-sync-proof
+    produces:
+      - stage:emit-delivery-receipt
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+artifacts:
+  - name: delivery_summary
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-proposal-packet-delivery.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Top-level proposal packet delivery summary.
+  - name: delivery_bundle
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: Workflow bundle containing delivery profile, state evidence, inventory, and receipt.
+  - name: delivery_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{slug}}/proposal-packet-delivery-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Aggregate proposal-packet-delivery-receipt output validated by validate-proposal-packet-delivery-receipt.sh.
+done_gate:
+  checks:
+    - "profile validates with validate-proposal-packet-delivery-profile.sh before any delivery claim"
+    - "proposal review/readiness gates and implementation authorization are fresh before implementation"
+    - "implementation conformance and post-implementation drift/churn pass before promotion"
+    - "promote-proposal owns implemented status and promotion receipt evidence"
+    - "closeout-packet owns proposal-closeout.md and archive authorization"
+    - "proposal-packet-terminal-closeout owns proposal-terminal-closeout.yml"
+    - "archive-proposal owns archive relocation"
+    - "closeout-change or closeout-worktree owns Change closeout and any hosted mutation"
+    - "branch landing authorization exists before landed, synced, or cleaned claims"
+    - "branch cleanup authorization exists before source branch cleanup claims"
+    - "repo-hygiene-cleanup owns any local residue deletion"
+    - "terminal current-state proof shows local main, origin/main, and landed ref equality"
+    - "delivery receipt validates with validate-proposal-packet-delivery-receipt.sh"
+constraints:
+  fail_closed: true
+  require_relative_local_assets: true
+  aggregate_receipt_only: true
+  target_receipts_remain_target_owned: true
+  generated_outputs_are_non_authority: true
+workflow:
+  id: proposal-packet-delivery
+  name: Proposal Packet Delivery
+  lifecycle_type: meta
+  owner: framework-orchestration
+  status: active
+  purpose: >
+    Coordinate an accepted proposal packet through implementation, promotion,
+    packet closeout, terminal closeout, archive handoff, Change closeout,
+    hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+  authority:
+    aggregate_receipt_only: true
+    target_receipts_remain_target_owned: true
+    generated_outputs_are_non_authority: true
+    implementation_owner: run-packet-implementation
+    promotion_owner: promote-proposal
+    packet_closeout_owner: closeout-packet
+    terminal_closeout_owner: proposal-packet-terminal-closeout
+    archive_owner: archive-proposal
+    git_mutation_owner: closeout-change
+    hygiene_cleanup_owner: repo-hygiene-cleanup
+    generated_publication_owner: owning-publisher-scripts
+  inputs:
+    - name: profile_path
+      required: true
+      description: Profile conforming to proposal-packet-delivery-profile-v1.
+    - name: target_packet_path
+      required: true
+      description: Accepted proposal packet path supplied by the caller.
+    - name: target_outcome
+      required: true
+      description: Requested outcome; downstream claims require fresh owning evidence.
+    - name: delivery_run_id
+      required: true
+      description: Stable evidence and receipt run identifier.
+  outputs:
+    - name: delivery_receipt
+      schema_ref: .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+      description: Aggregate receipt that records source receipts without replacing them.
+  validators:
+    profile: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh
+    receipt: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
+    workflow: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
+  stages:
+    - id: bind-profile
+      title: Bind delivery profile
+      asset: stages/01-bind-profile.md
+      required: true
+      fail_closed_on:
+        - missing_profile
+        - malformed_profile
+        - pr_fallback_when_forbidden
+        - stash_policy_widening
+    - id: validate-packet-state
+      title: Validate current packet state
+      asset: stages/02-validate-packet-state.md
+      required: true
+      fail_closed_on:
+        - stale_review_digest
+        - unaccepted_packet
+        - missing_implementation_authorization
+        - proposal_local_file_used_as_authority
+    - id: run-or-resume-packet-implementation
+      title: Run or resume packet implementation
+      asset: stages/03-run-or-resume-packet-implementation.md
+      required: true
+      fail_closed_on:
+        - missing_implementation_run_receipt
+        - stale_implementation_run_receipt
+        - widened_promotion_targets
+        - self_authorization_attempt
+    - id: validate-implementation-receipts
+      title: Validate implementation receipts
+      asset: stages/04-validate-implementation-receipts.md
+      required: true
+      fail_closed_on:
+        - missing_implementation_conformance
+        - missing_post_implementation_drift_churn
+        - stale_generated_publication_evidence
+        - missing_governed_mechanism_integration_receipt
+    - id: promote-proposal
+      title: Promote through promote-proposal
+      asset: stages/05-promote-proposal.md
+      required: true
+      fail_closed_on:
+        - missing_promotion_receipt
+        - manifest_status_not_implemented
+        - promotion_target_drift
+    - id: route-packet-closeout
+      title: Route closeout-packet
+      asset: stages/06-route-packet-closeout.md
+      required: true
+      fail_closed_on:
+        - packet_closeout_blocker
+        - archive_authorization_missing
+        - closeout_receipt_stale
+    - id: route-terminal-closeout-and-archive
+      title: Route terminal closeout and archive handoff
+      asset: stages/07-route-terminal-closeout-and-archive.md
+      required: true
+      fail_closed_on:
+        - terminal_closeout_blocker
+        - archive_blocker
+        - fresh_unvalidated_archive_mutation
+    - id: route-change-closeout
+      title: Route Change closeout
+      asset: stages/08-route-change-closeout.md
+      required: true
+      fail_closed_on:
+        - branch_no_pr_landing_without_authorization
+        - pr_fallback_when_profile_forbids_pr
+        - unsupported_hosted_mutation
+    - id: validate-cleanup-sync-proof
+      title: Validate cleanup, final sync, and terminal proof
+      asset: stages/09-validate-cleanup-sync-proof.md
+      required: true
+      fail_closed_on:
+        - branch_cleanup_without_authorization
+        - repo_hygiene_deletion_without_cleanup_authorization
+        - missing_terminal_current_state_proof
+        - main_origin_landed_ref_mismatch
+        - dirty_worktree_cleaned_overclaim
+    - id: emit-delivery-receipt
+      title: Emit delivery receipt
+      asset: stages/10-emit-delivery-receipt.md
+      required: true
+      fail_closed_on:
+        - aggregate_receipt_replaces_target_receipts
+        - generated_prompt_used_as_authority
+        - unresolved_blocker
+  terminal_claim_rules:
+    implemented:
+      requires:
+        - implementation_run_pass
+        - implementation_conformance_pass
+        - post_implementation_drift_churn_pass
+        - promote_proposal_receipt_pass
+        - manifest_status_implemented
+    archive-ready:
+      requires:
+        - closeout_packet_pass
+        - archive_authorized_yes
+        - terminal_closeout_pass
+    landed:
+      requires:
+        - archive_proposal_pass
+        - change_closeout_pass
+        - hosted_landing_evidence
+    synced:
+      requires:
+        - local_main_equals_origin_main
+        - origin_main_equals_landed_ref
+    cleaned:
+      requires:
+        - branch_cleanup_authorized_and_done
+        - repo_hygiene_cleanup_authorized_and_done_or_not_needed
+        - terminal_current_state_proof_pass
+        - worktree_hygiene_pass

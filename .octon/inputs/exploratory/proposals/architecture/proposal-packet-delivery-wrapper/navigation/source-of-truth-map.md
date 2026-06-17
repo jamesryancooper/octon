@@ -7,14 +7,20 @@
   `.octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/`,
   `.octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md`,
   and `.octon/framework/capabilities/runtime/commands/proposal-program-delivery.md`
-- Packet lifecycle authority:
-  `.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/**`
-  and the published packet lifecycle route surfaces.
-- Packet implementation authority:
-  `.octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/run-packet-implementation/`
-  and the promoted packet implementation skill surfaces.
+- Packet lifecycle authority: published framework workflow, capability command,
+  and capability skill surfaces that implement the packet lifecycle routes.
+- Packet implementation authority: promoted packet implementation workflow,
+  command, and skill surfaces. Additive extension context and prompts may
+  inform lineage only; they are not durable runtime, policy, lifecycle, or
+  implementation authority.
 - Terminal closeout authority:
   `.octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/`
+- Proposal promotion authority:
+  `.octon/framework/orchestration/runtime/workflows/meta/promote-proposal/`
+- Packet closeout owner: the existing `closeout-packet` proposal lifecycle
+  route writes `support/proposal-closeout.md`. Additive route sources and
+  generated extension projections are publication/input evidence for that
+  route, not authority for this proposal to override.
 - Archive authority:
   `.octon/framework/orchestration/runtime/workflows/meta/archive-proposal/`
 - Change closeout authority:
@@ -34,14 +40,20 @@
 ## Proposed New Durable Surfaces
 
 - `.octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/`
+- `.octon/framework/orchestration/runtime/workflows/manifest.yml`
+- `.octon/framework/orchestration/runtime/workflows/registry.yml`
 - `.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md`
 - `.octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md`
 - `.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json`
 - `.octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json`
+- `.octon/framework/product/features/proposal-packet-delivery.md`
+- `.octon/framework/product/features/catalog.yml`
 - `.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh`
 - `.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh`
 - `.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh`
 - `.octon/framework/assurance/runtime/_ops/tests/`
+- `.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md`
+- `.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml`
 
 ## Proposal-Local Lifecycle Sources
 
@@ -73,6 +85,10 @@
 - This proposal packet cannot authorize implementation, terminal closeout,
   archive, branch landing, cleanup, final sync, clean-worktree proof, or
   generated projection refresh.
+- The proposed wrapper cannot mark a packet implemented directly; that status
+  transition remains owned by `promote-proposal`.
+- The proposed wrapper cannot mint archive authorization directly; that receipt
+  remains owned by `closeout-packet`.
 - The proposed delivery wrapper must be aggregate-only and must fail closed
   when target-owned receipts or authorization refs are missing, stale, denied,
   or mismatched.

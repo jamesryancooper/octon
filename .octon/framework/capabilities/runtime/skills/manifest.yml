@@ -1517,6 +1517,25 @@ skills:
       - safety-bounded
       - self-validating
 
+  - id: proposal-packet-delivery
+    display_name: Proposal Packet Delivery
+    group: operations
+    path: operations/proposal-packet-delivery/
+    skill_class: invocable
+    summary: "Coordinate accepted proposal packet delivery without taking over target-owned lifecycle authority."
+    status: active
+    tags:
+      - proposals
+      - lifecycle
+      - delivery
+      - closeout
+    triggers:
+      - "proposal packet delivery"
+      - "deliver proposal packet"
+      - "run proposal packet delivery"
+    skill_sets: []
+    capabilities: []
+
   - id: proposal-program-delivery
     display_name: Proposal Program Delivery
     group: operations
