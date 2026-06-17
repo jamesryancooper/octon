@@ -251,6 +251,13 @@ boundaries. Receipt checks use live child receipt freshness and digest state,
 not file existence alone. Parent evidence summarizes child outcomes only; it
 never satisfies child receipts, promotion targets, or archive metadata.
 
+A completed parent implementation program may supersede an accepted
+architecture packet when the parent program and child receipts own the durable
+implementation lineage. In that case the architecture packet archives with
+`archive.disposition: superseded`, not `implemented`, and its
+`archive.promotion_evidence` cites the parent program manifest, parent closeout
+receipt, or retained aggregate child outcome evidence.
+
 ## Mutation And Scaffold Controls
 
 Parent registry changes use explicit mutation specs with an expected registry

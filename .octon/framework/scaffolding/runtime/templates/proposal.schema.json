@@ -72,6 +72,7 @@
         },
         "disposition": {
           "type": "string",
+          "description": "Archive disposition. Use superseded when a later proposal or program owns the durable outcome and this packet remains lineage only.",
           "enum": ["implemented", "rejected", "historical", "superseded"]
         },
         "original_path": {
@@ -80,6 +81,7 @@
         },
         "promotion_evidence": {
           "type": "array",
+          "description": "Repo-relative evidence paths. Required to be non-empty for implemented and superseded archive dispositions.",
           "items": {
             "type": "string",
             "minLength": 1
@@ -133,6 +135,32 @@
     {
       "not": {
         "required": ["exit_expectation"]
+      }
+    },
+    {
+      "if": {
+        "required": ["archive"],
+        "properties": {
+          "archive": {
+            "required": ["disposition"],
+            "properties": {
+              "disposition": {
+                "enum": ["implemented", "superseded"]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "archive": {
+            "properties": {
+              "promotion_evidence": {
+                "minItems": 1
+              }
+            }
+          }
+        }
       }
     }
   ]

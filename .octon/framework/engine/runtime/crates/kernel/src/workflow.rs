@@ -7632,10 +7632,13 @@ fn validate_archive_disposition(
                 );
             }
         }
-        "historical" | "superseded" => {
+        "historical" => {
             if !promotion_evidence.is_empty() {
                 validate_repo_relative_paths(repo_root, promotion_evidence, "promotion_evidence")?;
             }
+        }
+        "superseded" => {
+            validate_repo_relative_paths(repo_root, promotion_evidence, "promotion_evidence")?;
         }
         other => bail!("unsupported archive disposition '{}'", other),
     }

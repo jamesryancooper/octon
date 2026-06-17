@@ -265,6 +265,113 @@ run_validator_in_fixture() {
   )
 }
 
+run_validator_in_fixture_skip_registry() {
+  local fixture_root="$1"
+  local proposal_path="$2"
+  (
+    cd "$fixture_root"
+    bash "$VALIDATE_SCRIPT" --package "$proposal_path" --skip-registry-check
+  )
+}
+
+write_archived_superseded_architecture_proposal() {
+  local root="$1"
+  local evidence_path="${2:-}"
+  local proposal_dir="$root/.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture"
+  mkdir -p "$proposal_dir/navigation" "$proposal_dir/architecture"
+
+  if [[ -n "$evidence_path" ]]; then
+    write_file "$proposal_dir/proposal.yml" <<EOF
+schema_version: "proposal-v1"
+proposal_id: "superseded-fixture"
+title: "Superseded Fixture"
+summary: "Archived superseded architecture fixture."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/README.md"
+status: "archived"
+archive:
+  archived_at: "2026-06-17"
+  archived_from_status: "accepted"
+  disposition: "superseded"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/superseded-fixture"
+  promotion_evidence:
+    - "$evidence_path"
+lifecycle:
+  temporary: true
+  exit_expectation: "Archived after successor ownership."
+related_proposals: []
+EOF
+  else
+    write_file "$proposal_dir/proposal.yml" <<'EOF'
+schema_version: "proposal-v1"
+proposal_id: "superseded-fixture"
+title: "Superseded Fixture"
+summary: "Archived superseded architecture fixture."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/README.md"
+status: "archived"
+archive:
+  archived_at: "2026-06-17"
+  archived_from_status: "accepted"
+  disposition: "superseded"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/superseded-fixture"
+  promotion_evidence: []
+lifecycle:
+  temporary: true
+  exit_expectation: "Archived after successor ownership."
+related_proposals: []
+EOF
+  fi
+
+  write_file "$proposal_dir/architecture-proposal.yml" <<'EOF'
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+EOF
+
+  write_file "$proposal_dir/README.md" <<'EOF'
+# Superseded Fixture
+EOF
+  write_file "$proposal_dir/navigation/source-of-truth-map.md" <<'EOF'
+# Sources
+EOF
+  write_file "$proposal_dir/architecture/target-architecture.md" <<'EOF'
+# Target
+EOF
+  write_file "$proposal_dir/architecture/acceptance-criteria.md" <<'EOF'
+# Acceptance
+EOF
+  write_file "$proposal_dir/architecture/implementation-plan.md" <<'EOF'
+# Plan
+EOF
+  write_file "$proposal_dir/navigation/artifact-catalog.md" <<'EOF'
+# Artifact Catalog
+
+## Proposal
+
+- `proposal_id`: `superseded-fixture`
+- `proposal_kind`: `architecture`
+- `proposal_path`: `.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture`
+
+## Files
+
+| Path | Role |
+| --- | --- |
+| `README.md` | Generated inventory entry |
+| `proposal.yml` | Generated inventory entry |
+| `architecture-proposal.yml` | Generated inventory entry |
+| `navigation/artifact-catalog.md` | Generated inventory entry |
+| `navigation/source-of-truth-map.md` | Generated inventory entry |
+| `architecture/target-architecture.md` | Generated inventory entry |
+| `architecture/acceptance-criteria.md` | Generated inventory entry |
+| `architecture/implementation-plan.md` | Generated inventory entry |
+EOF
+}
+
 case_registry_lookup_uses_kind_and_id() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
@@ -316,6 +423,32 @@ case_stale_registry_emits_freshness_diagnostic() {
   run_validator_in_fixture "$fixture_root" ".octon/inputs/exploratory/proposals/policy/shared-id"
 }
 
+case_superseded_archive_valid_successor_evidence_passes() {
+  local fixture_root evidence_path
+  fixture_root="$(create_fixture_repo)"
+  evidence_path=".octon/state/evidence/runs/workflows/successor-closeout.yml"
+  write_file "$fixture_root/$evidence_path" <<'EOF'
+schema_version: successor-closeout-fixture-v1
+verdict: pass
+EOF
+  write_archived_superseded_architecture_proposal "$fixture_root" "$evidence_path"
+  run_validator_in_fixture_skip_registry "$fixture_root" ".octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture"
+}
+
+case_superseded_archive_empty_successor_evidence_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  write_archived_superseded_architecture_proposal "$fixture_root"
+  run_validator_in_fixture_skip_registry "$fixture_root" ".octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture"
+}
+
+case_superseded_archive_missing_successor_evidence_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  write_archived_superseded_architecture_proposal "$fixture_root" ".octon/state/evidence/runs/workflows/missing-successor.yml"
+  run_validator_in_fixture_skip_registry "$fixture_root" ".octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture"
+}
+
 main() {
   assert_success \
     "proposal standard validator accepts the same proposal_id across different kinds" \
@@ -339,6 +472,17 @@ main() {
     "proposal standard validator emits generated freshness diagnostics" \
     '"recovery_class":"generated_freshness_drift"' \
     case_stale_registry_emits_freshness_diagnostic
+  assert_success \
+    "proposal standard validator accepts superseded archives with successor evidence" \
+    case_superseded_archive_valid_successor_evidence_passes
+  assert_failure_contains \
+    "proposal standard validator rejects superseded archives with empty successor evidence" \
+    "superseded archive keeps promotion evidence" \
+    case_superseded_archive_empty_successor_evidence_fails
+  assert_failure_contains \
+    "proposal standard validator rejects superseded archives with missing successor evidence" \
+    "superseded archive evidence path must exist" \
+    case_superseded_archive_missing_successor_evidence_fails
 
   echo
   echo "Passed: $pass_count"

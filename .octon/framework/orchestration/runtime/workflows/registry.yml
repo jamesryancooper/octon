@@ -2157,7 +2157,7 @@ workflows:
       - name: promotion_evidence
         type: text
         required: false
-        description: "Comma-separated repo-relative promotion evidence paths; required when disposition is implemented"
+        description: "Comma-separated repo-relative promotion evidence paths; required when disposition is implemented or superseded"
     access: human
     depends_on: []
     io:

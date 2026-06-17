@@ -472,6 +472,49 @@ validate_promotion_targets() {
   done < <(yq -r '.promotion_targets[]?' "$manifest")
 }
 
+validate_superseded_archive_evidence() {
+  local manifest="$1"
+  local label="$2"
+  local proposal_rel="$3"
+  local evidence_rel has_failure=0
+
+  while IFS= read -r evidence_rel; do
+    if [[ -z "$evidence_rel" ]]; then
+      fail "$label superseded archive evidence path must not be empty"
+      has_failure=1
+      continue
+    fi
+    if [[ "$evidence_rel" = /* ]]; then
+      fail "$label superseded archive evidence path must be repo-relative: $evidence_rel"
+      has_failure=1
+      continue
+    fi
+    case "$evidence_rel" in
+      ..|../*|*/..|*/../*)
+        fail "$label superseded archive evidence path must not traverse: $evidence_rel"
+        has_failure=1
+        continue
+        ;;
+    esac
+    case "$evidence_rel" in
+      "$proposal_rel"|"$proposal_rel"/*)
+        fail "$label superseded archive evidence path must point outside the superseded packet: $evidence_rel"
+        has_failure=1
+        continue
+        ;;
+    esac
+    if [[ ! -e "$ROOT_DIR/$evidence_rel" ]]; then
+      fail "$label superseded archive evidence path must exist: $evidence_rel"
+      has_failure=1
+      continue
+    fi
+  done < <(yq -r '.archive.promotion_evidence[]?' "$manifest")
+
+  if [[ "$has_failure" -eq 0 ]]; then
+    pass "$label superseded archive evidence paths are repo-relative, existing, and outside the superseded packet"
+  fi
+}
+
 validate_proposal() {
   local proposal_dir="$1"
   local manifest="$proposal_dir/proposal.yml"
@@ -558,12 +601,15 @@ validate_proposal() {
     validate_enum "$(yaml_string "$manifest" '.archive.disposition')" "proposal '$proposal_rel' archive disposition valid" "implemented" "rejected" "historical" "superseded"
     validate_non_empty "$(yaml_string "$manifest" '.archive.original_path')" "proposal '$proposal_rel' archive original_path present"
     disposition="$(yaml_string "$manifest" '.archive.disposition')"
-    if [[ "$disposition" == "implemented" ]]; then
+    if [[ "$disposition" == "implemented" || "$disposition" == "superseded" ]]; then
       target_count="$(yq -r '.archive.promotion_evidence | length' "$manifest")"
       if [[ "$target_count" =~ ^[1-9][0-9]*$ ]]; then
-        pass "proposal '$proposal_rel' implemented archive keeps promotion evidence"
+        pass "proposal '$proposal_rel' $disposition archive keeps promotion evidence"
       else
-        fail "proposal '$proposal_rel' implemented archive keeps promotion evidence"
+        fail "proposal '$proposal_rel' $disposition archive keeps promotion evidence"
+      fi
+      if [[ "$disposition" == "superseded" && "$target_count" =~ ^[1-9][0-9]*$ ]]; then
+        validate_superseded_archive_evidence "$manifest" "proposal '$proposal_rel'" "$proposal_rel"
       fi
     fi
   else

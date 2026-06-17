@@ -86,10 +86,14 @@ or deferred outcome.
 When closeout succeeds, write or refresh `support/proposal-closeout.md` with at
 least `verdict`, `closed_at`, and `archive_authorized`. When
 `archive_authorized: yes`, also record explicit workflow inputs
-`archive_disposition` and `promotion_evidence`; for implemented packets,
+`archive_disposition` and `promotion_evidence`. For implemented packets,
 `archive_disposition` must be `implemented` and `promotion_evidence` must name
-durable repo-relative evidence paths outside the proposal packet. Do not list
-validation commands in `promotion_evidence`; record them in the validation
-summary instead. Use `verdict: pass` and `archive_authorized: yes` only when
-the packet is ready for the separate `archive-proposal` lifecycle route. Do not
-archive the packet directly from this route.
+durable repo-relative evidence paths outside the proposal packet. For
+superseded packets, `archive_disposition` must be `superseded` and
+`promotion_evidence` must name repo-relative successor packet/program evidence
+or retained successor closeout evidence outside the superseded packet. Do not
+list validation commands in `promotion_evidence`; record them in the
+validation summary instead. Use `verdict: pass` and
+`archive_authorized: yes` only when the packet is ready for the separate
+`archive-proposal` lifecycle route. Do not archive the packet directly from
+this route.

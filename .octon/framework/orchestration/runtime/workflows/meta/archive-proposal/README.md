@@ -40,7 +40,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 - `proposal_path` (folder, required=true): Root active proposal directory to archive
 - `disposition` (text, required=true): Archive disposition: implemented, rejected, historical, or superseded
-- `promotion_evidence` (text, required=false): Comma-separated repo-relative promotion evidence paths; required when disposition is implemented
+- `promotion_evidence` (text, required=false): Comma-separated repo-relative promotion evidence paths; required when disposition is implemented or superseded
 
 ## Failure Conditions
 
@@ -67,6 +67,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] architecture proposals preserve a passing strict Pre-Integration Architecture Review receipt when the review gate requires it
 - [ ] the source proposal starts from the active path and is not already archived
 - [ ] implemented archival requires passing implementation-grade, conformance, and drift/churn receipts
+- [ ] superseded archival includes successor evidence in `promotion_evidence`
 - [ ] archive metadata is coherent for the chosen disposition
 - [ ] the proposal moves to `.archive/<kind>/<proposal_id>/`
 - [ ] `proposal.yml` is rewritten to `status: archived` with archive metadata

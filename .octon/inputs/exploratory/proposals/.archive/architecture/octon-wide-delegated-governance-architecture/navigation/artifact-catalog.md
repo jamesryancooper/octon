@@ -20,7 +20,9 @@
 ## Evidence And Support
 
 - `resources/source-context.md`
+- `support/pre-integration-architecture-review.yml`
 - `support/implementation-grade-completeness-review.md`
 - `support/proposal-review.md`
+- `support/proposal-closeout.md`
 - `validation-plan.md`
 - `RISK-REGISTER.md`

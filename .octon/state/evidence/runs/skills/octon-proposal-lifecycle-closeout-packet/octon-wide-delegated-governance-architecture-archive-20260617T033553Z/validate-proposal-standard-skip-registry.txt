@@ -1,0 +1,36 @@
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposals stay in archive paths
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archive metadata present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived_from_status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archive disposition valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archive original_path present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal preserves promotion target provenance
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/constitution/contracts/authority/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/constitution/contracts/runtime/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/engine/runtime/spec/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/engine/runtime/crates/authority_engine/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/engine/runtime/crates/kernel/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/assurance/runtime/_ops/scripts/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/assurance/runtime/_ops/tests/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/orchestration/governance/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/capabilities/governance/policy/
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture' archived proposal skips proposal-path dependency scan for historical targets: .octon/framework/product/features/lifecycle-autopilot.md
+Validation summary: errors=0 warnings=0

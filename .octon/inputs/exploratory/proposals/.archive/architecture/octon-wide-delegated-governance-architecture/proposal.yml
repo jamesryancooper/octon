@@ -21,7 +21,16 @@ promotion_targets:
   - ".octon/framework/orchestration/governance/"
   - ".octon/framework/capabilities/governance/policy/"
   - ".octon/framework/product/features/lifecycle-autopilot.md"
-status: "accepted"
+status: "archived"
+archive:
+  archived_at: "2026-06-17T03:35:53Z"
+  archived_from_status: "accepted"
+  disposition: "superseded"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  promotion_evidence:
+    - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration/proposal.yml"
+    - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration/support/proposal-closeout.md"
+    - ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781073115145-fe49ec37/parent/aggregate-child-outcomes-20260610T133510Z.yml"
 lifecycle:
   temporary: true
   exit_expectation: >-

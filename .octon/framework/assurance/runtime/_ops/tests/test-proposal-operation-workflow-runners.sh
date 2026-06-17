@@ -440,6 +440,38 @@ case_archive_rejects_non_implemented_disposition() {
   run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md"
 }
 
+case_archive_superseded_passes_with_successor_evidence() {
+  local fixture_root output bundle_root archived_manifest registry evidence_path
+  fixture_root="$(new_fixture_repo)"
+  write_active_architecture_proposal "$fixture_root" "accepted"
+  write_registry_for_active_status "$fixture_root" "accepted"
+  write_accepted_proposal_review "$fixture_root"
+  evidence_path=".octon/state/evidence/runs/workflows/successor-closeout.yml"
+  write_file "$fixture_root/$evidence_path" <<'EOF'
+schema_version: successor-closeout-fixture-v1
+verdict: pass
+EOF
+  output="$(run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=superseded" --set "promotion_evidence=$evidence_path")"
+  bundle_root="$(printf '%s\n' "$output" | sed -n 's/^bundle_root: //p' | tail -n 1)"
+  archived_manifest="$fixture_root/.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal/proposal.yml"
+  registry="$fixture_root/.octon/generated/proposals/registry.yml"
+  assert_file_exists "$bundle_root/summary.md" || return 1
+  assert_file_exists "$bundle_root/stages/archive-proposal/outcome.json" || return 1
+  [[ "$(yq -r '.status' "$archived_manifest")" == "archived" ]] || return 1
+  [[ "$(yq -r '.archive.disposition' "$archived_manifest")" == "superseded" ]] || return 1
+  [[ "$(yq -r '.archive.promotion_evidence[0]' "$archived_manifest")" == "$evidence_path" ]] || return 1
+  grep -Fq 'disposition: "superseded"' "$registry" || return 1
+}
+
+case_archive_superseded_rejects_missing_successor_evidence() {
+  local fixture_root
+  fixture_root="$(new_fixture_repo)"
+  write_active_architecture_proposal "$fixture_root" "accepted"
+  write_registry_for_active_status "$fixture_root" "accepted"
+  write_accepted_proposal_review "$fixture_root"
+  run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=superseded"
+}
+
 main() {
   case_validate_passes && pass "validate-proposal workflow validates a proposal and writes bundle receipts" || fail "validate-proposal workflow validates a proposal and writes bundle receipts"
   case_promote_passes && pass "promote-proposal workflow marks an accepted proposal implemented and regenerates registry" || fail "promote-proposal workflow marks an accepted proposal implemented and regenerates registry"
@@ -461,6 +493,12 @@ main() {
     pass "archive-proposal rejects implemented disposition when the proposal is not implemented"
   else
     fail "archive-proposal rejects implemented disposition when the proposal is not implemented"
+  fi
+  case_archive_superseded_passes_with_successor_evidence && pass "archive-proposal workflow archives a superseded proposal with successor evidence" || fail "archive-proposal workflow archives a superseded proposal with successor evidence"
+  if ! case_archive_superseded_rejects_missing_successor_evidence >/dev/null 2>&1; then
+    pass "archive-proposal rejects superseded disposition without successor evidence"
+  else
+    fail "archive-proposal rejects superseded disposition without successor evidence"
   fi
 
   echo

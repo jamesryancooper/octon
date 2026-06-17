@@ -20,7 +20,7 @@ archive:
   disposition: "superseded"
   original_path: ".octon/inputs/exploratory/proposals/architecture/extensions-sidecar-pack-system"
   promotion_evidence:
-    - ".octon/inputs/exploratory/proposals/architecture/inputs-additive-extensions/proposal.yml"
+    - ".octon/inputs/exploratory/proposals/.archive/architecture/inputs-additive-extensions/proposal.yml"
     - ".octon/generated/proposals/registry.yml"
 lifecycle:
   temporary: true

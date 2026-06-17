@@ -74,9 +74,11 @@ least `verdict`, `closed_at`, and `archive_authorized`. Use `verdict: pass` and
 `archive_authorized: yes` only when the packet is ready for the separate
 `archive-proposal` lifecycle route. When `archive_authorized: yes`, record
 `promotion_evidence` as durable repo-relative evidence paths outside the
-proposal packet only; validation commands belong in the validation summary and
-must not be listed as promotion evidence. Closeout must not archive the packet
-directly.
+proposal packet only. For `archive_disposition: superseded`, those paths must
+name successor packet/program evidence or retained successor closeout evidence
+outside the superseded packet. Validation commands belong in the validation
+summary and must not be listed as promotion evidence. Closeout must not archive
+the packet directly.
 
 When closeout is blocked because follow-on work is owned by another lifecycle,
 emit a typed `lifecycle-interaction-request-v1` receipt only as dependency

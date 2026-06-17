@@ -1,0 +1,40 @@
+[OK] proposal kind supports implementation-readiness gate
+[OK] implementation-grade completeness review exists
+[OK] readiness verdict is explicit
+[OK] unresolved question count is numeric
+[OK] clarification_required is explicit
+[OK] review includes section: Blockers
+[OK] review includes section: Assumptions
+[OK] review includes section: Promotion Target Coverage
+[OK] review includes section: Affected Artifact Coverage
+[OK] review includes section: Validator Coverage
+[OK] review includes section: Implementation Prompt Readiness
+[OK] review includes section: Exclusions
+[OK] review includes section: Final Route Recommendation
+[OK] readiness gate passes for lifecycle status
+[OK] no unresolved questions for implementation-ready lifecycle status
+[OK] no clarification required for implementation-ready lifecycle status
+[OK] proposal status supports review gate
+[OK] proposal review receipt exists
+[OK] review_id present
+[OK] reviewed_at present
+[OK] reviewer present
+[OK] review verdict is explicit
+[OK] implementation prompt authorization is explicit
+[OK] reviewed packet digest is explicit
+[OK] open blocking finding count is numeric
+[OK] review includes section: Approved Promotion Targets
+[OK] review includes section: Exclusions
+[OK] review includes section: Blocking Findings
+[OK] review includes section: Nonblocking Findings
+[OK] review includes section: Final Route Recommendation
+[OK] implemented or archived proposal preserves accepted review evidence
+Validation summary: errors=0 warnings=0
+[OK] proposal review gate passes
+[OK] promotion targets are present
+[OK] promotion target scope is coherent
+[OK] target architecture exists
+[OK] architecture implementation plan exists
+[OK] architecture acceptance criteria exist
+[OK] implementation-grade proposal contains no scaffold placeholders
+Validation summary: errors=0 warnings=0

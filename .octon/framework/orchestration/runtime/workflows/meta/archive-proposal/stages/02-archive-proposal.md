@@ -7,7 +7,9 @@ description: Move the proposal into the canonical archive path, rewrite archive 
 
 ## Actions
 
-1. Validate the requested disposition and any required `promotion_evidence` paths.
+1. Validate the requested disposition and any required `promotion_evidence`
+   paths. `disposition=superseded` requires non-empty repo-relative successor
+   evidence.
 2. Fail closed unless the archive destination path is exactly `.archive/<kind>/<proposal_id>/`.
 3. Move the proposal packet to the canonical archive path.
 4. Rewrite `proposal.yml` to `status: archived` and populate `archive.*` metadata.

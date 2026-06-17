@@ -21,4 +21,6 @@ description: Confirm that the source proposal is structurally valid before mutat
 8. Fail closed for implemented archival unless the completeness, conformance,
    and drift/churn receipts pass or explicit blockers route the packet away
    from implemented archival.
-9. Persist the validator transcript as `standard-validator.log`.
+9. Fail closed for superseded archival unless `promotion_evidence` names
+   repo-relative successor evidence paths.
+10. Persist the validator transcript as `standard-validator.log`.

@@ -144,7 +144,9 @@ Rules:
 - proposals in an archive path must use `status=archived`.
 - proposals in an active path must not use `status=archived`.
 - `archive.promotion_evidence` must be non-empty when
-  `archive.disposition=implemented`.
+  `archive.disposition=implemented` or `archive.disposition=superseded`.
+  Superseded archive evidence must point outside the superseded packet to
+  successor proposal/program evidence or retained successor closeout evidence.
 - `lifecycle.temporary` must remain `true`.
 - `lifecycle.exit_expectation` must be nested under `lifecycle`; a top-level
   `exit_expectation` field is invalid.

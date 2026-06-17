@@ -27,7 +27,7 @@ inputs:
   - name: promotion_evidence
     type: text
     required: false
-    description: Comma-separated repo-relative promotion evidence paths; required when disposition is implemented
+    description: Comma-separated repo-relative promotion evidence paths; required when disposition is implemented or superseded
 stages:
   - id: validate-proposal
     asset: stages/01-validate-proposal.md
@@ -153,6 +153,7 @@ done_gate:
     - "architecture proposals preserve a passing strict Pre-Integration Architecture Review receipt when the review gate requires it"
     - "the source proposal starts from the active path and is not already archived"
     - "implemented archival requires passing implementation-grade, conformance, and drift/churn receipts"
+    - "superseded archival includes successor evidence in `promotion_evidence`"
     - "archive metadata is coherent for the chosen disposition"
     - "the proposal moves to `.archive/<kind>/<proposal_id>/`"
     - "`proposal.yml` is rewritten to `status: archived` with archive metadata"
