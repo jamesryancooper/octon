@@ -1,0 +1,67 @@
+== Architecture Conformance Validation ==
+[OK] found .octon/framework/cognition/_meta/architecture/contract-registry.yml
+[OK] found .octon/instance/governance/policies/network-egress.yml
+[OK] found .octon/instance/governance/policies/execution-budgets.yml
+[OK] found .octon/instance/governance/support-targets.yml
+[OK] found .octon/state/evidence/lab
+[OK] found .octon/state/control/execution/budgets/
+[OK] found .octon/state/control/execution/exceptions/leases/
+[OK] found .octon/state/control/execution/revocations/
+[OK] found .octon/state/control/execution/approvals/requests
+[OK] found .octon/state/control/execution/approvals/grants
+[OK] super-root README references constitutional kernel
+[OK] instance ingress references constitutional kernel
+[OK] RuntimeConfig exposes explicit retained run evidence root
+[OK] RuntimeConfig exposes explicit execution control root
+[OK] RuntimeConfig exposes explicit execution scratch root
+[OK] legacy ambiguous runtime state_dir references are removed from engine runtime entrypoints
+[OK] TraceWriter targets trace.ndjson in the bound run root
+[OK] TraceWriter no longer writes through a traces directory indirection
+[OK] execution/flow default policy omits ambient net.http
+[OK] forbidden execution write prefix is absent from live runtime/doc surfaces: .octon/framework/engine/_ops/state
+[OK] umbrella specification references canonical execution control root
+[OK] umbrella specification references constitutional runtime contracts
+[OK] umbrella specification references constitutional kernel
+[OK] umbrella specification references canonical execution scratch root
+[OK] umbrella specification references repo-owned network egress policy
+[OK] umbrella specification references repo-owned execution budget policy
+[OK] umbrella specification references repo-owned support-target declarations
+[OK] umbrella specification references retained lab evidence root
+[OK] umbrella specification references lab framework root
+[OK] umbrella specification references observability framework root
+[OK] umbrella specification references maintainability proof plane
+[OK] umbrella specification references canonical approval request root
+[OK] umbrella specification references canonical exception lease root
+[OK] umbrella specification references canonical revocation root
+[OK] runtime-vs-ops contract references canonical execution control root
+[OK] runtime-vs-ops contract references canonical execution scratch root
+[OK] bootstrap START describes ops as portable operational support
+[OK] bootstrap START references constitutional kernel
+[OK] bootstrap START references lab framework root
+[OK] bootstrap START references retained lab evidence root
+[OK] engine README aligns ops semantics with portable support-only contract
+[OK] policy interface spec references repo-owned network egress policy
+[OK] policy interface spec references repo-owned execution budget policy
+[OK] policy interface spec references repo-owned support-target declarations
+[OK] policy interface spec references constitutional assurance contracts
+[OK] policy interface spec references constitutional disclosure contracts
+[OK] policy interface spec references retained lab evidence root
+[OK] policy interface spec references constitutional runtime contracts
+[OK] authorization path binds canonical run lifecycle roots
+[OK] policy interface spec references canonical approval request root
+[OK] policy interface spec references canonical exception lease root
+[OK] policy receipt schema exposes budget metadata fields
+[OK] Run Journal contract validation passed
+[OK] support-target admission validation passed
+[OK] runtime-effective artifact handle validation passed
+[OK] raw generated/effective runtime read validation passed
+[OK] found .octon/framework/engine/runtime/spec/support-envelope-reconciliation-v1.md
+[OK] found .octon/framework/engine/runtime/spec/support-envelope-reconciliation-result-v1.schema.json
+[OK] support-envelope reconciliation validation passed
+[OK] found .octon/framework/engine/runtime/spec/authorized-effect-token-v2.schema.json
+[OK] found .octon/framework/engine/runtime/spec/authorized-effect-token-consumption-v1.schema.json
+[OK] authorized effect-token enforcement validation passed
+[OK] found .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+[OK] run-health read-model validation passed
+[OK] Context Pack Builder validation passed
+Validation summary: errors=0

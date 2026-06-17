@@ -1,0 +1,80 @@
+== Proposal Packet Delivery Receipt Validation ==
+[OK] receipt schema exists
+[OK] receipt schema JSON parses
+[OK] schema token present: "proposal-packet-delivery-receipt-v1"
+[OK] schema token present: "actual_outcome"
+[OK] schema token present: "cleaned"
+[OK] schema token present: "target_receipts"
+[OK] schema token present: "promotion"
+[OK] schema token present: "terminal_closeout"
+[OK] schema token present: "terminal_current_state_proof"
+[OK] schema token present: "target_owned_evidence_policy"
+[OK] receipt file exists: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/proposal-packet-delivery-receipt.yml
+[OK] receipt YAML parses
+[OK] receipt schema_version correct
+[OK] receipt_id declared
+[OK] emitted_at declared
+[OK] profile.profile_id declared
+[OK] profile.profile_ref declared
+[OK] profile.validated_at declared
+[OK] profile verdict is pass
+[OK] target_packet.path declared
+[OK] target_packet.status declared
+[OK] target_packet.accepted_review_digest declared
+[OK] target_packet.accepted_review_digest is sha256
+[ERROR] accepted review freshness must be true
+[ERROR] implementation authorization must be true
+[OK] target_packet.implementation_authorization_ref declared
+[OK] target_outcome declared
+[OK] actual_outcome declared
+[OK] actual_outcome allowed
+[OK] packet lifecycle workflow_ref declared
+[OK] packet lifecycle receipt_ref declared
+[ERROR] packet lifecycle verdict must be pass
+[OK] packet lifecycle replanned after material changes is true
+[OK] target_receipts.implementation_run non-empty
+[OK] target_receipts.implementation_conformance non-empty
+[OK] target_receipts.post_implementation_drift_churn non-empty
+[OK] target_receipts.promotion non-empty
+[OK] target_receipts.packet_closeout non-empty
+[OK] target_receipts.terminal_closeout non-empty
+[OK] target_receipts.archive non-empty
+[OK] target_receipts.change_closeout non-empty
+[OK] implementation conformance receipt_ref declared
+[OK] implementation conformance fresh is true
+[OK] implementation conformance verdict is pass
+[OK] post-implementation drift/churn receipt_ref declared
+[OK] post-implementation drift/churn fresh is true
+[OK] post-implementation drift/churn verdict is pass
+[OK] promotion receipt_ref declared
+[OK] promotion fresh is true
+[OK] promotion verdict is pass
+[OK] packet closeout receipt_ref declared
+[ERROR] packet closeout fresh must be true
+[ERROR] packet closeout verdict must be pass
+[OK] terminal closeout receipt_ref declared
+[OK] terminal closeout fresh is true
+[OK] terminal closeout verdict is pass
+[OK] archive receipt_ref declared
+[OK] archive fresh is true
+[OK] archive verdict is pass
+[OK] generated publication validator declared
+[OK] generated publication publisher refs non-empty
+[OK] generated publication fresh is true
+[OK] direct generated output edit used is false
+[OK] governed mechanism integration required flag declared
+[OK] governed mechanism integration verdict is not-applicable
+[OK] governed mechanism integration not-applicable rationale declared
+[OK] unauthorized lifecycle residue deletion is false
+[OK] Change closeout route declared
+[OK] Change closeout receipt ref declared
+[OK] Change closeout verdict declared
+[OK] blocker state compatible with actual outcome
+[OK] proposal-local files authority is non-authority
+[OK] generated prompts authority is non-authority
+[OK] generated outputs authority is derived-only-non-authority
+[OK] dashboards authority is non-authority
+[OK] chat/model memory authority is non-authority
+[OK] target-owned receipts required is true
+[OK] aggregate receipt replaces target-owned receipts is false
+Validation summary: errors=5

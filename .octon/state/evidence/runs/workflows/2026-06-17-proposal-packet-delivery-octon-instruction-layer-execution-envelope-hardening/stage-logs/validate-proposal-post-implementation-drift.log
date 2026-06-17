@@ -1,0 +1,203 @@
+[OK] proposal manifest parses
+[OK] proposal kind supports post-implementation drift/churn gate
+[OK] proposal manifest parses
+[OK] proposal kind supports implementation-conformance gate
+[OK] proposal kind supports implementation-readiness gate
+[OK] implementation-grade completeness review exists
+[OK] readiness verdict is explicit
+[OK] unresolved question count is numeric
+[OK] clarification_required is explicit
+[OK] review includes section: Blockers
+[OK] review includes section: Assumptions
+[OK] review includes section: Promotion Target Coverage
+[OK] review includes section: Affected Artifact Coverage
+[OK] review includes section: Validator Coverage
+[OK] review includes section: Implementation Prompt Readiness
+[OK] review includes section: Exclusions
+[OK] review includes section: Final Route Recommendation
+[OK] readiness gate passes for lifecycle status
+[OK] no unresolved questions for implementation-ready lifecycle status
+[OK] no clarification required for implementation-ready lifecycle status
+[OK] executable implementation prompt exists
+[OK] executable implementation prompt names validation commands
+[OK] executable implementation prompt includes retained evidence expectations
+[OK] executable implementation prompt includes rollback expectations
+[OK] executable implementation prompt requires conformance receipt
+[OK] executable implementation prompt requires drift/churn receipt
+[OK] executable implementation prompt includes closeout refusal criteria
+[OK] executable implementation prompt covers promotion target: .octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json
+[OK] executable implementation prompt covers promotion target: .octon/instance/execution-roles/runtime/tool-output-budgets.yml
+[OK] executable implementation prompt covers promotion target: .octon/framework/engine/runtime/spec/execution-request-v2.schema.json
+[OK] executable implementation prompt covers promotion target: .octon/framework/engine/runtime/spec/execution-grant-v1.schema.json
+[OK] executable implementation prompt covers promotion target: .octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json
+[OK] executable implementation prompt covers promotion target: .octon/instance/governance/policies/repo-shell-execution-classes.yml
+[OK] executable implementation prompt covers promotion target: .octon/framework/capabilities/packs/shell/manifest.yml
+[OK] executable implementation prompt covers promotion target: .octon/framework/capabilities/packs/repo/manifest.yml
+[OK] executable implementation prompt covers promotion target: .octon/instance/governance/capability-packs/shell.yml
+[OK] executable implementation prompt covers promotion target: .octon/instance/capabilities/runtime/packs/admissions/shell.yml
+[OK] executable implementation prompt covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh
+[OK] executable implementation prompt covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh
+[OK] executable implementation prompt covers promotion target: .octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh
+[OK] executable implementation prompt covers promotion target: .octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh
+[OK] executable implementation prompt covers promotion target: .octon/generated/effective/capabilities/pack-routes.effective.yml
+[OK] executable implementation prompt covers promotion target: .octon/generated/effective/capabilities/pack-routes.lock.yml
+[OK] executable implementation prompt covers promotion target: .octon/generated/effective/runtime/route-bundle.yml
+[OK] executable implementation prompt covers promotion target: .octon/generated/effective/runtime/route-bundle.lock.yml
+[OK] executable implementation prompt covers promotion target: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+[OK] executable implementation prompt covers promotion target: .octon/generated/cognition/projections/materialized/runs
+[OK] executable implementation prompt covers promotion target: .octon/state/evidence/validation/publication/capabilities
+[OK] executable implementation prompt covers promotion target: .octon/state/evidence/validation/publication/runtime
+[OK] executable implementation prompt covers promotion target: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health
+[OK] executable implementation prompt covers promotion target: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope
+[OK] proposal status supports review gate
+[OK] proposal review receipt exists
+[OK] review_id present
+[OK] reviewed_at present
+[OK] reviewer present
+[OK] review verdict is explicit
+[OK] implementation prompt authorization is explicit
+[OK] reviewed packet digest is explicit
+[OK] open blocking finding count is numeric
+[OK] review includes section: Approved Promotion Targets
+[OK] review includes section: Exclusions
+[OK] review includes section: Blocking Findings
+[OK] review includes section: Nonblocking Findings
+[OK] review includes section: Final Route Recommendation
+[OK] implemented or archived proposal preserves accepted review evidence
+Validation summary: errors=0 warnings=0
+[OK] proposal review gate passes
+[WARN] legacy archived executable prompt is not re-authorized by proposal review gate
+[OK] promotion targets are present
+[OK] promotion target scope is coherent
+[OK] target architecture exists
+[OK] architecture implementation plan exists
+[OK] architecture acceptance criteria exist
+[OK] implementation-grade proposal contains no scaffold placeholders
+Validation summary: errors=0 warnings=1
+[OK] implementation-grade completeness gate passes before conformance
+[OK] implementation conformance review exists
+[OK] conformance verdict is explicit
+[OK] unresolved item count is numeric
+[OK] conformance review includes section: Blockers
+[OK] conformance review includes section: Checked Evidence
+[OK] conformance review includes section: Promotion Target Coverage
+[OK] conformance review includes section: Implementation Map Coverage
+[OK] conformance review includes section: Validator Coverage
+[OK] conformance review includes section: Generated Output Coverage
+[OK] conformance review includes section: Governed Mechanism Integration Coverage
+[OK] conformance review includes section: Rollback Coverage
+[OK] conformance review includes section: Downstream Reference Coverage
+[OK] conformance review includes section: Exclusions
+[OK] conformance review includes section: Final Closeout Recommendation
+[OK] conformance gate passes for implemented lifecycle status
+[OK] no unresolved items for implemented lifecycle status
+[OK] passing conformance receipt contains no scaffold placeholders
+[OK] conformance receipt records validators run
+[OK] promotion targets are present
+[OK] promotion target exists: .octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json
+[OK] promotion target exists: .octon/instance/execution-roles/runtime/tool-output-budgets.yml
+[OK] promotion target exists: .octon/framework/engine/runtime/spec/execution-request-v2.schema.json
+[OK] promotion target exists: .octon/framework/engine/runtime/spec/execution-grant-v1.schema.json
+[OK] promotion target exists: .octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json
+[OK] promotion target exists: .octon/instance/governance/policies/repo-shell-execution-classes.yml
+[OK] promotion target exists: .octon/framework/capabilities/packs/shell/manifest.yml
+[OK] promotion target exists: .octon/framework/capabilities/packs/repo/manifest.yml
+[OK] promotion target exists: .octon/instance/governance/capability-packs/shell.yml
+[OK] promotion target exists: .octon/instance/capabilities/runtime/packs/admissions/shell.yml
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh
+[OK] promotion target exists: .octon/generated/effective/capabilities/pack-routes.effective.yml
+[OK] promotion target exists: .octon/generated/effective/capabilities/pack-routes.lock.yml
+[OK] promotion target exists: .octon/generated/effective/runtime/route-bundle.yml
+[OK] promotion target exists: .octon/generated/effective/runtime/route-bundle.lock.yml
+[OK] promotion target exists: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+[OK] promotion target exists: .octon/generated/cognition/projections/materialized/runs
+[OK] promotion target exists: .octon/state/evidence/validation/publication/capabilities
+[OK] promotion target exists: .octon/state/evidence/validation/publication/runtime
+[OK] promotion target exists: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health
+[OK] promotion target exists: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope
+[OK] conformance receipt covers Promotion Target Coverage
+[OK] conformance receipt covers Implementation Map Coverage
+[OK] conformance receipt covers Validator Coverage
+[OK] conformance receipt covers Generated Output Coverage
+[OK] conformance receipt covers Governed Mechanism Integration Coverage
+[OK] conformance receipt covers Rollback Coverage
+[OK] conformance receipt covers Downstream Reference Coverage
+Validation summary: errors=0 warnings=0
+[OK] implementation conformance gate passes before drift/churn
+[OK] post-implementation drift/churn review exists
+[OK] drift/churn verdict is explicit
+[OK] unresolved item count is numeric
+[OK] drift/churn review includes section: Blockers
+[OK] drift/churn review includes section: Checked Evidence
+[OK] drift/churn review includes section: Backreference Scan
+[OK] drift/churn review includes section: Naming Drift
+[OK] drift/churn review includes section: Generated Projection Freshness
+[OK] drift/churn review includes section: Governed Mechanism Integration Coverage
+[OK] drift/churn review includes section: Manifest And Schema Validity
+[OK] drift/churn review includes section: Repo-Local Projection Boundaries
+[OK] drift/churn review includes section: Target Family Boundaries
+[OK] drift/churn review includes section: Churn Review
+[OK] drift/churn review includes section: Validators Run
+[OK] drift/churn review includes section: Exclusions
+[OK] drift/churn review includes section: Final Closeout Recommendation
+[OK] drift/churn gate passes for implemented lifecycle status
+[OK] no unresolved items for implemented lifecycle status
+[OK] passing drift/churn receipt contains no scaffold placeholders
+[OK] drift/churn receipt records validators run
+[OK] subtype manifest parses
+[OK] proposal registry parses
+[OK] proposal registry contains current packet entry
+[OK] promotion target scope is coherent
+[OK] .github/** projection boundary is coherent
+[OK] promotion target has no active proposal backreferences: .octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json
+[OK] promotion target has no active proposal backreferences: .octon/instance/execution-roles/runtime/tool-output-budgets.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/instance/execution-roles/runtime/tool-output-budgets.yml
+[OK] promotion target has no active proposal backreferences: .octon/framework/engine/runtime/spec/execution-request-v2.schema.json
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/engine/runtime/spec/execution-request-v2.schema.json
+[OK] promotion target has no active proposal backreferences: .octon/framework/engine/runtime/spec/execution-grant-v1.schema.json
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/engine/runtime/spec/execution-grant-v1.schema.json
+[OK] promotion target has no active proposal backreferences: .octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json
+[OK] promotion target has no active proposal backreferences: .octon/instance/governance/policies/repo-shell-execution-classes.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/instance/governance/policies/repo-shell-execution-classes.yml
+[OK] promotion target has no active proposal backreferences: .octon/framework/capabilities/packs/shell/manifest.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/capabilities/packs/shell/manifest.yml
+[OK] promotion target has no active proposal backreferences: .octon/framework/capabilities/packs/repo/manifest.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/capabilities/packs/repo/manifest.yml
+[OK] promotion target has no active proposal backreferences: .octon/instance/governance/capability-packs/shell.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/instance/governance/capability-packs/shell.yml
+[OK] promotion target has no active proposal backreferences: .octon/instance/capabilities/runtime/packs/admissions/shell.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/instance/capabilities/runtime/packs/admissions/shell.yml
+[OK] promotion target has no active proposal backreferences: .octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh
+[OK] promotion target has no active proposal backreferences: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh
+[OK] promotion target has no active proposal backreferences: .octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh
+[OK] promotion target has no active proposal backreferences: .octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh
+[OK] promotion target has no active proposal backreferences: .octon/generated/effective/capabilities/pack-routes.effective.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/generated/effective/capabilities/pack-routes.effective.yml
+[OK] promotion target has no active proposal backreferences: .octon/generated/effective/capabilities/pack-routes.lock.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/generated/effective/capabilities/pack-routes.lock.yml
+[OK] promotion target has no active proposal backreferences: .octon/generated/effective/runtime/route-bundle.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/generated/effective/runtime/route-bundle.yml
+[OK] promotion target has no active proposal backreferences: .octon/generated/effective/runtime/route-bundle.lock.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/generated/effective/runtime/route-bundle.lock.yml
+[OK] promotion target has no active proposal backreferences: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+[OK] promotion target has no active proposal backreferences: .octon/generated/cognition/projections/materialized/runs
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/generated/cognition/projections/materialized/runs
+[OK] promotion target has no active proposal backreferences: .octon/state/evidence/validation/publication/capabilities
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/state/evidence/validation/publication/capabilities
+[OK] promotion target has no active proposal backreferences: .octon/state/evidence/validation/publication/runtime
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/state/evidence/validation/publication/runtime
+[OK] promotion target has no active proposal backreferences: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health
+[OK] promotion target has no active proposal backreferences: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope
+[OK] no stale Work Package/Change naming conflict in promoted target: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope
+Validation summary: errors=0 warnings=0

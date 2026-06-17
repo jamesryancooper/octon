@@ -1,0 +1,6 @@
+== Run Health Read Model Validation ==
+[OK] schema present: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+[OK] validated health files: 540
+[OK] fixture status coverage complete
+[OK] negative controls fail closed
+Validation summary: errors=0

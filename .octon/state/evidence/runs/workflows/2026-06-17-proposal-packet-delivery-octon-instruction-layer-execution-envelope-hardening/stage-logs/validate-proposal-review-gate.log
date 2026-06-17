@@ -1,0 +1,74 @@
+[OK] proposal status supports review gate
+[OK] proposal review receipt exists
+[OK] review_id present
+[OK] reviewed_at present
+[OK] reviewer present
+[OK] review verdict is explicit
+[OK] implementation prompt authorization is explicit
+[OK] reviewed packet digest is explicit
+[OK] open blocking finding count is numeric
+[OK] review includes section: Approved Promotion Targets
+[OK] review includes section: Exclusions
+[OK] review includes section: Blocking Findings
+[OK] review includes section: Nonblocking Findings
+[OK] review includes section: Final Route Recommendation
+[OK] implemented or archived proposal preserves accepted review evidence
+[RECOVERY_DIAGNOSTIC] {"recovery_class":"hard_blocker","failing_path":".octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml#status","observed_value":"archived","rerun_gate":"validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening --require-implementation-authorization","hard_blocker_reason":"implementation authorization requires proposal status accepted or implemented"}
+[ERROR] proposal status preserves implementation authorization state
+[OK] proposal review authorizes implementation
+[OK] proposal review permits implementation prompt generation
+[OK] proposal review has no open blockers for implementation
+[RECOVERY_DIAGNOSTIC] {"recovery_class":"stale_evidence","failing_path":".octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md#reviewed_packet_digest","observed_value":"sha256:eb719d738c573b122f6e7b23d02dace270fbdc73dd7dd1d51efeaa15e1340b13","stale_source_ref":".octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md","stale_cause":"reviewed packet digest does not match current packet digest","expected_digest":"sha256:c25e8c2ac9546f33d8082299a512cf1dbcefe23ac3d6334e29b207a49ff4b5b6","minimal_repair_hint":"rerun the proposal review route for .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening so support/proposal-review.md records the current packet digest","rerun_gate":"validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening --require-implementation-authorization"}
+[ERROR] reviewed packet digest is fresh
+recorded: sha256:eb719d738c573b122f6e7b23d02dace270fbdc73dd7dd1d51efeaa15e1340b13
+current:  sha256:c25e8c2ac9546f33d8082299a512cf1dbcefe23ac3d6334e29b207a49ff4b5b6
+legacy:   sha256:c25e8c2ac9546f33d8082299a512cf1dbcefe23ac3d6334e29b207a49ff4b5b6
+[OK] review covers promotion target: .octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json
+[OK] review covers promotion target: .octon/instance/execution-roles/runtime/tool-output-budgets.yml
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/execution-request-v2.schema.json
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/execution-grant-v1.schema.json
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json
+[OK] review covers promotion target: .octon/instance/governance/policies/repo-shell-execution-classes.yml
+[OK] review covers promotion target: .octon/framework/capabilities/packs/shell/manifest.yml
+[OK] review covers promotion target: .octon/framework/capabilities/packs/repo/manifest.yml
+[OK] review covers promotion target: .octon/instance/governance/capability-packs/shell.yml
+[OK] review covers promotion target: .octon/instance/capabilities/runtime/packs/admissions/shell.yml
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh
+[OK] review covers promotion target: .octon/generated/effective/capabilities/pack-routes.effective.yml
+[OK] review covers promotion target: .octon/generated/effective/capabilities/pack-routes.lock.yml
+[OK] review covers promotion target: .octon/generated/effective/runtime/route-bundle.yml
+[OK] review covers promotion target: .octon/generated/effective/runtime/route-bundle.lock.yml
+[OK] review covers promotion target: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+[OK] review covers promotion target: .octon/generated/cognition/projections/materialized/runs
+[OK] review covers promotion target: .octon/state/evidence/validation/publication/capabilities
+[OK] review covers promotion target: .octon/state/evidence/validation/publication/runtime
+[OK] review covers promotion target: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health
+[OK] review covers promotion target: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope
+[OK] architectural review receipt exists
+[OK] architectural review receipt parses as YAML
+[OK] schema_version is architectural-review-support-receipt-v1
+[OK] receipt_id present
+[OK] proposal_path present
+[OK] packet_digest explicit
+[OK] review_mode canonical
+[OK] review_mode matches requested mode
+[OK] verdict explicit
+[OK] unresolved_count numeric
+[OK] non-authority classification retained-evidence-only
+[OK] evidence_refs non-empty
+[OK] validator_refs non-empty
+[OK] blockers is a list
+[OK] mode_specific_coverage non-empty
+[OK] receipt contains no placeholder or stale-evidence text
+[OK] required pass receipt has pass verdict
+[OK] required pass receipt has zero unresolved items
+[OK] required pass receipt has no blockers
+[ERROR] packet_digest is fresh for package
+recorded: sha256:eb719d738c573b122f6e7b23d02dace270fbdc73dd7dd1d51efeaa15e1340b13
+current:  sha256:c25e8c2ac9546f33d8082299a512cf1dbcefe23ac3d6334e29b207a49ff4b5b6
+Validation summary: errors=1
+[ERROR] architecture proposal has strict Pre-Integration Architecture Review receipt
+Validation summary: errors=3 warnings=0

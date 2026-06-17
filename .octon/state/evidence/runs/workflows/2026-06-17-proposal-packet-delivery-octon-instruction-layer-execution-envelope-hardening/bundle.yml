@@ -1,0 +1,27 @@
+schema_version: proposal-packet-delivery-wrapper-evidence-v1
+run_id: 2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening
+created_at: "2026-06-17T15:37:12Z"
+target:
+  requested_path: .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+  resolved_path: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening
+  requested_outcome: cleaned
+  actual_outcome: blocked
+route:
+  work_unit_route: branch-no-pr
+  landing_route: branch-no-pr
+  pr_fallback_allowed: false
+primary_receipts:
+  profile: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/profile.yml
+  receipt: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/proposal-packet-delivery-receipt.yml
+  change_closeout_not_run: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/change-closeout-not-run.md
+  summary: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/summary.md
+validator_logs:
+  profile: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-delivery-profile.log
+  receipt: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-delivery-receipt.log
+  review_gate: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-proposal-review-gate.log
+  implementation_conformance: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-proposal-implementation-conformance.log
+  post_implementation_drift: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-proposal-post-implementation-drift.log
+  support_envelope_reconciliation: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-support-envelope-reconciliation.log
+  run_health_read_model: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-run-health-read-model.log
+  architecture_conformance: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-architecture-conformance.log
+  generated_non_authority: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-generated-non-authority.log

@@ -1,0 +1,123 @@
+schema_version: proposal-packet-delivery-receipt-v1
+receipt_id: 2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening-blocked
+emitted_at: "2026-06-17T15:37:12Z"
+profile:
+  profile_id: octon-instruction-layer-execution-envelope-hardening-branch-no-pr-cleaned
+  profile_ref: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/profile.yml
+  validated_at: "2026-06-17T15:37:12Z"
+  verdict: pass
+target_packet:
+  path: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening
+  status: archived
+  accepted_review_digest: sha256:eb719d738c573b122f6e7b23d02dace270fbdc73dd7dd1d51efeaa15e1340b13
+  accepted_review_fresh: false
+  implementation_authorized: false
+  implementation_authorization_ref: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-proposal-review-gate.log
+target_outcome: cleaned
+actual_outcome: blocked
+packet_lifecycle:
+  workflow_ref: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml
+  receipt_ref: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/proposal-packet-delivery-receipt.yml
+  verdict: blocked
+  replanned_after_material_changes: true
+target_receipts:
+  implementation_run:
+    - .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md
+  implementation_conformance:
+    - .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+  post_implementation_drift_churn:
+    - .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+  promotion:
+    - .octon/state/evidence/runs/workflows/2026-06-17-promote-proposal-octon-inputs-exploratory-proposals-architecture-octon-instruction-layer-execution-envelope-hardening/summary.md
+  packet_closeout:
+    - .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+  terminal_closeout:
+    - .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+  archive:
+    - .octon/state/evidence/runs/workflows/2026-06-17-archive-proposal-octon-inputs-exploratory-proposals-architecture-octon-instruction-layer-execution-envelope-hardening/summary.md
+  change_closeout:
+    - .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/change-closeout-not-run.md
+implementation_conformance:
+  receipt_ref: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+  fresh: true
+  verdict: pass
+post_implementation_drift_churn:
+  receipt_ref: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+  fresh: true
+  verdict: pass
+generated_publication:
+  validator: .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh; .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh; .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+  publisher_refs:
+    - .octon/state/evidence/validation/publication/capabilities
+    - .octon/state/evidence/validation/publication/runtime
+    - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health
+    - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope
+  fresh: true
+  direct_generated_output_edit_used: false
+governed_mechanism_integration:
+  required: false
+  verdict: not-applicable
+  receipt_refs: []
+  not_applicable_rationale: implementation changed instruction-layer contracts and capability envelopes; no separate governed mechanism integration receipt was required beyond the packet conformance and publication validators.
+promotion:
+  receipt_ref: .octon/state/evidence/runs/workflows/2026-06-17-promote-proposal-octon-inputs-exploratory-proposals-architecture-octon-instruction-layer-execution-envelope-hardening/summary.md
+  fresh: true
+  verdict: pass
+packet_closeout:
+  receipt_ref: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+  fresh: false
+  verdict: fail
+terminal_closeout:
+  receipt_ref: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+  fresh: true
+  verdict: pass
+archive:
+  receipt_ref: .octon/state/evidence/runs/workflows/2026-06-17-archive-proposal-octon-inputs-exploratory-proposals-architecture-octon-instruction-layer-execution-envelope-hardening/summary.md
+  fresh: true
+  verdict: pass
+lifecycle_residue_cleanup:
+  cleanup_performed: false
+  cleanup_authorization_refs: []
+  unauthorized_deletion_performed: false
+change_closeout:
+  route: not-run
+  receipt_ref: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/change-closeout-not-run.md
+  verdict: not-run
+branch_authorization:
+  landing_performed: false
+  landing_authorization_ref: not-applicable
+  branch_cleanup_performed: false
+  cleanup_authorization_ref: not-applicable
+  branch_deleted: false
+final_sync:
+  landed_ref: ""
+  local_main_ref: 4840b47830d632059b7b6180db13729e3ecbbbff
+  origin_main_ref: 4840b47830d632059b7b6180db13729e3ecbbbff
+  main_origin_landed_ref_equal: false
+terminal_current_state_proof:
+  evidence_ref: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/git-status-before-receipt.log
+  fresh_after_last_mutation: false
+  verdict: not-run
+worktree_hygiene:
+  evidence_ref: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/git-status-before-receipt.log
+  dirty_worktree: true
+  verdict: not-run
+blockers:
+  - class: archived-packet-review-gate-not-current
+    evidence_ref: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-proposal-review-gate.log
+    status: open
+  - class: packet-closeout-receipt-remains-blocked
+    evidence_ref: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+    status: open
+  - class: branch-no-pr-change-closeout-not-run
+    evidence_ref: .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/change-closeout-not-run.md
+    status: open
+non_authority_classification:
+  proposal_local_files: non-authority
+  generated_prompts: non-authority
+  generated_outputs: derived-only-non-authority
+  dashboards: non-authority
+  chat_or_model_memory: non-authority
+target_owned_evidence_policy:
+  target_owned_receipts_required: true
+  aggregate_receipt_replaces_target_owned_receipts: false
