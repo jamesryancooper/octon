@@ -112,7 +112,7 @@ delivery_modes:
     profile_schema_ref: ".octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json"
     receipt_schema_ref: ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json"
     entrypoints:
-      - "/proposal-packet-delivery"
+      - "/octon-proposal-run-packet-delivery"
       - "proposal-packet-delivery"
     supported_outcomes:
       - "implemented"

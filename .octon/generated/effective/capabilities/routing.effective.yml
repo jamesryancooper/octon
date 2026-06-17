@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-a9696b8bcc9f
-published_at: 2026-06-16T23:45:37Z
+generation_id: capabilities-8029cff4d1c4
+published_at: 2026-06-17T02:06:05Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-16T23-45-37Z-capabilities-a9696b8bcc9f.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-06-17T02-06-05Z-capabilities-8029cff4d1c4.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -15,7 +15,7 @@ source:
   root_manifest_path: .octon/octon.yml
   root_manifest_sha256: 97b9ff62eaf1459383e56ed8da69399e98db9b4d44adcf544a38d99cf6ecfb86
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-  framework_commands_manifest_sha256: 833a8df4d7b90f4fd4ab73111e2d45d65040c90b81913d66febb8e6c5b12d174
+  framework_commands_manifest_sha256: 122c5e55e1cd86be44ad549513002937fedbfb8dbfb9c92d8e583b4b61321339
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
   framework_skills_manifest_sha256: 1554233e2d18f7f755714bdb1636eee0b6b6049c369c390c4e57111277d8bc6c
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 8a4fa6da63f81cbaae646f716028412a8b05ba89eee40696b9a36c2787f67de9
+  extensions_catalog_sha256: 53e8e5890da662f13b46227fe9c50a82781e003af5f8e7f2152a94e5c694f471
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: cd6b3bbbf7c219141806a1d9b937f9135037e36925a504e86aaafb4fca1386b0
+  extensions_generation_lock_sha256: 32024638d23fdae1894bb0a070e53acc96e80f52b5627ba88ed95a81e27fc6c6
   extensions_generation_id: extensions-e539e7c8b239
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -913,9 +913,7 @@ routing_candidates:
     status: active
     source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
     capability_domain: command
-    host_adapters:
-      - cursor
-      - codex
+    host_adapters: []
     selectors:
       include:
         - '**'
@@ -5335,6 +5333,37 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-lifecycle.octon-proposal-revise-program
     projection_name: octon-proposal-revise-program
+  - effective_id: extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-delivery
+    artifact_map_id: extension-command-octon-proposal-lifecycle-octon-proposal-run-packet-delivery
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-run-packet-delivery
+    display_name: Packet - Run Delivery
+    summary: Run the workflow-backed delivery wrapper for one accepted proposal packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-delivery
+    projection_name: octon-proposal-run-packet-delivery
   - effective_id: extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-implementation
     artifact_map_id: extension-command-octon-proposal-lifecycle-octon-proposal-run-packet-implementation
     origin_class: extension
@@ -7123,6 +7152,7 @@ resolution_order:
   - extension.command.octon-proposal-lifecycle.octon-proposal-review-program
   - extension.command.octon-proposal-lifecycle.octon-proposal-revise-packet
   - extension.command.octon-proposal-lifecycle.octon-proposal-revise-program
+  - extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-delivery
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-implementation
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-lifecycle
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-verification-and-correction-loop

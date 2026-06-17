@@ -11,6 +11,7 @@ OCTON_DIR="${OCTON_DIR_OVERRIDE:-$(cd -- "$FRAMEWORK_DIR/.." && pwd)}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 
 MANIFEST="$WORKFLOWS_DIR/manifest.yml"
+REGISTRY="$WORKFLOWS_DIR/registry.yml"
 OUTPUT_ROOT="$ROOT_DIR"
 FILTER_WORKFLOW_ID=""
 
@@ -40,6 +41,7 @@ title_case() {
 }
 
 require_file "$MANIFEST"
+require_file "$REGISTRY"
 
 mapfile -t workflow_rows < <(yq -r '.workflows[] | to_json | @base64' "$MANIFEST")
 
@@ -61,6 +63,10 @@ for row in "${workflow_rows[@]}"; do
   description="$(yq -r '.description // ""' "$workflow_file")"
   version="$(yq -r '.version // "1.0.0"' "$workflow_file")"
   execution_profile="$(yq -r '.execution_profile // "core"' "$workflow_file")"
+  usage_command="$(yq -r ".workflows.\"$workflow_id\".commands[0] // \"/$workflow_id\"" "$REGISTRY")"
+  if [[ -z "$usage_command" || "$usage_command" == "null" ]]; then
+    usage_command="/$workflow_id"
+  fi
   mapfile -t input_rows < <(yq -r '.inputs[]? | to_json | @base64' "$workflow_file")
   mapfile -t artifact_rows < <(yq -r '.artifacts[]? | to_json | @base64' "$workflow_file")
   mapfile -t stage_rows < <(yq -r '.stages[] | to_json | @base64' "$workflow_file")
@@ -82,7 +88,7 @@ for row in "${workflow_rows[@]}"; do
     printf '\n'
     printf '# %s\n\n' "$(title_case "$workflow_id")"
     printf '_Generated README from canonical workflow `%s`._\n\n' "$workflow_id"
-    printf '## Usage\n\n```text\n/%s\n```\n\n' "$workflow_id"
+    printf '## Usage\n\n```text\n%s\n```\n\n' "$usage_command"
     printf '## Purpose\n\n%s\n\n' "$description"
     printf '## Target\n\n'
     printf 'This README summarizes the canonical workflow unit at `.octon/framework/orchestration/runtime/workflows/%s`.\n\n' "${rel_path%/}"

@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "uec-repo-shell-repo-consequential-recertified-20260410",
-  "generated_at": "2026-06-17T00:08:56Z",
+  "generated_at": "2026-06-17T02:27:58Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:1c7c176dcde2dbae11ec37842532bf0519e1b286f0e9637e93f0634e7b491b58",
-    "checked_at": "2026-06-17T00:08:56Z",
+    "combined_source_digest": "sha256:4e0aa05eb6ed1a69d44cc72bc4e6a3a407aa86879832cc64b15ae188f52c0f6d",
+    "checked_at": "2026-06-17T02:27:58Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:84d66452bfe45e70f7d8ea6dda2c534d56939df60dd3d52b44e34f535a94c138",
+      "digest": "sha256:85d426116454b5a20565f88c9db89ada666f4f45d54d797e26783a378f0da267",
       "status": "present"
     },
     "run_continuity": {
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:d67ff516e9a4441badd976e3f2f895679e9cb1b9d2277735e4dec9687bd09eb6",
+      "digest": "sha256:852ddbefa05ba97a1ea438d5a7883656d3b553b6aa42c7fba5f7ac564a24d039",
       "status": "present"
     },
     "pack_routes": {

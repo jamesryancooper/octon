@@ -1,6 +1,6 @@
 {
   "schema_version": "run-health-read-model-index-v1",
-  "generated_at": "2026-06-17T00:08:56Z",
+  "generated_at": "2026-06-17T02:27:58Z",
   "authority": {
     "classification": "generated_read_model_non_authoritative",
     "may_authorize": false,
@@ -95,6 +95,21 @@
     {
       "run_id": "archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1781378420000-repo-hygiene-cleanup-authorization-receipts-validate-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-1781655380444-23350",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1781655380444-23350/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-1781655380444-23350-archive-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1781655380444-23350-archive-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-1781655380444-23350-validate-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1781655380444-23350-validate-proposal/health.yml",
       "status": "stale"
     },
     {
@@ -1160,6 +1175,116 @@
     {
       "run_id": "proposal-packet-terminal-closeout-1781654701207-1680-verify-post-implementation-drift",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781654701207-1680-verify-post-implementation-drift/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-bind-profile",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-bind-profile/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-repo-hygiene/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-classify-worktree-hygiene/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-emit-terminal-receipt",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-emit-terminal-receipt/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-resolve-git-github-route",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-resolve-git-github-route/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-run-evidence-only-reviews",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-run-evidence-only-reviews/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-validate-publication-freshness",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-validate-publication-freshness/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-durable-implementation-state/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-verify-implementation-conformance",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-implementation-conformance/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655098340-60748-verify-post-implementation-drift",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655098340-60748-verify-post-implementation-drift/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-bind-profile",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-bind-profile/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-classify-repo-hygiene",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-classify-repo-hygiene/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-classify-worktree-hygiene",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-classify-worktree-hygiene/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-emit-terminal-receipt",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-emit-terminal-receipt/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-resolve-git-github-route",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-resolve-git-github-route/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-validate-publication-freshness",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-validate-publication-freshness/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-verify-durable-implementation-state",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-durable-implementation-state/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-verify-implementation-conformance",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-implementation-conformance/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/health.yml",
       "status": "stale"
     },
     {

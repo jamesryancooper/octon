@@ -100,9 +100,6 @@ commands:
     fingerprints:
       tech_tags: []
       language_tags: []
-  host_adapters:
-  - cursor
-  - codex
 - id: proposal-program-delivery
   display_name: Proposal Program Delivery
   path: proposal-program-delivery.md

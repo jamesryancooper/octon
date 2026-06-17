@@ -78,6 +78,12 @@ commands:
     summary: "Run the governed orchestration wrapper for one proposal packet; this is not a leaf route bundle."
     access: agent
     argument_hint: "<packet-path> [--run-id <id>] [--executor auto|codex|claude|mock] [--execute-routes] [--invocation-authority unattended] [--max-iterations <n>] [--set key=value] [--set-file key=path]"
+  - id: octon-proposal-run-packet-delivery
+    display_name: "Packet - Run Delivery"
+    path: octon-proposal-run-packet-delivery.md
+    summary: "Run the workflow-backed delivery wrapper for one accepted proposal packet."
+    access: agent
+    argument_hint: "target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]"
   - id: octon-proposal-create-program
     display_name: "Program - Create"
     path: octon-proposal-create-program.md
