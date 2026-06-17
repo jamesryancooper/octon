@@ -1,0 +1,81 @@
+schema_version: octon-proposal-closeout-command-status-v1
+run_id: manual-closeout-20260617T000118Z
+proposal_id: proposal-packet-delivery-wrapper
+recorded_at: 2026-06-17T00:01:18Z
+verdict: pass
+commands:
+  - command: validate-proposal-standard.sh --package proposal-packet-delivery-wrapper
+    verdict: pass
+    errors: 0
+    warnings: 1
+  - command: validate-architecture-proposal.sh --package proposal-packet-delivery-wrapper
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: validate-proposal-implementation-readiness.sh --package proposal-packet-delivery-wrapper
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: validate-proposal-review-gate.sh --package proposal-packet-delivery-wrapper
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: validate-architectural-review-receipts.sh --require-pass
+    verdict: pass
+    errors: 0
+  - command: validate-proposal-implementation-conformance.sh --package proposal-packet-delivery-wrapper
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: validate-proposal-post-implementation-drift.sh --package proposal-packet-delivery-wrapper
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: validate-proposal-packet-delivery-workflow.sh
+    verdict: pass
+    errors: 0
+  - command: validate-proposal-packet-delivery-profile.sh
+    verdict: pass
+    errors: 0
+  - command: validate-proposal-packet-delivery-receipt.sh
+    verdict: pass
+    errors: 0
+  - command: test-validate-proposal-packet-delivery.sh
+    verdict: pass
+    pass: 31
+    fail: 0
+  - command: generate-proposal-artifact-index.sh --proposal proposal-packet-delivery-wrapper --check
+    verdict: pass
+    errors: 0
+  - command: validate-proposal-artifact-index-spine.sh --proposal proposal-packet-delivery-wrapper
+    verdict: pass
+    errors: 0
+  - command: generate-proposal-registry.sh --check
+    verdict: pass
+    errors: 0
+  - command: validate-extension-publication-state.sh
+    verdict: pass
+    errors: 0
+  - command: validate-capability-publication-state.sh
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: validate-runtime-effective-route-bundle.sh
+    verdict: pass
+    errors: 0
+  - command: validate-runtime-effective-artifact-handles.sh
+    verdict: pass
+    errors: 0
+  - command: validate-runtime-effective-state.sh
+    verdict: pass
+    errors: 0
+  - command: validate-product-feature-catalog.sh
+    verdict: pass
+    errors: 0
+  - command: validate-lifecycle-contracts.sh
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: git diff --check
+    verdict: pass
+blockers: []

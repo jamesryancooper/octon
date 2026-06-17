@@ -121,6 +121,12 @@
       "sha256": "sha256:7f59bd99ea96b1a7038fbe7be2e86730224fa67425a22baf783709c1a21a04d1"
     },
     {
+      "byte_size": 7021,
+      "estimated_tokens": 1756,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-packet-delivery-wrapper/support/proposal-closeout.md",
+      "sha256": "sha256:78d90d77b62fd4d45cb0d63492127951801781b8bdcd38a8c30dfa66e00a8dfb"
+    },
+    {
       "byte_size": 1898,
       "estimated_tokens": 475,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-packet-delivery-wrapper/support/proposal-creation.md",
