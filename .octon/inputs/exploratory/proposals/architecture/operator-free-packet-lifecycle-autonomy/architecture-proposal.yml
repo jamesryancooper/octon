@@ -1,0 +1,19 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Octon proposal packet lifecycle autonomy and closeout orchestration"
+decision_type: "surface-refactor"
+summary: >-
+  Coordinate a multi-packet architecture improvement program that makes packet
+  delivery and closeout more operator-free while preserving existing authority
+  boundaries, fail-closed gates, target-owned receipts, generated-output
+  non-authority, and cleanup safety.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+child_packet_contract_ref: "architecture/child-packet-contract.md"
+program_sequence_ref: "architecture/packet-sequence.md"
+risk_register_ref: "RISK-REGISTER.md"
+validation_plan_ref: "validation-plan.md"
+non_authority_statement: >-
+  Parent program material is proposal-local lineage only. Future child packets
+  must promote durable behavior through their own accepted targets, evidence,
+  validators, and closeout receipts.
