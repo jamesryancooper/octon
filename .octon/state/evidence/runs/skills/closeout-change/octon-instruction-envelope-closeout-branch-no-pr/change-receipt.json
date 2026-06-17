@@ -1,0 +1,88 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "octon-instruction-envelope-closeout-branch-no-pr-20260617T155053Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the instruction envelope hardening branch without editing the blocked packet-delivery receipt into a false pass.",
+  "scope": {
+    "summary": "Branch-no-PR publication of the archived instruction envelope hardening packet closeout and its blocked delivery-wrapper evidence.",
+    "touched_paths": [
+      ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json",
+      ".octon/instance/execution-roles/runtime/tool-output-budgets.yml",
+      ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json",
+      ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json",
+      ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json",
+      ".octon/instance/governance/policies/repo-shell-execution-classes.yml",
+      ".octon/framework/capabilities/packs/shell/manifest.yml",
+      ".octon/framework/capabilities/packs/repo/manifest.yml",
+      ".octon/instance/governance/capability-packs/shell.yml",
+      ".octon/instance/capabilities/runtime/packs/admissions/shell.yml",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh",
+      ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      ".octon/generated/effective/capabilities/pack-routes.lock.yml",
+      ".octon/generated/effective/runtime/route-bundle.yml",
+      ".octon/generated/effective/runtime/route-bundle.lock.yml",
+      ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      ".octon/generated/cognition/projections/materialized/runs",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening",
+      ".octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening",
+      ".octon/state/evidence/runs/skills/closeout-change/octon-instruction-envelope-closeout-branch-no-pr"
+    ],
+    "diff_refs": [
+      "origin/chore/octon-instruction-envelope-closeout",
+      ".octon/state/evidence/runs/skills/closeout-change/octon-instruction-envelope-closeout-branch-no-pr/remote-branch-verification.md"
+    ]
+  },
+  "source_branch_ref": "chore/octon-instruction-envelope-closeout",
+  "remote_branch_ref": "origin/chore/octon-instruction-envelope-closeout",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "blocker_reason": "Closeout-change evidence was created after branch publication; landing and cleanup require a fresh route-owned pass with a clean source ref, landing authorization, hosted mutation proof, final sync proof, and branch cleanup authorization.",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/octon-instruction-envelope-closeout-branch-no-pr/remote-branch-verification.md"
+    ]
+  },
+  "not_landed_reason": "Branch was published to origin for handoff, but hosted no-PR landing was not run because the current route only has publication evidence and no landing authorization or final sync proof.",
+  "not_cleaned_reason": "Branch cleanup is not authorized or safe before hosted landing and final sync are proven.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-support-envelope-reconciliation.log",
+    ".octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-run-health-read-model.log",
+    ".octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-architecture-conformance.log",
+    ".octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-delivery-profile.log",
+    ".octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/stage-logs/validate-delivery-receipt.log",
+    ".octon/state/evidence/runs/skills/closeout-change/octon-instruction-envelope-closeout-branch-no-pr/remote-branch-verification.md"
+  ],
+  "review_waiver_refs": [
+    "branch-no-pr selected by operator instruction; PR fallback forbidden by packet delivery profile"
+  ],
+  "durable_history": {
+    "kind": "branch",
+    "ref": "origin/chore/octon-instruction-envelope-closeout",
+    "branch": "chore/octon-instruction-envelope-closeout"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/octon-instruction-envelope-closeout",
+    "instructions": "Because the branch is not landed, rollback is to delete or reset the local and remote source branch after retaining any needed evidence. Do not delete before branch cleanup authorization if a future landing route has started."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "cleaned delivery wrapper receipt remains blocked and must not be edited into pass",
+    "hosted no-PR landing authorization has not been emitted",
+    "origin/main has not been updated to the source branch",
+    "local main, origin/main, and landed_ref equality is not proven",
+    "branch cleanup authorization has not been emitted"
+  ],
+  "created_at": "2026-06-17T15:50:53Z"
+}
