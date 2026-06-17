@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.96](https://github.com/jamesryancooper/octon/compare/octon-v0.6.95...octon-v0.6.96) (2026-06-17)
+
+
+### Features
+
+* **proposals:** add packet delivery workflow ([ed8047c](https://github.com/jamesryancooper/octon/commit/ed8047cb7b013ba5b481cd360302432dec9fba25))
+
+
+### Bug Fixes
+
+* **proposals:** align packet delivery slash command ([#535](https://github.com/jamesryancooper/octon/issues/535)) ([e031438](https://github.com/jamesryancooper/octon/commit/e03143812cad184cb58c986bd7a2054a03c39d14))
+* **proposals:** emit empty terminal fixture refs validly ([97e4ba1](https://github.com/jamesryancooper/octon/commit/97e4ba1460246ebf9fd99d26e9587736f871b819))
+* **proposals:** unblock packet terminal closeout ([eb84e3c](https://github.com/jamesryancooper/octon/commit/eb84e3c2755f4d793bcab350dddd0937c35f46c9))
+
 ## [0.6.95](https://github.com/jamesryancooper/octon/compare/octon-v0.6.94...octon-v0.6.95) (2026-06-16)
 
 
