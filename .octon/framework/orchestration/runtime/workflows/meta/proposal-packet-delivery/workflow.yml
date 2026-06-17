@@ -201,6 +201,7 @@ done_gate:
   checks:
     - "profile validates with validate-proposal-packet-delivery-profile.sh before any delivery claim"
     - "proposal review/readiness gates and implementation authorization are fresh before implementation"
+    - "run-packet-implementation owns implementation execution and target-owned receipts remain authoritative"
     - "implementation conformance and post-implementation drift/churn pass before promotion"
     - "promote-proposal owns implemented status and promotion receipt evidence"
     - "closeout-packet owns proposal-closeout.md and archive authorization"

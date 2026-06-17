@@ -459,13 +459,33 @@ check_stage_references() {
 
 check_registry_commands() {
   local id="$1"
-  local primary_command
+  local primary_command command_id
   primary_command="$(yq -r ".workflows.\"$id\".commands[0] // \"\"" "$REGISTRY")"
+  command_id="${primary_command#/}"
   if [[ "$primary_command" == "/$id" ]]; then
     pass "workflow '$id' primary command matches id"
+  elif registered_command_id "$command_id"; then
+    pass "workflow '$id' primary command resolves registered command: $primary_command"
   else
-    fail "workflow '$id' primary command must be '/$id'"
+    fail "workflow '$id' primary command must be '/$id' or a registered command"
   fi
+}
+
+registered_command_id() {
+  local command_id="$1"
+  local manifest registered_id
+  [[ -n "$command_id" ]] || return 1
+
+  for manifest in \
+    "$OCTON_DIR"/inputs/additive/extensions/*/commands/manifest.fragment.yml \
+    "$OCTON_DIR"/framework/capabilities/runtime/commands/manifest.yml; do
+    [[ -f "$manifest" ]] || continue
+    while IFS= read -r registered_id; do
+      [[ "$registered_id" == "$command_id" ]] && return 0
+    done < <(yq -r '.commands[]?.id // ""' "$manifest")
+  done
+
+  return 1
 }
 
 workflow_has_external_dependency_markers() {
