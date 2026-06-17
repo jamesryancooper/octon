@@ -1,0 +1,173 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:d9db47eaf929a1dbf631639b5bdaccdd862e849f1672ead457bca38d73c88af0",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Promote the validated instruction-layer and capability-envelope refinements into durable runtime, capability-pack, and validator surfaces, then archive this proposal once the proposal-local packet is no longer needed for promotion guidance.",
+    "status": "implemented",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/octon-instruction-layer-execution-envelope-hardening/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json",
+    ".octon/instance/execution-roles/runtime/tool-output-budgets.yml",
+    ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json",
+    ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json",
+    ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json",
+    ".octon/instance/governance/policies/repo-shell-execution-classes.yml",
+    ".octon/framework/capabilities/packs/shell/manifest.yml",
+    ".octon/framework/capabilities/packs/repo/manifest.yml",
+    ".octon/instance/governance/capability-packs/shell.yml",
+    ".octon/instance/capabilities/runtime/packs/admissions/shell.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh",
+    ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+    ".octon/generated/effective/capabilities/pack-routes.lock.yml",
+    ".octon/generated/effective/runtime/route-bundle.yml",
+    ".octon/generated/effective/runtime/route-bundle.lock.yml",
+    ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    ".octon/generated/cognition/projections/materialized/runs",
+    ".octon/state/evidence/validation/publication/capabilities",
+    ".octon/state/evidence/validation/publication/runtime",
+    ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health",
+    ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope"
+  ],
+  "proposal_id": "octon-instruction-layer-execution-envelope-hardening",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 9320,
+      "estimated_tokens": 2330,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md",
+      "sha256": "sha256:0ebdbb78f9accb6e3717430aabf261208a9c09adca51efb04d9074731ce1448f"
+    },
+    {
+      "byte_size": 3955,
+      "estimated_tokens": 989,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md",
+      "sha256": "sha256:e8704b15634b76c3753c6ffb6a52eade318ca7be6f7a5f58f08509458bb64fc0"
+    },
+    {
+      "byte_size": 2644,
+      "estimated_tokens": 661,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:8f249a775f9fb229499f22c988022e7b18f3c17c6ffe7db6a271b5635c73c802"
+    },
+    {
+      "byte_size": 4802,
+      "estimated_tokens": 1201,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md",
+      "sha256": "sha256:4347ac2b5bc7a85d74e44eb49c32c43361f3241845c6c489a70a3c140a8d653f"
+    },
+    {
+      "byte_size": 4287,
+      "estimated_tokens": 1072,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:a0496c07af4e3f2937b6af2bdb93219fae6bebd73d4064105b88002822437686"
+    },
+    {
+      "byte_size": 5001,
+      "estimated_tokens": 1251,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md",
+      "sha256": "sha256:7bb2b7025b6fd9dee333938bebeb0c9c623911521f3e7e9278088006d155955c"
+    },
+    {
+      "byte_size": 3874,
+      "estimated_tokens": 969,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md",
+      "sha256": "sha256:44a72b249c78b76dd9f6b1d8098ada5f5e2a87bc066ce5924d47c2f05eae9c85"
+    },
+    {
+      "byte_size": 3230,
+      "estimated_tokens": 808,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md",
+      "sha256": "sha256:68655bd52545c6ad9b5badc9b55000f0a0ccd5990dfdb604b05f72d5889d9417"
+    }
+  ],
+  "related_proposals": [],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml": "sha256:697f5fb7258963f7aa99c46237100907a7f4c57dcad8f6b83d1f4df2a9b07766",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md": "sha256:0e79893b1397f46bc24ec85d0c8af71e9a92b9e5bbe9f53d11fa621fe1a1c399",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md": "sha256:d76e1e3abd20591e46c3555632bc4aca898ac5f356734650193de9cf35fb5d45",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md": "sha256:991d30eae98fb5fd92bf3ff782a920488412150d23270464b48fcba771b9859d",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md": "sha256:eeaf843a30a0d3e70def6d6caf6eb70e3262c46fc430ad8a9445b08a3467805a",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml": "sha256:0a1cd55393f543fca4bbb2db9701f87c2c7c1d8f16442e9ded01574bb6624700",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md": "sha256:0ebdbb78f9accb6e3717430aabf261208a9c09adca51efb04d9074731ce1448f",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md": "sha256:8f249a775f9fb229499f22c988022e7b18f3c17c6ffe7db6a271b5635c73c802",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md": "sha256:44a72b249c78b76dd9f6b1d8098ada5f5e2a87bc066ce5924d47c2f05eae9c85"
+  },
+  "source_lineage": [],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md"
+  ],
+  "status": "implemented"
+}

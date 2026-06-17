@@ -1,5 +1,5 @@
 schema_version: run-health-read-model-index-v1
-generated_at: '2026-06-17T13:33:13Z'
+generated_at: '2026-06-17T14:38:29Z'
 authority:
   classification: generated_read_model_non_authoritative
   may_authorize: false
@@ -124,6 +124,15 @@ runs:
   status: stale
 - run_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-validate-proposal
   health_ref: .octon/generated/cognition/projections/materialized/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-validate-proposal/health.yml
+  status: stale
+- run_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow
+  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow/health.yml
+  status: stale
+- run_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-promote-proposal
+  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-promote-proposal/health.yml
+  status: stale
+- run_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal
+  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal/health.yml
   status: stale
 - run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
   health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/health.yml
@@ -1498,6 +1507,27 @@ runs:
   status: stale
 - run_id: publish-1781703168768-84779
   health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781703168768-84779/health.yml
+  status: stale
+- run_id: publish-1781706018708-30647
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781706018708-30647/health.yml
+  status: stale
+- run_id: publish-1781706285074-52626
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781706285074-52626/health.yml
+  status: stale
+- run_id: publish-1781706285133-52615
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781706285133-52615/health.yml
+  status: stale
+- run_id: publish-1781706369757-88990
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781706369757-88990/health.yml
+  status: stale
+- run_id: publish-1781706369815-88989
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781706369815-88989/health.yml
+  status: stale
+- run_id: publish-1781707016892-39386
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781707016892-39386/health.yml
+  status: stale
+- run_id: publish-1781707095930-45242
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1781707095930-45242/health.yml
   status: stale
 - run_id: repo-consequential-preflight-workflow-20260413-v4
   health_ref: .octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml

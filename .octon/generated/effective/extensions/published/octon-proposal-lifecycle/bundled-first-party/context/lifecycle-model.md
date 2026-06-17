@@ -42,6 +42,12 @@ gates. `blocked`,
 outcomes for a lifecycle gate or route decision; they are not additional
 proposal statuses.
 
+Archive disposition `superseded` means a later accepted or implemented packet
+or program now owns the durable outcome. The superseded proposal remains
+lineage only; it must not claim `implemented`, and its
+`archive.promotion_evidence` must point to successor proposal/program evidence
+or retained successor closeout evidence outside the superseded packet.
+
 ## Execution Strategies
 
 Lifecycle identity names the lifecycle contract, route contracts name the

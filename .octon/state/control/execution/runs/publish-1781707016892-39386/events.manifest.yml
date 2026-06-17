@@ -1,0 +1,39 @@
+schema_version: run-event-ledger-v2
+run_id: publish-1781707016892-39386
+ledger_ref: .octon/state/control/execution/runs/publish-1781707016892-39386/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/publish-1781707016892-39386/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:0b5173e550205889692d89e48bc9381e7abf3425258a2dd380812d2f930d3a20
+event_count: 13
+first_event_ref:
+  event_id: evt-001-run-created-publish-1781707016892-39386
+  sequence: 1
+  event_hash: sha256:ca425662831e985ae4773f7be6f75d085133a21cac9d4190760b1d03fde06fad
+last_event_ref:
+  event_id: evt-effect-token-rejected-effect-token-evidence-mutation-48b1b213ab47
+  sequence: 13
+  event_hash: sha256:54a71f59df7eac4beb173b243dfc6377d2197563f18523b554f7c1f964a243bf
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:ca425662831e985ae4773f7be6f75d085133a21cac9d4190760b1d03fde06fad
+  tail_event_hash: sha256:54a71f59df7eac4beb173b243dfc6377d2197563f18523b554f7c1f964a243bf
+governing_event_refs:
+  checkpoint_ref: evt-004-checkpoint-bound-publish-1781707016892-39386
+  context_pack_ref: evt-context-pack-bound-publish-1781707016892-39386
+  grant_bundle_ref: evt-effect-token-rejected-effect-token-evidence-mutation-48b1b213ab47
+  run_contract_ref: evt-001-run-created-publish-1781707016892-39386
+  run_manifest_ref: evt-002-run-bound-publish-1781707016892-39386
+  runtime_state_ref: evt-authority-resolved-allow-publish-1781707016892-39386
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/publish-1781707016892-39386/runtime-state.yml
+  last_applied_event_id: evt-effect-token-rejected-effect-token-evidence-mutation-48b1b213ab47
+  last_applied_sequence: 13
+  last_applied_event_hash: sha256:54a71f59df7eac4beb173b243dfc6377d2197563f18523b554f7c1f964a243bf
+  materialized_at: 2026-06-17T14:36:57.314937Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-17T14:36:57.314937Z
