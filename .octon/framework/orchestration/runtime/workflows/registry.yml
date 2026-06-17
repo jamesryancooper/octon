@@ -2026,7 +2026,7 @@ workflows:
           description: "fixture-retention-closeout-receipt-v1 receipt"
   proposal-packet-delivery:
     version: "1.0.0"
-    commands: ["/proposal-packet-delivery"]
+    commands: ["/octon-proposal-run-packet-delivery"]
     parameters:
       - name: proposal_packet_path
         type: folder

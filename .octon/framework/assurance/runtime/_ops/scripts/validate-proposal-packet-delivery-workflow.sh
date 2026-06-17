@@ -113,6 +113,7 @@ done
 
 require_token "$MANIFEST_PATH" "proposal-packet-delivery" "workflow manifest registration"
 require_token "$REGISTRY_PATH" "proposal-packet-delivery" "workflow registry registration"
+require_token "$REGISTRY_PATH" "/octon-proposal-run-packet-delivery" "workflow registry command uses proposal family naming"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" "proposal-packet-delivery" "command file registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" "route=branch-no-pr" "command documents branch-no-pr route"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" "proposal-packet-delivery" "command manifest registration"
@@ -123,9 +124,15 @@ require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/manifest.y
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/registry.yml" "proposal-packet-delivery" "skill registry registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/capabilities.yml" "proposal-packet-delivery" "skill capability registration"
 require_token "$ROOT_DIR/.octon/framework/product/features/catalog.yml" "proposal-packet-delivery" "product feature catalog registration"
+require_token "$ROOT_DIR/.octon/framework/product/features/catalog.yml" "/octon-proposal-run-packet-delivery" "product feature catalog command entrypoint"
 require_token "$ROOT_DIR/.octon/framework/product/features/proposal-packet-delivery.md" "Proposal Packet Delivery" "product feature doc"
+require_token "$ROOT_DIR/.octon/framework/product/features/proposal-packet-delivery.md" "/octon-proposal-run-packet-delivery" "product feature doc command entrypoint"
+require_token "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/manifest.fragment.yml" "octon-proposal-run-packet-delivery" "proposal lifecycle command manifest exposes packet delivery command"
+require_token "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-packet-delivery.md" "/octon-proposal-run-packet-delivery" "proposal lifecycle command projection uses family naming"
 require_token "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md" "proposal-packet-delivery" "proposal lifecycle bundle matrix hook"
+require_token "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md" "octon-proposal-run-packet-delivery" "proposal lifecycle bundle matrix command hook"
 require_token "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml" "proposal-packet-delivery" "proposal packet lifecycle hook"
+require_token "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml" "/octon-proposal-run-packet-delivery" "proposal packet lifecycle command entrypoint"
 
 echo "Validation summary: errors=$errors"
 [[ "$errors" -eq 0 ]]

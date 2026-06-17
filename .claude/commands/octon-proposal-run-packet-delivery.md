@@ -1,21 +1,19 @@
-# /proposal-packet-delivery
+# Packet - Run Delivery
 
-Run the canonical proposal packet delivery workflow for an accepted proposal
-packet.
+Run the workflow-backed delivery wrapper for one accepted proposal packet:
 
-This command is a thin routing surface for
+```text
+/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]
+```
+
+This is an operator-facing proposal lifecycle command for
 `.octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml`.
+
 It coordinates implementation, promotion, packet closeout, terminal closeout,
 archive handoff, Change closeout, final sync, branch cleanup, terminal proof,
 and final hygiene. It does not replace target-owned receipts, archive packets
 directly, delete residue, publish generated outputs by hand, stage, commit,
 push, create pull requests, or clean up branches.
-
-## Usage
-
-```text
-/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]
-```
 
 ## Required Inputs
 

@@ -40,7 +40,7 @@ non-authoritative.
 ## Operator Route
 
 ```text
-/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned
+/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned
 ```
 
 When every owning lifecycle passes, the receipt may report `cleaned`. When any
