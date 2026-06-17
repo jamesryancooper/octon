@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - id: route_guard
-        name: Classify accepted Change route or break-glass
+        name: Classify projected Change route or break-glass
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
@@ -37,8 +37,8 @@ jobs:
               /\(#(\d+)\)(?:\s*$|\n)/m
             ];
 
-            function setAccepted(mode, details, extra = {}) {
-              core.info(`Accepted main update mode: ${mode}. ${details}`);
+            function setProjectedRoute(mode, details, extra = {}) {
+              core.info(`Projected main update route: ${mode}. ${details}`);
               core.setOutput("mode", mode);
               core.setOutput("details", details);
               for (const [key, value] of Object.entries(extra)) {
@@ -304,15 +304,21 @@ jobs:
                 .filter((file) => fs.existsSync(file));
             }
 
-            const result = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-              owner,
-              repo,
-              commit_sha: sha
-            });
+            let associatedPulls = [];
+            try {
+              const result = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner,
+                repo,
+                commit_sha: sha
+              });
+              associatedPulls = result.data;
+            } catch (error) {
+              core.warning(`Could not inspect associated PRs for ${sha}; continuing with route-neutral evidence checks: ${error.message}`);
+            }
 
-            const merged = result.data.filter((pr) => Boolean(pr.merged_at) && pr.base?.ref === "main");
+            const merged = associatedPulls.filter((pr) => Boolean(pr.merged_at) && pr.base?.ref === "main");
             if (merged.length > 0) {
-              setAccepted("branch-pr", `Associated with merged PR #${merged[0].number} targeting main.`, {
+              setProjectedRoute("branch-pr", `Associated with merged PR #${merged[0].number} targeting main.`, {
                 pr_number: merged[0].number
               });
               return;
@@ -337,7 +343,7 @@ jobs:
                 });
 
                 if (pr.merged_at && pr.base?.ref === 'main' && pr.merge_commit_sha === sha) {
-                  setAccepted("branch-pr", `Associated with merged PR #${pr.number} via commit message fallback.`, {
+                  setProjectedRoute("branch-pr", `Associated with merged PR #${pr.number} via commit message fallback.`, {
                     pr_number: pr.number
                   });
                   return;
@@ -359,15 +365,23 @@ jobs:
             if (match) {
               const overrideId = match[1].toUpperCase();
               core.warning(`Break-glass main update detected (${overrideId}).`);
-              setAccepted("break-glass", `Authorized break-glass footer ${overrideId}.`, {
+              setProjectedRoute("break-glass", `Detected break-glass footer ${overrideId}.`, {
                 override_id: overrideId
               });
               return;
             }
 
-            const hostedNoPr = await validateHostedNoPrProviderEvidence();
+            let hostedNoPr = {
+              problems: ["hosted no-PR provider evidence was not inspected"],
+              evidence: {}
+            };
+            try {
+              hostedNoPr = await validateHostedNoPrProviderEvidence();
+            } catch (error) {
+              hostedNoPr.problems = [`hosted no-PR provider evidence inspection failed: ${error.message}`];
+            }
             if (!hostedNoPr.problems.length) {
-              setAccepted(
+              setProjectedRoute(
                 "branch-no-pr",
                 "Validated hosted no-PR provider evidence for a fast-forward main update.",
                 hostedNoPr.evidence
@@ -406,7 +420,7 @@ jobs:
                 .filter((item) => item.mode === acceptedModes[0])
                 .map((item) => item.file)
                 .join(", ");
-              setAccepted(acceptedModes[0], `Validated durable Change receipt evidence: ${evidencePaths}.`, {
+              setProjectedRoute(acceptedModes[0], `Validated durable Change receipt evidence: ${evidencePaths}.`, {
                 evidence_paths: evidencePaths
               });
               return;

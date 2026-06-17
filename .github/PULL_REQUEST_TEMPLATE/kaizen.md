@@ -13,6 +13,17 @@ The problem this solves and why it matters. Include ticket/issue links.
 
 Approach summary, including non-obvious design choices and alternatives rejected.
 
+## Change Receipt Projection
+
+This PR body is branch-pr projection context only. It does not replace the canonical Change receipt.
+
+- Canonical Change receipt path:
+- Selected Change route when this PR lands: `branch-pr`
+- Lifecycle outcome:
+- Validation evidence refs:
+- Rollback handle:
+- Cleanup status/evidence:
+
 ## Profile Selection Receipt
 
 Required for governance/migration/refactor work. Use `n/a` only when this PR is purely local and non-governance.

@@ -15,6 +15,10 @@ on:
         description: Optional single PR number to reconcile.
         required: false
         type: string
+      authorization_path:
+        description: Optional repo-local canonical Change authorization JSON for the protected merge boundary.
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -103,6 +107,7 @@ jobs:
     timeout-minutes: 15
     env:
       AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || 'false' }}
+      CHANGE_MERGE_AUTHORIZATION_PATH: ${{ github.event.inputs.authorization_path || vars.AUTONOMY_MERGE_AUTHORIZATION_PATH || '' }}
       GH_REPO: ${{ github.repository }}
       PR_NUMBER: ${{ matrix.pr_number }}
     steps:
@@ -119,19 +124,18 @@ jobs:
           enabled="$(echo "${AUTONOMY_AUTO_MERGE_ENABLED}" | tr '[:upper:]' '[:lower:]')"
           if [[ "$enabled" != "true" ]]; then
             mkdir -p .octon/generated/.tmp/pr-auto-merge
-            chmod +x .octon/framework/engine/_ops/scripts/project-github-control-approval.sh
-            .octon/framework/engine/_ops/scripts/project-github-control-approval.sh \
-              --request-id "github-pr-automerge-${PR_NUMBER}" \
-              --run-id "github-pr-automerge-${PR_NUMBER}" \
-              --target-id "github-pr:${PR_NUMBER}" \
-              --action-type "github-pr-autonomy-merge" \
-              --issued-by "github://workflow/pr-auto-merge" \
-              --status "staged" \
-              --support-tier "repo-local-consequential" \
-              --workflow-mode "role-mediated" \
-              --reason-code "PR_AUTONOMY_DISABLED" \
-              --projection-check "github://pull/${PR_NUMBER}#check:Validate autonomy policy" \
-              --output-json ".octon/generated/.tmp/pr-auto-merge/authority-${PR_NUMBER}.json" >/dev/null
+            jq -n \
+              --arg generated_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              --arg pr_number "${PR_NUMBER}" \
+              '{
+                schema_version: "github-pr-auto-merge-projection-v1",
+                generated_at: $generated_at,
+                projection_kind: "branch-pr-merge-readiness",
+                pr_number: $pr_number,
+                status: "staged",
+                reason_code: "PR_AUTONOMY_DISABLED",
+                authorization_boundary: "projection-only; does not grant canonical Change authorization"
+              }' > ".octon/generated/.tmp/pr-auto-merge/projection-${PR_NUMBER}.json"
             echo "Auto-merge kill switch is OFF (AUTONOMY_AUTO_MERGE_ENABLED=${AUTONOMY_AUTO_MERGE_ENABLED})."
             exit 0
           fi
@@ -175,34 +179,33 @@ jobs:
             printf '%s\n' "${result_json}"
           }
 
-          materialize_merge_authority() {
+          materialize_merge_projection() {
             local status="$1"
             local reason_code="$2"
             local head_ref="$3"
-            local control_json=".octon/generated/.tmp/pr-auto-merge/authority-${PR_NUMBER}.json"
+            local projection_json=".octon/generated/.tmp/pr-auto-merge/projection-${PR_NUMBER}.json"
             mkdir -p .octon/generated/.tmp/pr-auto-merge
 
-            chmod +x .octon/framework/engine/_ops/scripts/project-github-control-approval.sh
-            .octon/framework/engine/_ops/scripts/project-github-control-approval.sh \
-              --request-id "github-pr-automerge-${PR_NUMBER}" \
-              --run-id "github-pr-automerge-${PR_NUMBER}" \
-              --target-id "github-pr:${PR_NUMBER}" \
-              --action-type "github-pr-autonomy-merge" \
-              --issued-by "github://workflow/pr-auto-merge" \
-              --status "${status}" \
-              --support-tier "repo-local-consequential" \
-              --workflow-mode "role-mediated" \
-              --required-evidence "pr-autonomy-policy" \
-              --required-evidence "required-checks" \
-              --reason-code "${reason_code}" \
-              --typed-exception-boundary "policy-override" \
-              --grant-expires-at "9999-12-31T00:00:00Z" \
-              --exception-reason "Runtime-protected CI auto-merge authority for PR #${PR_NUMBER}." \
-              --projection-check "github://pull/${PR_NUMBER}#check:Validate autonomy policy" \
-              --projection-check "github://pull/${PR_NUMBER}#check:AI Review Gate / decision" \
-              --projection-kind "github-head-ref" \
-              --projection-ref "github://pull/${PR_NUMBER}#head:${head_ref}" \
-              --output-json "${control_json}" >/dev/null
+            jq -n \
+              --arg generated_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              --arg pr_number "${PR_NUMBER}" \
+              --arg status "${status}" \
+              --arg reason_code "${reason_code}" \
+              --arg head_ref "${head_ref}" \
+              '{
+                schema_version: "github-pr-auto-merge-projection-v1",
+                generated_at: $generated_at,
+                projection_kind: "branch-pr-merge-readiness",
+                pr_number: $pr_number,
+                status: $status,
+                reason_code: $reason_code,
+                authorization_boundary: "projection-only; merge requires a repo-local canonical Change authorization JSON",
+                evidence_refs: [
+                  "github://pull/" + $pr_number + "#check:Validate autonomy policy",
+                  "github://pull/" + $pr_number + "#check:AI Review Gate / decision"
+                ],
+                projection_ref: "github://pull/" + $pr_number + "#head:" + $head_ref
+              }' > "${projection_json}"
           }
 
           assert_automerge_eligible() {
@@ -214,7 +217,7 @@ jobs:
             status="$(jq -r '.status' "${result_json}")"
             reason_code="$(jq -r '.reason_code' "${result_json}")"
             head_ref="$(jq -r '.head_ref' "${result_json}")"
-            materialize_merge_authority "${status}" "${reason_code}" "${head_ref}"
+            materialize_merge_projection "${status}" "${reason_code}" "${head_ref}"
 
             if [[ "$(jq -r '.state' <<<"${payload}")" != "open" ]]; then
               echo "Skipping: PR is no longer open${suffix}."
@@ -246,8 +249,25 @@ jobs:
               jq -r '.notices[]?' "${result_json}" | while IFS= read -r notice; do
                 [[ -n "${notice}" ]] && echo "Notice: ${notice}"
               done
-              echo "Skipping: canonical merge authority is ${status}${suffix} (${reason_code})."
+              echo "Skipping: branch-pr merge-readiness projection is ${status}${suffix} (${reason_code})."
               exit 0
+            fi
+          }
+
+          assert_canonical_merge_authorization() {
+            if [[ -z "${CHANGE_MERGE_AUTHORIZATION_PATH}" ]]; then
+              echo "Skipping: no repo-local canonical Change authorization JSON supplied for the protected branch-pr merge boundary."
+              exit 0
+            fi
+
+            if [[ ! -f "${CHANGE_MERGE_AUTHORIZATION_PATH}" ]]; then
+              echo "Configured Change authorization JSON does not exist: ${CHANGE_MERGE_AUTHORIZATION_PATH}."
+              exit 1
+            fi
+
+            if ! jq -e 'type == "object"' "${CHANGE_MERGE_AUTHORIZATION_PATH}" >/dev/null; then
+              echo "Configured Change authorization JSON is not valid JSON: ${CHANGE_MERGE_AUTHORIZATION_PATH}."
+              exit 1
             fi
           }
 
@@ -291,9 +311,10 @@ jobs:
 
           assert_automerge_eligible "${pr_json}"
 
-          # Revalidate canonical merge authority on latest state before merge polling.
+          # Revalidate branch-pr policy projection on latest state before merge polling.
           pr_json="$(pr_view)"
           assert_automerge_eligible "${pr_json}" " on latest state"
+          assert_canonical_merge_authorization
 
           if [[ "$(jq -r '.auto_merge != null' <<<"${pr_json}")" == "true" ]]; then
             echo "Auto-merge is already enabled for PR #${PR_NUMBER}."
@@ -306,21 +327,17 @@ jobs:
           .octon/framework/assurance/runtime/_ops/scripts/protected-ci-auto-merge.sh \
             --repo "${GH_REPO}" \
             --pr-number "${PR_NUMBER}" \
-            --control-json ".octon/generated/.tmp/pr-auto-merge/authority-${PR_NUMBER}.json"
+            --control-json "${CHANGE_MERGE_AUTHORIZATION_PATH}"
 
           echo "Merged PR #${PR_NUMBER} through the runtime-protected CI boundary."
 
-      - name: Upload PR auto-merge control artifacts
+      - name: Upload PR auto-merge projection artifacts
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: pr-auto-merge-control-artifacts-${{ matrix.pr_number }}
+          name: pr-auto-merge-projection-artifacts-${{ matrix.pr_number }}
           path: |
-            .octon/generated/.tmp/pr-auto-merge/authority-${{ matrix.pr_number }}.json
-            .octon/state/control/execution/approvals/requests/github-pr-automerge-${{ matrix.pr_number }}.yml
-            .octon/state/control/execution/approvals/grants/grant-github-pr-automerge-${{ matrix.pr_number }}.yml
-            .octon/state/control/execution/runs
-            .octon/state/evidence/control/execution
+            .octon/generated/.tmp/pr-auto-merge/projection-${{ matrix.pr_number }}.json
             .octon/state/evidence/runs
           if-no-files-found: warn
           retention-days: 7

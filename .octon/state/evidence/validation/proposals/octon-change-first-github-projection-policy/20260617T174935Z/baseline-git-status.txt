@@ -1,0 +1,6 @@
+ M .octon/generated/proposals/registry.yml
+ M .octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/implementation/implementation-map.md
+ M .octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/navigation/artifact-catalog.md
+ M .octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/proposal.yml
+?? .octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/
+?? .octon/state/evidence/validation/proposals/octon-change-first-github-projection-policy/

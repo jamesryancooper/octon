@@ -152,16 +152,15 @@ jobs:
           tmp_dir=".octon/generated/.tmp/pr-autonomy-policy"
           result_json="${tmp_dir}/result-${PR_NUMBER}.json"
 
+          # This workflow records branch-pr policy projection evidence only.
+          # Omitting request/run/target issuer arguments prevents GitHub from
+          # calling the control-plane projection writer.
           chmod +x .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh
           .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh \
             --pr-json "${tmp_dir}/pr-${PR_NUMBER}.json" \
             --changed-files-json "${tmp_dir}/changed-files-${PR_NUMBER}.json" \
             --standards-json "${tmp_dir}/standards-${PR_NUMBER}.json" \
             --pr-template "${tmp_dir}/pr-template-${PR_NUMBER}.md" \
-            --request-id "github-pr-autonomy-policy-${PR_NUMBER}" \
-            --run-id "github-pr-autonomy-policy-${PR_NUMBER}" \
-            --target-id "github-pr:${PR_NUMBER}" \
-            --issued-by "github://workflow/pr-autonomy-policy" \
             --output-json "${result_json}"
 
           jq -r '.notices[]?' "${result_json}" | while IFS= read -r notice; do
@@ -191,8 +190,5 @@ jobs:
           path: |
             .octon/state/evidence/runs/ci/pr-autonomy-policy-*
             .octon/generated/.tmp/pr-autonomy-policy/**
-            .octon/state/control/execution/approvals/requests/github-pr-autonomy-policy-*.yml
-            .octon/state/control/execution/approvals/grants/grant-github-pr-autonomy-policy-*.yml
-            .octon/state/evidence/control/execution
           if-no-files-found: error
           retention-days: 7

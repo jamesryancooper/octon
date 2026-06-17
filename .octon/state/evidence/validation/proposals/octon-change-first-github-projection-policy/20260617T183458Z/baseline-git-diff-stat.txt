@@ -1,0 +1,15 @@
+ .github/PULL_REQUEST_TEMPLATE.md                   |  11 ++
+ .github/PULL_REQUEST_TEMPLATE/kaizen.md            |  11 ++
+ .../orchestration-domain-implementation.md         |  14 ++-
+ .github/workflows/ai-review-gate.yml               |  71 +++++++------
+ .github/workflows/harness-self-containment.yml     |   3 -
+ .github/workflows/main-change-route-guard.yml      |  44 +++++---
+ .github/workflows/pr-auto-merge.yml                | 111 ++++++++++++---------
+ .github/workflows/pr-autonomy-policy.yml           |   2 +
+ .github/workflows/pr-clean-state-enforcer.yml      |  42 +++-----
+ .github/workflows/pr-stale-close.yml               |  97 ++++++++++--------
+ .octon/generated/proposals/registry.yml            |  30 +++++-
+ .../implementation/implementation-map.md           |  10 +-
+ .../navigation/artifact-catalog.md                 |   3 +
+ .../proposal.yml                                   |   5 +-
+ 14 files changed, 280 insertions(+), 174 deletions(-)

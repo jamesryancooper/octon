@@ -3,11 +3,17 @@ Working agreement: `.octon/framework/orchestration/practices/orchestration-domai
 Backlog reference: `.octon/inputs/exploratory/plans/2026-03-10-orchestration-domain-phase0-backlog.md`
 Reminder: Run `@codex review`.
 
-## Package Authority
+## Package Context And Change Receipt Projection
 
-- Package path: `.octon/inputs/exploratory/proposals/design/orchestration-domain-design-proposal`
+- Package/proposal context path (non-authoritative lineage):
 - Backlog ID(s):
-- Primary authority document(s):
+- Canonical authority document(s):
+- Canonical Change receipt path:
+- Selected Change route when this PR lands: `branch-pr`
+- Lifecycle outcome:
+- Validation evidence refs:
+- Rollback handle:
+- Cleanup status/evidence:
 - Surface(s) touched:
 - Change type: [ ] strengthen existing live surface [ ] promote new live surface [ ] validator or assurance groundwork [ ] optional-surface decision only
 - Optional or deferred surface involved: [ ] no [ ] yes
@@ -58,7 +64,7 @@ List impacted code, tests, docs, and contract surfaces.
 - [ ] Included tie-break escalation when applicable.
 - [ ] Updated impacted contracts/docs/tests.
 - [ ] Honored charter change-control constraint (no direct principles charter edits without override evidence).
-- [ ] Cited backlog IDs and package authority documents.
+- [ ] Cited backlog IDs, package context, and canonical authority documents.
 - [ ] Preserved continuity ownership for durable decisions and durable runs.
 - [ ] Kept projections and mutable state subordinate to canonical contract artifacts.
 

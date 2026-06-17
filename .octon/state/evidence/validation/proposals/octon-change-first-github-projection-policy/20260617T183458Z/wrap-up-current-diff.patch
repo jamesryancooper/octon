@@ -1,0 +1,800 @@
+diff --git a/.github/PULL_REQUEST_TEMPLATE.md b/.github/PULL_REQUEST_TEMPLATE.md
+index 3c78e3dd9..d0bb331ae 100644
+--- a/.github/PULL_REQUEST_TEMPLATE.md
++++ b/.github/PULL_REQUEST_TEMPLATE.md
+@@ -14,6 +14,17 @@ or `No-Issue: <reason>`.
+ 
+ Approach summary, including non-obvious design choices and alternatives rejected.
+ 
++## Change Receipt Projection
++
++This PR body is branch-pr projection context only. It does not replace the canonical Change receipt.
++
++- Canonical Change receipt path:
++- Selected Change route when this PR lands: `branch-pr`
++- Lifecycle outcome:
++- Validation evidence refs:
++- Rollback handle:
++- Cleanup status/evidence:
++
+ ## Profile Selection Receipt
+ 
+ Required for governance/migration/refactor work. Use `n/a` only when this PR is purely local and non-governance.
+diff --git a/.github/PULL_REQUEST_TEMPLATE/kaizen.md b/.github/PULL_REQUEST_TEMPLATE/kaizen.md
+index 7bd290251..2096e4db8 100644
+--- a/.github/PULL_REQUEST_TEMPLATE/kaizen.md
++++ b/.github/PULL_REQUEST_TEMPLATE/kaizen.md
+@@ -13,6 +13,17 @@ The problem this solves and why it matters. Include ticket/issue links.
+ 
+ Approach summary, including non-obvious design choices and alternatives rejected.
+ 
++## Change Receipt Projection
++
++This PR body is branch-pr projection context only. It does not replace the canonical Change receipt.
++
++- Canonical Change receipt path:
++- Selected Change route when this PR lands: `branch-pr`
++- Lifecycle outcome:
++- Validation evidence refs:
++- Rollback handle:
++- Cleanup status/evidence:
++
+ ## Profile Selection Receipt
+ 
+ Required for governance/migration/refactor work. Use `n/a` only when this PR is purely local and non-governance.
+diff --git a/.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md b/.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md
+index c46dc907d..de278f1b4 100644
+--- a/.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md
++++ b/.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md
+@@ -3,11 +3,17 @@ Working agreement: `.octon/framework/orchestration/practices/orchestration-domai
+ Backlog reference: `.octon/inputs/exploratory/plans/2026-03-10-orchestration-domain-phase0-backlog.md`
+ Reminder: Run `@codex review`.
+ 
+-## Package Authority
++## Package Context And Change Receipt Projection
+ 
+-- Package path: `.octon/inputs/exploratory/proposals/design/orchestration-domain-design-proposal`
++- Package/proposal context path (non-authoritative lineage):
+ - Backlog ID(s):
+-- Primary authority document(s):
++- Canonical authority document(s):
++- Canonical Change receipt path:
++- Selected Change route when this PR lands: `branch-pr`
++- Lifecycle outcome:
++- Validation evidence refs:
++- Rollback handle:
++- Cleanup status/evidence:
+ - Surface(s) touched:
+ - Change type: [ ] strengthen existing live surface [ ] promote new live surface [ ] validator or assurance groundwork [ ] optional-surface decision only
+ - Optional or deferred surface involved: [ ] no [ ] yes
+@@ -58,7 +64,7 @@ List impacted code, tests, docs, and contract surfaces.
+ - [ ] Included tie-break escalation when applicable.
+ - [ ] Updated impacted contracts/docs/tests.
+ - [ ] Honored charter change-control constraint (no direct principles charter edits without override evidence).
+-- [ ] Cited backlog IDs and package authority documents.
++- [ ] Cited backlog IDs, package context, and canonical authority documents.
+ - [ ] Preserved continuity ownership for durable decisions and durable runs.
+ - [ ] Kept projections and mutable state subordinate to canonical contract artifacts.
+ 
+diff --git a/.github/workflows/ai-review-gate.yml b/.github/workflows/ai-review-gate.yml
+index dfec82686..ed151a328 100644
+--- a/.github/workflows/ai-review-gate.yml
++++ b/.github/workflows/ai-review-gate.yml
+@@ -229,39 +229,48 @@ jobs:
+             --enforce "${AI_GATE_ENFORCE}" \
+             --output "${output}"
+ 
+-      - name: Materialize canonical AI gate authority artifacts
++      - name: Materialize AI gate projection evidence
+         if: always()
+         run: |
+           set -euo pipefail
+ 
+           decision_file=".octon/generated/.tmp/ai-gate/decision.json"
+-          control_json=".octon/generated/.tmp/ai-gate/authority.json"
+-          decision="$(jq -r '.decision' "${decision_file}")"
+-          gate_pass="$(jq -r '.gate_pass' "${decision_file}")"
+-          blockers="$(jq -r '.blockers_total' "${decision_file}")"
+-          status="granted"
+-
+-          if [[ "${gate_pass}" != "true" ]]; then
+-            status="denied"
+-          elif [[ "${blockers}" -gt 0 ]]; then
+-            status="staged"
++          projection_json=".octon/generated/.tmp/ai-gate/projection.json"
++          mkdir -p "$(dirname "${projection_json}")"
++
++          if [[ ! -f "${decision_file}" ]]; then
++            jq -n \
++              --arg generated_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
++              --arg pr_number "${GH_PR_NUMBER}" \
++              '{
++                schema_version: "github-ai-review-gate-projection-v1",
++                generated_at: $generated_at,
++                projection_kind: "branch-pr-check-evidence",
++                pr_number: $pr_number,
++                authorization_boundary: "projection-only; does not grant or deny canonical Change authorization",
++                status: "unavailable",
++                reason: "AI gate decision artifact was not available."
++              }' > "${projection_json}"
++            exit 0
+           fi
+ 
+-          chmod +x .octon/framework/engine/_ops/scripts/project-github-control-approval.sh
+-          .octon/framework/engine/_ops/scripts/project-github-control-approval.sh \
+-            --request-id "github-ai-review-gate-pr-${GH_PR_NUMBER}" \
+-            --run-id "github-ai-review-gate-pr-${GH_PR_NUMBER}" \
+-            --target-id "github-pr:${GH_PR_NUMBER}" \
+-            --action-type "github-ai-review-gate" \
+-            --issued-by "github://workflow/ai-review-gate" \
+-            --status "${status}" \
+-            --support-tier "repo-local-consequential" \
+-            --workflow-mode "role-mediated" \
+-            --required-evidence "ai-review-gate-decision" \
+-            --required-evidence "provider-findings" \
+-            --reason-code "AI_GATE_DECISION_$(printf '%s' "${decision}" | tr '[:lower:]-' '[:upper:]_')" \
+-            --projection-check "github://pull/${GH_PR_NUMBER}#check:AI Review Gate / decision" \
+-            --output-json "${control_json}"
++          jq -n \
++            --arg generated_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
++            --arg pr_number "${GH_PR_NUMBER}" \
++            --arg check_ref "github://pull/${GH_PR_NUMBER}#check:AI Review Gate / decision" \
++            --slurpfile decision "${decision_file}" \
++            '{
++              schema_version: "github-ai-review-gate-projection-v1",
++              generated_at: $generated_at,
++              projection_kind: "branch-pr-check-evidence",
++              pr_number: $pr_number,
++              check_ref: $check_ref,
++              authorization_boundary: "projection-only; does not grant or deny canonical Change authorization",
++              status: $decision[0].decision,
++              gate_pass: $decision[0].gate_pass,
++              blockers_total: $decision[0].blockers_total,
++              decision: $decision[0]
++            }' > "${projection_json}"
+ 
+       - name: Append AI gate summary
+         if: always()
+@@ -290,16 +299,14 @@ jobs:
+           if-no-files-found: error
+           retention-days: 7
+ 
+-      - name: Upload AI gate control artifacts
++      - name: Upload AI gate projection evidence
+         if: always()
+         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+         with:
+-          name: ai-gate-control-artifacts
++          name: ai-gate-projection-evidence
+           path: |
+-            .octon/generated/.tmp/ai-gate/authority.json
+-            .octon/state/control/execution/approvals/requests/github-ai-review-gate-pr-${{ github.event.pull_request.number }}.yml
+-            .octon/state/control/execution/approvals/grants/grant-github-ai-review-gate-pr-${{ github.event.pull_request.number }}.yml
+-            .octon/state/evidence/control/execution
++            .octon/generated/.tmp/ai-gate/decision.json
++            .octon/generated/.tmp/ai-gate/projection.json
+           if-no-files-found: warn
+           retention-days: 7
+ 
+diff --git a/.github/workflows/harness-self-containment.yml b/.github/workflows/harness-self-containment.yml
+index 4a497b421..1c9c38836 100644
+--- a/.github/workflows/harness-self-containment.yml
++++ b/.github/workflows/harness-self-containment.yml
+@@ -5,7 +5,6 @@ on:
+     branches:
+       - main
+     paths:
+-      - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
+       - '.octon/**'
+       - '.github/dependabot.yml'
+       - '.github/workflows/ai-review-gate.yml'
+@@ -20,7 +19,6 @@ on:
+       - '.github/workflows/harness-self-containment.yml'
+   pull_request:
+     paths:
+-      - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
+       - '.octon/**'
+       - '.github/dependabot.yml'
+       - '.github/workflows/ai-review-gate.yml'
+@@ -58,7 +56,6 @@ jobs:
+         with:
+           filters: |
+             orchestration:
+-              - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
+               - '.octon/framework/orchestration/**'
+               - '.octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh'
+               - '.octon/framework/assurance/runtime/_ops/tests/test-validate-orchestration-design-proposal.sh'
+diff --git a/.github/workflows/main-change-route-guard.yml b/.github/workflows/main-change-route-guard.yml
+index c82a11d7b..6eab13fcd 100644
+--- a/.github/workflows/main-change-route-guard.yml
++++ b/.github/workflows/main-change-route-guard.yml
+@@ -22,7 +22,7 @@ jobs:
+           fetch-depth: 0
+ 
+       - id: route_guard
+-        name: Classify accepted Change route or break-glass
++        name: Classify projected Change route or break-glass
+         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+         with:
+           script: |
+@@ -37,8 +37,8 @@ jobs:
+               /\(#(\d+)\)(?:\s*$|\n)/m
+             ];
+ 
+-            function setAccepted(mode, details, extra = {}) {
+-              core.info(`Accepted main update mode: ${mode}. ${details}`);
++            function setProjectedRoute(mode, details, extra = {}) {
++              core.info(`Projected main update route: ${mode}. ${details}`);
+               core.setOutput("mode", mode);
+               core.setOutput("details", details);
+               for (const [key, value] of Object.entries(extra)) {
+@@ -304,15 +304,21 @@ jobs:
+                 .filter((file) => fs.existsSync(file));
+             }
+ 
+-            const result = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+-              owner,
+-              repo,
+-              commit_sha: sha
+-            });
++            let associatedPulls = [];
++            try {
++              const result = await github.rest.repos.listPullRequestsAssociatedWithCommit({
++                owner,
++                repo,
++                commit_sha: sha
++              });
++              associatedPulls = result.data;
++            } catch (error) {
++              core.warning(`Could not inspect associated PRs for ${sha}; continuing with route-neutral evidence checks: ${error.message}`);
++            }
+ 
+-            const merged = result.data.filter((pr) => Boolean(pr.merged_at) && pr.base?.ref === "main");
++            const merged = associatedPulls.filter((pr) => Boolean(pr.merged_at) && pr.base?.ref === "main");
+             if (merged.length > 0) {
+-              setAccepted("branch-pr", `Associated with merged PR #${merged[0].number} targeting main.`, {
++              setProjectedRoute("branch-pr", `Associated with merged PR #${merged[0].number} targeting main.`, {
+                 pr_number: merged[0].number
+               });
+               return;
+@@ -337,7 +343,7 @@ jobs:
+                 });
+ 
+                 if (pr.merged_at && pr.base?.ref === 'main' && pr.merge_commit_sha === sha) {
+-                  setAccepted("branch-pr", `Associated with merged PR #${pr.number} via commit message fallback.`, {
++                  setProjectedRoute("branch-pr", `Associated with merged PR #${pr.number} via commit message fallback.`, {
+                     pr_number: pr.number
+                   });
+                   return;
+@@ -359,15 +365,23 @@ jobs:
+             if (match) {
+               const overrideId = match[1].toUpperCase();
+               core.warning(`Break-glass main update detected (${overrideId}).`);
+-              setAccepted("break-glass", `Authorized break-glass footer ${overrideId}.`, {
++              setProjectedRoute("break-glass", `Detected break-glass footer ${overrideId}.`, {
+                 override_id: overrideId
+               });
+               return;
+             }
+ 
+-            const hostedNoPr = await validateHostedNoPrProviderEvidence();
++            let hostedNoPr = {
++              problems: ["hosted no-PR provider evidence was not inspected"],
++              evidence: {}
++            };
++            try {
++              hostedNoPr = await validateHostedNoPrProviderEvidence();
++            } catch (error) {
++              hostedNoPr.problems = [`hosted no-PR provider evidence inspection failed: ${error.message}`];
++            }
+             if (!hostedNoPr.problems.length) {
+-              setAccepted(
++              setProjectedRoute(
+                 "branch-no-pr",
+                 "Validated hosted no-PR provider evidence for a fast-forward main update.",
+                 hostedNoPr.evidence
+@@ -406,7 +420,7 @@ jobs:
+                 .filter((item) => item.mode === acceptedModes[0])
+                 .map((item) => item.file)
+                 .join(", ");
+-              setAccepted(acceptedModes[0], `Validated durable Change receipt evidence: ${evidencePaths}.`, {
++              setProjectedRoute(acceptedModes[0], `Validated durable Change receipt evidence: ${evidencePaths}.`, {
+                 evidence_paths: evidencePaths
+               });
+               return;
+diff --git a/.github/workflows/pr-auto-merge.yml b/.github/workflows/pr-auto-merge.yml
+index 690ee0675..f6ed90974 100644
+--- a/.github/workflows/pr-auto-merge.yml
++++ b/.github/workflows/pr-auto-merge.yml
+@@ -15,6 +15,10 @@ on:
+         description: Optional single PR number to reconcile.
+         required: false
+         type: string
++      authorization_path:
++        description: Optional repo-local canonical Change authorization JSON for the protected merge boundary.
++        required: false
++        type: string
+ 
+ permissions:
+   contents: write
+@@ -103,6 +107,7 @@ jobs:
+     timeout-minutes: 15
+     env:
+       AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || 'false' }}
++      CHANGE_MERGE_AUTHORIZATION_PATH: ${{ github.event.inputs.authorization_path || vars.AUTONOMY_MERGE_AUTHORIZATION_PATH || '' }}
+       GH_REPO: ${{ github.repository }}
+       PR_NUMBER: ${{ matrix.pr_number }}
+     steps:
+@@ -119,19 +124,18 @@ jobs:
+           enabled="$(echo "${AUTONOMY_AUTO_MERGE_ENABLED}" | tr '[:upper:]' '[:lower:]')"
+           if [[ "$enabled" != "true" ]]; then
+             mkdir -p .octon/generated/.tmp/pr-auto-merge
+-            chmod +x .octon/framework/engine/_ops/scripts/project-github-control-approval.sh
+-            .octon/framework/engine/_ops/scripts/project-github-control-approval.sh \
+-              --request-id "github-pr-automerge-${PR_NUMBER}" \
+-              --run-id "github-pr-automerge-${PR_NUMBER}" \
+-              --target-id "github-pr:${PR_NUMBER}" \
+-              --action-type "github-pr-autonomy-merge" \
+-              --issued-by "github://workflow/pr-auto-merge" \
+-              --status "staged" \
+-              --support-tier "repo-local-consequential" \
+-              --workflow-mode "role-mediated" \
+-              --reason-code "PR_AUTONOMY_DISABLED" \
+-              --projection-check "github://pull/${PR_NUMBER}#check:Validate autonomy policy" \
+-              --output-json ".octon/generated/.tmp/pr-auto-merge/authority-${PR_NUMBER}.json" >/dev/null
++            jq -n \
++              --arg generated_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
++              --arg pr_number "${PR_NUMBER}" \
++              '{
++                schema_version: "github-pr-auto-merge-projection-v1",
++                generated_at: $generated_at,
++                projection_kind: "branch-pr-merge-readiness",
++                pr_number: $pr_number,
++                status: "staged",
++                reason_code: "PR_AUTONOMY_DISABLED",
++                authorization_boundary: "projection-only; does not grant canonical Change authorization"
++              }' > ".octon/generated/.tmp/pr-auto-merge/projection-${PR_NUMBER}.json"
+             echo "Auto-merge kill switch is OFF (AUTONOMY_AUTO_MERGE_ENABLED=${AUTONOMY_AUTO_MERGE_ENABLED})."
+             exit 0
+           fi
+@@ -175,34 +179,33 @@ jobs:
+             printf '%s\n' "${result_json}"
+           }
+ 
+-          materialize_merge_authority() {
++          materialize_merge_projection() {
+             local status="$1"
+             local reason_code="$2"
+             local head_ref="$3"
+-            local control_json=".octon/generated/.tmp/pr-auto-merge/authority-${PR_NUMBER}.json"
++            local projection_json=".octon/generated/.tmp/pr-auto-merge/projection-${PR_NUMBER}.json"
+             mkdir -p .octon/generated/.tmp/pr-auto-merge
+ 
+-            chmod +x .octon/framework/engine/_ops/scripts/project-github-control-approval.sh
+-            .octon/framework/engine/_ops/scripts/project-github-control-approval.sh \
+-              --request-id "github-pr-automerge-${PR_NUMBER}" \
+-              --run-id "github-pr-automerge-${PR_NUMBER}" \
+-              --target-id "github-pr:${PR_NUMBER}" \
+-              --action-type "github-pr-autonomy-merge" \
+-              --issued-by "github://workflow/pr-auto-merge" \
+-              --status "${status}" \
+-              --support-tier "repo-local-consequential" \
+-              --workflow-mode "role-mediated" \
+-              --required-evidence "pr-autonomy-policy" \
+-              --required-evidence "required-checks" \
+-              --reason-code "${reason_code}" \
+-              --typed-exception-boundary "policy-override" \
+-              --grant-expires-at "9999-12-31T00:00:00Z" \
+-              --exception-reason "Runtime-protected CI auto-merge authority for PR #${PR_NUMBER}." \
+-              --projection-check "github://pull/${PR_NUMBER}#check:Validate autonomy policy" \
+-              --projection-check "github://pull/${PR_NUMBER}#check:AI Review Gate / decision" \
+-              --projection-kind "github-head-ref" \
+-              --projection-ref "github://pull/${PR_NUMBER}#head:${head_ref}" \
+-              --output-json "${control_json}" >/dev/null
++            jq -n \
++              --arg generated_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
++              --arg pr_number "${PR_NUMBER}" \
++              --arg status "${status}" \
++              --arg reason_code "${reason_code}" \
++              --arg head_ref "${head_ref}" \
++              '{
++                schema_version: "github-pr-auto-merge-projection-v1",
++                generated_at: $generated_at,
++                projection_kind: "branch-pr-merge-readiness",
++                pr_number: $pr_number,
++                status: $status,
++                reason_code: $reason_code,
++                authorization_boundary: "projection-only; merge requires a repo-local canonical Change authorization JSON",
++                evidence_refs: [
++                  "github://pull/" + $pr_number + "#check:Validate autonomy policy",
++                  "github://pull/" + $pr_number + "#check:AI Review Gate / decision"
++                ],
++                projection_ref: "github://pull/" + $pr_number + "#head:" + $head_ref
++              }' > "${projection_json}"
+           }
+ 
+           assert_automerge_eligible() {
+@@ -214,7 +217,7 @@ jobs:
+             status="$(jq -r '.status' "${result_json}")"
+             reason_code="$(jq -r '.reason_code' "${result_json}")"
+             head_ref="$(jq -r '.head_ref' "${result_json}")"
+-            materialize_merge_authority "${status}" "${reason_code}" "${head_ref}"
++            materialize_merge_projection "${status}" "${reason_code}" "${head_ref}"
+ 
+             if [[ "$(jq -r '.state' <<<"${payload}")" != "open" ]]; then
+               echo "Skipping: PR is no longer open${suffix}."
+@@ -246,9 +249,26 @@ jobs:
+               jq -r '.notices[]?' "${result_json}" | while IFS= read -r notice; do
+                 [[ -n "${notice}" ]] && echo "Notice: ${notice}"
+               done
+-              echo "Skipping: canonical merge authority is ${status}${suffix} (${reason_code})."
++              echo "Skipping: branch-pr merge-readiness projection is ${status}${suffix} (${reason_code})."
++              exit 0
++            fi
++          }
++
++          assert_canonical_merge_authorization() {
++            if [[ -z "${CHANGE_MERGE_AUTHORIZATION_PATH}" ]]; then
++              echo "Skipping: no repo-local canonical Change authorization JSON supplied for the protected branch-pr merge boundary."
+               exit 0
+             fi
++
++            if [[ ! -f "${CHANGE_MERGE_AUTHORIZATION_PATH}" ]]; then
++              echo "Configured Change authorization JSON does not exist: ${CHANGE_MERGE_AUTHORIZATION_PATH}."
++              exit 1
++            fi
++
++            if ! jq -e 'type == "object"' "${CHANGE_MERGE_AUTHORIZATION_PATH}" >/dev/null; then
++              echo "Configured Change authorization JSON is not valid JSON: ${CHANGE_MERGE_AUTHORIZATION_PATH}."
++              exit 1
++            fi
+           }
+ 
+           checkout_pr_head() {
+@@ -291,9 +311,10 @@ jobs:
+ 
+           assert_automerge_eligible "${pr_json}"
+ 
+-          # Revalidate canonical merge authority on latest state before merge polling.
++          # Revalidate branch-pr policy projection on latest state before merge polling.
+           pr_json="$(pr_view)"
+           assert_automerge_eligible "${pr_json}" " on latest state"
++          assert_canonical_merge_authorization
+ 
+           if [[ "$(jq -r '.auto_merge != null' <<<"${pr_json}")" == "true" ]]; then
+             echo "Auto-merge is already enabled for PR #${PR_NUMBER}."
+@@ -306,21 +327,17 @@ jobs:
+           .octon/framework/assurance/runtime/_ops/scripts/protected-ci-auto-merge.sh \
+             --repo "${GH_REPO}" \
+             --pr-number "${PR_NUMBER}" \
+-            --control-json ".octon/generated/.tmp/pr-auto-merge/authority-${PR_NUMBER}.json"
++            --control-json "${CHANGE_MERGE_AUTHORIZATION_PATH}"
+ 
+           echo "Merged PR #${PR_NUMBER} through the runtime-protected CI boundary."
+ 
+-      - name: Upload PR auto-merge control artifacts
++      - name: Upload PR auto-merge projection artifacts
+         if: always()
+         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+         with:
+-          name: pr-auto-merge-control-artifacts-${{ matrix.pr_number }}
++          name: pr-auto-merge-projection-artifacts-${{ matrix.pr_number }}
+           path: |
+-            .octon/generated/.tmp/pr-auto-merge/authority-${{ matrix.pr_number }}.json
+-            .octon/state/control/execution/approvals/requests/github-pr-automerge-${{ matrix.pr_number }}.yml
+-            .octon/state/control/execution/approvals/grants/grant-github-pr-automerge-${{ matrix.pr_number }}.yml
+-            .octon/state/control/execution/runs
+-            .octon/state/evidence/control/execution
++            .octon/generated/.tmp/pr-auto-merge/projection-${{ matrix.pr_number }}.json
+             .octon/state/evidence/runs
+           if-no-files-found: warn
+           retention-days: 7
+diff --git a/.github/workflows/pr-autonomy-policy.yml b/.github/workflows/pr-autonomy-policy.yml
+index d40c5891b..2f50a8f20 100644
+--- a/.github/workflows/pr-autonomy-policy.yml
++++ b/.github/workflows/pr-autonomy-policy.yml
+@@ -152,16 +152,15 @@ jobs:
+           tmp_dir=".octon/generated/.tmp/pr-autonomy-policy"
+           result_json="${tmp_dir}/result-${PR_NUMBER}.json"
+ 
++          # This workflow records branch-pr policy projection evidence only.
++          # Omitting request/run/target issuer arguments prevents GitHub from
++          # calling the control-plane projection writer.
+           chmod +x .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh
+           .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh \
+             --pr-json "${tmp_dir}/pr-${PR_NUMBER}.json" \
+             --changed-files-json "${tmp_dir}/changed-files-${PR_NUMBER}.json" \
+             --standards-json "${tmp_dir}/standards-${PR_NUMBER}.json" \
+             --pr-template "${tmp_dir}/pr-template-${PR_NUMBER}.md" \
+-            --request-id "github-pr-autonomy-policy-${PR_NUMBER}" \
+-            --run-id "github-pr-autonomy-policy-${PR_NUMBER}" \
+-            --target-id "github-pr:${PR_NUMBER}" \
+-            --issued-by "github://workflow/pr-autonomy-policy" \
+             --output-json "${result_json}"
+ 
+           jq -r '.notices[]?' "${result_json}" | while IFS= read -r notice; do
+@@ -191,8 +190,5 @@ jobs:
+           path: |
+             .octon/state/evidence/runs/ci/pr-autonomy-policy-*
+             .octon/generated/.tmp/pr-autonomy-policy/**
+-            .octon/state/control/execution/approvals/requests/github-pr-autonomy-policy-*.yml
+-            .octon/state/control/execution/approvals/grants/grant-github-pr-autonomy-policy-*.yml
+-            .octon/state/evidence/control/execution
+           if-no-files-found: error
+           retention-days: 7
+diff --git a/.github/workflows/pr-clean-state-enforcer.yml b/.github/workflows/pr-clean-state-enforcer.yml
+index 006dce961..33329214e 100644
+--- a/.github/workflows/pr-clean-state-enforcer.yml
++++ b/.github/workflows/pr-clean-state-enforcer.yml
+@@ -17,7 +17,7 @@ on:
+   workflow_dispatch:
+ 
+ permissions:
+-  contents: write
++  contents: read
+   pull-requests: write
+   issues: write
+ 
+@@ -91,9 +91,9 @@ jobs:
+             const attentionRows = [];
+             let labelsAdded = 0;
+             let labelsRemoved = 0;
+-            let deletedHeadRefs = 0;
++            let reportedHeadRefs = 0;
+             let skippedHeadRefs = 0;
+-            let cleanupRateLimited = false;
++            let cleanupCandidateScanRateLimited = false;
+             let healthIssueSyncSkipped = false;
+ 
+             const blockedMergeStates = new Set(["blocked", "behind", "dirty", "unknown", "unstable"]);
+@@ -171,8 +171,8 @@ jobs:
+                 closedPulls = closedPullsResponse.data;
+               } catch (error) {
+                 if (isRateLimit(error)) {
+-                  cleanupRateLimited = true;
+-                  core.warning(`Skipped closed head-ref cleanup after rate limit: ${error.message}`);
++                  cleanupCandidateScanRateLimited = true;
++                  core.warning(`Skipped closed head-ref cleanup candidate scan after rate limit: ${error.message}`);
+                 } else {
+                   throw error;
+                 }
+@@ -180,32 +180,18 @@ jobs:
+             }
+ 
+             for (const pr of closedPulls) {
+-              if (deletedHeadRefs + skippedHeadRefs >= closedHeadCleanupLimit) break;
++              if (reportedHeadRefs + skippedHeadRefs >= closedHeadCleanupLimit) break;
+               const sameRepoHead = pr.head?.repo?.full_name === `${owner}/${repo}`;
+               const headRef = pr.head?.ref || "";
+               if (!sameRepoHead || !headRef) continue;
+               if (headRef === defaultBranch || headRef === "main") continue;
+               if (openHeadRefs.has(headRef)) continue;
+ 
+-              try {
+-                await github.rest.git.deleteRef({
+-                  owner,
+-                  repo,
+-                  ref: `heads/${headRef}`
+-                });
+-                deletedHeadRefs += 1;
+-              } catch (error) {
+-                if (error.status === 422 || error.status === 404) {
+-                  skippedHeadRefs += 1;
+-                } else if (isRateLimit(error)) {
+-                  cleanupRateLimited = true;
+-                  core.warning(`Stopped closed head-ref cleanup after rate limit: ${error.message}`);
+-                  break;
+-                } else {
+-                  skippedHeadRefs += 1;
+-                  core.warning(`Could not delete closed head ref '${headRef}': ${error.message}`);
+-                }
+-              }
++              reportedHeadRefs += 1;
++              core.notice(
++                `Closed head ref '${headRef}' from PR #${pr.number} is a cleanup candidate; ` +
++                "deletion requires a canonical cleanup receipt outside this GitHub projection."
++              );
+             }
+ 
+             let openIssues = [];
+@@ -239,7 +225,7 @@ jobs:
+                 ...attentionRows.map((row) => `| [#${row.number}](${row.url}) | ${row.ageHours} | ${row.reasons.join("; ")} |`),
+                 "",
+                 "Action expectations:",
+-                "- Resolve concrete blocking conditions promptly (review threads, checks, merge state, authority, or evidence blockers).",
++                "- Resolve concrete blocking conditions promptly (review threads, checks, merge state, authorization, or evidence blockers).",
+                 "- After merge/close, run local cleanup: `.octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh`.",
+                 "- Preferred shipping path: `.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh` (includes cleanup watcher)."
+               ];
+@@ -282,9 +268,9 @@ jobs:
+               .addRaw(`- attention PRs: ${attentionRows.length}\n`)
+               .addRaw(`- attention labels added: ${labelsAdded}\n`)
+               .addRaw(`- attention labels removed: ${labelsRemoved}\n`)
+-              .addRaw(`- closed head refs deleted: ${deletedHeadRefs}\n`)
++              .addRaw(`- closed head cleanup candidates reported: ${reportedHeadRefs}\n`)
+               .addRaw(`- closed head refs skipped: ${skippedHeadRefs}\n`)
+               .addRaw(`- closed head cleanup limit: ${closedHeadCleanupLimit}\n`)
+-              .addRaw(`- cleanup rate limited: ${cleanupRateLimited}\n`)
++              .addRaw(`- cleanup candidate scan rate limited: ${cleanupCandidateScanRateLimited}\n`)
+               .addRaw(`- health issue sync skipped: ${healthIssueSyncSkipped}\n`)
+               .write();
+diff --git a/.github/workflows/pr-stale-close.yml b/.github/workflows/pr-stale-close.yml
+index a008ac7f0..9dd52e1e2 100644
+--- a/.github/workflows/pr-stale-close.yml
++++ b/.github/workflows/pr-stale-close.yml
+@@ -1,4 +1,4 @@
+-name: PR Stale Close
++name: PR Stale Draft Projection
+ 
+ on:
+   schedule:
+@@ -11,8 +11,8 @@ permissions:
+   issues: write
+ 
+ jobs:
+-  stale-close:
+-    name: stale-close
++  stale-draft-projection:
++    name: stale-draft-projection
+     runs-on: ubuntu-latest
+     timeout-minutes: 10
+     env:
+@@ -20,13 +20,13 @@ jobs:
+       STALE_DAYS: ${{ vars.AUTONOMY_AUTO_CLOSE_STALE_DAYS || '7' }}
+       CLOSE_AFTER_STALE_DAYS: ${{ vars.AUTONOMY_AUTO_CLOSE_CLOSE_DAYS || '3' }}
+     steps:
+-      - name: Manage stale draft PRs
++      - name: Project stale draft PRs
+         uses: actions/github-script@v7
+         with:
+           script: |
+             const enabled = String(process.env.AUTONOMY_AUTO_CLOSE_ENABLED || "").toLowerCase() === "true";
+             if (!enabled) {
+-              core.notice("Skipping stale close: AUTONOMY_AUTO_CLOSE_ENABLED is not true.");
++              core.notice("Skipping stale draft projection: AUTONOMY_AUTO_CLOSE_ENABLED is not true.");
+               return;
+             }
+ 
+@@ -40,25 +40,27 @@ jobs:
+             const owner = context.repo.owner;
+             const repo = context.repo.repo;
+             const staleLabel = "autonomy:stale-draft";
+-            const exemptLabels = new Set(["risk:high"]);
++            const reviewLabel = "autonomy:stale-draft-review";
++            const advisoryLabels = new Set(["risk:high"]);
+ 
+-            async function ensureStaleLabel() {
++            async function ensureLabel(name, color, description) {
+               try {
+-                await github.rest.issues.getLabel({ owner, repo, name: staleLabel });
++                await github.rest.issues.getLabel({ owner, repo, name });
+               } catch (error) {
+                 if (error.status !== 404) throw error;
+                 await github.rest.issues.createLabel({
+                   owner,
+                   repo,
+-                  name: staleLabel,
+-                  color: "C5DEF5",
+-                  description: "Draft PR marked stale by automation"
++                  name,
++                  color,
++                  description
+                 });
+-                core.info(`Created label: ${staleLabel}`);
++                core.info(`Created label: ${name}`);
+               }
+             }
+ 
+-            await ensureStaleLabel();
++            await ensureLabel(staleLabel, "C5DEF5", "Draft PR marked stale by automation");
++            await ensureLabel(reviewLabel, "D93F0B", "Draft PR needs human review before any abandonment or cleanup action");
+ 
+             const pulls = await github.paginate(github.rest.pulls.list, {
+               owner,
+@@ -68,7 +70,7 @@ jobs:
+             });
+ 
+             let markedStale = 0;
+-            let closed = 0;
++            let projectedReview = 0;
+             let cleaned = 0;
+             const now = Date.now();
+             const closeThreshold = staleDays + closeAfter;
+@@ -79,33 +81,36 @@ jobs:
+               }
+ 
+               const labels = new Set((pr.labels || []).map((label) => label.name));
+-              const hasExempt = [...exemptLabels].some((name) => labels.has(name));
+-              if (hasExempt) {
+-                continue;
+-              }
++              const advisoryLabelList = [...advisoryLabels].filter((name) => labels.has(name));
+ 
+               const idleDays = (now - Date.parse(pr.updated_at)) / (1000 * 60 * 60 * 24);
+               const isStale = idleDays >= staleDays;
+               const shouldClose = idleDays >= closeThreshold;
+               const hasStaleLabel = labels.has(staleLabel);
++              const hasReviewLabel = labels.has(reviewLabel);
+ 
+               if (shouldClose) {
+-                await github.rest.issues.createComment({
+-                  owner,
+-                  repo,
+-                  issue_number: pr.number,
+-                  body: [
+-                    `Closing stale draft PR after ${Math.floor(idleDays)} days without updates.`,
+-                    "Add `risk:high` or another approved exempt label to avoid future stale-close automation."
+-                  ].join("\n\n")
+-                });
+-                await github.rest.pulls.update({
+-                  owner,
+-                  repo,
+-                  pull_number: pr.number,
+-                  state: "closed"
+-                });
+-                closed += 1;
++                if (!hasReviewLabel) {
++                  await github.rest.issues.addLabels({
++                    owner,
++                    repo,
++                    issue_number: pr.number,
++                    labels: [reviewLabel]
++                  });
++                  await github.rest.issues.createComment({
++                    owner,
++                    repo,
++                    issue_number: pr.number,
++                    body: [
++                      `Draft PR has been idle for ${Math.floor(idleDays)} days and is projected as an abandonment review candidate.`,
++                      "This GitHub workflow does not close the PR. Closure or cleanup requires a canonical abandonment or cleanup receipt outside this projection.",
++                      advisoryLabelList.length
++                        ? `Advisory labels present: ${advisoryLabelList.join(", ")}.`
++                        : "No advisory risk labels were present."
++                    ].join("\n\n")
++                  });
++                  projectedReview += 1;
++                }
+                 continue;
+               }
+ 
+@@ -122,7 +127,7 @@ jobs:
+                   issue_number: pr.number,
+                   body: [
+                     `Marking draft PR as stale after ${Math.floor(idleDays)} days without updates.`,
+-                    `This PR will be auto-closed after ${closeAfter} additional idle day(s) unless updated.`
++                    `After ${closeAfter} additional idle day(s), this workflow may project the PR as requiring abandonment review. It will not close the PR.`
+                   ].join("\n\n")
+                 });
+                 markedStale += 1;
+@@ -142,13 +147,27 @@ jobs:
+                   core.warning(`Could not remove stale label from #${pr.number}: ${error.message}`);
+                 }
+               }
++
++              if (!isStale && hasReviewLabel) {
++                try {
++                  await github.rest.issues.removeLabel({
++                    owner,
++                    repo,
++                    issue_number: pr.number,
++                    name: reviewLabel
++                  });
++                  cleaned += 1;
++                } catch (error) {
++                  core.warning(`Could not remove stale review label from #${pr.number}: ${error.message}`);
++                }
++              }
+             }
+ 
+             core.summary
+-              .addHeading("Stale Draft PR Sweep")
++              .addHeading("Stale Draft PR Projection")
+               .addRaw(`- stale threshold: ${staleDays} day(s)\n`)
+-              .addRaw(`- close-after-stale threshold: ${closeAfter} day(s)\n`)
++              .addRaw(`- abandonment-review threshold after stale: ${closeAfter} day(s)\n`)
+               .addRaw(`- marked stale: ${markedStale}\n`)
+-              .addRaw(`- closed: ${closed}\n`)
+-              .addRaw(`- stale label removed: ${cleaned}\n`)
++              .addRaw(`- abandonment review projected: ${projectedReview}\n`)
++              .addRaw(`- stale/review labels removed: ${cleaned}\n`)
+               .write();

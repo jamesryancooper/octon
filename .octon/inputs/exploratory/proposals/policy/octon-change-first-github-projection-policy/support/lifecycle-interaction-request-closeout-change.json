@@ -1,0 +1,72 @@
+{
+  "schema_version": "lifecycle-interaction-request-v1",
+  "interaction_id": "octon-change-first-github-projection-policy-closeout-change-handoff",
+  "created_at": "2026-06-17T19:10:03Z",
+  "source": {
+    "lifecycle_id": "proposal-packet",
+    "run_id": "run-packet-wrapup-20260617T190000Z-followon",
+    "atomic_unit_type": "proposal-packet",
+    "target_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy",
+    "phase_id": "closeout-packet"
+  },
+  "request": {
+    "interaction_profile": "handoff",
+    "interaction_kind": "follow_on_work_required",
+    "requested_capability": "change-closeout",
+    "requested_lifecycle_id": "change-closeout",
+    "requested_route_surface": "closeout-change",
+    "requested_atomic_unit_type": "change",
+    "requested_target_outcome": "preserved"
+  },
+  "scope": {
+    "include_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-artifact-index.yml",
+      ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-program-spine.yml",
+      ".octon/state/evidence/validation/analysis/20260617T191003Z-promote-proposal-octon-change-first-github-projection-policy.md"
+    ],
+    "exclude_paths": [],
+    "boundary_digest": "sha256:ae7e9116f6b028fefb45b6156c32a60b224ac97e349dfd6e0104736aa2098b7a"
+  },
+  "evidence_offered": [
+    {
+      "ref": ".octon/state/evidence/validation/proposals/octon-change-first-github-projection-policy/20260617T190000Z-followon/final-closeout-worktree-hygiene.yml",
+      "digest": "sha256:afb2771e16f8c5e4aabf264bd1ad9132ea7adb65eca9d551f38d55eee5978386",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/verification-report.md",
+      "digest": "sha256:e55c923046f8539b74edff8d8865105c43214fb5ac4061f8753d710e6772c1ec",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/state/evidence/runs/workflows/20260617T191003Z-promote-proposal-octon-change-first-github-projection-policy/bundle.yml",
+      "digest": "sha256:34505ed95b2fbe1ef6212532acf9e760476256a74ab3eecd44591e25d80fc451",
+      "acceptance_class": "validation-evidence"
+    }
+  ],
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "worktree-cleanup-authorization",
+      "repo-hygiene-deletion",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "stop_conditions": [
+    "worktree hygiene include paths differ from classifier foreign_or_ambiguous paths",
+    "target-owned validation fails",
+    "resolution would require archive, promotion, git ref mutation, hosted-provider action, repo-hygiene deletion, cleanup, or scope expansion",
+    "packet closeout retry lacks lifecycle-interaction-return-v1 with fresh target-owned return evidence"
+  ],
+  "expected_return_evidence": [
+    "change-receipt-v1 or explicit operator scope-resolution record naming disposition for the five included paths",
+    "lifecycle-interaction-return-v1 citing fresh target-owned validation evidence",
+    "fresh worktree hygiene classifier output showing pass or explicit preserved/blocked disposition"
+  ]
+}

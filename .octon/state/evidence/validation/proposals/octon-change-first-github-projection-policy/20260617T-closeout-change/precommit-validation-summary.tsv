@@ -1,0 +1,12 @@
+validate-lifecycle-interaction-request	exit=0
+validate-change-closeout-lifecycle-alignment	exit=0
+validate-change-closeout-state-machine	exit=0
+validate-default-work-unit-alignment	exit=0
+validate-proposal-implementation-conformance	exit=0
+validate-proposal-post-implementation-drift	exit=0
+validate-execution-governance	exit=0
+generate-proposal-artifact-index-check	exit=0
+generate-proposal-registry-check	exit=0
+validate-proposal-lifecycle-terminal-freshness	exit=0
+classify-proposal-worktree-hygiene	exit=0
+git-diff-check	exit=0

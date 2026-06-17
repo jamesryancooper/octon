@@ -1,0 +1,5 @@
+ .octon/generated/proposals/registry.yml            | 30 ++++++++++++++++++++--
+ .../implementation/implementation-map.md           | 10 ++++++--
+ .../navigation/artifact-catalog.md                 |  3 +++
+ .../proposal.yml                                   |  5 ++--
+ 4 files changed, 42 insertions(+), 6 deletions(-)

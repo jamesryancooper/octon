@@ -152,10 +152,16 @@ main() {
     pass "PR autonomy classifier and triage avoid high-impact manual default"
   fi
 
-  if has_pattern_in_files 'project-github-control-approval\.sh' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
-    pass "GitHub control-plane workflows dual-write into canonical approval artifacts"
+  if has_pattern_in_files 'project-github-control-approval\.sh|--request-id "github-|--issued-by "github://workflow/|\.octon/state/control/execution/approvals/(requests|grants)/github-|\.octon/state/evidence/control/execution' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
+    fail "GitHub projection workflows must not mint or upload canonical approval artifacts"
   else
-    fail "GitHub control-plane workflows must dual-write into canonical approval artifacts"
+    pass "GitHub projection workflows do not mint or upload canonical approval artifacts"
+  fi
+
+  if has_pattern_in_files 'github-ai-review-gate-projection-v1|github-pr-auto-merge-projection-v1|branch-pr policy projection evidence only|branch-pr-check-evidence|branch-pr-merge-readiness' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
+    pass "GitHub projection workflows emit projection/readiness evidence only"
+  else
+    fail "GitHub projection workflows must emit projection/readiness evidence"
   fi
 
   if has_pattern_in_files 'accept:human|ai-gate:waive|waived-by-authority' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml"; then

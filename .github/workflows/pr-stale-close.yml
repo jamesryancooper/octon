@@ -1,4 +1,4 @@
-name: PR Stale Close
+name: PR Stale Draft Projection
 
 on:
   schedule:
@@ -11,8 +11,8 @@ permissions:
   issues: write
 
 jobs:
-  stale-close:
-    name: stale-close
+  stale-draft-projection:
+    name: stale-draft-projection
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -20,13 +20,13 @@ jobs:
       STALE_DAYS: ${{ vars.AUTONOMY_AUTO_CLOSE_STALE_DAYS || '7' }}
       CLOSE_AFTER_STALE_DAYS: ${{ vars.AUTONOMY_AUTO_CLOSE_CLOSE_DAYS || '3' }}
     steps:
-      - name: Manage stale draft PRs
+      - name: Project stale draft PRs
         uses: actions/github-script@v7
         with:
           script: |
             const enabled = String(process.env.AUTONOMY_AUTO_CLOSE_ENABLED || "").toLowerCase() === "true";
             if (!enabled) {
-              core.notice("Skipping stale close: AUTONOMY_AUTO_CLOSE_ENABLED is not true.");
+              core.notice("Skipping stale draft projection: AUTONOMY_AUTO_CLOSE_ENABLED is not true.");
               return;
             }
 
@@ -40,25 +40,27 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const staleLabel = "autonomy:stale-draft";
-            const exemptLabels = new Set(["risk:high"]);
+            const reviewLabel = "autonomy:stale-draft-review";
+            const advisoryLabels = new Set(["risk:high"]);
 
-            async function ensureStaleLabel() {
+            async function ensureLabel(name, color, description) {
               try {
-                await github.rest.issues.getLabel({ owner, repo, name: staleLabel });
+                await github.rest.issues.getLabel({ owner, repo, name });
               } catch (error) {
                 if (error.status !== 404) throw error;
                 await github.rest.issues.createLabel({
                   owner,
                   repo,
-                  name: staleLabel,
-                  color: "C5DEF5",
-                  description: "Draft PR marked stale by automation"
+                  name,
+                  color,
+                  description
                 });
-                core.info(`Created label: ${staleLabel}`);
+                core.info(`Created label: ${name}`);
               }
             }
 
-            await ensureStaleLabel();
+            await ensureLabel(staleLabel, "C5DEF5", "Draft PR marked stale by automation");
+            await ensureLabel(reviewLabel, "D93F0B", "Draft PR needs human review before any abandonment or cleanup action");
 
             const pulls = await github.paginate(github.rest.pulls.list, {
               owner,
@@ -68,7 +70,7 @@ jobs:
             });
 
             let markedStale = 0;
-            let closed = 0;
+            let projectedReview = 0;
             let cleaned = 0;
             const now = Date.now();
             const closeThreshold = staleDays + closeAfter;
@@ -79,33 +81,36 @@ jobs:
               }
 
               const labels = new Set((pr.labels || []).map((label) => label.name));
-              const hasExempt = [...exemptLabels].some((name) => labels.has(name));
-              if (hasExempt) {
-                continue;
-              }
+              const advisoryLabelList = [...advisoryLabels].filter((name) => labels.has(name));
 
               const idleDays = (now - Date.parse(pr.updated_at)) / (1000 * 60 * 60 * 24);
               const isStale = idleDays >= staleDays;
               const shouldClose = idleDays >= closeThreshold;
               const hasStaleLabel = labels.has(staleLabel);
+              const hasReviewLabel = labels.has(reviewLabel);
 
               if (shouldClose) {
-                await github.rest.issues.createComment({
-                  owner,
-                  repo,
-                  issue_number: pr.number,
-                  body: [
-                    `Closing stale draft PR after ${Math.floor(idleDays)} days without updates.`,
-                    "Add `risk:high` or another approved exempt label to avoid future stale-close automation."
-                  ].join("\n\n")
-                });
-                await github.rest.pulls.update({
-                  owner,
-                  repo,
-                  pull_number: pr.number,
-                  state: "closed"
-                });
-                closed += 1;
+                if (!hasReviewLabel) {
+                  await github.rest.issues.addLabels({
+                    owner,
+                    repo,
+                    issue_number: pr.number,
+                    labels: [reviewLabel]
+                  });
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: pr.number,
+                    body: [
+                      `Draft PR has been idle for ${Math.floor(idleDays)} days and is projected as an abandonment review candidate.`,
+                      "This GitHub workflow does not close the PR. Closure or cleanup requires a canonical abandonment or cleanup receipt outside this projection.",
+                      advisoryLabelList.length
+                        ? `Advisory labels present: ${advisoryLabelList.join(", ")}.`
+                        : "No advisory risk labels were present."
+                    ].join("\n\n")
+                  });
+                  projectedReview += 1;
+                }
                 continue;
               }
 
@@ -122,7 +127,7 @@ jobs:
                   issue_number: pr.number,
                   body: [
                     `Marking draft PR as stale after ${Math.floor(idleDays)} days without updates.`,
-                    `This PR will be auto-closed after ${closeAfter} additional idle day(s) unless updated.`
+                    `After ${closeAfter} additional idle day(s), this workflow may project the PR as requiring abandonment review. It will not close the PR.`
                   ].join("\n\n")
                 });
                 markedStale += 1;
@@ -142,13 +147,27 @@ jobs:
                   core.warning(`Could not remove stale label from #${pr.number}: ${error.message}`);
                 }
               }
+
+              if (!isStale && hasReviewLabel) {
+                try {
+                  await github.rest.issues.removeLabel({
+                    owner,
+                    repo,
+                    issue_number: pr.number,
+                    name: reviewLabel
+                  });
+                  cleaned += 1;
+                } catch (error) {
+                  core.warning(`Could not remove stale review label from #${pr.number}: ${error.message}`);
+                }
+              }
             }
 
             core.summary
-              .addHeading("Stale Draft PR Sweep")
+              .addHeading("Stale Draft PR Projection")
               .addRaw(`- stale threshold: ${staleDays} day(s)\n`)
-              .addRaw(`- close-after-stale threshold: ${closeAfter} day(s)\n`)
+              .addRaw(`- abandonment-review threshold after stale: ${closeAfter} day(s)\n`)
               .addRaw(`- marked stale: ${markedStale}\n`)
-              .addRaw(`- closed: ${closed}\n`)
-              .addRaw(`- stale label removed: ${cleaned}\n`)
+              .addRaw(`- abandonment review projected: ${projectedReview}\n`)
+              .addRaw(`- stale/review labels removed: ${cleaned}\n`)
               .write();

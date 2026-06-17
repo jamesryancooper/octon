@@ -1,0 +1,16 @@
+ M .github/PULL_REQUEST_TEMPLATE.md
+ M .github/PULL_REQUEST_TEMPLATE/kaizen.md
+ M .github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md
+ M .github/workflows/ai-review-gate.yml
+ M .github/workflows/harness-self-containment.yml
+ M .github/workflows/main-change-route-guard.yml
+ M .github/workflows/pr-auto-merge.yml
+ M .github/workflows/pr-autonomy-policy.yml
+ M .github/workflows/pr-clean-state-enforcer.yml
+ M .github/workflows/pr-stale-close.yml
+ M .octon/generated/proposals/registry.yml
+ M .octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/implementation/implementation-map.md
+ M .octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/navigation/artifact-catalog.md
+ M .octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/proposal.yml
+?? .octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/
+?? .octon/state/evidence/validation/proposals/octon-change-first-github-projection-policy/

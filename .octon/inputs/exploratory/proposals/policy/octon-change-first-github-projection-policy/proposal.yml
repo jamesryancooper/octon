@@ -5,7 +5,8 @@ summary: Aligns repo-local GitHub workflows and PR templates with the Change-fir
 proposal_kind: policy
 promotion_scope: repo-local
 promotion_targets:
-  - .github/workflows/main-pr-first-guard.yml
+  - .github/workflows/main-change-route-guard.yml
+  - .github/workflows/change-route-projection.yml
   - .github/workflows/main-push-safety.yml
   - .github/workflows/commit-and-branch-standards.yml
   - .github/workflows/pr-quality.yml
@@ -21,7 +22,7 @@ promotion_targets:
   - .github/workflows/codex-pr-review.yml
   - .github/workflows/alignment-check.yml
   - .github/workflows/harness-self-containment.yml
-status: draft
+status: implemented
 lifecycle:
   temporary: true
   exit_expectation: Align repo-local GitHub projection workflows after the octon-internal Change-first authority surfaces are accepted, then archive this packet with workflow validation evidence.

@@ -5,7 +5,6 @@ on:
     branches:
       - main
     paths:
-      - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
       - '.octon/**'
       - '.github/dependabot.yml'
       - '.github/workflows/ai-review-gate.yml'
@@ -20,7 +19,6 @@ on:
       - '.github/workflows/harness-self-containment.yml'
   pull_request:
     paths:
-      - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
       - '.octon/**'
       - '.github/dependabot.yml'
       - '.github/workflows/ai-review-gate.yml'
@@ -58,7 +56,6 @@ jobs:
         with:
           filters: |
             orchestration:
-              - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
               - '.octon/framework/orchestration/**'
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh'
               - '.octon/framework/assurance/runtime/_ops/tests/test-validate-orchestration-design-proposal.sh'

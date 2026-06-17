@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
   issues: write
 
@@ -91,9 +91,9 @@ jobs:
             const attentionRows = [];
             let labelsAdded = 0;
             let labelsRemoved = 0;
-            let deletedHeadRefs = 0;
+            let reportedHeadRefs = 0;
             let skippedHeadRefs = 0;
-            let cleanupRateLimited = false;
+            let cleanupCandidateScanRateLimited = false;
             let healthIssueSyncSkipped = false;
 
             const blockedMergeStates = new Set(["blocked", "behind", "dirty", "unknown", "unstable"]);
@@ -171,8 +171,8 @@ jobs:
                 closedPulls = closedPullsResponse.data;
               } catch (error) {
                 if (isRateLimit(error)) {
-                  cleanupRateLimited = true;
-                  core.warning(`Skipped closed head-ref cleanup after rate limit: ${error.message}`);
+                  cleanupCandidateScanRateLimited = true;
+                  core.warning(`Skipped closed head-ref cleanup candidate scan after rate limit: ${error.message}`);
                 } else {
                   throw error;
                 }
@@ -180,32 +180,18 @@ jobs:
             }
 
             for (const pr of closedPulls) {
-              if (deletedHeadRefs + skippedHeadRefs >= closedHeadCleanupLimit) break;
+              if (reportedHeadRefs + skippedHeadRefs >= closedHeadCleanupLimit) break;
               const sameRepoHead = pr.head?.repo?.full_name === `${owner}/${repo}`;
               const headRef = pr.head?.ref || "";
               if (!sameRepoHead || !headRef) continue;
               if (headRef === defaultBranch || headRef === "main") continue;
               if (openHeadRefs.has(headRef)) continue;
 
-              try {
-                await github.rest.git.deleteRef({
-                  owner,
-                  repo,
-                  ref: `heads/${headRef}`
-                });
-                deletedHeadRefs += 1;
-              } catch (error) {
-                if (error.status === 422 || error.status === 404) {
-                  skippedHeadRefs += 1;
-                } else if (isRateLimit(error)) {
-                  cleanupRateLimited = true;
-                  core.warning(`Stopped closed head-ref cleanup after rate limit: ${error.message}`);
-                  break;
-                } else {
-                  skippedHeadRefs += 1;
-                  core.warning(`Could not delete closed head ref '${headRef}': ${error.message}`);
-                }
-              }
+              reportedHeadRefs += 1;
+              core.notice(
+                `Closed head ref '${headRef}' from PR #${pr.number} is a cleanup candidate; ` +
+                "deletion requires a canonical cleanup receipt outside this GitHub projection."
+              );
             }
 
             let openIssues = [];
@@ -239,7 +225,7 @@ jobs:
                 ...attentionRows.map((row) => `| [#${row.number}](${row.url}) | ${row.ageHours} | ${row.reasons.join("; ")} |`),
                 "",
                 "Action expectations:",
-                "- Resolve concrete blocking conditions promptly (review threads, checks, merge state, authority, or evidence blockers).",
+                "- Resolve concrete blocking conditions promptly (review threads, checks, merge state, authorization, or evidence blockers).",
                 "- After merge/close, run local cleanup: `.octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh`.",
                 "- Preferred shipping path: `.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh` (includes cleanup watcher)."
               ];
@@ -282,9 +268,9 @@ jobs:
               .addRaw(`- attention PRs: ${attentionRows.length}\n`)
               .addRaw(`- attention labels added: ${labelsAdded}\n`)
               .addRaw(`- attention labels removed: ${labelsRemoved}\n`)
-              .addRaw(`- closed head refs deleted: ${deletedHeadRefs}\n`)
+              .addRaw(`- closed head cleanup candidates reported: ${reportedHeadRefs}\n`)
               .addRaw(`- closed head refs skipped: ${skippedHeadRefs}\n`)
               .addRaw(`- closed head cleanup limit: ${closedHeadCleanupLimit}\n`)
-              .addRaw(`- cleanup rate limited: ${cleanupRateLimited}\n`)
+              .addRaw(`- cleanup candidate scan rate limited: ${cleanupCandidateScanRateLimited}\n`)
               .addRaw(`- health issue sync skipped: ${healthIssueSyncSkipped}\n`)
               .write();
