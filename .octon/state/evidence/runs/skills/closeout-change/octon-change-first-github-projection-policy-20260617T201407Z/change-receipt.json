@@ -1,0 +1,92 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "octon-change-first-github-projection-policy-20260617T201407Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "branch-local-complete",
+  "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "local-only",
+  "intent": "Resolve the proposal-packet closeout hygiene handoff by preserving the accepted packet implementation, generated proposal projections, validator alignment, and retained validation evidence on a task branch without PR-backed or hosted landing claims.",
+  "scope": {
+    "summary": "Branch-local checkpoint for the Octon change-first GitHub projection policy packet and its closeout evidence.",
+    "touched_paths": [
+      ".github/PULL_REQUEST_TEMPLATE.md",
+      ".github/PULL_REQUEST_TEMPLATE/kaizen.md",
+      ".github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md",
+      ".github/workflows/ai-review-gate.yml",
+      ".github/workflows/harness-self-containment.yml",
+      ".github/workflows/main-change-route-guard.yml",
+      ".github/workflows/pr-auto-merge.yml",
+      ".github/workflows/pr-autonomy-policy.yml",
+      ".github/workflows/pr-clean-state-enforcer.yml",
+      ".github/workflows/pr-stale-close.yml",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-artifact-index.yml",
+      ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-program-spine.yml",
+      ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy",
+      ".octon/state/evidence/validation/analysis/20260617T191003Z-promote-proposal-octon-change-first-github-projection-policy.md",
+      ".octon/state/evidence/validation/proposals/octon-change-first-github-projection-policy"
+    ],
+    "diff_refs": [
+      "chore/octon-change-first-github-projection-policy@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4"
+    ],
+    "handoff_include_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-artifact-index.yml",
+      ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-program-spine.yml",
+      ".octon/state/evidence/validation/analysis/20260617T191003Z-promote-proposal-octon-change-first-github-projection-policy.md"
+    ],
+    "handoff_request_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/lifecycle-interaction-request-closeout-change.json"
+  },
+  "source_branch_ref": "chore/octon-change-first-github-projection-policy",
+  "target_branch_ref": "main",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    ".octon/state/evidence/validation/analysis/20260617T-closeout-change-residue-initial.yml",
+    ".octon/state/evidence/validation/proposals/octon-change-first-github-projection-policy/20260617T-closeout-change/precommit-validation-summary.tsv",
+    "local-validator:validate-lifecycle-interaction-receipts.sh --request@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:validate-change-closeout-lifecycle-alignment.sh@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:validate-change-closeout-state-machine.sh@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:validate-default-work-unit-alignment.sh@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:validate-proposal-implementation-conformance.sh@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:validate-proposal-post-implementation-drift.sh@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:validate-execution-governance.sh@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:generate-proposal-artifact-index.sh --check@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:generate-proposal-registry.sh --check@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:validate-proposal-lifecycle-terminal-freshness.sh --run-registry-check@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:classify-proposal-worktree-hygiene.sh@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "local-validator:git diff --check@bb583ca5d2f0c487383ce914d9f22b898e2d7fd4"
+  ],
+  "review_waiver_refs": [
+    "branch-no-pr selected because direct-main was ineligible for a dirty multi-surface Change and no branch-pr predicate was present in the closeout-change route evidence"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "bb583ca5d2f0c487383ce914d9f22b898e2d7fd4",
+    "branch": "chore/octon-change-first-github-projection-policy"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/octon-change-first-github-projection-policy",
+    "instructions": "Discard the task branch if the branch-local Change is abandoned before any hosted landing path is authorized."
+  },
+  "not_landed_reason": "No route-required hosted landing authorization or provider-side landing evidence has been established.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "Branch cleanup and worktree cleanup require landed/synced evidence that is not present for a branch-local checkpoint.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "source_branch_cleanup": {
+    "status": "pending",
+    "local_branch": "chore/octon-change-first-github-projection-policy",
+    "blocker_reason": "Branch has not landed on main."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Branch-local checkpoint is not landed on main.",
+    "Branch cleanup is not authorized before landing and sync evidence exists."
+  ],
+  "created_at": "2026-06-17T20:14:07Z"
+}

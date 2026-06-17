@@ -1,0 +1,28 @@
+{
+  "schema_version": "lifecycle-interaction-return-v1",
+  "interaction_id": "octon-change-first-github-projection-policy-closeout-change-handoff",
+  "consumer": {
+    "lifecycle_id": "change-closeout",
+    "run_id": "closeout-change-20260617T201407Z"
+  },
+  "outcome": {
+    "completed": true,
+    "lifecycle_outcome": "branch-local-complete",
+    "blocker": null
+  },
+  "return_evidence_refs": [
+    {
+      "ref": ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T201407Z/change-receipt.json",
+      "digest": "sha256:3040ffa27287bcc71f6a4f9c4d264847baeaaf2ed16bafe6681d53f1aa5f4067"
+    },
+    {
+      "ref": ".octon/state/evidence/validation/proposals/octon-change-first-github-projection-policy/20260617T-closeout-change/precommit-validation-summary.tsv",
+      "digest": "sha256:db126dc4c1c3f0c718c8bc9baacb3b9568ccb9f2aa937eef8d759085913ece2a"
+    },
+    {
+      "ref": ".octon/state/evidence/validation/analysis/20260617T-closeout-change-residue-initial.yml",
+      "digest": "sha256:1430ff6c08d316f3ef05d1e8ccd20ba068c355261b689be38dd4509fbb5b10d5"
+    }
+  ],
+  "remaining_residue": []
+}
