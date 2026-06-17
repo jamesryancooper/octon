@@ -1,0 +1,36 @@
+{
+  "schema_version": "lifecycle-interaction-return-v1",
+  "interaction_id": "octon-change-first-github-projection-policy-closeout-change-handoff",
+  "consumer": {
+    "lifecycle_id": "change-closeout",
+    "run_id": "closeout-change-20260617T213340Z"
+  },
+  "outcome": {
+    "completed": true,
+    "lifecycle_outcome": "cleaned",
+    "blocker": null
+  },
+  "return_evidence_refs": [
+    {
+      "ref": ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/change-receipt.json",
+      "digest": "sha256:94844d0110369594d017a03cb7d02a1437446e8288de3eca80a5a13fdfeb1386"
+    },
+    {
+      "ref": ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json",
+      "digest": "sha256:565b05bb92281fd7ded20f139491013c9a546413b6c1abd70ea5ea84fc402ff3"
+    },
+    {
+      "ref": ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json",
+      "digest": "sha256:524b8e2fdbcbfbb37b15f5d84db444c08a9143ae93f5e5692032a178ba136463"
+    },
+    {
+      "ref": ".octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/manifest.json",
+      "digest": "sha256:b1457f95f743174131846aa97254013c697acc074b742d9faef26fd9f629c127"
+    },
+    {
+      "ref": ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-change-20260617T213340Z/repo-hygiene-cleanup-authorization.json",
+      "digest": "sha256:4f1968efa65c884db358701930ffd8ca7766c1d6e5933222b02c5908e96516a3"
+    }
+  ],
+  "remaining_residue": []
+}

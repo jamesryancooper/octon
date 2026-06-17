@@ -1,0 +1,159 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "octon-change-first-github-projection-policy-20260617T213340Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Complete the closeout-change route for the Octon change-first GitHub projection policy packet after packet archive, using hosted no-PR fast-forward landing and authorized source branch cleanup.",
+  "scope": {
+    "summary": "Terminal cleaned closeout for the Octon change-first GitHub projection policy packet and its archived packet evidence.",
+    "touched_paths": [
+      ".github/PULL_REQUEST_TEMPLATE.md",
+      ".github/PULL_REQUEST_TEMPLATE/kaizen.md",
+      ".github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md",
+      ".github/workflows/ai-review-gate.yml",
+      ".github/workflows/harness-self-containment.yml",
+      ".github/workflows/main-change-route-guard.yml",
+      ".github/workflows/pr-auto-merge.yml",
+      ".github/workflows/pr-autonomy-policy.yml",
+      ".github/workflows/pr-clean-state-enforcer.yml",
+      ".github/workflows/pr-stale-close.yml",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-artifact-index.yml",
+      ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-program-spine.yml",
+      ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy",
+      ".octon/state/evidence/validation/analysis/20260617T191003Z-promote-proposal-octon-change-first-github-projection-policy.md",
+      ".octon/state/evidence/validation/proposals/octon-change-first-github-projection-policy"
+    ],
+    "diff_refs": [
+      "origin/main@f9af7f9403ad43f2b46b777175d562e65de1b425",
+      "origin/main previous@262cf75d8fd451d49c4c1f79972ad73fc41e149e..f9af7f9403ad43f2b46b777175d562e65de1b425"
+    ],
+    "handoff_request_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/lifecycle-interaction-request-closeout-change.json"
+  },
+  "source_branch_ref": "chore/octon-change-first-github-projection-policy",
+  "target_branch_ref": "origin/main@f9af7f9403ad43f2b46b777175d562e65de1b425",
+  "remote_branch_ref": "origin/chore/octon-change-first-github-projection-policy@f9af7f9403ad43f2b46b777175d562e65de1b425",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/octon-change-first-github-projection-policy",
+    "source_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "target_pre_ref": "262cf75d8fd451d49c4c1f79972ad73fc41e149e",
+    "target_post_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "validated_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@f9af7f9403ad43f2b46b777175d562e65de1b425",
+      "branch_naming_validation@f9af7f9403ad43f2b46b777175d562e65de1b425",
+      "route_aware_autonomy_validation@f9af7f9403ad43f2b46b777175d562e65de1b425",
+      "exact_source_sha_validation@f9af7f9403ad43f2b46b777175d562e65de1b425"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "f9af7f9403ad43f2b46b777175d562e65de1b425:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "target_ref": "origin/main@f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json",
+      "git-push:origin f9af7f9403ad43f2b46b777175d562e65de1b425:refs/heads/main"
+    ]
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "chore/octon-change-first-github-projection-policy",
+    "source_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "landed_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "origin_main_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "origin/main@f9af7f9403ad43f2b46b777175d562e65de1b425 contains chore/octon-change-first-github-projection-policy@f9af7f9403ad43f2b46b777175d562e65de1b425"
+    ]
+  },
+  "landed_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+  "main_alignment": {
+    "local_main_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "origin_main_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "landed_ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin completed inside hosted landing and cleanup helpers",
+    "local_main_sync_evidence_ref": "git checkout main && git merge --ff-only origin/main",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main == f9af7f9403ad43f2b46b777175d562e65de1b425"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json",
+    "git branch --list chore/octon-change-first-github-projection-policy returned empty",
+    "git ls-remote --heads origin chore/octon-change-first-github-projection-policy returned empty"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/octon-change-first-github-projection-policy",
+    "remote_branch": "origin/chore/octon-change-first-github-projection-policy",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json",
+      "git-branch-cleanup:deleted-local-and-remote-source-branch"
+    ]
+  },
+  "terminal_current_state_proof_ref": ".octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/terminal-current-state-proof.yml",
+  "terminal_current_state_proof_digest": "sha256:c8a907827ecb220a680ad49225cb3816c650d1e1da8a7b56d9dd111b65b2978e",
+  "validation_evidence_refs": [
+    "validate-lifecycle-interaction-receipts.sh passed before hosted landing",
+    "classify-proposal-worktree-hygiene.sh passed before packet archive",
+    "validate-hosted-no-pr-landing.sh --receipt .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/change-receipt.json",
+    "validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/change-receipt.json --verify-live-refs",
+    "validate-change-closeout-state-machine.sh --receipt .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/change-receipt.json",
+    "cleanup-local-run-artifacts.sh --authorization .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-change-20260617T213340Z/repo-hygiene-cleanup-authorization.json",
+    "cleanup-local-run-artifacts.sh --summary-only reported cleanup_candidates: 0",
+    "git diff --check"
+  ],
+  "review_waiver_refs": [
+    "branch-no-pr selected because direct-main was ineligible for the prior dirty multi-surface Change and no branch-pr predicate was present in closeout-change route evidence"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "branch": "chore/octon-change-first-github-projection-policy"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "f9af7f9403ad43f2b46b777175d562e65de1b425",
+    "instructions": "Revert f9af7f9403ad43f2b46b777175d562e65de1b425 on main if post-landing verification identifies a regression."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T201407Z/change-receipt.json",
+    "residue_classification_ref": ".octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/residue-classification.yml",
+    "phase_exit_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json",
+      ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": "git-ref-alignment:f9af7f9403ad43f2b46b777175d562e65de1b425"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-17T21:36:50Z",
+  "updated_at": "2026-06-17T21:43:17Z"
+}

@@ -1,0 +1,12 @@
+validate-archive-proposal-workflow	exit=0
+validate-proposal-standard	exit=0
+validate-policy-proposal	exit=0
+validate-proposal-implementation-readiness	exit=0
+validate-proposal-review-gate	exit=0
+validate-proposal-implementation-conformance	exit=0
+validate-proposal-post-implementation-drift	exit=0
+generate-proposal-artifact-index-check	exit=0
+generate-proposal-registry-check	exit=0
+validate-proposal-lifecycle-terminal-freshness	exit=0
+cleanup-local-run-artifacts-summary	exit=0
+git-diff-check	exit=0

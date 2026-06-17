@@ -1,0 +1,85 @@
+schema_version: lifecycle-terminal-current-state-proof-v1
+proof_id: terminal-proof-octon-change-first-github-projection-policy-20260617T213340Z-f9af7f9403ad43f2b46b777175d562e65de1b425
+observed_at: "2026-06-17T21:43:17Z"
+change_id: octon-change-first-github-projection-policy-20260617T213340Z
+lifecycle_outcome: cleaned
+non_authority_classification: retained-evidence-only
+final_refs:
+  head_ref: f9af7f9403ad43f2b46b777175d562e65de1b425
+  main_ref: f9af7f9403ad43f2b46b777175d562e65de1b425
+  origin_main_ref: f9af7f9403ad43f2b46b777175d562e65de1b425
+  landed_ref: f9af7f9403ad43f2b46b777175d562e65de1b425
+alignment:
+  head_equals_local_main: true
+  local_main_equals_origin_main: true
+  origin_main_contains_landed_ref: true
+  local_main_contains_landed_ref: true
+worktree:
+  status: retained_classified
+  status_ref: .octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/status.txt
+  residue_counts:
+    staged: 0
+    unstaged: 0
+    untracked: 7
+    publishable_change: 0
+    publishable_closeout_evidence: 6
+    local_private_retained: 139
+    foreign_manual_review: 0
+    ambiguous: 0
+cleanup_classifier_ref: .octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/residue-classification.yml
+validator_refs:
+  - validator: hosted-no-pr-landing-authorization
+    command: .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh --output .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json --rollback-handle revert-commit:f9af7f9403ad43f2b46b777175d562e65de1b425 --target-lifecycle-outcome cleaned --require-check route_neutral_closeout_validation --require-check branch_naming_validation --require-check route_aware_autonomy_validation --require-check exact_source_sha_validation
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json
+  - validator: hosted-no-pr-fast-forward-landing
+    command: .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh --authorization .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json --target main --remote origin --require-check route_neutral_closeout_validation --require-check branch_naming_validation --require-check route_aware_autonomy_validation --require-check exact_source_sha_validation --confirm
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json
+  - validator: branch-cleanup-authorization
+    command: .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh --branch chore/octon-change-first-github-projection-policy --landed-ref f9af7f9403ad43f2b46b777175d562e65de1b425 --retained-rollback-ref revert-commit:f9af7f9403ad43f2b46b777175d562e65de1b425 --selected-route branch-no-pr --output .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json --delete-remote
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json
+  - validator: branch-cleanup
+    command: .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh --branch chore/octon-change-first-github-projection-policy --landed-ref f9af7f9403ad43f2b46b777175d562e65de1b425 --retained-rollback-ref revert-commit:f9af7f9403ad43f2b46b777175d562e65de1b425 --authorization .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json --delete-remote --confirm
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json
+  - validator: change-closeout-residue-classifier
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root .
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/residue-classification.yml
+  - validator: repo-hygiene-cleanup
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --authorization .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-change-20260617T213340Z/repo-hygiene-cleanup-authorization.json --active-run-id closeout-change-20260617T213340Z
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-change-20260617T213340Z/repo-hygiene-cleanup-authorization.json
+  - validator: repo-hygiene-post-cleanup-summary
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: local-command:cleanup-local-run-artifacts-summary-only@post-cleanup
+  - validator: git-diff-check
+    command: git diff --check
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: git
+    exit_code: 0
+    evidence_ref: local-command:git-diff-check@f9af7f9403ad43f2b46b777175d562e65de1b425
+evidence_refs:
+  - .octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/refs.txt
+  - .octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/status.txt
+  - .octon/state/evidence/local/terminal-closeout/octon-change-first-github-projection-policy-20260617T213340Z/residue-classification.yml
+  - .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-landing-authorization-required-checks.json
+  - .octon/state/evidence/runs/skills/closeout-change/octon-change-first-github-projection-policy-20260617T213340Z/branch-cleanup-authorization.json
+  - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-change-20260617T213340Z/repo-hygiene-cleanup-authorization.json
