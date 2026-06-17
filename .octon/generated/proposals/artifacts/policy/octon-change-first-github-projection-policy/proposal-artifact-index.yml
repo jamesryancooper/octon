@@ -1,5 +1,5 @@
 {
-  "artifact_count": 24,
+  "artifact_count": 25,
   "artifacts": [
     {
       "byte_size": 436,
@@ -351,6 +351,25 @@
       "stage_role": "evidence-annex"
     },
     {
+      "byte_size": 1152,
+      "estimated_tokens": 288,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/lifecycle-interaction-return-closeout-change.json",
+      "path": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/lifecycle-interaction-return-closeout-change.json",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "lifecycle-interaction-return-closeout-change",
+      "sha256": "sha256:1df2ceff269d30275ab12b3255da2bb61829586e41bfff5e96cec7b568016707",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
       "byte_size": 4374,
       "estimated_tokens": 1094,
       "freshness_state": "digest-bound",
@@ -372,8 +391,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 4183,
-      "estimated_tokens": 1046,
+      "byte_size": 4490,
+      "estimated_tokens": 1123,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-closeout.md",
@@ -384,7 +403,7 @@
         "validator-dispute"
       ],
       "role": "proposal-closeout",
-      "sha256": "sha256:6bfeed7552c6981e804e7199b6bc71ecd255051d830e1f4a1ed9ec3f8198b652",
+      "sha256": "sha256:0abca53acd1aaede9929de61f590b6bfb64996fcb111dd278b0e31d609921bda",
       "stage_relevance": [
         "support-review"
       ],

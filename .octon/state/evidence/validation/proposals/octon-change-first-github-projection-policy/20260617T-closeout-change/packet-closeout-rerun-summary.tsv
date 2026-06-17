@@ -1,0 +1,14 @@
+generate-proposal-artifact-index-write	exit=0
+validate-lifecycle-interaction-return	exit=0
+validate-change-receipt-alignment	exit=0
+validate-default-work-unit-receipt	exit=0
+validate-proposal-review-gate	exit=0
+validate-proposal-implementation-readiness	exit=0
+validate-proposal-implementation-conformance	exit=0
+validate-proposal-post-implementation-drift	exit=0
+validate-execution-governance	exit=0
+generate-proposal-artifact-index-check	exit=0
+generate-proposal-registry-check	exit=0
+validate-proposal-lifecycle-terminal-freshness	exit=0
+classify-proposal-worktree-hygiene	exit=0
+git-diff-check	exit=0

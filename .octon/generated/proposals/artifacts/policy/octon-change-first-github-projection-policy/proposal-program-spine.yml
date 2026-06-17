@@ -131,10 +131,10 @@
       "sha256": "sha256:df79268b5d3f41f5572bb7ab8b5861678b443559b1140e422c6feedf00aac77d"
     },
     {
-      "byte_size": 4183,
-      "estimated_tokens": 1046,
+      "byte_size": 4490,
+      "estimated_tokens": 1123,
       "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/proposal-closeout.md",
-      "sha256": "sha256:6bfeed7552c6981e804e7199b6bc71ecd255051d830e1f4a1ed9ec3f8198b652"
+      "sha256": "sha256:0abca53acd1aaede9929de61f590b6bfb64996fcb111dd278b0e31d609921bda"
     },
     {
       "byte_size": 2851,
