@@ -30,14 +30,14 @@
   "gate_states": {
     "implementation_readiness": {
       "clarification_required": "no",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/implementation-grade-completeness-review.md",
       "unresolved_questions_count": "0",
       "verdict": "pass"
     },
     "proposal_review": {
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/proposal-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/proposal-review.md",
       "reviewed_packet_digest": "sha256:4da75859d10690c2ac0b2413864afddb7f466e0bb948c28aba63b11b1fe79233",
       "verdict": "accepted"
     },
@@ -51,7 +51,7 @@
   },
   "lifecycle": {
     "exit_expectation": "Align repo-local GitHub projection workflows after the octon-internal Change-first authority surfaces are accepted, then archive this packet with workflow validation evidence.",
-    "status": "implemented",
+    "status": "archived",
     "temporary": true
   },
   "output_ref": ".octon/generated/proposals/artifacts/policy/octon-change-first-github-projection-policy/proposal-program-spine.yml",
@@ -78,7 +78,7 @@
   ],
   "proposal_id": "octon-change-first-github-projection-policy",
   "proposal_kind": "policy",
-  "proposal_path": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -91,67 +91,67 @@
     {
       "byte_size": 2494,
       "estimated_tokens": 624,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/custom-closeout-prompt.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/custom-closeout-prompt.md",
       "sha256": "sha256:bcb995e34099561fb64ff659d51a71bf7cd26b5cb6790a95e475e85bc4db91da"
     },
     {
       "byte_size": 13590,
       "estimated_tokens": 3398,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/executable-implementation-prompt.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/executable-implementation-prompt.md",
       "sha256": "sha256:049e846c7300f542f9a9ca2036795d74068b12abfa53f3328450ad7c013161a7"
     },
     {
       "byte_size": 9598,
       "estimated_tokens": 2400,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/follow-up-verification-prompt.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/follow-up-verification-prompt.md",
       "sha256": "sha256:94530a81206fb7aff1a5ad192d824b2513fd385f482e701201b3d2900f944744"
     },
     {
       "byte_size": 5340,
       "estimated_tokens": 1335,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/implementation-conformance-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/implementation-conformance-review.md",
       "sha256": "sha256:04c9a96fae5631579f7055798a8fcc606be0c777f9ee86707364c8bfa577f75b"
     },
     {
       "byte_size": 3280,
       "estimated_tokens": 820,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/implementation-grade-completeness-review.md",
       "sha256": "sha256:0c9495380dec536319d1021f03c3484088365f047efafbe91f2b2e722fbb6bc3"
     },
     {
       "byte_size": 3221,
       "estimated_tokens": 806,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/implementation-run.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/implementation-run.md",
       "sha256": "sha256:2ad73c6fb2fe5a7c65f3d963e6267b72ed5fefa3ad260454d5b1ca17d099e896"
     },
     {
       "byte_size": 4374,
       "estimated_tokens": 1094,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/post-implementation-drift-churn-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/post-implementation-drift-churn-review.md",
       "sha256": "sha256:df79268b5d3f41f5572bb7ab8b5861678b443559b1140e422c6feedf00aac77d"
     },
     {
       "byte_size": 4490,
       "estimated_tokens": 1123,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/proposal-closeout.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/proposal-closeout.md",
       "sha256": "sha256:0abca53acd1aaede9929de61f590b6bfb64996fcb111dd278b0e31d609921bda"
     },
     {
       "byte_size": 2851,
       "estimated_tokens": 713,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/proposal-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/proposal-review.md",
       "sha256": "sha256:cb0d906fda26d9213c8922949f131ccdb7aae1378e6f86f380db0958550c2963"
     },
     {
       "byte_size": 3066,
       "estimated_tokens": 767,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/validation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/validation.md",
       "sha256": "sha256:7e5d56bf3d1ce91efafa171ce7aa4d4a5a960392541a9772257375793ced8a7f"
     },
     {
       "byte_size": 3007,
       "estimated_tokens": 752,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/verification-report.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/verification-report.md",
       "sha256": "sha256:e55c923046f8539b74edff8d8865105c43214fb5ac4061f8753d710e6772c1ec"
     }
   ],
@@ -160,23 +160,23 @@
   ],
   "schema_version": "octon-proposal-program-spine-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/navigation/artifact-catalog.md": "sha256:08e59406f4a761e91ebf1d81bc07521ac4a91cedf77087d22a11bcbe71f8e42a",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/navigation/source-of-truth-map.md": "sha256:9e2bbe0776227254284ddbfb9e98cf5fe35b7a6b292cf2f3037e0bac2d66dcaf",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/policy-proposal.yml": "sha256:83b360661a23021662cc160cc55cf71d9b171dd8034ba9db5cefe5b68ff32a75",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/proposal.yml": "sha256:763d3589222e9aeac22c684e1df842ed2b343ea2f77f498b8026c2db69c2146d",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/executable-implementation-prompt.md": "sha256:049e846c7300f542f9a9ca2036795d74068b12abfa53f3328450ad7c013161a7",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/implementation-grade-completeness-review.md": "sha256:0c9495380dec536319d1021f03c3484088365f047efafbe91f2b2e722fbb6bc3",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/proposal-review.md": "sha256:cb0d906fda26d9213c8922949f131ccdb7aae1378e6f86f380db0958550c2963"
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/navigation/artifact-catalog.md": "sha256:fb51366fd07fc77a17a45a33e6035980492b451360fd05f6d91541c0c0903eec",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/navigation/source-of-truth-map.md": "sha256:9e2bbe0776227254284ddbfb9e98cf5fe35b7a6b292cf2f3037e0bac2d66dcaf",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/policy-proposal.yml": "sha256:83b360661a23021662cc160cc55cf71d9b171dd8034ba9db5cefe5b68ff32a75",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/proposal.yml": "sha256:2e41a314c171118f8c21718e6c80f5e43d35837b228725377e53c7ca84113bc0",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/executable-implementation-prompt.md": "sha256:049e846c7300f542f9a9ca2036795d74068b12abfa53f3328450ad7c013161a7",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/implementation-grade-completeness-review.md": "sha256:0c9495380dec536319d1021f03c3484088365f047efafbe91f2b2e722fbb6bc3",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/proposal-review.md": "sha256:cb0d906fda26d9213c8922949f131ccdb7aae1378e6f86f380db0958550c2963"
   },
   "source_lineage": [],
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/policy-proposal.yml",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/proposal.yml",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/policy-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/support/proposal-review.md"
   ],
-  "status": "implemented"
+  "status": "archived"
 }

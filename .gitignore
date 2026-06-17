@@ -230,3 +230,5 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet-delivery-wrapper/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/
 !.octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/**
+!.octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/
+!.octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-github-projection-policy/**
