@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal/context/model-visible-context.json
+run_id: lifecycle-proposal-packet-1781703585602-43fd2f19-workflow-validate-proposal
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-17T13:39:51.464909Z
+validity_state: valid
