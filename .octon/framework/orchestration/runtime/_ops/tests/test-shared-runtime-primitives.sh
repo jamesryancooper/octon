@@ -55,7 +55,9 @@ create_fixture() {
 
   mkdir -p "$fixture_root/.octon/framework/orchestration/runtime"
   mkdir -p "$fixture_root/.octon/framework/orchestration/practices"
+  mkdir -p "$fixture_root/.octon/framework/capabilities/runtime"
   mkdir -p "$fixture_root/.octon/framework/cognition/_meta/architecture"
+  mkdir -p "$fixture_root/.octon/inputs/additive"
   mkdir -p "$fixture_root/.octon/instance/governance"
   mkdir -p "$fixture_root/.octon/instance/governance/contracts"
   mkdir -p "$fixture_root/.octon/state/evidence/decisions/repo"
@@ -64,6 +66,8 @@ create_fixture() {
   mkdir -p "$fixture_root/.octon/instance/cognition/context/shared"
 
   cp -R "$REPO_ROOT/.octon/framework/orchestration/runtime" "$fixture_root/.octon/framework/orchestration/"
+  cp -R "$REPO_ROOT/.octon/framework/capabilities/runtime/commands" "$fixture_root/.octon/framework/capabilities/runtime/"
+  cp -R "$REPO_ROOT/.octon/inputs/additive/extensions" "$fixture_root/.octon/inputs/additive/"
   cp -R "$REPO_ROOT/.octon/framework/assurance" "$fixture_root/.octon/framework/"
   cp -R "$REPO_ROOT/.octon/framework/lab" "$fixture_root/.octon/framework/"
   cp -R "$REPO_ROOT/.octon/framework/constitution" "$fixture_root/.octon/framework/"
