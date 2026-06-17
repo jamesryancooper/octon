@@ -29,7 +29,16 @@ promotion_targets:
 - .octon/state/evidence/validation/publication/runtime
 - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health
 - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/support-envelope
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-17
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+  promotion_evidence:
+  - .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+  - .octon/state/evidence/runs/workflows/20260617T141717Z-proposal-packet-terminal-closeout-octon-instruction-layer-execution-envelope-hardening/terminal-receipt.yml
+  - .octon/state/evidence/runs/workflows/20260617T141717Z-proposal-packet-terminal-closeout-octon-instruction-layer-execution-envelope-hardening/validate-terminal-freshness.log
 lifecycle:
   temporary: true
   exit_expectation: Promote the validated instruction-layer and capability-envelope refinements into durable runtime, capability-pack, and validator surfaces, then archive this proposal once the proposal-local packet is no longer needed for promotion guidance.

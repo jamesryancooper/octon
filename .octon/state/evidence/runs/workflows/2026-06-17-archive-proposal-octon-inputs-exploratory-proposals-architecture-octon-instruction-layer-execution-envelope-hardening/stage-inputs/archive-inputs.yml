@@ -1,0 +1,7 @@
+proposal_path: .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+archived_path: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening
+disposition: implemented
+promotion_evidence:
+- .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+- .octon/state/evidence/runs/workflows/20260617T141717Z-proposal-packet-terminal-closeout-octon-instruction-layer-execution-envelope-hardening/terminal-receipt.yml
+- .octon/state/evidence/runs/workflows/20260617T141717Z-proposal-packet-terminal-closeout-octon-instruction-layer-execution-envelope-hardening/validate-terminal-freshness.log

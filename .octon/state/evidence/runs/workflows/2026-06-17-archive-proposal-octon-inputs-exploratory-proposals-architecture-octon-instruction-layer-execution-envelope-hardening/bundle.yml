@@ -1,0 +1,31 @@
+kind: workflow-execution-bundle
+id: 2026-06-17-archive-proposal-octon-inputs-exploratory-proposals-architecture-octon-instruction-layer-execution-envelope-hardening
+workflow_id: archive-proposal
+package_path: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening
+mode: n/a
+executor: n/a
+prepare_only: false
+slug: octon-inputs-exploratory-proposals-archive-architecture-octon-instruction-layer-execution-envelope-hardening
+started_at: 2026-06-17T14:54:36Z
+completed_at: 2026-06-17T15:21:12Z
+summary: summary.md
+reports_dir: reports
+stage_inputs_dir: stage-inputs
+stage_logs_dir: stage-logs
+selected_stages:
+- validate-proposal
+- archive-proposal
+- report
+report_paths: {}
+changed_files:
+  archived_package: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening
+  generated_registry: .octon/generated/proposals/registry.yml
+  generated_artifact_index: .octon/generated/proposals/artifacts/architecture/octon-instruction-layer-execution-envelope-hardening/proposal-artifact-index.yml
+  generated_program_spine: .octon/generated/proposals/artifacts/architecture/octon-instruction-layer-execution-envelope-hardening/proposal-program-spine.yml
+inventory: inventory.md
+commands: commands.md
+validation: validation.md
+summary_report: .octon/state/evidence/validation/analysis/2026-06-17-archive-proposal-1.md
+final_verdict: archived
+failure_class: null
+failed_stage: null

@@ -1,11 +1,11 @@
 # Proposal Review Receipt
 
-review_id: octon-instruction-layer-execution-envelope-hardening-review-20260617T134728Z
-reviewed_at: 2026-06-17T13:47:28Z
+review_id: octon-instruction-layer-execution-envelope-hardening-review-20260617T145600Z
+reviewed_at: 2026-06-17T14:56:00Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:d9db47eaf929a1dbf631639b5bdaccdd862e849f1672ead457bca38d73c88af0
+reviewed_packet_digest: sha256:eb719d738c573b122f6e7b23d02dace270fbdc73dd7dd1d51efeaa15e1340b13
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -53,7 +53,7 @@ None.
 - The packet-local path references `.octon/instance/agency/runtime/tool-output-budgets.yml` in a few narrative files, but current durable authority is `.octon/instance/execution-roles/runtime/tool-output-budgets.yml`; implementation must use the manifest target and current contract registry path.
 - The packet depends on new validators and retained fixtures to become implementation-grade; those are approved promotion targets, not blockers.
 - Revision `generated-freshness-scope-20260617T133003Z` correctly authorizes existing generated publication/read-model freshness refresh without promoting generated outputs to authority.
-- Post-promotion digest refresh preserves the accepted review against implemented manifest state.
+- Post-terminal-closeout digest refresh preserves the accepted review against implemented manifest state before archive.
 
 ## Final Route Recommendation
 

@@ -1,0 +1,348 @@
+[OK] proposal manifest exists
+[OK] proposal artifact index exists
+[OK] proposal program spine exists
+[OK] proposal artifact index schema is octon-proposal-artifact-index-v1
+[OK] proposal program spine schema is octon-proposal-program-spine-v1
+[OK] proposal artifact index authority boundary replaces_source_evidence
+[OK] proposal artifact index authority boundary authorizes_execution
+[OK] proposal artifact index authority boundary proposal_input_authority
+[OK] proposal artifact index authority boundary generated_output_authority
+[OK] proposal artifact index authority boundary raw_evidence_retained
+[OK] proposal artifact index authority boundary generated_registry_replaces_manifest
+[OK] proposal program spine authority boundary replaces_source_evidence
+[OK] proposal program spine authority boundary authorizes_execution
+[OK] proposal program spine authority boundary proposal_input_authority
+[OK] proposal program spine authority boundary generated_output_authority
+[OK] proposal program spine authority boundary raw_evidence_retained
+[OK] proposal program spine authority boundary generated_registry_replaces_manifest
+[OK] reader preferences require escalation before raw packet body reads
+[OK] proposal artifact index points at proposal path
+[OK] proposal program spine points at proposal path
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/PACKET_MANIFEST.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/PACKET_MANIFEST.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/PACKET_MANIFEST.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/PACKET_MANIFEST.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/PACKET_MANIFEST.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/PACKET_MANIFEST.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/PACKET_MANIFEST.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/README.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/README.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/README.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/README.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/README.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/README.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/README.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/SHA256SUMS.txt exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/SHA256SUMS.txt
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/SHA256SUMS.txt
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/SHA256SUMS.txt
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/SHA256SUMS.txt
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/SHA256SUMS.txt
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/SHA256SUMS.txt
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/closure-certification-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/closure-certification-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/closure-certification-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/closure-certification-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/closure-certification-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/closure-certification-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/closure-certification-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/concept-coverage-matrix.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/concept-coverage-matrix.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/concept-coverage-matrix.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/concept-coverage-matrix.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/concept-coverage-matrix.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/concept-coverage-matrix.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/concept-coverage-matrix.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/current-state-gap-map.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/current-state-gap-map.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/current-state-gap-map.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/current-state-gap-map.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/current-state-gap-map.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/current-state-gap-map.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/current-state-gap-map.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/cutover-checklist.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/cutover-checklist.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/cutover-checklist.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/cutover-checklist.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/cutover-checklist.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/cutover-checklist.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/cutover-checklist.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/execution-constitution-conformance-card.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/execution-constitution-conformance-card.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/execution-constitution-conformance-card.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/execution-constitution-conformance-card.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/execution-constitution-conformance-card.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/execution-constitution-conformance-card.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/execution-constitution-conformance-card.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/file-change-map.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/file-change-map.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/file-change-map.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/file-change-map.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/file-change-map.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/file-change-map.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/file-change-map.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/migration-cutover-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/migration-cutover-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/migration-cutover-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/migration-cutover-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/migration-cutover-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/migration-cutover-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/migration-cutover-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/target-architecture.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/target-architecture.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/target-architecture.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/target-architecture.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/target-architecture.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/target-architecture.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/target-architecture.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/validation-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/validation-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/validation-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/validation-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/validation-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/validation-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/validation-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/assumptions-and-blockers.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/assumptions-and-blockers.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/assumptions-and-blockers.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/assumptions-and-blockers.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/assumptions-and-blockers.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/assumptions-and-blockers.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/assumptions-and-blockers.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-extraction-output.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-extraction-output.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-extraction-output.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-extraction-output.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-extraction-output.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-extraction-output.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-extraction-output.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-verification-output.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-verification-output.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-verification-output.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-verification-output.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-verification-output.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-verification-output.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/concept-verification-output.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/coverage-traceability-matrix.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/coverage-traceability-matrix.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/coverage-traceability-matrix.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/coverage-traceability-matrix.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/coverage-traceability-matrix.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/coverage-traceability-matrix.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/coverage-traceability-matrix.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/decision-record-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/decision-record-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/decision-record-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/decision-record-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/decision-record-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/decision-record-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/decision-record-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/evidence-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/evidence-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/evidence-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/evidence-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/evidence-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/evidence-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/evidence-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/full-concept-integration-assessment.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/full-concept-integration-assessment.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/full-concept-integration-assessment.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/full-concept-integration-assessment.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/full-concept-integration-assessment.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/full-concept-integration-assessment.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/full-concept-integration-assessment.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/rejection-ledger.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/rejection-ledger.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/rejection-ledger.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/rejection-ledger.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/rejection-ledger.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/rejection-ledger.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/rejection-ledger.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/repository-baseline-audit.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/repository-baseline-audit.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/repository-baseline-audit.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/repository-baseline-audit.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/repository-baseline-audit.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/repository-baseline-audit.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/repository-baseline-audit.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/risk-register.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/risk-register.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/risk-register.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/risk-register.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/risk-register.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/risk-register.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/risk-register.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/source-artifact.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/source-artifact.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/source-artifact.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/source-artifact.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/source-artifact.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/source-artifact.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/resources/source-artifact.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/SHA256SUMS.txt exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/SHA256SUMS.txt
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/SHA256SUMS.txt
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/SHA256SUMS.txt
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/SHA256SUMS.txt
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/SHA256SUMS.txt
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/SHA256SUMS.txt
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/pre-integration-architecture-review.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-closeout.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-terminal-closeout.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/revisions/generated-freshness-scope-20260617T133003Z.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/revisions/generated-freshness-scope-20260617T133003Z.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/revisions/generated-freshness-scope-20260617T133003Z.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/revisions/generated-freshness-scope-20260617T133003Z.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/revisions/generated-freshness-scope-20260617T133003Z.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/revisions/generated-freshness-scope-20260617T133003Z.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/revisions/generated-freshness-scope-20260617T133003Z.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md
+[OK] required packet artifact indexed: architecture-proposal.yml
+[OK] required packet artifact indexed: proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture-proposal.yml
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/acceptance-criteria.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/architecture/implementation-plan.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/artifact-catalog.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/navigation/source-of-truth-map.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/executable-implementation-prompt.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-grade-completeness-review.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening/support/proposal-review.md
+[OK] compact output role present: proposal-artifact-index
+[OK] compact output role present: proposal-program-spine
+Proposal artifact spine validation summary: errors=0

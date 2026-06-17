@@ -1,7 +1,7 @@
 schema_version: architectural-review-support-receipt-v1
-receipt_id: octon-instruction-layer-execution-envelope-hardening-pre-integration-architecture-review-20260617T134728Z
+receipt_id: octon-instruction-layer-execution-envelope-hardening-pre-integration-architecture-review-20260617T145600Z
 proposal_path: .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
-packet_digest: sha256:d9db47eaf929a1dbf631639b5bdaccdd862e849f1672ead457bca38d73c88af0
+packet_digest: sha256:eb719d738c573b122f6e7b23d02dace270fbdc73dd7dd1d51efeaa15e1340b13
 review_mode: pre-integration-architecture-review
 verdict: pass
 unresolved_count: 0

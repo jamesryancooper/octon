@@ -40,3 +40,18 @@
 - `resources/risk-register.md` — implementation and governance risks
 - `resources/assumptions-and-blockers.md` — explicit assumptions and current blockers
 - `resources/rejection-ledger.md` — already-covered / rejected / excluded concept ledger
+
+## Support
+
+- `support/executable-implementation-prompt.md` — implementation prompt authorized by review
+- `support/implementation-grade-completeness-review.md` — completeness/readiness receipt
+- `support/proposal-review.md` — accepted proposal review receipt
+- `support/pre-integration-architecture-review.yml` — strict architecture review receipt
+- `support/implementation-run.md` — implementation execution receipt
+- `support/implementation-conformance-review.md` — implementation conformance receipt
+- `support/post-implementation-drift-churn-review.md` — post-implementation drift/churn receipt
+- `support/validation.md` — validation receipt
+- `support/proposal-closeout.md` — retained blocked closeout receipt
+- `support/proposal-terminal-closeout.yml` — terminal archive-ready receipt
+- `support/SHA256SUMS.txt` — support receipt and evidence checksums
+- `support/revisions/generated-freshness-scope-20260617T133003Z.md` — lifecycle revision authorizing generated freshness refresh

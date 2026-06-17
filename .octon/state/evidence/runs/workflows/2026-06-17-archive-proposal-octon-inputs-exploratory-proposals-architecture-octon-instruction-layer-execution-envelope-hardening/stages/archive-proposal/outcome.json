@@ -1,0 +1,10 @@
+{
+  "stage": "archive-proposal",
+  "verdict": "pass",
+  "archived_path": ".octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening",
+  "generated_refresh": [
+    ".octon/generated/proposals/registry.yml",
+    ".octon/generated/proposals/artifacts/architecture/octon-instruction-layer-execution-envelope-hardening/proposal-artifact-index.yml",
+    ".octon/generated/proposals/artifacts/architecture/octon-instruction-layer-execution-envelope-hardening/proposal-program-spine.yml"
+  ]
+}

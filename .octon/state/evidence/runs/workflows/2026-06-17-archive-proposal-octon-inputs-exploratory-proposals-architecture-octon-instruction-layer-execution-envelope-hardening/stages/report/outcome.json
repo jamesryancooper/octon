@@ -1,0 +1,7 @@
+{
+  "stage": "report",
+  "verdict": "pass",
+  "summary": "summary.md",
+  "validation": "validation.md",
+  "summary_report": ".octon/state/evidence/validation/analysis/2026-06-17-archive-proposal-1.md"
+}

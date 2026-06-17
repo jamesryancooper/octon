@@ -1,0 +1,46 @@
+# Archived Proposal Inventory
+
+- proposal_path: `/Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/.archive/architecture/octon-instruction-layer-execution-envelope-hardening`
+- file_count: `40`
+
+- `PACKET_MANIFEST.md`
+- `README.md`
+- `SHA256SUMS.txt`
+- `architecture-proposal.yml`
+- `architecture/acceptance-criteria.md`
+- `architecture/closure-certification-plan.md`
+- `architecture/concept-coverage-matrix.md`
+- `architecture/current-state-gap-map.md`
+- `architecture/cutover-checklist.md`
+- `architecture/execution-constitution-conformance-card.md`
+- `architecture/file-change-map.md`
+- `architecture/implementation-plan.md`
+- `architecture/migration-cutover-plan.md`
+- `architecture/target-architecture.md`
+- `architecture/validation-plan.md`
+- `navigation/artifact-catalog.md`
+- `navigation/source-of-truth-map.md`
+- `proposal.yml`
+- `resources/assumptions-and-blockers.md`
+- `resources/concept-extraction-output.md`
+- `resources/concept-verification-output.md`
+- `resources/coverage-traceability-matrix.md`
+- `resources/decision-record-plan.md`
+- `resources/evidence-plan.md`
+- `resources/full-concept-integration-assessment.md`
+- `resources/rejection-ledger.md`
+- `resources/repository-baseline-audit.md`
+- `resources/risk-register.md`
+- `resources/source-artifact.md`
+- `support/SHA256SUMS.txt`
+- `support/executable-implementation-prompt.md`
+- `support/implementation-conformance-review.md`
+- `support/implementation-grade-completeness-review.md`
+- `support/implementation-run.md`
+- `support/post-implementation-drift-churn-review.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/proposal-closeout.md`
+- `support/proposal-review.md`
+- `support/proposal-terminal-closeout.yml`
+- `support/revisions/generated-freshness-scope-20260617T133003Z.md`
+- `support/validation.md`

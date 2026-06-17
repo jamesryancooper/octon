@@ -1,0 +1,17 @@
+[OK] workflow id matches
+[OK] baseline proposal validator referenced
+[OK] implementation-readiness validator referenced
+[OK] implementation-conformance validator referenced
+[OK] post-implementation drift validator referenced
+[OK] registry regeneration documented
+[OK] artifact index regeneration documented
+[OK] archive allow-list documented
+[OK] partial archive recovery documented
+[OK] archive residue classification helper documented
+[OK] detection-only cleanup boundary documented
+[OK] active control state retention documented
+[OK] durable evidence retention documented
+[OK] archive disposition input declared
+[OK] manifest registration exists
+[OK] registry entry exists
+Validation summary: errors=0

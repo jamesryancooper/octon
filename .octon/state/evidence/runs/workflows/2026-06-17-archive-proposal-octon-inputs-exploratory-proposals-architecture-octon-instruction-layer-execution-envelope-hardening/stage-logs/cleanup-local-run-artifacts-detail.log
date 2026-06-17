@@ -1,0 +1,14 @@
+protected	referenced_untracked	.DS_Store	referenced by a tracked control, evidence, generated, or governance file
+manual_review	retained_evidence	.octon/state/evidence/validation/analysis/2026-06-17-archive-proposal-1.md	unreferenced evidence root file needs explicit retention or cleanup rationale
+summary:
+  mode: dry-run
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 1
+  manual_review: 1
+  git_status_digest: sha256:8c6333627bf732804d129e0c5f020a2d5d3e987d2733c00d9d69f9caeacf022a
+  classification_digest: sha256:fb517c23b3a307eb9238e26fecf67c5b11be15a7873ad9f4d343d786435e7d3f
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:cf237c7aff44efbe6e502e645c3e06da03a69d7bdeb43392108ef3348143417e
+  manual_review_paths_digest: sha256:959dc6ed661bf184bef30d74762e9d2be43acc33f7813808f30c93fcb17ed66f
+[OK] dry-run complete; rerun with --confirm or --authorization <receipt.json> to remove cleanup candidates only
