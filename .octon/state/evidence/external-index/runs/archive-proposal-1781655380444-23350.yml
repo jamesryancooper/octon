@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:38c3fa27aca5d207c6f3e00662eaacb567e348b483a04555a9e236f7b5562279
+  entry_id: archive-proposal-1781655380444-23350-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/archive-proposal-1781655380444-23350/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/archive-proposal-1781655380444-23350/replay/manifest.yml
+  recorded_at: 2026-06-17T00:18:06.377672Z
+  run_id: archive-proposal-1781655380444-23350
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:a9f8428b0bcc016521750eee9cdfa7b98fc653e150256b5d52a5c6ebdb645f01
+  entry_id: archive-proposal-1781655380444-23350-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/archive-proposal-1781655380444-23350/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/archive-proposal-1781655380444-23350/replay/manifest.yml
+  recorded_at: 2026-06-17T00:18:06.377672Z
+  run_id: archive-proposal-1781655380444-23350
+  storage_class: external-immutable
+index_id: external-replay-archive-proposal-1781655380444-23350
+run_id: archive-proposal-1781655380444-23350
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-17T00:18:06.377672Z

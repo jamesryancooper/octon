@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:d9910c7ef5a1aca088e9491f3df226d09e75752277d466a71995da1f3d375f49
+  entry_id: archive-proposal-1781655380444-23350-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/archive-proposal-1781655380444-23350-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/archive-proposal-1781655380444-23350-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-17T00:16:23.265249Z
+  run_id: archive-proposal-1781655380444-23350-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:bc72a7994383220fd032e5fad0c57670aded230231740cb5339f14833a3b4aeb
+  entry_id: archive-proposal-1781655380444-23350-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/archive-proposal-1781655380444-23350-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/archive-proposal-1781655380444-23350-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-17T00:16:23.265249Z
+  run_id: archive-proposal-1781655380444-23350-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-archive-proposal-1781655380444-23350-validate-proposal
+run_id: archive-proposal-1781655380444-23350-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-17T00:16:23.265249Z

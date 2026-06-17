@@ -24,7 +24,16 @@ promotion_targets:
 - .octon/framework/capabilities/runtime/skills/capabilities.yml
 - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md
 - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-17
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-packet-delivery-wrapper
+  promotion_evidence:
+  - .octon/inputs/exploratory/proposals/architecture/proposal-packet-delivery-wrapper/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/architecture/proposal-packet-delivery-wrapper/support/proposal-terminal-closeout.yml
+  - .octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-packet-delivery-wrapper-2/terminal-receipt.yml
 lifecycle:
   temporary: true
   exit_expectation: Promote only after proposal review, strict pre-integration architecture review, implementation authorization, durable workflow/command/skill/schema validator/test updates, publication of capability command and skill projections through owning scripts, passing implementation conformance plus post-implementation drift/churn receipts, and `promote-proposal` promotion to implemented status plus closeout-packet archive authorization before terminal closeout and archive.
