@@ -1,0 +1,10 @@
+proposal_id: octon-instruction-layer-execution-envelope-hardening
+proposal_kind: architecture
+proposal_status: implemented
+proposal_path: .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+head_sha: f3c0419459e6deb70a3e343032936edf44c89d6b
+durable_state_verdict: pass
+notes:
+  - Implementation receipts are pass with unresolved_items_count 0.
+  - Direct blocker gates passed after owning publication and generated freshness routes.
+  - Proposal is ready for canonical archive routing.

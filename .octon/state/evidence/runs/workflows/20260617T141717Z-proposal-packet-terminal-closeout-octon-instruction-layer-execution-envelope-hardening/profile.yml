@@ -1,0 +1,81 @@
+schema_version: proposal-packet-terminal-closeout-profile-v1
+profile_id: proposal-packet-terminal-closeout-octon-instruction-layer-execution-envelope-hardening-20260617T141717Z
+created_at: "2026-06-17T14:17:17Z"
+packet:
+  proposal_id: octon-instruction-layer-execution-envelope-hardening
+  path: .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening
+  expected_status: implemented
+target_outcome: archive-ready
+route_preference: branch-no-pr
+pr_policy:
+  allow_pr_creation: false
+  allow_branch_no_pr: true
+  exact_sha_required: true
+publication_freshness_policy:
+  canonical_publisher_only: true
+  direct_generated_edits_forbidden: true
+  validator_family_map:
+    - target_family: architecture
+      validators:
+        - validate-proposal-lifecycle-terminal-freshness.sh
+        - validate-generated-non-authority.sh
+        - validate-run-health-read-model.sh
+        - validate-capability-publication-state.sh
+        - validate-extension-publication-state.sh
+hygiene_policy:
+  repo_hygiene_delegation_only: true
+  worktree_foreign_residue_blocks_archive_ready: true
+  cleanup_authorization_required: true
+expected_retained_evidence:
+  - evidence_id: terminal-profile
+    required: true
+    owner: proposal-packet-terminal-closeout
+    path_pattern: .octon/state/evidence/runs/workflows/
+  - evidence_id: terminal-receipt
+    required: true
+    owner: proposal-packet-terminal-closeout
+    path_pattern: support/proposal-terminal-closeout.yml
+required_validators_by_target_family:
+  - target_family: architecture
+    validators:
+      - validate-proposal-implementation-conformance.sh
+      - validate-proposal-post-implementation-drift.sh
+      - validate-proposal-packet-terminal-closeout-receipt.sh
+post_integration_architecture_review_policy:
+  run_when_applicable: false
+  evidence_only: true
+packet_terminal_evaluator_policy:
+  required_for:
+    - blocked
+  evidence_only: true
+git_github_hosted_check_policy:
+  delegate_to_closeout_routes: true
+  exact_sha_required_when_hosted: true
+  landing_authorization_required: true
+  branch_cleanup_authorization_required: true
+blocker_reporting:
+  required: true
+  allowed_blocker_classes:
+    - none
+    - missing-evidence
+    - stale-evidence
+    - validator-failed
+    - publication-freshness-blocked
+    - hygiene-blocked
+    - git-route-blocked
+    - scope-overrun
+    - archive-boundary-violation
+  allowed_next_routes:
+    - archive-proposal
+    - closeout-change
+    - repo-hygiene-cleanup
+    - run-packet-implementation
+forbidden_authority_requests:
+  archive_relocation: false
+  proposal_status_mutation: false
+  generated_direct_publication: false
+  git_mutation: false
+  residue_deletion: false
+  host_state_authority: false
+  chat_or_model_memory_authority: false
+  tool_authority: false

@@ -1,0 +1,50 @@
+== Proposal Packet Terminal Closeout Workflow Validation ==
+[OK] workflow directory exists
+[OK] workflow.yml exists
+[OK] workflow README exists
+[OK] workflow YAML parses
+[OK] workflow schema version correct
+[OK] workflow name correct
+[OK] workflow input declared: proposal_path
+[OK] workflow input declared: target_outcome
+[OK] workflow input declared: profile_path
+[OK] workflow input declared: terminal_run_id
+[OK] stage declared with local asset: bind-profile
+[OK] stage declared with local asset: verify-durable-implementation-state
+[OK] stage declared with local asset: verify-implementation-conformance
+[OK] stage declared with local asset: verify-post-implementation-drift
+[OK] stage declared with local asset: validate-publication-freshness
+[OK] stage declared with local asset: classify-repo-hygiene
+[OK] stage declared with local asset: classify-worktree-hygiene
+[OK] stage declared with local asset: run-evidence-only-reviews
+[OK] stage declared with local asset: resolve-git-github-route
+[OK] stage declared with local asset: emit-terminal-receipt
+[OK] workflow token present: proposal-packet-terminal-closeout-receipt
+[OK] workflow token present: support/proposal-terminal-closeout.yml
+[OK] workflow token present: validate-proposal-packet-terminal-closeout-receipt.sh
+[OK] workflow token present: archive relocation is not performed
+[OK] workflow token present: no_git_mutation: true
+[OK] workflow token present: no_residue_deletion: true
+[OK] required adjacent route or validator referenced: validate-proposal-implementation-conformance.sh
+[OK] required adjacent route or validator referenced: validate-proposal-post-implementation-drift.sh
+[OK] required adjacent route or validator referenced: validate-proposal-review-gate.sh --require-implementation-authorization
+[OK] required adjacent route or validator referenced: validate-generated-non-authority.sh
+[OK] required adjacent route or validator referenced: validate-run-health-read-model.sh
+[OK] required adjacent route or validator referenced: validate-capability-publication-state.sh
+[OK] required adjacent route or validator referenced: validate-extension-publication-state.sh
+[OK] required adjacent route or validator referenced: validate-runtime-effective-route-bundle.sh
+[OK] required adjacent route or validator referenced: validate-runtime-effective-artifact-handles.sh
+[OK] required adjacent route or validator referenced: validate-host-projections.sh
+[OK] required adjacent route or validator referenced: validate-proposal-lifecycle-terminal-freshness.sh
+[OK] required adjacent route or validator referenced: proposal registry
+[OK] required adjacent route or validator referenced: proposal artifact
+[OK] required adjacent route or validator referenced: runtime-effective handle
+[OK] required adjacent route or validator referenced: repo-hygiene-cleanup
+[OK] required adjacent route or validator referenced: closeout-worktree
+[OK] required adjacent route or validator referenced: closeout-change
+[OK] required adjacent route or validator referenced: archive-proposal
+[OK] workflow manifest registration exists
+[OK] workflow registry entry exists
+[OK] command manifest entry exists
+[OK] skill manifest entry exists
+Validation summary: errors=0

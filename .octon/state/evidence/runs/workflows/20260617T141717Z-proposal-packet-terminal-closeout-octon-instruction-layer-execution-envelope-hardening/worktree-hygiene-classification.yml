@@ -1,0 +1,23 @@
+schema_version: "octon-proposal-worktree-hygiene-v1"
+target: ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening"
+lifecycle: "proposal-packet"
+run_id: ""
+worktree_hygiene_verdict: "pass"
+worktree_hygiene_blocker_class: ""
+worktree_hygiene_owned_path_count: 0
+worktree_hygiene_in_scope_path_count: 0
+worktree_hygiene_retained_fixture_path_count: 0
+worktree_hygiene_foreign_path_count: 0
+worktree_hygiene_foreign_fingerprint: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"
+next_route_condition: "continue proposal closeout validation and archive authorization checks"
+owned_by_this_lifecycle_run:
+  []
+declared_in_scope_change:
+  []
+retained_by_fixture_retention:
+  []
+fixture_retention_receipts:
+  []
+foreign_or_ambiguous:
+  []

@@ -1,0 +1,13 @@
+implementation_commit: 878230494 chore(octon): close instruction envelope packet
+protected_run_state_commit: e23a1b215 chore(octon): retain protected run state
+freshness_commit: f3c041945 chore(octon): refresh terminal publication evidence
+promotion_receipts:
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/validation.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/support/post-implementation-drift-churn-review.md
+publication_refresh_receipts:
+  - .octon/state/evidence/validation/publication/extensions/2026-06-17T14-20-21Z-extensions-e539e7c8b239.yml
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-17T14-25-04Z-capabilities-583240e7b713.yml
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-17T14-26-12Z-pack-routes-3d2cc4bb7870.yml
+  - .octon/state/evidence/validation/publication/runtime/2026-06-17T14-38-18Z-runtime-route-bundle-d832aab6f332.yml
