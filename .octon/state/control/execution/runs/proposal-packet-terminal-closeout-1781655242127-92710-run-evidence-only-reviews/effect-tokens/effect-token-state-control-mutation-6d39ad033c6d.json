@@ -1,0 +1,70 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-state-control-mutation-6d39ad033c6d",
+    "token_type": "AuthorizedEffect<StateControlMutation>",
+    "effect_kind": "state-control-mutation",
+    "run_id": "proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews",
+    "request_id": "proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews",
+    "grant_id": "grant-proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews.yml",
+    "run_control_root": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews",
+    "run_evidence_root": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-d832aab6f332:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "d67ff516e9a4441badd976e3f2f895679e9cb1b9d2277735e4dec9687bd09eb6",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-d832aab6f332",
+    "runtime_effective_freshness_mode": "digest_bound",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/2026-06-16T23-46-10Z-runtime-route-bundle-d832aab6f332.yml",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "admitted-live-claim",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-packet-delivery-wrapper-2/stages/run-evidence-only-reviews",
+    "scope_envelope": {
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-packet-delivery-wrapper-2"
+      ],
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-06-17T00:15:24.858492Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews/effect-tokens/effect-token-state-control-mutation-6d39ad033c6d.json",
+    "journal_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-6d39ad033c6d",
+    "token_digest": "sha256:605999a91ab847278aaa1061777fb0d52f1515cef0f45b87c9b3ee824418ad64"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 2,
+  "issued_event_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-6d39ad033c6d",
+  "last_event_ref": ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-6d39ad033c6d",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-run-evidence-only-reviews/receipts/effect-tokens/effect-token-state-control-mutation-6d39ad033c6d/consumption-2af13b908673.json",
+  "last_consumed_at": "2026-06-17T00:15:25.75993Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::finalize_execution:control",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-packet-delivery-wrapper-2/stages/run-evidence-only-reviews",
+  "rejection_reason_codes": []
+}

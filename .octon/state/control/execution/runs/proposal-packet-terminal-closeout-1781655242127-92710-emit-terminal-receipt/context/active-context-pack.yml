@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-emit-terminal-receipt/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-emit-terminal-receipt/context/context-pack.json
+context_pack_sha256: sha256:87f8000b8ca43e896a27c349ab893bd636854b3ea63a54c5a70ba5fdf4951ee6
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-emit-terminal-receipt/context/model-visible-context.json
+model_visible_context_sha256: sha256:ae612577f22b2dc1269631879f766c4e7b236c7a2007c74f548887c5efa96d99
+receipt_sha256: sha256:8bf393f562221e9e24d3ca4db0c57ab44bd5bba0d63c66acf0534e357affceaf
+run_id: proposal-packet-terminal-closeout-1781655242127-92710-emit-terminal-receipt
+schema_version: active-context-pack-v1
+updated_at: 2026-06-17T00:15:28.521855Z
+validity_state: valid

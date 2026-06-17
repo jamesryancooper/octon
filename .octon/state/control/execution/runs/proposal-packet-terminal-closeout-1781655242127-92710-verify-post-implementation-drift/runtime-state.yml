@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/run-manifest.yml
+current_stage_attempt_id: verify-post-implementation-drift--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift/rollback-posture.yml
+last_applied_event_id: evt-run-closed-proposal-packet-terminal-closeout-1781655242127-92710-verify-post-implementation-drift
+last_applied_sequence: 29
+last_applied_event_hash: sha256:b3974c25efdfd3c08af975e0d77b2d124800e3372f8118358ea0017105b875e0
+materialized_at: 2026-06-17T00:14:12.719905Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-17T00:14:10.813969Z
+updated_at: 2026-06-17T00:14:12.719905Z

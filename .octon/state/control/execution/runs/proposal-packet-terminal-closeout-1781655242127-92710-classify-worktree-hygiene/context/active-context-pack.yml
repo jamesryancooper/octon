@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-classify-worktree-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-classify-worktree-hygiene/context/context-pack.json
+context_pack_sha256: sha256:c8dfb4f48a7f347337143415efee36b07b1de7a7982bc4f991a813e050d0db7c
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781655242127-92710-classify-worktree-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:6822e3c881889126e399cb016f8145940142039819578802dfaa003a88236566
+receipt_sha256: sha256:40557478046ec12f9e291aba9607b70de6481cf921c68f114631a5b36addaf91
+run_id: proposal-packet-terminal-closeout-1781655242127-92710-classify-worktree-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-17T00:15:22.457798Z
+validity_state: valid
