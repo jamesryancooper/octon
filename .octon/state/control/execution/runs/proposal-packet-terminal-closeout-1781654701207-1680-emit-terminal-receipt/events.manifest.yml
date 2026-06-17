@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+ledger_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:0b7a3da0841ee54de93e6e00aa173b46728efd944c2d8fd33087e1e74e5e4aa3
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  sequence: 1
+  event_hash: sha256:357fe22ebb4ba3f741ec55e5c18e9f5b2a1bee884ab3d3e04ba03cb98c4330ce
+last_event_ref:
+  event_id: evt-run-closed-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  sequence: 29
+  event_hash: sha256:de3add08db89a87fc90f06655c2f75d8d169a9ed9863261a4a3c4dbc4b7de371
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:357fe22ebb4ba3f741ec55e5c18e9f5b2a1bee884ab3d3e04ba03cb98c4330ce
+  tail_event_hash: sha256:de3add08db89a87fc90f06655c2f75d8d169a9ed9863261a4a3c4dbc4b7de371
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  context_pack_ref: evt-context-pack-bound-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  disclosure_ref: evt-run-closed-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  evidence_snapshot_ref: evt-evidence-snapshot-created-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-d105dcbb8f1d
+  run_contract_ref: evt-001-run-created-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  run_manifest_ref: evt-002-run-bound-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  runtime_state_ref: evt-run-closed-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  stage_attempt_ref: evt-stage-started-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt/runtime-state.yml
+  last_applied_event_id: evt-run-closed-proposal-packet-terminal-closeout-1781654701207-1680-emit-terminal-receipt
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:de3add08db89a87fc90f06655c2f75d8d169a9ed9863261a4a3c4dbc4b7de371
+  materialized_at: 2026-06-17T00:06:34.578849Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-17T00:06:35.326256Z

@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-17T00:05:10.055154Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: proposal-packet-terminal-closeout-1781654701207-1680-verify-post-implementation-drift-baseline
+route_taken: allow
+run_id: proposal-packet-terminal-closeout-1781654701207-1680-verify-post-implementation-drift
+schema_version: run-retry-record-v1
+stage_attempt_id: verify-post-implementation-drift--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781654701207-1680-verify-post-implementation-drift/stage-attempts/verify-post-implementation-drift--initial.yml

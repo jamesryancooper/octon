@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:333c45626ce3098f3dcbd6f0f7463eb8c761f724d59890942268d1537fbbcc83
+  entry_id: proposal-packet-terminal-closeout-1781654701207-1680-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-packet-terminal-closeout-1781654701207-1680/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781654701207-1680/replay/manifest.yml
+  recorded_at: 2026-06-17T00:06:36.421435Z
+  run_id: proposal-packet-terminal-closeout-1781654701207-1680
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:f0d418ea6de03f5ca83a12fb439f7de665a73609f3fe54054045a2617ef6e0ca
+  entry_id: proposal-packet-terminal-closeout-1781654701207-1680-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/proposal-packet-terminal-closeout-1781654701207-1680/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/proposal-packet-terminal-closeout-1781654701207-1680/replay/manifest.yml
+  recorded_at: 2026-06-17T00:06:36.421435Z
+  run_id: proposal-packet-terminal-closeout-1781654701207-1680
+  storage_class: external-immutable
+index_id: external-replay-proposal-packet-terminal-closeout-1781654701207-1680
+run_id: proposal-packet-terminal-closeout-1781654701207-1680
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-17T00:06:36.421435Z

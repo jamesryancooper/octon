@@ -5167,7 +5167,7 @@ fn build_terminal_receipt_yaml(
         },
         worktree.foreign_or_ambiguous_count,
         worktree.retained_fixture_path_count,
-        terminal_yaml_array(&worktree.retained_fixture_receipt_refs, "  "),
+        terminal_yaml_array_or_empty(&worktree.retained_fixture_receipt_refs, "  "),
         if worktree.dirty_worktree { "true" } else { "false" },
         terminal_yaml_quote(&evidence_review_rel),
         terminal_yaml_quote(&evidence_review_rel),
@@ -5205,6 +5205,13 @@ fn terminal_yaml_array(values: &[String], indent: &str) -> String {
         .iter()
         .map(|value| format!("{indent}- {}\n", terminal_yaml_quote(value)))
         .collect()
+}
+
+fn terminal_yaml_array_or_empty(values: &[String], indent: &str) -> String {
+    if values.is_empty() {
+        return format!("{indent}[]\n");
+    }
+    terminal_yaml_array(values, indent)
 }
 
 fn terminal_bullets(values: &[String]) -> String {
