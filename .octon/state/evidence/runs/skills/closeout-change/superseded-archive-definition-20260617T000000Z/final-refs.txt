@@ -1,0 +1,7 @@
+HEAD=236da8146e073d3d351159a3ce492bf4b6867931
+main=236da8146e073d3d351159a3ce492bf4b6867931
+origin/main=236da8146e073d3d351159a3ce492bf4b6867931
+landed_ref=236da8146e073d3d351159a3ce492bf4b6867931
+source_branch=chore/superseded-archive-definition
+local_source_branch=absent
+remote_source_branch=absent

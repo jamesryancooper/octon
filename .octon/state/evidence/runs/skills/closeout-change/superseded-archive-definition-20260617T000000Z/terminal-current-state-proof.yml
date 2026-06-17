@@ -1,0 +1,59 @@
+schema_version: lifecycle-terminal-current-state-proof-v1
+proof_id: terminal-proof-superseded-archive-definition-20260617T000000Z-236da8146e073d3d351159a3ce492bf4b6867931
+observed_at: "2026-06-17T12:49:30Z"
+change_id: superseded-archive-definition-20260617T000000Z
+lifecycle_outcome: cleaned
+non_authority_classification: retained-evidence-only
+final_refs:
+  head_ref: 236da8146e073d3d351159a3ce492bf4b6867931
+  main_ref: 236da8146e073d3d351159a3ce492bf4b6867931
+  origin_main_ref: 236da8146e073d3d351159a3ce492bf4b6867931
+  landed_ref: 236da8146e073d3d351159a3ce492bf4b6867931
+alignment:
+  head_equals_local_main: true
+  local_main_equals_origin_main: true
+  origin_main_contains_landed_ref: true
+  local_main_contains_landed_ref: true
+worktree:
+  status: retained_classified
+  status_ref: .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-status.txt
+  residue_counts:
+    staged: 0
+    unstaged: 0
+    untracked: 7
+    retained_evidence: 7
+  retained_residue_refs:
+    - .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/
+cleanup_classifier_ref: .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/residue-classification.yml
+validator_refs:
+  - validator: git-status
+    command: git status --short --branch --untracked-files=all
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: git
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-status.txt
+  - validator: classify-change-closeout-residue
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root .
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/residue-classification.yml
+  - validator: validate-hosted-no-pr-landing
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh --receipt .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/change-receipt-branch-no-pr-cleaned.json --require-live-remote
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/change-receipt-branch-no-pr-cleaned.json
+  - validator: validate-change-closeout-lifecycle-alignment
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/change-receipt-branch-no-pr-cleaned.json --verify-live-refs
+    cwd: /Users/jamesryancooper/Projects/octon
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/change-receipt-branch-no-pr-cleaned.json
+evidence_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-refs.txt
+  - .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-status.txt
+  - .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/residue-classification.yml
+  - .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-landing-authorization.json
+  - .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-cleanup-authorization.json
+  - .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/change-receipt-branch-no-pr-cleaned.json

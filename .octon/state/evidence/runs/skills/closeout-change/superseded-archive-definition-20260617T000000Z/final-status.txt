@@ -1,0 +1,8 @@
+## main...origin/main
+?? .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-cleanup-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-landing-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/change-receipt-branch-no-pr-cleaned.json
+?? .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-refs.txt
+?? .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-status.txt
+?? .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/residue-classification.yml
+?? .octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/terminal-current-state-proof.yml

@@ -1,0 +1,155 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "superseded-archive-definition-20260617T000000Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Deliver the superseded archive definition and enforcement update, including the delegated-governance packet archive, through a branch-no-pr route without opening a PR.",
+  "scope": {
+    "summary": "Lifecycle vocabulary, archive workflow, schema, shell validator, Rust workflow validation, tests, superseded archive backfill, and octon-wide-delegated-governance-architecture archive evidence.",
+    "touched_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-standard.sh",
+      ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs",
+      ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/",
+      ".octon/framework/orchestration/runtime/workflows/registry.yml",
+      ".octon/framework/scaffolding/governance/patterns/proposal-standard.md",
+      ".octon/framework/scaffolding/runtime/templates/proposal.schema.json",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/extensions-sidecar-pack-system/proposal.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture/",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/octon-wide-delegated-governance-architecture-archive-20260617T033553Z/"
+    ],
+    "diff_refs": [
+      "origin/main@236da8146e073d3d351159a3ce492bf4b6867931",
+      "commit:236da8146e073d3d351159a3ce492bf4b6867931"
+    ]
+  },
+  "source_branch_ref": "chore/superseded-archive-definition",
+  "target_branch_ref": "origin/main@236da8146e073d3d351159a3ce492bf4b6867931",
+  "remote_branch_ref": "origin/chore/superseded-archive-definition@236da8146e073d3d351159a3ce492bf4b6867931",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-cleanup-authorization.json",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/superseded-archive-definition",
+    "source_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "target_pre_ref": "46b523928706fb4513a0f8d4bac73c1c6ca4e4eb",
+    "target_post_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "validated_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@236da8146e073d3d351159a3ce492bf4b6867931",
+      "branch_naming_validation@236da8146e073d3d351159a3ce492bf4b6867931",
+      "route_aware_autonomy_validation@236da8146e073d3d351159a3ce492bf4b6867931",
+      "exact_source_sha_validation@236da8146e073d3d351159a3ce492bf4b6867931"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "236da8146e073d3d351159a3ce492bf4b6867931:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "target_ref": "origin/main@236da8146e073d3d351159a3ce492bf4b6867931",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-landing-authorization.json",
+      "git-branch-land-hosted-no-pr.sh fast-forwarded origin/main to 236da8146e073d3d351159a3ce492bf4b6867931"
+    ]
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "chore/superseded-archive-definition",
+    "source_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "landed_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "origin_main_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "origin/main@236da8146e073d3d351159a3ce492bf4b6867931 contains chore/superseded-archive-definition@236da8146e073d3d351159a3ce492bf4b6867931"
+    ]
+  },
+  "landed_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+  "main_alignment": {
+    "local_main_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "origin_main_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "landed_ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "aligned": true,
+    "origin_fetch_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-refs.txt",
+    "local_main_sync_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-refs.txt",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-status.txt"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "branch-cleanup-authorization-v1:.octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-cleanup-authorization.json",
+    "git-branch-cleanup.sh --confirm completed local and remote source branch cleanup"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/superseded-archive-definition",
+    "remote_branch": "origin/chore/superseded-archive-definition",
+    "evidence_refs": [
+      "local branch chore/superseded-archive-definition deleted after origin/main containment proof",
+      "remote branch origin/chore/superseded-archive-definition deleted after no-open-PR proof"
+    ]
+  },
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-standard.sh",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --all-standard-proposals",
+    "cargo test -p octon_kernel workflow --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml",
+    "git diff --check",
+    "git diff --cached --check",
+    "route_neutral_closeout_validation@236da8146e073d3d351159a3ce492bf4b6867931",
+    "branch_naming_validation@236da8146e073d3d351159a3ce492bf4b6867931",
+    "route_aware_autonomy_validation@236da8146e073d3d351159a3ce492bf4b6867931",
+    "exact_source_sha_validation@236da8146e073d3d351159a3ce492bf4b6867931"
+  ],
+  "review_waiver_refs": [
+    "operator-selected branch-no-pr route; no PR requested"
+  ],
+  "terminal_current_state_proof_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/terminal-current-state-proof.yml",
+  "durable_history": {
+    "kind": "commit",
+    "ref": "236da8146e073d3d351159a3ce492bf4b6867931",
+    "branch": "chore/superseded-archive-definition"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "revert-commit:236da8146e073d3d351159a3ce492bf4b6867931",
+    "instructions": "Revert commit 236da8146e073d3d351159a3ce492bf4b6867931 from main if post-landing verification fails."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-status.txt",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/residue-classification.yml",
+    "phase_exit_refs": [
+      "branch-local commit 236da8146e073d3d351159a3ce492bf4b6867931",
+      "origin branch pushed without PR",
+      "origin/main fast-forwarded to landed ref",
+      "source branch cleanup completed"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment-and-no-open-pr",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/superseded-archive-definition-20260617T000000Z/final-status.txt"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-17T12:49:30Z"
+}
