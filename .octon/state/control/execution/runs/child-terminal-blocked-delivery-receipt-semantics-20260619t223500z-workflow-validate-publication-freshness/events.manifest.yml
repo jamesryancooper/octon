@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+ledger_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:f9a9acb92ef13e636d9b5eb5975abafb67ebd31cbde048ce774ec80ca1b0f48f
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  sequence: 1
+  event_hash: sha256:53de1884dd713e2d062743299e990b4b4738e4817785312d82f41fc91162b2fa
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  sequence: 29
+  event_hash: sha256:ae00be204d83a64e1f4244d4e6fe24198a23b2f154d28d38407e4a9317cc287d
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:53de1884dd713e2d062743299e990b4b4738e4817785312d82f41fc91162b2fa
+  tail_event_hash: sha256:ae00be204d83a64e1f4244d4e6fe24198a23b2f154d28d38407e4a9317cc287d
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  context_pack_ref: evt-context-pack-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  disclosure_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-784d4cfaca64
+  run_contract_ref: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  run_manifest_ref: evt-002-run-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  runtime_state_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  stage_attempt_ref: evt-stage-started-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:ae00be204d83a64e1f4244d4e6fe24198a23b2f154d28d38407e4a9317cc287d
+  materialized_at: 2026-06-19T22:29:03.931395Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-19T22:29:04.689778Z

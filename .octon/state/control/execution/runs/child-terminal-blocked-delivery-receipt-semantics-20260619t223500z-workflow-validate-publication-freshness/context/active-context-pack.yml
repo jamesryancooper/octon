@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/context/context-pack.json
+context_pack_sha256: sha256:9cf250920fee8b82ebb08239da5c8c434a02ffc64087c091ea1021ab89055d8b
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness/context/model-visible-context.json
+model_visible_context_sha256: sha256:e2acb117be705bb8edc2f1a9f0052b0418231ce8d923856eaae17ad8a5a60661
+receipt_sha256: sha256:7cf595207983bde8841749be0724dfe96eb95984e56e18dbc3dc14e3a4c40754
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-validate-publication-freshness
+schema_version: active-context-pack-v1
+updated_at: 2026-06-19T22:29:02.960649Z
+validity_state: valid

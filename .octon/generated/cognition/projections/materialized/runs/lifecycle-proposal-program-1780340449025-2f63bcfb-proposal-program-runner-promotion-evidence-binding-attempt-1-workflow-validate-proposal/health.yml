@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal
-generated_at: '2026-06-19T21:49:20Z'
+generated_at: '2026-06-19T22:30:08Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:1a91f5d9f20a3c1e09bcc205ee5979f02e0818ed366659c41a338c5a3396a923
-  checked_at: '2026-06-19T21:49:20Z'
+  combined_source_digest: sha256:aa173b14c4661d978f225b22e53b954f52cb10b5b6adef65c6d4ce2e56b0f60d
+  checked_at: '2026-06-19T22:30:08Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/events.manifest.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:d88954f81bc911d51536786c6b0fbf5a5d98b77b15d2a7581a74cad74f1b310b
+    digest: sha256:3e4d1793d3a13e755fcc24eacef5c2d18e78549970725c933c7bacf683c517a4
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml

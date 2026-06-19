@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+ledger_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:d6ae1194ea0b04d31b40869824b8f6e035eb5f273a66253ee3dcaf4fd256bdab
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  sequence: 1
+  event_hash: sha256:8e3e1e177cd6ab893eee5bab37365e8698b24436d89275b3892d3ca8e558dd92
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  sequence: 29
+  event_hash: sha256:52af79d174c65507b8b99832cd1c680532fc78d18059a3962f84ad4c42ba2163
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:8e3e1e177cd6ab893eee5bab37365e8698b24436d89275b3892d3ca8e558dd92
+  tail_event_hash: sha256:52af79d174c65507b8b99832cd1c680532fc78d18059a3962f84ad4c42ba2163
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  context_pack_ref: evt-context-pack-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  disclosure_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-8f932b03e731
+  run_contract_ref: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  run_manifest_ref: evt-002-run-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  runtime_state_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  stage_attempt_ref: evt-stage-started-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t223500z-workflow-classify-repo-hygiene
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:52af79d174c65507b8b99832cd1c680532fc78d18059a3962f84ad4c42ba2163
+  materialized_at: 2026-06-19T22:29:05.917915Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-19T22:29:06.664216Z
