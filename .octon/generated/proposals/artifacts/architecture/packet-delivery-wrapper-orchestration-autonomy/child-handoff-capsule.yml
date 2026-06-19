@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:49ad60368111152603d03ff293e10afd3f5056a3f7c02ed29239d0f6bb1951af"
+      "sha256": "sha256:f1cd4c66721c6a460299030cf861a709645da2147f2db06d0445cca28a3bd2c4"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:2359aba882f70339c0b4f9681400f76aae067a698ad44938e896a50a8776c55f"
+      "sha256": "sha256:fd27da7f4cb093b78f7b4fb5c433339f35877819d4a845deef7880c3bb41476e"
     }
   ],
-  "context_hash": "sha256:a33bb5813dbe14f9ae88531bdec3cb30650a98d57fb4e411613e22b0291fe451",
+  "context_hash": "sha256:140f5beadb8195bb5a4c45f50e1e4ca30e3e528b58ff771a851369d1137e10ec",
   "dependency_vector": {
     "parent_program": "operator-free-packet-lifecycle-autonomy",
     "related_proposals": [
@@ -61,7 +61,7 @@
   "schema_version": "octon-child-handoff-capsule-v1",
   "scope_statement": "This child owns the delivery wrapper workflow, command, skill, profile schema, and workflow validator. It does not own receipt schema semantics, the branch-no-PR closeout state machine, generated freshness detection, worktree partitioning, terminal evidence sinks, or git mutation preflight helpers.",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml": "sha256:3075fa2e1ddd18ef9f308992239d2299528f450cbf36448767100f525e95a146",
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/acceptance-criteria.md": "sha256:db14d51ec63f3ed446de3f1078673f1d81c5e6b662fa58262b82a41345190d73",
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/implementation-plan.md": "sha256:95a990c3375f2156e0fe04317367b44887dac4dcc71793057b4b6feb9b632298",
@@ -73,7 +73,7 @@
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md": "sha256:7e62e83cccc6d5fbfb4bc642cd5a0d03b4ecb02babf5465bad8a99d341dfcc28"
   },
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml",
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/acceptance-criteria.md",
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/implementation-plan.md",
