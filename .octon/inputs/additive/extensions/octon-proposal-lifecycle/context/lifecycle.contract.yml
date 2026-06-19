@@ -1278,6 +1278,7 @@ routes:
             value: "yes"
         - any:
             - receipt_absent: "proposal-terminal-closeout"
+            - receipt_incomplete: "proposal-terminal-closeout"
             - receipt_field_equals:
                 receipt_id: "proposal-terminal-closeout"
                 field: "terminal_verdict"

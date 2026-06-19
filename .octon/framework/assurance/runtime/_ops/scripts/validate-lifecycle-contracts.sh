@@ -188,7 +188,7 @@ validate_condition_receipt_refs() {
   local contract="$1" expr="$2" label="$3" receipt_ids="$4"
   local key receipt_id
 
-  for key in receipt_absent receipt_stale receipt_fresh receipt_complete; do
+  for key in receipt_absent receipt_stale receipt_fresh receipt_complete receipt_incomplete; do
     while IFS= read -r receipt_id; do
       [[ -n "$receipt_id" || "$receipt_id" == "null" ]] || continue
       validate_condition_receipt_ref "$receipt_id" "$receipt_ids" "$label $key"
@@ -222,6 +222,7 @@ runtime_supported = {
     "receipt_stale",
     "receipt_fresh",
     "receipt_complete",
+    "receipt_incomplete",
     "receipt_verdict",
     "receipt_field_equals",
     "file_absent",

@@ -3244,6 +3244,10 @@ fn eval_condition_with_context(
                 .and_then(|id| target_state.receipts.get(id))
                 .map(|receipt| receipt.exists && receipt.missing_required_fields.is_empty())
                 .unwrap_or(false),
+            "receipt_incomplete" => scalar_str(Some(value))
+                .and_then(|id| target_state.receipts.get(id))
+                .map(|receipt| receipt.exists && !receipt.missing_required_fields.is_empty())
+                .unwrap_or(false),
             "receipt_verdict" => {
                 let receipt_id = mapping_string(value, "receipt_id")?;
                 let expected = mapping_string(value, "value")?;
