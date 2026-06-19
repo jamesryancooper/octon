@@ -1,0 +1,75 @@
+schema_version: "proposal-v1"
+proposal_id: "retained-run-evidence-index-materialization"
+title: "Retained Run Evidence Index Materialization"
+summary: >-
+  Add a canonical materialization route for discovery-only
+  retained-run-evidence-index-v1 artifacts for implemented proposal packets so
+  proposal-program readiness projection can bind valid evidence_index_refs
+  without inventing child authority or control state.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-retained-run-evidence-index.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-generate-retained-run-evidence-index.sh"
+status: "implemented"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after proposal-local acceptance, implementation
+    authorization, and strict architecture review. Generated outputs must not
+    be edited by hand, and materialized indexes remain discovery-only retained
+    evidence.
+related_proposals:
+  - "operator-free-packet-lifecycle-autonomy"
+  - "proposal-program-freshness-readiness-projection"
+  - "lifecycle-run-evidence-index-contract"
+selected_implementation_target: "retained-run evidence index materialization for implemented proposal children"
+scope_statement: >-
+  This packet owns a narrow assurance materializer that writes valid
+  retained-run-evidence-index-v1 artifacts from already-implemented proposal
+  packet evidence. It does not revise readiness projection semantics, child
+  receipts, child lifecycle status, parent lifecycle status, archive state, or
+  closeout state.
+authority_class_impact:
+  framework: "Adds a canonical assurance script and tests for retained-run evidence index materialization."
+  instance: "No instance authority changes."
+  state_control: "No state-control mutation from this packet."
+  state_evidence: "Future invocation may write discovery-only retained evidence indexes and materialization receipts."
+  generated: "Generated outputs remain derived-only and are not hand-edited."
+  inputs: "This proposal packet remains non-authoritative proposal input."
+runtime_behavior_impact: >-
+  Future implementation lets operators materialize digest-bound retained-run
+  evidence indexes for implemented proposal packets when direct run-control
+  evidence is unavailable. The materialized index is a locator and replay aid
+  only; it cannot satisfy child receipts or authorize lifecycle transitions.
+generated_input_authority_impact: >-
+  The materializer does not consume generated outputs as authority and does not
+  publish generated state. Generated proposal registries remain derived-only.
+evidence_requirements:
+  - "Accepted proposal review authorizing implementation."
+  - "Strict pre-integration architecture review receipt."
+  - "Implementation-grade completeness receipt."
+  - "Materializer validation evidence."
+  - "Negative controls for missing child receipt verdicts and digest drift."
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-proposal-review-gate.sh"
+  - "validate-architectural-review-receipts.sh"
+  - "validate-retained-run-evidence-index.sh"
+  - "test-generate-retained-run-evidence-index.sh"
+acceptance_criteria_summary: >-
+  Accepted implementation must write valid retained-run-evidence-index-v1
+  artifacts for implemented proposal packets, require passing child-owned
+  implementation receipts, fail closed on missing or stale source refs, and
+  preserve non-authority boundaries.
+rollback_summary: >-
+  Remove the materializer script and its test. Materialized evidence indexes
+  are retained evidence and should be superseded rather than deleted unless a
+  governed cleanup route authorizes cleanup.
+owner:
+  role: "Octon assurance materialization proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-18"
