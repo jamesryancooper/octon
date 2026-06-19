@@ -1,0 +1,65 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "retained-run-evidence-index-materialization-20260619T004358Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "branch-local-complete",
+  "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "local-only",
+  "intent": "Resolve the operator-free packet lifecycle parent closeout hygiene blocker by preserving the linked retained-run evidence index materialization proposal and its durable targets as a branch-local Change without push, hosted landing, branch cleanup, or cleaned claims.",
+  "scope": {
+    "summary": "Branch-local checkpoint for the retained-run evidence index materializer, its test, and its linked proposal packet.",
+    "touched_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/generate-retained-run-evidence-index.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-generate-retained-run-evidence-index.sh",
+      ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization"
+    ],
+    "diff_refs": [
+      "chore/retained-run-evidence-index-closeout@69d19737a442104be3d453e21760e7fa36d8c32a"
+    ],
+    "handoff_parent_program": ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy",
+    "handoff_reason": "Parent proposal-program closeout worktree hygiene classified this linked proposal scope as foreign until it had branch-local durable history."
+  },
+  "source_branch_ref": "chore/retained-run-evidence-index-closeout",
+  "target_branch_ref": "main",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-generate-retained-run-evidence-index.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization --require-implementation-authorization",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh --receipt .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/pre-integration-architecture-review.yml --package .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization --mode pre-integration-architecture-review --require-pass",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization",
+    "git diff --cached --check",
+    "git commit 69d19737a442104be3d453e21760e7fa36d8c32a"
+  ],
+  "review_waiver_refs": [
+    "branch-no-pr selected because the repository worktree had unrelated dirty parent and child lifecycle residue, direct-main closeout was ineligible, and no branch-pr predicate was present in the operator authorization"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "69d19737a442104be3d453e21760e7fa36d8c32a",
+    "branch": "chore/retained-run-evidence-index-closeout"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "69d19737a442104be3d453e21760e7fa36d8c32a",
+    "instructions": "Revert commit 69d19737a442104be3d453e21760e7fa36d8c32a on chore/retained-run-evidence-index-closeout if the retained-run evidence index materialization checkpoint must be backed out before a later hosted route."
+  },
+  "not_landed_reason": "The operator authorized local staging and commit for this blocker-resolution route, but did not authorize push, PR creation, hosted landing, or parent publication.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "Branch cleanup and cleaned state require landed/synced evidence and cleanup authorization that were explicitly outside this route.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "source_branch_cleanup": {
+    "status": "pending",
+    "local_branch": "chore/retained-run-evidence-index-closeout",
+    "blocker_reason": "Branch has not been pushed, landed, synchronized with main, or cleanup-authorized."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Branch-local checkpoint is not pushed, landed, or cleaned.",
+    "Future push, hosted landing, branch cleanup, or cleaned claim requires separate explicit authorization."
+  ],
+  "created_at": "2026-06-19T00:43:58Z"
+}
