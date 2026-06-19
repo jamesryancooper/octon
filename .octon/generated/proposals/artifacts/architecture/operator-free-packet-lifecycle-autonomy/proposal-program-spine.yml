@@ -1,0 +1,208 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:70781f4d37782410c410b84ce2051fe105615e96c7366d6f84d4c5ee13837542",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this parent program, create and review child packets as siblings, implement each child through its own accepted packet and receipts, then close out this parent only after child-owned lifecycle evidence proves the autonomy improvements landed without weakened gates or authority drift.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/operator-free-packet-lifecycle-autonomy/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/",
+    ".octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md",
+    ".octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md",
+    ".octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json",
+    ".octon/framework/product/contracts/change-receipt-v1.schema.json",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+    ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh"
+  ],
+  "proposal_id": "operator-free-packet-lifecycle-autonomy",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 11824,
+      "estimated_tokens": 2956,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/custom-program-closeout-prompt.md",
+      "sha256": "sha256:9d18b4a2efb6dd7dd61f5c44624b291a44890a110647fde414cd0cb8e35e16cb"
+    },
+    {
+      "byte_size": 8439,
+      "estimated_tokens": 2110,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/follow-up-program-verification-prompt.md",
+      "sha256": "sha256:d3354bab0996e1af579522aaead2427ad77fb39ac26d6d31a120fec0cef14026"
+    },
+    {
+      "byte_size": 4880,
+      "estimated_tokens": 1220,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-conformance-review.md",
+      "sha256": "sha256:fa616c0eab3cb33f26c0d2684d19fc1fe97aec6a991579777071b5dfa6e3c233"
+    },
+    {
+      "byte_size": 2868,
+      "estimated_tokens": 717,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:f814fffb5d12550cf3b5b4fa2995fdaf9f811bfd1ae3da5b6d9ba62521a916f1"
+    },
+    {
+      "byte_size": 7322,
+      "estimated_tokens": 1831,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/lifecycle-residue-cleanup.md",
+      "sha256": "sha256:0b3afdc367b3f99d5dc5526940787e46c6aa75c252339e2fe6ea8cb0023308d8"
+    },
+    {
+      "byte_size": 4861,
+      "estimated_tokens": 1216,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:c54f3bc65ad61ee755af61343c18204244a91f6d0fe4af10abdf4c01eecec128"
+    },
+    {
+      "byte_size": 938,
+      "estimated_tokens": 235,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/program-creation.md",
+      "sha256": "sha256:cf659afb4aaa967c4f71d4063a2e501c3565fdb626577b527ed7d82c4511c2ba"
+    },
+    {
+      "byte_size": 5279,
+      "estimated_tokens": 1320,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/program-implementation-orchestration-conformance-review.md",
+      "sha256": "sha256:b96265ec6e6975049fdfe01694c8aad2194ff49a6a33cf55827f6d64051f3d4c"
+    },
+    {
+      "byte_size": 9202,
+      "estimated_tokens": 2301,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/program-implementation-orchestration-prompt.md",
+      "sha256": "sha256:3f21df7a9065dce1edd5516a82005b5f5e090688ab2d95684379ab81b66f5064"
+    },
+    {
+      "byte_size": 5188,
+      "estimated_tokens": 1297,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/program-implementation-orchestration-run.md",
+      "sha256": "sha256:26915bc9e8e22fed0953c63c4f038f0d0f2cd37a7302bb8682163a74a91895c2"
+    },
+    {
+      "byte_size": 4913,
+      "estimated_tokens": 1229,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "sha256": "sha256:2d6e3788dc1f98ffa5ae85703506d175a53f5f6abfe076393db00926c6d08263"
+    },
+    {
+      "byte_size": 10781,
+      "estimated_tokens": 2696,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-closeout.md",
+      "sha256": "sha256:3843df5e66ec053efd71f1c57bf3a133fcb513b89fd8df3d3d3414a16f0e9eb4"
+    },
+    {
+      "byte_size": 10351,
+      "estimated_tokens": 2588,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-review.md",
+      "sha256": "sha256:23df38b775aefd8df533d69a8cec0521414ef3f13c82af384c036b0e760e2452"
+    }
+  ],
+  "related_proposals": [
+    "packet-delivery-wrapper-orchestration-autonomy",
+    "blocked-delivery-receipt-semantics",
+    "branch-no-pr-closeout-state-machine-autonomy",
+    "generated-freshness-scope-detection",
+    "packet-worktree-partitioning-automation",
+    "terminal-evidence-sink-autonomy",
+    "git-mutation-sandbox-preflight"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture-proposal.yml": "sha256:2edea3b66d4cb27a7a282521553c3103d30bfbf50a17780e18ceb3fdc2cb23f2",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/acceptance-criteria.md": "sha256:0b35295e03357f2e3390c09701b262deab6601fde8fad8ea57272f06330781d9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/implementation-plan.md": "sha256:16fd11e8997a223c7133b68613a0e22b91f62dda7f61abe25611cc5e67b52758",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/navigation/artifact-catalog.md": "sha256:05015c96a53beb637849ed7e7d661df7a132fbb0535cb371245e43efff454d4a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/navigation/source-of-truth-map.md": "sha256:e7d6b1d7b275c338605dd22c095f9055fbf0291da73386b54ca30bdb736e2350",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/proposal.yml": "sha256:eb0f543316ab260db8eb974381a0f892c30993bb1b9d93a3d61dfba1c8de2d27",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-grade-completeness-review.md": "sha256:f814fffb5d12550cf3b5b4fa2995fdaf9f811bfd1ae3da5b6d9ba62521a916f1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-review.md": "sha256:23df38b775aefd8df533d69a8cec0521414ef3f13c82af384c036b0e760e2452"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/source-lineage.md",
+    ".octon/state/evidence/runs/workflows/20260617T141717Z-proposal-packet-terminal-closeout-octon-instruction-layer-execution-envelope-hardening/lifecycle-postmortem.md",
+    ".octon/state/evidence/runs/workflows/2026-06-17-proposal-packet-delivery-octon-instruction-layer-execution-envelope-hardening/validation.md",
+    ".octon/state/evidence/local/terminal-closeout/octon-instruction-envelope-closeout-branch-no-pr/cleaned-closeout-receipt.yml"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

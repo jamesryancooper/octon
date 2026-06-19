@@ -22,6 +22,9 @@ validator_result_add_negative_control "source-digest-drift-denies"
 validator_result_add_negative_control "fixture-status-mismatch-denies"
 validator_result_add_negative_control "missing-proof-state-denies"
 validator_result_add_negative_control "approval-boundary-erasure-denies"
+validator_result_add_negative_control "proposal-local-evidence-denies-generated-freshness"
+validator_result_add_negative_control "parent-evidence-denies-generated-freshness"
+validator_result_add_negative_control "generated-output-denies-closeout-authority"
 validator_result_add_schema_version "run-health-read-model-v1"
 
 set +e
@@ -52,6 +55,7 @@ DEFAULT_EVIDENCE_ROOT = Path(sys.argv[5])
 ARGV = sys.argv[6:]
 
 SCHEMA_PATH = OCTON_DIR / "framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+GENERATOR_SCRIPT_PATH = OCTON_DIR / "framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
 REQUIRED_STATUSES = {
     "healthy",
     "blocked",
@@ -91,6 +95,8 @@ FORBIDDEN_CONSUMERS = {
     "support-claim-evaluation",
 }
 GENERATED_RUN_HEALTH_ROOT = ".octon/generated/cognition/projections/materialized/runs/"
+GENERATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+VALIDATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
 
 
 def normalize_fixture_status(value):
@@ -619,6 +625,20 @@ def validate_generation_receipt(evidence_root):
     if data.get("validator_ref") != ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh":
         failures.append(f"{context}: validator_ref is invalid")
 
+    freshness_scope = data.get("generated_freshness_scope")
+    if freshness_scope is not None:
+        if not isinstance(freshness_scope, dict):
+            failures.append(f"{context}: generated_freshness_scope must be an object when present")
+            freshness_scope = {}
+        if freshness_scope.get("owner_generator_ref") != GENERATOR_REF:
+            failures.append(f"{context}: generated freshness scope must cite owning generator")
+        if freshness_scope.get("owner_validator_ref") != VALIDATOR_REF:
+            failures.append(f"{context}: generated freshness scope must cite owning validator")
+        if freshness_scope.get("proposal_local_or_parent_evidence_satisfies_freshness") is not False:
+            failures.append(f"{context}: proposal-local or parent evidence must not satisfy generated freshness")
+        if freshness_scope.get("generated_output_authorizes_closeout_or_archive") is not False:
+            failures.append(f"{context}: generated output must not authorize closeout or archive")
+
     authority = data.get("authority")
     if not isinstance(authority, dict):
         failures.append(f"{context}: authority must be an object")
@@ -713,6 +733,24 @@ def assert_no_inputs_refs(data, failures, context):
     for ref in refs:
         if ".octon/inputs/" in ref:
             failures.append(f"{context}: input-path ref is forbidden in run health: {ref}")
+
+
+def validate_generator_scope_contract():
+    if not GENERATOR_SCRIPT_PATH.is_file():
+        return [f"missing run-health generator script: {GENERATOR_SCRIPT_PATH}"]
+    text = GENERATOR_SCRIPT_PATH.read_text(encoding="utf-8")
+    required_tokens = {
+        "GENERATOR_REF": "owning generator ref constant",
+        "GENERATED_FRESHNESS_OWNER": "generated freshness owner constant",
+        "GENERATED_FRESHNESS_OUTCOMES": "generated freshness outcome list",
+        "proposal_local_or_parent_evidence_satisfies_freshness": "proposal-local freshness denial",
+        "generated_output_authorizes_closeout_or_archive": "closeout/archive authority denial",
+    }
+    failures = []
+    for token, label in required_tokens.items():
+        if token not in text:
+            failures.append(f"run-health generator missing {label}")
+    return failures
 
 
 def validate_one(schema, path):
@@ -890,6 +928,8 @@ def main():
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     failures = []
     validated_files = []
+
+    failures.extend(validate_generator_scope_contract())
 
     candidate_files = []
     candidate_files.extend(Path(item) for item in args.health_file)

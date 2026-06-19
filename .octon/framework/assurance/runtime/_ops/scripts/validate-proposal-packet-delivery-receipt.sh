@@ -66,10 +66,32 @@ require_bool() {
   [[ "$value" == "$expected" ]] && pass "$label is $expected" || fail "$label must be $expected"
 }
 
+require_bool_declared() {
+  local path="$1" label="$2" value
+  value="$(scalar "$path")"
+  case "$value" in
+    true|false)
+      pass "$label declared as boolean"
+      ;;
+    *)
+      fail "$label must be boolean"
+      ;;
+  esac
+}
+
 require_value() {
   local path="$1" expected="$2" label="$3" value
   value="$(scalar "$path")"
   [[ "$value" == "$expected" ]] && pass "$label is $expected" || fail "$label must be $expected"
+}
+
+require_array_declared() {
+  local path="$1" label="$2"
+  if yq -e "$path | tag == \"!!seq\"" "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "$label declared as array"
+  else
+    fail "$label must be an array"
+  fi
 }
 
 require_array_nonempty() {
@@ -83,6 +105,21 @@ require_fresh_pass_receipt() {
   require_scalar "$base.receipt_ref" "$label receipt_ref"
   require_bool "$base.fresh" "true" "$label fresh"
   require_value "$base.verdict" "pass" "$label verdict"
+}
+
+require_receipt_verdict_shape() {
+  local base="$1" label="$2" verdict
+  require_scalar "$base.receipt_ref" "$label receipt_ref"
+  require_bool_declared "$base.fresh" "$label fresh"
+  verdict="$(scalar "$base.verdict")"
+  case "$verdict" in
+    pass|fail|blocked|not-run)
+      pass "$label verdict declared"
+      ;;
+    *)
+      fail "$label verdict must be pass, fail, blocked, or not-run"
+      ;;
+  esac
 }
 
 need_tool jq
@@ -152,8 +189,9 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   require_scalar '.target_packet.implementation_authorization_ref' "target_packet.implementation_authorization_ref"
   require_scalar '.target_outcome' "target_outcome"
   require_scalar '.actual_outcome' "actual_outcome"
+  actual_outcome="$(scalar '.actual_outcome')"
 
-  case "$(scalar '.actual_outcome')" in
+  case "$actual_outcome" in
     blocked|implemented|archive-ready|landed|synced|cleaned)
       pass "actual_outcome allowed"
       ;;
@@ -164,7 +202,11 @@ if [[ -n "$RECEIPT_PATH" ]]; then
 
   require_scalar '.packet_lifecycle.workflow_ref' "packet lifecycle workflow_ref"
   require_scalar '.packet_lifecycle.receipt_ref' "packet lifecycle receipt_ref"
-  require_value '.packet_lifecycle.verdict' 'pass' "packet lifecycle verdict"
+  if [[ "$actual_outcome" == "blocked" ]]; then
+    require_value '.packet_lifecycle.verdict' 'blocked' "packet lifecycle verdict"
+  else
+    require_value '.packet_lifecycle.verdict' 'pass' "packet lifecycle verdict"
+  fi
   require_bool '.packet_lifecycle.replanned_after_material_changes' 'true' "packet lifecycle replanned after material changes"
 
   for receipt_family in \
@@ -176,24 +218,46 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     terminal_closeout \
     archive \
     change_closeout; do
-    require_array_nonempty ".target_receipts.$receipt_family" "target_receipts.$receipt_family"
+    if [[ "$actual_outcome" == "blocked" ]]; then
+      require_array_declared ".target_receipts.$receipt_family" "target_receipts.$receipt_family"
+    else
+      require_array_nonempty ".target_receipts.$receipt_family" "target_receipts.$receipt_family"
+    fi
   done
 
-  require_fresh_pass_receipt '.implementation_conformance' "implementation conformance"
-  require_fresh_pass_receipt '.post_implementation_drift_churn' "post-implementation drift/churn"
-  require_fresh_pass_receipt '.promotion' "promotion"
-  require_fresh_pass_receipt '.packet_closeout' "packet closeout"
-  require_fresh_pass_receipt '.terminal_closeout' "terminal closeout"
-  require_fresh_pass_receipt '.archive' "archive"
+  if [[ "$actual_outcome" == "blocked" ]]; then
+    require_receipt_verdict_shape '.implementation_conformance' "implementation conformance"
+    require_receipt_verdict_shape '.post_implementation_drift_churn' "post-implementation drift/churn"
+    require_receipt_verdict_shape '.promotion' "promotion"
+    require_receipt_verdict_shape '.packet_closeout' "packet closeout"
+    require_receipt_verdict_shape '.terminal_closeout' "terminal closeout"
+    require_receipt_verdict_shape '.archive' "archive"
+  else
+    require_fresh_pass_receipt '.implementation_conformance' "implementation conformance"
+    require_fresh_pass_receipt '.post_implementation_drift_churn' "post-implementation drift/churn"
+    require_fresh_pass_receipt '.promotion' "promotion"
+    require_fresh_pass_receipt '.packet_closeout' "packet closeout"
+    require_fresh_pass_receipt '.terminal_closeout' "terminal closeout"
+    require_fresh_pass_receipt '.archive' "archive"
+  fi
 
   require_scalar '.generated_publication.validator' "generated publication validator"
-  require_array_nonempty '.generated_publication.publisher_refs' "generated publication publisher refs"
-  require_bool '.generated_publication.fresh' 'true' "generated publication fresh"
+  if [[ "$actual_outcome" == "blocked" ]]; then
+    require_array_declared '.generated_publication.publisher_refs' "generated publication publisher refs"
+    require_bool_declared '.generated_publication.fresh' "generated publication fresh"
+  else
+    require_array_nonempty '.generated_publication.publisher_refs' "generated publication publisher refs"
+    require_bool '.generated_publication.fresh' 'true' "generated publication fresh"
+  fi
   require_bool '.generated_publication.direct_generated_output_edit_used' 'false' "direct generated output edit used"
 
   require_scalar '.governed_mechanism_integration.required' "governed mechanism integration required flag"
   if [[ "$(scalar '.governed_mechanism_integration.required')" == "true" ]]; then
-    require_value '.governed_mechanism_integration.verdict' 'pass' "governed mechanism integration verdict"
+    if [[ "$actual_outcome" == "blocked" ]]; then
+      require_scalar '.governed_mechanism_integration.verdict' "governed mechanism integration verdict"
+    else
+      require_value '.governed_mechanism_integration.verdict' 'pass' "governed mechanism integration verdict"
+    fi
     require_array_nonempty '.governed_mechanism_integration.receipt_refs' "governed mechanism integration receipt refs"
   else
     require_value '.governed_mechanism_integration.verdict' 'not-applicable' "governed mechanism integration verdict"
@@ -220,14 +284,14 @@ if [[ -n "$RECEIPT_PATH" ]]; then
       || fail "branch cleanup requires cleanup authorization ref"
   fi
 
-  if [[ "$(scalar '.actual_outcome')" == "synced" || "$(scalar '.actual_outcome')" == "cleaned" ]]; then
+  if [[ "$actual_outcome" == "synced" || "$actual_outcome" == "cleaned" ]]; then
     require_scalar '.final_sync.landed_ref' "final sync landed_ref"
     require_scalar '.final_sync.local_main_ref' "final sync local_main_ref"
     require_scalar '.final_sync.origin_main_ref' "final sync origin_main_ref"
     require_bool '.final_sync.main_origin_landed_ref_equal' 'true' "main/origin/landed ref equality"
   fi
 
-  if [[ "$(scalar '.actual_outcome')" == "cleaned" ]]; then
+  if [[ "$actual_outcome" == "cleaned" ]]; then
     require_scalar '.terminal_current_state_proof.evidence_ref' "terminal current-state proof evidence_ref"
     require_bool '.terminal_current_state_proof.fresh_after_last_mutation' 'true' "terminal proof fresh after last mutation"
     require_value '.terminal_current_state_proof.verdict' 'pass' "terminal current-state proof verdict"
@@ -237,7 +301,9 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   fi
 
   open_blocker_count="$(yq -r '[.blockers[]? | select(.status == "open")] | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
-  if [[ "$(scalar '.actual_outcome')" != "blocked" && "$open_blocker_count" -gt 0 ]]; then
+  if [[ "$actual_outcome" == "blocked" && "$open_blocker_count" -eq 0 ]]; then
+    fail "blocked outcomes require explicit open blocker evidence"
+  elif [[ "$actual_outcome" != "blocked" && "$open_blocker_count" -gt 0 ]]; then
     fail "non-blocked outcomes must not retain open blockers"
   else
     pass "blocker state compatible with actual outcome"

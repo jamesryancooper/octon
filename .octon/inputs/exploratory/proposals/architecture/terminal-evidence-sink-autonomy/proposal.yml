@@ -1,0 +1,77 @@
+schema_version: "proposal-v1"
+proposal_id: "terminal-evidence-sink-autonomy"
+title: "Terminal Evidence Sink Autonomy"
+summary: >-
+  Child architecture packet for emitting terminal proof after branch-no-PR
+  landing, sync, and cleanup without source-branch commits or landed-ref
+  mutation, while preserving route-owned closeout evidence.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/"
+status: "implemented"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after child-owned review acceptance, implementation
+    authorization, branch-no-PR closeout state machine verification, and
+    worktree partitioning verification.
+related_proposals:
+  - "operator-free-packet-lifecycle-autonomy"
+  - "branch-no-pr-closeout-state-machine-autonomy"
+  - "packet-worktree-partitioning-automation"
+parent_program: "operator-free-packet-lifecycle-autonomy"
+sequence:
+  priority: "P1"
+  order: 6
+  dependency_gate: "verification"
+  dependencies:
+    - "branch-no-pr-closeout-state-machine-autonomy"
+    - "packet-worktree-partitioning-automation"
+selected_implementation_target: "terminal evidence sink for branch-no-PR proposal-packet delivery"
+scope_statement: >-
+  This child owns terminal proof emission after landing, sync, and cleanup
+  evidence exists. It does not own receipt semantics, generated freshness,
+  cleanup deletion authorization, or git mutation preflight behavior.
+authority_class_impact:
+  framework: "Updates closeout and delivery workflow guidance for terminal proof emission."
+  instance: "No instance authority changes."
+  state_control: "No state-control mutation from this packet."
+  state_evidence: "Future implementation must retain child-owned terminal proof evidence."
+  generated: "No generated output edits from this packet."
+  inputs: "This child packet remains non-authoritative proposal input."
+runtime_behavior_impact: >-
+  Future implementation may emit route-owned terminal proof after landing,
+  sync, and cleanup evidence exists without mutating the landed ref or requiring
+  post-landing commits to the source branch.
+generated_input_authority_impact: >-
+  None. Generated outputs remain derived-only and do not authorize terminal
+  proof.
+evidence_requirements:
+  - "Child-owned accepted proposal review."
+  - "Strict pre-integration architecture review receipt."
+  - "Implementation-grade completeness receipt."
+  - "Landing/ref equality fixtures."
+  - "Terminal proof negative controls."
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-proposal-review-gate.sh"
+  - "validate-architectural-review-receipts.sh"
+  - "validate-change-closeout-state-machine.sh"
+  - "validate-change-closeout-lifecycle-alignment.sh"
+acceptance_criteria_summary: >-
+  Accepted implementation must allow terminal proof to be emitted without
+  source-branch commits, distinguish landed refs from terminal proof refs, and
+  avoid mutating origin/main or landed source refs.
+rollback_summary: >-
+  Revert closeout and delivery workflow guidance together if terminal proof
+  becomes ambiguous, mutates landed refs, or weakens cleanup proof.
+owner:
+  role: "Octon proposal packet author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-18"

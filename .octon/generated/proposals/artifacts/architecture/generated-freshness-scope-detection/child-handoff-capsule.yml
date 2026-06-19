@@ -1,0 +1,160 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "generated-freshness-scope-detection",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/generated-freshness-scope-detection/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:9a4ee73e055c2d7295817d920622a2ba3d20c436d47e704ef4e68f3f9950610d"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/generated-freshness-scope-detection/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:1c7afacb06e3d3223db4254e3a5ba90857453a183836afb3dbd5d8748950de26"
+    }
+  ],
+  "context_hash": "sha256:1f7327db574ad005142c0df473ade3a513dd4bb996d21cdd4e439c5395de0455",
+  "dependency_vector": {
+    "parent_program": "operator-free-packet-lifecycle-autonomy",
+    "related_proposals": [
+      "operator-free-packet-lifecycle-autonomy",
+      "packet-delivery-wrapper-orchestration-autonomy"
+    ],
+    "source_lineage": []
+  },
+  "evidence_refs": [
+    "Child-owned accepted proposal review.",
+    "Strict pre-integration architecture review receipt.",
+    "Implementation-grade completeness receipt.",
+    "Generator-input scope fixtures and negative controls.",
+    "Generated non-authority validation evidence."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/generated-freshness-scope-detection/child-handoff-capsule.yml",
+  "parent_program": "operator-free-packet-lifecycle-autonomy",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "This child owns generated freshness scope detection and generated/read-model authorization routing for proposal-packet delivery. It does not own receipt semantics, branch-no-PR closeout state progression, worktree cleanup, terminal proof emission, or git mutation preflight behavior.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/architecture-proposal.yml": "sha256:22aa53e1e51b2494f4f78e7e9db59cfd79eaa5bc04fbda8e79ea15c2a64c39a2",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/architecture/acceptance-criteria.md": "sha256:e808ef052e8e2f86e0c52566ac8a5d321e93e91314a39899bff63c671c6be4cb",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/architecture/implementation-plan.md": "sha256:dab60b725f92549cc8036617cb2400c50e16a17245eccb643869158e531aa164",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/navigation/artifact-catalog.md": "sha256:391a382f07e277b7ba5f50eca7357f6c09b2a281cdc2fa580d5e3efbd579b447",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/navigation/source-of-truth-map.md": "sha256:b97bfd71ff3e25c6e637ef7b32a0549445b3bf10e1dfd34ac7feabdae6358849",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/proposal.yml": "sha256:7ec7d205b9488e13142ed38e89bbee593cdc57a3e3f690d4985256221b0f4c9a",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/executable-implementation-prompt.md": "sha256:8e1090ce94a83bbf0df733366bddcf61425699914f5053d77336415803adba3e",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/implementation-grade-completeness-review.md": "sha256:a333f665203bdf72bd9f52023a5622cff977cf4f77b10d8ff54cb8925f5c86b3",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/proposal-review.md": "sha256:926260deb05b3e74239163000ebf88a2054c8f62b3ff0b19daac292e1fb7f307",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-review-gate.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architectural-review-receipts.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-support-envelope-reconciliation.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-run-health-read-model.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-generated-non-authority.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

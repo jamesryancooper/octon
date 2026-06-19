@@ -95,7 +95,13 @@ RETAINED_FIXTURE_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-retained-fixture-
 RETAINED_FIXTURE_RECEIPTS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-retained-fixture-receipts.XXXXXX")"
 RETAINED_FIXTURE_SOURCE_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-retained-fixture-source-rows.XXXXXX")"
 FOREIGN_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-foreign-rows.XXXXXX")"
-trap 'rm -f "$OWNED_PREFIXES" "$SCOPE_PREFIXES" "$OWNED_ROWS" "$SCOPE_ROWS" "$RETAINED_FIXTURE_ROWS" "$RETAINED_FIXTURE_RECEIPTS" "$RETAINED_FIXTURE_SOURCE_ROWS" "$FOREIGN_ROWS"' EXIT
+PUBLISHABLE_CHANGE_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-publishable-change-rows.XXXXXX")"
+PUBLISHABLE_CLOSEOUT_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-publishable-closeout-rows.XXXXXX")"
+CLEANUP_SAFE_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-cleanup-safe-rows.XXXXXX")"
+PROTECTED_RETAINED_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-protected-retained-rows.XXXXXX")"
+PROTECTED_CONTROL_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-protected-control-rows.XXXXXX")"
+MANUAL_REVIEW_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-manual-review-rows.XXXXXX")"
+trap 'rm -f "$OWNED_PREFIXES" "$SCOPE_PREFIXES" "$OWNED_ROWS" "$SCOPE_ROWS" "$RETAINED_FIXTURE_ROWS" "$RETAINED_FIXTURE_RECEIPTS" "$RETAINED_FIXTURE_SOURCE_ROWS" "$FOREIGN_ROWS" "$PUBLISHABLE_CHANGE_ROWS" "$PUBLISHABLE_CLOSEOUT_ROWS" "$CLEANUP_SAFE_ROWS" "$PROTECTED_RETAINED_ROWS" "$PROTECTED_CONTROL_ROWS" "$MANUAL_REVIEW_ROWS"' EXIT
 
 add_prefix() {
   local file="$1"
@@ -577,6 +583,125 @@ emit_rows() {
   done <"$file"
 }
 
+add_partition_row() {
+  local file="$1"
+  local source_bucket="$2"
+  local status="$3"
+  local path="$4"
+  local reason="$5"
+  printf '%s\t%s\t%s\t%s\n' "$source_bucket" "$status" "$path" "$reason" >>"$file"
+}
+
+emit_partition_rows() {
+  local file="$1"
+  if [[ ! -s "$file" ]]; then
+    printf '    []\n'
+    return 0
+  fi
+  local source_bucket status path reason
+  while IFS=$'\t' read -r source_bucket status path reason; do
+    printf '    - source_bucket: '
+    yaml_quote "$source_bucket"
+    printf '\n      status: '
+    yaml_quote "$status"
+    printf '\n      path: '
+    yaml_quote "$path"
+    printf '\n      reason: '
+    yaml_quote "$reason"
+    printf '\n'
+  done <"$file"
+}
+
+target_support_evidence_path() {
+  local path="$1"
+  [[ "$path" == "$TARGET_REL/support" || "$path" == "$TARGET_REL/support/"* ]]
+}
+
+target_proposal_input_path() {
+  local path="$1"
+  [[ "$path" == "$TARGET_REL" || "$path" == "$TARGET_REL/"* ]]
+}
+
+protected_retained_path() {
+  local path="$1"
+  case "$path" in
+    .octon/state/evidence/*|.octon/state/evidence/local/terminal-closeout/*|.octon/state/evidence/validation/publication/build-to-delete/*)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+protected_control_path() {
+  local path="$1"
+  case "$path" in
+    .octon/state/control/*|.octon/state/continuity/*)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+generated_or_input_protected_path() {
+  local path="$1"
+  case "$path" in
+    .octon/generated/effective/*|.octon/generated/cognition/projections/materialized/runs/*|.octon/inputs/*)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+classify_partition_row() {
+  local source_bucket="$1"
+  local status="$2"
+  local path="$3"
+
+  case "$source_bucket" in
+    owned_by_this_lifecycle_run)
+      if nonblocking_local_metadata "$path"; then
+        add_partition_row "$CLEANUP_SAFE_ROWS" "$source_bucket" "$status" "$path" "cleanup-safe local metadata only; detection is not deletion authority"
+      elif protected_control_path "$path"; then
+        add_partition_row "$PROTECTED_CONTROL_ROWS" "$source_bucket" "$status" "$path" "same-scope lifecycle control or continuity state; protected from cleanup"
+      elif protected_retained_path "$path"; then
+        add_partition_row "$PROTECTED_RETAINED_ROWS" "$source_bucket" "$status" "$path" "same-scope lifecycle evidence; retained evidence is not child authority and is protected from cleanup"
+      else
+        add_partition_row "$MANUAL_REVIEW_ROWS" "$source_bucket" "$status" "$path" "same-scope nonstandard lifecycle residue requires manual routing"
+      fi
+      ;;
+    declared_in_scope_change)
+      if target_support_evidence_path "$path"; then
+        add_partition_row "$PUBLISHABLE_CLOSEOUT_ROWS" "$source_bucket" "$status" "$path" "child-owned support evidence for this target packet; proposal-local evidence is not runtime or policy authority"
+      elif target_proposal_input_path "$path"; then
+        add_partition_row "$MANUAL_REVIEW_ROWS" "$source_bucket" "$status" "$path" "target proposal input surface is in child scope but is not cleanup, support, runtime, policy, or closeout authority"
+      elif generated_or_input_protected_path "$path"; then
+        add_partition_row "$MANUAL_REVIEW_ROWS" "$source_bucket" "$status" "$path" "generated or input surface requires explicit publication or lifecycle routing; classifier output is not authority"
+      else
+        add_partition_row "$PUBLISHABLE_CHANGE_ROWS" "$source_bucket" "$status" "$path" "declared promotion target or same-scope durable change"
+      fi
+      ;;
+    retained_by_fixture_retention)
+      add_partition_row "$PROTECTED_RETAINED_ROWS" "$source_bucket" "$status" "$path" "fixture-retention receipt covers this residue; retained evidence is protected and non-authorizing"
+      ;;
+    foreign_or_ambiguous)
+      add_partition_row "$MANUAL_REVIEW_ROWS" "$source_bucket" "$status" "$path" "foreign, ambiguous, unsafe, or user-owned residue blocks worktree hygiene"
+      ;;
+    *)
+      add_partition_row "$MANUAL_REVIEW_ROWS" "$source_bucket" "$status" "$path" "unrecognized source bucket requires manual routing"
+      ;;
+  esac
+}
+
+build_partition_rows_from() {
+  local source_bucket="$1"
+  local file="$2"
+  local status path
+  while IFS=$'\t' read -r status path; do
+    [[ -n "$status" && -n "$path" ]] || continue
+    classify_partition_row "$source_bucket" "$status" "$path"
+  done <"$file"
+}
+
 row_count() {
   local file="$1"
   if [[ ! -s "$file" ]]; then
@@ -648,10 +773,27 @@ while IFS= read -r line; do
   fi
 done < <(git -C "$ROOT_DIR" status --porcelain=v1 --untracked-files=all)
 
+build_partition_rows_from "owned_by_this_lifecycle_run" "$OWNED_ROWS"
+build_partition_rows_from "declared_in_scope_change" "$SCOPE_ROWS"
+build_partition_rows_from "retained_by_fixture_retention" "$RETAINED_FIXTURE_ROWS"
+build_partition_rows_from "foreign_or_ambiguous" "$FOREIGN_ROWS"
+sort -u -o "$PUBLISHABLE_CHANGE_ROWS" "$PUBLISHABLE_CHANGE_ROWS" 2>/dev/null || true
+sort -u -o "$PUBLISHABLE_CLOSEOUT_ROWS" "$PUBLISHABLE_CLOSEOUT_ROWS" 2>/dev/null || true
+sort -u -o "$CLEANUP_SAFE_ROWS" "$CLEANUP_SAFE_ROWS" 2>/dev/null || true
+sort -u -o "$PROTECTED_RETAINED_ROWS" "$PROTECTED_RETAINED_ROWS" 2>/dev/null || true
+sort -u -o "$PROTECTED_CONTROL_ROWS" "$PROTECTED_CONTROL_ROWS" 2>/dev/null || true
+sort -u -o "$MANUAL_REVIEW_ROWS" "$MANUAL_REVIEW_ROWS" 2>/dev/null || true
+
 OWNED_COUNT="$(row_count "$OWNED_ROWS")"
 SCOPE_COUNT="$(row_count "$SCOPE_ROWS")"
 RETAINED_FIXTURE_COUNT="$(row_count "$RETAINED_FIXTURE_ROWS")"
 FOREIGN_COUNT="$(row_count "$FOREIGN_ROWS")"
+PUBLISHABLE_CHANGE_COUNT="$(row_count "$PUBLISHABLE_CHANGE_ROWS")"
+PUBLISHABLE_CLOSEOUT_COUNT="$(row_count "$PUBLISHABLE_CLOSEOUT_ROWS")"
+CLEANUP_SAFE_COUNT="$(row_count "$CLEANUP_SAFE_ROWS")"
+PROTECTED_RETAINED_COUNT="$(row_count "$PROTECTED_RETAINED_ROWS")"
+PROTECTED_CONTROL_COUNT="$(row_count "$PROTECTED_CONTROL_ROWS")"
+MANUAL_REVIEW_COUNT="$(row_count "$MANUAL_REVIEW_ROWS")"
 FOREIGN_FINGERPRINT="$(rows_sha256 "$FOREIGN_ROWS")"
 if [[ "$FOREIGN_COUNT" -gt 0 ]]; then
   VERDICT="blocked"
@@ -679,11 +821,43 @@ printf 'worktree_hygiene_owned_path_count: %s\n' "$OWNED_COUNT"
 printf 'worktree_hygiene_in_scope_path_count: %s\n' "$SCOPE_COUNT"
 printf 'worktree_hygiene_retained_fixture_path_count: %s\n' "$RETAINED_FIXTURE_COUNT"
 printf 'worktree_hygiene_foreign_path_count: %s\n' "$FOREIGN_COUNT"
+printf 'worktree_hygiene_publishable_change_path_count: %s\n' "$PUBLISHABLE_CHANGE_COUNT"
+printf 'worktree_hygiene_publishable_closeout_evidence_path_count: %s\n' "$PUBLISHABLE_CLOSEOUT_COUNT"
+printf 'worktree_hygiene_cleanup_safe_path_count: %s\n' "$CLEANUP_SAFE_COUNT"
+printf 'worktree_hygiene_protected_retained_evidence_path_count: %s\n' "$PROTECTED_RETAINED_COUNT"
+printf 'worktree_hygiene_protected_active_control_path_count: %s\n' "$PROTECTED_CONTROL_COUNT"
+printf 'worktree_hygiene_manual_review_path_count: %s\n' "$MANUAL_REVIEW_COUNT"
 printf 'worktree_hygiene_foreign_fingerprint: "%s"\n' "$FOREIGN_FINGERPRINT"
 printf 'worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"\n'
+printf 'worktree_hygiene_partition_authority: "classification-only; does not authorize deletion, cleanup, publication, promotion, archive, closeout, or cleaned claims"\n'
 printf 'next_route_condition: '
 yaml_quote "$NEXT_ROUTE"
 printf '\n'
+cat <<'EOF'
+worktree_hygiene_partitions:
+  publishable_changes:
+EOF
+emit_partition_rows "$PUBLISHABLE_CHANGE_ROWS"
+cat <<'EOF'
+  publishable_closeout_evidence:
+EOF
+emit_partition_rows "$PUBLISHABLE_CLOSEOUT_ROWS"
+cat <<'EOF'
+  cleanup_safe_local_residue:
+EOF
+emit_partition_rows "$CLEANUP_SAFE_ROWS"
+cat <<'EOF'
+  protected_retained_evidence:
+EOF
+emit_partition_rows "$PROTECTED_RETAINED_ROWS"
+cat <<'EOF'
+  protected_active_control_state:
+EOF
+emit_partition_rows "$PROTECTED_CONTROL_ROWS"
+cat <<'EOF'
+  manual_review_foreign_ambiguous_unsafe_or_user_owned:
+EOF
+emit_partition_rows "$MANUAL_REVIEW_ROWS"
 printf 'owned_by_this_lifecycle_run:\n'
 emit_rows "$OWNED_ROWS"
 cat <<'EOF'

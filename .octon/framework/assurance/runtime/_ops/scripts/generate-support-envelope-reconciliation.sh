@@ -19,6 +19,10 @@ RELEASE_LINEAGE="$OCTON_DIR/instance/governance/disclosure/release-lineage.yml"
 REVOCATION_ROOT="$OCTON_DIR/state/control/execution/revocations"
 OUT_PATH="${1:-$OCTON_DIR/generated/effective/governance/support-envelope-reconciliation.yml}"
 CURRENT_DATE="${OCTON_CURRENT_DATE:-$(date -u +"%Y-%m-%d")}"
+GENERATOR_REF=".octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh"
+VALIDATOR_REF=".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh"
+GENERATED_FRESHNESS_OWNER="owning-generator-script"
+GENERATED_FRESHNESS_OUTCOMES="generated_freshness_not_in_scope generated_input_scope_detected_and_owner_routed generated_refresh_needed_but_not_authorized generated_output_present_but_stale generated_output_fresh_but_non_authoritative"
 
 hash_file() {
   if command -v shasum >/dev/null 2>&1; then
@@ -657,9 +661,20 @@ write_result() {
     printf 'status: %s\n' "$(yaml_quote "$status")"
     printf 'generation_id: %s\n' "$(yaml_quote "$generation_id")"
     printf 'generated_at: %s\n' "$(yaml_quote "$(deterministic_generated_at)")"
+    printf 'generator:\n'
+    printf '  ref: %s\n' "$(yaml_quote "$GENERATOR_REF")"
+    printf '  owner: %s\n' "$(yaml_quote "$GENERATED_FRESHNESS_OWNER")"
+    printf '  validator_ref: %s\n' "$(yaml_quote "$VALIDATOR_REF")"
     printf 'non_authority_classification: "derived-runtime-handle"\n'
     printf 'freshness:\n'
     printf '  mode: "digest_bound"\n'
+    if [[ "$global_freshness_error" -eq 1 ]]; then
+      printf '  status: "stale"\n'
+    else
+      printf '  status: "fresh"\n'
+    fi
+    printf '  owner_generator_ref: %s\n' "$(yaml_quote "$GENERATOR_REF")"
+    printf '  owner_validator_ref: %s\n' "$(yaml_quote "$VALIDATOR_REF")"
     printf '  invalidation_conditions:\n'
     printf '    - "support-targets-sha-changed"\n'
     printf '    - "support-admission-or-dossier-sha-changed"\n'
@@ -676,6 +691,24 @@ write_result() {
     printf '  - "authority-minting"\n'
     printf '  - "support-claim-widening"\n'
     printf '  - "direct-runtime-raw-path-read"\n'
+    printf '  - "proposal-local-evidence-as-freshness"\n'
+    printf '  - "parent-evidence-as-generated-freshness"\n'
+    printf '  - "closeout-or-archive-authorization"\n'
+    printf 'generated_freshness_scope:\n'
+    printf '  classification_required_before_terminal_delivery: true\n'
+    printf '  owner_generator_ref: %s\n' "$(yaml_quote "$GENERATOR_REF")"
+    printf '  owner_validator_ref: %s\n' "$(yaml_quote "$VALIDATOR_REF")"
+    printf '  proposal_local_or_parent_evidence_satisfies_freshness: false\n'
+    printf '  generated_output_authorizes_closeout_or_archive: false\n'
+    if [[ "$global_freshness_error" -eq 1 ]]; then
+      printf '  outcome: "generated_output_present_but_stale"\n'
+    else
+      printf '  outcome: "generated_output_fresh_but_non_authoritative"\n'
+    fi
+    printf '  allowed_outcomes:\n'
+    for outcome in $GENERATED_FRESHNESS_OUTCOMES; do
+      printf '    - %s\n' "$(yaml_quote "$outcome")"
+    done
     printf 'source_refs:\n'
     while IFS= read -r rel; do
       [[ -n "$rel" ]] || continue

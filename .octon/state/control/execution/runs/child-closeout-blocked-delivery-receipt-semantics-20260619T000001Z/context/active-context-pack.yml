@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000001Z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000001Z/context/context-pack.json
+context_pack_sha256: sha256:0891f96dd684c797e641a5c15348e2cea2e751dad20d0e67ed15639314ee6ba3
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000001Z/context/model-visible-context.json
+model_visible_context_sha256: sha256:4509a0f0091d4e7e6a91157edd0ebf441a384b919aa22720733d84df898d7d3d
+receipt_sha256: sha256:455ec1f8ff91325c6afa95e99d0357142e9b8a5b3400f249e669fda10fbbc916
+route_id: closeout-packet
+run_id: child-closeout-blocked-delivery-receipt-semantics-20260619T000001Z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-19T19:54:19.892639Z
+validity_state: valid

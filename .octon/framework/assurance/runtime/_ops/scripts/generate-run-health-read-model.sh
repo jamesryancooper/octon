@@ -32,11 +32,20 @@ ARGV = sys.argv[5:]
 
 GENERATOR_VERSION = "1.1.0"
 SCHEMA_REF = ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+GENERATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
 VALIDATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
 ROUTE_BUNDLE_REF = ".octon/generated/effective/runtime/route-bundle.yml"
 PACK_ROUTES_REF = ".octon/generated/effective/capabilities/pack-routes.effective.yml"
 SUPPORT_RECONCILIATION_REF = ".octon/generated/effective/governance/support-envelope-reconciliation.yml"
 COMPACT_MANIFEST_NAME = "run-health-compact-manifest.yml"
+GENERATED_FRESHNESS_OWNER = "owning-generator-script"
+GENERATED_FRESHNESS_OUTCOMES = [
+    "generated_freshness_not_in_scope",
+    "generated_input_scope_detected_and_owner_routed",
+    "generated_refresh_needed_but_not_authorized",
+    "generated_output_present_but_stale",
+    "generated_output_fresh_but_non_authoritative",
+]
 
 TERMINAL_OR_CLOSEOUT_STATES = {
     "closed",
@@ -1287,6 +1296,15 @@ def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned
             "generator_ref": ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh",
             "schema_ref": SCHEMA_REF,
             "validator_ref": VALIDATOR_REF,
+            "generated_freshness_scope": {
+                "owner": GENERATED_FRESHNESS_OWNER,
+                "owner_generator_ref": GENERATOR_REF,
+                "owner_validator_ref": VALIDATOR_REF,
+                "classification_required_before_terminal_delivery": True,
+                "proposal_local_or_parent_evidence_satisfies_freshness": False,
+                "generated_output_authorizes_closeout_or_archive": False,
+                "allowed_outcomes": GENERATED_FRESHNESS_OUTCOMES,
+            },
             "authority": {
                 "classification": "generated_read_model_non_authoritative",
                 "may_authorize": False,

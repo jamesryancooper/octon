@@ -1,0 +1,161 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "blocked-delivery-receipt-semantics"
+    path: ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics"
+    evidence_index_refs:
+      - ".octon/state/evidence/runs/blocked-delivery-receipt-semantics-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "receipt-semantics"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh"
+    validation_strategy:
+      - "Receipt schema tests cover blocked and cleaned outcomes."
+      - "Blocked receipts with explicit blockers validate structurally."
+      - "Cleaned receipts still require all-pass dependency fields."
+    seed_role: "first-child"
+  - child_id: "packet-delivery-wrapper-orchestration-autonomy"
+    path: ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy"
+    evidence_index_refs:
+      - ".octon/state/evidence/runs/packet-delivery-wrapper-orchestration-autonomy-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "blocked-delivery-receipt-semantics"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "delivery-wrapper"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/"
+      - ".octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md"
+      - ".octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md"
+      - ".octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh"
+    validation_strategy:
+      - "Workflow fixtures cover pre-archive route, already-archived recovery, and no PR fallback."
+      - "Delivery profile validation proves branch-no-pr binding."
+      - "Aggregate receipt validation proves blocked and cleaned outcomes."
+    seed_role: "follow-on"
+  - child_id: "branch-no-pr-closeout-state-machine-autonomy"
+    path: ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy"
+    evidence_index_refs:
+      - ".octon/state/evidence/runs/branch-no-pr-closeout-state-machine-autonomy-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "packet-delivery-wrapper-orchestration-autonomy"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "change-closeout"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+    validation_strategy:
+      - "Closeout-change fixtures cover published, landed, synced, cleaned, and branch-deleted transitions."
+      - "Negative controls block cleanup before landing and final sync proof."
+      - "Receipt validation proves one route owns the full branch-no-PR sequence."
+    seed_role: "follow-on"
+  - child_id: "generated-freshness-scope-detection"
+    path: ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection"
+    evidence_index_refs:
+      - ".octon/state/evidence/runs/generated-freshness-scope-detection-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "packet-delivery-wrapper-orchestration-autonomy"
+    dependency_gate: "verification"
+    phase_id: "phase-4"
+    group_id: "generated-freshness"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh"
+    validation_strategy:
+      - "Fixtures prove generator-input changes require freshness authorization before closeout."
+      - "Generated outputs are refreshed only through owning generators."
+      - "Generated non-authority validation remains mandatory."
+    seed_role: "follow-on"
+  - child_id: "packet-worktree-partitioning-automation"
+    path: ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation"
+    evidence_index_refs:
+      - ".octon/state/evidence/runs/packet-worktree-partitioning-automation-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "branch-no-pr-closeout-state-machine-autonomy"
+    dependency_gate: "verification"
+    phase_id: "phase-5"
+    group_id: "worktree-hygiene"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+      - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+      - ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+    validation_strategy:
+      - "Worktree classification fixtures cover publishable, cleanup-safe, protected, and manual-review buckets."
+      - "Deletion negative controls protect referenced evidence and protected run state."
+      - "Repo hygiene cleanup remains receipt-backed."
+    seed_role: "follow-on"
+  - child_id: "terminal-evidence-sink-autonomy"
+    path: ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy"
+    evidence_index_refs:
+      - ".octon/state/evidence/runs/terminal-evidence-sink-autonomy-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "branch-no-pr-closeout-state-machine-autonomy"
+      - "packet-worktree-partitioning-automation"
+    dependency_gate: "verification"
+    phase_id: "phase-6"
+    group_id: "terminal-proof"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/"
+    validation_strategy:
+      - "Landing/sync/cleanup proof can be emitted without source-branch commits."
+      - "Receipt distinguishes landed ref from local terminal proof."
+      - "Final proof does not mutate origin/main or the landed source ref."
+    seed_role: "follow-on"
+  - child_id: "git-mutation-sandbox-preflight"
+    path: ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight"
+    evidence_index_refs:
+      - ".octon/state/evidence/runs/git-mutation-sandbox-preflight-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "branch-no-pr-closeout-state-machine-autonomy"
+    dependency_gate: "verification"
+    phase_id: "phase-7"
+    group_id: "git-preflight"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+    validation_strategy:
+      - "Preflight fixtures cover fetch, checkout, landing, sync, cleanup, and branch deletion diagnostics."
+      - "Helpers emit owning rerun routes for permission-sensitive git mutations."
+      - "No helper bypasses required authorization or approval gates."
+    seed_role: "follow-on"

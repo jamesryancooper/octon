@@ -71,7 +71,10 @@ validator_result_add_negative_control \
   "generated_matrix_omits_declared_live_claim" \
   "support_card_overclaims_reconciled_support" \
   "excluded_target_presented_live" \
-  "stale_lock_or_missing_freshness"
+  "stale_lock_or_missing_freshness" \
+  "proposal_local_evidence_denies_generated_freshness" \
+  "parent_evidence_denies_generated_freshness" \
+  "generated_output_denies_closeout_authority"
 validator_result_add_contract \
   ".octon/framework/engine/runtime/spec/support-envelope-reconciliation-v1.md" \
   ".octon/framework/engine/runtime/spec/support-envelope-reconciliation-result-v1.schema.json"
@@ -121,15 +124,78 @@ yq -e '.freshness.invalidation_conditions | length > 0' "$fresh_result" >/dev/nu
   && pass "generated result declares invalidation conditions" \
   || fail "generated result missing invalidation conditions"
 
+[[ "$(yq -r '.freshness.status // ""' "$fresh_result")" == "fresh" ]] \
+  && pass "fresh owner-generated result reports fresh status" \
+  || fail "fresh owner-generated result must report fresh status"
+
+[[ "$(yq -r '.freshness.owner_generator_ref // ""' "$fresh_result")" == ".octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh" ]] \
+  && pass "support-envelope freshness is bound to owning generator" \
+  || fail "support-envelope freshness must name owning generator"
+
+[[ "$(yq -r '.freshness.owner_validator_ref // ""' "$fresh_result")" == ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh" ]] \
+  && pass "support-envelope freshness is bound to owning validator" \
+  || fail "support-envelope freshness must name owning validator"
+
 yq -e '.forbidden_consumers[] | select(. == "support-claim-widening")' "$fresh_result" >/dev/null 2>&1 \
   && pass "generated result forbids support widening" \
   || fail "generated result must forbid support widening"
 
+yq -e '.forbidden_consumers[] | select(. == "proposal-local-evidence-as-freshness")' "$fresh_result" >/dev/null 2>&1 \
+  && pass "generated result forbids proposal-local freshness authority" \
+  || fail "generated result must forbid proposal-local freshness authority"
+
+yq -e '.forbidden_consumers[] | select(. == "parent-evidence-as-generated-freshness")' "$fresh_result" >/dev/null 2>&1 \
+  && pass "generated result forbids parent-evidence freshness authority" \
+  || fail "generated result must forbid parent-evidence freshness authority"
+
+yq -e '.forbidden_consumers[] | select(. == "closeout-or-archive-authorization")' "$fresh_result" >/dev/null 2>&1 \
+  && pass "generated result forbids closeout/archive authorization" \
+  || fail "generated result must forbid closeout/archive authorization"
+
+proposal_local_refs="$(yq -r '.source_refs[]?' "$fresh_result" | grep -E '^\.octon/inputs/|^/\.octon/inputs/' || true)"
+if [[ -z "$proposal_local_refs" ]]; then
+  pass "generated freshness sources exclude proposal-local inputs"
+else
+  fail "proposal-local inputs cannot satisfy generated freshness: $proposal_local_refs"
+fi
+
 if [[ -f "$RESULT_PATH" ]]; then
-  if cmp -s "$fresh_result" "$RESULT_PATH"; then
-    pass "published support-envelope reconciliation is current"
+  fresh_core="$tmpdir/fresh-core.yml"
+  published_core="$tmpdir/published-core.yml"
+  yq -P '{
+    "schema_version": .schema_version,
+    "status": .status,
+    "generation_id": .generation_id,
+    "generated_at": .generated_at,
+    "non_authority_classification": .non_authority_classification,
+    "freshness": {
+      "mode": .freshness.mode,
+      "invalidation_conditions": .freshness.invalidation_conditions
+    },
+    "allowed_consumers": .allowed_consumers,
+    "source_refs": .source_refs,
+    "source_digests": .source_digests,
+    "tuples": .tuples
+  }' "$fresh_result" >"$fresh_core"
+  yq -P '{
+    "schema_version": .schema_version,
+    "status": .status,
+    "generation_id": .generation_id,
+    "generated_at": .generated_at,
+    "non_authority_classification": .non_authority_classification,
+    "freshness": {
+      "mode": .freshness.mode,
+      "invalidation_conditions": .freshness.invalidation_conditions
+    },
+    "allowed_consumers": .allowed_consumers,
+    "source_refs": .source_refs,
+    "source_digests": .source_digests,
+    "tuples": .tuples
+  }' "$RESULT_PATH" >"$published_core"
+  if cmp -s "$fresh_core" "$published_core"; then
+    pass "published support-envelope reconciliation is current for freshness-critical core"
   else
-    fail "published support-envelope reconciliation is stale; regenerate it"
+    fail "published support-envelope reconciliation is stale; regenerate it with owning generator"
   fi
 else
   validator_result_add_limitation "generated support-envelope reconciliation has not been published yet"

@@ -57,6 +57,21 @@ When a delegated candidate cleans up a local or remote source branch, that
 singular receipt must carry the governed cleanup authorization reference
 required by `closeout-change`; the wrapper report may cite it only through the
 singular receipt and must not authorize branch deletion itself.
+When a delegated branch-no-pr candidate emits terminal current-state proof, the
+wrapper report may summarize only the delegated singular receipt's
+`terminal_current_state_proof_ref` and digest-backed sink metadata. The wrapper
+must not replace that target-owned proof, must keep `landed_ref` distinct from
+the proof sink or receipt path, and must not claim terminal success unless the
+singular receipt proves landing evidence, final sync proof, cleanup
+authorization, cleanup disposition, rollback posture, and validation evidence.
+When a delegated candidate records permission diagnostics for a blocked fetch,
+checkout, branch-local commit, branch publication, hosted landing, final sync,
+branch cleanup, or local or remote branch deletion or pruning, the wrapper
+report may cite or summarize those diagnostics only from the delegated
+`closeout-change` evidence. The summary must preserve operation class, current
+and target refs when known, expected authorization gate, likely sandbox, host,
+provider, remote, or ref-write blocker, and owning rerun route, and must not
+perform or authorize the mutation.
 
 Compact wrapper outputs must source the canonical wrapper report, delegated
 Change receipts, and retained evidence by `source_refs` and `source_digests`.
@@ -209,7 +224,10 @@ For branch-no-pr `landed` or `cleaned` receipts, the singular receipt must
 prove `landing_authorization_ref`, hosted landing evidence, exact source-SHA
 required check refs, source-branch integration, local `main` sync,
 `origin/main` fetch evidence, and equality of local `main`, `origin/main`, and
-`landed_ref`.
+`landed_ref`. For terminal proof after cleanup, the same singular receipt must
+also cite terminal proof as retained evidence only, not as source-branch
+post-landing commit evidence or as a mutation of `origin/main`, local `main`,
+the landed ref, or the source branch.
 When the receipt claims completed source branch cleanup, it must also cite a
 validating `branch-cleanup-authorization-v1` receipt. A cleanup-deferred landed
 receipt may be closed as landed only when it is not reported as cleaned and

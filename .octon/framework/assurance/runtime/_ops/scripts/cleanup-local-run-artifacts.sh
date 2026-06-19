@@ -795,9 +795,34 @@ for row in read_lines(os.environ["CLASSIFICATION_ROWS"]):
         disposition, kind, path, reason = parts
         rows[path] = {"disposition": disposition, "class": kind, "reason": reason}
 
+allowed_cleanup_classes = {
+    "generated_scratch_output",
+    "local_filesystem_metadata",
+    "local_run_residue",
+    "stale_unreferenced_publication_attempt",
+}
+forbidden_prefixes = (
+    ".octon/state/evidence/local/terminal-closeout/",
+    ".octon/state/evidence/validation/publication/build-to-delete/",
+    ".octon/generated/effective/",
+    ".octon/generated/cognition/projections/materialized/runs/",
+)
+
 authorized_paths = []
 for rel in read_lines(os.environ["CLEANUP_PATHS"]):
-    kind = rows.get(rel, {}).get("class", "cleanup_candidate")
+    row = rows.get(rel, {})
+    disposition = row.get("disposition", "")
+    kind = row.get("class", "")
+    if disposition != "cleanup_candidate":
+        raise SystemExit(f"refusing to authorize non-cleanup disposition for {rel}: {disposition}")
+    if kind not in allowed_cleanup_classes:
+        raise SystemExit(f"refusing to authorize protected or unknown cleanup class for {rel}: {kind}")
+    if rel.startswith(forbidden_prefixes):
+        raise SystemExit(f"refusing to authorize protected cleanup path: {rel}")
+    if rel.startswith(".octon/inputs/") and kind != "local_filesystem_metadata":
+        raise SystemExit(f"refusing to authorize proposal input path: {rel}")
+    if kind == "local_filesystem_metadata" and not (rel == ".DS_Store" or rel.endswith("/.DS_Store")):
+        raise SystemExit(f"refusing to authorize non-metadata ignored path as filesystem metadata: {rel}")
     authorized_paths.append(
         {
             "path": rel,
@@ -848,7 +873,7 @@ receipt = {
     "protected_paths_digest": os.environ["PROTECTED_PATHS_DIGEST"],
     "manual_review_paths_digest": os.environ["MANUAL_REVIEW_PATHS_DIGEST"],
     "discard_or_rollback_posture": "delete only the exact untracked authorized path set; retain protected and manual-review residue",
-    "runtime_safety_boundary": "Octon governance receipt does not bypass filesystem, sandbox, host, provider, or platform permission boundaries.",
+    "runtime_safety_boundary": "Classifier output is routing evidence only; this receipt cannot authorize protected retained evidence, active control state, build-to-delete evidence, terminal local evidence, generated authority, generated run-health, tracked, referenced, proposal-input, ignored non-metadata, or user-owned paths and does not bypass filesystem, sandbox, host, provider, or platform permission boundaries.",
 }
 Path(os.environ["OUT"]).write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
@@ -989,6 +1014,12 @@ required_proofs = [
     "not_generated_run_health_projection",
     "not_ignored_or_user_owned_residue",
 ]
+allowed_cleanup_classes = {
+    "generated_scratch_output",
+    "local_filesystem_metadata",
+    "local_run_residue",
+    "stale_unreferenced_publication_attempt",
+}
 
 for index, item in enumerate(authorized):
     if not isinstance(item, dict):
@@ -1006,6 +1037,8 @@ for index, item in enumerate(authorized):
     is_local_filesystem_metadata = item_class == "local_filesystem_metadata" and path.endswith("/.DS_Store")
     if path.startswith(".octon/state/evidence/local/terminal-closeout/"):
         fail(f"terminal closeout local evidence sink cannot be authorized by generic cleanup: {path}")
+    if path.startswith(".octon/state/evidence/validation/publication/build-to-delete/"):
+        fail(f"build-to-delete evidence cannot be authorized by generic cleanup: {path}")
     if path.startswith(".octon/inputs/") and not is_local_filesystem_metadata:
         fail(f"input-surface path cannot be authorized: {path}")
     if path.startswith(".octon/generated/effective/"):
@@ -1014,6 +1047,10 @@ for index, item in enumerate(authorized):
         fail(f"generated run-health path must route to generator-owned pruning: {path}")
     if not isinstance(item_class, str) or not item_class:
         fail(f"authorized_paths[{index}].class must be non-empty")
+    if item_class not in allowed_cleanup_classes:
+        fail(f"authorized_paths[{index}].class is not an allowed cleanup class: {item_class}")
+    if item_class == "local_filesystem_metadata" and not (path == ".DS_Store" or path.endswith("/.DS_Store")):
+        fail(f"authorized_paths[{index}] local_filesystem_metadata must select only metadata files: {path}")
     if not isinstance(item.get("pattern_id"), str) or not item["pattern_id"]:
         fail(f"authorized_paths[{index}].pattern_id must be non-empty")
     proofs = item.get("proofs")

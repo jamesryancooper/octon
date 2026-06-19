@@ -18,8 +18,8 @@ allowed-tools: Read Glob Grep Write(/.octon/state/evidence/runs/skills/proposal-
 
 # Proposal Packet Delivery
 
-Run the canonical proposal packet delivery workflow for an accepted proposal
-packet.
+Run the canonical proposal packet delivery workflow as the outer orchestrator
+for an accepted proposal packet.
 
 ## When to Use
 
@@ -49,6 +49,10 @@ The matching command surface is:
   and proposal subtype validators.
 - Bind `route=branch-no-pr` for cleaned delivery and refuse PR fallback when
   the selected profile forbids PR creation.
+- Route pre-archive packet state through `closeout-packet`,
+  `proposal-packet-terminal-closeout`, and `archive-proposal`.
+- Route already-archived packet state through archive evidence validation, then
+  `closeout-change` or `closeout-worktree` without rerunning archive relocation.
 - Run or resume implementation through `run-packet-implementation`.
 - Validate implementation conformance, post-implementation drift/churn,
   generated publication freshness, and governed mechanism integration coverage
@@ -79,6 +83,7 @@ summary, and the aggregate `proposal-packet-delivery-receipt-v1` receipt.
 - Do not delete repo hygiene residue or worktree residue without the owning
   cleanup authorization.
 - Do not edit generated/effective outputs by hand.
+- Do not let the aggregate receipt replace target-owned receipts.
 - Do not treat proposal-local support files, generated prompts, generated
   outputs, dashboards, host/tool/chat state, or model memory as authority.
 - Report `blocked` with the next owning lifecycle when any delivery prerequisite

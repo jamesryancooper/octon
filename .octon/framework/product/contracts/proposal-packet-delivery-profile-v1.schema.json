@@ -14,6 +14,7 @@
     "pr_policy",
     "stash_policy",
     "packet_execution",
+    "packet_state_routing",
     "required_proposal_validators",
     "required_implementation_validators",
     "publication_checks",
@@ -145,6 +146,76 @@
         },
         "self_authorization_allowed": {
           "type": "boolean"
+        }
+      }
+    },
+    "packet_state_routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pre_archive_states",
+        "already_archived_states",
+        "pre_archive_required_owners",
+        "already_archived_required_owners",
+        "missing_state_evidence_outcome",
+        "blocked_receipt_requires_explicit_blockers",
+        "blocked_receipt_requires_next_owning_lifecycle"
+      ],
+      "properties": {
+        "pre_archive_states": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "implemented",
+              "closeout-ready",
+              "archive-ready"
+            ]
+          }
+        },
+        "already_archived_states": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "archived",
+              "change-closeout-pending",
+              "landed",
+              "synced"
+            ]
+          }
+        },
+        "pre_archive_required_owners": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "closeout-packet",
+              "proposal-packet-terminal-closeout",
+              "archive-proposal"
+            ]
+          }
+        },
+        "already_archived_required_owners": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "archive-proposal",
+              "closeout-change",
+              "closeout-worktree",
+              "repo-hygiene-cleanup"
+            ]
+          }
+        },
+        "missing_state_evidence_outcome": {
+          "const": "blocked"
+        },
+        "blocked_receipt_requires_explicit_blockers": {
+          "const": true
+        },
+        "blocked_receipt_requires_next_owning_lifecycle": {
+          "const": true
         }
       }
     },

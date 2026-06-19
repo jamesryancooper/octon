@@ -1,0 +1,209 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: operator-free-archived-parent-child-terminal-scope-20260619T200000Z
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy
+executor: auto
+invocation_authority: unattended
+timeout_seconds: 120
+max_steps: 1
+max_child_concurrency: null
+child_registry_digest: sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743
+execution_mode: gated-parallel
+run_inputs: {}
+scheduler_decision: []
+child_states:
+  blocked-delivery-receipt-semantics:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:03970f7cb81090a4b2a09dff1f2153bc37bedb389b85aa53b9f98a2958b59017
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
+    - .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+    - .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics
+  branch-no-pr-closeout-state-machine-autonomy:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:875c079b4537cdc54a2842819117d191db52a602b65f2769d761022d254d074b
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      packet-delivery-wrapper-orchestration-autonomy:
+        dependency_id: packet-delivery-wrapper-orchestration-autonomy
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+    - .octon/framework/product/contracts/change-receipt-v1.schema.json
+    - .octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy
+  generated-freshness-scope-detection:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:576e3afa5227bfb3c1700e0ca703687f5865be4d91898e5f7865bbf2404f320b
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      packet-delivery-wrapper-orchestration-autonomy:
+        dependency_id: packet-delivery-wrapper-orchestration-autonomy
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+    - .octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection
+  git-mutation-sandbox-preflight:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:2ebd55888b4d1eb84247a30aa041a3f7e8494de3d19815d150ae73d51b718a59
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      branch-no-pr-closeout-state-machine-autonomy:
+        dependency_id: branch-no-pr-closeout-state-machine-autonomy
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+    - .octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight
+  packet-delivery-wrapper-orchestration-autonomy:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:890bf8fd8d63b1324a59fac071389f9022d9eee41448911ffad4a2e08612ba4e
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      blocked-delivery-receipt-semantics:
+        dependency_id: blocked-delivery-receipt-semantics
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
+    - .octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md
+    - .octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+    - .octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json
+    - .octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy
+  packet-worktree-partitioning-automation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:584979d6a4dff2a1a6b9f9686b21710461abec3cbd8196a769837c67bc27bd54
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      branch-no-pr-closeout-state-machine-autonomy:
+        dependency_id: branch-no-pr-closeout-state-machine-autonomy
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+    - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+    - .octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation
+  terminal-evidence-sink-autonomy:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:89f9ed5630808572a08c5b2b5f62d996f2b4c5018eba0436ca4aec4e34cefb67
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      branch-no-pr-closeout-state-machine-autonomy:
+        dependency_id: branch-no-pr-closeout-state-machine-autonomy
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      packet-worktree-partitioning-automation:
+        dependency_id: packet-worktree-partitioning-automation
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+    - .octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy
+recovery_attempts: {}
+program_recovery_action_attempts: {}
+recovery_progress_fingerprints: {}
+closeout_hygiene_suppressions: {}
+aggregate_terminal_blockers:
+  path: .octon/state/evidence/runs/workflows/operator-free-archived-parent-child-terminal-scope-20260619T200000Z/aggregate-terminal-blockers.yml
+  digest: sha256:5be9b1c2b50055b5188963bfd1f9dd0a0badb7260eda5cfd41de5570e21bcbef
+  blocked_required_child_count: 7
+  authority_boundary: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+residue_cleanup_attempts: {}
+interaction_request_refs: []
+interaction_return_refs: []
+approvals: []
+program_recovery_recipe_validation_status: null
+program_recovery_recipe_validation_failures: []
+program_recovery_recipe_blocker_class: null
+program_recovery_recipe_route_id: null
+program_recovery_recipe_delegation_contract_basis: null
+latest_event_offset: 5
+latest_event_index: 5
+latest_event_sha256: sha256:1daf9a97f63b5b6bcb2f51127d5df34e09b5f68a8a6666e26bbd0c6b50b7ede9
+event_log_sha256: sha256:04cf4ed5bd66bf100b302cd04f1752628dd890e38b99723a430e8798027e1f46
+derived_from_event_index: 5
+atomic_barrier_state: null
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-human
+resume_instruction: octon lifecycle resume --run-id operator-free-archived-parent-child-terminal-scope-20260619T200000Z

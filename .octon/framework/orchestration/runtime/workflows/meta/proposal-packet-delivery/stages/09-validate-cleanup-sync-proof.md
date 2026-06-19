@@ -11,4 +11,14 @@ Required checks:
 - Local `main`, `origin/main`, and `landed_ref` equality is proven before
   `synced`.
 - Terminal current-state proof is fresh after the final mutation.
+- Terminal proof is emitted only after landing evidence, final sync proof,
+  cleanup authorization, cleanup disposition, rollback posture, and validation
+  proof exist.
+- Terminal proof records `landed_ref` separately from the proof sink or
+  receipt path.
+- Missing terminal proof prerequisites downgrade the actual outcome and block
+  terminal success or `cleaned`.
+- Terminal proof must not require a source-branch commit after landing and
+  must not mutate `origin/main`, local `main`, the landed ref, or the source
+  branch.
 - `cleaned` is rejected when the worktree is dirty.

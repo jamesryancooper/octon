@@ -1,0 +1,31 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+receipt_id: repo-hygiene-cleanup-operator-free-packet-lifecycle-autonomy-20260619T192340Z
+route: repo-hygiene-cleanup
+target: .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy
+verdict: pass
+cleaned_at: 2026-06-19T19:23:40Z
+authorization_receipt_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-operator-free-packet-lifecycle-autonomy-20260619T192340Z/cleanup-authorization.json
+authorization_receipt_digest: sha256:b5022ce7f9e26ce7c3a316bc08299a7ce84a57697d0aa4e8337dc4cf5f786326
+pre_cleanup_classification_digest: sha256:db3398b979ec75570cb89a93006dc15419d6a963602ac2ac3eea39d2497c65fd
+pre_cleanup_path_set_digest: sha256:1d6d6b2cd49b1fd2619baad9b417db72530ba66ebd537b38d0e89b43a9f581e7
+post_cleanup_classification_digest: sha256:e781968ab8202ece5a45635bd9e2abe2cd43c2cbaa77caea9d251f2ab733befd
+post_cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+deleted_count: 8
+deleted_paths:
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1781896697885-6b0d2e03/parent/context/active-context-pack.yml
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1781896697885-6b0d2e03/parent/context/status.yml
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1781896697885-6b0d2e03/program-events.ndjson
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1781896697885-6b0d2e03/program-lifecycle-checkpoint.yml
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1781896813659-47273cea/parent/context/active-context-pack.yml
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1781896813659-47273cea/parent/context/status.yml
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1781896813659-47273cea/program-events.ndjson
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1781896813659-47273cea/program-lifecycle-checkpoint.yml
+protected_retained_count: 46
+manual_review_retained_count: 11
+cleanup_candidates_after: 0
+eligible_cleanup_candidates_after: 0
+protected_retained_evidence_deleted: false
+parent_archive_performed: false
+branch_cleanup_performed: false
+cleaned_claimed: false
+blockers: none

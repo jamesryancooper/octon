@@ -1,0 +1,146 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "branch-no-pr-closeout-state-machine-autonomy",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:a94b712d8e0fd12882e44cb825374b40ab4922fa5df3d4b0d9fb533212793f60"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:d538202c906cadc05a93b8e6c6684a5c4a35c52754e7571fbb75b2751f5cecd0"
+    }
+  ],
+  "context_hash": "sha256:a86536ceeade8db9febce1dfbac5b12d75d97a2b0eb1cd7262c8c92fb0f923f4",
+  "dependency_vector": {
+    "parent_program": "operator-free-packet-lifecycle-autonomy",
+    "related_proposals": [
+      "operator-free-packet-lifecycle-autonomy",
+      "packet-delivery-wrapper-orchestration-autonomy",
+      "blocked-delivery-receipt-semantics"
+    ],
+    "source_lineage": []
+  },
+  "evidence_refs": [
+    "Child-owned accepted proposal review.",
+    "Strict pre-integration architecture review receipt.",
+    "Implementation-grade completeness receipt.",
+    "Dependency preflight for delivery wrapper orchestration before implementation.",
+    "Closeout receipt validation for published-branch, landed, cleaned, and blocked outcomes.",
+    "Negative controls for cleanup before landing and false `cleaned` claims."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/branch-no-pr-closeout-state-machine-autonomy/child-handoff-capsule.yml",
+  "parent_program": "operator-free-packet-lifecycle-autonomy",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "This child owns the Change receipt route states and `closeout-change` branch-no-PR closeout behavior. It does not own proposal-packet delivery wrapper orchestration, delivery receipt schema semantics, generated freshness, worktree partitioning, terminal evidence sinks, or git mutation preflight diagnostics outside closeout-change route use.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml": "sha256:cbea3be38ff81e3f11f558823d9d014be237995b26c29ac18e368ac6258b701b",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md": "sha256:c8990517f61873e1f141db6b9e26dac4655ea2861d410a1890d4078d1d36e061",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md": "sha256:9e8a70416ac2fbbd2f3448c10e1cbeed765da30afb2158e9b88ca7d9b9c2ba67",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md": "sha256:e319f20031a02b7127e61857134afbe48b6f7ce2a4fbcc2e6c962d2287c7fc82",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md": "sha256:f0dae3353c8dc9aef6d334ca4e1582720fdadc3b4472a204868374b3821b8906",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml": "sha256:cb1fe7c401fefecf0650358759f383b5111c33e623b23cc95d0d786c934f42c0",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md": "sha256:8cf28fd0dc06d682c57be1a72f13005abcddb02c5fb35858e468de5ebf50301b",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md": "sha256:3337aca044613cbb518ea33bbaec5f8b9f8668bb7ce104ad5b80a9b5020945d1",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:f6557faa644c5c13b5d10c6ea0cc6ae3b2155f315df12805a130e8288c0c2fee",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-review-gate.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architectural-review-receipts.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-change-closeout-state-machine.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-change-closeout-lifecycle-alignment.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-hosted-no-pr-landing.sh"
+    },
+    {
+      "required": true,
+      "validator": "test-change-closeout-lifecycle-alignment.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/product/contracts/change-receipt-v1.schema.json",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "surface-refactor"
+summary: >-
+  Refine the proposal-packet delivery wrapper so it owns orchestration across
+  packet lifecycle stages while delegating target-owned receipts, archive
+  movement, Git mutation, generated publication, and cleanup to their owners.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+parent_program_ref: ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy"
+non_authority_statement: >-
+  This packet is proposal-local input. Durable wrapper behavior must land only
+  through the declared promotion targets and child-owned implementation
+  evidence.

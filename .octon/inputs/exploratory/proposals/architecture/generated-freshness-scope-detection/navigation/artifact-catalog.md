@@ -1,0 +1,26 @@
+# Artifact Catalog
+
+## Proposal
+
+- `proposal_id`: `generated-freshness-scope-detection`
+- `proposal_kind`: `architecture`
+- `proposal_path`: `.octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection`
+
+## Files
+
+| Path | Role |
+| --- | --- |
+| `README.md` | Packet overview |
+| `architecture-proposal.yml` | Architecture subtype manifest |
+| `architecture/acceptance-criteria.md` | Acceptance criteria |
+| `architecture/implementation-plan.md` | Implementation plan |
+| `architecture/target-architecture.md` | Target architecture |
+| `navigation/artifact-catalog.md` | File inventory |
+| `navigation/source-of-truth-map.md` | Authority and boundary map |
+| `proposal.yml` | Proposal lifecycle manifest |
+| `resources/source-lineage.md` | Inherited parent and dependency context |
+| `support/implementation-grade-completeness-review.md` | Completeness receipt |
+| `support/pre-integration-architecture-review.yml` | Strict architecture review receipt |
+| `support/proposal-creation.md` | Creation receipt |
+| `support/proposal-review.md` | Child proposal review receipt |
+| `support/validation.md` | Validator evidence |

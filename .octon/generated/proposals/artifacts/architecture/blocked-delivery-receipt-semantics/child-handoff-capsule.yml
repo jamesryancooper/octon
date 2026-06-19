@@ -1,0 +1,136 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "blocked-delivery-receipt-semantics",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:8e26c41f4b270cb874d4dedc034cab1e78ed03c47532f14f8d4fa6dbc403860a"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:f0f0705acf69b4c791c2c8b35326ac7f8da961a145711f6badeec2b916998fe3"
+    }
+  ],
+  "context_hash": "sha256:061ffb1876a89a1f302af14e440fb8fc4e59cec736f1d4855669b6fc2521a516",
+  "dependency_vector": {
+    "parent_program": "operator-free-packet-lifecycle-autonomy",
+    "related_proposals": [
+      "operator-free-packet-lifecycle-autonomy",
+      "packet-delivery-wrapper-orchestration-autonomy"
+    ],
+    "source_lineage": []
+  },
+  "evidence_refs": [
+    "Child-owned accepted proposal review.",
+    "Strict pre-integration architecture review receipt.",
+    "Implementation-grade completeness receipt.",
+    "Receipt validator evidence for blocked and cleaned outcomes.",
+    "Negative controls for missing blockers and forged pass states."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/child-handoff-capsule.yml",
+  "parent_program": "operator-free-packet-lifecycle-autonomy",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "This child owns blocked delivery receipt semantics only. It does not implement delivery orchestration, branch-no-PR closeout, generated freshness, worktree cleanup, terminal proof, or git mutation preflight behavior.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/architecture-proposal.yml": "sha256:eeb26bf899d20ac85217622ac6552e3eec034aec9479981772238f0bf910eaf8",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/architecture/acceptance-criteria.md": "sha256:53ba3ea625b245c6df80dad1902b1dc6311e8ab42f53e62add75af7aa1ef03f3",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/architecture/implementation-plan.md": "sha256:abec20f0a20a835340158bc3398b1616a3d9eec6bb7b405ba8ef858d29b1a79f",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/navigation/artifact-catalog.md": "sha256:dcff8f47288874401e7afe2b446d5736295d379c8e77a7acfdf599eb8fd15d7b",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/navigation/source-of-truth-map.md": "sha256:54a9f500ee27aa3c15b51806b403a5b9b09d75591287a49a8ad2f724ea199491",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/proposal.yml": "sha256:54c872a5c9cbf248586fc1ccbd21395798361004b40a9003741056e730974750",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/executable-implementation-prompt.md": "sha256:2f4bea6125090e2bc65bc51f2b493b77c0786b780a900b505668515700eee3f5",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/implementation-grade-completeness-review.md": "sha256:87c9dd6c96243f21f9788b5b1e20ebfe31c4551f578692e57c93480050374a01",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/proposal-review.md": "sha256:8e7049676eab299a1ae92ef85193ee6394d6627ff3698e03f32c9a3d6985ba06"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/proposal-review.md"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-review-gate.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architectural-review-receipts.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-packet-delivery-receipt.sh"
+    },
+    {
+      "required": true,
+      "validator": "test-validate-proposal-packet-delivery.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

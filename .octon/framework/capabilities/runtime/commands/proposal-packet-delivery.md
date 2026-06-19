@@ -3,7 +3,7 @@
 Run the canonical proposal packet delivery workflow for an accepted proposal
 packet.
 
-This command is a thin routing surface for
+This command is the outer routing surface for
 `.octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml`.
 It coordinates implementation, promotion, packet closeout, terminal closeout,
 archive handoff, Change closeout, final sync, branch cleanup, terminal proof,
@@ -23,10 +23,22 @@ push, create pull requests, or clean up branches.
 - `outcome`: delivery target outcome. Defaults to `cleaned`; cleaned claims
   require final sync, terminal proof, and clean worktree proof.
 - `route`: required Git/change route for cleaned delivery. Use `branch-no-pr`;
-  PR fallback is forbidden unless a future accepted profile explicitly changes
-  the route through its owning lifecycle.
+  PR fallback is forbidden.
 - `profile`: optional `proposal-packet-delivery-profile-v1` profile.
 - `run-id`: optional delivery run identifier for retained evidence paths.
+
+## Packet State Routing
+
+- Pre-archive packet states route through `closeout-packet`,
+  `proposal-packet-terminal-closeout`, and `archive-proposal`.
+- Already-archived packet states validate archive evidence, skip archive
+  relocation, and route through `closeout-change` or `closeout-worktree` for
+  hosted landing, final sync, branch cleanup authorization, terminal
+  current-state proof, and worktree hygiene.
+- Archive relocation, generated publication, Change closeout, branch cleanup,
+  final sync, terminal proof, and hygiene remain owner-routed. The wrapper may
+  detect missing evidence and report `blocked`, but it does not replace the
+  owner.
 
 ## Outputs
 
@@ -38,4 +50,6 @@ The receipt may report `cleaned` only when implementation receipts, promotion
 receipts, packet closeout, terminal closeout, archive handoff, generated
 publication freshness, Change closeout, landing proof, branch cleanup
 authorization, final sync proof, terminal proof, and worktree hygiene all pass.
-Otherwise it reports `blocked` with the blocker class and next owning lifecycle.
+Otherwise it reports `blocked` with explicit blockers and the next owning
+lifecycle. Aggregate delivery receipts summarize target-owned receipts and
+never replace them.

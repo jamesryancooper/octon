@@ -67,6 +67,23 @@ if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.terminal_closeout_owner' 'proposal-packet-terminal-closeout' "terminal closeout owner"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.archive_owner' 'archive-proposal' "archive owner"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.git_mutation_owner' 'closeout-change' "Git mutation owner"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.final_sync_owner' 'closeout-change' "final sync owner"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.branch_cleanup_owner' 'closeout-change' "branch cleanup owner"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.terminal_current_state_proof_owner' 'closeout-change' "terminal current-state proof owner"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.worktree_hygiene_owner' 'closeout-change' "worktree hygiene owner"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.outer_orchestrator_command' '/proposal-packet-delivery' "outer orchestrator command"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.required_target_outcome' 'cleaned' "required target outcome"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.required_route' 'branch-no-pr' "required branch-no-pr route"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.pr_fallback_allowed' 'false' "PR fallback forbidden"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.packet_state_routes."pre-archive".blocked_when_missing_evidence' 'true' "pre-archive missing evidence blocks"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.packet_state_routes."pre-archive".blocked_next_owning_lifecycle' 'closeout-packet' "pre-archive next owning lifecycle"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.packet_state_routes."already-archived".skip_archive_relocation' 'true' "already-archived skips archive relocation"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.packet_state_routes."already-archived".blocked_when_missing_archive_receipt' 'true' "already-archived missing archive evidence blocks"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.packet_state_routes."already-archived".blocked_next_owning_lifecycle' 'archive-proposal' "already-archived next owning lifecycle"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.aggregate_receipt_policy.summarizes_target_owned_receipts' 'true' "aggregate summarizes target-owned receipts"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.aggregate_receipt_policy.replaces_target_owned_receipts' 'false' "aggregate does not replace target-owned receipts"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.aggregate_receipt_policy.blocked_outcome_requires_explicit_blockers' 'true' "blocked outcomes require explicit blockers"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.aggregate_receipt_policy.blocked_outcome_requires_next_owning_lifecycle' 'true' "blocked outcomes require next owning lifecycle"
   stage_count="$(yq -r '(.workflow.stages // []) | length' "$WORKFLOW_PATH" 2>/dev/null || echo 0)"
   [[ "$stage_count" -ge 10 ]] && pass "workflow has at least ten stages" || fail "workflow must have at least ten stages"
   for stage_id in \
@@ -94,6 +111,7 @@ done
 
 for token in \
   "proposal-packet-delivery-receipt" \
+  "/proposal-packet-delivery outcome=cleaned route=branch-no-pr" \
   "validate-proposal-packet-delivery-profile.sh" \
   "validate-proposal-packet-delivery-receipt.sh" \
   "run-packet-implementation" \
@@ -104,6 +122,11 @@ for token in \
   "closeout-change" \
   "closeout-worktree" \
   "repo-hygiene-cleanup" \
+  "pre-archive" \
+  "already-archived" \
+  "PR fallback forbidden" \
+  "explicit blockers" \
+  "next owning lifecycle" \
   "branch landing authorization" \
   "branch cleanup authorization" \
   "terminal current-state proof" \
@@ -116,10 +139,20 @@ require_token "$REGISTRY_PATH" "proposal-packet-delivery" "workflow registry reg
 require_token "$REGISTRY_PATH" "/octon-proposal-run-packet-delivery" "workflow registry command uses proposal family naming"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" "proposal-packet-delivery" "command file registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" "route=branch-no-pr" "command documents branch-no-pr route"
+require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" "PR fallback is forbidden" "command forbids PR fallback"
+require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" "Pre-archive" "command documents pre-archive state route"
+require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" "Already-archived" "command documents already-archived state route"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" "proposal-packet-delivery" "command manifest registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" "route=branch-no-pr" "command manifest branch-no-pr argument"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md" "proposal-packet-delivery" "skill file registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md" "route=branch-no-pr" "skill documents branch-no-pr route"
+require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md" "pre-archive" "skill documents pre-archive state route"
+require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md" "already-archived" "skill documents already-archived state route"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"packet_state_routing"' "profile schema declares packet state routing"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"pre_archive_required_owners"' "profile schema declares pre-archive owners"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"already_archived_required_owners"' "profile schema declares already-archived owners"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"blocked_receipt_requires_explicit_blockers"' "profile schema requires explicit blocked blockers"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"blocked_receipt_requires_next_owning_lifecycle"' "profile schema requires blocked next owning lifecycle"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/manifest.yml" "proposal-packet-delivery" "skill manifest registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/registry.yml" "proposal-packet-delivery" "skill registry registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/capabilities.yml" "proposal-packet-delivery" "skill capability registration"

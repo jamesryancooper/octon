@@ -1,0 +1,136 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "git-mutation-sandbox-preflight",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/git-mutation-sandbox-preflight/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:cf2a506d2c19f2fd6eaa7d8e966a555feaab6be76ae870b4188aa1d1b8244285"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/git-mutation-sandbox-preflight/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:8da3f79817a6738cbe3c9ad1d02b8187729ebe01936e9fa1e119fc0452ee8bc3"
+    }
+  ],
+  "context_hash": "sha256:2c07876be60e8251053515c5cc67219f9e1d671b16256330a8e085588f1e73c5",
+  "dependency_vector": {
+    "parent_program": "operator-free-packet-lifecycle-autonomy",
+    "related_proposals": [
+      "operator-free-packet-lifecycle-autonomy",
+      "branch-no-pr-closeout-state-machine-autonomy"
+    ],
+    "source_lineage": []
+  },
+  "evidence_refs": [
+    "Child-owned accepted proposal review.",
+    "Strict pre-integration architecture review receipt.",
+    "Implementation-grade completeness receipt.",
+    "Git mutation diagnostic fixtures.",
+    "Negative controls for bypassing authorization."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/git-mutation-sandbox-preflight/child-handoff-capsule.yml",
+  "parent_program": "operator-free-packet-lifecycle-autonomy",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "This child owns diagnostics and rerun routing for permission-sensitive git mutations. It does not own receipt semantics, generated freshness, worktree deletion authorization, terminal proof, or parent closeout.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture-proposal.yml": "sha256:2f3463603550a1b7811a82703c66fcc9386fc1992f50b952a9738d82c5f00589",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture/acceptance-criteria.md": "sha256:fdd20960e62472cc804c356c9574bd806061f8338d70553b872b4ac2acbd145d",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture/implementation-plan.md": "sha256:2c49d770883b2f557948e615bcd6ddad670db66808530fb5eeb47d1924056bd1",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/navigation/artifact-catalog.md": "sha256:6946ae0cf2fb73d4dc639ad24fce3e994ff0b440299ceaea83dd88233804a058",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/navigation/source-of-truth-map.md": "sha256:30a283b8d0901965d1366ff0c203941a21bd4ad43f623dc7668e3409aad444d1",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/proposal.yml": "sha256:3af5319ce647c2f1805c8b32777be5a3fcb146b985662622dba8b1b445720dcc",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md": "sha256:ae40876bff4f1f1d22454234981e80e91cf50cdf8060636156ad6a43175d6cdd",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md": "sha256:a37a386e2721001a79a0581e5e8de89abfe81353e09a8064d2705f4e839ad3d3",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md": "sha256:089333a9d546bf67c17c846142558002599cdc2c5586caba7aeb6e63e72d4e46",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-review-gate.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architectural-review-receipts.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-hosted-no-pr-landing.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-change-closeout-lifecycle-alignment.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}

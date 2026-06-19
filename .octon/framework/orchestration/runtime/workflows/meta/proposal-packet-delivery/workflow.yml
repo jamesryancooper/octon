@@ -199,7 +199,9 @@ artifacts:
     description: Aggregate proposal-packet-delivery-receipt output validated by validate-proposal-packet-delivery-receipt.sh.
 done_gate:
   checks:
+    - "/proposal-packet-delivery outcome=cleaned route=branch-no-pr is the outer orchestrator and PR fallback forbidden"
     - "profile validates with validate-proposal-packet-delivery-profile.sh before any delivery claim"
+    - "profile records pre-archive and already-archived packet state routing"
     - "proposal review/readiness gates and implementation authorization are fresh before implementation"
     - "run-packet-implementation owns implementation execution and target-owned receipts remain authoritative"
     - "implementation conformance and post-implementation drift/churn pass before promotion"
@@ -207,18 +209,40 @@ done_gate:
     - "closeout-packet owns proposal-closeout.md and archive authorization"
     - "proposal-packet-terminal-closeout owns proposal-terminal-closeout.yml"
     - "archive-proposal owns archive relocation"
+    - "pre-archive packet state routes through closeout-packet, proposal-packet-terminal-closeout, and archive-proposal"
+    - "already-archived packet state skips archive relocation and routes to closeout-change for landing, sync, cleanup, and terminal proof"
+    - "generated publication remains owner-routed through owning publisher scripts"
+    - "generated-input freshness scope is classified before terminal closeout/archive routing"
+    - "generated freshness outcomes record not-in-scope, owner-routed, refresh-needed-not-authorized, stale, or fresh-non-authoritative"
     - "closeout-change or closeout-worktree owns Change closeout and any hosted mutation"
     - "branch landing authorization exists before landed, synced, or cleaned claims"
     - "branch cleanup authorization exists before source branch cleanup claims"
     - "repo-hygiene-cleanup owns any local residue deletion"
     - "terminal current-state proof shows local main, origin/main, and landed ref equality"
+    - "terminal proof is emitted only after landing evidence, final sync proof, cleanup authorization, cleanup disposition, rollback posture, and validation proof exist"
+    - "terminal proof distinguishes landed ref from proof sink or receipt path and performs no source-branch, local main, origin/main, or landed-ref mutation"
+    - "aggregate receipt summarizes target-owned receipts, requires explicit blockers for blocked outcomes, and records next owning lifecycle"
+    - "aggregate receipt may summarize terminal proof but cannot replace target-owned terminal proof, cleanup, sync, validation, or closeout receipts"
     - "delivery receipt validates with validate-proposal-packet-delivery-receipt.sh"
 constraints:
   fail_closed: true
   require_relative_local_assets: true
+  outer_orchestrator_command: "/proposal-packet-delivery"
+  required_target_outcome: cleaned
+  required_route: branch-no-pr
+  pr_fallback_allowed: false
   aggregate_receipt_only: true
   target_receipts_remain_target_owned: true
   generated_outputs_are_non_authority: true
+  terminal_proof_source_branch_commit_required_after_landing: false
+  terminal_proof_mutates_landed_or_source_refs: false
+  generated_freshness_classification_required_before_terminal: true
+  generated_freshness_outcomes:
+    - generated_freshness_not_in_scope
+    - generated_input_scope_detected_and_owner_routed
+    - generated_refresh_needed_but_not_authorized
+    - generated_output_present_but_stale
+    - generated_output_fresh_but_non_authoritative
 workflow:
   id: proposal-packet-delivery
   name: Proposal Packet Delivery
@@ -239,8 +263,14 @@ workflow:
     terminal_closeout_owner: proposal-packet-terminal-closeout
     archive_owner: archive-proposal
     git_mutation_owner: closeout-change
+    final_sync_owner: closeout-change
+    branch_cleanup_owner: closeout-change
+    terminal_current_state_proof_owner: closeout-change
+    terminal_evidence_sink_owner: closeout-change
+    worktree_hygiene_owner: closeout-change
     hygiene_cleanup_owner: repo-hygiene-cleanup
     generated_publication_owner: owning-publisher-scripts
+    generated_freshness_owner: owning-generator-scripts
   inputs:
     - name: profile_path
       required: true
@@ -262,6 +292,81 @@ workflow:
     profile: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh
     receipt: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
     workflow: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
+  packet_state_routes:
+    pre-archive:
+      description: Packet has implementation or closeout evidence but has not completed archive relocation.
+      owner_sequence:
+        - closeout-packet
+        - proposal-packet-terminal-closeout
+        - archive-proposal
+      blocked_when_missing_evidence: true
+      blocked_next_owning_lifecycle: closeout-packet
+    already-archived:
+      description: Packet archive evidence exists and archive relocation must not be rerun by the wrapper.
+      owner_sequence:
+        - archive-proposal
+        - closeout-change
+        - repo-hygiene-cleanup
+      skip_archive_relocation: true
+      blocked_when_missing_archive_receipt: true
+      blocked_next_owning_lifecycle: archive-proposal
+  aggregate_receipt_policy:
+    summarizes_target_owned_receipts: true
+    replaces_target_owned_receipts: false
+    blocked_outcome_requires_explicit_blockers: true
+    blocked_outcome_requires_next_owning_lifecycle: true
+    generated_outputs_can_authorize_closeout: false
+    summarizes_route_owned_terminal_proof: true
+    replaces_route_owned_terminal_proof: false
+    replaces_cleanup_sync_validation_or_closeout_receipts: false
+  terminal_evidence_sink_policy:
+    owner: closeout-change
+    classification: retained-evidence-only
+    emitted_after:
+      - landing_evidence
+      - final_sync_proof
+      - cleanup_authorization
+      - cleanup_disposition
+      - rollback_posture
+      - validation_proof
+    distinguishes:
+      - landed_ref
+      - terminal_current_state_proof_ref
+      - terminal_proof_sink_or_receipt_path
+    source_branch_commit_required_after_landing: false
+    mutates_origin_main_local_main_landed_ref_or_source_branch: false
+    replaces_closeout_change_or_worktree_receipts: false
+    missing_prerequisite_effect: downgrade_actual_outcome_and_block_terminal_success
+  generated_freshness_scope_detection:
+    required_before:
+      - route-terminal-closeout-and-archive
+      - emit-delivery-receipt
+    owner_generators:
+      support_envelope_reconciliation: .octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh
+      run_health_read_model: .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+    validators:
+      support_envelope_reconciliation: .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh
+      run_health_read_model: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+      generated_non_authority: .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+    receipt_rule:
+      aggregate_delivery_receipt_summarizes_generated_freshness: true
+      aggregate_delivery_receipt_replaces_generated_freshness_evidence: false
+      proposal_local_or_parent_evidence_satisfies_generated_freshness: false
+      stale_generated_output_blocks_terminal_delivery_claim: true
+      generated_output_authorizes_closeout_or_archive: false
+    outcomes:
+      generated_freshness_not_in_scope:
+        terminal_effect: continue
+      generated_input_scope_detected_and_owner_routed:
+        terminal_effect: require_owning_validator_pass
+      generated_refresh_needed_but_not_authorized:
+        terminal_effect: blocked
+        next_owning_lifecycle: owning-generator-authorization
+      generated_output_present_but_stale:
+        terminal_effect: blocked
+        next_owning_lifecycle: owning-generator-refresh
+      generated_output_fresh_but_non_authoritative:
+        terminal_effect: continue_with_non_authority_notice
   stages:
     - id: bind-profile
       title: Bind delivery profile
@@ -298,6 +403,9 @@ workflow:
         - missing_implementation_conformance
         - missing_post_implementation_drift_churn
         - stale_generated_publication_evidence
+        - generated_input_scope_unclassified
+        - generated_refresh_needed_but_not_authorized
+        - generated_output_used_as_closeout_authority
         - missing_governed_mechanism_integration_receipt
     - id: promote-proposal
       title: Promote through promote-proposal
@@ -323,6 +431,8 @@ workflow:
         - terminal_closeout_blocker
         - archive_blocker
         - fresh_unvalidated_archive_mutation
+        - generated_output_present_but_stale
+        - generated_freshness_required_without_owner_validator
     - id: route-change-closeout
       title: Route Change closeout
       asset: stages/08-route-change-closeout.md
@@ -339,6 +449,10 @@ workflow:
         - branch_cleanup_without_authorization
         - repo_hygiene_deletion_without_cleanup_authorization
         - missing_terminal_current_state_proof
+        - terminal_proof_missing_landing_final_sync_cleanup_rollback_or_validation
+        - terminal_proof_conflates_landed_ref_with_sink_ref
+        - terminal_proof_requires_source_branch_commit_after_landing
+        - terminal_proof_mutates_landed_or_source_refs
         - main_origin_landed_ref_mismatch
         - dirty_worktree_cleaned_overclaim
     - id: emit-delivery-receipt
@@ -347,7 +461,11 @@ workflow:
       required: true
       fail_closed_on:
         - aggregate_receipt_replaces_target_receipts
+        - aggregate_receipt_replaces_terminal_proof
+        - aggregate_receipt_replaces_cleanup_sync_validation_or_closeout_receipts
         - generated_prompt_used_as_authority
+        - generated_read_model_used_as_authority
+        - proposal_local_evidence_used_for_generated_freshness
         - unresolved_blocker
   terminal_claim_rules:
     implemented:
@@ -371,9 +489,15 @@ workflow:
       requires:
         - local_main_equals_origin_main
         - origin_main_equals_landed_ref
+        - final_sync_proof_pass
     cleaned:
       requires:
         - branch_cleanup_authorized_and_done
+        - cleanup_disposition_recorded
+        - rollback_posture_retained
+        - validation_proof_current
         - repo_hygiene_cleanup_authorized_and_done_or_not_needed
         - terminal_current_state_proof_pass
+        - terminal_proof_sink_distinct_from_landed_ref
+        - terminal_proof_non_mutating_after_landing
         - worktree_hygiene_pass

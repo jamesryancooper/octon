@@ -6,6 +6,7 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 RECEIPT="$OCTON_DIR/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml"
+PROPOSAL_PACKET_DELIVERY_WORKFLOW="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml"
 
 errors=0
 
@@ -63,6 +64,59 @@ is_allowed_file() {
   return 1
 }
 
+assert_receipt_scope_is_non_authority() {
+  local ref
+  while IFS= read -r ref; do
+    [[ -n "$ref" ]] || continue
+    case "$ref" in
+      .octon/inputs/*|/.octon/inputs/*)
+        fail "generated non-authority scan root must not depend on proposal-local inputs: $ref"
+        ;;
+      .octon/generated/*|/.octon/generated/*)
+        fail "generated non-authority scan root must not treat generated output as authority root: $ref"
+        ;;
+      *)
+        pass "scan root is authority-safe: $ref"
+        ;;
+    esac
+  done < <(yq -r '.scan_roots[]? // ""' "$RECEIPT")
+
+  while IFS= read -r ref; do
+    [[ -n "$ref" ]] || continue
+    case "$ref" in
+      .octon/inputs/*|/.octon/inputs/*)
+        fail "allowed generated read-model reference cannot be proposal-local input: $ref"
+        ;;
+      .octon/generated/*|/.octon/generated/*)
+        fail "allowed generated read-model reference cannot be generated output authority: $ref"
+        ;;
+    esac
+  done < <(yq -r '.allowed_reference_files[]? // ""' "$RECEIPT")
+}
+
+assert_delivery_workflow_classifies_generated_freshness() {
+  if [[ ! -f "$PROPOSAL_PACKET_DELIVERY_WORKFLOW" ]]; then
+    fail "proposal-packet delivery workflow missing for generated freshness classification"
+    return 0
+  fi
+  local token
+  for token in \
+    "generated_freshness_scope_detection" \
+    "generated_freshness_not_in_scope" \
+    "generated_input_scope_detected_and_owner_routed" \
+    "generated_refresh_needed_but_not_authorized" \
+    "generated_output_present_but_stale" \
+    "generated_output_fresh_but_non_authoritative" \
+    "proposal_local_or_parent_evidence_satisfies_generated_freshness: false" \
+    "generated_output_authorizes_closeout_or_archive: false"; do
+    if has_text "$token" "$PROPOSAL_PACKET_DELIVERY_WORKFLOW"; then
+      pass "proposal-packet delivery workflow declares: $token"
+    else
+      fail "proposal-packet delivery workflow must declare: $token"
+    fi
+  done
+}
+
 main() {
   echo "== Generated Non-Authority Validation =="
 
@@ -74,6 +128,9 @@ main() {
   else
     fail "generated non-authority receipt schema must be generated-non-authority-scan-v1"
   fi
+
+  assert_receipt_scope_is_non_authority
+  assert_delivery_workflow_classifies_generated_freshness
 
   while IFS= read -r doc_ref; do
     [[ -n "$doc_ref" ]] || continue

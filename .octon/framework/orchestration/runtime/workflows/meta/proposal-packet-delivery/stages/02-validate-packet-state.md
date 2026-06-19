@@ -11,6 +11,10 @@ Required checks:
 - Promotion targets are current and unambiguous.
 - Strict pre-integration architecture review evidence is present, passing, and
   fresh for the current packet digest.
+- Pre-archive packet state is routed through `closeout-packet`,
+  `proposal-packet-terminal-closeout`, and `archive-proposal`.
+- Already-archived packet state verifies archive evidence, skips archive
+  relocation, and routes onward to `closeout-change`.
 - Generated prompts and proposal-local summaries are treated as instructions or
   context only, never as authority for implementation, promotion, closeout,
   archive, landing, cleanup, sync, or `cleaned` claims.

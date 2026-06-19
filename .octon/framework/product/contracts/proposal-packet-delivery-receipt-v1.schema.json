@@ -221,7 +221,6 @@
         },
         "publisher_refs": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "string",
             "minLength": 1
@@ -231,7 +230,7 @@
           "type": "boolean"
         },
         "direct_generated_output_edit_used": {
-          "type": "boolean"
+          "const": false
         }
       }
     },
@@ -500,16 +499,167 @@
       ],
       "properties": {
         "target_owned_receipts_required": {
-          "type": "boolean"
+          "const": true
         },
         "aggregate_receipt_replaces_target_owned_receipts": {
-          "type": "boolean"
+          "const": false
         }
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "actual_outcome"
+        ],
+        "properties": {
+          "actual_outcome": {
+            "const": "blocked"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "packet_lifecycle": {
+            "properties": {
+              "verdict": {
+                "const": "blocked"
+              }
+            }
+          },
+          "blockers": {
+            "minItems": 1,
+            "contains": {
+              "type": "object",
+              "required": [
+                "evidence_ref",
+                "status"
+              ],
+              "properties": {
+                "evidence_ref": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "const": "open"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "actual_outcome"
+        ],
+        "properties": {
+          "actual_outcome": {
+            "enum": [
+              "implemented",
+              "archive-ready",
+              "landed",
+              "synced",
+              "cleaned"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "packet_lifecycle": {
+            "properties": {
+              "verdict": {
+                "const": "pass"
+              }
+            }
+          },
+          "target_receipts": {
+            "properties": {
+              "implementation_run": {
+                "$ref": "#/$defs/nonempty_receipt_ref_array"
+              },
+              "implementation_conformance": {
+                "$ref": "#/$defs/nonempty_receipt_ref_array"
+              },
+              "post_implementation_drift_churn": {
+                "$ref": "#/$defs/nonempty_receipt_ref_array"
+              },
+              "promotion": {
+                "$ref": "#/$defs/nonempty_receipt_ref_array"
+              },
+              "packet_closeout": {
+                "$ref": "#/$defs/nonempty_receipt_ref_array"
+              },
+              "terminal_closeout": {
+                "$ref": "#/$defs/nonempty_receipt_ref_array"
+              },
+              "archive": {
+                "$ref": "#/$defs/nonempty_receipt_ref_array"
+              },
+              "change_closeout": {
+                "$ref": "#/$defs/nonempty_receipt_ref_array"
+              }
+            }
+          },
+          "implementation_conformance": {
+            "$ref": "#/$defs/fresh_pass_receipt_verdict"
+          },
+          "post_implementation_drift_churn": {
+            "$ref": "#/$defs/fresh_pass_receipt_verdict"
+          },
+          "generated_publication": {
+            "properties": {
+              "publisher_refs": {
+                "minItems": 1
+              },
+              "fresh": {
+                "const": true
+              }
+            }
+          },
+          "promotion": {
+            "$ref": "#/$defs/fresh_pass_receipt_verdict"
+          },
+          "packet_closeout": {
+            "$ref": "#/$defs/fresh_pass_receipt_verdict"
+          },
+          "terminal_closeout": {
+            "$ref": "#/$defs/fresh_pass_receipt_verdict"
+          },
+          "archive": {
+            "$ref": "#/$defs/fresh_pass_receipt_verdict"
+          },
+          "blockers": {
+            "not": {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "const": "open"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "receipt_ref_array": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "nonempty_receipt_ref_array": {
       "type": "array",
       "minItems": 1,
       "items": {
@@ -536,8 +686,31 @@
         "verdict": {
           "enum": [
             "pass",
-            "fail"
+            "fail",
+            "blocked",
+            "not-run"
           ]
+        }
+      }
+    },
+    "fresh_pass_receipt_verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_ref",
+        "fresh",
+        "verdict"
+      ],
+      "properties": {
+        "receipt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fresh": {
+          "const": true
+        },
+        "verdict": {
+          "const": "pass"
         }
       }
     }

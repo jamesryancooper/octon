@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000000Z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000000Z/context/context-pack.json
+route_id: closeout-packet
+run_id: child-closeout-blocked-delivery-receipt-semantics-20260619T000000Z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-19T19:53:41.775582Z
+validity_state: valid

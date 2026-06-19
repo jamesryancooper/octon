@@ -56,6 +56,16 @@ Successful wrapper execution proves:
   refs, local `main`/`origin/main`/`landed_ref` alignment, and cleanup
   completed with governed cleanup authorization when the singular receipt
   reports `cleaned`;
+- branch-no-pr terminal proof is cited only from the delegated singular Change
+  receipt, after landing evidence, final sync proof, cleanup authorization,
+  cleanup disposition, rollback posture, and validation proof exist, with
+  `landed_ref` distinct from the terminal proof sink or receipt path;
+- delegated git mutation diagnostics, when summarized, are cited only from
+  singular `closeout-change` evidence, identify operation class, current and
+  target refs when known, expected authorization gate, likely sandbox, host,
+  provider, remote, or ref-write blocker, and owning rerun route, and do not
+  authorize wrapper mutation, cleanup, landing, branch deletion, sync, closeout,
+  or `cleaned`;
 - no direct wrapper stage, commit, push, PR, landing, merge, reset, restore,
   overwrite, delete, or branch cleanup action occurred;
 - repo-hygiene cleanup, when needed, was delegated to the
@@ -122,6 +132,17 @@ Negative controls:
   evidence whose manifest is missing, stale, digest-mismatched, outside
   `.octon/state/evidence/local/terminal-closeout/<change-id>/`, or authority
   overclaiming fails.
+- A wrapper report that summarizes terminal proof without a delegated
+  `closeout-change` receipt, substitutes aggregate proof for target-owned
+  proof, treats terminal proof as a post-landing source-branch commit, or uses
+  terminal proof to mutate `origin/main`, local `main`, the landed ref, or the
+  source branch fails.
+- A wrapper report that summarizes delegated git mutation diagnostics as
+  cleanup, landing, branch deletion, final sync, publication, closeout, or
+  `cleaned` authority fails.
+- A wrapper report that summarizes a delegated permission-sensitive git
+  mutation blocker without operation class, current and target refs when known,
+  expected authorization gate, likely blocker, and owning rerun route fails.
 - A wrapper report with a safely separable selected candidate blocked only
   because multiple candidates exist fails.
 - A wrapper report with `repo_hygiene_cleanup_actions_performed: true` fails.

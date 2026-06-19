@@ -91,7 +91,9 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Verification Gate
 
+- [ ] /proposal-packet-delivery outcome=cleaned route=branch-no-pr is the outer orchestrator and PR fallback forbidden
 - [ ] profile validates with validate-proposal-packet-delivery-profile.sh before any delivery claim
+- [ ] profile records pre-archive and already-archived packet state routing
 - [ ] proposal review/readiness gates and implementation authorization are fresh before implementation
 - [ ] run-packet-implementation owns implementation execution and target-owned receipts remain authoritative
 - [ ] implementation conformance and post-implementation drift/churn pass before promotion
@@ -99,11 +101,21 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] closeout-packet owns proposal-closeout.md and archive authorization
 - [ ] proposal-packet-terminal-closeout owns proposal-terminal-closeout.yml
 - [ ] archive-proposal owns archive relocation
+- [ ] pre-archive packet state routes through closeout-packet, proposal-packet-terminal-closeout, and archive-proposal
+- [ ] already-archived packet state skips archive relocation and routes to closeout-change for landing, sync, cleanup, and terminal proof
+- [ ] generated publication remains owner-routed through owning publisher scripts
+- [ ] generated-input freshness scope is classified before terminal closeout/archive routing
+- [ ] generated freshness outcomes record not-in-scope, owner-routed, refresh-needed-not-authorized, stale, or fresh-non-authoritative
+- [ ] stale generated outputs block terminal delivery claims, while fresh generated outputs remain non-authoritative
 - [ ] closeout-change or closeout-worktree owns Change closeout and any hosted mutation
 - [ ] branch landing authorization exists before landed, synced, or cleaned claims
 - [ ] branch cleanup authorization exists before source branch cleanup claims
 - [ ] repo-hygiene-cleanup owns any local residue deletion
 - [ ] terminal current-state proof shows local main, origin/main, and landed ref equality
+- [ ] terminal proof is emitted only after landing evidence, final sync proof, cleanup authorization, cleanup disposition, rollback posture, and validation proof exist
+- [ ] terminal proof distinguishes landed ref from proof sink or receipt path and performs no source-branch, local main, origin/main, or landed-ref mutation
+- [ ] aggregate receipt summarizes target-owned receipts, requires explicit blockers for blocked outcomes, and records next owning lifecycle
+- [ ] aggregate receipt may summarize terminal proof but cannot replace target-owned terminal proof, cleanup, sync, validation, or closeout receipts
 - [ ] delivery receipt validates with validate-proposal-packet-delivery-receipt.sh
 
 ## References

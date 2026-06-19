@@ -46,3 +46,18 @@ title: Closeout Change Phases
     record cleanup completed with `branch-cleanup-authorization-v1` evidence
     when claiming `cleaned`. Deferred cleanup is a lower actual outcome with
     blocker evidence.
+16. Emit terminal current-state proof only after landing evidence, final sync
+    proof, cleanup authorization, cleanup disposition, rollback posture, and
+    route-owned validation proof are present. The terminal proof sink or
+    receipt path must be distinct from `landed_ref`; writing it must not mutate
+    `origin/main`, local `main`, the landed ref, or the source branch, and must
+    not require a source-branch commit after landing.
+
+For any phase that attempts or retries fetch, checkout, branch-local commit,
+branch publication, hosted landing, final sync, branch cleanup, or local or
+remote branch deletion or pruning, record permission diagnostics before retry
+when the mutation is denied or blocked. Diagnostics must identify operation
+class, current and target refs when known, expected authorization gate, likely
+sandbox, host, provider, remote, or ref-write blocker, and owning rerun route.
+They preserve the lower actual outcome until the route-owned authorization,
+helper validation, mutation, final sync, and cleanup proof requirements pass.

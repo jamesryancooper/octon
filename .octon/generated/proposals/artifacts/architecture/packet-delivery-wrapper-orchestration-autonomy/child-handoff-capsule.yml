@@ -1,0 +1,156 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "child_id": "packet-delivery-wrapper-orchestration-autonomy",
+  "compact_context_refs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal-artifact-index.yml",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "sha256": "sha256:49ad60368111152603d03ff293e10afd3f5056a3f7c02ed29239d0f6bb1951af"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal-program-spine.yml",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "sha256": "sha256:2359aba882f70339c0b4f9681400f76aae067a698ad44938e896a50a8776c55f"
+    }
+  ],
+  "context_hash": "sha256:a33bb5813dbe14f9ae88531bdec3cb30650a98d57fb4e411613e22b0291fe451",
+  "dependency_vector": {
+    "parent_program": "operator-free-packet-lifecycle-autonomy",
+    "related_proposals": [
+      "operator-free-packet-lifecycle-autonomy",
+      "blocked-delivery-receipt-semantics",
+      "branch-no-pr-closeout-state-machine-autonomy"
+    ],
+    "source_lineage": []
+  },
+  "evidence_refs": [
+    "Child-owned accepted proposal review.",
+    "Strict pre-integration architecture review receipt.",
+    "Implementation-grade completeness receipt.",
+    "Dependency preflight for blocked delivery receipt semantics before implementation.",
+    "Workflow/profile/receipt validator evidence for pre-archive, already-archived, branch-no-PR, and no-PR-fallback cases."
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/packet-delivery-wrapper-orchestration-autonomy/child-handoff-capsule.yml",
+  "parent_program": "operator-free-packet-lifecycle-autonomy",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy",
+  "read_raw_only_if": [
+    "compact-context-hash-mismatch",
+    "child-registry-digest-mismatch",
+    "write-scope-dispute",
+    "validator-dispute"
+  ],
+  "schema_version": "octon-child-handoff-capsule-v1",
+  "scope_statement": "This child owns the delivery wrapper workflow, command, skill, profile schema, and workflow validator. It does not own receipt schema semantics, the branch-no-PR closeout state machine, generated freshness detection, worktree partitioning, terminal evidence sinks, or git mutation preflight helpers.",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml": "sha256:3075fa2e1ddd18ef9f308992239d2299528f450cbf36448767100f525e95a146",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/acceptance-criteria.md": "sha256:db14d51ec63f3ed446de3f1078673f1d81c5e6b662fa58262b82a41345190d73",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/implementation-plan.md": "sha256:95a990c3375f2156e0fe04317367b44887dac4dcc71793057b4b6feb9b632298",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/artifact-catalog.md": "sha256:d776f2a415b1088874704295e0debbc83cd79dff51948bb75645bb37862d8312",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/source-of-truth-map.md": "sha256:d8160fbbcfe6f8aef68deeb69c79b7ef3a2bc2382e5d955c2444ebfcec61beb0",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal.yml": "sha256:1df13e668fa9c40f86874db26f5e33430560841e60fef379acb650b34a6cf297",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md": "sha256:c10df556d32cab1bdabc9e3465de6ef4ea578d46d4fc60cd1deac10d1f722132",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md": "sha256:24a3273c58df6dea3d55cbdcb9adf2cb09f274d2457f2bba70318cdcd29dde52",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md": "sha256:7e62e83cccc6d5fbfb4bc642cd5a0d03b4ecb02babf5465bad8a99d341dfcc28"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md"
+  ],
+  "validator_matrix": [
+    {
+      "required": true,
+      "validator": "validate-proposal-standard.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architecture-proposal.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-implementation-readiness.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-review-gate.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-architectural-review-receipts.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-packet-delivery-profile.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-packet-delivery-workflow.sh"
+    },
+    {
+      "required": true,
+      "validator": "test-validate-proposal-packet-delivery.sh"
+    },
+    {
+      "required": true,
+      "validator": "validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "required": true,
+      "validator": "generated-registry-cannot-replace-manifest-negative-control"
+    }
+  ],
+  "write_scope_map": [
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json",
+      "write_policy": "child-route-only-with-review-gate"
+    },
+    {
+      "authority_class": "declared-promotion-target",
+      "target": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh",
+      "write_policy": "child-route-only-with-review-gate"
+    }
+  ]
+}
