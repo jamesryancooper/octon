@@ -149,6 +149,7 @@ fi
 for token in \
   '"proposal-packet-terminal-closeout-receipt-v1"' \
   '"terminal_verdict"' \
+  '"archive_ready"' \
   '"archive-ready"' \
   '"blocked"' \
   '"state_ledger"' \
@@ -182,6 +183,7 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   require_scalar '.packet.proposal_kind' "packet.proposal_kind"
   require_scalar '.packet.status' "packet.status"
   require_scalar '.target_outcome' "target_outcome"
+  require_scalar '.archive_ready' "archive_ready"
   require_scalar '.profile.profile_ref' "profile.profile_ref"
   require_scalar '.profile.profile_digest' "profile.profile_digest"
   require_scalar '.profile.profile_validation_evidence_ref' "profile.profile_validation_evidence_ref"
@@ -314,6 +316,7 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   done
 
   if [[ "$terminal_verdict" == "archive-ready" ]]; then
+    [[ "$(scalar '.archive_ready')" == "yes" ]] && pass "archive_ready yes" || fail "archive-ready verdict requires archive_ready yes"
     require_bool '.implementation.conformance_fresh' "true" "implementation conformance freshness"
     require_bool '.implementation.post_implementation_drift_fresh' "true" "post-implementation drift freshness"
     require_publication_validators_pass
@@ -328,6 +331,7 @@ if [[ -n "$RECEIPT_PATH" ]]; then
       fail "archive-ready terminal receipt must not claim cleaned before downstream closeout proof"
     fi
   elif [[ "$terminal_verdict" == "blocked" ]]; then
+    [[ "$(scalar '.archive_ready')" == "no" ]] && pass "archive_ready no" || fail "blocked verdict requires archive_ready no"
     [[ "$(scalar '.blocker.class')" != "none" ]] && require_scalar '.blocker.class' "blocked blocker class" || fail "blocked receipt requires blocker.class other than none"
     require_scalar '.blocker.detail' "blocked blocker detail"
     require_scalar '.blocker.failing_evidence_ref' "blocked failing evidence ref"

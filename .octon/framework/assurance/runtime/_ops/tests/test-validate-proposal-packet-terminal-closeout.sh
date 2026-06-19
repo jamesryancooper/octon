@@ -166,6 +166,7 @@ packet:
   status: implemented
 target_outcome: archive-ready
 terminal_verdict: archive-ready
+archive_ready: yes
 profile:
   profile_ref: .octon/state/evidence/runs/workflows/20260613T000000Z-proposal-packet-terminal-closeout-test/profile.yml
   profile_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
@@ -270,7 +271,7 @@ non_authority_declarations:
 YAML
 
 cp "$TMP_DIR/valid-receipt.yml" "$TMP_DIR/blocked-receipt.yml"
-yq -i '.terminal_verdict = "blocked" | .blocker.class = "hygiene-blocker" | .blocker.detail = "worktree residue remains" | .blocker.failing_evidence_ref = ".octon/state/evidence/validation/proposals/example-terminal-closeout/20260613T000000Z/worktree.log" | .blocker.next_canonical_route = "closeout-worktree"' "$TMP_DIR/blocked-receipt.yml"
+yq -i '.terminal_verdict = "blocked" | .archive_ready = "no" | .blocker.class = "hygiene-blocker" | .blocker.detail = "worktree residue remains" | .blocker.failing_evidence_ref = ".octon/state/evidence/validation/proposals/example-terminal-closeout/20260613T000000Z/worktree.log" | .blocker.next_canonical_route = "closeout-worktree"' "$TMP_DIR/blocked-receipt.yml"
 
 expect_pass "schema-only profile validator" "$PROFILE_VALIDATOR"
 expect_pass "valid profile" "$PROFILE_VALIDATOR" --profile "$TMP_DIR/valid-profile.yml"
@@ -281,6 +282,9 @@ expect_pass "workflow validator" "$WORKFLOW_VALIDATOR"
 expect_no_packet_specific_terminal_closeout_logic "generic terminal closeout production has no proposal-program-delivery hardcoding"
 
 mutate_receipt_expect_fail "missing implementation conformance receipt" 'del(.implementation.conformance_receipt_ref)'
+mutate_receipt_expect_fail "missing archive readiness flag" 'del(.archive_ready)'
+mutate_receipt_expect_fail "archive-ready verdict without archive readiness flag" '.archive_ready = "no"'
+mutate_receipt_expect_fail "blocked verdict with archive readiness flag" '.terminal_verdict = "blocked" | .archive_ready = "yes" | .blocker.class = "hygiene-blocker" | .blocker.detail = "worktree residue remains" | .blocker.failing_evidence_ref = ".octon/state/evidence/validation/proposals/example-terminal-closeout/20260613T000000Z/worktree.log" | .blocker.next_canonical_route = "closeout-worktree"'
 mutate_receipt_expect_fail "parent summary substituted for child receipt" '.implementation.conformance_receipt_ref = ".octon/inputs/exploratory/proposals/architecture/example-terminal-closeout/support/proposal-closeout.md"'
 mutate_receipt_expect_fail "stale implementation conformance evidence" '.implementation.conformance_fresh = false'
 mutate_receipt_expect_fail "missing post implementation drift receipt" 'del(.implementation.post_implementation_drift_receipt_ref)'

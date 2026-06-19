@@ -11,6 +11,7 @@
     "packet",
     "target_outcome",
     "terminal_verdict",
+    "archive_ready",
     "profile",
     "state_ledger",
     "implementation",
@@ -67,6 +68,9 @@
     },
     "terminal_verdict": {
       "enum": ["archive-ready", "blocked"]
+    },
+    "archive_ready": {
+      "enum": ["yes", "no"]
     },
     "profile": {
       "type": "object",

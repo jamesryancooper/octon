@@ -20,11 +20,11 @@ description: Emit archive-ready or blocked terminal receipt without archive relo
 ## Actions
 
 1. Build the aggregate terminal receipt from target-owned evidence refs.
-2. Set `terminal_verdict: archive-ready` only when all required gates pass,
-   retained evidence is current, hygiene is unblocked, and
-   `blocker.class: none`.
-3. Set `terminal_verdict: blocked` with exact blocker, failing evidence ref,
-   and next canonical route when any gate fails.
+2. Set `terminal_verdict: archive-ready` and `archive_ready: yes` only when
+   all required gates pass, retained evidence is current, hygiene is
+   unblocked, and `blocker.class: none`.
+3. Set `terminal_verdict: blocked` and `archive_ready: no` with exact blocker,
+   failing evidence ref, and next canonical route when any gate fails.
 4. Validate the receipt with
    `validate-proposal-packet-terminal-closeout-receipt.sh --receipt <receipt>`.
 5. Do not move the packet into `.archive`.
@@ -49,6 +49,7 @@ attempted.
 ## Receipt Fields
 
 - `terminal_verdict`
+- `archive_ready`
 - `blocker`
 - `archive_boundary.archive_owner_ref`
 - `archive_boundary.relocation_performed: false`
