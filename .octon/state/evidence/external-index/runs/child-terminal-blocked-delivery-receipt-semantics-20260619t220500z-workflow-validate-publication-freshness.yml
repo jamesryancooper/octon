@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:7847e6e9869de0e02b4e3fa62c9f8927b4f08be13f8c75e4c2d992f640b79ee9
+  entry_id: child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-19T22:01:53.318375Z
+  run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:db74bc48d350305850e5b9f5e6a397cc377253f1c20a8be999238657b291b807
+  entry_id: child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-19T22:01:53.318375Z
+  run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-validate-publication-freshness
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T22:01:53.318375Z

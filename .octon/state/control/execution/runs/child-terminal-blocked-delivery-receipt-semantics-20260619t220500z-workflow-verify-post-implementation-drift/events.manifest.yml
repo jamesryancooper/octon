@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+ledger_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:981970ff3a2d50a43e983edeb720173533904248780f4e36f850d07bb229b6ea
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  sequence: 1
+  event_hash: sha256:d18270851098d6c8795792a28b980fff5e9921b59e9469e1a10085b341fc560a
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  sequence: 29
+  event_hash: sha256:48107fba8c58cefed1bb1370f3fc6a5a1a971e5f1c9928a6910192460d7fd6f3
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:d18270851098d6c8795792a28b980fff5e9921b59e9469e1a10085b341fc560a
+  tail_event_hash: sha256:48107fba8c58cefed1bb1370f3fc6a5a1a971e5f1c9928a6910192460d7fd6f3
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  context_pack_ref: evt-context-pack-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  disclosure_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-68687e942c44
+  run_contract_ref: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  run_manifest_ref: evt-002-run-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  runtime_state_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  stage_attempt_ref: evt-stage-started-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-verify-post-implementation-drift
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:48107fba8c58cefed1bb1370f3fc6a5a1a971e5f1c9928a6910192460d7fd6f3
+  materialized_at: 2026-06-19T22:00:31.190915Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-19T22:00:31.973713Z
