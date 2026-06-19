@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: lifecycle-proposal-program-1780190262756-35ae2026-proposal-program-runner-current-state-gap-map-workflow-promote-proposal
-generated_at: '2026-06-17T14:38:29Z'
+generated_at: '2026-06-19T21:49:20Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:c4a218ae49d22d0e14fea3f5f4f0bf0413c03a3e44eef1cf9af7a05e4396f516
-  checked_at: '2026-06-17T14:38:29Z'
+  combined_source_digest: sha256:d7a52b38765d5ab7a8f09c5706db73a50abb99505506f8edb4fa1ea4c2151ce9
+  checked_at: '2026-06-19T21:49:20Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/lifecycle-proposal-program-1780190262756-35ae2026-proposal-program-runner-current-state-gap-map-workflow-promote-proposal/events.manifest.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:2645341a556cd36eaa4366709b894bc6911ec7b55b8a72963180327f4b1ceb0f
+    digest: sha256:d88954f81bc911d51536786c6b0fbf5a5d98b77b15d2a7581a74cad74f1b310b
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml

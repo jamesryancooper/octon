@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: proposal-packet-terminal-closeout-1781484868797-71460-classify-repo-hygiene
-generated_at: '2026-06-17T14:38:29Z'
+generated_at: '2026-06-19T21:49:20Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:9f3be6d24b0e259310092b332dbd3e9238c0d8ef6e6600515404b3e1a77fa7f9
-  checked_at: '2026-06-17T14:38:29Z'
+  combined_source_digest: sha256:e13f14484e292fa86bb0fe5fa2b959b0ab73760b2c7eddbcb8da2b82bd475f41
+  checked_at: '2026-06-19T21:49:20Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781484868797-71460-classify-repo-hygiene/events.manifest.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:2645341a556cd36eaa4366709b894bc6911ec7b55b8a72963180327f4b1ceb0f
+    digest: sha256:d88954f81bc911d51536786c6b0fbf5a5d98b77b15d2a7581a74cad74f1b310b
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml

@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-19T21:55:23.368568Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: child-terminal-blocked-delivery-receipt-semantics-20260619t215500z-workflow-run-evidence-only-reviews-baseline
+route_taken: allow
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t215500z-workflow-run-evidence-only-reviews
+schema_version: run-retry-record-v1
+stage_attempt_id: run-evidence-only-reviews--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t215500z-workflow-run-evidence-only-reviews/stage-attempts/run-evidence-only-reviews--initial.yml

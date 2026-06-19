@@ -1,0 +1,19 @@
+dispositions:
+- blocking: true
+  disposition_id: closeout-completeness
+  evidence_refs:
+  - .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t215500z-workflow-resolve-git-github-route/retained-run-evidence.yml
+  - .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t215500z-workflow-resolve-git-github-route/replay/manifest.yml
+  status: resolved
+recorded_at: 2026-06-19T21:55:26.591542Z
+review_disposition:
+  outcome: approved
+  status: resolved
+  summary: Run closeout review and risk disposition were materialized before closed lifecycle entry.
+risk_disposition:
+  accepted_risks: []
+  status: resolved
+  unresolved_risk_count: 0
+  unresolved_risks: []
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t215500z-workflow-resolve-git-github-route
+schema_version: review-dispositions-v1

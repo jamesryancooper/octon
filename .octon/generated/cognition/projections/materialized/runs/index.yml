@@ -1,5 +1,5 @@
 schema_version: run-health-read-model-index-v1
-generated_at: '2026-06-17T14:38:29Z'
+generated_at: '2026-06-19T21:49:20Z'
 authority:
   classification: generated_read_model_non_authoritative
   may_authorize: false
@@ -86,6 +86,39 @@ runs:
 - run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
   health_ref: .octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/health.yml
   status: evidence-incomplete
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-bind-profile
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-bind-profile/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-worktree-hygiene
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-worktree-hygiene/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-emit-terminal-receipt
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-emit-terminal-receipt/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-validate-publication-freshness
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-validate-publication-freshness/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-verify-durable-implementation-state
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-verify-durable-implementation-state/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-verify-implementation-conformance
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-verify-implementation-conformance/health.yml
+  status: stale
+- run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-verify-post-implementation-drift
+  health_ref: .octon/generated/cognition/projections/materialized/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-verify-post-implementation-drift/health.yml
+  status: stale
 - run_id: fixture-retention-closeout-1781484204063-17775
   health_ref: .octon/generated/cognition/projections/materialized/runs/fixture-retention-closeout-1781484204063-17775/health.yml
   status: stale

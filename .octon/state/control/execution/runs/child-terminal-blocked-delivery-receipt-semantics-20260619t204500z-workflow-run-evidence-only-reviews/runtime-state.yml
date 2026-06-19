@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/run-manifest.yml
+current_stage_attempt_id: run-evidence-only-reviews--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews/rollback-posture.yml
+last_applied_event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-run-evidence-only-reviews
+last_applied_sequence: 29
+last_applied_event_hash: sha256:a36be8dd6d2ffbff548b8d4bae6eff093ea515610d141ba7107aaf0cf18325e9
+materialized_at: 2026-06-19T21:48:49.042921Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-19T21:48:47.206163Z
+updated_at: 2026-06-19T21:48:49.042921Z

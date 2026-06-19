@@ -1,0 +1,207 @@
+schema_version: run-health-read-model-v1
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route
+generated_at: '2026-06-19T21:49:20Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.1.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:ad9cabe95489ab5c4c012ddff72aeaeb63d75f6c759e9e35e5dac07aac142805
+  checked_at: '2026-06-19T21:49:20Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route
+  evidence_classification: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/run-contract.yml
+    digest: sha256:126529ee7667f36916aa4f7e29d121c7fb148a071bec5ab3f5b1e7a9e26d4a66
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/run-manifest.yml
+    digest: sha256:ca3e3144c845f388a31c8fe9c5cb0deb74a85ff48ce2ea88b423294e82e33840
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/events.ndjson
+    digest: sha256:3d7c5c41554731ad6258950d918b2bc840d166f9c197222840afc8dfb844c642
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/events.manifest.yml
+    digest: sha256:5ead8408882dac1076522cc06bdd71cd1937641716c8303835509de0009c466e
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/runtime-state.yml
+    digest: sha256:9333cc0ab2e847a91c3a305c2be749c6edf3f80277697281e892983fecb0de7a
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route.yml
+    digest: sha256:56ebc327ee84ec25f26256b4742d2f07668e65a6d7a106b3e6326fce1451d36f
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route.yml
+    digest: sha256:9f2c69c8e14db98adff67ecbb4b7b30cb37cad9c25a16ac915b8e9dc7f7bd6d3
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/rollback-posture.yml
+    digest: sha256:4f636588c56b1b215495b06159712f6784b0a5a84ef7628eb1c6b6d3e03be52a
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:c534b1efe4b921a0ac458a219ac3cb3f90f305af91f079ec7d1c3326ab99448a
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/handoff.yml
+    digest: sha256:50bd149d76aa969038bda6302b91cea2492e055639a116e427d7273d39fd30fd
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:d88954f81bc911d51536786c6b0fbf5a5d98b77b15d2a7581a74cad74f1b310b
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:0ed76c13e98610fc777557497bb8992ff27f9b4dcab9bf57c645b5e87c9f548c
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:262f85252661695186f07d0a6cffd37da024a642dabdba55a171346fd028214c
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/events.manifest.yml
+  - .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/events.ndjson

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:69611449c42c40e0995532f8aea3e18158e826fa41f7f6453689ae0e16cae643
+  entry_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-19T21:48:42.752893Z
+  run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:25878dd051927d6d1349e8dd8a65f6415cfeac6460dcc93400dbef2656cecfec
+  entry_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-19T21:48:42.752893Z
+  run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-classify-repo-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T21:48:42.752893Z

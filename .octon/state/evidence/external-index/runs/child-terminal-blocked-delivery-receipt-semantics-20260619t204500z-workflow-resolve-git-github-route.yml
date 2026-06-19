@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:6254e9013bfba8cdb622dfc61a649739db26a6c599441797ac5946c3da574fae
+  entry_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-19T21:48:50.267866Z
+  run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:7d144d663807151fdf4e81f643009390d3e70e68fcde43fabeef2cc72358a065
+  entry_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-19T21:48:50.267866Z
+  run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow-resolve-git-github-route
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T21:48:50.267866Z

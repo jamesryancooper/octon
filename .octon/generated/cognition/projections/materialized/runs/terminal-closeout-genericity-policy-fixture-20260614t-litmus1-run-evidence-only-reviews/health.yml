@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: terminal-closeout-genericity-policy-fixture-20260614t-litmus1-run-evidence-only-reviews
-generated_at: '2026-06-17T14:38:29Z'
+generated_at: '2026-06-19T21:49:20Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:6d8e9fdc8972c7b0aa579da0086e2d2df514f42358a9fb9fe2869b51e9110565
-  checked_at: '2026-06-17T14:38:29Z'
+  combined_source_digest: sha256:39fc55e77c087e3d9fc3d859983c44eb7f812a711fafa1dd0829b31164f06076
+  checked_at: '2026-06-19T21:49:20Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-run-evidence-only-reviews/events.manifest.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:2645341a556cd36eaa4366709b894bc6911ec7b55b8a72963180327f4b1ceb0f
+    digest: sha256:d88954f81bc911d51536786c6b0fbf5a5d98b77b15d2a7581a74cad74f1b310b
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml

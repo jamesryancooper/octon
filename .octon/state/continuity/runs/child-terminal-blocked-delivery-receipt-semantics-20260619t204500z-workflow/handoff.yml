@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-06-19T21:48:54.700949Z

@@ -1,0 +1,28 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t211000z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics
+current_state: review-packet
+current_phase: review-and-revision
+completed_states: []
+last_route: review-packet
+loop_counts: {}
+phase_counts:
+  review-and-revision: 1
+last_phase_transition: phase-entered:review-and-revision
+phase_blockers:
+  final_verdict: executor-preflight-blocked
+receipt_digests:
+  proposal-review: sha256:7be0cde6b2c2c32f78429a8b1748857c898e9baf5cb6aec49ee37ab28deae8fa
+last_validator_results: []
+run_inputs:
+  target_outcome: archive-ready
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: executor-preflight-blocked
+resume_instruction: octon lifecycle resume --run-id child-terminal-blocked-delivery-receipt-semantics-20260619t211000z

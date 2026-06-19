@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: fixture-retention-closeout-1781484204063-17775-classify-retained-path-set
-generated_at: '2026-06-17T14:38:29Z'
+generated_at: '2026-06-19T21:49:20Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.1.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:5e691f4752da4f2bf5cecb58c07808c8e90fe30d26949fb874df66679b09fb55
-  checked_at: '2026-06-17T14:38:29Z'
+  combined_source_digest: sha256:c2754bdce458d32f450f974ee7f571ae6eecb0f6a714a1ef548819ba5868bb6b
+  checked_at: '2026-06-19T21:49:20Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/fixture-retention-closeout-1781484204063-17775-classify-retained-path-set/events.manifest.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:2645341a556cd36eaa4366709b894bc6911ec7b55b8a72963180327f4b1ceb0f
+    digest: sha256:d88954f81bc911d51536786c6b0fbf5a5d98b77b15d2a7581a74cad74f1b310b
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
