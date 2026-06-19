@@ -104,10 +104,10 @@
       "sha256": "sha256:3dac3c5ae1ea3b39df3ea85a37fb72474938053c6aa66dd9c6be504bf9fd62ee"
     },
     {
-      "byte_size": 4419,
-      "estimated_tokens": 1105,
+      "byte_size": 4075,
+      "estimated_tokens": 1019,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/proposal-closeout.md",
-      "sha256": "sha256:7b07ded921d43469523ba8fd2f92ec62be9d0f3314f0f4c959b8df8f9e000896"
+      "sha256": "sha256:f316502b9245905e935fc94e5e29dface6fe67f9f2b925455e63095a4917dc3b"
     },
     {
       "byte_size": 960,

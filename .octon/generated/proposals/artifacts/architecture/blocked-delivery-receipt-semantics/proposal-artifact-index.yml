@@ -337,8 +337,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 4419,
-      "estimated_tokens": 1105,
+      "byte_size": 4075,
+      "estimated_tokens": 1019,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-closeout.md",
@@ -349,7 +349,7 @@
         "validator-dispute"
       ],
       "role": "proposal-closeout",
-      "sha256": "sha256:7b07ded921d43469523ba8fd2f92ec62be9d0f3314f0f4c959b8df8f9e000896",
+      "sha256": "sha256:f316502b9245905e935fc94e5e29dface6fe67f9f2b925455e63095a4917dc3b",
       "stage_relevance": [
         "support-review"
       ],

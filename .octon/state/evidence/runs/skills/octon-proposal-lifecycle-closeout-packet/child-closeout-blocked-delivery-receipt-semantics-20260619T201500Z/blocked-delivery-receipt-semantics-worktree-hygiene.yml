@@ -1,0 +1,68 @@
+schema_version: "octon-proposal-worktree-hygiene-v1"
+target: ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics"
+lifecycle: "proposal-program"
+run_id: "operator-free-archived-parent-child-terminal-scope-20260619T200000Z"
+worktree_hygiene_verdict: "blocked"
+worktree_hygiene_blocker_class: "worktree-hygiene-blocked"
+worktree_hygiene_owned_path_count: 0
+worktree_hygiene_in_scope_path_count: 4
+worktree_hygiene_retained_fixture_path_count: 0
+worktree_hygiene_foreign_path_count: 1
+worktree_hygiene_publishable_change_path_count: 3
+worktree_hygiene_publishable_closeout_evidence_path_count: 1
+worktree_hygiene_cleanup_safe_path_count: 0
+worktree_hygiene_protected_retained_evidence_path_count: 0
+worktree_hygiene_protected_active_control_path_count: 0
+worktree_hygiene_manual_review_path_count: 1
+worktree_hygiene_foreign_fingerprint: "sha256:915dd3ff09d2cec099097df02b408f434577829b1ab509fc155b69179001f53b"
+worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"
+worktree_hygiene_partition_authority: "classification-only; does not authorize deletion, cleanup, publication, promotion, archive, closeout, or cleaned claims"
+next_route_condition: "route through closeout-change or operator scope resolution before proposal archive authorization"
+worktree_hygiene_partitions:
+  publishable_changes:
+    - source_bucket: "declared_in_scope_change"
+      status: " M"
+      path: ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/child-handoff-capsule.yml"
+      reason: "declared promotion target or same-scope durable change"
+    - source_bucket: "declared_in_scope_change"
+      status: " M"
+      path: ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/proposal-artifact-index.yml"
+      reason: "declared promotion target or same-scope durable change"
+    - source_bucket: "declared_in_scope_change"
+      status: " M"
+      path: ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/proposal-program-spine.yml"
+      reason: "declared promotion target or same-scope durable change"
+  publishable_closeout_evidence:
+    - source_bucket: "declared_in_scope_change"
+      status: " M"
+      path: ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/proposal-closeout.md"
+      reason: "child-owned support evidence for this target packet; proposal-local evidence is not runtime or policy authority"
+  cleanup_safe_local_residue:
+    []
+  protected_retained_evidence:
+    []
+  protected_active_control_state:
+    []
+  manual_review_foreign_ambiguous_unsafe_or_user_owned:
+    - source_bucket: "foreign_or_ambiguous"
+      status: "??"
+      path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/child-closeout-blocked-delivery-receipt-semantics-20260619T201500Z/blocked-delivery-receipt-semantics-worktree-hygiene.yml"
+      reason: "foreign, ambiguous, unsafe, or user-owned residue blocks worktree hygiene"
+owned_by_this_lifecycle_run:
+  []
+declared_in_scope_change:
+  - status: " M"
+    path: ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/child-handoff-capsule.yml"
+  - status: " M"
+    path: ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/proposal-artifact-index.yml"
+  - status: " M"
+    path: ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/proposal-program-spine.yml"
+  - status: " M"
+    path: ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/proposal-closeout.md"
+retained_by_fixture_retention:
+  []
+fixture_retention_receipts:
+  []
+foreign_or_ambiguous:
+  - status: "??"
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/child-closeout-blocked-delivery-receipt-semantics-20260619T201500Z/blocked-delivery-receipt-semantics-worktree-hygiene.yml"

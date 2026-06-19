@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:8e26c41f4b270cb874d4dedc034cab1e78ed03c47532f14f8d4fa6dbc403860a"
+      "sha256": "sha256:60f392ad601353d5ea13d9d7e8f661bedd79310b61af43a5b62a7cf124d1d15e"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/blocked-delivery-receipt-semantics/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:f0f0705acf69b4c791c2c8b35326ac7f8da961a145711f6badeec2b916998fe3"
+      "sha256": "sha256:c0867a9e690b25f7f610367cd50c804f62b413ea9884a576ed3382d628951b9c"
     }
   ],
-  "context_hash": "sha256:061ffb1876a89a1f302af14e440fb8fc4e59cec736f1d4855669b6fc2521a516",
+  "context_hash": "sha256:5a35a0f383514799a87d8abb0fa27982ccdf61f0272b5e161146255781b60152",
   "dependency_vector": {
     "parent_program": "operator-free-packet-lifecycle-autonomy",
     "related_proposals": [

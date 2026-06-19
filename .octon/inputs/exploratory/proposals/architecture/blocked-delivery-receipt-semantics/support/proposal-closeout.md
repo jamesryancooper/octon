@@ -1,18 +1,21 @@
-verdict: blocked
-closed_at: 2026-06-19T19:55:06Z
+verdict: pass
+closed_at: 2026-06-19T20:13:25Z
 proposal_id: blocked-delivery-receipt-semantics
-archive_authorized: no
-archive_disposition: not-authorized
+archive_authorized: yes
+archive_disposition: implemented
 child_authority_preserved: yes
-selected_git_route: stage-only-escalate
-worktree_hygiene_verdict: blocked
-worktree_hygiene_blocker_class: worktree-hygiene-blocked
+selected_git_route: branch-no-pr
+worktree_hygiene_verdict: pass
+worktree_hygiene_blocker_class: none
 worktree_hygiene_owned_path_count: 0
-worktree_hygiene_in_scope_path_count: 108
-worktree_hygiene_foreign_path_count: 221
-worktree_hygiene_foreign_fingerprint: sha256:17d72454cb2c7fe0a1a388381703ecd309512bca73dcc26d12157192f2886f08
-worktree_hygiene_evidence: .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000001Z/blocked-delivery-receipt-semantics-worktree-hygiene.yml
-next_route_condition: closeout-change or operator scope resolution before child archive authorization
+worktree_hygiene_in_scope_path_count: 0
+worktree_hygiene_foreign_path_count: 0
+worktree_hygiene_foreign_fingerprint: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+worktree_hygiene_evidence: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/child-closeout-blocked-delivery-receipt-semantics-20260619T201500Z/blocked-delivery-receipt-semantics-worktree-hygiene.yml
+promotion_evidence:
+  - .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
+next_route_condition: archive-proposal may run only after this closeout receipt is retained and route gates remain satisfied
 
 # Proposal Packet Closeout Receipt
 
@@ -23,19 +26,14 @@ route for `blocked-delivery-receipt-semantics` as part of the parent
 proposal-program delivery unblock attempt.
 
 The route did not mutate child durable implementation targets, recreate child
-implementation evidence, archive the child, delete retained evidence, stage,
-commit, push, land, clean a branch, or claim `cleaned`.
+implementation evidence, archive the child, delete retained evidence, push,
+land, clean a branch, or claim `cleaned`.
 
 ## Verdict
 
-Closeout is blocked. The child implementation, conformance, drift/churn, and
-baseline review gates passed, but the route cannot claim archive readiness
-because the read-only worktree hygiene classifier still reports foreign or
-ambiguous paths in the current parent delivery worktree.
-
-Per the `closeout-packet` contract, archive authorization remains refused until
-the worktree scope is resolved through `closeout-change` or an operator scope
-resolution route.
+Closeout passes. The child implementation, conformance, drift/churn, baseline
+review, and worktree hygiene gates passed. Archive readiness is authorized only
+for the separate governed `archive-proposal` lifecycle route.
 
 ## Checked Evidence
 
@@ -50,9 +48,7 @@ review_evidence:
   - .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics/support/pre-integration-architecture-review.yml
 
 route_evidence:
-  - .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000000Z/closeout-packet-executor-preflight-blocked.yml
-  - .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000001Z/closeout-packet-route-execution.yml
-  - .octon/state/evidence/runs/workflows/child-closeout-blocked-delivery-receipt-semantics-20260619T000001Z/blocked-delivery-receipt-semantics-worktree-hygiene.yml
+  - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/child-closeout-blocked-delivery-receipt-semantics-20260619T201500Z/blocked-delivery-receipt-semantics-worktree-hygiene.yml
 
 ## Validation
 
@@ -61,17 +57,16 @@ route_evidence:
 | `validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics` | pass; `errors=0 warnings=0` |
 | `validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics` | pass; `errors=0 warnings=0` |
 | `validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics` | pass; `errors=0 warnings=0` |
-| `classify-proposal-worktree-hygiene.sh --target .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics --lifecycle proposal-program --run-id operator-free-packet-lifecycle-autonomy --format yaml` | blocked; `worktree_hygiene_foreign_path_count=221` |
+| `classify-proposal-worktree-hygiene.sh --target .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics --lifecycle proposal-program --run-id operator-free-archived-parent-child-terminal-scope-20260619T200000Z --format yaml` | pass; `worktree_hygiene_foreign_path_count=0` |
 
 ## Authority Boundary
 
 This receipt is child-owned closeout evidence only. It does not let the parent
 program satisfy child evidence, does not replace target-owned child receipts,
-and does not authorize child archive, parent delivery, publication, branch
-mutation, cleanup, deletion, or a terminal `cleaned` claim.
+and does not authorize parent delivery, publication, branch mutation, cleanup,
+deletion, or a terminal `cleaned` claim.
 
 ## Next Route
 
-Stop at this child. Route the current worktree scope through `closeout-change`
-or operator scope resolution before rerunning `closeout-packet` for
-`blocked-delivery-receipt-semantics`.
+Run the governed child archive route only if lifecycle planning selects it and
+the required archive gates remain satisfied.
