@@ -1,11 +1,11 @@
 # Proposal Review
 
-review_id: blocked-delivery-receipt-semantics-review-refresh-20260619T223719Z
-reviewed_at: 2026-06-19T22:37:19Z
+review_id: blocked-delivery-receipt-semantics-review-refresh-20260619T231852Z
+reviewed_at: 2026-06-19T23:18:52Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:82e686b2fda0f1d3f87f911277605475ff238ebe8d613cefbd1802be0c39436d
+reviewed_packet_digest: sha256:8213184351dea559d1ce9a9bfbca0d1093bda214301f02d1dd4898337294e228
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -20,8 +20,8 @@ open_blocking_findings_count: 0
 - Does not authorize branch-no-PR closeout state machine changes.
 - Does not authorize generated output hand edits.
 - Does not authorize historical receipt mutation.
-- Does not authorize closeout, archive, cleanup, landing, publication,
-  deletion, or a `cleaned` claim.
+- Does not independently authorize closeout, archive, cleanup, landing,
+  publication, deletion, or a `cleaned` claim.
 - Does not allow aggregate delivery receipts to replace target-owned receipts.
 
 ## Blocking Findings
@@ -43,6 +43,10 @@ None.
   `archive_ready: yes` with no blocker after the generated run-health
   publication refresh. The next child-owned route is the archive route selected
   by the proposal-packet planner, not durable implementation work.
+- The canonical child archive route moved this packet to the proposal archive
+  and preserved child-owned evidence. This review refresh binds the accepted
+  review to the archived packet digest without reauthorizing implementation or
+  changing durable promotion targets.
 - The correction revision changes only the child manifest's `parent_program`
   field to the scalar parent proposal identifier supported by the canonical
   artifact-index generator.
@@ -55,9 +59,11 @@ None.
 
 ## Final Route Recommendation
 
-Proceed only to the child-owned archive route selected by the proposal-packet
-planner after the terminal closeout receipt validates as `archive-ready`.
+Treat this child packet as archived terminal evidence for the parent program's
+child terminal gate. Any further parent delivery, cleanup, landing,
+publication, deletion, or `cleaned` claim remains owned by a separate parent
+delivery route.
 
-The child packet remains implemented after child-only promotion. Parent program
-promotion, closeout, archive, publication, landing, cleanup, deletion, and
+The child packet preserves implemented promotion evidence under archived
+status. Parent program delivery, publication, landing, cleanup, deletion, and
 `cleaned` claims remain outside this child review.

@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: blocked-delivery-receipt-semantics
+title: Blocked Delivery Receipt Semantics
+summary: Child architecture packet for making proposal-packet delivery receipts structurally truthful when delivery is blocked, while keeping cleaned outcomes strict. The packet preserves target-owned receipt requirements and prevents blocked aggregate receipts from being converted into successful delivery claims.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
+status: archived
+archive:
+  archived_at: 2026-06-19
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics
+  promotion_evidence:
+  - .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after child-owned review acceptance and implementation authorization. Promotion must update the receipt schema and validator so explicit blocked outcomes validate structurally, while cleaned outcomes still require all success evidence and target-owned receipts.
+related_proposals:
+- operator-free-packet-lifecycle-autonomy
+- packet-delivery-wrapper-orchestration-autonomy
+acceptance_criteria_summary: Accepted implementation must distinguish blocked delivery evidence from cleaned delivery evidence, validate explicit blockers, reject open blockers for successful outcomes, and preserve target-owned receipt requirements.
+authority_class_impact:
+  framework: Updates a product receipt contract and its validator.
+  instance: No instance authority changes.
+  state_control: No state-control mutation from this packet.
+  state_evidence: Future implementation must retain child-owned validation evidence.
+  generated: No generated output edits from this packet.
+  inputs: This child packet remains non-authoritative proposal input.
+created_date: 2026-06-17
+evidence_requirements:
+- Child-owned accepted proposal review.
+- Strict pre-integration architecture review receipt.
+- Implementation-grade completeness receipt.
+- Receipt validator evidence for blocked and cleaned outcomes.
+- Negative controls for missing blockers and forged pass states.
+generated_input_authority_impact: None. Generated outputs remain derived-only and proposal-local files do not authorize lifecycle, delivery, cleanup, or closeout effects.
+owner:
+  role: Octon proposal packet author
+  accountable_role: human operator / repository owner
+parent_program: operator-free-packet-lifecycle-autonomy
+rollback_summary: Revert schema and validator changes together if blocked semantics become permissive or weaken cleaned delivery requirements. Retain the child packet and review receipts as proposal-local lineage.
+runtime_behavior_impact: Future implementation may allow blocked proposal-packet delivery receipts to pass structural validation when blockers are explicit. It must keep non- blocked and cleaned outcomes strict.
+scope_statement: This child owns blocked delivery receipt semantics only. It does not implement delivery orchestration, branch-no-PR closeout, generated freshness, worktree cleanup, terminal proof, or git mutation preflight behavior.
+selected_implementation_target: truthful blocked proposal-packet delivery receipt semantics
+sequence:
+  priority: P0
+  order: 1
+  dependency_gate: review
+  dependencies: []
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-proposal-review-gate.sh
+- validate-architectural-review-receipts.sh
+- validate-proposal-packet-delivery-receipt.sh
+- test-validate-proposal-packet-delivery.sh

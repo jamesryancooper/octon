@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:1c452abd24cf3662c1d1446aac2588bfd4ddb793ef9fb9df04934e97cf167578
+  entry_id: child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-19T23:03:09.270452Z
+  run_id: child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:99ac8d13ddf0c737b030424d11a2496124a4adeba641875e452e7bf13d21f06d
+  entry_id: child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-19T23:03:09.270452Z
+  run_id: child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal
+run_id: child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T23:03:09.270452Z

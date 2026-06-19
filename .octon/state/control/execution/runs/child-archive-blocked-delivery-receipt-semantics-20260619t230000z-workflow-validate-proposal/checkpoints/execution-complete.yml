@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal
+checkpoint_id: execution-complete
+stage_attempt_id: validate-proposal--initial
+checkpoint_kind: execution-complete
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal/checkpoints/execution-complete.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/child-archive-blocked-delivery-receipt-semantics-20260619t230000z-workflow-validate-proposal/checkpoints/execution-complete.yml
+notes: Execution outcome materialized under the canonical run root.
+created_at: 2026-06-19T23:03:09.821245Z
+updated_at: 2026-06-19T23:03:09.821245Z

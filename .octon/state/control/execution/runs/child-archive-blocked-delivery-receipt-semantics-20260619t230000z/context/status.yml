@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-archive-blocked-delivery-receipt-semantics-20260619t230000z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-archive-blocked-delivery-receipt-semantics-20260619t230000z/context/context-pack.json
+route_id: archive-proposal
+run_id: child-archive-blocked-delivery-receipt-semantics-20260619t230000z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-19T23:03:06.295989Z
+validity_state: valid

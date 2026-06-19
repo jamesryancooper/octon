@@ -1,0 +1,27 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: child-archive-blocked-delivery-receipt-semantics-20260619t230000z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics
+current_state: create-packet
+current_phase: packet-creation
+completed_states: []
+last_route: create-packet
+loop_counts: {}
+phase_counts:
+  archival: 1
+  packet-creation: 1
+last_phase_transition: phase-entered:packet-creation
+phase_blockers:
+  final_verdict: blocked-max-steps
+receipt_digests: {}
+last_validator_results: []
+run_inputs: {}
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-max-steps
+resume_instruction: octon lifecycle resume --run-id child-archive-blocked-delivery-receipt-semantics-20260619t230000z
