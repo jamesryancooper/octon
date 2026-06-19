@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-closeout-packet-delivery-wrapper-orchestration-autonomy-20260619t232200z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-closeout-packet-delivery-wrapper-orchestration-autonomy-20260619t232200z/context/context-pack.json
+route_id: closeout-packet
+run_id: child-closeout-packet-delivery-wrapper-orchestration-autonomy-20260619t232200z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-19T23:27:46.303995Z
+validity_state: valid
