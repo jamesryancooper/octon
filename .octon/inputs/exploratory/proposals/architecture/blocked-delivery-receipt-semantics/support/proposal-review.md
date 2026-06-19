@@ -1,11 +1,11 @@
 # Proposal Review
 
-review_id: blocked-delivery-receipt-semantics-review-refresh-20260619T220233Z
-reviewed_at: 2026-06-19T22:02:33Z
+review_id: blocked-delivery-receipt-semantics-review-refresh-20260619T223243Z
+reviewed_at: 2026-06-19T22:32:43Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:54ad0ae431facd805e78078e0c10f3de613127a500d9376fe46c1b16761eb3d9
+reviewed_packet_digest: sha256:fbb5fbec0d48d89768e7ded3bb7cb077bc3c7ac3986bffb41cfa0503fade9173
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -35,13 +35,14 @@ None.
   canonical terminal-closeout route and blocked on generated run-health
   freshness. The child remains implemented; this review refresh preserves
   implementation authorization only as retained child-owned evidence.
-- Terminal closeout retry evidence changed the child packet digest again after
-  the run-health refresh; this child-owned review refresh keeps the accepted
-  review bound to the current implemented packet without changing durable
-  promotion targets.
-- The final terminal closeout retry produced an `archive-ready` receipt with
-  worktree hygiene pass and no blocker; this review refresh keeps child-owned
-  implementation authorization fresh for archive planning only.
+- Terminal closeout retry evidence changed the child packet digest after the
+  canonical run-health materialization route refreshed generated run-health
+  projections. This child-owned review refresh keeps the accepted review bound
+  to the current implemented packet without changing durable promotion targets.
+- The current terminal closeout receipt is valid retained evidence and records
+  a recoverable generated run-health publication blocker that has since been
+  corrected by the owning generator. The next child-owned route is another
+  terminal closeout retry, not durable implementation work.
 - The correction revision changes only the child manifest's `parent_program`
   field to the scalar parent proposal identifier supported by the canonical
   artifact-index generator.
@@ -54,11 +55,11 @@ None.
 
 ## Final Route Recommendation
 
-Generate an implementation prompt for this child packet only. The implementation
-route must update the receipt schema and receipt validator together, then run
-proposal-packet delivery receipt validation and tests before any downstream
-child depends on this packet.
+Rerun the child-owned proposal-packet terminal closeout route after the
+generated run-health projection refresh. If the terminal closeout receipt becomes
+`archive-ready`, proceed only to the child-owned archive route selected by the
+proposal-packet planner.
 
-The child packet is implemented after child-only promotion. Parent program
+The child packet remains implemented after child-only promotion. Parent program
 promotion, closeout, archive, publication, landing, cleanup, deletion, and
-`cleaned` claims remain unauthorized.
+`cleaned` claims remain outside this child review.
