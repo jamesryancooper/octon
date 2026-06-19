@@ -1,11 +1,11 @@
 # Proposal Review
 
-review_id: blocked-delivery-receipt-semantics-review-refresh-20260619T223243Z
-reviewed_at: 2026-06-19T22:32:43Z
+review_id: blocked-delivery-receipt-semantics-review-refresh-20260619T223719Z
+reviewed_at: 2026-06-19T22:37:19Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:fbb5fbec0d48d89768e7ded3bb7cb077bc3c7ac3986bffb41cfa0503fade9173
+reviewed_packet_digest: sha256:82e686b2fda0f1d3f87f911277605475ff238ebe8d613cefbd1802be0c39436d
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -40,9 +40,9 @@ None.
   projections. This child-owned review refresh keeps the accepted review bound
   to the current implemented packet without changing durable promotion targets.
 - The current terminal closeout receipt is valid retained evidence and records
-  a recoverable generated run-health publication blocker that has since been
-  corrected by the owning generator. The next child-owned route is another
-  terminal closeout retry, not durable implementation work.
+  `archive_ready: yes` with no blocker after the generated run-health
+  publication refresh. The next child-owned route is the archive route selected
+  by the proposal-packet planner, not durable implementation work.
 - The correction revision changes only the child manifest's `parent_program`
   field to the scalar parent proposal identifier supported by the canonical
   artifact-index generator.
@@ -55,10 +55,8 @@ None.
 
 ## Final Route Recommendation
 
-Rerun the child-owned proposal-packet terminal closeout route after the
-generated run-health projection refresh. If the terminal closeout receipt becomes
-`archive-ready`, proceed only to the child-owned archive route selected by the
-proposal-packet planner.
+Proceed only to the child-owned archive route selected by the proposal-packet
+planner after the terminal closeout receipt validates as `archive-ready`.
 
 The child packet remains implemented after child-only promotion. Parent program
 promotion, closeout, archive, publication, landing, cleanup, deletion, and

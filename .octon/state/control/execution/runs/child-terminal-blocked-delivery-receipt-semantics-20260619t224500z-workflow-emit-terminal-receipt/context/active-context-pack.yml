@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-emit-terminal-receipt/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-emit-terminal-receipt/context/context-pack.json
+context_pack_sha256: sha256:108003765b375e6668c983e72711874652d47e9dafc3ec812916c612e85ebaa4
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-emit-terminal-receipt/context/model-visible-context.json
+model_visible_context_sha256: sha256:37654d067c38da0622d04563d98cc372464e8d9394693fad6819615569962188
+receipt_sha256: sha256:9892669ea808f762a66331190d7a1cefdd07c93ef739d4488168eb6a8ea69607
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-emit-terminal-receipt
+schema_version: active-context-pack-v1
+updated_at: 2026-06-19T22:36:35.262069Z
+validity_state: valid

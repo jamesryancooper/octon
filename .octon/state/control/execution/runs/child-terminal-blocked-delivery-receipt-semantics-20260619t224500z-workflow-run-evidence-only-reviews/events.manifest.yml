@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+ledger_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:02b3fc914073e538fad07502d2ce14d6e895027979874c53b4854c6bacc6df08
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  sequence: 1
+  event_hash: sha256:679f965bf0b661b4e007384c511bd51d779533b277443ea9d96aa68733fedb4d
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  sequence: 29
+  event_hash: sha256:50f92fcfbdb031bcbb3ce470e1a4f7d3c0d3894326af81a7cdb80e887314414e
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:679f965bf0b661b4e007384c511bd51d779533b277443ea9d96aa68733fedb4d
+  tail_event_hash: sha256:50f92fcfbdb031bcbb3ce470e1a4f7d3c0d3894326af81a7cdb80e887314414e
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  context_pack_ref: evt-context-pack-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  disclosure_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-711ba51370d5
+  run_contract_ref: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  run_manifest_ref: evt-002-run-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  runtime_state_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  stage_attempt_ref: evt-stage-started-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-run-evidence-only-reviews
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:50f92fcfbdb031bcbb3ce470e1a4f7d3c0d3894326af81a7cdb80e887314414e
+  materialized_at: 2026-06-19T22:36:32.219358Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-19T22:36:32.986101Z

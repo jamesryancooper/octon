@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-verify-durable-implementation-state/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-verify-durable-implementation-state/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-verify-durable-implementation-state/context/model-visible-context.json
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-verify-durable-implementation-state
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-19T22:34:56.715036Z
+validity_state: valid

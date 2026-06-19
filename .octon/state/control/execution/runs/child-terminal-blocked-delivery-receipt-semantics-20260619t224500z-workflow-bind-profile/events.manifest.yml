@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+ledger_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:48aa2c8148720705ccbd3d3cb2f4b84310a3b75f9cf60dd7d40f0ac00066350c
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  sequence: 1
+  event_hash: sha256:eb617b5a9ee2379b291c2ffa8d9f34b6387cbb6b31a533193a7d0e81be42e855
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  sequence: 29
+  event_hash: sha256:43f9740d635a572829cca2df2f3ac89f2294ec921134d7f24fb675f977e910ff
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:eb617b5a9ee2379b291c2ffa8d9f34b6387cbb6b31a533193a7d0e81be42e855
+  tail_event_hash: sha256:43f9740d635a572829cca2df2f3ac89f2294ec921134d7f24fb675f977e910ff
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  context_pack_ref: evt-context-pack-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  disclosure_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-e4cd7da6209c
+  run_contract_ref: evt-001-run-created-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  run_manifest_ref: evt-002-run-bound-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  runtime_state_ref: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  stage_attempt_ref: evt-stage-started-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-bind-profile
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:43f9740d635a572829cca2df2f3ac89f2294ec921134d7f24fb675f977e910ff
+  materialized_at: 2026-06-19T22:34:55.702653Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-19T22:34:56.44934Z

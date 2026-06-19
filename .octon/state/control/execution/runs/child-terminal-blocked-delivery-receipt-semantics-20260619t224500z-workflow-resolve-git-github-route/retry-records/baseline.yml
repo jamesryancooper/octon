@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-19T22:36:33.23508Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-resolve-git-github-route-baseline
+route_taken: allow
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-resolve-git-github-route
+schema_version: run-retry-record-v1
+stage_attempt_id: resolve-git-github-route--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-resolve-git-github-route/stage-attempts/resolve-git-github-route--initial.yml
