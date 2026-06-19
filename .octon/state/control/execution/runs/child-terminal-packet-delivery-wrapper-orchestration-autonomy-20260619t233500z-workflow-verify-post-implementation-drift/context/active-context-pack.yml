@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-verify-post-implementation-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-verify-post-implementation-drift/context/context-pack.json
+context_pack_sha256: sha256:cc505b319b775cc5f872f84fdcc76a9f9b53f19a0f2a9484e999eb84c1c6ee87
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-verify-post-implementation-drift/context/model-visible-context.json
+model_visible_context_sha256: sha256:6c4702948d1f75d79a687287d7d9890df926d3451047b39ec97ef53811110609
+receipt_sha256: sha256:6afee866edadcd3ae44d43753c62763978839ea4088cb2736dc1205b039a6770
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-verify-post-implementation-drift
+schema_version: active-context-pack-v1
+updated_at: 2026-06-19T23:32:48.578435Z
+validity_state: valid

@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+ledger_ref: .octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:2d5386c5d14c3e86e7c8ed099bbaeb5e5448cc4a12303bfd7d5b790be964a2af
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  sequence: 1
+  event_hash: sha256:b0a3586ce1e5b56da2b438714b0239e57e9f0bdac1c93e6f2710b200af840052
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  sequence: 29
+  event_hash: sha256:4fa45b38005ee5d2a40ad37cdc029263bc4ddd986453600ef455b7cc4f22f450
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:b0a3586ce1e5b56da2b438714b0239e57e9f0bdac1c93e6f2710b200af840052
+  tail_event_hash: sha256:4fa45b38005ee5d2a40ad37cdc029263bc4ddd986453600ef455b7cc4f22f450
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  context_pack_ref: evt-context-pack-bound-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  disclosure_ref: evt-run-closed-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-f18444c85412
+  run_contract_ref: evt-001-run-created-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  run_manifest_ref: evt-002-run-bound-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  runtime_state_ref: evt-run-closed-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  stage_attempt_ref: evt-stage-started-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:4fa45b38005ee5d2a40ad37cdc029263bc4ddd986453600ef455b7cc4f22f450
+  materialized_at: 2026-06-19T23:34:17.454227Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-19T23:34:18.297182Z

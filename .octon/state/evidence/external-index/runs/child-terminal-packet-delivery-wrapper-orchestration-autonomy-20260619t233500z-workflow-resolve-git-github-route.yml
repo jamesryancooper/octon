@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:7f2ede5231fdc82a62b3b6fa255d055269d787bc39480831d93dcf94c7381f2e
+  entry_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-19T23:34:17.454227Z
+  run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:e6be881eedc2c7332ffc96357d5cf693d86882b9f0e5b147f36e5fbde70ef71a
+  entry_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-19T23:34:17.454227Z
+  run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T23:34:17.454227Z

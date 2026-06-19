@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:5ca07c9c9f567bb535f2d48f29deed1ea69dbda50088e9a88d3e2d89e1db5f47
+  entry_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-19T23:34:14.195002Z
+  run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:577a662a8d3076a09a3076eb8afcb8cbb2eea0f15223f724a0107ff578f65dd9
+  entry_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-19T23:34:14.195002Z
+  run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T23:34:14.195002Z

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:c0e1e7de83cf4eec6151c16b16c2579c21d889e2fd13ed00350c56b34e203b15
+  entry_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-19T23:34:05.812644Z
+  run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:8d2700e2b369fa081c62d7e1f5078715648299295b4ec4aba5bbc6e70672cd02
+  entry_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-19T23:34:05.812644Z
+  run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-validate-publication-freshness
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T23:34:05.812644Z

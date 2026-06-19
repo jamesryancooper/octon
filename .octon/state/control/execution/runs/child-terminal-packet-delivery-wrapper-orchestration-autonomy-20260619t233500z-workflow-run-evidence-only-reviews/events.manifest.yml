@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+ledger_ref: .octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:7784011b74652f048db7d24ea0fed211f2a73b4ffcff28afac766d633d2d28c7
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  sequence: 1
+  event_hash: sha256:cbfa23dae6178c9a9b592891773f884847c48414f48422c620abe8b6a0523946
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  sequence: 29
+  event_hash: sha256:9481428bf32f4ee2f8b620e20130a4af23e1e7c5e4c17ea1bea5a8c2414f51ef
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:cbfa23dae6178c9a9b592891773f884847c48414f48422c620abe8b6a0523946
+  tail_event_hash: sha256:9481428bf32f4ee2f8b620e20130a4af23e1e7c5e4c17ea1bea5a8c2414f51ef
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  context_pack_ref: evt-context-pack-bound-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  disclosure_ref: evt-run-closed-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-b7f7e5b3c50a
+  run_contract_ref: evt-001-run-created-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  run_manifest_ref: evt-002-run-bound-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  runtime_state_ref: evt-run-closed-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  stage_attempt_ref: evt-stage-started-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-run-evidence-only-reviews
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:9481428bf32f4ee2f8b620e20130a4af23e1e7c5e4c17ea1bea5a8c2414f51ef
+  materialized_at: 2026-06-19T23:34:14.195002Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-19T23:34:15.42836Z

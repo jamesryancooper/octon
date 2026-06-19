@@ -1,5 +1,5 @@
 {
-  "artifact_count": 20,
+  "artifact_count": 21,
   "artifacts": [
     {
       "byte_size": 934,
@@ -280,8 +280,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 4126,
-      "estimated_tokens": 1032,
+      "byte_size": 4359,
+      "estimated_tokens": 1090,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
@@ -292,7 +292,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:8a88fa79543e00782068e58560666356ebefdc88324f2133ef954574c9c7c7f2",
+      "sha256": "sha256:de1c22eea0506fe9e19dc1e41e59dbe7e1f3a8a103aa645fbc8fce471656779f",
       "stage_relevance": [
         "support-review"
       ],
@@ -337,8 +337,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 2288,
-      "estimated_tokens": 572,
+      "byte_size": 2541,
+      "estimated_tokens": 636,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
@@ -349,10 +349,29 @@
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:7e62e83cccc6d5fbfb4bc642cd5a0d03b4ecb02babf5465bad8a99d341dfcc28",
+      "sha256": "sha256:53af60c6366906534d008bcf7a06932cc365ac410ac18094cb17af2cabba5648",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 30003,
+      "estimated_tokens": 7501,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:d4c3b5c4073b27028f656ea1354677e62b93c7a81e066a9c469704b466b7b454",
+      "stage_relevance": [
+        "support-review"
       ],
       "stage_role": "evidence-annex"
     },
@@ -462,7 +481,7 @@
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal.yml": "sha256:1df13e668fa9c40f86874db26f5e33430560841e60fef379acb650b34a6cf297",
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md": "sha256:c10df556d32cab1bdabc9e3465de6ef4ea578d46d4fc60cd1deac10d1f722132",
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md": "sha256:24a3273c58df6dea3d55cbdcb9adf2cb09f274d2457f2bba70318cdcd29dde52",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md": "sha256:7e62e83cccc6d5fbfb4bc642cd5a0d03b4ecb02babf5465bad8a99d341dfcc28"
+    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md": "sha256:53af60c6366906534d008bcf7a06932cc365ac410ac18094cb17af2cabba5648"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml",

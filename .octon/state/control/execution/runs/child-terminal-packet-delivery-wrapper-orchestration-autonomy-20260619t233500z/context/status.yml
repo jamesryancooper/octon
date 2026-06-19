@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z/context/context-pack.json
+route_id: proposal-packet-terminal-closeout
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-19T23:32:40.077106Z
+validity_state: valid

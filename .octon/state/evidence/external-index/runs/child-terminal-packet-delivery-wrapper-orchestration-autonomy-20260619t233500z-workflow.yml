@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:8957a437b59690201a2d2ac89cf65b24904ef34fa1ff60311e16e38ccee717b0
+  entry_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow/replay/manifest.yml
+  recorded_at: 2026-06-19T23:34:21.594597Z
+  run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:084f8b41a9ad46faa959590d431c291b57f7147eec79d0ab82fb8052e785499e
+  entry_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow/replay/manifest.yml
+  recorded_at: 2026-06-19T23:34:21.594597Z
+  run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T23:34:21.594597Z

@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z/context/context-pack.json
+context_pack_sha256: sha256:7d5c304fac5d6325bfb7d614447348a70e6bdc3fa4e08dd2b2d330ba07c05379
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z/context/model-visible-context.json
+model_visible_context_sha256: sha256:eb5ef7abe8a6f4d5754166bbc05d3665a235999c44bf211433754f894d5a6c11
+receipt_sha256: sha256:ad24f126ec7a78ffd7266587c9404741411e5adc8e65d6a38c249a568f3ce9a9
+route_id: proposal-packet-terminal-closeout
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-19T23:32:40.077106Z
+validity_state: valid

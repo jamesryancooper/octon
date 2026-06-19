@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:59c8b58ef48bd9ef5590adaf16583f9503d7a02bff4b23c0839602d879151116
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:d8438cc8e6d5313751963d7ef3e327d70b158d683fc42e0c731081e104068f63
+receipt_sha256: sha256:2ab4868ee2507c98c7bdc04b48b420f0517f39696fba675edd7ff094d248b733
+run_id: child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-19T23:34:15.868963Z
+validity_state: valid
