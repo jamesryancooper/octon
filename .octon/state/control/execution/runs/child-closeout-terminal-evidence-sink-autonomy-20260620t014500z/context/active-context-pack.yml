@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-closeout-terminal-evidence-sink-autonomy-20260620t014500z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-closeout-terminal-evidence-sink-autonomy-20260620t014500z/context/context-pack.json
+context_pack_sha256: sha256:405225fe612b6ba2e965c365057de5e8edba1b3e8112aa833a5e514fe4503618
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/child-closeout-terminal-evidence-sink-autonomy-20260620t014500z/context/model-visible-context.json
+model_visible_context_sha256: sha256:d50ee9bb8449dc34b050aad3de85ee962c02d40f127bee18114e9908611ad20f
+receipt_sha256: sha256:d9ea6db4b7a13e850c0d127f8f60b1f370cecb724499fa9110a3e400425c1027
+route_id: closeout-packet
+run_id: child-closeout-terminal-evidence-sink-autonomy-20260620t014500z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T01:35:34.183739Z
+validity_state: valid

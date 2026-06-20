@@ -13,8 +13,8 @@
   },
   "child_registry": {
     "child_id_present": true,
-    "registry_ref": ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
-    "sha256": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9"
+    "registry_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
+    "sha256": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743"
   },
   "failure_behavior": [
     "fail-closed-on-source-missing",
@@ -105,6 +105,12 @@
       "sha256": "sha256:105261b43c920b5a613399e4b37ffbbf6d6cf9e97f676d592c2caa08db7c1f83"
     },
     {
+      "byte_size": 4348,
+      "estimated_tokens": 1087,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-closeout.md",
+      "sha256": "sha256:d891b1d5ee4c0b106dc189aba94996f18cc6b91110f2f4f84d99233c0229ed4e"
+    },
+    {
       "byte_size": 604,
       "estimated_tokens": 151,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-creation.md",
@@ -130,7 +136,7 @@
   ],
   "schema_version": "octon-proposal-program-spine-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture-proposal.yml": "sha256:48dc1549543e62d7bcc921ad9e894ea7cc3943a86a6e3f9b7da494d0466bbcc6",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture/acceptance-criteria.md": "sha256:d7cbb93ae705ca920416608e5f1fc3682a2eb79b9a789fcf9dd687ca24dfb69b",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture/implementation-plan.md": "sha256:9bd9ac0b33067bdf0a040d3550cebdcec1210bc2b1d1376fdd4877776243c2ad",
@@ -143,7 +149,7 @@
   },
   "source_lineage": [],
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture-proposal.yml",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture/acceptance-criteria.md",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture/implementation-plan.md",

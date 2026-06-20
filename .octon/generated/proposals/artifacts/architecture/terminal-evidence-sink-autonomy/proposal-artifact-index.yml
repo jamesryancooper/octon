@@ -1,5 +1,5 @@
 {
-  "artifact_count": 18,
+  "artifact_count": 19,
   "artifacts": [
     {
       "byte_size": 373,
@@ -293,6 +293,25 @@
       ],
       "role": "pre-integration-architecture-review",
       "sha256": "sha256:d24ed4dae0a31dfafe07c23a303a8127d19746a3d24000687a9847a97b3694ec",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4348,
+      "estimated_tokens": 1087,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:d891b1d5ee4c0b106dc189aba94996f18cc6b91110f2f4f84d99233c0229ed4e",
       "stage_relevance": [
         "support-review"
       ],
