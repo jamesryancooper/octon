@@ -30,15 +30,15 @@
   "gate_states": {
     "implementation_readiness": {
       "clarification_required": "no",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md",
       "unresolved_questions_count": "0",
       "verdict": "pass"
     },
     "proposal_review": {
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md",
-      "reviewed_packet_digest": "sha256:f721a0dfc6dce5f572d2533b72390851a785dd5408848e493dcd0c8ee14c1a96",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:d87eda4619307db859f9da4c01eeca199af3008c0d2e7eee23255633e28644c4",
       "verdict": "accepted"
     },
     "validators": [
@@ -51,7 +51,7 @@
   },
   "lifecycle": {
     "exit_expectation": "Implement only after child-owned review acceptance, implementation authorization, and branch-no-PR closeout state machine verification.",
-    "status": "implemented",
+    "status": "archived",
     "temporary": true
   },
   "output_ref": ".octon/generated/proposals/artifacts/architecture/git-mutation-sandbox-preflight/proposal-program-spine.yml",
@@ -63,7 +63,7 @@
   ],
   "proposal_id": "git-mutation-sandbox-preflight",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -76,55 +76,55 @@
     {
       "byte_size": 8349,
       "estimated_tokens": 2088,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md",
       "sha256": "sha256:ae40876bff4f1f1d22454234981e80e91cf50cdf8060636156ad6a43175d6cdd"
     },
     {
       "byte_size": 4096,
       "estimated_tokens": 1024,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-conformance-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/implementation-conformance-review.md",
       "sha256": "sha256:c78690ec3d0abe63f472dd526987cb6421df3eaf03020a229990e5b830ab2df1"
     },
     {
       "byte_size": 2091,
       "estimated_tokens": 523,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md",
       "sha256": "sha256:a37a386e2721001a79a0581e5e8de89abfe81353e09a8064d2705f4e839ad3d3"
     },
     {
       "byte_size": 5469,
       "estimated_tokens": 1368,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-run.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/implementation-run.md",
       "sha256": "sha256:574beef126edc68c38128dd6ba388ecba57ae4eb48b7245c434f633945a1d495"
     },
     {
       "byte_size": 3462,
       "estimated_tokens": 866,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/post-implementation-drift-churn-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/post-implementation-drift-churn-review.md",
       "sha256": "sha256:378a4f085309fc88282971b77612402de1746d5f63d7a176a44cafc11260d685"
     },
     {
       "byte_size": 4353,
       "estimated_tokens": 1089,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-closeout.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/proposal-closeout.md",
       "sha256": "sha256:32df3c4a7dc1c3a3b05d5f9ba079d4dbeda086117babc79d2f30ed6402515dc2"
     },
     {
       "byte_size": 602,
       "estimated_tokens": 151,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-creation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/proposal-creation.md",
       "sha256": "sha256:f010c114fcd17066ffa47e1e12cb4c067344f055c66943abde0daa04d368666f"
     },
     {
-      "byte_size": 1477,
-      "estimated_tokens": 370,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md",
-      "sha256": "sha256:96ec5e17b1533574c011df76a67f102d5756bbb21f649d7b3b17ae3a878a16c7"
+      "byte_size": 1595,
+      "estimated_tokens": 399,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/proposal-review.md",
+      "sha256": "sha256:1cfaf637a4406e7c56af9221ef61e7b71d1f0ceec73ce70e226eedfff256075c"
     },
     {
       "byte_size": 6390,
       "estimated_tokens": 1598,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/validation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/validation.md",
       "sha256": "sha256:12d992be2157c18651bcd29eaada39c64d821a706ca30a243c0d073f5e30743b"
     }
   ],
@@ -134,29 +134,29 @@
   ],
   "schema_version": "octon-proposal-program-spine-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture-proposal.yml": "sha256:2f3463603550a1b7811a82703c66fcc9386fc1992f50b952a9738d82c5f00589",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture/acceptance-criteria.md": "sha256:fdd20960e62472cc804c356c9574bd806061f8338d70553b872b4ac2acbd145d",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture/implementation-plan.md": "sha256:2c49d770883b2f557948e615bcd6ddad670db66808530fb5eeb47d1924056bd1",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/navigation/artifact-catalog.md": "sha256:6946ae0cf2fb73d4dc639ad24fce3e994ff0b440299ceaea83dd88233804a058",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/navigation/source-of-truth-map.md": "sha256:30a283b8d0901965d1366ff0c203941a21bd4ad43f623dc7668e3409aad444d1",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/proposal.yml": "sha256:3af5319ce647c2f1805c8b32777be5a3fcb146b985662622dba8b1b445720dcc",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md": "sha256:ae40876bff4f1f1d22454234981e80e91cf50cdf8060636156ad6a43175d6cdd",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md": "sha256:a37a386e2721001a79a0581e5e8de89abfe81353e09a8064d2705f4e839ad3d3",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md": "sha256:96ec5e17b1533574c011df76a67f102d5756bbb21f649d7b3b17ae3a878a16c7"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/architecture-proposal.yml": "sha256:2f3463603550a1b7811a82703c66fcc9386fc1992f50b952a9738d82c5f00589",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/architecture/acceptance-criteria.md": "sha256:fdd20960e62472cc804c356c9574bd806061f8338d70553b872b4ac2acbd145d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/architecture/implementation-plan.md": "sha256:2c49d770883b2f557948e615bcd6ddad670db66808530fb5eeb47d1924056bd1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/navigation/artifact-catalog.md": "sha256:5368c17ddd307b903c675c0a5b11aa4aa14d9e5a188c29e4bd6b014aa51e7877",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/navigation/source-of-truth-map.md": "sha256:30a283b8d0901965d1366ff0c203941a21bd4ad43f623dc7668e3409aad444d1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/proposal.yml": "sha256:19be00cba3a09bd42ccdd23f91d09253b8315b4d66ae816eacd63c118dedbbc5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md": "sha256:ae40876bff4f1f1d22454234981e80e91cf50cdf8060636156ad6a43175d6cdd",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md": "sha256:a37a386e2721001a79a0581e5e8de89abfe81353e09a8064d2705f4e839ad3d3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/proposal-review.md": "sha256:1cfaf637a4406e7c56af9221ef61e7b71d1f0ceec73ce70e226eedfff256075c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743"
   },
   "source_lineage": [],
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml"
   ],
-  "status": "implemented"
+  "status": "archived"
 }

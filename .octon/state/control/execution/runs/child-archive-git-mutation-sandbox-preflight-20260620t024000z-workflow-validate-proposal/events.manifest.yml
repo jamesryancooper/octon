@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+ledger_ref: .octon/state/control/execution/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:35f8fd0293d292cc73807e20a0eecbda1e624b621955156c402c38e77c5998eb
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  sequence: 1
+  event_hash: sha256:2ea1b27d3e1194e105ee4e1b2a0d512c91f0070bf1beb1b8c7731000af7bd8a9
+last_event_ref:
+  event_id: evt-run-closed-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  sequence: 29
+  event_hash: sha256:2aa3ea9c100a26a855c7713a60dde61b33d27237fd90d1eaccd0f347446de5f7
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:2ea1b27d3e1194e105ee4e1b2a0d512c91f0070bf1beb1b8c7731000af7bd8a9
+  tail_event_hash: sha256:2aa3ea9c100a26a855c7713a60dde61b33d27237fd90d1eaccd0f347446de5f7
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  context_pack_ref: evt-context-pack-bound-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  disclosure_ref: evt-run-closed-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-35b464b0f5fb
+  run_contract_ref: evt-001-run-created-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  run_manifest_ref: evt-002-run-bound-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  runtime_state_ref: evt-run-closed-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  stage_attempt_ref: evt-stage-started-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-validate-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:2aa3ea9c100a26a855c7713a60dde61b33d27237fd90d1eaccd0f347446de5f7
+  materialized_at: 2026-06-20T02:17:47.455215Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T02:17:48.197239Z

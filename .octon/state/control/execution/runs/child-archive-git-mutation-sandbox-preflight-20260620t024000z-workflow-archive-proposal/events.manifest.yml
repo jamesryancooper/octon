@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+ledger_ref: .octon/state/control/execution/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:ba26cd70f9708ab6af80f13937f17897af2ae495af401d1e90edc50865756dcb
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  sequence: 1
+  event_hash: sha256:8f284a534af6b2bc2f1850f576f4ec4c05e115bd8feb5286474f3e5a07505a41
+last_event_ref:
+  event_id: evt-run-closed-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  sequence: 29
+  event_hash: sha256:d09aa8ba8c093a1ea4676cd6c7775b9add50a76c35171e01bdc8e8fe36fc41d0
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:8f284a534af6b2bc2f1850f576f4ec4c05e115bd8feb5286474f3e5a07505a41
+  tail_event_hash: sha256:d09aa8ba8c093a1ea4676cd6c7775b9add50a76c35171e01bdc8e8fe36fc41d0
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  context_pack_ref: evt-context-pack-bound-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  disclosure_ref: evt-run-closed-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-47e982ce59bf
+  run_contract_ref: evt-001-run-created-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  run_manifest_ref: evt-002-run-bound-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  runtime_state_ref: evt-run-closed-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  stage_attempt_ref: evt-stage-started-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-archive-git-mutation-sandbox-preflight-20260620t024000z-workflow-archive-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:d09aa8ba8c093a1ea4676cd6c7775b9add50a76c35171e01bdc8e8fe36fc41d0
+  materialized_at: 2026-06-20T02:25:35.191431Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T02:25:35.955199Z

@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-archive-git-mutation-sandbox-preflight-20260620t024000z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-archive-git-mutation-sandbox-preflight-20260620t024000z/context/context-pack.json
+route_id: archive-proposal
+run_id: child-archive-git-mutation-sandbox-preflight-20260620t024000z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T02:17:44.442069Z
+validity_state: valid
