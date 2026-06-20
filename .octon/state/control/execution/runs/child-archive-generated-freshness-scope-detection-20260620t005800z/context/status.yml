@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-archive-generated-freshness-scope-detection-20260620t005800z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-archive-generated-freshness-scope-detection-20260620t005800z/context/context-pack.json
+route_id: archive-proposal
+run_id: child-archive-generated-freshness-scope-detection-20260620t005800z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T00:49:58.465993Z
+validity_state: valid

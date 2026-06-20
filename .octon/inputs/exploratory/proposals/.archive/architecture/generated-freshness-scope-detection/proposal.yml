@@ -1,0 +1,72 @@
+schema_version: proposal-v1
+proposal_id: generated-freshness-scope-detection
+title: Generated Freshness Scope Detection
+summary: Child architecture packet for detecting generator-input changes during proposal-packet delivery and routing generated/read-model authorization before closeout, while preserving generated-output non-authority.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+- .octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh
+- .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+status: archived
+archive:
+  archived_at: 2026-06-20
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection
+  promotion_evidence:
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+  - .octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after child-owned review acceptance, implementation authorization, and verification that packet-delivery wrapper orchestration is implemented. Generated outputs must be refreshed only through owning generators and must remain derived-only.
+related_proposals:
+- operator-free-packet-lifecycle-autonomy
+- packet-delivery-wrapper-orchestration-autonomy
+acceptance_criteria_summary: Accepted implementation must detect generator-input changes, require owning generator refresh when authorized, preserve generated-output non-authority, and keep proposal-packet delivery closeout blocked when freshness evidence is missing or stale.
+authority_class_impact:
+  framework: Updates proposal-packet delivery workflow and generated freshness validators/generators.
+  instance: No instance authority changes.
+  state_control: No state-control mutation from this packet.
+  state_evidence: Future implementation must retain child-owned validation evidence.
+  generated: Generated outputs remain derived-only and are refreshed only by owning generators.
+  inputs: This child packet remains non-authoritative proposal input.
+change_profile: atomic
+created_date: 2026-06-18
+evidence_requirements:
+- Child-owned accepted proposal review.
+- Strict pre-integration architecture review receipt.
+- Implementation-grade completeness receipt.
+- Generator-input scope fixtures and negative controls.
+- Generated non-authority validation evidence.
+generated_input_authority_impact: Generated outputs are freshness-checked derived artifacts only. Raw proposal inputs, generated read models, and operator comments do not become runtime or policy authority.
+owner:
+  role: Octon proposal packet author
+  accountable_role: human operator / repository owner
+parent_program: operator-free-packet-lifecycle-autonomy
+rollback_summary: Revert workflow and generated freshness validator/generator changes together if they over-route generated work, weaken non-authority posture, or allow stale generated outputs to satisfy closeout.
+runtime_behavior_impact: Future implementation may require proposal-packet delivery to detect generator-input changes and route generated publication/read-model freshness before closeout. It must not allow generated outputs to authorize delivery, closeout, cleanup, or parent lifecycle state.
+scope_statement: This child owns generated freshness scope detection and generated/read-model authorization routing for proposal-packet delivery. It does not own receipt semantics, branch-no-PR closeout state progression, worktree cleanup, terminal proof emission, or git mutation preflight behavior.
+selected_implementation_target: generated freshness scope detection for proposal-packet delivery
+sequence:
+  priority: P1
+  order: 4
+  dependency_gate: verification
+  dependencies:
+  - packet-delivery-wrapper-orchestration-autonomy
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-proposal-review-gate.sh
+- validate-architectural-review-receipts.sh
+- validate-support-envelope-reconciliation.sh
+- validate-run-health-read-model.sh
+- validate-generated-non-authority.sh

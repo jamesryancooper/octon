@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:c5cc34a0124b4c0eea40ee087fe668662119b8393cc69be348fb7b152b0d1bf1
+  entry_id: child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-20T00:50:01.44381Z
+  run_id: child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:8d9476cc6d4d11c9e45d1615205cd70c7d40177b1269941a2b92a94cae1d384b
+  entry_id: child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-20T00:50:01.44381Z
+  run_id: child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal
+run_id: child-archive-generated-freshness-scope-detection-20260620t005800z-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:50:01.44381Z
