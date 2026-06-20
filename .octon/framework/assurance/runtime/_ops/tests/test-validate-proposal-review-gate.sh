@@ -68,6 +68,8 @@ create_fixture_repo() {
   CLEANUP_DIRS+=("$fixture_root")
   mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts"
   cp "$REPO_ROOT/$VALIDATE_SCRIPT" "$fixture_root/$VALIDATE_SCRIPT"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   printf '%s\n' "$fixture_root"
@@ -175,6 +177,23 @@ None.
 
 Proceed according to the recorded verdict.
 EOF
+  cat >"$(packet_dir "$root")/support/pre-integration-architecture-review.yml" <<EOF
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "review-fixture-pre-integration-001"
+proposal_path: "$(packet_path)"
+packet_digest: "$digest"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - "$(packet_path)/architecture/target-architecture.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+blockers: []
+mode_specific_coverage:
+  fixture: "covered"
+EOF
 }
 
 run_validator() {
@@ -219,6 +238,14 @@ case_implemented_fresh_review_preserves_authorization() {
   local root
   root="$(create_fixture_repo)"
   write_packet "$root" implemented
+  write_review "$root" accepted yes 0
+  run_validator "$root" --require-implementation-authorization
+}
+
+case_archived_fresh_review_preserves_authorization() {
+  local root
+  root="$(create_fixture_repo)"
+  write_packet "$root" archived
   write_review "$root" accepted yes 0
   run_validator "$root" --require-implementation-authorization
 }
@@ -361,6 +388,9 @@ main() {
   assert_success \
     "implemented packets preserve strict review authorization with a fresh accepted receipt" \
     case_implemented_fresh_review_preserves_authorization
+  assert_success \
+    "archived packets preserve strict review authorization with a fresh accepted receipt" \
+    case_archived_fresh_review_preserves_authorization
   assert_failure_contains \
     "accepted packets fail when review digest is stale" \
     "reviewed packet digest is fresh" \

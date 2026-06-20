@@ -6172,6 +6172,10 @@ fn child_closeout_receipts_ready(
         .terminal_outcome
         .as_deref()
         .context("child closeout readiness requires terminal outcome")?;
+    let child_target_abs = resolve_lifecycle_target_path(repo_root, Path::new(&state.target))?;
+    if archived_implemented_child_terminal_evidence_ready(&child_target_abs, outcome)? {
+        return Ok(());
+    }
     let required_receipts =
         child_closeout_required_receipt_ids(policy, &child_contract.contract, outcome);
     let live_plan = plan_lifecycle_from_octon_dir(
@@ -6201,7 +6205,6 @@ fn child_closeout_receipts_ready(
         if live_receipt.stale == Some(true) {
             bail!("receipt {} is stale", receipt.receipt_id);
         }
-        let child_target_abs = resolve_lifecycle_target_path(repo_root, Path::new(&state.target))?;
         let receipt_path = resolve_target_local_path(
             &child_target_abs,
             &receipt.path,
@@ -6213,6 +6216,90 @@ fn child_closeout_receipts_ready(
     }
     validate_child_closeout_receipt_fields(policy, outcome, &live_plan.receipt_states)?;
     Ok(())
+}
+
+fn archived_implemented_child_terminal_evidence_ready(
+    child_target_abs: &Path,
+    outcome: &str,
+) -> Result<bool> {
+    if outcome != "archived" {
+        return Ok(false);
+    }
+    let manifest_path = child_target_abs.join("proposal.yml");
+    if !manifest_path.is_file() {
+        return Ok(false);
+    }
+    let manifest: serde_yaml::Value = serde_yaml::from_slice(&fs::read(&manifest_path)?)?;
+    if manifest.get("status").and_then(serde_yaml::Value::as_str) != Some("archived") {
+        return Ok(false);
+    }
+    let Some(archive) = manifest
+        .get("archive")
+        .or_else(|| manifest.get("archive_metadata"))
+    else {
+        return Ok(false);
+    };
+    if archive
+        .get("archived_from_status")
+        .and_then(serde_yaml::Value::as_str)
+        != Some("implemented")
+    {
+        return Ok(false);
+    }
+    if archive
+        .get("disposition")
+        .and_then(serde_yaml::Value::as_str)
+        != Some("implemented")
+    {
+        return Ok(false);
+    }
+    if !archive
+        .get(INPUT_PROMOTION_EVIDENCE)
+        .and_then(serde_yaml::Value::as_sequence)
+        .map(|entries| !entries.is_empty())
+        .unwrap_or(false)
+    {
+        return Ok(false);
+    }
+
+    for (path, field, expected) in [
+        ("support/implementation-run.md", "verdict", "pass"),
+        (
+            "support/implementation-conformance-review.md",
+            "verdict",
+            "pass",
+        ),
+        (
+            "support/post-implementation-drift-churn-review.md",
+            "verdict",
+            "pass",
+        ),
+        ("support/proposal-closeout.md", "verdict", "pass"),
+        ("support/proposal-closeout.md", "archive_authorized", "yes"),
+    ] {
+        if !target_receipt_field_equals(child_target_abs, path, field, expected)? {
+            return Ok(false);
+        }
+    }
+    Ok(true)
+}
+
+fn target_receipt_field_equals(
+    target_abs: &Path,
+    path: &str,
+    field: &str,
+    expected: &str,
+) -> Result<bool> {
+    let receipt_path =
+        resolve_target_local_path(target_abs, path, "archived child terminal evidence receipt")?;
+    if !receipt_path.is_file() {
+        return Ok(false);
+    }
+    if !receipt_path.starts_with(target_abs) {
+        return Ok(false);
+    }
+    let fields = parse_receipt_fields(&receipt_path)?;
+    Ok(fields.get(field).map(String::as_str) == Some(expected))
 }
 
 fn child_closeout_required_receipt_ids(
@@ -18763,6 +18850,20 @@ fn child_receipt_freshness_status(
     let Some(outcome) = state.terminal_outcome.as_deref() else {
         return "not-terminal".to_string();
     };
+    let repo_root = match repo_root_for_octon(octon_dir) {
+        Ok(repo_root) => repo_root,
+        Err(error) => return format!("unavailable: {error}"),
+    };
+    let child_target_abs = match resolve_lifecycle_target_path(&repo_root, Path::new(&state.target))
+    {
+        Ok(path) => path,
+        Err(error) => return format!("unavailable: {error}"),
+    };
+    match archived_implemented_child_terminal_evidence_ready(&child_target_abs, outcome) {
+        Ok(true) => return "archived-implemented-terminal-evidence".to_string(),
+        Ok(false) => {}
+        Err(error) => return format!("unavailable: {error}"),
+    }
     let child_contract = match load_lifecycle_contract(octon_dir, &state.child_lifecycle_id) {
         Ok(contract) => contract,
         Err(error) => return format!("unavailable: {error}"),
@@ -19172,6 +19273,9 @@ fn verify_child_receipts_for_closeout(
             state.child_id
         )
     })?;
+    if archived_implemented_child_terminal_evidence_ready(&child_target_abs, outcome)? {
+        return Ok(());
+    }
     let required_receipts = policy
         .map(|policy| {
             child_closeout_required_receipt_ids(policy, &child_contract.contract, outcome)
@@ -21680,6 +21784,42 @@ routes:
             );
         }
 
+        fn write_child_contract_with_strict_archival_receipts(&self) {
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented", "archived"] }
+states: [{ state_id: "terminal" }]
+terminal_outcomes:
+  - outcome_id: "implemented"
+    when: { manifest_status: "implemented" }
+  - outcome_id: "archived"
+    when: { manifest_status: "archived" }
+receipts:
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields: ["verdict", "implemented_at", "promotion_evidence_count"]
+    verdict_field: "verdict"
+  - receipt_id: "implementation-conformance"
+    path: "support/implementation-conformance-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "post-implementation-drift"
+    path: "support/post-implementation-drift-churn-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "archive_authorized"]
+    verdict_field: "verdict"
+"#,
+            );
+        }
+
         fn write_child_contract_with_atomic(
             &self,
             stage_fails: bool,
@@ -22346,6 +22486,62 @@ routes:
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+"#,
+            );
+        }
+
+        fn write_program_contract_with_archived_implementation_closeout_policy(&self) {
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "program_packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["archived"] }
+program:
+  child_registry_path: "resources/child-packet-index.yml"
+  child_lifecycle_id_default: "proposal-packet"
+  supported_execution_modes: ["parallel-independent"]
+  recovery_policy:
+    max_recovery_attempts: 2
+    serialize_write_scope_conflicts: true
+  closeout_policy:
+    required_child_terminal_outcomes: ["archived"]
+    terminal_child_receipt_requirements:
+      - outcome_id: "archived"
+        required_receipts:
+          - "implementation-run"
+          - "implementation-conformance"
+          - "post-implementation-drift"
+          - "proposal-closeout"
+        required_receipt_field_equals:
+          - receipt_id: "implementation-run"
+            field: "verdict"
+            value: "pass"
+          - receipt_id: "implementation-conformance"
+            field: "verdict"
+            value: "pass"
+          - receipt_id: "post-implementation-drift"
+            field: "verdict"
+            value: "pass"
+          - receipt_id: "proposal-closeout"
+            field: "verdict"
+            value: "pass"
+          - receipt_id: "proposal-closeout"
+            field: "archive_authorized"
+            value: "yes"
+    require_child_receipts_fresh: true
+    require_aggregate_evidence: true
+    enforce_authority_boundaries: true
+  authority_boundaries:
+    parent_coordinates_only: true
+    child_receipts_remain_child_owned: true
+    child_promotion_targets_remain_child_owned: true
+states: [{ state_id: "coordinate" }]
+terminal_outcomes:
+  - outcome_id: "archived"
+    when: { manifest_status: "archived" }
 "#,
             );
         }
@@ -23181,6 +23377,36 @@ routes:
             self.write(
                 &format!("children/{id}/support/post-implementation-drift-churn-review.md"),
                 "verdict: pass\nunresolved_items_count: 0\n",
+            );
+        }
+
+        fn write_archived_implemented_child_with_legacy_run_receipt(
+            &self,
+            id: &str,
+            promotion_target: &str,
+        ) {
+            self.write_child(id, promotion_target, "archived");
+            self.write(
+                &format!("children/{id}/proposal.yml"),
+                &format!(
+                    "status: archived\npromotion_targets:\n  - \"{promotion_target}\"\narchive:\n  archived_at: 2026-05-12T00:00:00Z\n  archived_from_status: implemented\n  disposition: implemented\n  original_path: children/{id}\n  promotion_evidence:\n    - \"{promotion_target}\"\n"
+                ),
+            );
+            self.write(
+                &format!("children/{id}/support/implementation-run.md"),
+                "verdict: pass\n",
+            );
+            self.write(
+                &format!("children/{id}/support/implementation-conformance-review.md"),
+                "verdict: pass\nunresolved_items_count: 0\n",
+            );
+            self.write(
+                &format!("children/{id}/support/post-implementation-drift-churn-review.md"),
+                "verdict: pass\nunresolved_items_count: 0\n",
+            );
+            self.write(
+                &format!("children/{id}/support/proposal-closeout.md"),
+                "verdict: pass\narchive_authorized: yes\n",
             );
         }
 
@@ -29678,6 +29904,105 @@ rationale: "prove overwrite guard"
                 "state/evidence/runs/workflows/closeout-required-states/aggregate-closeout-receipt.yml"
             )
             .is_file());
+    }
+
+    #[test]
+    fn archived_implemented_child_terminal_evidence_replaces_legacy_run_receipt_repair() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-archived-legacy-run", true);
+        fixture.write_child_contract_with_strict_archival_receipts();
+        fixture.write_program_contract_with_archived_implementation_closeout_policy();
+        fixture.write_parent_status("archived");
+        fixture.write_archived_implemented_child_with_legacy_run_receipt("a", "framework/a.md");
+        fixture.write_v2_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_eq!(plan.final_verdict, "completed");
+        assert!(!plan.program_blockers.iter().any(|blocker| {
+            blocker.blocker_class == "receipt-recovery-unavailable"
+                || blocker.message.contains("missing required fields")
+        }));
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-archived-legacy-run".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "completed");
+        assert!(fixture
+            .octon_dir
+            .join(
+                "state/evidence/runs/workflows/closeout-archived-legacy-run/aggregate-closeout-receipt.yml"
+            )
+            .is_file());
+    }
+
+    #[test]
+    fn active_implemented_child_still_requires_strict_implementation_run_fields() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-active-strict-run", true);
+        fixture.write_child_contract_with_strict_archival_receipts();
+        fixture.write_program_contract_with_atomic();
+        fixture.write_parent_status("implemented");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\nunresolved_items_count: 0\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\nunresolved_items_count: 0\n",
+        );
+        fixture.write_v2_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_eq!(plan.final_verdict, "blocked-human");
+        assert!(plan.program_blockers.iter().any(|blocker| {
+            blocker.blocker_class == "receipt-recovery-unavailable"
+                && blocker
+                    .message
+                    .contains("implementation-run missing required fields")
+        }));
     }
 
     #[test]

@@ -495,8 +495,8 @@ fi
 
 if [[ "$REQUIRE_IMPLEMENTATION_AUTHORIZATION" -eq 1 ]]; then
   if [[ -f "$REVIEW" ]]; then
-    [[ "$status" =~ ^(accepted|implemented)$ ]] && pass "proposal status preserves implementation authorization state" || {
-      emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$MANIFEST")#status" "implementation authorization requires proposal status accepted or implemented" "$(review_gate_rerun_gate)" "$status"
+    [[ "$status" =~ ^(accepted|implemented|archived)$ ]] && pass "proposal status preserves implementation authorization state" || {
+      emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$MANIFEST")#status" "implementation authorization requires proposal status accepted, implemented, or archived" "$(review_gate_rerun_gate)" "$status"
       fail "proposal status preserves implementation authorization state"
     }
     [[ "$verdict" == "accepted" ]] && pass "proposal review authorizes implementation" || {
