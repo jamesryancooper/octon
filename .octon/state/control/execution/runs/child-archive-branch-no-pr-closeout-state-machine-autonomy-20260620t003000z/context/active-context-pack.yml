@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z/context/context-pack.json
+context_pack_sha256: sha256:eafd4257eb91cd496125a55551f9cbea4b04b5dfba887235e66a71d8b0351d86
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z/context/model-visible-context.json
+model_visible_context_sha256: sha256:6cc4fe379e285166fb5c5b5bf875f4276123c9c3a9231658b8e987d76b0e8248
+receipt_sha256: sha256:7a892a85593e97b0fd66e7a7d9bc04fc0cf9003eb5cbcdb01982c6bcb785376d
+route_id: archive-proposal
+run_id: child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T00:19:20.916615Z
+validity_state: valid

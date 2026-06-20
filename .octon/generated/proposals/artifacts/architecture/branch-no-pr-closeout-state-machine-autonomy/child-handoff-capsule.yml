@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:fce5004522a4eaca455657f0191d96d29258928ffb5484e44fc6bced3dff3c2e"
+      "sha256": "sha256:7bcd6b1ec003380e7934c60cc236304f96746548fe9756be32eb876b4b72175a"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:d77b07739d9f7c94c03e1baf3a2014030a5978dd0634e0d92c3a24f31dd4e766"
+      "sha256": "sha256:527fddabfbc1290afd096cbec8ffe9bc1bfcd39b73ad6501b731dd0e5fdfc5a2"
     }
   ],
-  "context_hash": "sha256:c258f43b6a0578c9f85ad0f24a361a8a9c947a2684971fda234d167339311c0a",
+  "context_hash": "sha256:91261f967e2fc9fe9d0a663f08df5694febb31d20d7fec3e4f651d67ad78966f",
   "dependency_vector": {
     "parent_program": "operator-free-packet-lifecycle-autonomy",
     "related_proposals": [
@@ -52,7 +52,7 @@
   "output_ref": ".octon/generated/proposals/artifacts/architecture/branch-no-pr-closeout-state-machine-autonomy/child-handoff-capsule.yml",
   "parent_program": "operator-free-packet-lifecycle-autonomy",
   "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy",
   "read_raw_only_if": [
     "compact-context-hash-mismatch",
     "child-registry-digest-mismatch",
@@ -62,28 +62,28 @@
   "schema_version": "octon-child-handoff-capsule-v1",
   "scope_statement": "This child owns the Change receipt route states and `closeout-change` branch-no-PR closeout behavior. It does not own proposal-packet delivery wrapper orchestration, delivery receipt schema semantics, generated freshness, worktree partitioning, terminal evidence sinks, or git mutation preflight diagnostics outside closeout-change route use.",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml": "sha256:cbea3be38ff81e3f11f558823d9d014be237995b26c29ac18e368ac6258b701b",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md": "sha256:c8990517f61873e1f141db6b9e26dac4655ea2861d410a1890d4078d1d36e061",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md": "sha256:9e8a70416ac2fbbd2f3448c10e1cbeed765da30afb2158e9b88ca7d9b9c2ba67",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md": "sha256:e319f20031a02b7127e61857134afbe48b6f7ce2a4fbcc2e6c962d2287c7fc82",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md": "sha256:f0dae3353c8dc9aef6d334ca4e1582720fdadc3b4472a204868374b3821b8906",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml": "sha256:cb1fe7c401fefecf0650358759f383b5111c33e623b23cc95d0d786c934f42c0",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md": "sha256:8cf28fd0dc06d682c57be1a72f13005abcddb02c5fb35858e468de5ebf50301b",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md": "sha256:3337aca044613cbb518ea33bbaec5f8b9f8668bb7ce104ad5b80a9b5020945d1",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:88e7dfe31c3a194fd46206aa138eade435c87ccdd99ebb4d3ee22714d53da13b"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml": "sha256:cbea3be38ff81e3f11f558823d9d014be237995b26c29ac18e368ac6258b701b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md": "sha256:c8990517f61873e1f141db6b9e26dac4655ea2861d410a1890d4078d1d36e061",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md": "sha256:9e8a70416ac2fbbd2f3448c10e1cbeed765da30afb2158e9b88ca7d9b9c2ba67",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md": "sha256:3718bc86e17b019875fd054bd47f8d0cf7b46bd509ae19d2d5d4e23eb885993b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md": "sha256:f0dae3353c8dc9aef6d334ca4e1582720fdadc3b4472a204868374b3821b8906",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml": "sha256:513ec582d44f2ddc88f908612f0e843d2e9df544a889e6f6680d8087444ffbff",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md": "sha256:8cf28fd0dc06d682c57be1a72f13005abcddb02c5fb35858e468de5ebf50301b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md": "sha256:3337aca044613cbb518ea33bbaec5f8b9f8668bb7ce104ad5b80a9b5020945d1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:4590909e1176a04308b1addf2584cad2dca6279d3f82d41691e2dc7b7eaadc6f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743"
   },
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml"
   ],
   "validator_matrix": [
     {

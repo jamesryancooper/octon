@@ -7,7 +7,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "README.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/README.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/README.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -26,7 +26,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/acceptance-criteria.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -46,7 +46,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/implementation-plan.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -66,7 +66,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/target-architecture.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/target-architecture.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -86,7 +86,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "architecture-proposal.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
@@ -100,19 +100,19 @@
       "stage_role": "spine"
     },
     {
-      "byte_size": 1261,
-      "estimated_tokens": 316,
+      "byte_size": 1873,
+      "estimated_tokens": 469,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "navigation/artifact-catalog.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "artifact-catalog",
-      "sha256": "sha256:e319f20031a02b7127e61857134afbe48b6f7ce2a4fbcc2e6c962d2287c7fc82",
+      "sha256": "sha256:3718bc86e17b019875fd054bd47f8d0cf7b46bd509ae19d2d5d4e23eb885993b",
       "stage_relevance": [
         "all-routes"
       ],
@@ -124,7 +124,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "navigation/source-of-truth-map.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
@@ -138,19 +138,19 @@
       "stage_role": "spine"
     },
     {
-      "byte_size": 4254,
-      "estimated_tokens": 1064,
+      "byte_size": 4426,
+      "estimated_tokens": 1107,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "proposal.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "proposal-manifest",
-      "sha256": "sha256:cb1fe7c401fefecf0650358759f383b5111c33e623b23cc95d0d786c934f42c0",
+      "sha256": "sha256:513ec582d44f2ddc88f908612f0e843d2e9df544a889e6f6680d8087444ffbff",
       "stage_relevance": [
         "all-routes"
       ],
@@ -162,7 +162,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "resources/source-lineage.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/resources/source-lineage.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/resources/source-lineage.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -181,7 +181,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/executable-implementation-prompt.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -202,7 +202,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/implementation-conformance-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-conformance-review.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -223,7 +223,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/implementation-grade-completeness-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -243,7 +243,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/implementation-run.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-run.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-run.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -264,7 +264,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/post-implementation-drift-churn-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/post-implementation-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/post-implementation-drift-churn-review.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -280,19 +280,19 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 4329,
-      "estimated_tokens": 1083,
+      "byte_size": 4554,
+      "estimated_tokens": 1139,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/pre-integration-architecture-review.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/pre-integration-architecture-review.yml",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:a894d68fad84ab2c3d0ffb4c4cc54c014a74e7053c95259e9c19fa0c70006040",
+      "sha256": "sha256:fb491658ef5849ec32650b92b2a298a464a1ee2e8927ff29290042c16bac82fe",
       "stage_relevance": [
         "support-review"
       ],
@@ -304,7 +304,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-closeout.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-closeout.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -323,7 +323,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-creation.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-creation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-creation.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -337,19 +337,19 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 2057,
-      "estimated_tokens": 515,
+      "byte_size": 2222,
+      "estimated_tokens": 556,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:88e7dfe31c3a194fd46206aa138eade435c87ccdd99ebb4d3ee22714d53da13b",
+      "sha256": "sha256:4590909e1176a04308b1addf2584cad2dca6279d3f82d41691e2dc7b7eaadc6f",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
@@ -362,7 +362,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-terminal-closeout.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-terminal-closeout.yml",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -381,7 +381,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/revisions/20260618T015610Z-parent-program-scalar-shape.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/revisions/20260618T015610Z-parent-program-scalar-shape.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/revisions/20260618T015610Z-parent-program-scalar-shape.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -400,7 +400,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/validation.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/validation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/validation.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -462,7 +462,7 @@
   "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
   "proposal_id": "branch-no-pr-closeout-state-machine-autonomy",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -473,26 +473,26 @@
   },
   "schema_version": "octon-proposal-artifact-index-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml": "sha256:cbea3be38ff81e3f11f558823d9d014be237995b26c29ac18e368ac6258b701b",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md": "sha256:c8990517f61873e1f141db6b9e26dac4655ea2861d410a1890d4078d1d36e061",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md": "sha256:9e8a70416ac2fbbd2f3448c10e1cbeed765da30afb2158e9b88ca7d9b9c2ba67",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md": "sha256:e319f20031a02b7127e61857134afbe48b6f7ce2a4fbcc2e6c962d2287c7fc82",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md": "sha256:f0dae3353c8dc9aef6d334ca4e1582720fdadc3b4472a204868374b3821b8906",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml": "sha256:cb1fe7c401fefecf0650358759f383b5111c33e623b23cc95d0d786c934f42c0",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md": "sha256:8cf28fd0dc06d682c57be1a72f13005abcddb02c5fb35858e468de5ebf50301b",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md": "sha256:3337aca044613cbb518ea33bbaec5f8b9f8668bb7ce104ad5b80a9b5020945d1",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:88e7dfe31c3a194fd46206aa138eade435c87ccdd99ebb4d3ee22714d53da13b"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml": "sha256:cbea3be38ff81e3f11f558823d9d014be237995b26c29ac18e368ac6258b701b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md": "sha256:c8990517f61873e1f141db6b9e26dac4655ea2861d410a1890d4078d1d36e061",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md": "sha256:9e8a70416ac2fbbd2f3448c10e1cbeed765da30afb2158e9b88ca7d9b9c2ba67",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md": "sha256:3718bc86e17b019875fd054bd47f8d0cf7b46bd509ae19d2d5d4e23eb885993b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md": "sha256:f0dae3353c8dc9aef6d334ca4e1582720fdadc3b4472a204868374b3821b8906",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml": "sha256:513ec582d44f2ddc88f908612f0e843d2e9df544a889e6f6680d8087444ffbff",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md": "sha256:8cf28fd0dc06d682c57be1a72f13005abcddb02c5fb35858e468de5ebf50301b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md": "sha256:3337aca044613cbb518ea33bbaec5f8b9f8668bb7ce104ad5b80a9b5020945d1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:4590909e1176a04308b1addf2584cad2dca6279d3f82d41691e2dc7b7eaadc6f"
   },
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md"
   ],
   "validation": {
     "negative_controls": [

@@ -1,11 +1,11 @@
 # Proposal Review
 
-review_id: branch-no-pr-closeout-state-machine-autonomy-review-refresh-20260620T002300Z
-reviewed_at: 2026-06-20T00:23:00Z
+review_id: branch-no-pr-closeout-state-machine-autonomy-review-refresh-20260620T004300Z
+reviewed_at: 2026-06-20T00:43:00Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:4a062578a359d030f2b748df2a81ce8e944b3ca871bee7500c7fbb9239af544a
+reviewed_packet_digest: sha256:5c5c2973bc039033622095af75e6279d50dbb0d84e390028be8670a32d3804b4
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -32,6 +32,9 @@ None.
 
 - Terminal closeout was rerun from a clean retained baseline and now records
   `terminal_verdict: archive-ready` with no worktree hygiene blocker.
+- The canonical archive route relocated this child packet to the archive root
+  while preserving child-owned implementation, closeout, terminal, review, and
+  strict architecture evidence.
 - Future implementation must include dependency preflight against
   `packet-delivery-wrapper-orchestration-autonomy` before durable closeout
   state-machine changes land.
@@ -43,8 +46,7 @@ None.
 
 ## Final Route Recommendation
 
-Proceed to the child-owned `archive-proposal` route after generated artifact
-freshness and terminal freshness gates pass. Do not mutate durable
-implementation targets, parent program state, child-owned implementation
-evidence, branch state, publication state, cleanup state, or any `cleaned`
-claim.
+Treat this archived packet as terminal child-owned evidence for the parent
+program delivery gate. Do not mutate durable implementation targets, parent
+program state, child-owned implementation evidence, branch state, publication
+state, cleanup state, or any `cleaned` claim.

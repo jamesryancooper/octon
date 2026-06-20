@@ -1,15 +1,6 @@
 schema_version: "proposal-registry-v1"
 
 active:
-  - id: "branch-no-pr-closeout-state-machine-autonomy"
-    kind: "architecture"
-    scope: "octon-internal"
-    path: ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy"
-    title: "Branch No PR Closeout State Machine Autonomy"
-    status: "implemented"
-    promotion_targets:
-      - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
-      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
   - id: "generated-freshness-scope-detection"
     kind: "architecture"
     scope: "octon-internal"
@@ -362,6 +353,19 @@ archived:
     promotion_targets:
       - ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh"
+  - id: "branch-no-pr-closeout-state-machine-autonomy"
+    kind: "architecture"
+    scope: "octon-internal"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy"
+    title: "Branch No PR Closeout State Machine Autonomy"
+    status: "archived"
+    disposition: "implemented"
+    archived_at: "2026-06-20"
+    archived_from_status: "implemented"
+    original_path: ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy"
+    promotion_targets:
+      - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
   - id: "change-closeout-state-machine"
     kind: "architecture"
     scope: "octon-internal"

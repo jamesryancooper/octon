@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+ledger_ref: .octon/state/control/execution/runs/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:bfb3928221aa053c2cb9073db6a1107ac70fb8a76142afbe41a826fa28076781
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  sequence: 1
+  event_hash: sha256:219983df507e5a99ee8df46cc5feacbef9187350a06ce6e8994281e81fc19598
+last_event_ref:
+  event_id: evt-run-closed-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  sequence: 29
+  event_hash: sha256:e4da6b50748b582fca43b4f2ac848bd5cc4935ba846e819801b6d9def533b4fe
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:219983df507e5a99ee8df46cc5feacbef9187350a06ce6e8994281e81fc19598
+  tail_event_hash: sha256:e4da6b50748b582fca43b4f2ac848bd5cc4935ba846e819801b6d9def533b4fe
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  context_pack_ref: evt-context-pack-bound-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  disclosure_ref: evt-run-closed-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-97f3a4876b6c
+  run_contract_ref: evt-001-run-created-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  run_manifest_ref: evt-002-run-bound-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  runtime_state_ref: evt-run-closed-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  stage_attempt_ref: evt-stage-started-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-archive-branch-no-pr-closeout-state-machine-autonomy-20260620t003000z-workflow-archive-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:e4da6b50748b582fca43b4f2ac848bd5cc4935ba846e819801b6d9def533b4fe
+  materialized_at: 2026-06-20T00:27:10.278441Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T00:27:11.099878Z
