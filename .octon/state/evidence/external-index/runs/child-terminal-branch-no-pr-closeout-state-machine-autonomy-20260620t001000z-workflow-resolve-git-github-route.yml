@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:e61ed5e36f2d62e61537f7ab318804395362e27cbe5299e5cdf9cfe734f5398b
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-20T00:06:29.084429Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:583529af57af7c5e42c7740a042d56b470e9369abc337f13c8a4b901e04e4d4a
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-20T00:06:29.084429Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-resolve-git-github-route
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:06:29.084429Z

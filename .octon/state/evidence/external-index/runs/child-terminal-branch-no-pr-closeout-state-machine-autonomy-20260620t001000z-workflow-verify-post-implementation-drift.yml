@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:8127a035977bd6212953b32281f4381156543a9dcf5521441c88bd9122505e85
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/replay/manifest.yml
+  recorded_at: 2026-06-20T00:05:02.09368Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:5be807cafd9bec62946605a0c0f5a82216e16009eb60884598986a7f06494cb5
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/replay/manifest.yml
+  recorded_at: 2026-06-20T00:05:02.09368Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:05:02.09368Z

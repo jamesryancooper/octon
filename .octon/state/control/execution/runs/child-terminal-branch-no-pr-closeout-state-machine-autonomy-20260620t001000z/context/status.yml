@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z/context/context-pack.json
+route_id: proposal-packet-terminal-closeout
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T00:04:52.134826Z
+validity_state: valid

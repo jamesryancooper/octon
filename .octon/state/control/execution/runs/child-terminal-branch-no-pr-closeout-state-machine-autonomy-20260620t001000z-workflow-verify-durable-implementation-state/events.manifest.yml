@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+ledger_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:698ee48a09fd3fe5e1982c66871da07429ace89208f9a6d0711bb138d589e2f0
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  sequence: 1
+  event_hash: sha256:5da029e1050d4248610b8e7012a180f18f06a5c2597cdace8f32923a9da14a52
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  sequence: 29
+  event_hash: sha256:cf979eb6262b5b6a0e317b95db3efbbe21eaf4803c415e3b0d08d4513c69fa5c
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:5da029e1050d4248610b8e7012a180f18f06a5c2597cdace8f32923a9da14a52
+  tail_event_hash: sha256:cf979eb6262b5b6a0e317b95db3efbbe21eaf4803c415e3b0d08d4513c69fa5c
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  context_pack_ref: evt-context-pack-bound-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  disclosure_ref: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-3979a6727e0f
+  run_contract_ref: evt-001-run-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  run_manifest_ref: evt-002-run-bound-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  runtime_state_ref: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  stage_attempt_ref: evt-stage-started-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-durable-implementation-state
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:cf979eb6262b5b6a0e317b95db3efbbe21eaf4803c415e3b0d08d4513c69fa5c
+  materialized_at: 2026-06-20T00:04:57.218116Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T00:04:58.000437Z

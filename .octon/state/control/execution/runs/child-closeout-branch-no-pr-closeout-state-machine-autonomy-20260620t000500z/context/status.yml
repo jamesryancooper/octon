@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-closeout-branch-no-pr-closeout-state-machine-autonomy-20260620t000500z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-closeout-branch-no-pr-closeout-state-machine-autonomy-20260620t000500z/context/context-pack.json
+route_id: closeout-packet
+run_id: child-closeout-branch-no-pr-closeout-state-machine-autonomy-20260620t000500z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T00:02:48.756667Z
+validity_state: valid

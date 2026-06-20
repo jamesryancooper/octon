@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/run-manifest.yml
+current_stage_attempt_id: verify-post-implementation-drift--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift/rollback-posture.yml
+last_applied_event_id: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-post-implementation-drift
+last_applied_sequence: 29
+last_applied_event_hash: sha256:c97e4a3c76ff64659b7e31a8e3ac406b367ba8e4fd15043bb1b0b0dbe81e6272
+materialized_at: 2026-06-20T00:05:02.893703Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-20T00:05:01.041895Z
+updated_at: 2026-06-20T00:05:02.893703Z

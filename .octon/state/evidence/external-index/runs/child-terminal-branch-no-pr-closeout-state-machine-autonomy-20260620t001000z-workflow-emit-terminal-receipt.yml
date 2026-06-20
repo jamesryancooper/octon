@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:19ba3d720d800d15ccfd1a3d3dd1511c3ab191a1e05b1f09f90e636d744c310b
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt/replay/manifest.yml
+  recorded_at: 2026-06-20T00:06:31.129774Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:b099860f18e9253810ef9714891c5260476cf483093e20f49c0b688ab3f4f038
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt/replay/manifest.yml
+  recorded_at: 2026-06-20T00:06:31.129774Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-emit-terminal-receipt
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:06:31.129774Z

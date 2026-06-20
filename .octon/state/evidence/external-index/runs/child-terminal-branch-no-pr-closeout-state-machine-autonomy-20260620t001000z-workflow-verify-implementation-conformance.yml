@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:97a2d53c57f3f4e3eb9296585e0221ee1ea6f07f698602f5a3adba2809f235e3
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-20T00:04:59.564924Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:de67f4fe163dd64add178df173ca1d24c295ee37c1caba061b95b039b16f96ee
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-20T00:04:59.564924Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-verify-implementation-conformance
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:04:59.564924Z

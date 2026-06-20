@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:17ff482e37918c8733d8708aa3381040eacd3487deec33545f2918b55acb7cdd
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-20T00:06:18.963694Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:8b449ea90707a47a00f1e44fde00073da80d7e7706c4266216891ecf500b3aaa
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-20T00:06:18.963694Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-validate-publication-freshness
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:06:18.963694Z
