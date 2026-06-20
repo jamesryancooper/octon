@@ -12,11 +12,12 @@ WRITE=0
 usage() {
   cat <<'EOF'
 Usage:
-  generate-retained-run-evidence-index.sh --package <implemented-proposal-packet> --run-id <run-id> --write [--generated-at <iso8601>] [--root <repo-root>]
+  generate-retained-run-evidence-index.sh --package <implemented-or-archived-implemented-proposal-packet> --run-id <run-id> --write [--generated-at <iso8601>] [--root <repo-root>]
 
 Materializes a discovery-only retained-run-evidence-index-v1 artifact for an
-already implemented proposal packet. The generated index is evidence-only and
-does not authorize lifecycle transitions or satisfy child receipts.
+already implemented proposal packet, including packets archived from an
+implemented disposition. The generated index is evidence-only and does not
+authorize lifecycle transitions or satisfy child receipts.
 EOF
 }
 
@@ -156,8 +157,21 @@ manifest = load_yaml(manifest_path)
 
 proposal_id = str(manifest.get("proposal_id") or package_dir.name)
 status = str(manifest.get("status") or "")
-if status != "implemented":
-    print(f"[ERROR] package status must be implemented; found {status or '<missing>'}: {package_ref}", file=sys.stderr)
+archive = manifest.get("archive") or {}
+archived_from_status = str(archive.get("archived_from_status") or "")
+archive_disposition = str(archive.get("disposition") or "")
+implemented_like = status == "implemented" or (
+    status == "archived"
+    and archived_from_status == "implemented"
+    and archive_disposition == "implemented"
+)
+if not implemented_like:
+    print(
+        "[ERROR] package status must be implemented or archived from an implemented disposition; "
+        f"found status={status or '<missing>'} archived_from_status={archived_from_status or '<missing>'} "
+        f"disposition={archive_disposition or '<missing>'}: {package_ref}",
+        file=sys.stderr,
+    )
     sys.exit(1)
 
 source_paths = [
@@ -235,7 +249,7 @@ validation_result = {
     "package": package_ref,
     "verdict": "pass",
     "checks": [
-        "implemented-status-present",
+        "implemented-or-archived-implemented-status-present",
         "accepted-review-present",
         "implementation-run-verdict-pass",
         "implementation-conformance-verdict-pass",
@@ -251,7 +265,7 @@ workflow_receipt = {
     "generated_at": generated_at,
     "authority_use": "evidence-only",
     "control_refs_created": False,
-    "notes": "Materialized discovery-only retained evidence index from existing proposal packet receipts.",
+    "notes": "Materialized discovery-only retained evidence index from existing implemented or archived-implemented proposal packet receipts.",
 }
 
 
@@ -322,7 +336,7 @@ index = {
     "subject": {
         "run_id": run_id,
         "lifecycle_kind": "proposal-packet",
-        "terminal_status": "implemented",
+        "terminal_status": status,
     },
     "producer": "generate-retained-run-evidence-index.sh",
     "generated_at": generated_at,

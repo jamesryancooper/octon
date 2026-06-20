@@ -5,7 +5,7 @@ children:
   - child_id: "blocked-delivery-receipt-semantics"
     path: ".octon/inputs/exploratory/proposals/architecture/blocked-delivery-receipt-semantics"
     evidence_index_refs:
-      - ".octon/state/evidence/runs/blocked-delivery-receipt-semantics-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+      - ".octon/state/evidence/runs/blocked-delivery-receipt-semantics-retained-index-20260620T030000Z/retained-run-evidence-index.yml"
     priority: "P0"
     required: true
     deferred: false
@@ -25,7 +25,7 @@ children:
   - child_id: "packet-delivery-wrapper-orchestration-autonomy"
     path: ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy"
     evidence_index_refs:
-      - ".octon/state/evidence/runs/packet-delivery-wrapper-orchestration-autonomy-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+      - ".octon/state/evidence/runs/packet-delivery-wrapper-orchestration-autonomy-retained-index-20260620T030000Z/retained-run-evidence-index.yml"
     priority: "P0"
     required: true
     deferred: false
@@ -49,7 +49,7 @@ children:
   - child_id: "branch-no-pr-closeout-state-machine-autonomy"
     path: ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy"
     evidence_index_refs:
-      - ".octon/state/evidence/runs/branch-no-pr-closeout-state-machine-autonomy-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+      - ".octon/state/evidence/runs/branch-no-pr-closeout-state-machine-autonomy-retained-index-20260620T030000Z/retained-run-evidence-index.yml"
     priority: "P0"
     required: true
     deferred: false
@@ -70,7 +70,7 @@ children:
   - child_id: "generated-freshness-scope-detection"
     path: ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection"
     evidence_index_refs:
-      - ".octon/state/evidence/runs/generated-freshness-scope-detection-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+      - ".octon/state/evidence/runs/generated-freshness-scope-detection-retained-index-20260620T030000Z/retained-run-evidence-index.yml"
     priority: "P1"
     required: true
     deferred: false
@@ -95,7 +95,7 @@ children:
   - child_id: "packet-worktree-partitioning-automation"
     path: ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation"
     evidence_index_refs:
-      - ".octon/state/evidence/runs/packet-worktree-partitioning-automation-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+      - ".octon/state/evidence/runs/packet-worktree-partitioning-automation-retained-index-20260620T030000Z/retained-run-evidence-index.yml"
     priority: "P1"
     required: true
     deferred: false
@@ -118,7 +118,7 @@ children:
   - child_id: "terminal-evidence-sink-autonomy"
     path: ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy"
     evidence_index_refs:
-      - ".octon/state/evidence/runs/terminal-evidence-sink-autonomy-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+      - ".octon/state/evidence/runs/terminal-evidence-sink-autonomy-retained-index-20260620T030000Z/retained-run-evidence-index.yml"
     priority: "P1"
     required: true
     deferred: false
@@ -141,7 +141,7 @@ children:
   - child_id: "git-mutation-sandbox-preflight"
     path: ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight"
     evidence_index_refs:
-      - ".octon/state/evidence/runs/git-mutation-sandbox-preflight-retained-index-20260618T192000Z/retained-run-evidence-index.yml"
+      - ".octon/state/evidence/runs/git-mutation-sandbox-preflight-retained-index-20260620T030000Z/retained-run-evidence-index.yml"
     priority: "P1"
     required: true
     deferred: false

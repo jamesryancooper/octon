@@ -264,7 +264,7 @@
         "validator-dispute"
       ],
       "role": "resource",
-      "sha256": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
+      "sha256": "sha256:acc24af11f665c4464ec76e4122b40d678f257d9d452e2f35caa85fdb2d4d219",
       "stage_relevance": [
         "lineage-audit"
       ],
@@ -409,8 +409,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 7999,
-      "estimated_tokens": 2000,
+      "byte_size": 7050,
+      "estimated_tokens": 1763,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
@@ -421,7 +421,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:819d3669d8a6e9e8564ce2d11f287ad3cfc52c86cb4b392804c4a655338efb7c",
+      "sha256": "sha256:bac90ecbe5a7dcc5232c195de72559c5a4347680ecf13ac11123ee80439e3861",
       "stage_relevance": [
         "support-review"
       ],
@@ -713,8 +713,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 10351,
-      "estimated_tokens": 2588,
+      "byte_size": 6612,
+      "estimated_tokens": 1653,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
@@ -725,7 +725,7 @@
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:23df38b775aefd8df533d69a8cec0521414ef3f13c82af384c036b0e760e2452",
+      "sha256": "sha256:847847170970affa3ca7a62c7d3429f0d566ca61802eda8103d27a762fc5668c",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
@@ -809,7 +809,7 @@
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/navigation/source-of-truth-map.md": "sha256:e7d6b1d7b275c338605dd22c095f9055fbf0291da73386b54ca30bdb736e2350",
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/proposal.yml": "sha256:eb0f543316ab260db8eb974381a0f892c30993bb1b9d93a3d61dfba1c8de2d27",
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-grade-completeness-review.md": "sha256:f814fffb5d12550cf3b5b4fa2995fdaf9f811bfd1ae3da5b6d9ba62521a916f1",
-    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-review.md": "sha256:23df38b775aefd8df533d69a8cec0521414ef3f13c82af384c036b0e760e2452"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-review.md": "sha256:847847170970affa3ca7a62c7d3429f0d566ca61802eda8103d27a762fc5668c"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture-proposal.yml",

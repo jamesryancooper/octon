@@ -1,77 +1,71 @@
 schema_version: architectural-review-support-receipt-v1
-receipt_id: operator-free-packet-lifecycle-autonomy-pre-integration-architecture-review-20260619T152443Z
-proposal_path: .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy
-packet_digest: sha256:70781f4d37782410c410b84ce2051fe105615e96c7366d6f84d4c5ee13837542
+receipt_id: operator-free-packet-lifecycle-autonomy-archived-pre-integration-architecture-review-20260620T024759Z
+proposal_path: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy
+packet_digest: sha256:2a1aa9dc66bc7be185e8f18a1cfac4947014654b15cf4876fc48384f0989bdec
 review_mode: pre-integration-architecture-review
 verdict: pass
 unresolved_count: 0
 non_authority_classification: retained-evidence-only
 evidence_refs:
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/proposal.yml
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/architecture-proposal.yml
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/architecture/target-architecture.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/architecture/implementation-plan.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/architecture/acceptance-criteria.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/architecture/packet-sequence.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/architecture/child-packet-contract.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/architecture/program-closeout-plan.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/source-lineage.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/RISK-REGISTER.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/validation-plan.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/support/program-creation.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-grade-completeness-review.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/support/program-implementation-orchestration-run.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-conformance-review.md
-  - .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/proposal.yml
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture-proposal.yml
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/target-architecture.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/implementation-plan.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/acceptance-criteria.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/packet-sequence.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/child-packet-contract.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/architecture/program-closeout-plan.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/source-lineage.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/RISK-REGISTER.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/validation-plan.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/program-implementation-orchestration-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/post-implementation-drift-churn-review.md
   - .octon/framework/cognition/practices/methodology/architectural-review/balanced-architecture-review-method.md
   - .octon/framework/cognition/practices/methodology/architectural-review/review-routing.yml
   - .octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md
 validator_refs:
-  - validate-architectural-review-receipts.sh --receipt .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/support/pre-integration-architecture-review.yml --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy --mode pre-integration-architecture-review --require-pass
-  - validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy --print-digest
-  - validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy --require-implementation-authorization
-  - validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy
-  - validate-proposal-program-child-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy
-  - validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy
-  - validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy
-  - validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy
-  - validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy
+  - validate-architectural-review-receipts.sh --receipt .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/pre-integration-architecture-review.yml --package .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy --mode pre-integration-architecture-review --require-pass
+  - validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy
+  - validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy
+  - validate-proposal-program-child-readiness.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy
+  - validate-proposal-program-readiness-projection.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy
 blockers: []
 mode_specific_coverage:
   review_charter:
     verdict: pass
     notes:
-      - Refreshed the parent architecture program review evidence after canonical parent promotion.
-      - Scope is parent coordination and archive-readiness digest freshness after the parent registry correction, with no child mutation.
+      - Reviewed the archived parent program against its current package digest.
+      - Scope is parent coordination and archived evidence freshness, with no child mutation.
   system_job:
     verdict: pass
     notes:
-      - The reviewed system job remains reducing packet lifecycle operator decisions while preserving route ownership, fail-closed gates, retained evidence, receipt truthfulness, generated-output non-authority, and cleanup safety.
+      - The program's system job remains reducing packet lifecycle operator decisions while preserving route ownership, fail-closed gates, retained evidence, receipt truthfulness, generated-output non-authority, and cleanup safety.
   current_reality:
     verdict: pass
     notes:
-      - The parent is implemented after canonical promotion.
-      - All seven required P0/P1 child packets remain implemented and child-owned.
-      - Parent closeout has passed and authorized archive as a later governed route.
-      - Route discovery selects archive-proposal with no program blockers.
+      - The parent program is archived with implemented disposition.
+      - All seven required child packets are terminal archived packets with implemented archive metadata.
+      - Parent child registry evidence_index_refs point to validating retained-run evidence indexes generated from archived implemented children.
   steelman_and_chesterton_fence:
     verdict: pass
     notes:
-      - Existing closeout, delivery, generated publication, cleanup, branch mutation, and receipt validators are preserved as target-owned routes.
+      - Existing closeout, delivery, generated publication, cleanup, branch mutation, and receipt validators remain target-owned routes.
       - The parent coordinates child packets and aggregates evidence without replacing lifecycle owners.
   authority_boundaries:
     verdict: pass
     notes:
       - Parent program material remains proposal-local lineage and parent-local lifecycle evidence.
-      - Child packets own child manifests, implementation truth, promotion evidence, closeout state, archive readiness, and retained validation evidence.
-      - Parent child-registry evidence_index_refs point to validated retained-run evidence indexes only; they summarize child-owned retained evidence and do not replace child-owned receipts or control state.
+      - Child packets own child manifests, implementation truth, promotion evidence, closeout state, archive state, and retained validation evidence.
+      - Parent child-registry evidence_index_refs summarize child-owned retained evidence only.
   complexity_and_leverage:
     verdict: pass
     notes:
-      - The split into three P0 children and four P1 children kept receipt semantics, delivery orchestration, branch closeout, generated freshness, worktree hygiene, terminal proof, and git preflight separable through implementation.
-      - Parent promotion evidence now summarizes those implemented children without widening child authority.
-      - The parent child registry now uses lifecycle-supported gated-parallel execution with verification dependency gates.
+      - The seven child packets keep receipt semantics, delivery orchestration, branch closeout, generated freshness, worktree hygiene, terminal proof, and git preflight separable through terminal handling.
+      - Parent evidence remains an aggregate and does not widen child authority.
   target_architecture_fit:
     verdict: pass
     notes:
@@ -80,12 +74,10 @@ mode_specific_coverage:
   evidence_and_validation_plan:
     verdict: pass
     notes:
-      - Parent validation covers proposal structure, program structure, child readiness, readiness projection, implementation conformance, post-implementation drift, terminal freshness, and architecture proposal shape.
+      - Parent validation covers proposal structure, program structure, child readiness, readiness projection, terminal freshness, and architecture proposal shape.
       - Child validation evidence remains child-owned and discoverable through retained-run evidence index references.
-      - Current review digest is refreshed to the archive-readiness parent packet digest.
   rollback_and_closeout:
     verdict: pass
     notes:
-      - Parent closeout has already passed and remains parent-local evidence only.
-      - Archive remains a separate explicit lifecycle route.
-      - No archive, cleanup, landing, publication, deletion, branch cleanup, or cleaned outcome is authorized by this receipt refresh.
+      - Parent closeout has passed and archive has already moved the parent into the canonical archive location.
+      - No delivery, cleanup, landing, publication, deletion, branch cleanup, or cleaned outcome is authorized by this receipt refresh.
