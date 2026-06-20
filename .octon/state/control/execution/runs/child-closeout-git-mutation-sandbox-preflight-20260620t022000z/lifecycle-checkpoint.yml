@@ -1,0 +1,27 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: child-closeout-git-mutation-sandbox-preflight-20260620t022000z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight
+current_state: closeout-packet
+current_phase: closeout-and-hygiene
+completed_states: []
+last_route: closeout-packet
+loop_counts: {}
+phase_counts:
+  closeout-and-hygiene: 1
+last_phase_transition: phase-entered:closeout-and-hygiene
+phase_blockers:
+  final_verdict: executor-preflight-blocked
+receipt_digests:
+  proposal-review: sha256:2ebd55888b4d1eb84247a30aa041a3f7e8494de3d19815d150ae73d51b718a59
+last_validator_results: []
+run_inputs: {}
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: executor-preflight-blocked
+resume_instruction: octon lifecycle resume --run-id child-closeout-git-mutation-sandbox-preflight-20260620t022000z

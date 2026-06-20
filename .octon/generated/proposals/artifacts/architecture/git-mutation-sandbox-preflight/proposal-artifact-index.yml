@@ -1,5 +1,5 @@
 {
-  "artifact_count": 19,
+  "artifact_count": 20,
   "artifacts": [
     {
       "byte_size": 354,
@@ -312,6 +312,25 @@
       ],
       "role": "pre-integration-architecture-review",
       "sha256": "sha256:b7554e4ddf10ae356bcbf2c3e0df88fad055ecc157c4ec9bfbf1035c6dc34522",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4353,
+      "estimated_tokens": 1089,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:32df3c4a7dc1c3a3b05d5f9ba079d4dbeda086117babc79d2f30ed6402515dc2",
       "stage_relevance": [
         "support-review"
       ],
