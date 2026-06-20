@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+ledger_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:d25a50bbe7b5a386bf4d3ea1b95c7408620222255dc180d9cd8dd1b458355151
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  sequence: 1
+  event_hash: sha256:1d45bb0507161e356fea2e2c872cbaa580454f636162e7e1cabf8ac3d0a9ba20
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  sequence: 29
+  event_hash: sha256:5ce8365b984bcdf3c7de1b6d4ae82d84cc220db9cbbc3eb6cf76c3568fff2a90
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:1d45bb0507161e356fea2e2c872cbaa580454f636162e7e1cabf8ac3d0a9ba20
+  tail_event_hash: sha256:5ce8365b984bcdf3c7de1b6d4ae82d84cc220db9cbbc3eb6cf76c3568fff2a90
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  context_pack_ref: evt-context-pack-bound-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  disclosure_ref: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-5f1880c61681
+  run_contract_ref: evt-001-run-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  run_manifest_ref: evt-002-run-bound-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  runtime_state_ref: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  stage_attempt_ref: evt-stage-started-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:5ce8365b984bcdf3c7de1b6d4ae82d84cc220db9cbbc3eb6cf76c3568fff2a90
+  materialized_at: 2026-06-20T00:10:07.577604Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T00:10:08.408733Z

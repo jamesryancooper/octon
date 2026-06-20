@@ -1,7 +1,7 @@
 schema_version: "architectural-review-support-receipt-v1"
-receipt_id: "branch-no-pr-closeout-state-machine-autonomy-pre-integration-architecture-review-refresh-20260620T001600Z"
+receipt_id: "branch-no-pr-closeout-state-machine-autonomy-pre-integration-architecture-review-refresh-20260620T002300Z"
 proposal_path: ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy"
-packet_digest: "sha256:7dac49f19f3863477e394770b2f951f73be994a86b7f389ea6b0c0de502aeaf6"
+packet_digest: "sha256:4a062578a359d030f2b748df2a81ce8e944b3ca871bee7500c7fbb9239af544a"
 review_mode: "pre-integration-architecture-review"
 verdict: "pass"
 unresolved_count: 0
@@ -38,4 +38,4 @@ mode_specific_coverage:
   complexity_and_leverage: "The smallest durable scope is the Change receipt contract plus closeout-change skill surfaces."
   evidence_and_validation_plan: "Proposal validators and closeout state-machine validators provide the acceptance floor."
   rollback_and_closeout: "Rollback reverts Change receipt and closeout-change changes together; child-owned closeout and terminal receipts remain retained evidence only."
-  terminal_recovery: "The first terminal closeout attempt correctly blocked on unretained same-route evidence; rerun is admissible after checkpoint retention."
+  terminal_recovery: "The first terminal closeout attempt correctly blocked on unretained same-route evidence; the rerun from retained checkpoint is archive-ready with no worktree hygiene blocker."

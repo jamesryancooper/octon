@@ -1,0 +1,70 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-evidence-mutation-e405bb33cd62",
+    "token_type": "AuthorizedEffect<EvidenceMutation>",
+    "effect_kind": "evidence-mutation",
+    "run_id": "child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route",
+    "request_id": "child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route",
+    "grant_id": "grant-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route.yml",
+    "run_control_root": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route",
+    "run_evidence_root": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-d832aab6f332:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "3e4d1793d3a13e755fcc24eacef5c2d18e78549970725c933c7bacf683c517a4",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-d832aab6f332",
+    "runtime_effective_freshness_mode": "digest_bound",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/2026-06-19T22-27-01Z-runtime-route-bundle-d832aab6f332.yml",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "admitted-live-claim",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-20-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-branch-no-pr-closeout-state-machine-autonomy-1/stages/resolve-git-github-route",
+    "scope_envelope": {
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-20-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-branch-no-pr-closeout-state-machine-autonomy-1"
+      ],
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-06-20T00:10:15.475661Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/effect-tokens/effect-token-evidence-mutation-e405bb33cd62.json",
+    "journal_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-e405bb33cd62",
+    "token_digest": "sha256:255a9bd9a462e5116d9c90c599aff81e26c18dcf54e565b77f1c59f587f58c65"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 2,
+  "issued_event_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-e405bb33cd62",
+  "last_event_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-e405bb33cd62",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/receipts/effect-tokens/effect-token-evidence-mutation-e405bb33cd62/consumption-2890aa6c22f1.json",
+  "last_consumed_at": "2026-06-20T00:10:16.161027Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::finalize_execution:evidence",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-20-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-branch-no-pr-closeout-state-machine-autonomy-1/stages/resolve-git-github-route",
+  "rejection_reason_codes": []
+}

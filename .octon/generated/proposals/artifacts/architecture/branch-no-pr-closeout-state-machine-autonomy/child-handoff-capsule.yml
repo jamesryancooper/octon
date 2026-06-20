@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:dcc0c3ec559a6218b28090538a682dffce93a4dd37fedfc5338137000f2b0dcc"
+      "sha256": "sha256:fce5004522a4eaca455657f0191d96d29258928ffb5484e44fc6bced3dff3c2e"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:08859007c22db9fd38c6900d48041ed492503fcaa088518b0428b316524bfe96"
+      "sha256": "sha256:d77b07739d9f7c94c03e1baf3a2014030a5978dd0634e0d92c3a24f31dd4e766"
     }
   ],
-  "context_hash": "sha256:5d9fb64735ae9a7328b9cb7e041a2a838ad5c021fa3c3554b673b307526b0136",
+  "context_hash": "sha256:c258f43b6a0578c9f85ad0f24a361a8a9c947a2684971fda234d167339311c0a",
   "dependency_vector": {
     "parent_program": "operator-free-packet-lifecycle-autonomy",
     "related_proposals": [
@@ -71,7 +71,7 @@
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml": "sha256:cb1fe7c401fefecf0650358759f383b5111c33e623b23cc95d0d786c934f42c0",
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md": "sha256:8cf28fd0dc06d682c57be1a72f13005abcddb02c5fb35858e468de5ebf50301b",
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md": "sha256:3337aca044613cbb518ea33bbaec5f8b9f8668bb7ce104ad5b80a9b5020945d1",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:c5ea6ebc50cce63300db3fb1ea7e9cdb97d5eb0683b1fc0cab795067790e5b98"
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:88e7dfe31c3a194fd46206aa138eade435c87ccdd99ebb4d3ee22714d53da13b"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",

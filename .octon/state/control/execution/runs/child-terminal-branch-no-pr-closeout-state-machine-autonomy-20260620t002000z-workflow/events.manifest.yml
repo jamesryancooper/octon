@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+ledger_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:7c4ff44905e67a10ae90928dd8e51e102affba5276f6773a7f26ac0b094d7ac5
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  sequence: 1
+  event_hash: sha256:3ab24adb8c34b8431a472bba803f9d741cfc46ace7d93d34a8204b70668da37d
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  sequence: 29
+  event_hash: sha256:fa567d6251a3ee7a7edff72303d5d17345ac86804465a230ea9ba2178446c6db
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:3ab24adb8c34b8431a472bba803f9d741cfc46ace7d93d34a8204b70668da37d
+  tail_event_hash: sha256:fa567d6251a3ee7a7edff72303d5d17345ac86804465a230ea9ba2178446c6db
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  context_pack_ref: evt-context-pack-bound-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  disclosure_ref: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-9141f8795d33
+  run_contract_ref: evt-001-run-created-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  run_manifest_ref: evt-002-run-bound-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  runtime_state_ref: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  stage_attempt_ref: evt-stage-started-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:fa567d6251a3ee7a7edff72303d5d17345ac86804465a230ea9ba2178446c6db
+  materialized_at: 2026-06-20T00:10:20.268218Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T00:10:21.063814Z

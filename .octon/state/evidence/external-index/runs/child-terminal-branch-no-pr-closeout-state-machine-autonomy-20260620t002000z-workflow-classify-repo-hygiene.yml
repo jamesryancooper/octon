@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:ef55be0f06e802cbbc163efc69fc2154061cbe587fd3cf28819f9406c9304818
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-20T00:10:07.577604Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:0527a1d1f011f3865bc7d5026ee4a4ea1bc3523acd84f8616c3d5ad240c27824
+  entry_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-20T00:10:07.577604Z
+  run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:10:07.577604Z

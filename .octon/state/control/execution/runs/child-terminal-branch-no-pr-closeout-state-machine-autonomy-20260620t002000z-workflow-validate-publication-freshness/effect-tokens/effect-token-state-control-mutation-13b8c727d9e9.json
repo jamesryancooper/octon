@@ -1,0 +1,70 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-state-control-mutation-13b8c727d9e9",
+    "token_type": "AuthorizedEffect<StateControlMutation>",
+    "effect_kind": "state-control-mutation",
+    "run_id": "child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness",
+    "request_id": "child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness",
+    "grant_id": "grant-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness.yml",
+    "run_control_root": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness",
+    "run_evidence_root": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-d832aab6f332:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "3e4d1793d3a13e755fcc24eacef5c2d18e78549970725c933c7bacf683c517a4",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-d832aab6f332",
+    "runtime_effective_freshness_mode": "digest_bound",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/2026-06-19T22-27-01Z-runtime-route-bundle-d832aab6f332.yml",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "admitted-live-claim",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-20-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-branch-no-pr-closeout-state-machine-autonomy-1/stages/validate-publication-freshness",
+    "scope_envelope": {
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-20-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-branch-no-pr-closeout-state-machine-autonomy-1"
+      ],
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-06-20T00:10:04.696396Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/effect-tokens/effect-token-state-control-mutation-13b8c727d9e9.json",
+    "journal_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-13b8c727d9e9",
+    "token_digest": "sha256:03652b3e7b76eb80f754cb6c79c46f0551e37149b535973a53c5ab13862a1026"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 2,
+  "issued_event_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-13b8c727d9e9",
+  "last_event_ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-13b8c727d9e9",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/receipts/effect-tokens/effect-token-state-control-mutation-13b8c727d9e9/consumption-2a04af3e74bb.json",
+  "last_consumed_at": "2026-06-20T00:10:05.6892Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::finalize_execution:control",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-20-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-branch-no-pr-closeout-state-machine-autonomy-1/stages/validate-publication-freshness",
+  "rejection_reason_codes": []
+}

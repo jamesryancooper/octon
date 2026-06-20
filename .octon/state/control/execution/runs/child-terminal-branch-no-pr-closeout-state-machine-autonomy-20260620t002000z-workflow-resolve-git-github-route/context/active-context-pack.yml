@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:f79f1e581326d87939fcf82a8c6cd979e2b94d764253cd4f4a68155c3df335aa
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:720676ef1cf2c357df692b5deadca241a5952ac120c312cbb4f10fc53a66069f
+receipt_sha256: sha256:57664ef439cb6a265af5f33db04b9d12c3a333be8c37d6d5ce5eac292b0a5d4d
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T00:10:15.079242Z
+validity_state: valid

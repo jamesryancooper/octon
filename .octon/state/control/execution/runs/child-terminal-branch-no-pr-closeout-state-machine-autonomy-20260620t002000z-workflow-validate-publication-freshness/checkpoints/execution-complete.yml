@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness
+checkpoint_id: execution-complete
+stage_attempt_id: validate-publication-freshness--initial
+checkpoint_kind: execution-complete
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/checkpoints/execution-complete.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/checkpoints/execution-complete.yml
+notes: Execution outcome materialized under the canonical run root.
+created_at: 2026-06-20T00:10:06.001525Z
+updated_at: 2026-06-20T00:10:06.001525Z

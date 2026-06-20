@@ -280,8 +280,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 4291,
-      "estimated_tokens": 1073,
+      "byte_size": 4329,
+      "estimated_tokens": 1083,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
@@ -292,7 +292,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:661f046c4795c21e63403d81aba0bf93b493cf88a05b6fc47da8869e9fccbbf3",
+      "sha256": "sha256:a894d68fad84ab2c3d0ffb4c4cc54c014a74e7053c95259e9c19fa0c70006040",
       "stage_relevance": [
         "support-review"
       ],
@@ -337,8 +337,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 2106,
-      "estimated_tokens": 527,
+      "byte_size": 2057,
+      "estimated_tokens": 515,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
@@ -349,7 +349,7 @@
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:c5ea6ebc50cce63300db3fb1ea7e9cdb97d5eb0683b1fc0cab795067790e5b98",
+      "sha256": "sha256:88e7dfe31c3a194fd46206aa138eade435c87ccdd99ebb4d3ee22714d53da13b",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
@@ -357,8 +357,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 30035,
-      "estimated_tokens": 7509,
+      "byte_size": 29965,
+      "estimated_tokens": 7492,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-terminal-closeout.yml",
@@ -369,7 +369,7 @@
         "validator-dispute"
       ],
       "role": "proposal-terminal-closeout",
-      "sha256": "sha256:6939d8d4d079019271f1499197885204eb9a255d658189ade648a1c440fc9f6e",
+      "sha256": "sha256:bdfd7256449e4b4b53b7d296c8b0ff948b5c9fa277bc9ac7e8d2093a86978344",
       "stage_relevance": [
         "support-review"
       ],
@@ -481,7 +481,7 @@
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml": "sha256:cb1fe7c401fefecf0650358759f383b5111c33e623b23cc95d0d786c934f42c0",
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md": "sha256:8cf28fd0dc06d682c57be1a72f13005abcddb02c5fb35858e468de5ebf50301b",
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md": "sha256:3337aca044613cbb518ea33bbaec5f8b9f8668bb7ce104ad5b80a9b5020945d1",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:c5ea6ebc50cce63300db3fb1ea7e9cdb97d5eb0683b1fc0cab795067790e5b98"
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:88e7dfe31c3a194fd46206aa138eade435c87ccdd99ebb4d3ee22714d53da13b"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/architecture-proposal.yml",

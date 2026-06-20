@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-emit-terminal-receipt/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-emit-terminal-receipt/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-emit-terminal-receipt/context/model-visible-context.json
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-emit-terminal-receipt
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T00:10:17.217415Z
+validity_state: valid

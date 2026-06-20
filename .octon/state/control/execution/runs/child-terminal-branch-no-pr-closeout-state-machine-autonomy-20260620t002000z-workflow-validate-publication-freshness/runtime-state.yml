@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/run-manifest.yml
+current_stage_attempt_id: validate-publication-freshness--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness/rollback-posture.yml
+last_applied_event_id: evt-run-closed-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-validate-publication-freshness
+last_applied_sequence: 29
+last_applied_event_hash: sha256:c2707899f9fe246295d653735e88ce97b633388c8575ade89c3be8f0f98b2125
+materialized_at: 2026-06-20T00:10:06.244597Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-20T00:10:04.263341Z
+updated_at: 2026-06-20T00:10:06.244597Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:a171ad0bf210876c25966ce4e4ee0946e61faf4424b0b8dc2838523fac7d9b39
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:881052c3028f57740a4f2e87b94dd06ef7ddd1a06e71fab5972f0d0ebe20a9ab
+receipt_sha256: sha256:eb1c815ac53574b2f2cc660f83f8c2367f7f3327e88141fadaa2e366e42c1b7a
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t002000z-workflow-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T00:10:06.496533Z
+validity_state: valid

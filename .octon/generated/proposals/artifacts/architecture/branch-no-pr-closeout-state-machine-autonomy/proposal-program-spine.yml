@@ -38,7 +38,7 @@
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md",
-      "reviewed_packet_digest": "sha256:7dac49f19f3863477e394770b2f951f73be994a86b7f389ea6b0c0de502aeaf6",
+      "reviewed_packet_digest": "sha256:4a062578a359d030f2b748df2a81ce8e944b3ca871bee7500c7fbb9239af544a",
       "verdict": "accepted"
     },
     "validators": [
@@ -116,10 +116,10 @@
       "sha256": "sha256:be0bae59ff35cd0f68a166abc4da58b7ae6d453e078d6b5012e59a5abf04fe22"
     },
     {
-      "byte_size": 2106,
-      "estimated_tokens": 527,
+      "byte_size": 2057,
+      "estimated_tokens": 515,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md",
-      "sha256": "sha256:c5ea6ebc50cce63300db3fb1ea7e9cdb97d5eb0683b1fc0cab795067790e5b98"
+      "sha256": "sha256:88e7dfe31c3a194fd46206aa138eade435c87ccdd99ebb4d3ee22714d53da13b"
     },
     {
       "byte_size": 3989,
@@ -144,7 +144,7 @@
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml": "sha256:cb1fe7c401fefecf0650358759f383b5111c33e623b23cc95d0d786c934f42c0",
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/executable-implementation-prompt.md": "sha256:8cf28fd0dc06d682c57be1a72f13005abcddb02c5fb35858e468de5ebf50301b",
     ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/implementation-grade-completeness-review.md": "sha256:3337aca044613cbb518ea33bbaec5f8b9f8668bb7ce104ad5b80a9b5020945d1",
-    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:c5ea6ebc50cce63300db3fb1ea7e9cdb97d5eb0683b1fc0cab795067790e5b98"
+    ".octon/inputs/exploratory/proposals/architecture/branch-no-pr-closeout-state-machine-autonomy/support/proposal-review.md": "sha256:88e7dfe31c3a194fd46206aa138eade435c87ccdd99ebb4d3ee22714d53da13b"
   },
   "source_lineage": [],
   "source_refs": [
