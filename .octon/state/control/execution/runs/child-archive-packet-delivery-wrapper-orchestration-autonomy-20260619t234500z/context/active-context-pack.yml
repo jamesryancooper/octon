@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z/context/context-pack.json
+context_pack_sha256: sha256:0a54233493c68e0413fc66c93482d716555452ce1c76d52088d5bfc0ad7381a7
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z/context/model-visible-context.json
+model_visible_context_sha256: sha256:a8d17999b36aff5cf4c437069e9c606158bae8de5c65c60b4dc39d8312061857
+receipt_sha256: sha256:6a731ab2c3172746fc4ad7e7c6a6e5547caaf669cdd568d942b18dbc5646e53c
+route_id: archive-proposal
+run_id: child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-19T23:43:52.245716Z
+validity_state: valid

@@ -236,3 +236,5 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/blocked-delivery-receipt-semantics/
 !.octon/inputs/exploratory/proposals/.archive/architecture/blocked-delivery-receipt-semantics/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/
+!.octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/**

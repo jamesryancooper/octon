@@ -1,0 +1,70 @@
+schema_version: proposal-v1
+proposal_id: packet-delivery-wrapper-orchestration-autonomy
+title: Packet Delivery Wrapper Orchestration Autonomy
+summary: Child architecture packet for making `/proposal-packet-delivery` the route-owned wrapper that coordinates accepted proposal packets through implementation, packet closeout, archive handoff, Change closeout, final sync, branch cleanup, terminal proof, and final hygiene while preserving target- owned receipts.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+- .octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md
+- .octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md
+- .octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
+status: archived
+archive:
+  archived_at: 2026-06-19
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy
+  promotion_evidence:
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+  - .octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md
+  - .octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md
+  - .octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after child-owned review acceptance, implementation authorization, and dependency preflight against the `blocked-delivery-receipt-semantics` child. Promotion must keep target-owned receipts authoritative and route Git mutation through `closeout-change`.
+related_proposals:
+- operator-free-packet-lifecycle-autonomy
+- blocked-delivery-receipt-semantics
+- branch-no-pr-closeout-state-machine-autonomy
+acceptance_criteria_summary: Accepted implementation must make the wrapper route-owned without replacing target-owned receipts, must bind `route=branch-no-pr` for cleaned delivery, must refuse PR fallback, and must report blocked outcomes with precise next owning lifecycle evidence.
+authority_class_impact:
+  framework: Updates workflow, command, skill, profile contract, and workflow validator surfaces.
+  instance: No instance authority changes.
+  state_control: No state-control mutation from this packet.
+  state_evidence: Future implementation must retain workflow and validation evidence.
+  generated: Generated outputs remain derived-only and refreshed only by owning generators.
+  inputs: This child packet remains non-authoritative proposal input.
+created_date: 2026-06-17
+evidence_requirements:
+- Child-owned accepted proposal review.
+- Strict pre-integration architecture review receipt.
+- Implementation-grade completeness receipt.
+- Dependency preflight for blocked delivery receipt semantics before implementation.
+- Workflow/profile/receipt validator evidence for pre-archive, already-archived, branch-no-PR, and no-PR-fallback cases.
+generated_input_authority_impact: The wrapper may detect generated-output freshness needs, but actual generated publication remains owned by later generated freshness work and canonical publishers.
+owner:
+  role: Octon proposal packet author
+  accountable_role: human operator / repository owner
+parent_program: operator-free-packet-lifecycle-autonomy
+rollback_summary: Revert workflow, command, skill, profile schema, and workflow validator changes together if wrapper orchestration bypasses child ownership, weakens receipt gates, or treats generated outputs as authority.
+runtime_behavior_impact: Future implementation may reduce operator choices by making the packet delivery wrapper route accepted packets through the full branch-no-PR delivery sequence while preserving fail-closed gates and delegated ownership.
+scope_statement: This child owns the delivery wrapper workflow, command, skill, profile schema, and workflow validator. It does not own receipt schema semantics, the branch-no-PR closeout state machine, generated freshness detection, worktree partitioning, terminal evidence sinks, or git mutation preflight helpers.
+selected_implementation_target: proposal-packet delivery wrapper orchestration
+sequence:
+  priority: P0
+  order: 2
+  dependency_gate: verification
+  dependencies:
+  - blocked-delivery-receipt-semantics
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-proposal-review-gate.sh
+- validate-architectural-review-receipts.sh
+- validate-proposal-packet-delivery-profile.sh
+- validate-proposal-packet-delivery-workflow.sh
+- test-validate-proposal-packet-delivery.sh

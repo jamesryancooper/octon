@@ -30,15 +30,15 @@
   "gate_states": {
     "implementation_readiness": {
       "clarification_required": "no",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md",
       "unresolved_questions_count": "0",
       "verdict": "pass"
     },
     "proposal_review": {
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md",
-      "reviewed_packet_digest": "sha256:4abf753db271fce7801b93eb5c9fb32f5730ac48625311d7c20202a087c691a6",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:5288107aee7c6fd6ba465eb1121a0080d05a6882f49522de1ee9248c03b5c15b",
       "verdict": "accepted"
     },
     "validators": [
@@ -51,7 +51,7 @@
   },
   "lifecycle": {
     "exit_expectation": "Implement only after child-owned review acceptance, implementation authorization, and dependency preflight against the `blocked-delivery-receipt-semantics` child. Promotion must keep target-owned receipts authoritative and route Git mutation through `closeout-change`.",
-    "status": "implemented",
+    "status": "archived",
     "temporary": true
   },
   "output_ref": ".octon/generated/proposals/artifacts/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal-program-spine.yml",
@@ -66,7 +66,7 @@
   ],
   "proposal_id": "packet-delivery-wrapper-orchestration-autonomy",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -79,55 +79,55 @@
     {
       "byte_size": 8591,
       "estimated_tokens": 2148,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md",
       "sha256": "sha256:c10df556d32cab1bdabc9e3465de6ef4ea578d46d4fc60cd1deac10d1f722132"
     },
     {
       "byte_size": 6368,
       "estimated_tokens": 1592,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-conformance-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-conformance-review.md",
       "sha256": "sha256:2995c6b4e58b937b43b2883de73e45f709046fe48aa39f892476d4ce799082b5"
     },
     {
       "byte_size": 3099,
       "estimated_tokens": 775,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md",
       "sha256": "sha256:24a3273c58df6dea3d55cbdcb9adf2cb09f274d2457f2bba70318cdcd29dde52"
     },
     {
       "byte_size": 8128,
       "estimated_tokens": 2032,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-run.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-run.md",
       "sha256": "sha256:0d198a78f3c715903861697bb6ed3b397638b20b428e8621662cec3ad8c6c2f8"
     },
     {
       "byte_size": 4967,
       "estimated_tokens": 1242,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/post-implementation-drift-churn-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/post-implementation-drift-churn-review.md",
       "sha256": "sha256:b6d53c058c5b0674699a106e4f36f3f1b2be89fd8969b1893fe617725ad5a276"
     },
     {
       "byte_size": 4065,
       "estimated_tokens": 1017,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-closeout.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-closeout.md",
       "sha256": "sha256:f821defd9de7e1b4e43bfea4043173b86cf7c8359e5773019b103005a3c19682"
     },
     {
       "byte_size": 1087,
       "estimated_tokens": 272,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-creation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-creation.md",
       "sha256": "sha256:e95b7e24b6c76f5c98d53bacc72396418f3708cd8c065a2d6a9abca0a385b292"
     },
     {
-      "byte_size": 2541,
-      "estimated_tokens": 636,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md",
-      "sha256": "sha256:53af60c6366906534d008bcf7a06932cc365ac410ac18094cb17af2cabba5648"
+      "byte_size": 2789,
+      "estimated_tokens": 698,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md",
+      "sha256": "sha256:036cc32fbcb85fa26186c7162b88004512cb5aa6119f5813292a5b5491eac7a8"
     },
     {
       "byte_size": 4072,
       "estimated_tokens": 1018,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/validation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/validation.md",
       "sha256": "sha256:616950eb37fc07f6abb36948f2ffdd57610b477eafd0aef02c2c922543ac129a"
     }
   ],
@@ -139,28 +139,28 @@
   "schema_version": "octon-proposal-program-spine-v1",
   "source_digests": {
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml": "sha256:3075fa2e1ddd18ef9f308992239d2299528f450cbf36448767100f525e95a146",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/acceptance-criteria.md": "sha256:db14d51ec63f3ed446de3f1078673f1d81c5e6b662fa58262b82a41345190d73",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/implementation-plan.md": "sha256:95a990c3375f2156e0fe04317367b44887dac4dcc71793057b4b6feb9b632298",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/artifact-catalog.md": "sha256:d776f2a415b1088874704295e0debbc83cd79dff51948bb75645bb37862d8312",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/source-of-truth-map.md": "sha256:d8160fbbcfe6f8aef68deeb69c79b7ef3a2bc2382e5d955c2444ebfcec61beb0",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal.yml": "sha256:1df13e668fa9c40f86874db26f5e33430560841e60fef379acb650b34a6cf297",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md": "sha256:c10df556d32cab1bdabc9e3465de6ef4ea578d46d4fc60cd1deac10d1f722132",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md": "sha256:24a3273c58df6dea3d55cbdcb9adf2cb09f274d2457f2bba70318cdcd29dde52",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md": "sha256:53af60c6366906534d008bcf7a06932cc365ac410ac18094cb17af2cabba5648"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml": "sha256:3075fa2e1ddd18ef9f308992239d2299528f450cbf36448767100f525e95a146",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/acceptance-criteria.md": "sha256:db14d51ec63f3ed446de3f1078673f1d81c5e6b662fa58262b82a41345190d73",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/implementation-plan.md": "sha256:95a990c3375f2156e0fe04317367b44887dac4dcc71793057b4b6feb9b632298",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/artifact-catalog.md": "sha256:7ccba478bdfd8504847ccbdf0b57d1f5b00daddcdd51b5e89144247da94cb70f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/source-of-truth-map.md": "sha256:d8160fbbcfe6f8aef68deeb69c79b7ef3a2bc2382e5d955c2444ebfcec61beb0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal.yml": "sha256:5fb2c4f0e4294085fb65fda2e0803049973e3f79285e7a8af0747551dabb8d98",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md": "sha256:c10df556d32cab1bdabc9e3465de6ef4ea578d46d4fc60cd1deac10d1f722132",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md": "sha256:24a3273c58df6dea3d55cbdcb9adf2cb09f274d2457f2bba70318cdcd29dde52",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md": "sha256:036cc32fbcb85fa26186c7162b88004512cb5aa6119f5813292a5b5491eac7a8"
   },
   "source_lineage": [],
   "source_refs": [
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/support/proposal-review.md"
   ],
-  "status": "implemented"
+  "status": "archived"
 }

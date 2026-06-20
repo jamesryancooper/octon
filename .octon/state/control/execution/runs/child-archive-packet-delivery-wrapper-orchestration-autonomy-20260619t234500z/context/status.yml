@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z/context/context-pack.json
+route_id: archive-proposal
+run_id: child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-19T23:43:52.245716Z
+validity_state: valid

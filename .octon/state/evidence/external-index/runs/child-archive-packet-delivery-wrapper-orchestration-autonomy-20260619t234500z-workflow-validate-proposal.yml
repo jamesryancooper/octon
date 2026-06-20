@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:e4fd2459d0519d234821e4b09dea1f32ad039dee435f6a6a2bbcb7d297285f5a
+  entry_id: child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-19T23:43:55.33922Z
+  run_id: child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:5fcdea4faa9af84c3b30a7a35496acb7d007f6d10648b3704d66e800c8821f34
+  entry_id: child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-19T23:43:55.33922Z
+  run_id: child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal
+run_id: child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-19T23:43:55.33922Z
