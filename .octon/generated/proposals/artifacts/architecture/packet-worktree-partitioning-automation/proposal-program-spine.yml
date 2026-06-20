@@ -13,8 +13,8 @@
   },
   "child_registry": {
     "child_id_present": true,
-    "registry_ref": ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
-    "sha256": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9"
+    "registry_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
+    "sha256": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743"
   },
   "failure_behavior": [
     "fail-closed-on-source-missing",
@@ -106,6 +106,12 @@
       "sha256": "sha256:54d9305d196bd0f701b9de4eb7ebfdd4df865ae6155da909afa750e486b2311a"
     },
     {
+      "byte_size": 4622,
+      "estimated_tokens": 1156,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-closeout.md",
+      "sha256": "sha256:ff0cb797a624713f7e04fdcdf8e1b925b7fad1ee28be3a29b11eedabbad7d44d"
+    },
+    {
       "byte_size": 620,
       "estimated_tokens": 155,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-creation.md",
@@ -130,7 +136,7 @@
   ],
   "schema_version": "octon-proposal-program-spine-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:436a8e4eb786bd98664b662b235f703a87557414c7e57ea7ef426ec92f971ef9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture-proposal.yml": "sha256:1c5c8ff939960e91565b6aba0e5354a921f26d5b956fbef403e4011eacbb7615",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture/acceptance-criteria.md": "sha256:e73f08edc734f2a214ab9172fcb30c7cce30da57541a14bcfa65a395eccd27a5",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture/implementation-plan.md": "sha256:9314b85c32843e1306065f30f2c405df5bd0d5c7e0b5274a1e3f65272b6166f4",
@@ -143,7 +149,7 @@
   },
   "source_lineage": [],
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture-proposal.yml",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture/acceptance-criteria.md",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture/implementation-plan.md",

@@ -1,5 +1,5 @@
 {
-  "artifact_count": 18,
+  "artifact_count": 19,
   "artifacts": [
     {
       "byte_size": 334,
@@ -293,6 +293,25 @@
       ],
       "role": "pre-integration-architecture-review",
       "sha256": "sha256:7e030066ec4801681ba4304978e9f565bfbe9646b92646beead826849985167c",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4622,
+      "estimated_tokens": 1156,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:ff0cb797a624713f7e04fdcdf8e1b925b7fad1ee28be3a29b11eedabbad7d44d",
       "stage_relevance": [
         "support-review"
       ],
