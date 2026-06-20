@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-archive-terminal-evidence-sink-autonomy-20260620t020500z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-archive-terminal-evidence-sink-autonomy-20260620t020500z/context/context-pack.json
+route_id: archive-proposal
+run_id: child-archive-terminal-evidence-sink-autonomy-20260620t020500z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T01:46:50.296183Z
+validity_state: valid

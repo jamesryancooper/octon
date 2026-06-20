@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/terminal-evidence-sink-autonomy/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:4059cfbc2a1173071d02f42fcd62ed5dd3ec84803fae341e4e7779224957afe1"
+      "sha256": "sha256:655c7cabd05f8ce90b75a1cf3e0b16d664e8dafee6653910b1f019cd95a0c18d"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/terminal-evidence-sink-autonomy/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:ed4df38abcca08bf55c91d2fd9ecbfe805c232425791ac1d52245093d5977554"
+      "sha256": "sha256:d56b01b8b36cda8adc05477299a60925311a291b1db34a1547a7df8612bba845"
     }
   ],
-  "context_hash": "sha256:543877b13894ee89ea9aaafe7f850c718405aa5b9d20ed3f043a0edc7232774d",
+  "context_hash": "sha256:a202a0d40c714bde4659e5e2cc15ed91ac1b08db91a263f97a95f339aad4003e",
   "dependency_vector": {
     "parent_program": "operator-free-packet-lifecycle-autonomy",
     "related_proposals": [
@@ -51,7 +51,7 @@
   "output_ref": ".octon/generated/proposals/artifacts/architecture/terminal-evidence-sink-autonomy/child-handoff-capsule.yml",
   "parent_program": "operator-free-packet-lifecycle-autonomy",
   "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy",
   "read_raw_only_if": [
     "compact-context-hash-mismatch",
     "child-registry-digest-mismatch",
@@ -62,27 +62,27 @@
   "scope_statement": "This child owns terminal proof emission after landing, sync, and cleanup evidence exists. It does not own receipt semantics, generated freshness, cleanup deletion authorization, or git mutation preflight behavior.",
   "source_digests": {
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture-proposal.yml": "sha256:48dc1549543e62d7bcc921ad9e894ea7cc3943a86a6e3f9b7da494d0466bbcc6",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture/acceptance-criteria.md": "sha256:d7cbb93ae705ca920416608e5f1fc3682a2eb79b9a789fcf9dd687ca24dfb69b",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture/implementation-plan.md": "sha256:9bd9ac0b33067bdf0a040d3550cebdcec1210bc2b1d1376fdd4877776243c2ad",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/navigation/artifact-catalog.md": "sha256:498f1ae264a4dd3914390619f32d2113c081d9ee2d223dfd0a63eb34e0c3fcc2",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/navigation/source-of-truth-map.md": "sha256:366a2dda462c6204b0faea81c5f153bdb9ecfc68754804d6bae25dad188d56c8",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/proposal.yml": "sha256:3933739f9f7114a284ccd0fa89774494dcaf9723b5e36b5890181148abc23fd5",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/executable-implementation-prompt.md": "sha256:90f55e39f42c1f0db322b90be0ab5a7e8f1434452f0830b7844dce967976d8f6",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/implementation-grade-completeness-review.md": "sha256:8cdc604b158067a5d67adab1de48a26750ef61b7a0ae087e888ff712f3ee2186",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-review.md": "sha256:660a84cc49e5ebba2d4f0e0ae705c2b866b3dd52cb768a3c45e806c9f894b049"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/architecture-proposal.yml": "sha256:48dc1549543e62d7bcc921ad9e894ea7cc3943a86a6e3f9b7da494d0466bbcc6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/architecture/acceptance-criteria.md": "sha256:d7cbb93ae705ca920416608e5f1fc3682a2eb79b9a789fcf9dd687ca24dfb69b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/architecture/implementation-plan.md": "sha256:9bd9ac0b33067bdf0a040d3550cebdcec1210bc2b1d1376fdd4877776243c2ad",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/navigation/artifact-catalog.md": "sha256:4cdb5bc7096fc9e11850ce04793c38d430acbefffb48bdad48407791f69bd11d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/navigation/source-of-truth-map.md": "sha256:366a2dda462c6204b0faea81c5f153bdb9ecfc68754804d6bae25dad188d56c8",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/proposal.yml": "sha256:8af58f2bf58108dfb66b2b708346ead8fdd7e3659cb74c8f555549a3430ec3cb",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/support/executable-implementation-prompt.md": "sha256:90f55e39f42c1f0db322b90be0ab5a7e8f1434452f0830b7844dce967976d8f6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/support/implementation-grade-completeness-review.md": "sha256:8cdc604b158067a5d67adab1de48a26750ef61b7a0ae087e888ff712f3ee2186",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/support/proposal-review.md": "sha256:8886d1d64182029fee0613532516608bae3ebe134cfa202ac5fa54a334257aea"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/support/proposal-review.md"
   ],
   "validator_matrix": [
     {

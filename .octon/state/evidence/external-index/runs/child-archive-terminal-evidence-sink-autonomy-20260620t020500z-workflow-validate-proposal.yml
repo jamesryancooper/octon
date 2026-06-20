@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:501758e02ea760f8f00c07c999519081be9350dd42211d52998ae3f25709c686
+  entry_id: child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-20T01:46:53.303077Z
+  run_id: child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:ca1bf7dd89e64f15e7af34feaeffaaf12135d763cb56d7462b3ab4d2e6d4b1cf
+  entry_id: child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-20T01:46:53.303077Z
+  run_id: child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal
+run_id: child-archive-terminal-evidence-sink-autonomy-20260620t020500z-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:46:53.303077Z

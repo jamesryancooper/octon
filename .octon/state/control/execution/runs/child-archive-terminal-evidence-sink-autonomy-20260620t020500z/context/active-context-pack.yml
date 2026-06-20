@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-archive-terminal-evidence-sink-autonomy-20260620t020500z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-archive-terminal-evidence-sink-autonomy-20260620t020500z/context/context-pack.json
+context_pack_sha256: sha256:5739ba90e06463ef59d470b85536b6766131278a4fddf5e43691e7ca6adfe1a9
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/child-archive-terminal-evidence-sink-autonomy-20260620t020500z/context/model-visible-context.json
+model_visible_context_sha256: sha256:248ad4f6493cfe0fd02f602775a4572be3282ef695ef31bb097d2a171e224a2b
+receipt_sha256: sha256:22a70976f6cd579bca783f9d54fb81d667f169acf79c2c1bf3a2d5d628e2994c
+route_id: archive-proposal
+run_id: child-archive-terminal-evidence-sink-autonomy-20260620t020500z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T01:46:50.296183Z
+validity_state: valid
