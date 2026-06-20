@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-closeout-generated-freshness-scope-detection-20260620t003803z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-closeout-generated-freshness-scope-detection-20260620t003803z/context/context-pack.json
+context_pack_sha256: sha256:37ae2aca846951dd2e31c411a71a642e19134ee7ae4f407df60bbfba58e9ef65
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/child-closeout-generated-freshness-scope-detection-20260620t003803z/context/model-visible-context.json
+model_visible_context_sha256: sha256:11b26f21ce967e5c2d9ca0679ce496075480a2e3e1498ffa62f85cfa4d140a69
+receipt_sha256: sha256:b8232dabae098ba187f315480511825a3a05693c7641f32905a4f98510ccbde0
+route_id: closeout-packet
+run_id: child-closeout-generated-freshness-scope-detection-20260620t003803z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T00:38:11.197558Z
+validity_state: valid

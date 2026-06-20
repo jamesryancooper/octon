@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-closeout-generated-freshness-scope-detection-20260620t003803z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-closeout-generated-freshness-scope-detection-20260620t003803z/context/context-pack.json
+route_id: closeout-packet
+run_id: child-closeout-generated-freshness-scope-detection-20260620t003803z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T00:38:11.197558Z
+validity_state: valid
