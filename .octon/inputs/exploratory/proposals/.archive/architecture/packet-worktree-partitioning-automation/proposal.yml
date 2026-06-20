@@ -1,0 +1,67 @@
+schema_version: proposal-v1
+proposal_id: packet-worktree-partitioning-automation
+title: Packet Worktree Partitioning Automation
+summary: Child architecture packet for classifying proposal-packet worktree residue into publishable, cleanup-safe, protected, and manual-review buckets without deleting retained evidence or widening cleanup authority.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+- .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+- .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+status: archived
+archive:
+  archived_at: 2026-06-20
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation
+  promotion_evidence:
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+  - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+  - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after child-owned review acceptance, implementation authorization, and verification that branch-no-PR closeout state machine evidence is implemented. Cleanup must remain receipt-backed and deletion-safe.
+related_proposals:
+- operator-free-packet-lifecycle-autonomy
+- branch-no-pr-closeout-state-machine-autonomy
+acceptance_criteria_summary: Accepted implementation must classify publishable evidence, cleanup-safe residue, protected retained evidence, and manual-review paths; deletion must require explicit cleanup authorization.
+authority_class_impact:
+  framework: Updates remediation skills and worktree hygiene classifiers.
+  instance: No instance authority changes.
+  state_control: No state-control mutation from this packet.
+  state_evidence: Future implementation must retain child-owned validation evidence.
+  generated: No generated output edits from this packet.
+  inputs: This child packet remains non-authoritative proposal input.
+change_profile: atomic
+created_date: 2026-06-18
+evidence_requirements:
+- Child-owned accepted proposal review.
+- Strict pre-integration architecture review receipt.
+- Implementation-grade completeness receipt.
+- Worktree classification fixtures.
+- Cleanup dry-run and deletion-safety negative controls.
+generated_input_authority_impact: None. Generated outputs remain derived-only and cannot authorize cleanup or deletion.
+owner:
+  role: Octon proposal packet author
+  accountable_role: human operator / repository owner
+parent_program: operator-free-packet-lifecycle-autonomy
+rollback_summary: Revert skill and classifier changes together if they over-classify protected evidence, weaken cleanup authorization, or permit unsafe deletion.
+runtime_behavior_impact: Future implementation may classify worktree residue and route cleanup-safe paths, but deletion remains receipt-backed and protected retained evidence must not be removed as branch cleanup.
+scope_statement: This child owns worktree partitioning and cleanup-safe residue routing for proposal-packet closeout. It does not own receipt semantics, delivery wrapper orchestration, generated freshness detection, terminal proof emission, or git mutation preflight behavior.
+selected_implementation_target: proposal-packet worktree partitioning and cleanup-safe residue routing
+sequence:
+  priority: P1
+  order: 5
+  dependency_gate: verification
+  dependencies:
+  - branch-no-pr-closeout-state-machine-autonomy
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-proposal-review-gate.sh
+- validate-architectural-review-receipts.sh
+- classify-proposal-worktree-hygiene.sh
+- cleanup-local-run-artifacts.sh

@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/packet-worktree-partitioning-automation/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:5a98179ed194c13cc05efaf09b59d2596f1755dc920234eddeb4a546fd7774fe"
+      "sha256": "sha256:bf4632ce743a7e4fe8db8a76ad746e8aca6813ab008c98c4431cabf3c15bd7f8"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/packet-worktree-partitioning-automation/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:ead76fae05951e142fa629074538d14e33145ef3f4ac92826c115860f4c680ce"
+      "sha256": "sha256:e9f83ba2588899ea6ebde7b30a704a7ce21ce719b5e0426bee78aaea9b886018"
     }
   ],
-  "context_hash": "sha256:67d6a7a809404b3e3f7b7c877b4b193d2a4bb8aff934cfa5df26e748250a9ff6",
+  "context_hash": "sha256:44e625178f24b05f8e40549cadc838322e05c7ea3ecc26d940692af7d9f6b151",
   "dependency_vector": {
     "parent_program": "operator-free-packet-lifecycle-autonomy",
     "related_proposals": [
@@ -50,7 +50,7 @@
   "output_ref": ".octon/generated/proposals/artifacts/architecture/packet-worktree-partitioning-automation/child-handoff-capsule.yml",
   "parent_program": "operator-free-packet-lifecycle-autonomy",
   "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation",
   "read_raw_only_if": [
     "compact-context-hash-mismatch",
     "child-registry-digest-mismatch",
@@ -61,27 +61,27 @@
   "scope_statement": "This child owns worktree partitioning and cleanup-safe residue routing for proposal-packet closeout. It does not own receipt semantics, delivery wrapper orchestration, generated freshness detection, terminal proof emission, or git mutation preflight behavior.",
   "source_digests": {
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml": "sha256:50732ce74ba53c9eafa38da13f1aa7d80afa80fc274bde2457f1fc51cb8f9743",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture-proposal.yml": "sha256:1c5c8ff939960e91565b6aba0e5354a921f26d5b956fbef403e4011eacbb7615",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture/acceptance-criteria.md": "sha256:e73f08edc734f2a214ab9172fcb30c7cce30da57541a14bcfa65a395eccd27a5",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture/implementation-plan.md": "sha256:9314b85c32843e1306065f30f2c405df5bd0d5c7e0b5274a1e3f65272b6166f4",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/navigation/artifact-catalog.md": "sha256:0b8ca1105c0d6c6d27b792eb09897cbae216ca0fc13e2f4a88b847803350f017",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/navigation/source-of-truth-map.md": "sha256:82d9ff4598324b781e9ad1a7d72aaa97ad4eaffc223a1ae6e3b00ed39fabd748",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/proposal.yml": "sha256:a4084b60bfca3a8b8e588b44391bebb1230aac6e85456cc3ffe45bd5336e801e",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/executable-implementation-prompt.md": "sha256:7659b5b93fa8804f0d2bb11ddbf552909fc1944f459e7ba8453641e70bbcd4d1",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/implementation-grade-completeness-review.md": "sha256:d80670372790eed548fc957def768bddcb6308c41c55a3cf2388a5e19c012406",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md": "sha256:4103596f2117ebfcd57b90592aaafa43fd678226a2b20b6ad78215c637b3530c"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/architecture-proposal.yml": "sha256:1c5c8ff939960e91565b6aba0e5354a921f26d5b956fbef403e4011eacbb7615",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/architecture/acceptance-criteria.md": "sha256:e73f08edc734f2a214ab9172fcb30c7cce30da57541a14bcfa65a395eccd27a5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/architecture/implementation-plan.md": "sha256:9314b85c32843e1306065f30f2c405df5bd0d5c7e0b5274a1e3f65272b6166f4",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/navigation/artifact-catalog.md": "sha256:bc4b2fe0ac0bd2bf2b0cf217ead23865bdb7a3a74f9c90a9febe116f246474dc",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/navigation/source-of-truth-map.md": "sha256:82d9ff4598324b781e9ad1a7d72aaa97ad4eaffc223a1ae6e3b00ed39fabd748",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/proposal.yml": "sha256:28fa70d47d63ce31e0d52336cac969053e6187478533a7e4fc2c0deac4f773b5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/support/executable-implementation-prompt.md": "sha256:7659b5b93fa8804f0d2bb11ddbf552909fc1944f459e7ba8453641e70bbcd4d1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/support/implementation-grade-completeness-review.md": "sha256:d80670372790eed548fc957def768bddcb6308c41c55a3cf2388a5e19c012406",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/support/proposal-review.md": "sha256:34b956148377cbc733d83fcd62b95280ac75dd1d6fb14ebd479c07ca92eb0352"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/support/proposal-review.md"
   ],
   "validator_matrix": [
     {

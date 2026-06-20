@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:c5dda1ab7618e84ddfdec632f92a3dd7b319b94a87acd44f4e7b6bb46987a402
+  entry_id: child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow/replay/manifest.yml
+  recorded_at: 2026-06-20T01:26:55.240588Z
+  run_id: child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:c293af4bd84fbb4ac9990091bd4286dcd518081b3ec948af9b5edc9f1ad8ffb8
+  entry_id: child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow/replay/manifest.yml
+  recorded_at: 2026-06-20T01:26:55.240588Z
+  run_id: child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow
+  storage_class: external-immutable
+index_id: external-replay-child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow
+run_id: child-archive-packet-worktree-partitioning-automation-20260620t012500z-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:26:55.240588Z

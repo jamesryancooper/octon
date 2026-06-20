@@ -242,3 +242,5 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/generated-freshness-scope-detection/
 !.octon/inputs/exploratory/proposals/.archive/architecture/generated-freshness-scope-detection/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/
+!.octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/**
