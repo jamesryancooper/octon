@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:8570b5f87dbe07726348388f9193824631c4f65e4dd214a4e318c967242967a0
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-20T01:07:17.593137Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:05a8392895e49fbe92a7b9728fbec86744999766a63cd9e0981c9aa14e0104d9
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-20T01:07:17.593137Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:07:17.593137Z

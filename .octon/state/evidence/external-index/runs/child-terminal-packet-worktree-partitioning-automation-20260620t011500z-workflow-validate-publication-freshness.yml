@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:f22b143e39255da09b22a05e27969234f810bd5b27c15b82c028082c51d781fa
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-20T01:08:33.980388Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:faf11b6481644d4388029fda9dc4f85d283cbed4bc763e15a9dfb7da50a75cb2
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-20T01:08:33.980388Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:08:33.980388Z

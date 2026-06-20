@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:a05c8da0077c0b68eb2cac3e83a588e4d3e88284e93a67065670dc0f7e4698a4
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:53f5b3d0d2036dc870d14033a298fc018380c3209b74f62e0643968abee4a6c1
+receipt_sha256: sha256:7a73b361120e345a60fe05e90650650e18d4c1cf688b153ba94ab156e4b56699
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T01:08:34.999276Z
+validity_state: valid

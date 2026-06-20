@@ -38,7 +38,7 @@
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md",
-      "reviewed_packet_digest": "sha256:584979d6a4dff2a1a6b9f9686b21710461abec3cbd8196a769837c67bc27bd54",
+      "reviewed_packet_digest": "sha256:1bb3ac7333acdc7be6a73aca114d91dda5ff5faaad53a6b69a3c45ba5f957809",
       "verdict": "accepted"
     },
     "validators": [
@@ -118,10 +118,10 @@
       "sha256": "sha256:eb52e68322641f488a4d208c936dc7bf3405178bd58772d0f2a4ed89d1b27ff0"
     },
     {
-      "byte_size": 1614,
-      "estimated_tokens": 404,
+      "byte_size": 1895,
+      "estimated_tokens": 474,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md",
-      "sha256": "sha256:34eaea9c49fab6fb781a44bf9b9b1dba508f80169f4f1bbda173e028614d8a9a"
+      "sha256": "sha256:4103596f2117ebfcd57b90592aaafa43fd678226a2b20b6ad78215c637b3530c"
     },
     {
       "byte_size": 7071,
@@ -145,7 +145,7 @@
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/proposal.yml": "sha256:a4084b60bfca3a8b8e588b44391bebb1230aac6e85456cc3ffe45bd5336e801e",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/executable-implementation-prompt.md": "sha256:7659b5b93fa8804f0d2bb11ddbf552909fc1944f459e7ba8453641e70bbcd4d1",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/implementation-grade-completeness-review.md": "sha256:d80670372790eed548fc957def768bddcb6308c41c55a3cf2388a5e19c012406",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md": "sha256:34eaea9c49fab6fb781a44bf9b9b1dba508f80169f4f1bbda173e028614d8a9a"
+    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md": "sha256:4103596f2117ebfcd57b90592aaafa43fd678226a2b20b6ad78215c637b3530c"
   },
   "source_lineage": [],
   "source_refs": [

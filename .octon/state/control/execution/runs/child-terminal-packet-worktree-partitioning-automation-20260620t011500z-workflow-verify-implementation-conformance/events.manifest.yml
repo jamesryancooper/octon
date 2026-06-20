@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+ledger_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:6de754996a92472935a5383d0be038781698de36e3bf0e1a867e345fdb81a195
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  sequence: 1
+  event_hash: sha256:07ab378586faa6d443edc9d7003f6cb0c10fe8dd2b517723f1007fed7d5d1a48
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  sequence: 29
+  event_hash: sha256:334aca57eb84f9b5c37c4a01f0ea346bdc0c40e790fc27e14cd1a4a888f5773e
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:07ab378586faa6d443edc9d7003f6cb0c10fe8dd2b517723f1007fed7d5d1a48
+  tail_event_hash: sha256:334aca57eb84f9b5c37c4a01f0ea346bdc0c40e790fc27e14cd1a4a888f5773e
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  context_pack_ref: evt-context-pack-bound-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  disclosure_ref: evt-run-closed-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-b273608638d5
+  run_contract_ref: evt-001-run-created-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  run_manifest_ref: evt-002-run-bound-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  runtime_state_ref: evt-run-closed-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  stage_attempt_ref: evt-stage-started-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:334aca57eb84f9b5c37c4a01f0ea346bdc0c40e790fc27e14cd1a4a888f5773e
+  materialized_at: 2026-06-20T01:07:21.664947Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T01:07:22.403733Z

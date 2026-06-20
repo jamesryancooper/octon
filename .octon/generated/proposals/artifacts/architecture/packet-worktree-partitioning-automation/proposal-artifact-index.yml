@@ -1,5 +1,5 @@
 {
-  "artifact_count": 19,
+  "artifact_count": 20,
   "artifacts": [
     {
       "byte_size": 334,
@@ -280,8 +280,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 3847,
-      "estimated_tokens": 962,
+      "byte_size": 4249,
+      "estimated_tokens": 1063,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
@@ -292,7 +292,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:7e030066ec4801681ba4304978e9f565bfbe9646b92646beead826849985167c",
+      "sha256": "sha256:f3b7acba27a6d7ac6c0e44bd069f9a5953efddcaeb30840f41fce5781eef315c",
       "stage_relevance": [
         "support-review"
       ],
@@ -337,8 +337,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 1614,
-      "estimated_tokens": 404,
+      "byte_size": 1895,
+      "estimated_tokens": 474,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
@@ -349,10 +349,29 @@
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:34eaea9c49fab6fb781a44bf9b9b1dba508f80169f4f1bbda173e028614d8a9a",
+      "sha256": "sha256:4103596f2117ebfcd57b90592aaafa43fd678226a2b20b6ad78215c637b3530c",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 29226,
+      "estimated_tokens": 7307,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:e2234892245fce356acc2ed9969646948f81a90af707bd766244f5c67e8aba8c",
+      "stage_relevance": [
+        "support-review"
       ],
       "stage_role": "evidence-annex"
     },
@@ -443,7 +462,7 @@
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/proposal.yml": "sha256:a4084b60bfca3a8b8e588b44391bebb1230aac6e85456cc3ffe45bd5336e801e",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/executable-implementation-prompt.md": "sha256:7659b5b93fa8804f0d2bb11ddbf552909fc1944f459e7ba8453641e70bbcd4d1",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/implementation-grade-completeness-review.md": "sha256:d80670372790eed548fc957def768bddcb6308c41c55a3cf2388a5e19c012406",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md": "sha256:34eaea9c49fab6fb781a44bf9b9b1dba508f80169f4f1bbda173e028614d8a9a"
+    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md": "sha256:4103596f2117ebfcd57b90592aaafa43fd678226a2b20b6ad78215c637b3530c"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/architecture-proposal.yml",

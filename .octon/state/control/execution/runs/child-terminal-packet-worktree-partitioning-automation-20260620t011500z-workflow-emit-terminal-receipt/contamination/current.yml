@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-emit-terminal-receipt-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-06-20T01:08:44.019338Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-emit-terminal-receipt
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-emit-terminal-receipt/checkpoints/bound.yml

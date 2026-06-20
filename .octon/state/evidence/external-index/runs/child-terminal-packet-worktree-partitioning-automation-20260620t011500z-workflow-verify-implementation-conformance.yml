@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:fde563b2e07e09144e07b20a5c9ec07d28a906d3d15600c2ef80acc2360d048b
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-20T01:07:21.664947Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:6ff05f1c21ebdabd4f30099100e31b543e3d12bc14ef52d77c6175b5a3d1baa5
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-20T01:07:21.664947Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-implementation-conformance
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:07:21.664947Z

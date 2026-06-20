@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-post-implementation-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-post-implementation-drift/context/context-pack.json
+context_pack_sha256: sha256:b571ca1c0b341ccd7a77d1b31dda484bed5fbc57c98585cae8dee22e8e78a4b8
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-post-implementation-drift/context/model-visible-context.json
+model_visible_context_sha256: sha256:60ceaacf517114455ff6ec97d127e06d4fbf00a9d30d342b6667ef09f1f1e6e1
+receipt_sha256: sha256:71e98579f325b9e2a063989681e2b18d8a14ae4f7d69c58293593d0e5922b8f9
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-post-implementation-drift
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T01:07:23.028936Z
+validity_state: valid

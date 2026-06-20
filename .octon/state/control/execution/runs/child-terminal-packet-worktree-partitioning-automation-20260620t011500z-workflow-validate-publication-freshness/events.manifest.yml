@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+ledger_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:88bd1185b392867da4e9af213624b0364cb84a59496f903727f87951c480ed2e
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  sequence: 1
+  event_hash: sha256:3b00faf88cad66fc5b27e976e3a15f02ad64626b1e1f8e42b12d5acb952c1981
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  sequence: 29
+  event_hash: sha256:605ad904f30f9c1bfa429fe3f54802b2ecd6dea56228fd7d0a588a8c5843f6e4
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:3b00faf88cad66fc5b27e976e3a15f02ad64626b1e1f8e42b12d5acb952c1981
+  tail_event_hash: sha256:605ad904f30f9c1bfa429fe3f54802b2ecd6dea56228fd7d0a588a8c5843f6e4
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  context_pack_ref: evt-context-pack-bound-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  disclosure_ref: evt-run-closed-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-4292980a777d
+  run_contract_ref: evt-001-run-created-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  run_manifest_ref: evt-002-run-bound-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  runtime_state_ref: evt-run-closed-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  stage_attempt_ref: evt-stage-started-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-validate-publication-freshness
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:605ad904f30f9c1bfa429fe3f54802b2ecd6dea56228fd7d0a588a8c5843f6e4
+  materialized_at: 2026-06-20T01:08:33.980388Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T01:08:34.735196Z

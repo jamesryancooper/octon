@@ -1,0 +1,19 @@
+dispositions:
+- blocking: true
+  disposition_id: closeout-completeness
+  evidence_refs:
+  - .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile/retained-run-evidence.yml
+  - .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile/replay/manifest.yml
+  status: resolved
+recorded_at: 2026-06-20T01:07:17.593137Z
+review_disposition:
+  outcome: approved
+  status: resolved
+  summary: Run closeout review and risk disposition were materialized before closed lifecycle entry.
+risk_disposition:
+  accepted_risks: []
+  status: resolved
+  unresolved_risk_count: 0
+  unresolved_risks: []
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-bind-profile
+schema_version: review-dispositions-v1

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:1b6763a3e3c828bc65a931fde52227c94381316cf788f43784f3e63c0d5c3694
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-20T01:07:19.507158Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:5d991ce9a13bb6bac4d96a5adfa7628a66a75b3795fe76b1201990b7ed3cbd23
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-20T01:07:19.507158Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-verify-durable-implementation-state
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:07:19.507158Z

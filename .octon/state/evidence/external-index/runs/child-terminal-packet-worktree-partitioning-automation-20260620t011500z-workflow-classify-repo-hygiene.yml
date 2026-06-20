@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:285838933fa6a25b13f5a5bbcb7c4a5d83cee6a2b523a34686ea78af28b924a9
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-20T01:08:35.945551Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:5e2b55dcd67086089d090afe20b34813e00048075ada090a284d1069e496e620
+  entry_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-20T01:08:35.945551Z
+  run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene
+run_id: child-terminal-packet-worktree-partitioning-automation-20260620t011500z-workflow-classify-repo-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:08:35.945551Z

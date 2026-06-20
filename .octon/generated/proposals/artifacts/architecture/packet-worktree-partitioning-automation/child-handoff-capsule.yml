@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/packet-worktree-partitioning-automation/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:ecf12a2f8f4e53eb1214e324b00eecc493fa6ca23293118e7b80f8a56080089f"
+      "sha256": "sha256:5a98179ed194c13cc05efaf09b59d2596f1755dc920234eddeb4a546fd7774fe"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/packet-worktree-partitioning-automation/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:4bbd11a1c643e4fdf95f3d50828dc80065bda271f2e53c9e57393f4847df1249"
+      "sha256": "sha256:ead76fae05951e142fa629074538d14e33145ef3f4ac92826c115860f4c680ce"
     }
   ],
-  "context_hash": "sha256:de4ebded08d602ebe37231cdb162dd6e00d8c8840376330ca4aca4302ad0fa58",
+  "context_hash": "sha256:67d6a7a809404b3e3f7b7c877b4b193d2a4bb8aff934cfa5df26e748250a9ff6",
   "dependency_vector": {
     "parent_program": "operator-free-packet-lifecycle-autonomy",
     "related_proposals": [
@@ -69,7 +69,7 @@
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/proposal.yml": "sha256:a4084b60bfca3a8b8e588b44391bebb1230aac6e85456cc3ffe45bd5336e801e",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/executable-implementation-prompt.md": "sha256:7659b5b93fa8804f0d2bb11ddbf552909fc1944f459e7ba8453641e70bbcd4d1",
     ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/implementation-grade-completeness-review.md": "sha256:d80670372790eed548fc957def768bddcb6308c41c55a3cf2388a5e19c012406",
-    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md": "sha256:34eaea9c49fab6fb781a44bf9b9b1dba508f80169f4f1bbda173e028614d8a9a"
+    ".octon/inputs/exploratory/proposals/architecture/packet-worktree-partitioning-automation/support/proposal-review.md": "sha256:4103596f2117ebfcd57b90592aaafa43fd678226a2b20b6ad78215c637b3530c"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",
