@@ -1,11 +1,11 @@
 # Proposal Review
 
-review_id: branch-no-pr-closeout-state-machine-autonomy-review-20260617T231635Z
-reviewed_at: 2026-06-17T23:16:35Z
+review_id: branch-no-pr-closeout-state-machine-autonomy-review-refresh-20260620T001600Z
+reviewed_at: 2026-06-20T00:16:00Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:875c079b4537cdc54a2842819117d191db52a602b65f2769d761022d254d074b
+reviewed_packet_digest: sha256:7dac49f19f3863477e394770b2f951f73be994a86b7f389ea6b0c0de502aeaf6
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -30,6 +30,9 @@ None.
 
 ## Nonblocking Findings
 
+- Terminal closeout must be rerun from a clean baseline after this review
+  refresh because the first terminal attempt correctly blocked on same-route
+  closeout evidence that was not yet retained in git history.
 - Future implementation must include dependency preflight against
   `packet-delivery-wrapper-orchestration-autonomy` before durable closeout
   state-machine changes land.
@@ -41,7 +44,7 @@ None.
 
 ## Final Route Recommendation
 
-Generate an implementation prompt for this child packet only. The prompt must
-require wrapper dependency preflight, preserve route-specific proof for hosted
-landing and final sync, and refuse cleaned claims without cleanup authorization
-and protected-evidence safety.
+Proceed to child-owned terminal closeout rerun for `archive-ready` from the
+current retained checkpoint. Do not mutate durable implementation targets,
+parent program state, child-owned implementation evidence, branch state,
+publication state, cleanup state, or any `cleaned` claim.
