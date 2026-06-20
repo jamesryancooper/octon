@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+ledger_ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:641cda6defa992246821c6112c53c006047e66d26abda14eba3d44d0c12740d1
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  sequence: 1
+  event_hash: sha256:67b85b7e8c9c1dc1c2e0137de074f2abdacaaf2624f3e03386a8d342517c1585
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  sequence: 29
+  event_hash: sha256:3cad2ce2d8c64fb1395ff3144608dbc949a58ab137e95e579f422e61ef8de337
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:67b85b7e8c9c1dc1c2e0137de074f2abdacaaf2624f3e03386a8d342517c1585
+  tail_event_hash: sha256:3cad2ce2d8c64fb1395ff3144608dbc949a58ab137e95e579f422e61ef8de337
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  context_pack_ref: evt-context-pack-bound-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  disclosure_ref: evt-run-closed-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-ce294f0ee07a
+  run_contract_ref: evt-001-run-created-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  run_manifest_ref: evt-002-run-bound-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  runtime_state_ref: evt-run-closed-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  stage_attempt_ref: evt-stage-started-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:3cad2ce2d8c64fb1395ff3144608dbc949a58ab137e95e579f422e61ef8de337
+  materialized_at: 2026-06-20T02:07:11.104326Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T02:07:11.861906Z

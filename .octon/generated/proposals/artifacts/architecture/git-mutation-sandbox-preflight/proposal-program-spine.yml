@@ -38,7 +38,7 @@
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md",
-      "reviewed_packet_digest": "sha256:2ebd55888b4d1eb84247a30aa041a3f7e8494de3d19815d150ae73d51b718a59",
+      "reviewed_packet_digest": "sha256:f721a0dfc6dce5f572d2533b72390851a785dd5408848e493dcd0c8ee14c1a96",
       "verdict": "accepted"
     },
     "validators": [
@@ -116,10 +116,10 @@
       "sha256": "sha256:f010c114fcd17066ffa47e1e12cb4c067344f055c66943abde0daa04d368666f"
     },
     {
-      "byte_size": 1387,
-      "estimated_tokens": 347,
+      "byte_size": 1477,
+      "estimated_tokens": 370,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md",
-      "sha256": "sha256:089333a9d546bf67c17c846142558002599cdc2c5586caba7aeb6e63e72d4e46"
+      "sha256": "sha256:96ec5e17b1533574c011df76a67f102d5756bbb21f649d7b3b17ae3a878a16c7"
     },
     {
       "byte_size": 6390,
@@ -143,7 +143,7 @@
     ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/proposal.yml": "sha256:3af5319ce647c2f1805c8b32777be5a3fcb146b985662622dba8b1b445720dcc",
     ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md": "sha256:ae40876bff4f1f1d22454234981e80e91cf50cdf8060636156ad6a43175d6cdd",
     ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md": "sha256:a37a386e2721001a79a0581e5e8de89abfe81353e09a8064d2705f4e839ad3d3",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md": "sha256:089333a9d546bf67c17c846142558002599cdc2c5586caba7aeb6e63e72d4e46"
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md": "sha256:96ec5e17b1533574c011df76a67f102d5756bbb21f649d7b3b17ae3a878a16c7"
   },
   "source_lineage": [],
   "source_refs": [

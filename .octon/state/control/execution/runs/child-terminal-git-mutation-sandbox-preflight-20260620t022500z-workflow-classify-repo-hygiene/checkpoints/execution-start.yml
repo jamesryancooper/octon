@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-classify-repo-hygiene
+checkpoint_id: execution-start
+stage_attempt_id: classify-repo-hygiene--initial
+checkpoint_kind: execution-start
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-classify-repo-hygiene/checkpoints/execution-start.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-classify-repo-hygiene/checkpoints/execution-start.yml
+notes: Execution artifacts materialized under the canonical run root.
+created_at: 2026-06-20T02:07:01.14141Z
+updated_at: 2026-06-20T02:07:01.14141Z

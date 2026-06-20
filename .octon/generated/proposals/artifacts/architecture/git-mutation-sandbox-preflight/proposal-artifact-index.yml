@@ -1,5 +1,5 @@
 {
-  "artifact_count": 20,
+  "artifact_count": 21,
   "artifacts": [
     {
       "byte_size": 354,
@@ -299,8 +299,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 3966,
-      "estimated_tokens": 992,
+      "byte_size": 4407,
+      "estimated_tokens": 1102,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
@@ -311,7 +311,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:b7554e4ddf10ae356bcbf2c3e0df88fad055ecc157c4ec9bfbf1035c6dc34522",
+      "sha256": "sha256:fd11a031c7df12bd6b4c889186cd95e7062bf438dec71872f7220e99a2663207",
       "stage_relevance": [
         "support-review"
       ],
@@ -356,8 +356,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 1387,
-      "estimated_tokens": 347,
+      "byte_size": 1477,
+      "estimated_tokens": 370,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
@@ -368,10 +368,29 @@
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:089333a9d546bf67c17c846142558002599cdc2c5586caba7aeb6e63e72d4e46",
+      "sha256": "sha256:96ec5e17b1533574c011df76a67f102d5756bbb21f649d7b3b17ae3a878a16c7",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 28227,
+      "estimated_tokens": 7057,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:45c002a442f422af1072248fd093b0c6132280cd6a2ed87a9ae3042f4d92db44",
+      "stage_relevance": [
+        "support-review"
       ],
       "stage_role": "evidence-annex"
     },
@@ -462,7 +481,7 @@
     ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/proposal.yml": "sha256:3af5319ce647c2f1805c8b32777be5a3fcb146b985662622dba8b1b445720dcc",
     ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/executable-implementation-prompt.md": "sha256:ae40876bff4f1f1d22454234981e80e91cf50cdf8060636156ad6a43175d6cdd",
     ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/implementation-grade-completeness-review.md": "sha256:a37a386e2721001a79a0581e5e8de89abfe81353e09a8064d2705f4e839ad3d3",
-    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md": "sha256:089333a9d546bf67c17c846142558002599cdc2c5586caba7aeb6e63e72d4e46"
+    ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/support/proposal-review.md": "sha256:96ec5e17b1533574c011df76a67f102d5756bbb21f649d7b3b17ae3a878a16c7"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/architecture/git-mutation-sandbox-preflight/architecture-proposal.yml",

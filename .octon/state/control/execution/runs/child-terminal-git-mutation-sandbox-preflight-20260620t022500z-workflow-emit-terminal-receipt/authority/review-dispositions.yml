@@ -1,0 +1,19 @@
+dispositions:
+- blocking: true
+  disposition_id: closeout-completeness
+  evidence_refs:
+  - .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/retained-run-evidence.yml
+  - .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt/replay/manifest.yml
+  status: resolved
+recorded_at: 2026-06-20T02:07:11.104326Z
+review_disposition:
+  outcome: approved
+  status: resolved
+  summary: Run closeout review and risk disposition were materialized before closed lifecycle entry.
+risk_disposition:
+  accepted_risks: []
+  status: resolved
+  unresolved_risk_count: 0
+  unresolved_risks: []
+run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-emit-terminal-receipt
+schema_version: review-dispositions-v1

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:2a05e3c132fe870112e8159c9ac96db1e38ea8303cfb3c2c27002d3154d48d4e
+  entry_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-20T02:05:37.609792Z
+  run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:43b1af5243a3bc9e4ec42698646dd14acc96731f710766fcfdf3ad8cdfab1406
+  entry_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-20T02:05:37.609792Z
+  run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance
+run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T02:05:37.609792Z

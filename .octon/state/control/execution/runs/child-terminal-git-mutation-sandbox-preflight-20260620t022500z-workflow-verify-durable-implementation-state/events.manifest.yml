@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+ledger_ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:ce8111895f7e1117c095e687f9ad520a7c81a2809b062fea703ba920228052cb
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  sequence: 1
+  event_hash: sha256:0224076a312eefbd78dcc25837d060456baf981a446ee6a320a26e29cb7c0bc2
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  sequence: 29
+  event_hash: sha256:c74f2ac91828bb8c686cf2401f02d2f555d12eff9c85d67b7638dbff4ee54b4c
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:0224076a312eefbd78dcc25837d060456baf981a446ee6a320a26e29cb7c0bc2
+  tail_event_hash: sha256:c74f2ac91828bb8c686cf2401f02d2f555d12eff9c85d67b7638dbff4ee54b4c
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  context_pack_ref: evt-context-pack-bound-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  disclosure_ref: evt-run-closed-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-700a185a033f
+  run_contract_ref: evt-001-run-created-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  run_manifest_ref: evt-002-run-bound-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  runtime_state_ref: evt-run-closed-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  stage_attempt_ref: evt-stage-started-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-durable-implementation-state
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:c74f2ac91828bb8c686cf2401f02d2f555d12eff9c85d67b7638dbff4ee54b4c
+  materialized_at: 2026-06-20T02:05:35.289165Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T02:05:36.06093Z

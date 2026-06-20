@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:20375ce735be1870d43013d77057996780c1975a75f2a0688561e26bfa116cc7
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:129d80b2849f02b47e96a10f2c2cace9a003c1d7532d3ae83329954753953ba2
+receipt_sha256: sha256:afc818d321023201ed1c4b683ee23ac00893a53d2f82b6536d75053c88d82421
+run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T02:07:07.902658Z
+validity_state: valid

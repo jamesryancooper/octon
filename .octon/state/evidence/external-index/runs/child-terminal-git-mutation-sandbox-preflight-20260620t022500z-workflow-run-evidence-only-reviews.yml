@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:27666b392935fde98456e6dd01dbc4872730bcfbd42a621312737f8cc35fd43e
+  entry_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-20T02:07:06.852428Z
+  run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:e9dfdbe6eb1235abc94fbfb2f5b929e9b2fabdd5c9c5160201cc924e3363bd28
+  entry_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-20T02:07:06.852428Z
+  run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews
+run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T02:07:06.852428Z
