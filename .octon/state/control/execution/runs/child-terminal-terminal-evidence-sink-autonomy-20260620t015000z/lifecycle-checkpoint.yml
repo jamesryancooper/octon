@@ -1,0 +1,29 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy
+current_state: review-packet
+current_phase: review-and-revision
+completed_states: []
+last_route: review-packet
+loop_counts: {}
+phase_counts:
+  packet-terminal-closeout: 1
+  review-and-revision: 1
+last_phase_transition: phase-entered:review-and-revision
+phase_blockers:
+  final_verdict: blocked-max-steps
+receipt_digests:
+  proposal-review: sha256:6457b3bf01514a5182f82b5f687fecc559bffe07f71272af2517f718b5ac2c1a
+last_validator_results: []
+run_inputs:
+  target_outcome: archive-ready
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-max-steps
+resume_instruction: octon lifecycle resume --run-id child-terminal-terminal-evidence-sink-autonomy-20260620t015000z

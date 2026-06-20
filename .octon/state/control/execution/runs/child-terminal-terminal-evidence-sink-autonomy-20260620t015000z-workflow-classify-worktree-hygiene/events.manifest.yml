@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+ledger_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:39cd0c32c50e07022ab5cd346bfa776324ec5812b9bce1d56e50f682fd5fc08d
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  sequence: 1
+  event_hash: sha256:509b7d88a55118ede96178c38c79d03d4350336047ad8a9ebac66684499b8e8f
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  sequence: 29
+  event_hash: sha256:c11de47692c77aab3e2cbc386e813e8c016a38ed6548cf2b1a8e46c958a151c5
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:509b7d88a55118ede96178c38c79d03d4350336047ad8a9ebac66684499b8e8f
+  tail_event_hash: sha256:c11de47692c77aab3e2cbc386e813e8c016a38ed6548cf2b1a8e46c958a151c5
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  context_pack_ref: evt-context-pack-bound-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  disclosure_ref: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-37c8b0716371
+  run_contract_ref: evt-001-run-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  run_manifest_ref: evt-002-run-bound-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  runtime_state_ref: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  stage_attempt_ref: evt-stage-started-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:c11de47692c77aab3e2cbc386e813e8c016a38ed6548cf2b1a8e46c958a151c5
+  materialized_at: 2026-06-20T01:38:18.767492Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T01:38:19.510467Z

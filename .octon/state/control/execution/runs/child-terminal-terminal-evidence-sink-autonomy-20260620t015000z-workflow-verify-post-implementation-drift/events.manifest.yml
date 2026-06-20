@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+ledger_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:3a3d087308031843df8660305a925852de0616f0e205d70aedbb30d77f98ab1b
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  sequence: 1
+  event_hash: sha256:8a736c348a036094d27446466c427e0971a9f5f9dc9beac2de6a3089a9d6aeef
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  sequence: 29
+  event_hash: sha256:f5d1bfdfbf41cbd2b42e886e4a2975a47a9c25dcfb50dbaeae50fa177efa81ec
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:8a736c348a036094d27446466c427e0971a9f5f9dc9beac2de6a3089a9d6aeef
+  tail_event_hash: sha256:f5d1bfdfbf41cbd2b42e886e4a2975a47a9c25dcfb50dbaeae50fa177efa81ec
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  context_pack_ref: evt-context-pack-bound-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  disclosure_ref: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-e54fd559c6e3
+  run_contract_ref: evt-001-run-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  run_manifest_ref: evt-002-run-bound-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  runtime_state_ref: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  stage_attempt_ref: evt-stage-started-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-post-implementation-drift
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:f5d1bfdfbf41cbd2b42e886e4a2975a47a9c25dcfb50dbaeae50fa177efa81ec
+  materialized_at: 2026-06-20T01:37:06.591883Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T01:37:07.322735Z

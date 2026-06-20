@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile/context/context-pack.json
+context_pack_sha256: sha256:15077b1dc4ef60608dfae70074bf88151e6c81d1c363d4eb9443715d0d925b81
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile/context/model-visible-context.json
+model_visible_context_sha256: sha256:b832980281d882f26457f60cd586cdad9d87ab2341b5c5fd4b2c576fbc3d4bc4
+receipt_sha256: sha256:b2fcfe28775ae1ac62af576c8f0f8aba91dd03f10a854df97d63f5e736c1967b
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T01:36:59.342341Z
+validity_state: valid

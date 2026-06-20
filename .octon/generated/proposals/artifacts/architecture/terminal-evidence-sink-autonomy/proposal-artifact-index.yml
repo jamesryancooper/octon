@@ -1,5 +1,5 @@
 {
-  "artifact_count": 19,
+  "artifact_count": 20,
   "artifacts": [
     {
       "byte_size": 373,
@@ -280,8 +280,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 4012,
-      "estimated_tokens": 1003,
+      "byte_size": 4425,
+      "estimated_tokens": 1107,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
@@ -292,7 +292,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:d24ed4dae0a31dfafe07c23a303a8127d19746a3d24000687a9847a97b3694ec",
+      "sha256": "sha256:712268da48c13703bcea418fad37dd5481ed7312c9b19f7e0268c40075ac2402",
       "stage_relevance": [
         "support-review"
       ],
@@ -337,8 +337,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 1632,
-      "estimated_tokens": 408,
+      "byte_size": 1864,
+      "estimated_tokens": 466,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
@@ -349,10 +349,29 @@
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:3a8901d7908a04e6137f22673c13b5de3afe897a74c52fd06d8b3bd4fa063023",
+      "sha256": "sha256:660a84cc49e5ebba2d4f0e0ae705c2b866b3dd52cb768a3c45e806c9f894b049",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 28338,
+      "estimated_tokens": 7085,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:81834e916ce20421f8ae6523cccd82dbc9594e44c8e995dfbd2a3103e3e43bfb",
+      "stage_relevance": [
+        "support-review"
       ],
       "stage_role": "evidence-annex"
     },
@@ -443,7 +462,7 @@
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/proposal.yml": "sha256:3933739f9f7114a284ccd0fa89774494dcaf9723b5e36b5890181148abc23fd5",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/executable-implementation-prompt.md": "sha256:90f55e39f42c1f0db322b90be0ab5a7e8f1434452f0830b7844dce967976d8f6",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/implementation-grade-completeness-review.md": "sha256:8cdc604b158067a5d67adab1de48a26750ef61b7a0ae087e888ff712f3ee2186",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-review.md": "sha256:3a8901d7908a04e6137f22673c13b5de3afe897a74c52fd06d8b3bd4fa063023"
+    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-review.md": "sha256:660a84cc49e5ebba2d4f0e0ae705c2b866b3dd52cb768a3c45e806c9f894b049"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/architecture-proposal.yml",

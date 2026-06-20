@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:77250e7635c0dd8915503255e6af7476d1b1dcb079c87b4aa7a95ab89ebd6677
+  entry_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-20T01:37:02.161938Z
+  run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:e9f4d45a78e8ea7af6cc371fdf6678caee1fcae108fd1de20a70724e261354d5
+  entry_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-20T01:37:02.161938Z
+  run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-verify-durable-implementation-state
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:37:02.161938Z

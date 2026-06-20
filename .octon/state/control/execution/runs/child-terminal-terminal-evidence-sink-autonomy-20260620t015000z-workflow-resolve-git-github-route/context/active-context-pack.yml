@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:1724571df3f2fdd08b05806bb2e798222d367b138e3b9e139a6e1b7c1719025c
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:8279c5115700203e461d5b69a101ecf7ba06eb365227943a43e1e926170f0b66
+receipt_sha256: sha256:473c578ae669ee599f88f1ca675705499b2d88f6375ea29c1a63385bcc2cbb51
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T01:38:21.750658Z
+validity_state: valid

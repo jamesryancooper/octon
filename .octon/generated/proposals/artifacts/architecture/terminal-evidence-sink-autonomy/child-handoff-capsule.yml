@@ -12,15 +12,15 @@
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/terminal-evidence-sink-autonomy/proposal-artifact-index.yml",
       "schema_version": "octon-proposal-artifact-index-v1",
-      "sha256": "sha256:9cbb20beefb8df8bf3912dce7ca2e1e8e07ae9927b67c14c4d1bcf3bf8e0e182"
+      "sha256": "sha256:4059cfbc2a1173071d02f42fcd62ed5dd3ec84803fae341e4e7779224957afe1"
     },
     {
       "artifact_ref": ".octon/generated/proposals/artifacts/architecture/terminal-evidence-sink-autonomy/proposal-program-spine.yml",
       "schema_version": "octon-proposal-program-spine-v1",
-      "sha256": "sha256:20173063966eb40d6c1c46dcd48420ebfe27bfa23cc7ee4592abbea6836722d5"
+      "sha256": "sha256:ed4df38abcca08bf55c91d2fd9ecbfe805c232425791ac1d52245093d5977554"
     }
   ],
-  "context_hash": "sha256:ca9002a4a1e67fe37ebbcced683ed1e6edb4494f515be21775f8b69b1b1d857d",
+  "context_hash": "sha256:543877b13894ee89ea9aaafe7f850c718405aa5b9d20ed3f043a0edc7232774d",
   "dependency_vector": {
     "parent_program": "operator-free-packet-lifecycle-autonomy",
     "related_proposals": [
@@ -70,7 +70,7 @@
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/proposal.yml": "sha256:3933739f9f7114a284ccd0fa89774494dcaf9723b5e36b5890181148abc23fd5",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/executable-implementation-prompt.md": "sha256:90f55e39f42c1f0db322b90be0ab5a7e8f1434452f0830b7844dce967976d8f6",
     ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/implementation-grade-completeness-review.md": "sha256:8cdc604b158067a5d67adab1de48a26750ef61b7a0ae087e888ff712f3ee2186",
-    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-review.md": "sha256:3a8901d7908a04e6137f22673c13b5de3afe897a74c52fd06d8b3bd4fa063023"
+    ".octon/inputs/exploratory/proposals/architecture/terminal-evidence-sink-autonomy/support/proposal-review.md": "sha256:660a84cc49e5ebba2d4f0e0ae705c2b866b3dd52cb768a3c45e806c9f894b049"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/resources/child-packet-index.yml",

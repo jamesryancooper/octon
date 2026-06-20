@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:c2343706ac39543c6eeaf2122992a6069afb2bc1f06078bd23510d856707901e
+  entry_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-20T01:38:15.604829Z
+  run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:32b01dc5d28b5f4c9f40ff56a7db1323e5aaf250dfa96dca53667fb491a6872a
+  entry_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-20T01:38:15.604829Z
+  run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-repo-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:38:15.604829Z

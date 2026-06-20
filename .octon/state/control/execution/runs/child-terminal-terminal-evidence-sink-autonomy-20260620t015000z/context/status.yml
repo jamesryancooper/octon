@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z/context/context-pack.json
+route_id: proposal-packet-terminal-closeout
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T01:36:57.58007Z
+validity_state: valid

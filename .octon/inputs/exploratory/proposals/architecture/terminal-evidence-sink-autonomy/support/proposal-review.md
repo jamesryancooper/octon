@@ -1,11 +1,11 @@
 # Proposal Review
 
-review_id: terminal-evidence-sink-autonomy-review-20260618T165112Z
-reviewed_at: 2026-06-18T16:51:12Z
+review_id: terminal-evidence-sink-autonomy-review-refresh-20260620T015500Z
+reviewed_at: 2026-06-20T01:55:00Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:89f9ed5630808572a08c5b2b5f62d996f2b4c5018eba0436ca4aec4e34cefb67
+reviewed_packet_digest: sha256:6457b3bf01514a5182f82b5f687fecc559bffe07f71272af2517f718b5ac2c1a
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -34,8 +34,12 @@ None for proposal acceptance. Implementation remains dependency-gated on
 - The packet preserves route-owned closeout and worktree evidence.
 - Implemented-state refresh confirms child-owned implementation evidence exists
   and durable scope remains limited to the approved promotion targets.
+- Terminal closeout refresh confirms the terminal proof receipt is
+  archive-ready and preserves child-owned review, implementation,
+  conformance, drift/churn, and validation authority.
 
 ## Final Route Recommendation
 
-Continue child dependency-gate verification for this implemented child packet
-only. Parent program promotion and closeout remain unauthorized.
+Continue the child archive route for this packet only. Parent program delivery
+remains blocked until all required child packets reach terminal status through
+child-owned evidence.

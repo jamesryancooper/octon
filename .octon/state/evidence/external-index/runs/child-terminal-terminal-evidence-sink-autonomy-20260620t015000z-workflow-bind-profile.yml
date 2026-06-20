@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:9e82f4aeba7bfc06505613729d1e530abb353057385ac1566326e105bd5e7fff
+  entry_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-20T01:37:00.259325Z
+  run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:a4f7cd322a6979ee61d5586d74ab092847dd5e6180325cd7e7d59a99b2c6b6cc
+  entry_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-20T01:37:00.259325Z
+  run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-bind-profile
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:37:00.259325Z

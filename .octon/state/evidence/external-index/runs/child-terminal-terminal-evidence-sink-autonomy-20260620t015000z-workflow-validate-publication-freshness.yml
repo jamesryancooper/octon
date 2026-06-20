@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:b8917a8f2112ba62fd04555c5579e6ab7623f21b2e0074f32bd6c9ca4c35e255
+  entry_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-20T01:38:13.648763Z
+  run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:c63fa23f0a22212ea33ed52db87e9d7e2da406e396144eeafee6190f75f2905d
+  entry_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-20T01:38:13.648763Z
+  run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-validate-publication-freshness
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T01:38:13.648763Z

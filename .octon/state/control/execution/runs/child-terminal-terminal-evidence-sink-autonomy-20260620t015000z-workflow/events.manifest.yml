@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+ledger_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:abf5d6e3abcc65b6c8caa94f510f68f0a17cdffccc69371d4d5ef815f9c545fc
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  sequence: 1
+  event_hash: sha256:099e7fdc975f55e79b52282ce647b417476bbdc1a39dd9a4475b4003972084c4
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  sequence: 29
+  event_hash: sha256:6663712982267bbebddb3a68c6aeae7dab84f77a7dcfaddf6a22093849b9a441
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:099e7fdc975f55e79b52282ce647b417476bbdc1a39dd9a4475b4003972084c4
+  tail_event_hash: sha256:6663712982267bbebddb3a68c6aeae7dab84f77a7dcfaddf6a22093849b9a441
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  context_pack_ref: evt-context-pack-bound-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  disclosure_ref: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-a6af87ffc982
+  run_contract_ref: evt-001-run-created-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  run_manifest_ref: evt-002-run-bound-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  runtime_state_ref: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  stage_attempt_ref: evt-stage-started-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:6663712982267bbebddb3a68c6aeae7dab84f77a7dcfaddf6a22093849b9a441
+  materialized_at: 2026-06-20T01:38:26.359849Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T01:38:27.148413Z
