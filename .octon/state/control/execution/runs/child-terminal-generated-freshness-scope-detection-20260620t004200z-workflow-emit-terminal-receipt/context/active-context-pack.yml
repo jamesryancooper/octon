@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-emit-terminal-receipt/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-emit-terminal-receipt/context/context-pack.json
+context_pack_sha256: sha256:0bbec7029c8129706db3f704a1e75dae47ed6bde2485ddbae3733217f260da96
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-emit-terminal-receipt/context/model-visible-context.json
+model_visible_context_sha256: sha256:4d4d677ca6725c1afdc0267c3b8769c907446ffcaf5d4ebf9f04da0178bbb7f9
+receipt_sha256: sha256:3b517bd5f79a86343a45bf01c6fc35ba4e7f1c9d28b03b307ccf0973dcfb4aa9
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-emit-terminal-receipt
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T00:41:13.545892Z
+validity_state: valid

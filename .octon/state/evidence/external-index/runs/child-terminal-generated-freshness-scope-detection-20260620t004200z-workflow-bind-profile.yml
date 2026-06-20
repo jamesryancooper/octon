@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:c3539671c8c24f2d64b6a2bf3df6f6a71518a0abbe6e89b5980ec4a876d36d59
+  entry_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-20T00:39:37.540886Z
+  run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:6abd17671aa17980a5f3e5434a13ca9a984fa1974fc84a09f996584f423f2d53
+  entry_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-20T00:39:37.540886Z
+  run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:39:37.540886Z

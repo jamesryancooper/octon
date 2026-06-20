@@ -1,11 +1,11 @@
 # Proposal Review
 
-review_id: generated-freshness-scope-detection-review-20260618T154100Z
-reviewed_at: 2026-06-18T15:41:00Z
+review_id: generated-freshness-scope-detection-review-refresh-20260620T004500Z
+reviewed_at: 2026-06-20T00:45:00Z
 reviewer: octon-proposal-lifecycle-review-packet
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:576e3afa5227bfb3c1700e0ca703687f5865be4d91898e5f7865bbf2404f320b
+reviewed_packet_digest: sha256:37653171c155c62ce35aa32facf2375f3307cfaaad7beb195f26fa7e2676ab2f
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -39,8 +39,13 @@ None.
 - This refresh reviewed the implemented packet state after child-only promotion
   and found no new blockers in the approved durable scope or implementation
   evidence.
+- This refresh reviewed the child-owned closeout and archive-ready terminal
+  receipt state. Child authority remains preserved, durable implementation
+  targets are unchanged, and archive may proceed only through the canonical
+  child archive route.
 
 ## Final Route Recommendation
 
-Continue child dependency-gate verification for this child packet only. Parent
-program promotion and closeout remain unauthorized.
+Continue child archive routing for this child packet only. Parent delivery,
+child durable target mutation, branch cleanup, publication, deletion, and
+`cleaned` claims remain unauthorized by this review.

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:329ffea03a3f64660b84c32a2a2d797f41a32dcff8aecedf9d5975c80836a643
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:4faa9627d567d3a1cf06618731e25e171c0b34979ba54679331eb41b2b3f5572
+receipt_sha256: sha256:92ebb6af29eb2198996f1c08d33ea75c98146817258621cd045ccc5a6bf30446
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T00:41:03.948234Z
+validity_state: valid

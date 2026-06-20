@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-20T00:39:36.590939Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile-baseline
+route_taken: allow
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile
+schema_version: run-retry-record-v1
+stage_attempt_id: bind-profile--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-bind-profile/stage-attempts/bind-profile--initial.yml

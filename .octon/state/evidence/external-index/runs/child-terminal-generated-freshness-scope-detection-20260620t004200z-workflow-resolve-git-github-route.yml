@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:ca10e6387f73deb021a477cfd3e41ac257d65992da8c549eaadcbf4b66345964
+  entry_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-20T00:41:12.518476Z
+  run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:2955c713fa662af8dfcefdaab1ef0dc74c1d55a70d2ee7bc2384d6f439e870fb
+  entry_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-20T00:41:12.518476Z
+  run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:41:12.518476Z

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:8ab94cb0a1a6f954630acce3c29352a5a7348078af080780c682ae90b7ff4727
+  entry_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-20T00:41:05.018921Z
+  run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:f7b87ad8dcb77858c3723b1f8c5f3ad7582b1ca5f7e9e856711617b93c1075a8
+  entry_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-20T00:41:05.018921Z
+  run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+index_id: external-replay-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-classify-repo-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-20T00:41:05.018921Z

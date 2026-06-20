@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:d70ee65f1e6630c00da103d807973f7c90a3f7cbba538c0fad953ce651445f2a
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:6dc159610855b5ca1067adc1ec8220b77f328657afca4336c13422774ffca7ba
+receipt_sha256: sha256:10e90784fd114867374f18c69e29c4298e9503a13fa1ef55417908ef0052b51c
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T00:41:11.494464Z
+validity_state: valid

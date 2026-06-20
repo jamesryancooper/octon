@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/child-terminal-generated-freshness-scope-detection-20260620t004200z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/child-terminal-generated-freshness-scope-detection-20260620t004200z/context/context-pack.json
+route_id: proposal-packet-terminal-closeout
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T00:39:34.725308Z
+validity_state: valid

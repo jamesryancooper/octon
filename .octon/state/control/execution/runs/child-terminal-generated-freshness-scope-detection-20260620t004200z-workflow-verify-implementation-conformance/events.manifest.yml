@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+ledger_ref: .octon/state/control/execution/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:1999f9717542799b58075eaed815e1cfc0de206d06cc327c5828cc48ea9d31b2
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  sequence: 1
+  event_hash: sha256:8555886d1c9f9f5aae9099bf57e04daf5e69e77c4881572e1433361126cc2d7b
+last_event_ref:
+  event_id: evt-run-closed-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  sequence: 29
+  event_hash: sha256:2c14be5d9e042a3d346d820a9b5c0b035055cc8e62eee5600d6ace633d5b86da
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:8555886d1c9f9f5aae9099bf57e04daf5e69e77c4881572e1433361126cc2d7b
+  tail_event_hash: sha256:2c14be5d9e042a3d346d820a9b5c0b035055cc8e62eee5600d6ace633d5b86da
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  context_pack_ref: evt-context-pack-bound-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  disclosure_ref: evt-run-closed-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  evidence_snapshot_ref: evt-evidence-snapshot-created-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-31b7861ca515
+  run_contract_ref: evt-001-run-created-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  run_manifest_ref: evt-002-run-bound-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  runtime_state_ref: evt-run-closed-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  stage_attempt_ref: evt-stage-started-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance/runtime-state.yml
+  last_applied_event_id: evt-run-closed-child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-implementation-conformance
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:2c14be5d9e042a3d346d820a9b5c0b035055cc8e62eee5600d6ace633d5b86da
+  materialized_at: 2026-06-20T00:39:41.608865Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-20T00:39:42.354184Z

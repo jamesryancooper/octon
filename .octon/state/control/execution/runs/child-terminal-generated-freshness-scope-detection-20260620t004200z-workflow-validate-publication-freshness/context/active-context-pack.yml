@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-validate-publication-freshness/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-validate-publication-freshness/context/context-pack.json
+context_pack_sha256: sha256:1143d1449de6f3302159aae3e6e2ca90f5df18b828206a8de9924d2201d9a6e2
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-validate-publication-freshness/context/model-visible-context.json
+model_visible_context_sha256: sha256:ab3dbfb9b9b441224422dadebb6bfdc78ead1b6c8123e5737da5a8ff8f134e10
+receipt_sha256: sha256:1755b10cdb8b8c7e260f9d2fb5ce761a023ec86eb53f80c70adae236688789b3
+run_id: child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-validate-publication-freshness
+schema_version: active-context-pack-v1
+updated_at: 2026-06-20T00:41:01.814941Z
+validity_state: valid

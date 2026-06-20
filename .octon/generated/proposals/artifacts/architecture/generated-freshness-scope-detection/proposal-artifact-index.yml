@@ -1,5 +1,5 @@
 {
-  "artifact_count": 20,
+  "artifact_count": 21,
   "artifacts": [
     {
       "byte_size": 395,
@@ -299,8 +299,8 @@
       "stage_role": "current-stage-slice"
     },
     {
-      "byte_size": 3769,
-      "estimated_tokens": 943,
+      "byte_size": 4222,
+      "estimated_tokens": 1056,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/pre-integration-architecture-review.yml",
@@ -311,7 +311,7 @@
         "validator-dispute"
       ],
       "role": "pre-integration-architecture-review",
-      "sha256": "sha256:762168bebe5cdfc1514fc24acea1b51743c12c0f83a2b79187e11959f399a951",
+      "sha256": "sha256:b70092b90babc5b0508ab28170f6584c090c68e76b7176bf1f360d7706325104",
       "stage_relevance": [
         "support-review"
       ],
@@ -356,8 +356,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 1867,
-      "estimated_tokens": 467,
+      "byte_size": 2197,
+      "estimated_tokens": 550,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-review.md",
@@ -368,10 +368,29 @@
         "validator-dispute"
       ],
       "role": "proposal-review",
-      "sha256": "sha256:926260deb05b3e74239163000ebf88a2054c8f62b3ff0b19daac292e1fb7f307",
+      "sha256": "sha256:ae03ebab9e89dc3f00f4e8b2fe4d3489e9c17194dcc2df67da8131627e6c2873",
       "stage_relevance": [
         "run-packet-implementation",
         "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 28782,
+      "estimated_tokens": 7196,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:5ff3088c7f506ff9e4471b65be9e56173d541fc1f085aede22c1c297d30b819a",
+      "stage_relevance": [
+        "support-review"
       ],
       "stage_role": "evidence-annex"
     },
@@ -462,7 +481,7 @@
     ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/proposal.yml": "sha256:7ec7d205b9488e13142ed38e89bbee593cdc57a3e3f690d4985256221b0f4c9a",
     ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/executable-implementation-prompt.md": "sha256:8e1090ce94a83bbf0df733366bddcf61425699914f5053d77336415803adba3e",
     ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/implementation-grade-completeness-review.md": "sha256:a333f665203bdf72bd9f52023a5622cff977cf4f77b10d8ff54cb8925f5c86b3",
-    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/proposal-review.md": "sha256:926260deb05b3e74239163000ebf88a2054c8f62b3ff0b19daac292e1fb7f307"
+    ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/support/proposal-review.md": "sha256:ae03ebab9e89dc3f00f4e8b2fe4d3489e9c17194dcc2df67da8131627e6c2873"
   },
   "source_refs": [
     ".octon/inputs/exploratory/proposals/architecture/generated-freshness-scope-detection/architecture-proposal.yml",
