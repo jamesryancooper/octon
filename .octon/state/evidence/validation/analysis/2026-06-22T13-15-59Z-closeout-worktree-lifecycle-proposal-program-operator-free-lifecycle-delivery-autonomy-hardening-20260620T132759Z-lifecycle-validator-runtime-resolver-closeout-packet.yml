@@ -1,0 +1,113 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-20260622T131559Z
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight.stdout.yml
+residue_classification_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight.stdout.yml
+final_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight.stdout.yml
+selected_candidate_id: lifecycle-validator-runtime-resolver-closeout-foreign-manual-residue
+candidates:
+- candidate_id: lifecycle-validator-runtime-resolver-closeout-foreign-manual-residue
+  disposition: foreign
+  residue_routing_class: foreign_manual_review
+  ownership: foreign/manual residue outside lifecycle-validator-runtime-resolver closeout-packet child authority; preserved and excluded from child closeout blocking
+  route_hint: closeout-worktree
+  target_lifecycle_outcome: preserved
+  rollback_or_discard_posture: preserve-only; no mutation, deletion, staging, publication, archive, branch cleanup, git ref mutation, or cleaned claim performed
+  boundaries:
+    include_paths: &authorized_paths
+    - .octon
+    - .codex
+    - .gitignore
+    exclude_paths:
+    - .git
+  proposal_program_handoff_authorization:
+    outside_child_route_write_scope: true
+    child_id: lifecycle-validator-runtime-resolver
+    route_id: closeout-packet
+    interaction_request_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-lifecycle-validator-runtime-resolver-closeout-packet.json
+    classifier_output_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight.stdout.yml
+    classifier_output_digest: sha256:bb63e660041f9a7cd927ac921401044ef03fc962635b9000078940f2bb83a181
+    authorized_foreign_fingerprint: sha256:9e55b9fc25217c387eab3077c0e8bcac5edef0c03daae1f36001a41e44cbb5ad
+    foreign_fingerprint: sha256:9e55b9fc25217c387eab3077c0e8bcac5edef0c03daae1f36001a41e44cbb5ad
+    authorized_paths: *authorized_paths
+    disposition: preserve-and-exclude-from-child-closeout-blocking
+    non_mutating: true
+    preserve_and_exclude_from_child_closeout_blocking: true
+    parent_summary_not_child_closeout_receipt: true
+    child_closeout_authority_preserved: true
+    forbidden_actions:
+      deletion: false
+      reset: false
+      staging: false
+      commit: false
+      push: false
+      publication: false
+      archive: false
+      branch_cleanup: false
+      git_ref_mutation: false
+      repo_hygiene_cleanup: false
+      promotion: false
+      worktree_cleanup: false
+      cleaned_claim: false
+      child_receipt_replacement: false
+      child_validation_replacement: false
+      archive_authorization_replacement: false
+      child_lifecycle_outcome_replacement: false
+iterations: []
+final_candidate_dispositions:
+  lifecycle-validator-runtime-resolver-closeout-foreign-manual-residue:
+    state: foreign
+    rationale: closeout-worktree handoff preserves and excludes matching foreign/manual residue without substituting child closeout authority
+retained_residue:
+- candidate_id: lifecycle-validator-runtime-resolver-closeout-foreign-manual-residue
+  path: .octon
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation authorized
+- candidate_id: lifecycle-validator-runtime-resolver-closeout-foreign-manual-residue
+  path: .codex
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation authorized
+- candidate_id: lifecycle-validator-runtime-resolver-closeout-foreign-manual-residue
+  path: .gitignore
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation authorized
+blockers: []
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: resume proposal-program lifecycle; child closeout-packet remains responsible for child-owned closeout receipt, child validation, archive authorization, and child lifecycle outcome
+source_refs:
+  lifecycle_interaction_request:
+    ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-lifecycle-validator-runtime-resolver-closeout-packet.json
+    digest: sha256:a5c80e22c76b1bba27fb7662e8feb98d9a59a2df0c8eb223463307ab526aed61
+  lifecycle_interaction_basis:
+    ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-lifecycle-validator-runtime-resolver-closeout-packet-basis.yml
+    digest: sha256:84f359ae1fcf2db3628c9e0565a5329bd20b8e8e187ea0386d303e0378de9a01
+  classifier_output:
+    ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight.stdout.yml
+    digest: sha256:bb63e660041f9a7cd927ac921401044ef03fc962635b9000078940f2bb83a181
+  classifier_stderr:
+    ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight.stderr.log
+    digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+authority_boundary:
+  parent_summary_not_child_closeout_receipt: true
+  child_closeout_authority_preserved: true
+  parent_evidence_replaces_child_evidence: false
+  cleaned_claim: false
+  archive_authorization: false
+  direct_material_actions_performed: false
+  child_closeout_receipt_replaced: false
+  child_validation_replaced: false
+  child_lifecycle_outcome_replaced: false

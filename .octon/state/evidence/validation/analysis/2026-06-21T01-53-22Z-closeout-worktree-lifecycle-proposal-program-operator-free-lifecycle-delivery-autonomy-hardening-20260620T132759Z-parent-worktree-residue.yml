@@ -1,0 +1,208 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue-current
+observed_change_set_count: 6
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T015156Z.yml
+residue_classification_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T015156Z.yml
+residue_classification_digest: sha256:af071d66dddd795747e028ccf18c7aab824727250590d14a9649117350cbdb1e
+final_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T015156Z.yml
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T013249Z.yml
+repo_hygiene_cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T013249Z.yml
+repo_hygiene_cleanup_digest: sha256:ccd50e4c1d21e8e2ff39ac3a69dc0cf9ce5160d6212ba179fdad3363dc9fabf4
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T013249Z.json
+repo_hygiene_cleanup_authorization_digest: sha256:d91ac01e1e8f22b81da00b53072d204259de2c4f74c0ff961a449b16942f7ce5
+repo_hygiene_cleanup_outcome: delegated-cleaned
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 191
+  manual_review: 20
+repo_hygiene_next_route_condition: no helper cleanup candidates remain; protected referenced, manual-review, lifecycle-owned, active-control, child-owned, and foreign/ambiguous residue remain retained or blocked pending legal lifecycle/closeout authority
+selected_candidate_id: durable-proposal-program-ownership-resolution-change
+candidates:
+  - candidate_id: durable-proposal-program-ownership-resolution-change
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: durable proposal-program ownership-resolution implementation changes
+    route_hint: closeout-change
+    target_lifecycle_outcome: preserved-until-singular-change-closeout
+    rollback_or_discard_posture: preserve; no reset, deletion, staging, commit, publication, archive, branch cleanup, or cleaned claim performed by closeout-worktree
+    boundaries:
+      include_paths:
+        - .codex/skills/closeout-change/
+        - .codex/skills/closeout-worktree/
+        - .codex/skills/repo-hygiene-cleanup/SKILL.md
+        - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+        - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+      exclude_paths:
+        - .octon/state/control
+        - .octon/state/evidence/runs/workflows
+        - .octon/inputs/exploratory/proposals
+  - candidate_id: lifecycle-contract-and-generated-publication-surfaces
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: generated publication, lifecycle contract, proposal registry, and extension control surfaces requiring lifecycle closeout authority
+    route_hint: proposal-program-closeout-or-closeout-change-after-program-completion
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: preserve; no generated artifact deletion, publication, archive, branch cleanup, or cleaned claim performed by closeout-worktree
+    boundaries:
+      include_paths:
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+        - .octon/generated/effective/
+        - .octon/generated/proposals/
+        - .octon/state/control/extensions/
+        - .octon/state/evidence/validation/
+      exclude_paths:
+        - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+  - candidate_id: program-and-child-owned-proposal-input-surfaces
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: child-owned packet evidence and parent proposal input surfaces
+    route_hint: proposal-program lifecycle child routes and parent closeout
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: preserve; parent wrapper does not replace child receipts, validation, closeout, archive authorization, or lifecycle outcomes
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture
+      exclude_paths:
+        - .octon/inputs/additive/extensions
+        - .octon/generated
+        - .octon/state
+  - candidate_id: current-lifecycle-control-and-workflow-evidence
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: active run control and workflow evidence for the current proposal-program run
+    route_hint: lifecycle controller
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: preserve active run state; no cleanup or terminal claim by closeout-worktree
+    boundaries:
+      include_paths:
+        - .octon/state/control/execution/runs/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+        - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+  - candidate_id: publishable-closeout-and-cleanup-evidence
+    disposition: deferred
+    residue_routing_class: publishable_closeout_evidence
+    ownership: retained closeout-worktree and repo-hygiene cleanup evidence
+    route_hint: closeout-change
+    target_lifecycle_outcome: preserved-until-singular-change-closeout
+    rollback_or_discard_posture: preserve evidence; no wrapper publication, staging, commit, archive, or cleaned claim
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+        - .octon/state/evidence/validation/analysis/2026-06-20T17-51-31Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output.yml
+        - .octon/state/evidence/validation/analysis/2026-06-20T18-52-45Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml
+        - .octon/state/evidence/validation/analysis/2026-06-20T19-05-05Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output.yml
+        - .octon/state/evidence/validation/analysis/2026-06-20T21-12-00Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml
+        - .octon/state/evidence/validation/analysis/2026-06-21T01-53-22Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml
+      exclude_paths:
+        - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+  - candidate_id: foreign-manual-parent-residue-unresolved
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: foreign, manual-review, or otherwise ambiguous residue from the current live worktree classifier
+    route_hint: closeout-worktree-or-closeout-change-with-route-specific-authority
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: preserve-only; no deletion, reset, staging, commit, publication, archive, branch cleanup, repo-hygiene cleanup, or cleaned claim
+    boundaries:
+      include_paths:
+        - classifier partition manual_review_foreign_ambiguous_unsafe_or_user_owned from worktree-hygiene-classification-20260621T015156Z.yml
+      exclude_paths:
+        - child closeout receipts
+        - child validation receipts
+        - archive authorization
+        - child lifecycle outcomes
+iterations: []
+final_candidate_dispositions:
+  durable-proposal-program-ownership-resolution-change:
+    state: deferred
+  lifecycle-contract-and-generated-publication-surfaces:
+    state: blocked
+  program-and-child-owned-proposal-input-surfaces:
+    state: blocked
+  current-lifecycle-control-and-workflow-evidence:
+    state: blocked
+  publishable-closeout-and-cleanup-evidence:
+    state: deferred
+  foreign-manual-parent-residue-unresolved:
+    state: blocked
+retained_residue:
+  - candidate_id: current-lifecycle-control-and-workflow-evidence
+    path: .octon/state/control/execution/runs/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+    disposition: active run control retained; not cleanup candidate
+  - candidate_id: current-lifecycle-control-and-workflow-evidence
+    path: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+    disposition: active workflow evidence retained; not cleanup candidate
+blockers:
+  - candidate_id: durable-proposal-program-ownership-resolution-change
+    blocker: singular-change-closeout-not-selected-for-wrapper-refresh
+    reason: current active instruction limits this step to governed closeout-worktree partitioning and forbids staging, commit, push, publication, archive, branch cleanup, and cleaned claims; route through closeout-change only when legally selected with exact include and exclude boundaries
+  - candidate_id: lifecycle-contract-and-generated-publication-surfaces
+    blocker: lifecycle-closeout-authority-not-yet-satisfied
+    reason: generated effective outputs, proposal registry artifacts, and extension control surfaces cannot be terminally closed until the proposal-program lifecycle reaches completion gates
+  - candidate_id: program-and-child-owned-proposal-input-surfaces
+    blocker: child-authority-preserved
+    reason: parent closeout-worktree may partition but cannot replace child receipts, child validation, archive authorization, or child lifecycle outcomes
+  - candidate_id: current-lifecycle-control-and-workflow-evidence
+    blocker: active-run-state-retained
+    reason: current run control and workflow evidence are active lifecycle evidence and are not cleanup candidates
+  - candidate_id: publishable-closeout-and-cleanup-evidence
+    blocker: evidence-awaits-singular-change-closeout
+    reason: retained repo-hygiene and closeout-worktree evidence may be cited but not staged, committed, published, archived, or used for a cleaned claim by this wrapper
+  - candidate_id: foreign-manual-parent-residue-unresolved
+    blocker: artifact-ownership-unclear
+    reason: refreshed classifier reports foreign/manual residue fingerprint sha256:170210e4c1330f0ae975f37f1b659049088db4eae38f82ddc3cdf6300ee4f380; no current route-specific authorization covers that exact parent residue set for terminal closeout or cleaned/archive claims
+final_residue_classes:
+  ignored: 0
+  cleanup_candidates: 0
+  protected_referenced: 191
+  manual_review: 20
+  classifier_owned_paths: 20
+  classifier_in_scope_paths: 278
+  classifier_publishable_changes: 68
+  classifier_publishable_closeout_evidence: 9
+  classifier_cleanup_safe: 0
+  classifier_foreign_manual: 743
+  classifier_protected_retained_evidence: 8
+  classifier_protected_active_control: 12
+  classifier_manual_review_paths: 944
+  classifier_foreign_fingerprint: sha256:170210e4c1330f0ae975f37f1b659049088db4eae38f82ddc3cdf6300ee4f380
+worktree_terminal_state: nonterminal
+next_route_condition: resume proposal-program lifecycle with retained closeout-worktree partition evidence; remaining nonterminal candidates require legal child lifecycle routes, program completion gates, singular closeout-change execution, or exact route-specific authorization before delivery wrapper entry
+prior_candidate_reconciliation:
+  prior_report_ref: .octon/state/evidence/validation/analysis/2026-06-20T21-12-00Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml
+  candidates: []
+partition_summary:
+  durable_proposal_program_ownership_resolution_changes:
+    candidate_id: durable-proposal-program-ownership-resolution-change
+    disposition: deferred to closeout-change when legally selected
+  current_lifecycle_evidence_and_handoff_evidence:
+    candidate_id: current-lifecycle-control-and-workflow-evidence
+    disposition: retained as active run evidence
+  child_owned_packet_evidence:
+    candidate_id: program-and-child-owned-proposal-input-surfaces
+    disposition: child-owned authority preserved; not substituted by parent
+  generated_publication_projection_artifacts:
+    candidate_id: lifecycle-contract-and-generated-publication-surfaces
+    disposition: blocked until lifecycle closeout authority exists
+  unrelated_or_foreign_residue:
+    candidate_id: foreign-manual-parent-residue-unresolved
+    disposition: blocked pending exact route-specific authorization or legal closeout route
+  repo_hygiene_cleanup_candidates:
+    cleanup_candidates_before: 231
+    cleanup_candidates_after: 0
+    cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T013249Z.yml
+authority_boundary:
+  parent_summary_not_child_closeout_receipt: true
+  child_closeout_authority_preserved: true
+  parent_evidence_replaces_child_evidence: false
+  no_direct_material_actions_by_wrapper: true
+  no_cleaned_claim: true

@@ -1,0 +1,94 @@
+{
+  "schema_version": "lifecycle-interaction-request-v1",
+  "interaction_id": "lifecycle-validator-runtime-resolver-closeout-worktree-handoff-20260622t100430z",
+  "created_at": "2026-06-22T10:04:30Z",
+  "source": {
+    "lifecycle_id": "proposal-packet",
+    "run_id": "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver",
+    "atomic_unit_type": "proposal-packet",
+    "target_ref": ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver",
+    "phase_id": "closeout-packet"
+  },
+  "request": {
+    "interaction_profile": "handoff",
+    "interaction_kind": "follow_on_work_required",
+    "requested_capability": "closeout-worktree",
+    "requested_lifecycle_id": "closeout-worktree",
+    "requested_route_surface": "closeout-worktree",
+    "requested_atomic_unit_type": "worktree",
+    "requested_target_outcome": "preserved"
+  },
+  "scope": {
+    "include_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver",
+      ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver"
+    ],
+    "exclude_paths": [
+      ".octon/inputs/exploratory/ideation"
+    ],
+    "boundary_digest": "sha256:a2378ad27565d6a83d20923046b26ba89e7a8084d704fc9776cbf3d238172073"
+  },
+  "evidence_offered": [
+    {
+      "ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/worktree-hygiene.yml",
+      "digest": "sha256:e2112fb96d9d5c3e72c83c11eeef30cc9989893fc2fea73d8f98f950c7365f93",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver/support/validation.md",
+      "digest": "sha256:5254cdbc0e2efd419a7d1c37256b539ef81deee5e7203192c5c01e41e7d196da",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver/support/implementation-conformance-review.md",
+      "digest": "sha256:217729b4bfb18b99677507f44c90323f46e70e84d50854b7ef8410bd2d3116dc",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver/support/post-implementation-drift-churn-review.md",
+      "digest": "sha256:f157e0d9b1b37a1e06b3807abf287ca8a9dbe4e5e8c93271583cf1b44948d156",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver/support/implementation-run.md",
+      "digest": "sha256:d69350f809d9407a0be4f4d632b6b7924659be918f93df1ff8c5d4bcfcd575de",
+      "acceptance_class": "rollback-context"
+    }
+  ],
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "worktree-cleanup-authorization",
+      "repo-hygiene-deletion",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "stop_conditions": [
+    "Stop if the requested route would treat this request as authorization for git, hosted-provider, branch-cleanup, worktree-cleanup, repo-hygiene deletion, archive, promotion, or scope-expansion effects.",
+    "Stop if the requested route cannot preserve child closeout authority and parent-summary non-substitution.",
+    "Stop if fresh target-owned return evidence cannot cite the classifier output, blocker fingerprint, scoped paths, and independent validation result."
+  ],
+  "expected_return_evidence": [
+    "lifecycle-interaction-return-v1",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.child_id",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.route_id",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.classifier_output_ref",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.classifier_output_digest",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.authorized_foreign_fingerprint",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.authorized_paths",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.non_mutating",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.preserve_and_exclude_from_child_closeout_blocking",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.parent_summary_not_child_closeout_receipt",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.child_closeout_authority_preserved",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.forbidden_actions"
+  ]
+}

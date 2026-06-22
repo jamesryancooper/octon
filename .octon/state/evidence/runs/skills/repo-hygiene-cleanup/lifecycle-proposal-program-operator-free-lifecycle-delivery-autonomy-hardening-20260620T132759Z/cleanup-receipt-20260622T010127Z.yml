@@ -1,0 +1,52 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+receipt_id: repo-hygiene-cleanup-1e9eb4803dd77537-cleanup
+created_at: 2026-06-22T01:01:27Z
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+delegating_route: cleanup-lifecycle-residue
+route: authorization-revalidated-cleanup
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+schema_ref: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+active_run_id_protected: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+classification_mode: classify-first
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260622T005939Z.json
+authorization_digest: sha256:e87345d92c6db7acfedbc9c08f8427087b5d1103d15d52aa8424070bba3e9466
+authorization_id: repo-hygiene-cleanup-1e9eb4803dd77537
+authorization_result: approved
+authorized_path_count: 152
+authorized_path_classes:
+  - local_run_residue
+  - stale_unreferenced_publication_attempt
+deleted_count: 152
+pre_cleanup:
+  cleanup_candidates: 152
+  eligible_cleanup_candidates: 152
+  protected_referenced: 208
+  manual_review: 47
+  git_status_digest: sha256:d3ba0a8f353686288082c8120b49f6a32546eae581f584c72fb17f0abff26edb
+  classification_digest: sha256:23b587e06fbd4d2f4daca321536ef7d81bea51730dda6d01f100a247618e8387
+  cleanup_path_set_digest: sha256:7f14a74446133106003217a4542ecc915c01caf9e3fcc5814d582c1beb7f78cf
+  protected_paths_digest: sha256:361aaa8e143fb6f96c5454f8d7739ec699c886dfb1a320568ac4ab78411989bd
+  manual_review_paths_digest: sha256:af8671f87b2f51932acc4970e2f0e56bb44d1baac348ccc4d00de4aa3d122d2a
+post_cleanup:
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 209
+  manual_review: 47
+  git_status_digest: sha256:08280438febe1ef3a1c29612b944ebacce8606c41d0679bcd44c9b0c477f2171
+  classification_digest: sha256:bd74a132760f4f28a9bff2b4ddd691f26310e67505b95cdc86898573ac07510c
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:a1a9332f9f21c0702d0fc0fe8fc6641ae5be229028e35fb06221f11d3f6c8cf8
+  manual_review_paths_digest: sha256:af8671f87b2f51932acc4970e2f0e56bb44d1baac348ccc4d00de4aa3d122d2a
+local_private_evidence_ref: none-retained-this-pass
+local_private_evidence_note: >-
+  No separate local-private raw helper log was persisted during this pass.
+  Publishable evidence retains the authorization receipt, exact authorized
+  path set, summary counts, and digest set; raw full classifier listings remain
+  excluded from the proposal cleanup receipt.
+redaction_posture: raw_full_classifier_path_listing_not_embedded
+raw_classification_path_lists_published: false
+authorization_path_set_published: true
+retained_protected_state: true
+retained_manual_review_state: true
+blocker: remaining protected, foreign, generated run-health, active-control, and manual-review paths require their owning route; repo-hygiene cleanup candidates are exhausted

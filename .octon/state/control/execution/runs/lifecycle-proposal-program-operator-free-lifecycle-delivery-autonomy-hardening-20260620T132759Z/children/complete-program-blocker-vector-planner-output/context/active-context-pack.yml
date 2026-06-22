@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/complete-program-blocker-vector-planner-output/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/complete-program-blocker-vector-planner-output/context/context-pack.json
+context_pack_sha256: sha256:6f4f509af5abb7a0e35b5d828109d88dd1164d271620763db578e79eeb37c678
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/complete-program-blocker-vector-planner-output/context/model-visible-context.json
+model_visible_context_sha256: sha256:31082e299b0b2a7f53e206bf23a870557ffe6448b244f8e703f6181637900529
+receipt_sha256: sha256:9ddf6aa54a0ab22d4de6ed34628821a25213e8def8ea95df204671a1083a9e59
+route_id: archive-proposal
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output
+schema_version: active-context-pack-v1
+updated_at: 2026-06-22T01:07:36.057735Z
+validity_state: valid

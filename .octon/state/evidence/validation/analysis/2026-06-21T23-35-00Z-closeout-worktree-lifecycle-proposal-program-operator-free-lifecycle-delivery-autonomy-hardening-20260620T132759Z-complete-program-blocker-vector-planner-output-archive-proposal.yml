@@ -1,0 +1,140 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output-closeout-worktree
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/complete-program-blocker-vector-planner-output/worktree-hygiene-preflight.stdout.yml
+residue_classification_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/complete-program-blocker-vector-planner-output/worktree-hygiene-preflight.stdout.yml
+final_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/complete-program-blocker-vector-planner-output/worktree-hygiene-preflight.stdout.yml
+selected_candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+candidates:
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: foreign/manual artifacts outside this child closeout route write scope, preserved without mutation
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no mutation, cleanup, staging, commit, publication, archive, branch cleanup, or cleaned claim performed
+    boundaries:
+      include_paths:
+        - .codex/skills/closeout-worktree/SKILL.md
+        - .codex/skills/closeout-worktree/references/io-contract.md
+        - .codex/skills/closeout-worktree/references/phases.md
+        - .codex/skills/closeout-worktree/references/safety.md
+        - .codex/skills/closeout-worktree/references/validation.md
+        - .codex/skills/repo-hygiene-cleanup/SKILL.md
+        - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md
+        - .octon/framework/scaffolding/practices/prompts/2026-06-20T11-54-33Z-operator-free-program-lifecycle-to-delivery-refined.md
+        - .octon/state/evidence/runs/skills/refine-prompt/2026-06-20T11-54-33Z-operator-free-program-lifecycle-to-delivery.md
+      exclude_paths:
+        - .git
+        - .octon/generated
+        - .octon/state/control
+        - .octon/inputs/exploratory/proposals/architecture/complete-program-blocker-vector-planner-output
+    proposal_program_handoff_authorization:
+      child_id: complete-program-blocker-vector-planner-output
+      route_id: archive-proposal
+      interaction_request_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-complete-program-blocker-vector-planner-output-archive-proposal.json
+      interaction_basis_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-complete-program-blocker-vector-planner-output-archive-proposal-basis.yml
+      classifier_output_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/complete-program-blocker-vector-planner-output/worktree-hygiene-preflight.stdout.yml
+      classifier_output_digest: sha256:99f0349d687a5e426c54505a45ab4b35e64c3082f83ecec1544f059251f81c22
+      authorized_foreign_fingerprint: sha256:ce37b81c2e1d16d5ec01a51071ff88b66ae903f73d91315bee3c03787d8bb9e7
+      foreign_fingerprint: sha256:ce37b81c2e1d16d5ec01a51071ff88b66ae903f73d91315bee3c03787d8bb9e7
+      authorized_paths:
+        - .codex/skills/closeout-worktree/SKILL.md
+        - .codex/skills/closeout-worktree/references/io-contract.md
+        - .codex/skills/closeout-worktree/references/phases.md
+        - .codex/skills/closeout-worktree/references/safety.md
+        - .codex/skills/closeout-worktree/references/validation.md
+        - .codex/skills/repo-hygiene-cleanup/SKILL.md
+        - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md
+        - .octon/framework/scaffolding/practices/prompts/2026-06-20T11-54-33Z-operator-free-program-lifecycle-to-delivery-refined.md
+        - .octon/state/evidence/runs/skills/refine-prompt/2026-06-20T11-54-33Z-operator-free-program-lifecycle-to-delivery.md
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        publication: false
+        archive: false
+        promotion: false
+        branch_cleanup: false
+        repo_hygiene_cleanup: false
+        cleaned_claim: false
+        child_receipt_replacement: false
+        child_validation_replacement: false
+        archive_authorization_replacement: false
+        child_lifecycle_outcome_replacement: false
+iterations: []
+final_candidate_dispositions:
+  authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current:
+    state: foreign
+retained_residue:
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .codex/skills/closeout-worktree/SKILL.md
+    disposition: foreign manual artifact preserved and excluded from child closeout blocking by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .codex/skills/closeout-worktree/references/io-contract.md
+    disposition: foreign manual artifact preserved and excluded from child closeout blocking by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .codex/skills/closeout-worktree/references/phases.md
+    disposition: foreign manual artifact preserved and excluded from child closeout blocking by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .codex/skills/closeout-worktree/references/safety.md
+    disposition: foreign manual artifact preserved and excluded from child closeout blocking by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .codex/skills/closeout-worktree/references/validation.md
+    disposition: foreign manual artifact preserved and excluded from child closeout blocking by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .codex/skills/repo-hygiene-cleanup/SKILL.md
+    disposition: foreign manual artifact preserved and excluded from child closeout blocking by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+    disposition: foreign manual artifact outside child route write scope preserved by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+    disposition: foreign manual artifact outside child route write scope preserved by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+    disposition: foreign manual artifact outside child route write scope preserved by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md
+    disposition: foreign manual artifact outside child route write scope preserved by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md
+    disposition: foreign manual artifact outside child route write scope preserved by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .octon/framework/scaffolding/practices/prompts/2026-06-20T11-54-33Z-operator-free-program-lifecycle-to-delivery-refined.md
+    disposition: foreign manual prompt artifact preserved by current handoff evidence
+  - candidate_id: authorized-foreign-artifacts-complete-program-blocker-vector-planner-output-current
+    path: .octon/state/evidence/runs/skills/refine-prompt/2026-06-20T11-54-33Z-operator-free-program-lifecycle-to-delivery.md
+    disposition: foreign manual refine-prompt evidence preserved by current handoff evidence
+blockers: []
+final_residue_classes:
+  ignored: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program archive-proposal hygiene preflight with current foreign fingerprint preserved and child authority intact
+authority_boundary:
+  parent_summary_not_child_closeout_receipt: true
+  child_closeout_authority_preserved: true
+  parent_evidence_replaces_child_evidence: false
+  no_direct_material_actions_by_wrapper: true
+  no_cleaned_claim: true

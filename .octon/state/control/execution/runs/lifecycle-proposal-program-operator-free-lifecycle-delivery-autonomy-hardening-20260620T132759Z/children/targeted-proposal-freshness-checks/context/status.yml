@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/context/context-pack.json
+route_id: closeout-packet
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-targeted-proposal-freshness-checks
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-22T08:54:24.033846Z
+validity_state: valid

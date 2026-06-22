@@ -1,0 +1,45 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+created_at: 2026-06-22T07:21:41Z
+route: receipt-backed-cleanup
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260622T071712Z.json
+authorization_digest: sha256:429d885a557f0241f4b478a1d063a3c026cca5f2561d72ead9a71cad91e39be2
+authorization_id: repo-hygiene-cleanup-adaa61df4c9a7f54
+authorization_result: approved
+authorization_cleanup_candidates: 12
+authorization_cleanup_path_set_digest: sha256:8d3dd038080a7e6e307387b488a830c151ed3fd52ab596e86e74ffafbf9647f2
+authorization_classification_digest: sha256:a3fdd86b6ddda1af8e468a5391ede590fa2983c8410b1331dcd17e90fff3d94c
+authorization_consumed: false
+consume_attempts:
+  - attempted_at: 2026-06-22T07:18:00Z
+    result: failed_closed
+    failure_reason: authorization receipt is stale or mismatched: classification_digest
+    observed_cleanup_candidates: 106
+    observed_cleanup_path_set_digest: sha256:37e4e8de7954bc49e7e29fab127467ebefe838d7a1f4e760e4d5f92148a91a4b
+    observed_classification_digest: sha256:4aced7defc4305f7bb8448ab7d2553b9cc68f910edb56f64113350a0c697e04b
+  - attempted_at: 2026-06-22T07:19:00Z
+    result: failed_closed
+    failure_reason: authorization receipt is stale or mismatched: classification_digest
+    observed_cleanup_candidates: 106
+    observed_cleanup_path_set_digest: sha256:37e4e8de7954bc49e7e29fab127467ebefe838d7a1f4e760e4d5f92148a91a4b
+    observed_classification_digest: sha256:4aced7defc4305f7bb8448ab7d2553b9cc68f910edb56f64113350a0c697e04b
+final_helper_summary:
+  mode: dry-run
+  cleanup_candidates: 106
+  eligible_cleanup_candidates: 106
+  protected_referenced: 337
+  manual_review: 0
+  git_status_digest: sha256:afee4994d7a4c97866723dcfc3ea7791cc1590e41bd6c7bcf8871d74ef97b131
+  classification_digest: sha256:cf4762a915c8e84d0bd4b5827cc98ac7eb13c9573f99ec5f0ce4b02ab4f228ab
+  cleanup_path_set_digest: sha256:37e4e8de7954bc49e7e29fab127467ebefe838d7a1f4e760e4d5f92148a91a4b
+  protected_paths_digest: sha256:2fee6aca31119b5c0626c40db5376f6d49e82217788f0db06b6ad4ac9c6b74ca
+  manual_review_paths_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+deleted_count: 0
+retained_protected_count: 337
+retained_manual_review_count: 0
+redaction_posture: publishable summary only; raw helper path lists omitted
+cleanup_outcome: failed-closed-no-deletion
+blocker: authorization classification digest mismatch during helper revalidation
+next_route_condition: closeout-worktree or repo-hygiene cleanup must resolve the current 106 cleanup candidates with a fresh validating receipt before cleaned closeout or archive claims.

@@ -1,0 +1,61 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+created_at: 2026-06-22T13:59:29Z
+route: receipt-backed-authorization-deletion
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+schema_ref: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+active_run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+operator_confirmation_present: false
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260622T135708Z-delegated.json
+authorization_digest: sha256:48eeb8acf4794a0106fc37cafb813514708d1246edcc24342296426f21145e17
+authorization_consumed: true
+authorized_paths:
+  total_count: 80
+  by_class:
+    local_run_residue: 34
+    stale_unreferenced_publication_attempt: 46
+helper_summary:
+  authorization_generation:
+    mode: authorize
+    cleanup_candidates: 80
+    eligible_cleanup_candidates: 80
+    protected_referenced: 1012
+    manual_review: 162
+    git_status_digest: sha256:a87bc792842d455284fe9a1d8b72c9c29b61b8aa0b68e6c9b19e43acf9e5eb0c
+    classification_digest: sha256:66be4abace9a4ca923c400dc3c631213b5310c23a299aef4f46a43172caa64c4
+    cleanup_path_set_digest: sha256:f6de4c27aba3ffbe28b72bede3b998be6fc785a8ba1318029eae18bca2cef03c
+    protected_paths_digest: sha256:9b839dff0abdaf03382e15fadc6a62e4ad0a16ec7ab4d2ae9865a72dc7ba0cac
+    manual_review_paths_digest: sha256:70d92f09eb1ebbe1cb1f54b21044811b726a34441b85d8d8b8e411c4fbc0571a
+  authorization_consumption:
+    mode: authorization
+    cleanup_candidates: 80
+    eligible_cleanup_candidates: 80
+    protected_referenced: 1012
+    manual_review: 162
+    git_status_digest: sha256:a87bc792842d455284fe9a1d8b72c9c29b61b8aa0b68e6c9b19e43acf9e5eb0c
+    classification_digest: sha256:66be4abace9a4ca923c400dc3c631213b5310c23a299aef4f46a43172caa64c4
+    cleanup_path_set_digest: sha256:f6de4c27aba3ffbe28b72bede3b998be6fc785a8ba1318029eae18bca2cef03c
+    protected_paths_digest: sha256:9b839dff0abdaf03382e15fadc6a62e4ad0a16ec7ab4d2ae9865a72dc7ba0cac
+    manual_review_paths_digest: sha256:70d92f09eb1ebbe1cb1f54b21044811b726a34441b85d8d8b8e411c4fbc0571a
+  post_cleanup_dry_run:
+    mode: dry-run
+    cleanup_candidates: 0
+    eligible_cleanup_candidates: 0
+    protected_referenced: 1015
+    manual_review: 162
+    git_status_digest: sha256:fc9de806ed91549791291bc84304c52ae3019a2dcaab22f216722a8e19f8aa62
+    classification_digest: sha256:8c0629ba69c590c10bfe06da410a28bd6b476c5a6bd1e914374e247dcc46395c
+    cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    protected_paths_digest: sha256:865ab96ffd65540c01b3943a548c3fe7387e8e7c279fcc6da3d8a25e33301492
+    manual_review_paths_digest: sha256:70d92f09eb1ebbe1cb1f54b21044811b726a34441b85d8d8b8e411c4fbc0571a
+deleted_count: 80
+retained_protected_count: 1015
+retained_manual_review_count: 162
+post_cleanup_summary_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/post-cleanup-summary-20260622T135929Z-delegated.yml
+post_cleanup_summary_digest: sha256:1d1be08b7075f1917be3fb36c9633c27a6862f913fe6cc659badf2fb7ae0f710
+redaction_posture: publishable summary only; raw helper path lists omitted except the authorized path proof set retained in the authorization receipt
+cleanup_outcome: completed-authorized-deletion
+blocker: none-for-helper-cleanup
+remaining_worktree_blocker: proposal worktree hygiene remains blocked by foreign/manual-review residue outside repo-hygiene cleanup authority
+next_route_condition: closeout-worktree or operator scope resolution must handle the remaining worktree-hygiene blocker before proposal archive or cleaned closeout claims.

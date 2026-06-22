@@ -1,0 +1,6 @@
+schema_version: route-validation-command-receipt-v1
+command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh --proposal .octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver --targeted"
+cwd: "."
+exit_code: 1
+result: "fail"
+log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/terminal-freshness.log"
