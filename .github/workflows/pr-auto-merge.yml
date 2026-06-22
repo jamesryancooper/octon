@@ -204,7 +204,7 @@ jobs:
                   "github://pull/" + $pr_number + "#check:Validate autonomy policy",
                   "github://pull/" + $pr_number + "#check:AI Review Gate / decision"
                 ],
-                projection_ref: "github://pull/" + $pr_number + "#head:" + $head_ref
+                projection_ref: ("github://pull/" + $pr_number + "#head:" + $head_ref)
               }' > "${projection_json}"
           }
 
