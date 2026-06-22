@@ -12,6 +12,10 @@ permissions:
   contents: read
   pull-requests: write
 
+env:
+  CANONICAL_CONTROL_ROOT: .octon/state/control/execution
+  CANONICAL_CONTROL_EVIDENCE_ROOT: .octon/state/evidence/control/execution
+
 concurrency:
   group: ai-review-gate-${{ github.event.pull_request.number }}
   cancel-in-progress: true

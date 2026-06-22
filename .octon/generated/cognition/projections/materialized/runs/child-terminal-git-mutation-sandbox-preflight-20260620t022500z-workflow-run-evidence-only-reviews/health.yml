@@ -1,207 +1,258 @@
-schema_version: run-health-read-model-v1
-run_id: child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews
-generated_at: '2026-06-21T17:18:28Z'
-generator:
-  id: generate-run-health-read-model.sh
-  version: 1.1.0
-  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-  allowed_consumers:
-  - operators
-  - validators
-  forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
-freshness:
-  mode: digest-bound
-  status: stale
-  source_digest_algorithm: sha256
-  combined_source_digest: sha256:d2b1639ac5887a26e15297de1203b68dd64907d2ccf42d5fc308f7b82832c793
-  checked_at: '2026-06-21T17:18:28Z'
-  expires_at: null
-  freshness_refs:
-  - .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.manifest.yml
-canonical_refs:
-  run_contract: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-contract.yml
-  run_manifest: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-manifest.yml
-  events_journal: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.ndjson
-  events_manifest: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.manifest.yml
-  runtime_state: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/runtime-state.yml
-  authority_decision: .octon/state/evidence/control/execution/authority-decision-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml
-  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml
-  approval_request: null
-  approval_grants: []
-  exception_leases: []
-  revocations: []
-  rollback_posture: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/rollback-posture.yml
-  evidence_root: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews
-  evidence_classification: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/evidence-classification.yml
-  retained_evidence: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/retained-run-evidence.yml
-  replay_pointers: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/replay-pointers.yml
-  intervention_log: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/interventions/log.yml
-  disclosure_run_card: .octon/state/evidence/disclosure/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-card.yml
-  support_targets: .octon/instance/governance/support-targets.yml
-  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-  run_continuity: .octon/state/continuity/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/handoff.yml
-source_digests:
-  run_contract:
-    ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-contract.yml
-    digest: sha256:f9b53ce98428d8114870b933b31e63e099301ff4bb7268b2eb731139e3dd60d2
-    status: present
-  run_manifest:
-    ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-manifest.yml
-    digest: sha256:f487d7a744c3f84bf6c142601da9a74c4ac090198227776402984a1c0b6c1472
-    status: present
-  events_journal:
-    ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.ndjson
-    digest: sha256:0d940cf4dc7bcad7611abd8f9dc4913bbfa4bbe1a218de69b9732391b317da40
-    status: present
-  events_manifest:
-    ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.manifest.yml
-    digest: sha256:1b7ddf0faf6575c7bf6978fdf71b9493a72556846e6a6db0feb1bc20af71b973
-    status: present
-  runtime_state:
-    ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/runtime-state.yml
-    digest: sha256:e801ff77d45089a7b17fb56995ca1158bee3acd4b06fea9368cd38ba428c592a
-    status: present
-  authority_decision:
-    ref: .octon/state/evidence/control/execution/authority-decision-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml
-    digest: sha256:367c04b83f3451d19264053db5be8bf7c044dcc16b5973a16e9f3652c823008a
-    status: present
-  authority_bundle:
-    ref: .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml
-    digest: sha256:c52d6a13c24243f9ec9f4f6dab3bca9484dec14c2f268eba78d5f9658980b224
-    status: present
-  approval_request:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  approval_grants:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  exception_leases:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  revocations:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  rollback_posture:
-    ref: .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/rollback-posture.yml
-    digest: sha256:097bc8aee5208a8506671028d4f9a7012b760f88352d4286556aaa03744ab0bd
-    status: present
-  evidence_root:
-    ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews
-    digest: missing
-    status: missing
-  evidence_classification:
-    ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/evidence-classification.yml
-    digest: missing
-    status: missing
-  retained_evidence:
-    ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/retained-run-evidence.yml
-    digest: missing
-    status: missing
-  replay_pointers:
-    ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/replay-pointers.yml
-    digest: missing
-    status: missing
-  intervention_log:
-    ref: .octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/interventions/log.yml
-    digest: missing
-    status: missing
-  disclosure_run_card:
-    ref: .octon/state/evidence/disclosure/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-card.yml
-    digest: missing
-    status: missing
-  support_targets:
-    ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-    status: present
-  support_reconciliation:
-    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:c534b1efe4b921a0ac458a219ac3cb3f90f305af91f079ec7d1c3326ab99448a
-    status: present
-  run_continuity:
-    ref: .octon/state/continuity/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/handoff.yml
-    digest: sha256:bbdf2b4e26923cd87ce057362e482dac2254d4b7f8b7d7972fc0ca9a902da557
-    status: present
-  runtime_route_bundle:
-    ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:ca3142c003ba8c361262607f5a93094e3c09ba2ebc0448a7bb822a3e418ff801
-    status: present
-  pack_routes:
-    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:dbb183a76778e05d4e90138724f8d0348e00ffb703ffdb57f44b77176e27fb91
-    status: present
-  schema:
-    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
-    status: present
-  operator_read_model_contract:
-    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
-    status: present
-health:
-  status: stale
-  summary: Run-health sources are stale relative to their digest-bound freshness checks.
-  next_required_action: regenerate from current canonical sources
-lifecycle:
-  state: closed
-  decision_state: allow
-  drift_status: in-sync
-  latest_event_hash: sha256:bfe88b7fa52e6d0e56133db680bd641678468b03560b79c2f02b21819fb2e24d
-  latest_sequence: 29
-support:
-  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-  route_status: allow
-  pack_status: allow
-  support_status: supported
-  requested_capability_packs:
-  - repo
-  - shell
-  - telemetry
-authorization:
-  status: authorized
-  proof_state: proof-stale
-  human_boundary_state: none
-  active_grants:
-  - .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml
-  open_approvals: []
-  active_exceptions: []
-  active_revocations: []
-evidence:
-  completeness: incomplete
-  missing_required:
-  - evidence_classification
-  - retained_evidence
-  - replay_pointers
-  - journal_snapshot
-  - journal_manifest_snapshot
-rollback:
-  status: ready
-  hard_reset_required: false
-intervention:
-  status: unknown
-  undisclosed_count: 0
-  records: []
-disclosure:
-  status: incomplete
-closure:
-  status: not-ready
-diagnostics:
-- severity: error
-  code: journal-ledger-digest-stale
-  message: events.manifest.yml ledger_digest does not match events.ndjson.
-  refs:
-  - .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.manifest.yml
-  - .octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.ndjson
+{
+  "schema_version": "run-health-read-model-v1",
+  "run_id": "child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews",
+  "generated_at": "2026-06-22T18:24:33Z",
+  "generator": {
+    "id": "generate-run-health-read-model.sh",
+    "version": "1.1.0",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  },
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false,
+    "allowed_consumers": [
+      "operators",
+      "validators"
+    ],
+    "forbidden_consumers": [
+      "runtime",
+      "policy",
+      "authority",
+      "support-claim-evaluation",
+      "state-reconstruction",
+      "direct-runtime-reads"
+    ]
+  },
+  "freshness": {
+    "mode": "digest-bound",
+    "status": "stale",
+    "source_digest_algorithm": "sha256",
+    "combined_source_digest": "sha256:33bcbaf933dc2976d23c8bc15843d35dd0e1b5d9c8da7844d4a556997ab1362b",
+    "checked_at": "2026-06-22T18:24:33Z",
+    "expires_at": null,
+    "freshness_refs": [
+      ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.manifest.yml"
+    ]
+  },
+  "canonical_refs": {
+    "run_contract": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-contract.yml",
+    "run_manifest": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-manifest.yml",
+    "events_journal": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.ndjson",
+    "events_manifest": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.manifest.yml",
+    "runtime_state": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/runtime-state.yml",
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml",
+    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml",
+    "approval_request": null,
+    "approval_grants": [],
+    "exception_leases": [],
+    "revocations": [],
+    "rollback_posture": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/rollback-posture.yml",
+    "evidence_root": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews",
+    "evidence_classification": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/evidence-classification.yml",
+    "retained_evidence": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/retained-run-evidence.yml",
+    "replay_pointers": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/replay-pointers.yml",
+    "intervention_log": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/interventions/log.yml",
+    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-card.yml",
+    "support_targets": ".octon/instance/governance/support-targets.yml",
+    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    "run_continuity": ".octon/state/continuity/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/handoff.yml"
+  },
+  "source_digests": {
+    "run_contract": {
+      "ref": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-contract.yml",
+      "digest": "sha256:f9b53ce98428d8114870b933b31e63e099301ff4bb7268b2eb731139e3dd60d2",
+      "status": "present"
+    },
+    "run_manifest": {
+      "ref": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-manifest.yml",
+      "digest": "sha256:f487d7a744c3f84bf6c142601da9a74c4ac090198227776402984a1c0b6c1472",
+      "status": "present"
+    },
+    "events_journal": {
+      "ref": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.ndjson",
+      "digest": "sha256:0d940cf4dc7bcad7611abd8f9dc4913bbfa4bbe1a218de69b9732391b317da40",
+      "status": "present"
+    },
+    "events_manifest": {
+      "ref": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.manifest.yml",
+      "digest": "sha256:1b7ddf0faf6575c7bf6978fdf71b9493a72556846e6a6db0feb1bc20af71b973",
+      "status": "present"
+    },
+    "runtime_state": {
+      "ref": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/runtime-state.yml",
+      "digest": "sha256:e801ff77d45089a7b17fb56995ca1158bee3acd4b06fea9368cd38ba428c592a",
+      "status": "present"
+    },
+    "authority_decision": {
+      "ref": ".octon/state/evidence/control/execution/authority-decision-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml",
+      "digest": "sha256:367c04b83f3451d19264053db5be8bf7c044dcc16b5973a16e9f3652c823008a",
+      "status": "present"
+    },
+    "authority_bundle": {
+      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml",
+      "digest": "sha256:c52d6a13c24243f9ec9f4f6dab3bca9484dec14c2f268eba78d5f9658980b224",
+      "status": "present"
+    },
+    "approval_request": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "approval_grants": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "exception_leases": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "revocations": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "rollback_posture": {
+      "ref": ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/rollback-posture.yml",
+      "digest": "sha256:097bc8aee5208a8506671028d4f9a7012b760f88352d4286556aaa03744ab0bd",
+      "status": "present"
+    },
+    "evidence_root": {
+      "ref": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "evidence_classification": {
+      "ref": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/evidence-classification.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "retained_evidence": {
+      "ref": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/retained-run-evidence.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "replay_pointers": {
+      "ref": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/replay-pointers.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "intervention_log": {
+      "ref": ".octon/state/evidence/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/interventions/log.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "disclosure_run_card": {
+      "ref": ".octon/state/evidence/disclosure/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/run-card.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "support_targets": {
+      "ref": ".octon/instance/governance/support-targets.yml",
+      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "status": "present"
+    },
+    "support_reconciliation": {
+      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      "digest": "sha256:c534b1efe4b921a0ac458a219ac3cb3f90f305af91f079ec7d1c3326ab99448a",
+      "status": "present"
+    },
+    "run_continuity": {
+      "ref": ".octon/state/continuity/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/handoff.yml",
+      "digest": "sha256:bbdf2b4e26923cd87ce057362e482dac2254d4b7f8b7d7972fc0ca9a902da557",
+      "status": "present"
+    },
+    "runtime_route_bundle": {
+      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "digest": "sha256:1c123d66ce0f7002f8ae1654fbd62da8c2353fb233ab6b3630ea4e8178b94292",
+      "status": "present"
+    },
+    "pack_routes": {
+      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      "digest": "sha256:726cb61b31a0f07bc5cb261fe51247255d61f89187042bfef5d56ca13922bc96",
+      "status": "present"
+    },
+    "schema": {
+      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
+      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
+      "status": "present"
+    },
+    "operator_read_model_contract": {
+      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
+      "status": "present"
+    }
+  },
+  "health": {
+    "status": "stale",
+    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
+    "next_required_action": "regenerate from current canonical sources"
+  },
+  "lifecycle": {
+    "state": "closed",
+    "decision_state": "allow",
+    "drift_status": "in-sync",
+    "latest_event_hash": "sha256:bfe88b7fa52e6d0e56133db680bd641678468b03560b79c2f02b21819fb2e24d",
+    "latest_sequence": 29
+  },
+  "support": {
+    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "route_status": "allow",
+    "pack_status": "allow",
+    "support_status": "supported",
+    "requested_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ]
+  },
+  "authorization": {
+    "status": "authorized",
+    "proof_state": "proof-stale",
+    "human_boundary_state": "none",
+    "active_grants": [
+      ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews.yml"
+    ],
+    "open_approvals": [],
+    "active_exceptions": [],
+    "active_revocations": []
+  },
+  "evidence": {
+    "completeness": "incomplete",
+    "missing_required": [
+      "evidence_classification",
+      "retained_evidence",
+      "replay_pointers",
+      "journal_snapshot",
+      "journal_manifest_snapshot"
+    ]
+  },
+  "rollback": {
+    "status": "ready",
+    "hard_reset_required": false
+  },
+  "intervention": {
+    "status": "unknown",
+    "undisclosed_count": 0,
+    "records": []
+  },
+  "disclosure": {
+    "status": "incomplete"
+  },
+  "closure": {
+    "status": "not-ready"
+  },
+  "diagnostics": [
+    {
+      "severity": "error",
+      "code": "journal-ledger-digest-stale",
+      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
+      "refs": [
+        ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.manifest.yml",
+        ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-run-evidence-only-reviews/events.ndjson"
+      ]
+    }
+  ]
+}

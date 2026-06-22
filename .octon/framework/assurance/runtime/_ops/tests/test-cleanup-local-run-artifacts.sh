@@ -25,6 +25,30 @@ assert_fails() {
   fi
 }
 
+assert_output_contains() {
+  local output="$1"
+  local label="$2"
+  shift 2
+  local filtered="$output"
+  local needle
+  for needle in "$@"; do
+    filtered="$(grep -F -- "$needle" <<<"$filtered" || true)"
+  done
+  [[ -n "$filtered" ]] || fail "$label"
+}
+
+assert_output_not_contains() {
+  local output="$1"
+  local label="$2"
+  shift 2
+  local filtered="$output"
+  local needle
+  for needle in "$@"; do
+    filtered="$(grep -F -- "$needle" <<<"$filtered" || true)"
+  done
+  [[ -z "$filtered" ]] || fail "$label"
+}
+
 tmp_root="$(mktemp -d "${TMPDIR:-/tmp}/octon-local-run-artifacts.XXXXXX")"
 trap 'rm -rf "$tmp_root"' EXIT
 fixture_index=0
@@ -248,27 +272,27 @@ PY
 
 root="$(make_fixture)"
 dry_run_output="$(bash "$HELPER" --root "$root")"
-printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" >/dev/null || fail "dry-run did not report cleanup candidates"
-printf '%s\n' "$dry_run_output" | grep -F ".octon/state/evidence/validation/publication/capabilities/stale.yml" >/dev/null || fail "dry-run did not classify stale receipt"
-printf '%s\n' "$dry_run_output" | grep -F "proposal lifecycle runner residue" >/dev/null || fail "dry-run did not classify lifecycle runner residue"
-printf '%s\n' "$dry_run_output" | grep -F "closeout skill run residue" >/dev/null || fail "dry-run did not classify closeout skill run residue"
-printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json" >/dev/null || fail "dry-run did not protect route-local closeout interaction request referenced by retained evidence"
-printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml" >/dev/null || fail "dry-run did not protect route-local closeout classifier referenced by retained evidence"
-printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json" >/dev/null && fail "dry-run treated retained closeout interaction request as cleanup candidate"
-printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml" >/dev/null && fail "dry-run treated retained closeout classifier as cleanup candidate"
-printf '%s\n' "$dry_run_output" | grep -F "closed workflow-engine run residue: workflow-engine-closed-1" >/dev/null || fail "dry-run did not classify closed workflow-engine run residue"
-printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" >/dev/null || fail "dry-run did not retain running workflow control state for manual review"
-printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" >/dev/null && fail "dry-run treated running workflow control state as cleanup candidate"
-printf '%s\n' "$dry_run_output" | grep -F "stale archive-proposal starter residue superseded by durable archive evidence: archive-proposal-stale-1" >/dev/null || fail "dry-run did not classify stale archive-proposal starter residue"
-printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/control/execution/runs/archive-proposal-unsuperseded-1/runtime-state.yml" >/dev/null || fail "dry-run did not retain unsuperseded archive-proposal starter for manual review"
-printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/control/execution/runs/archive-proposal-unsuperseded-1/runtime-state.yml" >/dev/null && fail "dry-run treated unsuperseded archive-proposal starter as cleanup candidate"
-printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml" >/dev/null || fail "dry-run did not retain durable workflow evidence for manual review"
-printf '%s\n' "$dry_run_output" | grep -F "local_filesystem_metadata" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/.DS_Store" >/dev/null || fail "dry-run did not classify local filesystem metadata"
-printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/proposal.yml" >/dev/null && fail "dry-run treated proposal input file as cleanup candidate"
-printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/validation/publication/capabilities/final.yml" >/dev/null || fail "dry-run did not protect referenced receipt"
-printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/validation/analysis/manual.yml" >/dev/null || fail "dry-run did not surface manual-review artifact"
-printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/local/terminal-closeout/fixture-change/manifest.json" >/dev/null || fail "dry-run did not protect terminal closeout local evidence sink"
-printf '%s\n' "$dry_run_output" | grep -F "generated_run_health_projection" >/dev/null || fail "dry-run did not route generated run-health projection to manual review"
+assert_output_contains "$dry_run_output" "dry-run did not report cleanup candidates" "cleanup_candidate"
+assert_output_contains "$dry_run_output" "dry-run did not classify stale receipt" ".octon/state/evidence/validation/publication/capabilities/stale.yml"
+assert_output_contains "$dry_run_output" "dry-run did not classify lifecycle runner residue" "proposal lifecycle runner residue"
+assert_output_contains "$dry_run_output" "dry-run did not classify closeout skill run residue" "closeout skill run residue"
+assert_output_contains "$dry_run_output" "dry-run did not protect route-local closeout interaction request referenced by retained evidence" "protected" ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json"
+assert_output_contains "$dry_run_output" "dry-run did not protect route-local closeout classifier referenced by retained evidence" "protected" ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml"
+assert_output_not_contains "$dry_run_output" "dry-run treated retained closeout interaction request as cleanup candidate" "cleanup_candidate" ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json"
+assert_output_not_contains "$dry_run_output" "dry-run treated retained closeout classifier as cleanup candidate" "cleanup_candidate" ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml"
+assert_output_contains "$dry_run_output" "dry-run did not classify closed workflow-engine run residue" "closed workflow-engine run residue: workflow-engine-closed-1"
+assert_output_contains "$dry_run_output" "dry-run did not retain running workflow control state for manual review" "manual_review" ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml"
+assert_output_not_contains "$dry_run_output" "dry-run treated running workflow control state as cleanup candidate" "cleanup_candidate" ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml"
+assert_output_contains "$dry_run_output" "dry-run did not classify stale archive-proposal starter residue" "stale archive-proposal starter residue superseded by durable archive evidence: archive-proposal-stale-1"
+assert_output_contains "$dry_run_output" "dry-run did not retain unsuperseded archive-proposal starter for manual review" "manual_review" ".octon/state/control/execution/runs/archive-proposal-unsuperseded-1/runtime-state.yml"
+assert_output_not_contains "$dry_run_output" "dry-run treated unsuperseded archive-proposal starter as cleanup candidate" "cleanup_candidate" ".octon/state/control/execution/runs/archive-proposal-unsuperseded-1/runtime-state.yml"
+assert_output_contains "$dry_run_output" "dry-run did not retain durable workflow evidence for manual review" "manual_review" ".octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml"
+assert_output_contains "$dry_run_output" "dry-run did not classify local filesystem metadata" "local_filesystem_metadata" ".octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
+assert_output_not_contains "$dry_run_output" "dry-run treated proposal input file as cleanup candidate" "cleanup_candidate" ".octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
+assert_output_contains "$dry_run_output" "dry-run did not protect referenced receipt" "protected" ".octon/state/evidence/validation/publication/capabilities/final.yml"
+assert_output_contains "$dry_run_output" "dry-run did not surface manual-review artifact" "manual_review" ".octon/state/evidence/validation/analysis/manual.yml"
+assert_output_contains "$dry_run_output" "dry-run did not protect terminal closeout local evidence sink" "manual_review" ".octon/state/evidence/local/terminal-closeout/fixture-change/manifest.json"
+assert_output_contains "$dry_run_output" "dry-run did not route generated run-health projection to manual review" "generated_run_health_projection"
 
 root="$(make_fixture)"
 target_metadata_path=".octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
@@ -295,9 +319,9 @@ assert_exists "$root/.octon/state/control/execution/runs/publish-1/run-manifest.
 
 root="$(make_fixture)"
 active_run_output="$(bash "$HELPER" --root "$root" --active-run-id lifecycle-proposal-program-1)"
-printf '%s\n' "$active_run_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml" >/dev/null || fail "active run checkpoint was not protected"
-printf '%s\n' "$active_run_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/handoff.yml" >/dev/null || fail "active run continuity artifact was not protected"
-printf '%s\n' "$active_run_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml" >/dev/null || fail "active run authority decision was not protected"
+assert_output_contains "$active_run_output" "active run checkpoint was not protected" "protected" "active_run_state" ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+assert_output_contains "$active_run_output" "active run continuity artifact was not protected" "protected" "active_run_state" ".octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/handoff.yml"
+assert_output_contains "$active_run_output" "active run authority decision was not protected" "protected" "active_run_state" ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
 active_receipt="$tmp_root/active-receipt-$fixture_index.json"
 bash "$HELPER" --root "$root" --active-run-id lifecycle-proposal-program-1 --authorize "$active_receipt" >/dev/null
 bash "$HELPER" --root "$root" --active-run-id lifecycle-proposal-program-1 --authorization "$active_receipt" >/dev/null
@@ -308,9 +332,9 @@ assert_missing "$root/.octon/state/control/execution/runs/publish-1/run-manifest
 
 root="$(make_fixture)"
 active_workflow_output="$(bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1)"
-printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml" >/dev/null || fail "active workflow runtime state was not protected"
-printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml" >/dev/null || fail "active workflow continuity artifact was not protected"
-printf '%s\n' "$active_workflow_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml" >/dev/null || fail "active workflow authority decision was not protected"
+assert_output_contains "$active_workflow_output" "active workflow runtime state was not protected" "protected" "active_run_state" ".octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml"
+assert_output_contains "$active_workflow_output" "active workflow continuity artifact was not protected" "protected" "active_run_state" ".octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
+assert_output_contains "$active_workflow_output" "active workflow authority decision was not protected" "protected" "active_run_state" ".octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml"
 workflow_active_receipt="$tmp_root/active-workflow-receipt-$fixture_index.json"
 bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1 --authorize "$workflow_active_receipt" >/dev/null
 bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1 --authorization "$workflow_active_receipt" >/dev/null
