@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.97](https://github.com/jamesryancooper/octon/compare/octon-v0.6.96...octon-v0.6.97) (2026-06-22)
+
+
+### Features
+
+* **lifecycle:** harden program closeout handoffs ([3ecd685](https://github.com/jamesryancooper/octon/commit/3ecd6855fa9142455032b6f2597a4c2a258a81f8))
+
+
+### Bug Fixes
+
+* **lifecycle:** accept archived child terminal evidence ([65f435e](https://github.com/jamesryancooper/octon/commit/65f435e9b9be3544980f559059face3b74ce86b0))
+* **octon:** align terminal archive readiness receipts ([852a580](https://github.com/jamesryancooper/octon/commit/852a5805e7d15aea180ab5240d1c040c0217e2ed))
+* **octon:** reenter incomplete terminal receipts ([45f520c](https://github.com/jamesryancooper/octon/commit/45f520ca2a167bc91bbf13bda00a4577d22396e5))
+
 ## [0.6.96](https://github.com/jamesryancooper/octon/compare/octon-v0.6.95...octon-v0.6.96) (2026-06-17)
 
 
