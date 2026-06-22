@@ -331,7 +331,11 @@ collect_retained_evidence_references() {
 
   (
     cd "$ROOT_DIR"
-    rg --threads 1 --sort path --no-messages --path-separator / -F -o -f "$REFERENCE_SCAN_PATHS" -- "${scan_roots[@]}" >"$retained_reference_matches" || true
+    if command -v rg >/dev/null 2>&1; then
+      rg --threads 1 --sort path --no-messages --path-separator / -F -o -f "$REFERENCE_SCAN_PATHS" -- "${scan_roots[@]}" >"$retained_reference_matches" || true
+    else
+      grep -R -I -F -o -f "$REFERENCE_SCAN_PATHS" -- "${scan_roots[@]}" >"$retained_reference_matches" || true
+    fi
   )
   python3 - "$retained_reference_matches" <<'PY'
 import sys
