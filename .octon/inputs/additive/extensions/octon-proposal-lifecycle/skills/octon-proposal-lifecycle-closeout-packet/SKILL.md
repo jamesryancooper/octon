@@ -9,7 +9,7 @@ metadata:
   updated: "2026-04-30"
 skill_sets: [executor, specialist]
 capabilities: [self-validating]
-allowed-tools: Read Glob Grep Bash(git status) Bash(git diff) Bash(gh pr) Bash(.octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh *) Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/evidence/runs/skills/*)
+allowed-tools: Read Glob Grep Bash(git status) Bash(git diff) Bash(gh pr) Bash(.octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh *) Bash(.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh *) Bash(.octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh *) Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Packet - Closeout
@@ -58,6 +58,25 @@ program-child closeout route, the route prompt includes `Program Context` with
 run id for program-child hygiene classification. This preserves child authority:
 closeout receipts, archive authorization, validation verdicts, and terminal
 lifecycle outcome remain child-owned.
+
+For a program-child closeout route, the controller may bind retained
+`lifecycle_interaction_return_refs`,
+`program_child_closeout_worktree_report_ref`,
+`program_child_worktree_hygiene_classifier_ref`, and
+`program_child_worktree_hygiene_foreign_fingerprint` inputs. When present,
+validate each bound route-scoped return receipt with
+`validate-lifecycle-interaction-receipts.sh --return <return-ref>`. Do not
+require unrelated historical return receipts from the same program run. Validate
+the closeout-worktree report with
+`validate-closeout-worktree-wrapper.sh --report <report-ref>`. The report must
+cite the bound classifier evidence, match the bound foreign fingerprint, use a
+non-mutating preserve/exclude disposition for this child route, and preserve
+child-owned closeout authority. If those checks pass, the cited
+foreign-or-ambiguous paths are preserved and excluded from child closeout
+blocking only; they are not cleaned, staged, committed, archived, published, or
+used as parent/program substitutes for child receipts. If validation fails,
+evidence is stale, or any other child-owned gate fails, write a blocked child
+closeout receipt.
 
 If the classifier reports any `foreign-or-ambiguous` paths, write or refresh
 `support/proposal-closeout.md` with `verdict: blocked`,

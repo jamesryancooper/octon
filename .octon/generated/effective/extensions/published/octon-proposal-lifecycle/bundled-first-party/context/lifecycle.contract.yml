@@ -37,6 +37,14 @@ input_bindings:
     source: "run.input.target_outcome"
   terminal_run_id:
     source: "run.input.terminal_run_id"
+  lifecycle_interaction_return_refs:
+    source: "run.input.lifecycle_interaction_return_refs"
+  program_child_closeout_worktree_report_ref:
+    source: "run.input.program_child_closeout_worktree_report_ref"
+  program_child_worktree_hygiene_classifier_ref:
+    source: "run.input.program_child_worktree_hygiene_classifier_ref"
+  program_child_worktree_hygiene_foreign_fingerprint:
+    source: "run.input.program_child_worktree_hygiene_foreign_fingerprint"
 
 lifecycle_interactions:
   emitted_profiles:

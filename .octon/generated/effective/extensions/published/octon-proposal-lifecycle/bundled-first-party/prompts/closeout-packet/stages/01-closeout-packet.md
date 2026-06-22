@@ -25,6 +25,25 @@ classification. This hygiene scope does not transfer child authority: the
 closeout receipt, archive authorization, promotion evidence, validation
 verdicts, and terminal lifecycle outcome remain child-owned.
 
+For a program-child closeout route, bound inputs may include
+`lifecycle_interaction_return_refs`,
+`program_child_closeout_worktree_report_ref`,
+`program_child_worktree_hygiene_classifier_ref`, and
+`program_child_worktree_hygiene_foreign_fingerprint`. When present, validate
+each bound route-scoped return receipt with
+`validate-lifecycle-interaction-receipts.sh --return <return-ref>`. Do not
+require unrelated historical return receipts from the same program run. Validate
+the closeout-worktree report with
+`validate-closeout-worktree-wrapper.sh --report <report-ref>`. The report must
+cite the bound classifier evidence, match the bound foreign fingerprint, use a
+non-mutating preserve/exclude disposition for this child route, and preserve
+child-owned closeout authority. If those checks pass, the cited
+foreign-or-ambiguous paths are preserved and excluded from child closeout
+blocking only. Do not clean, stage, commit, archive, publish, delete, reset,
+claim `cleaned`, or substitute parent/program evidence for child receipts. If
+validation fails, evidence is stale, or any other child-owned gate fails, write
+a blocked child closeout receipt.
+
 For implemented packet closeout, verify preserved review evidence with the
 baseline review gate:
 

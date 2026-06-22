@@ -119,6 +119,7 @@ program:
       - "raw-log-indexing"
       - "closeout-schema-validation"
       - "worktree-cleanliness"
+      - "worktree-baseline-isolation"
     escalation_triggers:
       - "authority ambiguity"
       - "architecture decision"
@@ -151,12 +152,36 @@ program:
       child_registry_digest: "required"
       source_ref_sha256: "required"
       model_visible_context_sha256: "required"
+      child_terminal_evidence_summary:
+        schema_ref: ".octon/framework/product/contracts/proposal-child-terminal-evidence-summary-v1.schema.json"
+        emitted_at: "program-plan.yml#child_states.<child_id>.terminal_evidence_summary"
+        source_ref_sha256: "required-for-present-child-owned-evidence"
+        stale_behavior: "fail-closed"
+        parent_summary_satisfies_child_receipts: false
+        retained_evidence_authorizes_execution: false
+        non_authority_classification: "diagnostic-evidence-summary-only"
+      targeted_proposal_freshness:
+        validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh --targeted"
+        source_ref_sha256: "required-for-selected-proposal-and-dependency-refs"
+        generated_artifact_dependency_metadata: "must-match-proposal-manifest-dependencies"
+        child_file_inputs: "scoped-child-file-refs-are-validated-when-provided"
+        generated_outputs_authorize_execution: false
+        generated_registry_replaces_manifest: false
+        parent_summary_satisfies_child_receipts: false
+        final_full_registry_gate_required: true
     fail_closed_on:
       - "source-missing"
       - "source-digest-mismatch"
       - "stale-event-head"
       - "child-registry-digest-mismatch"
       - "authority-boundary-conflict"
+      - "child-terminal-evidence-summary-source-missing"
+      - "child-terminal-evidence-summary-source-digest-mismatch"
+      - "parent-summary-substitutes-for-child-terminal-evidence"
+      - "targeted-proposal-dependency-source-missing"
+      - "targeted-proposal-dependency-source-digest-mismatch"
+      - "targeted-proposal-generated-metadata-drift"
+      - "targeted-proposal-parent-summary-substitution"
       - "blocker-fingerprint-drift-without-recorded-delta"
       - "recovery-loop-repeats-without-progress"
       - "high-route-without-escalation-trigger"
@@ -243,7 +268,13 @@ program:
             - blocker_class: "critical-artifact-cleanup-required"
               recovery: "operator escalation before destructive or authority-sensitive cleanup"
             - blocker_class: "artifact-ownership-unclear"
-              recovery: "operator escalation before cleanup or mutation"
+              recovery: "emit a non-authorizing closeout-worktree lifecycle interaction request with classifier evidence before any cleanup, mutation, archive, or child closeout authority is claimed"
+            - blocker_class: "parent-worktree-disposition-required"
+              recovery: "await closeout-worktree-report-v1 parent disposition evidence bound only to stable cleanup, classifier, residue, path-set, and non-mutating authority fields"
+            - blocker_class: "worktree-handoff-evidence-changed"
+              recovery: "fail closed until a fresh closeout-worktree return is produced for the changed child classifier fingerprint"
+            - blocker_class: "stale-closeout-worktree-return"
+              recovery: "fail closed until a closeout-worktree return matching the current child route and classifier evidence is produced"
             - blocker_class: "aggregate-closeout-readiness-missing"
               recovery: "operator escalation when parent evidence would substitute for missing child-owned receipts"
             - blocker_class: "protected-artifact-authority-ambiguity"
@@ -301,6 +332,22 @@ program:
       authority-ambiguity:
         max_attempts: 0
         human_required: true
+      artifact-ownership-unclear:
+        max_attempts: 0
+        human_required: true
+        replan_after_attempt: false
+      parent-worktree-disposition-required:
+        max_attempts: 0
+        human_required: true
+        replan_after_attempt: false
+      worktree-handoff-evidence-changed:
+        max_attempts: 0
+        human_required: true
+        replan_after_attempt: false
+      stale-closeout-worktree-return:
+        max_attempts: 0
+        human_required: true
+        replan_after_attempt: false
     recipes:
       - blocker_class: "stale-receipt"
         preconditions:
@@ -557,6 +604,17 @@ program:
         post_attempt_validation:
           - "replay-verify"
         replan_behavior: "none"
+      - blocker_class: "artifact-ownership-unclear"
+        preconditions:
+          - "live-state-readable"
+          - "selected-route-present"
+        idempotency_class: "inspect-only"
+        human_required: true
+        retry_budget: 0
+        dependent_handling: "pause-dependent"
+        post_attempt_validation:
+          - "authority-boundary-check"
+        replan_behavior: "none"
       - blocker_class: "unsafe-resume"
         idempotency_class: "non-recoverable"
         human_required: true
@@ -660,6 +718,18 @@ lifecycle_interactions:
       expected_return_evidence:
         - "change-receipt-v1"
         - "closeout-worktree-report-v1"
+      required_closeout_worktree_report_fields:
+        - "proposal_program_handoff_authorization.child_id"
+        - "proposal_program_handoff_authorization.route_id"
+        - "proposal_program_handoff_authorization.classifier_output_ref"
+        - "proposal_program_handoff_authorization.classifier_output_digest"
+        - "proposal_program_handoff_authorization.authorized_foreign_fingerprint"
+        - "proposal_program_handoff_authorization.authorized_paths"
+        - "proposal_program_handoff_authorization.non_mutating"
+        - "proposal_program_handoff_authorization.preserve_and_exclude_from_child_closeout_blocking"
+        - "proposal_program_handoff_authorization.parent_summary_not_child_closeout_receipt"
+        - "proposal_program_handoff_authorization.child_closeout_authority_preserved"
+        - "proposal_program_handoff_authorization.forbidden_actions"
       target_gate_policy: "target-owned-independent-validation"
       non_authorizing: true
   accepted_profiles:
@@ -681,6 +751,13 @@ lifecycle_interactions:
         - "promotion-authorization"
         - "scope-expansion"
       target_gate_policy: "target-owned-independent-validation"
+      return_acceptance_rules:
+        - "classifier_output_digest must match retained classifier_output_ref"
+        - "authorized_foreign_fingerprint must match retained classifier output"
+        - "authorized_paths must exactly match candidate boundaries.include_paths"
+        - "foreign/manual retained disposition may unblock matching child hygiene preflight only; it does not satisfy child closeout receipt, child validation, archive authorization, or child lifecycle outcome gates"
+        - "parent lifecycle residue disposition may unblock only parent closeout/archive gates when closeout-worktree-report-v1 is bound to program_run_id, parent_route_id, stable cleanup receipt digests, classifier ref/digest or fingerprint fallback, residue fingerprint, authorized path set, non-mutating flags, and disposition"
+        - "no deletion, reset, staging, commit, push, publication, archive, branch cleanup, git ref mutation, or cleaned claim may be transferred from closeout-worktree to child closeout or parent closeout"
       non_authorizing: true
 
 input_bindings:
@@ -694,6 +771,10 @@ input_bindings:
     source: "run.input.execution_mode"
   closeout_scope:
     source: "run.input.closeout_scope"
+  worktree_baseline_lease:
+    source: "run.input.worktree_baseline_lease"
+  worktree_baseline_lease_paths:
+    source: "run.input.worktree_baseline_lease_paths"
   finding_id:
     source: "run.input.finding_id"
 
