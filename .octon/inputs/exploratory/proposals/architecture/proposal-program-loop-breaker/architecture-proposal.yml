@@ -1,0 +1,16 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program loop control
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal-program loop-control architect
+created_date: 2026-06-22
+summary: Adds deterministic loop-control semantics to proposal-program recovery planning.
+architecture_drivers:
+  - Stop cleanup loops when cleanup evidence is unchanged.
+  - Distinguish retryable blocker deltas from repeated route selection.
+  - Prioritize publication drift and generated freshness repair ahead of cleanup when they are the blocker.
+  - Bound recovery attempts and model-visible token use.
+constraints:
+  - No ownership lease or supersession behavior is implemented by this child.
+  - Blocker fingerprints must include source refs and digests where available.
+  - Budget exhaustion must route to blocked or stage-only posture rather than silent continuation.

@@ -1,0 +1,22 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program lifecycle resilience and supersession
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal-program resilience architect
+created_date: 2026-06-22
+summary: >
+  Defines a parent proposal program that decomposes proposal-program execution
+  resilience into loop control, ownership control, supersession delivery, and
+  non-mutating partition evidence child packets.
+architecture_drivers:
+  - Prevent repeated recovery routes from consuming budget when blocker evidence is unchanged.
+  - Distinguish owned, leased, foreign, manual, protected, generated, and child-owned evidence surfaces before mutation.
+  - Preserve child-owned receipts when a parent run becomes polluted.
+  - Route deliverable changes through clean successor runs or normal Change closeout without deleting or rewriting foreign residue.
+  - Keep the immediate cleanup-loop blocker in the first staged PR.
+constraints:
+  - The parent packet does not implement durable behavior.
+  - Children remain sibling packets and own their review, implementation, validation, conformance, closeout, and archive evidence.
+  - Proposal-local evidence cannot replace child-owned receipts or runtime evidence.
+  - Cleanup, archive, branch mutation, generated publication, and cleaned claims require their owning routes.
+  - Pre-1.0 change profile remains atomic unless a child packet records a governed exception.

@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: closeout-worktree partition evidence
+decision_type: boundary-change
+status: in-review
+owner: Octon closeout-worktree partition architect
+created_date: 2026-06-22
+summary: Adds non-mutating partition report behavior to closeout-worktree for proposal-program handoffs with provable ownership.
+architecture_drivers:
+  - Let proposal-program recovery consume classifier evidence without granting cleanup authority.
+  - Preserve foreign/manual residue instead of blocking on repeated cleanup.
+  - Keep child-owned receipts and Change receipts authoritative.
+constraints:
+  - Reports are non-mutating and evidence-only.
+  - The wrapper cannot delete, stage, commit, push, archive, publish, branch-clean, or claim terminal delivery from the partition report.
+  - Ambiguous ownership remains nonterminal.

@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program ownership control
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal-program ownership architect
+created_date: 2026-06-22
+summary: Adds baseline and write-lease semantics so proposal-program recovery can prove ownership before mutation.
+architecture_drivers:
+  - Prevent mutation when owned versus foreign work cannot be proven.
+  - Give rescue and closeout routes a deterministic baseline.
+  - Keep route write authority explicit and scoped.
+constraints:
+  - Leases may narrow write authority only.
+  - Ambiguous ownership blocks mutation.
+  - Child-owned receipts remain outside parent-owned lease authority.

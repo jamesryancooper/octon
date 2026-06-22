@@ -1,0 +1,16 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program supersession and rescue delivery
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal-program rescue architect
+created_date: 2026-06-22
+summary: Adds a safe supersession path for polluted proposal-program runs.
+architecture_drivers:
+  - Freeze polluted runs before further mutation.
+  - Preserve child-owned receipts across successor execution.
+  - Separate deliverable changes from foreign/manual residue.
+  - Route clean delivery through successor run or normal closeout.
+constraints:
+  - Polluted-run freeze evidence is non-authorizing.
+  - Child-owned receipts must be carried by ref and digest.
+  - Foreign/manual residue must be preserved or routed elsewhere, not rewritten by supersession.
