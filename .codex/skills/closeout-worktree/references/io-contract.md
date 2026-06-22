@@ -57,6 +57,21 @@ When a delegated candidate cleans up a local or remote source branch, that
 singular receipt must carry the governed cleanup authorization reference
 required by `closeout-change`; the wrapper report may cite it only through the
 singular receipt and must not authorize branch deletion itself.
+When a delegated branch-no-pr candidate emits terminal current-state proof, the
+wrapper report may summarize only the delegated singular receipt's
+`terminal_current_state_proof_ref` and digest-backed sink metadata. The wrapper
+must not replace that target-owned proof, must keep `landed_ref` distinct from
+the proof sink or receipt path, and must not claim terminal success unless the
+singular receipt proves landing evidence, final sync proof, cleanup
+authorization, cleanup disposition, rollback posture, and validation evidence.
+When a delegated candidate records permission diagnostics for a blocked fetch,
+checkout, branch-local commit, branch publication, hosted landing, final sync,
+branch cleanup, or local or remote branch deletion or pruning, the wrapper
+report may cite or summarize those diagnostics only from the delegated
+`closeout-change` evidence. The summary must preserve operation class, current
+and target refs when known, expected authorization gate, likely sandbox, host,
+provider, remote, or ref-write blocker, and owning rerun route, and must not
+perform or authorize the mutation.
 
 Compact wrapper outputs must source the canonical wrapper report, delegated
 Change receipts, and retained evidence by `source_refs` and `source_digests`.
@@ -159,6 +174,58 @@ A selected candidate may stop before delegation only when candidate-keyed
 blocker evidence explains why the selected candidate itself cannot safely run
 through `closeout-change`.
 
+When a proposal-program `lifecycle-interaction-request-v1` asks for
+`closeout-worktree` handoff of `artifact-ownership-unclear` closeout residue,
+a `foreign_manual_review` candidate may include raw/private Octon paths only
+when it records `proposal_program_handoff_authorization` with:
+
+- `authorization_grant` or `outside_child_route_write_scope: true`
+- `child_id`, `route_id`, `interaction_request_ref`
+- `classifier_output_ref` and matching `classifier_output_digest`
+- `authorized_foreign_fingerprint` matching the classifier output
+- `authorized_paths` exactly matching `boundaries.include_paths`
+- `disposition: preserve-and-exclude-from-child-closeout-blocking`
+- `non_mutating: true`
+- `preserve_and_exclude_from_child_closeout_blocking: true`
+- `parent_summary_not_child_closeout_receipt: true`
+- `child_closeout_authority_preserved: true`
+- `forbidden_actions` with every mutation, publication, archive, cleanup, and
+  `cleaned` claim value set to `false`
+
+This authorization supports retained/foreign disposition evidence only. It
+does not authorize deletion, reset, staging, commit, publication, branch
+cleanup, archive, promotion, child receipt replacement, child validation
+replacement, archive authorization replacement, or child lifecycle outcome
+replacement.
+
+When a parent `cleanup-lifecycle-residue` handoff has route-specific operator
+authorization to preserve and exclude parent residue from lifecycle closeout
+blocking, a `foreign_manual_review` candidate may instead include
+`proposal_program_parent_handoff_authorization` with:
+
+- `authorization_grant`, `program_run_id`, and
+  `parent_route_id: cleanup-lifecycle-residue`
+- `cleanup_receipt_ref` and matching `cleanup_receipt_digest`
+- `classifier_output_ref` and matching `classifier_output_digest`
+- `authorized_foreign_fingerprint` matching the classifier output
+- `authorized_paths` exactly matching `boundaries.include_paths`
+- `disposition: preserve-and-exclude-from-lifecycle-closeout-blocking`
+- `outside_child_owned_closeout_authority: true` or
+  `separately_partitioned_for_later_legal_closeout: true`
+- `non_mutating: true`
+- `preserve_and_exclude_from_lifecycle_closeout_blocking: true`
+- `parent_summary_not_child_closeout_receipt: true`
+- `child_closeout_authority_preserved: true`
+- `parent_evidence_replaces_child_evidence: false`
+- `forbidden_actions` with deletion, reset, staging, commit, push,
+  publication, archive, branch cleanup, git ref mutation, and `cleaned` claim
+  values all set to `false`
+
+This parent authorization supports preserved/foreign disposition for the named
+lifecycle blocker only. It does not authorize archive, publication, cleanup,
+branch cleanup, git mutation, a `cleaned` claim, or replacement of child-owned
+receipts, child validation, archive authorization, or child lifecycle outcomes.
+
 A fixture residue candidate may use `residue_routing_class:
 local_private_retained` only when it includes
 `fixture_retention_receipt_ref` pointing to a validating
@@ -209,7 +276,10 @@ For branch-no-pr `landed` or `cleaned` receipts, the singular receipt must
 prove `landing_authorization_ref`, hosted landing evidence, exact source-SHA
 required check refs, source-branch integration, local `main` sync,
 `origin/main` fetch evidence, and equality of local `main`, `origin/main`, and
-`landed_ref`.
+`landed_ref`. For terminal proof after cleanup, the same singular receipt must
+also cite terminal proof as retained evidence only, not as source-branch
+post-landing commit evidence or as a mutation of `origin/main`, local `main`,
+the landed ref, or the source branch.
 When the receipt claims completed source branch cleanup, it must also cite a
 validating `branch-cleanup-authorization-v1` receipt. A cleanup-deferred landed
 receipt may be closed as landed only when it is not reported as cleaned and

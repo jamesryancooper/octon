@@ -32,6 +32,10 @@ inputs:
     type: text
     required: false
     description: Optional retained terminal closeout run id.
+  - name: lifecycle_interaction_return_refs
+    type: text
+    required: false
+    description: Optional comma-separated lifecycle-interaction-return-v1 refs for governed closeout-worktree residue disposition.
 stages:
   - id: bind-profile
     asset: stages/01-bind-profile.md

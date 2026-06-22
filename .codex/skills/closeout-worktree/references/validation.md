@@ -36,6 +36,18 @@ Successful wrapper execution proves:
 - `disposition_complete_with_retained_residue` is supported only by
   `local_private_retained` or `foreign_manual_review` candidates with
   candidate-keyed retained evidence;
+- proposal-program handoff candidates that retain raw/private Octon paths as
+  `foreign_manual_review` include
+  `proposal_program_handoff_authorization` or
+  `proposal_program_parent_handoff_authorization` with exact classifier output
+  digest, matching foreign fingerprint, exact authorized path-set match,
+  non-mutating preserved/excluded disposition, child-authority preservation,
+  parent-summary non-substitution, and every forbidden action set to `false`;
+- parent lifecycle-residue handoff candidates also prove the matching cleanup
+  receipt ref and digest, `parent_route_id: cleanup-lifecycle-residue`,
+  `preserve_and_exclude_from_lifecycle_closeout_blocking: true`,
+  `parent_evidence_replaces_child_evidence: false`, and no archive,
+  publication, cleanup, branch cleanup, git mutation, or `cleaned` claim;
 - `publishable_change` and `publishable_closeout_evidence` are the only
   routing classes delegated to `closeout-change`;
 - lifecycle-owned proposal input, generated effective, publication evidence,
@@ -56,6 +68,16 @@ Successful wrapper execution proves:
   refs, local `main`/`origin/main`/`landed_ref` alignment, and cleanup
   completed with governed cleanup authorization when the singular receipt
   reports `cleaned`;
+- branch-no-pr terminal proof is cited only from the delegated singular Change
+  receipt, after landing evidence, final sync proof, cleanup authorization,
+  cleanup disposition, rollback posture, and validation proof exist, with
+  `landed_ref` distinct from the terminal proof sink or receipt path;
+- delegated git mutation diagnostics, when summarized, are cited only from
+  singular `closeout-change` evidence, identify operation class, current and
+  target refs when known, expected authorization gate, likely sandbox, host,
+  provider, remote, or ref-write blocker, and owning rerun route, and do not
+  authorize wrapper mutation, cleanup, landing, branch deletion, sync, closeout,
+  or `cleaned`;
 - no direct wrapper stage, commit, push, PR, landing, merge, reset, restore,
   overwrite, delete, or branch cleanup action occurred;
 - repo-hygiene cleanup, when needed, was delegated to the
@@ -122,6 +144,17 @@ Negative controls:
   evidence whose manifest is missing, stale, digest-mismatched, outside
   `.octon/state/evidence/local/terminal-closeout/<change-id>/`, or authority
   overclaiming fails.
+- A wrapper report that summarizes terminal proof without a delegated
+  `closeout-change` receipt, substitutes aggregate proof for target-owned
+  proof, treats terminal proof as a post-landing source-branch commit, or uses
+  terminal proof to mutate `origin/main`, local `main`, the landed ref, or the
+  source branch fails.
+- A wrapper report that summarizes delegated git mutation diagnostics as
+  cleanup, landing, branch deletion, final sync, publication, closeout, or
+  `cleaned` authority fails.
+- A wrapper report that summarizes a delegated permission-sensitive git
+  mutation blocker without operation class, current and target refs when known,
+  expected authorization gate, likely blocker, and owning rerun route fails.
 - A wrapper report with a safely separable selected candidate blocked only
   because multiple candidates exist fails.
 - A wrapper report with `repo_hygiene_cleanup_actions_performed: true` fails.
@@ -150,6 +183,14 @@ Negative controls:
 - A wrapper report that counts broad raw/private state, `.octon/engine/**`,
   generated authority, transcripts, or input surfaces as publishable closeout
   evidence fails.
+- A wrapper report that records raw/private Octon paths as
+  `foreign_manual_review` without a matching
+  `proposal_program_handoff_authorization` or
+  `proposal_program_parent_handoff_authorization`, or with stale classifier
+  digest, stale cleanup receipt digest when parent-authorized, mismatched
+  foreign fingerprint, path-set drift, missing non-mutating flags,
+  child-authority substitution, parent-summary substitution,
+  parent-evidence substitution, or any forbidden action marked true, fails.
 - A wrapper report that classifies lifecycle-owned proposal input/generated
   publication/control surfaces as `publishable_change` without
   `lifecycle_closeout_authority` proof fails.

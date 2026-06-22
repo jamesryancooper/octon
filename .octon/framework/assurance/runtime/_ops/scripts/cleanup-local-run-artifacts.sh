@@ -27,7 +27,7 @@ Classify untracked local Octon run/control/evidence artifacts and optionally
 remove only cleanup-safe local residue. Dry-run is the default.
 
 The helper protects tracked files and untracked files referenced by tracked
-files. Deletion requires either explicit --confirm or a validating
+files or retained lifecycle evidence. Deletion requires either explicit --confirm or a validating
 repo-hygiene-cleanup-authorization-v1 receipt passed with --authorization.
 When --cleanup-path is supplied one or more times, cleanup is limited to those
 repo-relative paths after they have been proven to be current cleanup
@@ -169,6 +169,7 @@ fi
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/octon-local-run-artifacts.XXXXXX")"
 trap 'rm -rf "$TMP_DIR"' EXIT
 UNTRACKED_PATHS="$TMP_DIR/untracked-paths.txt"
+REFERENCE_SCAN_PATHS="$TMP_DIR/reference-scan-paths.txt"
 REFERENCED_PATHS="$TMP_DIR/referenced-paths.txt"
 EXCLUDED_PATHS="$TMP_DIR/excluded-paths.txt"
 STATUS_ROWS="$TMP_DIR/status-rows.txt"
@@ -181,6 +182,7 @@ REQUESTED_CLEANUP_PATHS="$TMP_DIR/requested-cleanup-paths.txt"
 SELECTED_CLEANUP_PATHS="$TMP_DIR/selected-cleanup-paths.txt"
 
 : >"$EXCLUDED_PATHS"
+: >"$REFERENCE_SCAN_PATHS"
 : >"$CLASSIFICATION_ROWS"
 : >"$CLEANUP_PATHS"
 : >"$PROTECTED_PATHS"
@@ -254,6 +256,17 @@ digest_file() {
   printf 'sha256:%s\n' "$digest"
 }
 
+find_untracked_ds_store_paths() {
+  local root_prefix="$ROOT_DIR/"
+  find "$ROOT_DIR" -path "$ROOT_DIR/.git" -prune -o -name .DS_Store -type f -print |
+    while IFS= read -r path; do
+      local rel="${path#"$root_prefix"}"
+      [[ "$rel" != "$path" ]] || continue
+      git -C "$ROOT_DIR" ls-files --error-unmatch -- "$rel" >/dev/null 2>&1 && continue
+      printf '%s\n' "$rel"
+    done
+}
+
 git_ref_or_unavailable() {
   local ref="$1"
   git -C "$ROOT_DIR" rev-parse --verify "$ref" 2>/dev/null || printf 'unavailable\n'
@@ -267,16 +280,97 @@ ORIGIN_MAIN_REF="$(git_ref_or_unavailable origin/main)"
   git -C "$ROOT_DIR" ls-files --others --exclude-standard -- \
     .octon/state \
     .octon/generated/.tmp \
-    .octon/generated/cognition/projections/materialized/runs \
-    ':(glob)**/.DS_Store'
-  git -C "$ROOT_DIR" ls-files --others --ignored --exclude-standard -- \
-    ':(glob)**/.DS_Store'
+    .octon/generated/cognition/projections/materialized/runs
+  find_untracked_ds_store_paths
 } | sort -u \
   | filter_excluded_paths >"$UNTRACKED_PATHS"
 
+write_reference_scan_paths() {
+  local rel
+  while IFS= read -r rel; do
+    [[ -n "$rel" ]] || continue
+    case "$rel" in
+      .DS_Store|*/.DS_Store|\
+      .octon/generated/.tmp/*|\
+      .octon/state/control/execution/runs/*/*|\
+      .octon/state/continuity/runs/*/*|\
+      .octon/state/control/execution/approvals/requests/*.yml|\
+      .octon/state/evidence/control/execution/authority-decision-*.yml|\
+      .octon/state/evidence/control/execution/authority-grant-bundle-*.yml|\
+      .octon/state/evidence/external-index/runs/*.yml|\
+      .octon/state/evidence/runs/skills/closeout-worktree/*|\
+      .octon/state/evidence/runs/skills/closeout-packet/*|\
+      .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/*|\
+      .octon/state/evidence/validation/publication/capabilities/*.yml|\
+      .octon/state/evidence/validation/publication/runtime/*.yml|\
+      .octon/state/evidence/validation/publication/extensions/*.yml|\
+      .octon/state/evidence/validation/compatibility/extensions/*.yml|\
+      .octon/state/evidence/validation/extensions/prompt-alignment/*.yml)
+        printf '%s\n' "$rel"
+        ;;
+    esac
+  done <"$UNTRACKED_PATHS" | sort -u >"$REFERENCE_SCAN_PATHS"
+}
+
+collect_retained_evidence_references() {
+  local scan_roots=()
+  local root_rel
+  for root_rel in \
+    ".octon/inputs/exploratory/proposals" \
+    ".octon/state/control" \
+    ".octon/state/evidence/runs/workflows" \
+    ".octon/state/evidence/validation/analysis" \
+    ".octon/state/evidence/validation/proposals" \
+    ".octon/generated"
+  do
+    [[ -e "$ROOT_DIR/$root_rel" ]] && scan_roots+=("$root_rel")
+  done
+  [[ "${#scan_roots[@]}" -gt 0 ]] || return 0
+
+  local retained_reference_matches="$TMP_DIR/retained-reference-matches.txt"
+
+  (
+    cd "$ROOT_DIR"
+    rg --threads 1 --sort path --no-messages --path-separator / -F -o -f "$REFERENCE_SCAN_PATHS" -- "${scan_roots[@]}" >"$retained_reference_matches" || true
+  )
+  python3 - "$retained_reference_matches" <<'PY'
+import sys
+from pathlib import Path
+
+excluded_source_prefixes = (
+    ".octon/state/evidence/local/",
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/",
+)
+
+referenced = set()
+for raw in Path(sys.argv[1]).read_text(encoding="utf-8", errors="ignore").splitlines():
+    line = raw.rstrip("\n")
+    if not line or ":" not in line:
+        continue
+    source, match = line.split(":", 1)
+    if not source or not match:
+        continue
+    if source == match:
+        continue
+    if any(source.startswith(prefix) for prefix in excluded_source_prefixes):
+        continue
+    referenced.add(match)
+
+for candidate in sorted(referenced):
+    print(candidate)
+PY
+}
+
 if [[ -s "$UNTRACKED_PATHS" ]]; then
-  git -C "$ROOT_DIR" grep -h -F -o -f "$UNTRACKED_PATHS" -- >"$REFERENCED_PATHS" 2>/dev/null || true
-  sort -u "$REFERENCED_PATHS" -o "$REFERENCED_PATHS"
+  write_reference_scan_paths
+  if [[ -s "$REFERENCE_SCAN_PATHS" ]]; then
+    {
+      git -C "$ROOT_DIR" grep -h -F -o -f "$REFERENCE_SCAN_PATHS" -- 2>/dev/null || true
+      collect_retained_evidence_references
+    } | sort -u >"$REFERENCED_PATHS"
+  else
+    : >"$REFERENCED_PATHS"
+  fi
 else
   : >"$REFERENCED_PATHS"
 fi
@@ -285,14 +379,12 @@ fi
   git -C "$ROOT_DIR" status --porcelain=v1 -uall -- \
     .octon/state \
     .octon/generated/.tmp \
-    .octon/generated/cognition/projections/materialized/runs \
-    ':(glob)**/.DS_Store'
-  git -C "$ROOT_DIR" status --porcelain=v1 --ignored -- \
-    ':(glob)**/.DS_Store'
+    .octon/generated/cognition/projections/materialized/runs
+  find_untracked_ds_store_paths | sed 's/^/?? /'
 } | sort -u \
   | filter_status_rows >"$STATUS_ROWS"
 
-is_referenced_by_tracked_file() {
+is_referenced_by_protected_file() {
   local rel="$1"
   grep -Fxq -- "$rel" "$REFERENCED_PATHS"
 }
@@ -574,8 +666,8 @@ classify_path() {
     return
   fi
 
-  if is_referenced_by_tracked_file "$rel"; then
-    set_classification "$(referenced_kind_for_path "$rel")" "protected_referenced" "referenced by a tracked control, evidence, generated, or governance file"
+  if is_referenced_by_protected_file "$rel"; then
+    set_classification "$(referenced_kind_for_path "$rel")" "protected_referenced" "referenced by a tracked or retained control, evidence, generated, or governance file"
     return
   fi
 

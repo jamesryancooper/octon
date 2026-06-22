@@ -51,6 +51,17 @@ lifecycle outcome, integration status, publication status, cleanup status,
 durable history, rollback handle, cleanup evidence when cleanup is claimed, and
 structured stop reasons when a target of `landed` or `cleaned` downgrades.
 
+When a permission-sensitive git mutation fails or is denied, receipt or
+retained evidence outputs must include a diagnostic record for the blocked
+operation. The diagnostic must name the operation class (`fetch`, `checkout`,
+`branch-local-commit`, `branch-publish`, `hosted-landing`, `final-sync`,
+`branch-cleanup`, `branch-delete`, or `branch-prune`), current and target refs
+when known, expected authorization gate, likely sandbox, host, provider,
+remote, or ref-write blocker, and owning rerun route. Store the diagnostic in
+schema-allowed fields and evidence refs; it is routing evidence only and is not
+mutation, authorization, cleanup, landing, branch deletion, publication,
+closeout, sync, or `cleaned` authority.
+
 When the input omits `target_lifecycle_outcome` and the operator asked to close
 out the Change, the receipt must record `target_lifecycle_outcome: cleaned`.
 Explicit `published-branch`, `branch-local-complete`, `landed`, `preserved`,
@@ -77,6 +88,18 @@ receipt outputs must include `cleanup_authorization_ref` pointing to a retained
 validate before cleanup mutation and match the source branch, landed ref,
 local `main`, `origin/main`, no-open-PR proof, rollback/discard posture, and
 cleanup policy proof.
+
+For branch-no-pr terminal proof after landing, receipt outputs may cite a
+route-owned terminal evidence sink only after landing evidence, final sync
+proof, cleanup authorization, cleanup disposition, rollback posture, and
+route-owned validation evidence exist. Terminal proof fields must keep
+`landed_ref` separate from `terminal_current_state_proof_ref`, the proof sink
+path, and any receipt path. The sink may be summarized by a Change receipt or
+wrapper report, but it does not replace landing authorization, cleanup
+authorization, hosted check evidence, rollback posture, validation evidence,
+or `stateful_closeout`. Missing prerequisites must be reported through a lower
+actual lifecycle outcome with `not_cleaned_reason`, `cleanup_stop_reason`, or
+specific blocker evidence rather than a terminal success or `cleaned` claim.
 
 Compact view outputs must source the canonical Change receipt and retained
 evidence by `source_refs` and `source_digests`. `closeout-projection.yml` is

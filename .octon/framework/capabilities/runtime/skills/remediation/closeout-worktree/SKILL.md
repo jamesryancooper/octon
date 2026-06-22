@@ -50,6 +50,27 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    are routing evidence only; they do not authorize deletion, cleanup,
    publication, promotion, archive, closeout, branch deletion, or a `cleaned`
    claim.
+   When invoked from a proposal-program
+   `lifecycle-interaction-request-v1`, treat the request, its basis receipt,
+   classifier output ref and digest, foreign fingerprint, include/exclude
+   paths, and required return evidence as non-authorizing handoff context.
+   The wrapper may route a coherent candidate to `closeout-change`, but the
+   request never replaces child closeout receipts, child validation,
+   archive authorization, or child lifecycle outcomes.
+   When all blocker paths are proven outside the child/route write scope or
+   covered by an explicit handoff authorization, the wrapper may return a
+   non-mutating `closeout-worktree-report-v1` plus
+   `lifecycle-interaction-return-v1` that records
+   `proposal_program_handoff_authorization`. When a parent
+   `cleanup-lifecycle-residue` handoff has explicit operator authorization,
+   the wrapper may instead record
+   `proposal_program_parent_handoff_authorization` proving the cleanup receipt
+   digest, classifier digest, foreign fingerprint, exact authorized path set,
+   and non-mutating disposition
+   `preserve-and-exclude-from-lifecycle-closeout-blocking`. These reports may
+   preserve and exclude foreign paths from the named lifecycle blocker only;
+   they must not stage, delete, reset, commit, publish, archive, branch-clean,
+   or claim `cleaned` for those paths.
 4. **Partition Candidate Changes** — Group residue into candidate Change
    scopes by intent, touched paths, branch identity, receipt references,
    validation requirements, and operator instructions. When grouping is
@@ -155,6 +176,14 @@ to `closeout-change`. Only `local_private_retained` and
 `disposition_complete_with_retained_residue`, and only with candidate-keyed
 retained evidence. `unsafe` and `ambiguous` always force
 `worktree_terminal_state: nonterminal` with candidate-keyed blocker evidence.
+Raw/private Octon paths normally cannot be reported as
+`foreign_manual_review`. The only exception is a proposal-program handoff
+candidate with `proposal_program_handoff_authorization` or
+`proposal_program_parent_handoff_authorization` proving the exact classifier
+output ref and digest, foreign fingerprint, authorized path set, non-mutating
+preserved/excluded disposition, parent-summary non-substitution, child
+authority preservation, and no forbidden mutation, archive, publication,
+branch-cleanup, git-ref, or cleaned claim.
 
 When a delegated candidate is blocked by a permission-sensitive git mutation,
 the wrapper report may summarize the delegated diagnostic evidence, including

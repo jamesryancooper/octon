@@ -40,10 +40,24 @@ title: Closeout Change Safety
 - Do not report branch-based full closeout unless source-branch integration
   into `origin/main`, post-landing fetch, local `main` sync to `origin/main`,
   and landed-ref containment in both refs are recorded.
+- Do not emit or accept terminal current-state proof as a source-branch commit
+  requirement after landing, or as a mutation of `origin/main`, local `main`,
+  the landed ref, or the source branch.
+- Do not claim terminal success or `cleaned` unless terminal proof is emitted
+  after landing evidence, final sync proof, cleanup authorization, cleanup
+  disposition, rollback posture, and validation proof exist, with
+  `landed_ref` distinct from the proof sink or receipt path.
 - Do not delete or prune local or remote source branch refs unless a retained
   `branch-cleanup-authorization-v1` receipt validates against the current
   source branch, landed ref, local `main`, `origin/main`, no-open-PR proof, and
   rollback/discard posture.
+- Do not retry or reinterpret a failed permission-sensitive git mutation
+  without retained diagnostics that name the operation class, current and
+  target refs when known, expected authorization gate, likely sandbox, host,
+  provider, remote, or ref-write blocker, and owning rerun route.
+- Do not treat git mutation diagnostics as authority to fetch, checkout,
+  commit, push, land, sync, clean up, delete or prune branches, publish, close
+  out, or claim `cleaned`.
 - Do not report a draft, open, or ready PR as full closeout.
 - Do not claim cleaned closeout unless local branch, remote branch when present,
   and worktree cleanup evidence proves cleanup completed. Deferred cleanup must

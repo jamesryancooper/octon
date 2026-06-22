@@ -48,7 +48,10 @@ rewrite durable framework or instance authority.
    output, local-only path details, and sensitive debugging context under
    `.octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/<run-id>/`.
    Publish only summary counts and digests unless a later receipt explicitly
-   redacts and promotes a shareable summary.
+   redacts and promotes a shareable summary. Classification output is routing
+   evidence only; it is not cleanup authority and must not be treated as a
+   deletion, closeout, branch-cleanup, archive, promotion, publication, or
+   `cleaned` authorization.
    Terminal closeout sink files under
    `.octon/state/evidence/local/terminal-closeout/<change-id>/` are
    local-private retained evidence and are protected from generic cleanup.
@@ -69,9 +72,14 @@ rewrite durable framework or instance authority.
    `repo-hygiene-cleanup-authorization-v1` receipt under retained evidence,
    then invoke the helper with `--authorization`. The helper must revalidate
    current git refs, status digest, classification digest, path-set digest,
-   protected digest, manual-review digest, proof bits, and exact selected path
-   set before deleting anything. Raw receipt-generation logs stay local-private
-   when they include local paths or operator-sensitive details.
+   protected digest, manual-review digest, proof bits, allowed cleanup class,
+   and exact selected path set before deleting anything. A receipt cannot cover
+   protected retained evidence, active control state, build-to-delete evidence,
+   terminal closeout local evidence, generated authority outputs, generated
+   run-health projections, proposal inputs, tracked files, referenced
+   untracked files, ignored non-metadata paths, or user-owned paths. Raw
+   receipt-generation logs stay local-private when they include local paths or
+   operator-sensitive details.
 6. **Record Evidence** - Write a concise publishable receipt under
    `.octon/state/evidence/runs/skills/repo-hygiene-cleanup/<run-id>/` with the
    route, helper summary, digest set, redaction posture, authorization receipt

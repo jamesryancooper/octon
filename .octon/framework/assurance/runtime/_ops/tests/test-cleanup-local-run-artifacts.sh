@@ -156,11 +156,24 @@ YAML
   mkdir -p "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1"
   printf 'wrapper-log: local\n' >"$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
 
+  mkdir -p "$root/.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child"
+  printf 'schema_version: lifecycle-interaction-request-v1\n' >"$root/.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json"
+  printf 'schema_version: octon-proposal-worktree-hygiene-v1\n' >"$root/.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml"
+
+  mkdir -p "$root/.octon/state/evidence/validation/analysis"
+  cat >"$root/.octon/state/evidence/validation/analysis/retained-closeout-worktree-report.yml" <<'YAML'
+schema_version: closeout-worktree-report-v1
+source_refs:
+  lifecycle_interaction_request:
+    ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json
+  classifier_output:
+    ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml
+YAML
+
   mkdir -p "$root/.octon/inputs/exploratory/proposals/fixture-local"
   printf 'local finder metadata\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
   printf 'proposal input must stay\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 
-  mkdir -p "$root/.octon/state/evidence/validation/analysis"
   printf 'manual: true\n' >"$root/.octon/state/evidence/validation/analysis/manual.yml"
 
   mkdir -p "$root/.octon/state/evidence/local/terminal-closeout/fixture-change"
@@ -239,6 +252,10 @@ printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" >/dev/null || fail
 printf '%s\n' "$dry_run_output" | grep -F ".octon/state/evidence/validation/publication/capabilities/stale.yml" >/dev/null || fail "dry-run did not classify stale receipt"
 printf '%s\n' "$dry_run_output" | grep -F "proposal lifecycle runner residue" >/dev/null || fail "dry-run did not classify lifecycle runner residue"
 printf '%s\n' "$dry_run_output" | grep -F "closeout skill run residue" >/dev/null || fail "dry-run did not classify closeout skill run residue"
+printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json" >/dev/null || fail "dry-run did not protect route-local closeout interaction request referenced by retained evidence"
+printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml" >/dev/null || fail "dry-run did not protect route-local closeout classifier referenced by retained evidence"
+printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json" >/dev/null && fail "dry-run treated retained closeout interaction request as cleanup candidate"
+printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml" >/dev/null && fail "dry-run treated retained closeout classifier as cleanup candidate"
 printf '%s\n' "$dry_run_output" | grep -F "closed workflow-engine run residue: workflow-engine-closed-1" >/dev/null || fail "dry-run did not classify closed workflow-engine run residue"
 printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" >/dev/null || fail "dry-run did not retain running workflow control state for manual review"
 printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" | grep -F ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" >/dev/null && fail "dry-run treated running workflow control state as cleanup candidate"
@@ -301,6 +318,16 @@ assert_exists "$root/.octon/state/control/execution/runs/workflow-engine-closed-
 assert_exists "$root/.octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
 assert_exists "$root/.octon/state/evidence/control/execution/authority-decision-workflow-engine-closed-1.yml"
 
+root="$(make_fixture)"
+in_repo_receipt="$root/.octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-fixture/cleanup-authorization.json"
+bash "$HELPER" --root "$root" --authorize "$in_repo_receipt" >/dev/null
+bash "$HELPER" --root "$root" --authorization "$in_repo_receipt" >/dev/null
+assert_exists "$in_repo_receipt"
+assert_missing "$root/.octon/state/evidence/validation/publication/capabilities/stale.yml"
+assert_missing "$root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
+assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/final.yml"
+
+root="$(make_fixture)"
 receipt="$(authorize_fixture "$root")"
 grep -F '"schema_version": "repo-hygiene-cleanup-authorization-v1"' "$receipt" >/dev/null || fail "authorization receipt has wrong schema version"
 bash "$HELPER" --root "$root" --authorization "$receipt" >/dev/null
@@ -328,6 +355,8 @@ assert_exists "$root/.octon/state/evidence/runs/workflows/2026-06-15-archive-pro
 assert_exists "$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml"
 assert_exists "$root/.octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml"
 assert_missing "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
+assert_exists "$root/.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json"
+assert_exists "$root/.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml"
 assert_missing "$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
 assert_exists "$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
 assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/final.yml"

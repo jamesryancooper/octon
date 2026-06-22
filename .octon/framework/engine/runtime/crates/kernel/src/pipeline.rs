@@ -816,6 +816,13 @@ fn run_proposal_packet_terminal_closeout_pipeline(
         .get("terminal_run_id")
         .filter(|value| !value.trim().is_empty())
         .cloned();
+    let lifecycle_interaction_return_refs = parse_csv_list(
+        options
+            .input_overrides
+            .get("lifecycle_interaction_return_refs")
+            .map(String::as_str)
+            .unwrap_or_default(),
+    );
 
     let result = workflow::run_proposal_packet_terminal_closeout_from_octon_dir(
         octon_dir,
@@ -826,6 +833,7 @@ fn run_proposal_packet_terminal_closeout_pipeline(
             target_outcome,
             profile_path,
             terminal_run_id,
+            lifecycle_interaction_return_refs,
         },
     )?;
 

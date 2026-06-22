@@ -42,6 +42,30 @@ Deferred cleanup must downgrade the actual outcome and include
 `not_cleaned_reason` plus `cleanup_stop_reason`; it must not validate as
 `lifecycle_outcome: cleaned`.
 
+For branch-no-pr terminal proof, validation must treat terminal current-state
+proof as route-owned retained evidence, not as a post-landing source-branch
+commit requirement. A terminal proof claim is valid only when the receipt cites
+landing evidence, final sync proof, cleanup authorization, cleanup disposition,
+rollback posture, and route-owned validation evidence; distinguishes
+`landed_ref` from the terminal proof sink path or receipt path; and records
+`terminal_current_state_proof_ref`, `terminal_current_state_proof_digest`, and
+`non_authority_classification: retained-evidence-only` when a local terminal
+sink is used. Missing prerequisites, a sink path that substitutes for
+`landed_ref`, or any terminal proof write that mutates `origin/main`, local
+`main`, the landed ref, or the source branch must downgrade the actual outcome
+and block terminal success or `cleaned`.
+
+For permission-sensitive git mutation blockers, validation must prove that
+diagnostics identify the operation class, current and target refs when known,
+expected authorization gate, likely sandbox, host, provider, remote, or
+ref-write blocker, and owning rerun route for fetch, checkout, branch-local
+commit, branch publication, hosted landing, final sync, branch cleanup, and
+local or remote branch deletion or pruning. The diagnostic must appear only as
+retained routing evidence or schema-allowed blocker evidence. A receipt that
+uses diagnostics to authorize mutation, omit governed landing or cleanup
+authorization, skip helper validation, skip post-fetch/final-sync proof, or
+claim `landed` or `cleaned` while the mutation outcome is lower fails.
+
 Completed or cleaned closeout also requires `stateful_closeout` evidence from
 the Change Closeout State Machine. That evidence must cite the initial
 inventory, residue classification, phase exits, cleanup decisions, cleanup

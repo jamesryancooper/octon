@@ -1432,6 +1432,55 @@ fn workflow_leaf_retry_attempts_use_distinct_workflow_run_ids_and_evidence() {
 }
 
 #[test]
+fn workflow_leaf_compacts_long_program_child_run_ids_for_workflow_runner() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("workflow-long-run-id");
+    write_fake_workflow_runtime(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(&root, "promote-proposal", "workflow", "unattended");
+    request.run_id = "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output".to_string();
+    request.evidence_root = root
+        .join(".octon/state/evidence/runs/workflows")
+        .join(&request.run_id);
+    request.checkpoint_path = root
+        .join(".octon/state/control/execution/runs")
+        .join(&request.run_id)
+        .join("lifecycle-checkpoint.yml");
+    request.executor = "codex".to_string();
+    request.receipts = Vec::new();
+    request.expected_receipts = Vec::new();
+    request.expected_manifest_status = Some("implemented".to_string());
+    request.expected_target_change = false;
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "completed");
+    let invocation = fs::read_to_string(
+        request
+            .evidence_root
+            .join("promote-proposal-attempt-1-workflow-invocation.yml"),
+    )
+    .unwrap();
+    let workflow_run_id = invocation
+        .lines()
+        .find_map(|line| line.strip_prefix("workflow_run_id: "))
+        .expect("workflow invocation should record workflow_run_id");
+    assert!(workflow_run_id.len() <= 128);
+    assert!(workflow_run_id
+        .chars()
+        .all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-'));
+    assert!(workflow_run_id.contains("-attempt-1-workflow-"));
+    assert_ne!(
+        workflow_run_id,
+        format!("{}-attempt-1-workflow", request.run_id)
+    );
+    assert!(root
+        .join(".octon/state/control/execution/runs")
+        .join(workflow_run_id)
+        .is_dir());
+}
+
+#[test]
 fn workflow_leaf_existing_attempt_run_id_fails_closed_without_resume_proof() {
     let _guard = env_lock().lock().unwrap();
     let root = temp_root("workflow-existing-run-denied");
