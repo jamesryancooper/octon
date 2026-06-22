@@ -98,9 +98,13 @@ require_yq() {
 run_test() {
   local label="$1"
   shift
-  if "$@" >/dev/null 2>&1; then
+  local output
+  local status
+  output="$("$@" 2>&1)" && status=0 || status=$?
+  if [[ "$status" -eq 0 ]]; then
     pass "$label"
   else
+    printf '%s\n' "$output" >&2
     fail "$label"
   fi
 }
@@ -207,6 +211,7 @@ main() {
   require_text '--authorize' "$LOCAL_ARTIFACT_CLEANUP_SCRIPT" "local artifact helper emits cleanup authorization receipts"
   require_text '--authorization' "$LOCAL_ARTIFACT_CLEANUP_SCRIPT" "local artifact helper validates cleanup authorization receipts"
   require_text '--cleanup-path' "$LOCAL_ARTIFACT_CLEANUP_SCRIPT" "local artifact helper supports selected cleanup path routing"
+  require_text 'grep -R -I -F -o -f "$REFERENCE_SCAN_PATHS"' "$LOCAL_ARTIFACT_CLEANUP_SCRIPT" "local artifact helper falls back when rg is unavailable"
   require_text 'repo-hygiene-cleanup-authorization-v1' "$LOCAL_ARTIFACT_CLEANUP_SCRIPT" "local artifact helper binds cleanup authorization schema"
   require_text 'generated_run_health_projection' "$LOCAL_ARTIFACT_CLEANUP_SCRIPT" "local artifact helper routes generated run-health projections away from cleanup"
   require_text 'terminal closeout local evidence sink is protected from generic cleanup' "$LOCAL_ARTIFACT_CLEANUP_SCRIPT" "local artifact helper protects terminal local evidence sink"
