@@ -1,6 +1,6 @@
 {
   "schema_version": "run-health-read-model-index-v1",
-  "generated_at": "2026-06-22T18:44:38Z",
+  "generated_at": "2026-06-22T20:49:36Z",
   "authority": {
     "classification": "generated_read_model_non_authoritative",
     "may_authorize": false,
