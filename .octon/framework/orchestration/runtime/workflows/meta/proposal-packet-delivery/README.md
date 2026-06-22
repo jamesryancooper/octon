@@ -106,7 +106,6 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] generated publication remains owner-routed through owning publisher scripts
 - [ ] generated-input freshness scope is classified before terminal closeout/archive routing
 - [ ] generated freshness outcomes record not-in-scope, owner-routed, refresh-needed-not-authorized, stale, or fresh-non-authoritative
-- [ ] stale generated outputs block terminal delivery claims, while fresh generated outputs remain non-authoritative
 - [ ] closeout-change or closeout-worktree owns Change closeout and any hosted mutation
 - [ ] branch landing authorization exists before landed, synced, or cleaned claims
 - [ ] branch cleanup authorization exists before source branch cleanup claims

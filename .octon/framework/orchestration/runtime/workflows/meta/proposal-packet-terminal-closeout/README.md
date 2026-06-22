@@ -63,6 +63,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `target_outcome` (text, required=false): Requested terminal outcome, normally archive-ready.
 - `profile_path` (file, required=false): Optional proposal-packet-terminal-closeout-profile-v1 profile.
 - `terminal_run_id` (text, required=false): Optional retained terminal closeout run id.
+- `lifecycle_interaction_return_refs` (text, required=false): Optional comma-separated lifecycle-interaction-return-v1 refs for governed closeout-worktree residue disposition.
 
 ## Failure Conditions
 
