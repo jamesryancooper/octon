@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "promote-foundational-entry-artifact-canonical-framing-update-20260514-173617",
-  "generated_at": "2026-06-22T18:24:33Z",
+  "generated_at": "2026-06-22T18:44:38Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:06cca1ff3e09293e53cbe5fd07d12cd3d26a9417dd19ec1c9cd56430ad6f98eb",
-    "checked_at": "2026-06-22T18:24:33Z",
+    "combined_source_digest": "sha256:d667aeef10ba0f736dd7851c50e95eb2c7b897b5c9867da81c87e7d9a79a1d2d",
+    "checked_at": "2026-06-22T18:44:38Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:c534b1efe4b921a0ac458a219ac3cb3f90f305af91f079ec7d1c3326ab99448a",
+      "digest": "sha256:01fc45d8a8eb2b553fa054b517fa5c8ac5ebaf1a5d71997781ee1810576194ec",
       "status": "present"
     },
     "run_continuity": {
