@@ -1,0 +1,16 @@
+schema_version: architecture-proposal-v1
+architecture_scope: lifecycle-postmortem
+decision_type: boundary-change
+status: draft
+owner: Octon lifecycle child-packet architect
+created_date: 2026-06-20
+summary: Extend lifecycle postmortem with a proposal-program delivery evaluation profile that remains generic for completed proposal-program lifecycles.
+architecture_drivers:
+  - The built-in lifecycle postmortem mechanism prepares retained evidence but does not force proposal-program delivery-specific blocker, autonomy, efficiency, or proof-chain analysis.
+  - The completed operator-free lifecycle delivery run showed repeated operator intervention and recovery loops that should be evaluated consistently after future program deliveries.
+  - Postmortem analysis should produce structured evidence for future proposals without becoming authority or a second control plane.
+constraints:
+  - Do not implement durable behavior in this proposal creation route.
+  - Keep the postmortem mechanism generic for any completed proposal-program lifecycle.
+  - Do not use postmortem evidence to satisfy child-owned evidence.
+  - Do not authorize implementation, promotion, closeout, archive, delivery, cleanup, PR fallback, branch mutation, or cleaned claims from postmortem output.

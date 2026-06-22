@@ -1,0 +1,60 @@
+schema_version: "octon-validation-summary-v1"
+run_id: "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-targeted-proposal-freshness-checks"
+proposal_id: "targeted-proposal-freshness-checks"
+recorded_at: "2026-06-22T03:01:16Z"
+classification: "retained-validation-evidence-only"
+authority_boundary:
+  authorizes_closeout: false
+  authorizes_archive: false
+  authorizes_publication: false
+  generated_outputs_authority: "derived-only"
+profile_selection:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  transitional_exception_note: "none"
+commands:
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks --require-implementation-authorization"
+    cwd: "/Users/jamesryancooper/Projects/octon"
+    result: "pass"
+    evidence_class: "boundary proof"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks"
+    cwd: "/Users/jamesryancooper/Projects/octon"
+    result: "pass"
+    evidence_class: "boundary proof"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks"
+    cwd: "/Users/jamesryancooper/Projects/octon"
+    result: "pass"
+    evidence_class: "architecture or placement proof"
+  - command: "bash .octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-terminal-freshness.sh"
+    cwd: "/Users/jamesryancooper/Projects/octon"
+    result: "pass"
+    evidence_class: "behavior proof"
+  - command: "bash .octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh"
+    cwd: "/Users/jamesryancooper/Projects/octon"
+    result: "pass"
+    evidence_class: "behavior proof"
+  - command: "bash .octon/framework/assurance/runtime/_ops/tests/test-proposal-artifact-index-spine.sh"
+    cwd: "/Users/jamesryancooper/Projects/octon"
+    result: "pass"
+    evidence_class: "generated-output freshness proof"
+  - command: "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+    cwd: "/Users/jamesryancooper/Projects/octon"
+    result: "pass"
+    evidence_class: "architecture or placement proof"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks"
+    cwd: "/Users/jamesryancooper/Projects/octon"
+    result: "fail"
+    evidence_class: "generated-output freshness proof"
+    blocker: ".octon/generated/proposals/registry.yml is stale for normalized-child-terminal-evidence-summary"
+blockers:
+  - blocker_id: "full-registry-generated-projection-drift"
+    owner_scope: "outside-targeted-proposal-freshness-checks"
+    failing_path: ".octon/generated/proposals/registry.yml"
+    stale_source_ref: ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/proposal.yml"
+    observed_registry_status: "accepted"
+    observed_manifest_status: "implemented"
+    route_effect: "blocks terminal implementation completion claim"
+cleanup:
+  generated_outputs_hand_edited: false
+  protected_evidence_deleted: false
+  unrelated_worktree_changes_preserved: true

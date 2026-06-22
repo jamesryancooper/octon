@@ -1,0 +1,173 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml",
+      "manifest_sha256": "sha256:186581f0225a53d7fe859e66421d6425bf6d680a0106b42cb8d9bd1edcd32a8c",
+      "proposal_id": "operator-free-lifecycle-delivery-autonomy-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:fa215e9cfc49c48bc92d0bfcf15ebad20bea5487913bffa63950d7d67a7ecfe8",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators pass.",
+    "status": "implemented",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/normalized-child-terminal-evidence-summary/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/product/contracts/proposal-child-terminal-evidence-summary-v1.schema.json",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  ],
+  "proposal_id": "normalized-child-terminal-evidence-summary",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 10980,
+      "estimated_tokens": 2745,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/executable-implementation-prompt.md",
+      "sha256": "sha256:c4ca0ebf34a8f18d2c6a5cd99c2b8f7480706c688a110e8d619326926d5cd2a8"
+    },
+    {
+      "byte_size": 2414,
+      "estimated_tokens": 604,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-conformance-review.md",
+      "sha256": "sha256:80789a430eeae43c3e42e4b590e74b156d00de1eb378e976b482fca4a4e0d68c"
+    },
+    {
+      "byte_size": 2229,
+      "estimated_tokens": 558,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:522f5acaeabe95e04a6c8f601ef4baaf82112128503df01552e3b05f0138cacf"
+    },
+    {
+      "byte_size": 2425,
+      "estimated_tokens": 607,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-run.md",
+      "sha256": "sha256:ab07fa92df83c39a0dbf8f0392c85ae85e9ec62b5695b47f48d954a8553526c7"
+    },
+    {
+      "byte_size": 2481,
+      "estimated_tokens": 621,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:916858775fe38c3fbebcb604034576322e82f60a0b96429980716405a9dfb48a"
+    },
+    {
+      "byte_size": 6636,
+      "estimated_tokens": 1659,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/proposal-closeout.md",
+      "sha256": "sha256:ef440f1de4999c32ca7a028e81b9f0713b3171060b65943a8bbdf59ab25750bf"
+    },
+    {
+      "byte_size": 2403,
+      "estimated_tokens": 601,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/proposal-review.md",
+      "sha256": "sha256:25e39c8cf8cfc9bf047cd697796057b310104cdc5bd925a344a563ea4ac54511"
+    },
+    {
+      "byte_size": 2491,
+      "estimated_tokens": 623,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/validation.md",
+      "sha256": "sha256:8f380790ad1402ad10b0f1fcf59b355d3c5673c93636d3a8bbfeef8d3ff9e2b4"
+    }
+  ],
+  "related_proposals": [
+    "operator-free-lifecycle-delivery-autonomy-hardening"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture-proposal.yml": "sha256:0232dc9324f97730b308aaf0e3e6dfdcf8f84304a0e24f222555731d94578548",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture/acceptance-criteria.md": "sha256:b87856a1a333be13897f5fec2e6b88e84da5867ef321aec25e32c51bf8672d1e",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture/implementation-plan.md": "sha256:4e32e194c0ff5c3cbbdfb2ec39786ba2c9575a58967fc18585a14028219d5a74",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/navigation/artifact-catalog.md": "sha256:29d1ab615eec11ff4f00dee9c74da23d6de0dad9408b5a6f07fbaf4b9d857d3f",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/navigation/source-of-truth-map.md": "sha256:6e10c9a4092143b418e0a68fb61078eb74998c80523e1e9fcbd5f7a7a591779a",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/proposal.yml": "sha256:17c673428a98bb7d4ad3a6226bd25fc48862f80caa78c0a506a5361a86c489d0",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/executable-implementation-prompt.md": "sha256:c4ca0ebf34a8f18d2c6a5cd99c2b8f7480706c688a110e8d619326926d5cd2a8",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-grade-completeness-review.md": "sha256:522f5acaeabe95e04a6c8f601ef4baaf82112128503df01552e3b05f0138cacf",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/proposal-review.md": "sha256:25e39c8cf8cfc9bf047cd697796057b310104cdc5bd925a344a563ea4ac54511"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy",
+    ".octon/state/evidence/runs/workflows/20260620T041705Z-proposal-program-delivery-operator-free-packet-lifecycle-autonomy/proposal-program-delivery-receipt.yml",
+    ".octon/state/evidence/local/terminal-closeout/operator-free-packet-lifecycle-autonomy-delivery-20260620T041705Z/",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/proposal-review.md"
+  ],
+  "status": "implemented"
+}

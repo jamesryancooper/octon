@@ -1,0 +1,18 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program lifecycle autonomy and branch-no-PR delivery evidence
+decision_type: boundary-change
+status: draft
+owner: Octon lifecycle proposal-program architect
+created_date: 2026-06-20
+summary: Defines a parent proposal program that decomposes postmortem recommendations into child-owned architecture packets for deterministic recovery, terminal evidence normalization, validation efficiency, and governed branch-no-PR delivery.
+architecture_drivers:
+  - Preserve explicit authorization for material side effects.
+  - Reduce operator intervention for deterministic low-risk governed corrections.
+  - Preserve child authority and generated-output non-authority.
+  - Make planner output complete, compact, and non-misleading after terminal completion.
+  - Retain delivery audit handles without promoting local-only evidence to authority.
+constraints:
+  - No durable behavior is implemented by the parent packet.
+  - PR fallback remains forbidden for branch-no-PR delivery.
+  - Protected retained evidence must not be deleted.
+  - Full registry checks remain final gates even when targeted freshness checks are introduced.

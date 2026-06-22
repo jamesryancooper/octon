@@ -1,0 +1,52 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-execution-mode-normalization
+title: Proposal Program Execution Mode Normalization
+summary: Normalize or alias execution modes across program manifests, registries, contracts, validators, and planner code.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+- ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh"
+- ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+- ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+status: accepted
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators pass.
+related_proposals:
+  - operator-free-lifecycle-delivery-autonomy-hardening
+selected_implementation_target: Normalize or alias execution modes across program manifests, registries, contracts, validators, and planner code.
+scope_statement: Parent manifests and child registries used inconsistent execution-mode vocabulary such as sequenced-gated and gated-parallel. This child owns only the listed promotion targets and proposal-local evidence for its governed route.
+explicit_runtime_non_implementation_statement: This child packet does not implement durable behavior until a later accepted implementation route.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and local-only evidence remain non-authoritative.
+authority_class_impact:
+  framework: Future implementation may update declared framework targets only.
+  instance: No instance authority changes planned unless a later accepted child revision adds them.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation may define retained evidence or validators for this child only.
+  generated: Generated outputs remain derived-only and must not be hand-edited.
+  inputs: This child packet is non-authoritative proposal lineage.
+evidence_requirements:
+  - Accepted proposal review and implementation authorization before durable edits.
+  - Strict pre-integration architecture review before implementation.
+  - Implementation run, conformance, drift/churn, validation, closeout, and archive receipts after implementation.
+validation_gates:
+- "validate-proposal-standard.sh"
+- "validate-architecture-proposal.sh"
+- "validate-proposal-implementation-readiness.sh"
+- "cargo test -p kernel lifecycle_program::tests::program_execution_mode_aliases_preserve_dependency_semantics"
+- "validate-proposal-program-structure.sh --package <fixture-program>"
+- "octon lifecycle plan --lifecycle proposal-program --target <fixture-program>"
+acceptance_criteria_summary: sequenced-gated is either migrated or explicitly aliased to a supported execution mode with no semantic loss.
+risk_posture: Medium-high. Mode normalization affects planner semantics and must not loosen dependency gates.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+owner:
+  role: Octon lifecycle child-packet architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-20
+source_lineage:
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy
+  - .octon/state/evidence/runs/workflows/20260620T041705Z-proposal-program-delivery-operator-free-packet-lifecycle-autonomy/proposal-program-delivery-receipt.yml
+  - .octon/state/evidence/local/terminal-closeout/operator-free-packet-lifecycle-autonomy-delivery-20260620T041705Z/
+  - .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening

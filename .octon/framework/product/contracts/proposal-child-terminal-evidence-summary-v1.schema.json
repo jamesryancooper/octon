@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/proposal-child-terminal-evidence-summary-v1.schema.json",
+  "title": "Proposal Child Terminal Evidence Summary v1",
+  "description": "Diagnostic-only normalized summary of child-owned terminal evidence for proposal-program planning and closeout readiness checks.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "child_id",
+    "child_lifecycle_id",
+    "child_target",
+    "required",
+    "deferred",
+    "final_verdict",
+    "child_terminal_state",
+    "blocker_state",
+    "evidence_status",
+    "source_refs",
+    "freshness",
+    "authority_boundaries",
+    "non_authority_classification",
+    "failure_behavior"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proposal-child-terminal-evidence-summary-v1"
+    },
+    "child_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "child_lifecycle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "child_target": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "deferred": {
+      "type": "boolean"
+    },
+    "final_verdict": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selected_route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "terminal_outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "child_terminal_state": {
+      "type": "string",
+      "pattern": "^(active-implemented|archived-implemented|rejected-terminal|non-terminal|terminal:[a-z][a-z0-9-]*)$"
+    },
+    "blocker_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active_implemented",
+        "archived_implemented",
+        "rejected_terminal",
+        "non_terminal",
+        "implementation_run",
+        "implementation_conformance",
+        "post_implementation_drift_churn",
+        "proposal_closeout",
+        "terminal_closeout",
+        "validation",
+        "archive_metadata",
+        "promotion_evidence",
+        "retained_evidence_index"
+      ],
+      "properties": {
+        "active_implemented": {"type": "boolean"},
+        "archived_implemented": {"type": "boolean"},
+        "rejected_terminal": {"type": "boolean"},
+        "non_terminal": {"type": "boolean"},
+        "implementation_run": {"type": "string", "minLength": 1},
+        "implementation_conformance": {"type": "string", "minLength": 1},
+        "post_implementation_drift_churn": {"type": "string", "minLength": 1},
+        "proposal_closeout": {"type": "string", "minLength": 1},
+        "terminal_closeout": {"type": "string", "minLength": 1},
+        "validation": {"type": "string", "minLength": 1},
+        "archive_metadata": {"type": "string", "minLength": 1},
+        "promotion_evidence": {"type": "string", "minLength": 1},
+        "retained_evidence_index": {"type": "string", "minLength": 1}
+      }
+    },
+    "source_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "path", "digest", "status"],
+        "properties": {
+          "role": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "digest": {
+            "oneOf": [
+              {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+              {"const": "missing"},
+              {"const": "unavailable"}
+            ]
+          },
+          "status": {
+            "enum": ["present", "missing", "unsafe"]
+          }
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_digest_required",
+        "stale_behavior",
+        "missing_source_behavior",
+        "digest_mismatch_behavior"
+      ],
+      "properties": {
+        "source_digest_required": {"const": true},
+        "stale_behavior": {"const": "fail-closed"},
+        "missing_source_behavior": {"const": "fail-closed"},
+        "digest_mismatch_behavior": {"const": "fail-closed"}
+      }
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parent_summary_satisfies_child_receipts",
+        "parent_evidence_replaces_child_evidence",
+        "proposal_inputs_authorize_terminal_readiness",
+        "generated_outputs_authorize_terminal_readiness",
+        "retained_evidence_authorizes_execution",
+        "retained_evidence_is_evidence_only"
+      ],
+      "properties": {
+        "parent_summary_satisfies_child_receipts": {"const": false},
+        "parent_evidence_replaces_child_evidence": {"const": false},
+        "proposal_inputs_authorize_terminal_readiness": {"const": false},
+        "generated_outputs_authorize_terminal_readiness": {"const": false},
+        "retained_evidence_authorizes_execution": {"const": false},
+        "retained_evidence_is_evidence_only": {"const": true}
+      }
+    },
+    "non_authority_classification": {
+      "const": "diagnostic-evidence-summary-only"
+    },
+    "failure_behavior": {
+      "type": "array",
+      "minItems": 5,
+      "contains": {"const": "fail-closed-on-parent-summary-substitution"},
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

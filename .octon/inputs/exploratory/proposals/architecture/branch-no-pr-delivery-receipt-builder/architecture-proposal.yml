@@ -1,0 +1,16 @@
+schema_version: architecture-proposal-v1
+architecture_scope: branch-no-pr-delivery
+decision_type: boundary-change
+status: draft
+owner: Octon lifecycle child-packet architect
+created_date: 2026-06-20
+summary: Provide a canonical receipt builder for hosted landing, sync, cleanup authorization, branch cleanup, and cleaned proof.
+architecture_drivers:
+  - Branch-no-PR terminal receipts required manual shaping and repeated validator iteration.
+  - Preserve Octon fail-closed governance and child-owned evidence.
+  - Reduce repeated operator intervention only where deterministic governed recovery is safe.
+constraints:
+  - Do not implement durable behavior in this proposal creation route.
+  - Do not widen promotion targets silently.
+  - Do not weaken validators or generated-output non-authority.
+  - Preserve explicit authorization for material side effects.

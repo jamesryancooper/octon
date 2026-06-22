@@ -1,0 +1,134 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml",
+      "manifest_sha256": "sha256:186581f0225a53d7fe859e66421d6425bf6d680a0106b42cb8d9bd1edcd32a8c",
+      "proposal_id": "operator-free-lifecycle-delivery-autonomy-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:40862c556f8e6c37d9e8e5c82642a9fa03473677b73c73d38fc3bd01b2056233",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators pass.",
+    "status": "accepted",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/autonomous-proposal-program-recovery-envelope/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
+  ],
+  "proposal_id": "autonomous-proposal-program-recovery-envelope",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 2022,
+      "estimated_tokens": 506,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:994bf77d3afe94fd78448c90e6cb46473d7604e41ef466dad595a72cc1c268dc"
+    },
+    {
+      "byte_size": 1614,
+      "estimated_tokens": 404,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-review.md",
+      "sha256": "sha256:8dbb24d869cd393adf0625acd75dfd00f8de3c8b48ed964fc93170689224598c"
+    }
+  ],
+  "related_proposals": [
+    "operator-free-lifecycle-delivery-autonomy-hardening"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture-proposal.yml": "sha256:628588c6e84a6db50e745f1a878b870beb569e6aa10b217c12c3e028d8c724f2",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture/acceptance-criteria.md": "sha256:5c0639d8ebef35e227fe272e675735271250f047dd2d25819daf26a3b518ba3c",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture/implementation-plan.md": "sha256:1629b77d775cd556f511e25b48211ab384b13122f9bd4339b18487a2d5f4d2bf",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/navigation/artifact-catalog.md": "sha256:29d1ab615eec11ff4f00dee9c74da23d6de0dad9408b5a6f07fbaf4b9d857d3f",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/navigation/source-of-truth-map.md": "sha256:6e10c9a4092143b418e0a68fb61078eb74998c80523e1e9fcbd5f7a7a591779a",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/proposal.yml": "sha256:049dd10b1ccb75cc67b95af75630e75b4b7730b7de2e9c2bfd09bf4578a3b339",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-grade-completeness-review.md": "sha256:994bf77d3afe94fd78448c90e6cb46473d7604e41ef466dad595a72cc1c268dc",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-review.md": "sha256:8dbb24d869cd393adf0625acd75dfd00f8de3c8b48ed964fc93170689224598c"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy",
+    ".octon/state/evidence/runs/workflows/20260620T041705Z-proposal-program-delivery-operator-free-packet-lifecycle-autonomy/proposal-program-delivery-receipt.yml",
+    ".octon/state/evidence/local/terminal-closeout/operator-free-packet-lifecycle-autonomy-delivery-20260620T041705Z/",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-review.md"
+  ],
+  "status": "accepted"
+}

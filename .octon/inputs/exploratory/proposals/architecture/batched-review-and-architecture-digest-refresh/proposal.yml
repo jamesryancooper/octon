@@ -1,0 +1,52 @@
+schema_version: proposal-v1
+proposal_id: batched-review-and-architecture-digest-refresh
+title: Batched Review And Architecture Digest Refresh
+summary: Batch digest refresh after phase-stable mutations and provide deterministic stale-cause diagnostics.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+- ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+- ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+- ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
+status: accepted
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators pass.
+related_proposals:
+  - operator-free-lifecycle-delivery-autonomy-hardening
+selected_implementation_target: Batch digest refresh after phase-stable mutations and provide deterministic stale-cause diagnostics.
+scope_statement: Review and strict architecture receipts became stale after small support mutations. This child owns only the listed promotion targets and proposal-local evidence for its governed route.
+explicit_runtime_non_implementation_statement: This child packet does not implement durable behavior until a later accepted implementation route.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and local-only evidence remain non-authoritative.
+authority_class_impact:
+  framework: Future implementation may update declared framework targets only.
+  instance: No instance authority changes planned unless a later accepted child revision adds them.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation may define retained evidence or validators for this child only.
+  generated: Generated outputs remain derived-only and must not be hand-edited.
+  inputs: This child packet is non-authoritative proposal lineage.
+evidence_requirements:
+  - Accepted proposal review and implementation authorization before durable edits.
+  - Strict pre-integration architecture review before implementation.
+  - Implementation run, conformance, drift/churn, validation, closeout, and archive receipts after implementation.
+validation_gates:
+- "validate-proposal-standard.sh"
+- "validate-architecture-proposal.sh"
+- "validate-proposal-implementation-readiness.sh"
+- "test-batched-review-digest-refresh.sh"
+- "validate-proposal-review-gate.sh --package <fixture> --require-implementation-authorization"
+- "validate-architectural-review-receipts.sh --receipt <fixture>/support/pre-integration-architecture-review.yml --package <fixture> --mode pre-integration-architecture-review --require-pass"
+acceptance_criteria_summary: Review refresh can be deferred until an authorized phase reaches a stable digest boundary.
+risk_posture: Medium. Batching must not allow stale review evidence through active mutation gates.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+owner:
+  role: Octon lifecycle child-packet architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-20
+source_lineage:
+  - .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy
+  - .octon/state/evidence/runs/workflows/20260620T041705Z-proposal-program-delivery-operator-free-packet-lifecycle-autonomy/proposal-program-delivery-receipt.yml
+  - .octon/state/evidence/local/terminal-closeout/operator-free-packet-lifecycle-autonomy-delivery-20260620T041705Z/
+  - .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening
