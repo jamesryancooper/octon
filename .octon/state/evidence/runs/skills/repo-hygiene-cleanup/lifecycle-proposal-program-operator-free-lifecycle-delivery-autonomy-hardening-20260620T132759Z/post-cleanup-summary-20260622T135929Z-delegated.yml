@@ -1,0 +1,15 @@
+summary:
+  mode: dry-run
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 1015
+  manual_review: 162
+  git_status_digest: sha256:fc9de806ed91549791291bc84304c52ae3019a2dcaab22f216722a8e19f8aa62
+  classification_digest: sha256:8c0629ba69c590c10bfe06da410a28bd6b476c5a6bd1e914374e247dcc46395c
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:865ab96ffd65540c01b3943a548c3fe7387e8e7c279fcc6da3d8a25e33301492
+  manual_review_paths_digest: sha256:70d92f09eb1ebbe1cb1f54b21044811b726a34441b85d8d8b8e411c4fbc0571a
+status: dry-run-complete
+active_run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+next_command_hint: no cleanup candidates remain; protected and manual-review files are retained

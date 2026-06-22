@@ -6,6 +6,7 @@ use crate::result::{
 use crate::{authorization::now_rfc3339, observer};
 use serde::Serialize;
 use serde_yaml::Value;
+use sha2::{Digest, Sha256};
 use std::fs;
 use std::fs::File;
 use std::path::{Path, PathBuf};
@@ -14,6 +15,8 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 const OBSERVATION_INTERVAL: Duration = Duration::from_secs(1);
+const MAX_WORKFLOW_RUN_ID_LEN: usize = 128;
+const COMPACT_WORKFLOW_RUN_ID_HASH_LEN: usize = 16;
 
 pub fn render_workflow_leaf_prompt(
     repo_root: &Path,
@@ -599,7 +602,62 @@ fn workflow_attempt_evidence_stem(
 }
 
 fn workflow_run_id(request: &LifecycleRouteExecutionRequest, attempt_ordinal: u32) -> String {
-    format!("{}-attempt-{attempt_ordinal}-workflow", request.run_id)
+    let requested = format!("{}-attempt-{attempt_ordinal}-workflow", request.run_id);
+    let canonical = canonical_workflow_run_id(&requested);
+    if canonical.len() <= MAX_WORKFLOW_RUN_ID_LEN {
+        return canonical;
+    }
+    compact_workflow_run_id(&canonical, &requested, attempt_ordinal)
+}
+
+fn canonical_workflow_run_id(input: &str) -> String {
+    let mut out = String::with_capacity(input.len());
+    let mut last_was_hyphen = false;
+    for ch in input.chars() {
+        let mapped = if ch.is_ascii_alphanumeric() {
+            ch.to_ascii_lowercase()
+        } else {
+            '-'
+        };
+        if mapped == '-' {
+            if !out.is_empty() && !last_was_hyphen {
+                out.push('-');
+                last_was_hyphen = true;
+            }
+        } else {
+            out.push(mapped);
+            last_was_hyphen = false;
+        }
+    }
+    while out.ends_with('-') {
+        out.pop();
+    }
+    if out.is_empty() {
+        "workflow".to_string()
+    } else {
+        out
+    }
+}
+
+fn compact_workflow_run_id(canonical: &str, requested: &str, attempt_ordinal: u32) -> String {
+    let digest = hex::encode(Sha256::digest(requested.as_bytes()));
+    let suffix = format!(
+        "-attempt-{attempt_ordinal}-workflow-{}",
+        &digest[..COMPACT_WORKFLOW_RUN_ID_HASH_LEN]
+    );
+    let max_prefix_len = MAX_WORKFLOW_RUN_ID_LEN.saturating_sub(suffix.len());
+    let mut prefix = truncate_ascii_id(canonical, max_prefix_len);
+    while prefix.ends_with('-') {
+        prefix.pop();
+    }
+    if prefix.is_empty() {
+        prefix.push_str("workflow");
+    }
+    format!("{prefix}{suffix}")
+}
+
+fn truncate_ascii_id(input: &str, max_len: usize) -> String {
+    input.chars().take(max_len).collect()
 }
 
 fn next_available_workflow_attempt(
@@ -695,6 +753,28 @@ fn archive_pre_dispatch_blocker(
                     receipt.missing_required_fields.join(",")
                 ),
             ));
+        }
+        if receipt_id == "proposal-terminal-closeout" {
+            if receipt.verdict.as_deref() != Some("archive-ready")
+                && receipt.fields.get("terminal_verdict").map(String::as_str)
+                    != Some("archive-ready")
+            {
+                return Some((
+                    "archive-authorization-non-authorizing",
+                    format!(
+                        "required archive dispatch receipt {receipt_id} terminal verdict is not archive-ready"
+                    ),
+                ));
+            }
+            if receipt.fields.get("archive_ready").map(String::as_str) != Some("yes") {
+                return Some((
+                    "archive-authorization-non-authorizing",
+                    format!(
+                        "required archive dispatch receipt {receipt_id} does not mark archive_ready yes"
+                    ),
+                ));
+            }
+            continue;
         }
         if receipt
             .verdict
@@ -976,6 +1056,86 @@ mod tests {
         assert!(blocked.contains("schema_version: octon-lifecycle-archive-blocked-evidence-v1"));
         assert!(blocked.contains("blocker_class: archive-authorization-missing"));
         assert!(blocked.contains("completion_observed: false"));
+    }
+
+    fn receipt(
+        receipt_id: &str,
+        verdict: Option<&str>,
+        fields: &[(&str, &str)],
+    ) -> ReceiptObservation {
+        ReceiptObservation {
+            receipt_id: receipt_id.to_string(),
+            path: PathBuf::from(format!("support/{receipt_id}.yml")),
+            exists: true,
+            complete: true,
+            verdict: verdict.map(str::to_string),
+            missing_required_fields: Vec::new(),
+            fields: fields
+                .iter()
+                .map(|(key, value)| ((*key).to_string(), (*value).to_string()))
+                .collect(),
+        }
+    }
+
+    #[test]
+    fn archive_pre_dispatch_accepts_archive_ready_terminal_closeout() {
+        let root = temp_root("archive-ready-terminal-closeout");
+        let mut request = archive_request(&root);
+        request
+            .route
+            .delegation_contract
+            .as_mut()
+            .unwrap()
+            .required_receipts_before_dispatch = vec![
+            "proposal-closeout".to_string(),
+            "proposal-terminal-closeout".to_string(),
+        ];
+
+        let blocker = archive_pre_dispatch_blocker(
+            &request,
+            &[
+                receipt(
+                    "proposal-closeout",
+                    Some("pass"),
+                    &[("archive_authorized", "yes")],
+                ),
+                receipt(
+                    "proposal-terminal-closeout",
+                    Some("archive-ready"),
+                    &[
+                        ("terminal_verdict", "archive-ready"),
+                        ("archive_ready", "yes"),
+                    ],
+                ),
+            ],
+        );
+
+        assert!(blocker.is_none());
+    }
+
+    #[test]
+    fn archive_pre_dispatch_rejects_terminal_closeout_without_archive_ready() {
+        let root = temp_root("blocked-terminal-closeout");
+        let mut request = archive_request(&root);
+        request
+            .route
+            .delegation_contract
+            .as_mut()
+            .unwrap()
+            .required_receipts_before_dispatch = vec!["proposal-terminal-closeout".to_string()];
+
+        let blocker = archive_pre_dispatch_blocker(
+            &request,
+            &[receipt(
+                "proposal-terminal-closeout",
+                Some("blocked"),
+                &[("terminal_verdict", "blocked"), ("archive_ready", "no")],
+            )],
+        )
+        .unwrap();
+
+        assert_eq!(blocker.0, "archive-authorization-non-authorizing");
+        assert!(blocker.1.contains("terminal verdict is not archive-ready"));
     }
 
     #[test]

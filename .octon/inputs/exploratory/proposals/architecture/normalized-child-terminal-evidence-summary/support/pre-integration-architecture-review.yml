@@ -1,0 +1,31 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "normalized-child-terminal-evidence-summary-pre-integration-architecture-review-20260622T023523Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary"
+packet_digest: "sha256:fa215e9cfc49c48bc92d0bfcf15ebad20bea5487913bffa63950d7d67a7ecfe8"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/navigation/source-of-truth-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/navigation/artifact-catalog.md"
+  - ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/resources/source-lineage.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict child-local pre-integration review covers normalized child terminal evidence before implementation authorization."
+  target_architecture_fit: "The packet defines terminal evidence normalization without letting parent summaries replace child-owned receipts."
+  authority_boundaries: "Child manifests, validation verdicts, closeout evidence, and archive metadata remain child-owned."
+  evidence_and_validation_plan: "Validation strategy covers readiness projection and child terminal evidence summaries."
+  rollback_and_closeout: "Rollback remains bounded to the child-declared promotion targets and child-owned lifecycle evidence."

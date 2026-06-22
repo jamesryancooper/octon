@@ -104,7 +104,15 @@ Execute the Change Closeout State Machine phase loop from
     `non_authority_classification: retained-evidence-only`; the sink is not
     landing authorization, cleanup authorization, hosted check evidence,
     packet evidence, archive evidence, generated publication evidence,
-    mutation authority, policy authority, or hosted/shared proof. Also retain
+    mutation authority, policy authority, or hosted/shared proof. Record
+    terminal proof only after landing evidence, final local sync proof,
+    cleanup authorization, cleanup disposition, rollback posture, and
+    route-owned validation evidence exist. The receipt must distinguish the
+    recorded `landed_ref` from the terminal proof sink path or receipt path;
+    emitting terminal proof must not require a source-branch commit after
+    landing and must not mutate `origin/main`, local `main`, the landed ref, or
+    the source branch. Missing terminal proof prerequisites downgrades the
+    actual outcome and blocks terminal success or `cleaned` claims. Also retain
     compact structured views when evidence is available:
     `structured-receipt.yml`, `closeout-projection.yml`, optional
     `publication-summary.yml`, and `expanded-report-request.yml`. These views
@@ -119,6 +127,36 @@ Execute the Change Closeout State Machine phase loop from
     branches must cite `correction_branch_aggregate_receipt_ref`.
 13. **Final Report** — Report the actual lifecycle outcome, blockers,
     validation, receipt, cleanup, rollback handle, and final sync.
+
+## Git Mutation Permission Diagnostics
+
+Before retrying a permission-sensitive git mutation that failed or was denied,
+record diagnostic evidence for the blocked operation. This applies to fetch,
+checkout, branch-local commit, branch publication push, hosted landing, final
+sync, branch cleanup, and local or remote branch deletion or pruning.
+
+Each diagnostic record must identify the operation class, current ref and
+target ref when known, expected authorization gate, likely sandbox, host,
+provider, remote, or ref-write blocker, and owning rerun route. Use the
+governed helper rerun path for the same operation when a helper provides one.
+The diagnostic is retained routing evidence only; it does not authorize fetch,
+checkout, commit, push, landing, sync, cleanup, branch deletion, publication,
+closeout, or a `cleaned` claim.
+
+If mutation is blocked, denied, or cannot be proven, preserve the lower actual
+lifecycle outcome and record blocker evidence plus the owning rerun route in
+the schema-allowed receipt or evidence fields, such as landing evaluation,
+cleanup stop reason, stateful phase or escalation refs, validation evidence,
+external blocker refs, or remaining blockers. `runtime_approval_denied` is
+valid only after the relevant governed authorization receipt validates and the
+runtime, sandbox, provider, or host boundary still refuses the mutation.
+
+Hosted no-PR landing still requires governed landing authorization and helper
+validation before mutating `origin/main`. Branch cleanup and local or remote
+branch deletion or pruning still require governed cleanup authorization and
+helper validation before mutating refs. Final sync still requires explicit
+post-fetch and local-sync evidence before `landed` or `cleaned` may be
+claimed.
 
 ## Compact Reporting
 
@@ -246,7 +284,17 @@ approval denial, or cleanup outside a governed route.
   rather than folded into the completed route receipt or emitted as fresh
   publishable residue. Hosted/shared claims still require governed
   authorization receipts, live ref proof, source branch cleanup proof, and
-  publishable evidence where policy requires it.
+  publishable evidence where policy requires it. Terminal proof is route-owned
+  retained evidence emitted after landing, final sync, cleanup authorization,
+  cleanup disposition, rollback posture, and validation proof exist; it may
+  summarize those refs but cannot replace them or authorize mutation.
+- Terminal proof after branch-no-PR landing is not a source-branch commit
+  requirement. Do not write terminal proof by mutating `origin/main`, local
+  `main`, the landed ref, or the source branch. If the proof sink or receipt
+  path cannot be distinguished from `landed_ref`, or if landing, final sync,
+  cleanup authorization, cleanup disposition, rollback posture, or validation
+  proof is missing, report the lower actual outcome with explicit blocker
+  evidence instead of terminal success or `cleaned`.
 - Eligible local Octon run/artifact residue is not branch cleanup. Route it to
   `repo-hygiene-cleanup` and its validating
   `repo-hygiene-cleanup-authorization-v1` receipt flow; generated run-health

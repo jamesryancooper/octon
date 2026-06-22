@@ -1,0 +1,81 @@
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/complete-program-blocker-vector-planner-output-closeout-worktree-return.json
+[ERROR] return receipt missing required keys: remaining_residue
+[ERROR] return receipt has unsupported keys: authority_boundary, evidence_returned, returned_at, source
+[ERROR] outcome missing required keys: blocker, lifecycle_outcome
+[ERROR] outcome has unsupported keys: child_closeout_authority_preserved, cleaned_claim, non_mutating, parent_evidence_replaces_child_evidence, parent_summary_not_child_closeout_receipt, status, target_lifecycle_outcome, worktree_terminal_state
+[ERROR] outcome.lifecycle_outcome invalid
+[ERROR] remaining_residue must be an array
+Validation summary: errors=6
+return_validation: fail
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return-20260621T033211Z.json
+[ERROR] return interaction_id invalid
+Validation summary: errors=1
+return_validation: fail
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T055809Z.json
+[OK] lifecycle interaction receipt validates
+Validation summary: errors=0
+return_validation: pass
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/targeted-proposal-freshness-checks-closeout-packet-closeout-worktree-return-20260622T081624Z.json
+[OK] lifecycle interaction receipt validates
+Validation summary: errors=0
+return_validation: pass
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/targeted-proposal-freshness-checks-route-local-closeout-packet-closeout-worktree-return-20260622T090411Z.json
+[OK] lifecycle interaction receipt validates
+Validation summary: errors=0
+return_validation: pass
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return-20260622T081624Z.json
+[OK] lifecycle interaction receipt validates
+Validation summary: errors=0
+return_validation: pass
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T094401Z.json
+[OK] lifecycle interaction receipt validates
+Validation summary: errors=0
+return_validation: pass
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T131559Z.json
+[ERROR] return receipt has unsupported keys: authority_boundary, classifier_binding, forbidden_actions, request
+Validation summary: errors=1
+return_validation: fail
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return.json
+[ERROR] return receipt missing required keys: remaining_residue
+[ERROR] return receipt has unsupported keys: authority_boundary, producer
+[ERROR] return interaction_id invalid
+[ERROR] consumer has unsupported keys: parent_route_id
+[ERROR] outcome has unsupported keys: cleaned_claim, non_mutating, status
+[ERROR] return_evidence_refs[0] has unsupported keys: schema_version
+[ERROR] remaining_residue must be an array
+Validation summary: errors=7
+return_validation: fail
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/targeted-proposal-freshness-checks-promote-proposal-closeout-worktree-return.json
+[ERROR] return receipt missing required keys: remaining_residue
+[ERROR] return receipt has unsupported keys: authority_boundary, evidence_returned, returned_at, source
+[ERROR] outcome missing required keys: blocker, lifecycle_outcome
+[ERROR] outcome has unsupported keys: blocker_class, child_closeout_authority_preserved, cleaned_claim, next_route_condition, non_mutating, parent_evidence_replaces_child_evidence, parent_summary_not_child_closeout_receipt, status, target_lifecycle_outcome, worktree_terminal_state
+[ERROR] outcome.lifecycle_outcome invalid
+[ERROR] remaining_residue must be an array
+Validation summary: errors=6
+return_validation: fail
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return-20260621T153853Z.json
+[ERROR] return interaction_id invalid
+Validation summary: errors=1
+return_validation: fail
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return.json
+[ERROR] return receipt missing required keys: remaining_residue
+[ERROR] return receipt has unsupported keys: authority_boundary, evidence_returned, returned_at, source
+[ERROR] outcome missing required keys: blocker, lifecycle_outcome
+[ERROR] outcome has unsupported keys: child_closeout_authority_preserved, cleaned_claim, non_mutating, parent_evidence_replaces_child_evidence, parent_summary_not_child_closeout_receipt, status, target_lifecycle_outcome, worktree_terminal_state
+[ERROR] outcome.lifecycle_outcome invalid
+[ERROR] remaining_residue must be an array
+Validation summary: errors=6
+return_validation: fail
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/normalized-child-terminal-evidence-summary-closeout-packet-closeout-worktree-return-20260622T062019Z.json
+[OK] lifecycle interaction receipt validates
+Validation summary: errors=0
+return_validation: pass
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/normalized-child-terminal-evidence-summary-route-local-closeout-packet-closeout-worktree-return-20260622T063706Z.json
+[OK] lifecycle interaction receipt validates
+Validation summary: errors=0
+return_validation: pass
+validating .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T121319Z.json
+[ERROR] return receipt has unsupported keys: authority_boundary, classifier_binding, forbidden_actions, request
+Validation summary: errors=1
+return_validation: fail

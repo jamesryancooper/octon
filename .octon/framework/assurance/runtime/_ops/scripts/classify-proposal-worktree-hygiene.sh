@@ -799,10 +799,14 @@ if [[ "$FOREIGN_COUNT" -gt 0 ]]; then
   VERDICT="blocked"
   BLOCKER_CLASS="worktree-hygiene-blocked"
   NEXT_ROUTE="route through closeout-change or operator scope resolution before proposal archive authorization"
+  HANDOFF_ROUTE="closeout-worktree"
+  HANDOFF_REQUIRED="true"
 else
   VERDICT="pass"
   BLOCKER_CLASS=""
   NEXT_ROUTE="continue proposal closeout validation and archive authorization checks"
+  HANDOFF_ROUTE=""
+  HANDOFF_REQUIRED="false"
 fi
 
 printf 'schema_version: "octon-proposal-worktree-hygiene-v1"\n'
@@ -830,6 +834,13 @@ printf 'worktree_hygiene_manual_review_path_count: %s\n' "$MANUAL_REVIEW_COUNT"
 printf 'worktree_hygiene_foreign_fingerprint: "%s"\n' "$FOREIGN_FINGERPRINT"
 printf 'worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"\n'
 printf 'worktree_hygiene_partition_authority: "classification-only; does not authorize deletion, cleanup, publication, promotion, archive, closeout, or cleaned claims"\n'
+printf 'worktree_hygiene_handoff_required: "%s"\n' "$HANDOFF_REQUIRED"
+printf 'worktree_hygiene_handoff_route: '
+yaml_quote "$HANDOFF_ROUTE"
+printf '\n'
+printf 'worktree_hygiene_required_return_evidence: "closeout-worktree-report-v1"\n'
+printf 'parent_summary_not_child_closeout_receipt: "true"\n'
+printf 'child_closeout_authority_preserved: "true"\n'
 printf 'next_route_condition: '
 yaml_quote "$NEXT_ROUTE"
 printf '\n'

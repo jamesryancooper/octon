@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/context/context-pack.json
+context_pack_sha256: sha256:e3c462379c5adf65949f216a73d381b162bdf1cce94ed02d09f4d2f19125e4d1
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/context/model-visible-context.json
+model_visible_context_sha256: sha256:6e43ac94c5b6baef8839f40c785b4b04c25a82dbfe526f7c62e4704f12803935
+receipt_sha256: sha256:745066fedd55a82338c6ad09aeef39274ca5969b266fe2adb406afff12632f76
+route_id: closeout-packet
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-targeted-proposal-freshness-checks
+schema_version: active-context-pack-v1
+updated_at: 2026-06-22T08:54:24.033846Z
+validity_state: valid

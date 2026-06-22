@@ -55,6 +55,8 @@ make_fixture() {
     "$child/architecture" \
     "$child/resources" \
     "$child/support" \
+    "$parent/architecture" \
+    "$parent/navigation" \
     "$parent/resources"
 
   write_file "$parent/resources/child-packet-index.yml" \
@@ -62,6 +64,38 @@ make_fixture() {
     'children:' \
     '  - child_id: fixture-child' \
     '    path: .octon/inputs/exploratory/proposals/architecture/fixture-child'
+
+  write_file "$parent/proposal.yml" \
+    'schema_version: proposal-v1' \
+    'proposal_id: fixture-program' \
+    'title: Fixture Program' \
+    'summary: Fixture parent program.' \
+    'proposal_kind: architecture' \
+    'promotion_scope: octon-internal' \
+    'release_state: pre-1.0' \
+    'change_profile: atomic' \
+    'promotion_targets:' \
+    '  - .octon/framework/assurance/runtime/_ops/scripts/' \
+    'status: accepted' \
+    'lifecycle:' \
+    '  temporary: true' \
+    '  exit_expectation: Parent fixture lifecycle.' \
+    'related_proposals: []'
+
+  write_file "$parent/architecture-proposal.yml" \
+    'schema_version: architecture-proposal-v1' \
+    'proposal_id: fixture-program' \
+    'title: Fixture Program' \
+    'architecture_scope: repo-architecture' \
+    'decision_type: boundary-change' \
+    'status: accepted'
+
+  write_file "$parent/README.md" '# Fixture Program'
+  write_file "$parent/navigation/source-of-truth-map.md" '# Source Map'
+  write_file "$parent/navigation/artifact-catalog.md" '# Artifact Catalog'
+  write_file "$parent/architecture/target-architecture.md" '# Target'
+  write_file "$parent/architecture/implementation-plan.md" '# Plan'
+  write_file "$parent/architecture/acceptance-criteria.md" '# Acceptance'
 
   write_file "$child/proposal.yml" \
     'schema_version: proposal-v1' \

@@ -1,0 +1,824 @@
+---
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+target: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening"
+generated_at: '2026-06-21T20:52:00Z'
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+observed_change_set_count: 1
+initial_inventory_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T2052Z.yml"
+residue_classification_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T2052Z.yml"
+final_inventory_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T2052Z.yml"
+repo_hygiene_cleanup_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T202751Z.yml"
+repo_hygiene_cleanup_authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T202751Z.json"
+repo_hygiene_cleanup_outcome: delegated-cleaned
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+selected_candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+candidates:
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  disposition: foreign
+  residue_routing_class: foreign_manual_review
+  ownership: parent foreign/manual residue outside child-owned closeout authority;
+    preserved for later legal closeout
+  route_hint: closeout-worktree
+  target_lifecycle_outcome: preserved-retained-residue
+  rollback_or_discard_posture: preserve only; no deletion, reset, staging, archive,
+    publication, branch cleanup, git mutation, or cleaned claim authorized
+  boundaries:
+    include_paths: &1
+    - ".codex/skills/closeout-change/SKILL.md"
+    - ".codex/skills/closeout-change/references/io-contract.md"
+    - ".codex/skills/closeout-change/references/phases.md"
+    - ".codex/skills/closeout-change/references/safety.md"
+    - ".codex/skills/closeout-change/references/validation.md"
+    - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
+    - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+    - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml"
+    - ".octon/generated/proposals/artifacts/architecture/complete-program-blocker-vector-planner-output/proposal-artifact-index.yml"
+    - ".octon/generated/proposals/artifacts/architecture/complete-program-blocker-vector-planner-output/proposal-program-spine.yml"
+    - ".octon/generated/proposals/artifacts/architecture/lifecycle-validator-runtime-resolver/proposal-artifact-index.yml"
+    - ".octon/generated/proposals/artifacts/architecture/lifecycle-validator-runtime-resolver/proposal-program-spine.yml"
+    - ".octon/generated/proposals/registry.yml"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md"
+    - ".octon/state/control/extensions/active.yml"
+    - ".octon/state/control/extensions/quarantine.yml"
+    - ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260620T135200Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260620T1849Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260620T2110Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T013249Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T023926Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T034559Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T041954Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T161213Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T170536Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T172724Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T180846Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T191921Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T200726Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T202751Z.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization.json"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260620T1852Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260620T2111Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T013249Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T024145Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T034731Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T153549Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T161213Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T170536Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T172724Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T180846Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T191921Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T200726Z.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T202751Z.yml"
+    - ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return.json"
+    - ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T2052Z.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-20-proposal-packet-terminal-closeout-6.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-20-proposal-packet-terminal-closeout-7.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-20T17-51-31Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-20T18-52-45Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-20T19-05-05Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-20T21-12-00Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-1.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-2.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-3.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-4.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-5.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-6.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-7.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-8.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-9.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout.md"
+    - ".octon/state/evidence/validation/analysis/2026-06-21T01-53-22Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-21T03-32-11Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-21T15-38-53Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-21T17-38-00Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+    - ".octon/state/evidence/validation/analysis/2026-06-21T20-52-00Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+    - ".octon/state/evidence/validation/compatibility/extensions/2026-06-20T19-37-13Z-extensions-e539e7c8b239.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-cleanup-lifecycle-residue.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml"
+    - ".octon/state/evidence/validation/publication/capabilities/2026-06-20T19-40-47Z-pack-routes-3d2cc4bb7870.yml"
+    - ".octon/state/evidence/validation/publication/capabilities/2026-06-21T17-20-16Z-capabilities-f90327516d12.yml"
+    - ".octon/state/evidence/validation/publication/extensions/2026-06-20T19-37-13Z-extensions-e539e7c8b239.yml"
+    - ".octon/state/evidence/validation/publication/runtime/2026-06-20T19-40-57Z-runtime-route-bundle-d832aab6f332.yml"
+    - ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+    exclude_paths:
+    - ".octon/inputs/exploratory/proposals/architecture/complete-program-blocker-vector-planner-output/support/proposal-closeout.md"
+    - ".octon/inputs/exploratory/proposals/architecture/complete-program-blocker-vector-planner-output/support/proposal-terminal-closeout.yml"
+    - ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/complete-program-blocker-vector-planner-output"
+  proposal_program_parent_handoff_authorization:
+    authorization_grant: operator-authorized-parent-residue-preserve-and-exclude-for-lifecycle-closeout
+    continuity_authorization_grant: operator-authorized-cleanup-helper-residue-disposition-continuity
+    program_run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+    parent_route_id: cleanup-lifecycle-residue
+    cleanup_receipt_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T202751Z.yml"
+    cleanup_receipt_digest: sha256:419f3f151c33e4912cddce08b990a3cc784148a0c2f0fbeeca49f46befdedaad
+    classifier_output_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T2052Z.yml"
+    classifier_output_digest: sha256:61eb28351c0fbef3a8e29f7ac9a336407823cd992291499963bd4dcb0e3c08df
+    authorized_foreign_fingerprint: sha256:2729233c431903088d200eac91a0fc850b2260f94dc9de56a64e26e35e5e737f
+    foreign_fingerprint: sha256:2729233c431903088d200eac91a0fc850b2260f94dc9de56a64e26e35e5e737f
+    authorized_paths: *1
+    disposition: preserve-and-exclude-from-lifecycle-closeout-blocking
+    outside_child_owned_closeout_authority: true
+    separately_partitioned_for_later_legal_closeout: true
+    non_mutating: true
+    preserve_and_exclude_from_lifecycle_closeout_blocking: true
+    parent_summary_not_child_closeout_receipt: true
+    child_closeout_authority_preserved: true
+    parent_evidence_replaces_child_evidence: false
+    forbidden_actions:
+      deletion: false
+      reset: false
+      staging: false
+      commit: false
+      push: false
+      publication: false
+      archive: false
+      branch_cleanup: false
+      git_ref_mutation: false
+      cleaned_claim: false
+iterations: []
+final_candidate_dispositions:
+  parent-terminal-closeout-residue-20260621T2052Z:
+    state: foreign
+retained_residue:
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".codex/skills/closeout-change/SKILL.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".codex/skills/closeout-change/references/io-contract.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".codex/skills/closeout-change/references/phases.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".codex/skills/closeout-change/references/safety.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".codex/skills/closeout-change/references/validation.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/generated/proposals/artifacts/architecture/complete-program-blocker-vector-planner-output/proposal-artifact-index.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/generated/proposals/artifacts/architecture/complete-program-blocker-vector-planner-output/proposal-program-spine.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/generated/proposals/artifacts/architecture/lifecycle-validator-runtime-resolver/proposal-artifact-index.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/generated/proposals/artifacts/architecture/lifecycle-validator-runtime-resolver/proposal-program-spine.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/generated/proposals/registry.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/control/extensions/active.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/control/extensions/quarantine.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260620T135200Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260620T1849Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260620T2110Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T013249Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T023926Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T034559Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T041954Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T161213Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T170536Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T172724Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T180846Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T191921Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T200726Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T202751Z.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260620T1852Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260620T2111Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T013249Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T024145Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T034731Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T153549Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T161213Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T170536Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T172724Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T180846Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T191921Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T200726Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-receipt-20260621T202751Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return.json"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260621T2052Z.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-20-proposal-packet-terminal-closeout-6.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-20-proposal-packet-terminal-closeout-7.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-20T17-51-31Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-20T18-52-45Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-20T19-05-05Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-complete-program-blocker-vector-planner-output.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-20T21-12-00Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-1.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-2.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-3.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-4.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-5.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-6.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-7.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-8.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout-9.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21-proposal-packet-terminal-closeout.md"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21T01-53-22Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21T03-32-11Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21T15-38-53Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21T17-38-00Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/analysis/2026-06-21T20-52-00Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/compatibility/extensions/2026-06-20T19-37-13Z-extensions-e539e7c8b239.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-cleanup-lifecycle-residue.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-20T19-37-13Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/publication/capabilities/2026-06-20T19-40-47Z-pack-routes-3d2cc4bb7870.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/publication/capabilities/2026-06-21T17-20-16Z-capabilities-f90327516d12.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/publication/extensions/2026-06-20T19-37-13Z-extensions-e539e7c8b239.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/publication/runtime/2026-06-20T19-40-57Z-runtime-route-bundle-d832aab6f332.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+- candidate_id: parent-terminal-closeout-residue-20260621T2052Z
+  path: ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+  disposition: foreign/manual parent residue preserved and excluded from lifecycle
+    closeout blocking; no deletion, reset, staging, commit, push, publication, archive,
+    branch cleanup, git mutation, or cleaned claim authorized
+blockers: []
+final_residue_classes:
+  ignored: 0
+  foreign_manual_review: 123
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program lifecycle closeout with child authority
+  preserved; no cleaned claim
+authority_boundary:
+  parent_summary_not_child_closeout_receipt: true
+  child_closeout_authority_preserved: true
+  parent_evidence_replaces_child_evidence: false

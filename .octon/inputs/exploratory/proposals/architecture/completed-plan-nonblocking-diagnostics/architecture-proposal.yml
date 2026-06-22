@@ -1,0 +1,16 @@
+schema_version: architecture-proposal-v1
+architecture_scope: planner-diagnostics
+decision_type: boundary-change
+status: draft
+owner: Octon lifecycle child-packet architect
+created_date: 2026-06-20
+summary: Move irrelevant stale receipt data into compact nonblocking diagnostics when final_verdict is completed.
+architecture_drivers:
+  - Completed archived parent plans showed stale nonblocking receipt digests as if they were actionable.
+  - Preserve Octon fail-closed governance and child-owned evidence.
+  - Reduce repeated operator intervention only where deterministic governed recovery is safe.
+constraints:
+  - Do not implement durable behavior in this proposal creation route.
+  - Do not widen promotion targets silently.
+  - Do not weaken validators or generated-output non-authority.
+  - Preserve explicit authorization for material side effects.

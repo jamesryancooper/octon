@@ -1,0 +1,50 @@
+schema_version: closeout-packet-validation-summary-v1
+run_id: "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver"
+program_run_id: "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver"
+recorded_at: "2026-06-22T13:24:28Z"
+checks:
+  - name: "proposal-standard"
+    exit_code: 0
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/proposal-standard.log"
+    log_sha256: "sha256:b441298d1e41e05cee969f5b52028c28c25c8637fe31c15dd18b45cfc6c9f99e"
+  - name: "architecture-proposal"
+    exit_code: 0
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/architecture-proposal.log"
+    log_sha256: "sha256:79c13a31b9a10dc5dec44eabc32721d645d80d21a7921c1bd733beb0c038b45f"
+  - name: "implementation-readiness"
+    exit_code: 0
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/implementation-readiness.log"
+    log_sha256: "sha256:5f564abe736d2f7c284a98493aa53f3a9bb6965b72c5136f6d7e31f25617d24e"
+  - name: "proposal-review-gate"
+    exit_code: 0
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/proposal-review-gate.log"
+    log_sha256: "sha256:1fd0ac39f02bc81f98a4f0fc37e655249f592ee1883c3b0901e250eca0c26c28"
+  - name: "implementation-conformance"
+    exit_code: 0
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/implementation-conformance.log"
+    log_sha256: "sha256:5e58a6c30200c47418f80be1c54c6cc721c2e898155c0c6aa7727bdc48a493a3"
+  - name: "post-implementation-drift"
+    exit_code: 0
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/post-implementation-drift.log"
+    log_sha256: "sha256:f7ba1e93d617acb12fbfdf7242cfcdafe2f43231469ee845a581a913e3b14f9e"
+  - name: "governed-mechanism-integration"
+    exit_code: 0
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/governed-mechanism-integration.log"
+    log_sha256: "sha256:cfd65a5cec34576b0834b09a2c14d77acf2786fedbb254d30bab52cab0bfc135"
+  - name: "terminal-freshness"
+    exit_code: 1
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/terminal-freshness.log"
+    log_sha256: "sha256:6cf80a75acc9391eb7c0564ed3bc9fa49468e5e67dd80c459127a1c8a306da0b"
+  - name: "closeout-worktree-wrapper"
+    exit_code: 1
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/closeout-worktree-wrapper.log"
+    log_sha256: "sha256:17d25d4dbf846971f097607847b96834d74bd1d83c33d4a60c6c46ddc9533e68"
+  - name: "lifecycle-return-receipts"
+    exit_code: 1
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/lifecycle-return-receipts.log"
+    log_sha256: "sha256:9b9a62d006cf85e79200bc9420d7d97af28e82a68720e773d8830b72cdc015e1"
+  - name: "worktree-hygiene"
+    exit_code: 0
+    log_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver/2026-06-22T13-23-51Z/worktree-hygiene.yml"
+    log_sha256: "sha256:edbaad85b976d6bf2fe5e246263c1186687a4f03f91be922e40396c82b24fc5d"

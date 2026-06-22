@@ -1,0 +1,44 @@
+schema_version: compact-validator-log-v1
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-normalized-child-terminal-evidence-summary
+proposal_path: .octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary
+recorded_at: 2026-06-22T01:59:54Z
+cwd: /Users/jamesryancooper/Projects/octon
+non_authority_classification: retained-validation-evidence-only
+entries:
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary --skip-registry-check"
+    runtime: bash
+    exit_code: 0
+    evidence_class: architecture-or-placement-proof
+    bounded_excerpt: "Validation summary: errors=0 warnings=2"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary"
+    runtime: bash
+    exit_code: 0
+    evidence_class: architecture-or-placement-proof
+    bounded_excerpt: "Validation summary: errors=0 warnings=0"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary"
+    runtime: bash
+    exit_code: 0
+    evidence_class: boundary-proof
+    bounded_excerpt: "Validation summary: errors=0 warnings=0"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary --require-implementation-authorization"
+    runtime: bash
+    exit_code: 0
+    evidence_class: authority-boundary-proof
+    bounded_excerpt: "Validation summary: errors=0 warnings=0"
+  - command: "cargo test --manifest-path .octon/framework/engine/runtime/crates/kernel/Cargo.toml archived_implemented_child_terminal_evidence_replaces_legacy_run_receipt_repair"
+    runtime: cargo
+    exit_code: 0
+    evidence_class: behavior-proof
+    bounded_excerpt: "1 passed; archived implemented child terminal evidence avoids legacy receipt repair"
+  - command: "cargo test --manifest-path .octon/framework/engine/runtime/crates/kernel/Cargo.toml active_implemented_child_still_requires_strict_implementation_run_fields"
+    runtime: cargo
+    exit_code: 0
+    evidence_class: negative-control-proof
+    bounded_excerpt: "1 passed; active implemented child still fails closed on incomplete implementation-run fields"
+known_warnings:
+  - "Existing deprecation warnings in kernel/src/pipeline.rs and kernel/src/workflow.rs for time::format_description::parse."
+authority_boundary:
+  proposal_inputs_authorize_runtime: false
+  generated_outputs_authorize_runtime: false
+  parent_summary_satisfies_child_receipts: false
+  retained_evidence_authorizes_execution: false

@@ -11,6 +11,7 @@ use octon_lifecycle_executor::{
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
+use std::ffi::OsString;
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -69,8 +70,11 @@ const OPERATION_CLASS_PROGRAM_RECOVERY_ACTION: &str = "program-recovery-action";
 const OPERATION_CLASS_CLOSEOUT_READINESS: &str = "closeout-readiness";
 const ROUTE_ID_PROMOTE_PROPOSAL: &str = "promote-proposal";
 const ROUTE_ID_ARCHIVE_PROPOSAL: &str = "archive-proposal";
+const ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT: &str = "proposal-packet-terminal-closeout";
 const ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE: &str = "cleanup-lifecycle-residue";
 const RECEIPT_ID_PROPOSAL_REVIEW: &str = "proposal-review";
+const RECEIPT_ID_PROPOSAL_CLOSEOUT: &str = "proposal-closeout";
+const RECEIPT_ID_PROPOSAL_TERMINAL_CLOSEOUT: &str = "proposal-terminal-closeout";
 const RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_PROMPT: &str =
     "program-implementation-orchestration-prompt";
 const RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN: &str =
@@ -84,9 +88,21 @@ const RECEIPT_ID_IMPLEMENTATION_CONFORMANCE: &str = "implementation-conformance"
 const RECEIPT_ID_POST_IMPLEMENTATION_DRIFT: &str = "post-implementation-drift";
 const FIELD_CHILD_AUTHORITY_PRESERVED: &str = "child_authority_preserved";
 const INPUT_PROMOTION_EVIDENCE: &str = "promotion_evidence";
+const INPUT_TARGET_OUTCOME: &str = "target_outcome";
+const INPUT_LIFECYCLE_INTERACTION_RETURN_REFS: &str = "lifecycle_interaction_return_refs";
+const INPUT_PROGRAM_CHILD_CLOSEOUT_WORKTREE_REPORT_REF: &str =
+    "program_child_closeout_worktree_report_ref";
+const INPUT_PROGRAM_CHILD_WORKTREE_HYGIENE_CLASSIFIER_REF: &str =
+    "program_child_worktree_hygiene_classifier_ref";
+const INPUT_PROGRAM_CHILD_WORKTREE_HYGIENE_FOREIGN_FINGERPRINT: &str =
+    "program_child_worktree_hygiene_foreign_fingerprint";
 const PROGRAM_HANDOFF_PROFILE_ID: &str = "program-child-batch-handoff";
 const LIFECYCLE_INTERACTION_REQUEST_SCHEMA: &str = "lifecycle-interaction-request-v1";
 const LIFECYCLE_INTERACTION_RETURN_SCHEMA: &str = "lifecycle-interaction-return-v1";
+const CLOSEOUT_WORKTREE_REPORT_SCHEMA: &str = "closeout-worktree-report-v1";
+const PROGRAM_WORKTREE_BASELINE_FILE: &str = "worktree-baseline.yml";
+const INPUT_WORKTREE_BASELINE_LEASE: &str = "worktree_baseline_lease";
+const INPUT_WORKTREE_BASELINE_LEASE_PATHS: &str = "worktree_baseline_lease_paths";
 const PROGRAM_RECOVERY_RUN_HEALTH_EVIDENCE_ROOT_REL: &str =
     ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health";
 const APPROVAL_POSTURE_PRE_GRANTED: &str = "pre-granted";
@@ -97,6 +113,7 @@ const BLOCKER_AUTHORITY_ZONE_AMBIGUOUS: &str = "authority-zone-ambiguous";
 const BLOCKER_DURABLE_AUTHORITY_APPROVAL_REQUIRED: &str = "scope-expansion";
 const BLOCKER_PROTECTED_ARTIFACT_APPROVAL_REQUIRED: &str = "scope-expansion";
 const BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED: &str = "lifecycle-residue-cleanup-needed";
+const BLOCKER_PLANNER_STALE_REPLAN_LOOP: &str = "planner-stale-state/replan-loop";
 const UNKNOWN_RESIDUE_FINGERPRINT: &str = "unknown";
 const PROGRAM_HANDOFF_EXCLUDE_PATHS: &[&str] = &[
     ".git",
@@ -196,6 +213,9 @@ struct ProgramChildSpec {
     #[serde(default)]
     #[serde(skip_serializing_if = "Vec::is_empty")]
     parent_contract_refs: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    evidence_index_refs: Vec<String>,
     #[serde(default)]
     #[serde(skip_serializing_if = "Vec::is_empty")]
     readiness_requirements: Vec<ProgramChildReadinessRequirement>,
@@ -370,6 +390,9 @@ pub(crate) struct ProgramChildPlanState {
     #[serde(default)]
     pub receipt_digests: BTreeMap<String, String>,
     #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terminal_evidence_summary: Option<ProgramChildTerminalEvidenceSummary>,
+    #[serde(default)]
     pub gate_status: ProgramChildGateStatus,
     #[serde(default)]
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
@@ -379,6 +402,76 @@ pub(crate) struct ProgramChildPlanState {
     #[serde(default)]
     pub blockers: Vec<ProgramBlocker>,
     pub final_verdict: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub(crate) struct ProgramChildTerminalEvidenceSummary {
+    pub schema_version: String,
+    pub child_id: String,
+    pub child_lifecycle_id: String,
+    pub child_target: String,
+    pub required: bool,
+    pub deferred: bool,
+    pub final_verdict: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub selected_route: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terminal_outcome: Option<String>,
+    pub child_terminal_state: String,
+    pub blocker_state: String,
+    pub evidence_status: ProgramChildTerminalEvidenceStatus,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub source_refs: Vec<ProgramChildTerminalEvidenceSourceRef>,
+    pub freshness: ProgramChildTerminalEvidenceFreshness,
+    pub authority_boundaries: ProgramChildTerminalEvidenceAuthorityBoundaries,
+    pub non_authority_classification: String,
+    pub failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub(crate) struct ProgramChildTerminalEvidenceStatus {
+    pub active_implemented: bool,
+    pub archived_implemented: bool,
+    pub rejected_terminal: bool,
+    pub non_terminal: bool,
+    pub implementation_run: String,
+    pub implementation_conformance: String,
+    pub post_implementation_drift_churn: String,
+    pub proposal_closeout: String,
+    pub terminal_closeout: String,
+    pub validation: String,
+    pub archive_metadata: String,
+    pub promotion_evidence: String,
+    pub retained_evidence_index: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub(crate) struct ProgramChildTerminalEvidenceSourceRef {
+    pub role: String,
+    pub path: String,
+    pub digest: String,
+    pub status: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub(crate) struct ProgramChildTerminalEvidenceFreshness {
+    pub source_digest_required: bool,
+    pub stale_behavior: String,
+    pub missing_source_behavior: String,
+    pub digest_mismatch_behavior: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub(crate) struct ProgramChildTerminalEvidenceAuthorityBoundaries {
+    pub parent_summary_satisfies_child_receipts: bool,
+    pub parent_evidence_replaces_child_evidence: bool,
+    pub proposal_inputs_authorize_terminal_readiness: bool,
+    pub generated_outputs_authorize_terminal_readiness: bool,
+    pub retained_evidence_authorizes_execution: bool,
+    pub retained_evidence_is_evidence_only: bool,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize, PartialEq, Eq)]
@@ -723,6 +816,77 @@ struct ChildPromotionEvidenceBlockerEvidence {
     recorded_at: String,
 }
 
+#[derive(Clone, Debug)]
+struct ChildTerminalTargetOutcomeBinding {
+    run_inputs: BTreeMap<String, String>,
+    target_outcome: String,
+    source_receipt_ref: String,
+    source_receipt_digest: String,
+    binding_evidence_ref: String,
+    parent_run_inputs_unchanged: bool,
+}
+
+#[derive(Clone, Debug)]
+enum ChildTerminalTargetOutcomePreflight {
+    Bound(ChildTerminalTargetOutcomeBinding),
+    Blocked(ProgramChildExecutionSummary),
+}
+
+#[derive(Clone, Debug)]
+struct TerminalTargetOutcomeBindingFailure {
+    blocker_class: String,
+    message: String,
+    source_receipt_ref: String,
+    source_receipt_digest: String,
+    observed_fields: BTreeMap<String, String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ChildTerminalTargetOutcomeBindingEvidence {
+    schema_version: String,
+    program_run_id: String,
+    child_id: String,
+    child_target: String,
+    route_id: String,
+    target_outcome: String,
+    source_receipt_ref: String,
+    source_receipt_digest: String,
+    expected_receipt_digest: String,
+    registry_digest: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    write_scope_digest: Option<String>,
+    authority_zone_decision_ref: String,
+    parent_run_inputs_unchanged: bool,
+    parent_summary_not_child_closeout_receipt: bool,
+    child_closeout_authority_preserved: bool,
+    parent_evidence_replaces_child_evidence: bool,
+    route_scoped_child_input_only: bool,
+    recorded_at: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ChildTerminalTargetOutcomeBindingBlockerEvidence {
+    schema_version: String,
+    program_run_id: String,
+    child_id: String,
+    child_target: String,
+    route_id: String,
+    blocker_class: String,
+    message: String,
+    source_receipt_ref: String,
+    source_receipt_digest: String,
+    observed_fields: BTreeMap<String, String>,
+    registry_digest: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    write_scope_digest: Option<String>,
+    authority_zone_decision_ref: String,
+    authority_boundary: String,
+    next_required_action: String,
+    recorded_at: String,
+}
+
 #[derive(Clone, Debug, Default)]
 struct ProgramRecoveryRecipeValidationEvidence {
     status: Option<String>,
@@ -938,6 +1102,9 @@ struct ProgramPlannerState {
     scheduler_phase: Option<String>,
     route_decision: ProgramContextRouteDecision,
     runnable_batch: Vec<String>,
+    blocker_vector: Vec<ProgramBlockerVectorEntry>,
+    diagnostics: Vec<ProgramPlannerDiagnostic>,
+    route_ready: ProgramRouteReadyState,
     blocker_counts: BTreeMap<String, usize>,
     child_states: Vec<ProgramPlannerChildState>,
     source_refs: Vec<ProgramCompactSourceRef>,
@@ -976,6 +1143,9 @@ struct ProgramContextCapsule {
     dependency_vector: Vec<ProgramContextDependency>,
     runnable_batch: Vec<String>,
     blockers: Vec<ProgramContextBlocker>,
+    blocker_vector: Vec<ProgramBlockerVectorEntry>,
+    diagnostics: Vec<ProgramPlannerDiagnostic>,
+    route_ready: ProgramRouteReadyState,
     route_decision: ProgramContextRouteDecision,
     key_digests: BTreeMap<String, String>,
     evidence_refs: Vec<String>,
@@ -1021,6 +1191,48 @@ struct ProgramContextBlocker {
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     recovery_route: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramBlockerVectorEntry {
+    scope: String,
+    concern_scope: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    route_id: Option<String>,
+    blocker_class: String,
+    message: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    recovery_route: Option<String>,
+    actionable: bool,
+    disposition: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramPlannerDiagnostic {
+    scope: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    diagnostic_class: String,
+    message: String,
+    blocks_next_route: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteReadyState {
+    parent_route_ready: bool,
+    child_batch_ready: bool,
+    no_dispatch_ready: bool,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    selected_parent_route: Option<String>,
+    selected_children: Vec<String>,
+    explanation: String,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -1451,6 +1663,15 @@ struct ProgramResidueCleanupAttempt {
     evidence_paths: Vec<String>,
 }
 
+#[derive(Clone, Debug)]
+struct ProgramParentRouteReplanLoopBlocker {
+    route_id: String,
+    previous_start_event_index: u64,
+    repeated_start_count: usize,
+    blocker_fingerprint: String,
+    route_evidence_fingerprint: String,
+}
+
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 struct ProgramLifecycleCheckpoint {
     schema_version: String,
@@ -1490,6 +1711,9 @@ struct ProgramLifecycleCheckpoint {
     aggregate_terminal_blockers: Option<ProgramAggregateTerminalBlockersReference>,
     #[serde(default)]
     residue_cleanup_attempts: BTreeMap<String, ProgramResidueCleanupAttempt>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    worktree_baseline_ref: Option<String>,
     #[serde(default)]
     interaction_request_refs: Vec<String>,
     #[serde(default)]
@@ -2007,6 +2231,25 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
     checkpoint: Option<&ProgramLifecycleCheckpoint>,
     invocation_authority: &str,
 ) -> Result<ProgramLifecyclePlanResult> {
+    let empty_run_inputs = BTreeMap::new();
+    plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
+        octon_dir,
+        lifecycle_id,
+        target,
+        checkpoint,
+        invocation_authority,
+        &empty_run_inputs,
+    )
+}
+
+fn plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
+    octon_dir: &Path,
+    lifecycle_id: &str,
+    target: &Path,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    invocation_authority: &str,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<ProgramLifecyclePlanResult> {
     let repo_root = repo_root_for_octon(octon_dir)?;
     let parent_context = load_program_parent_context(octon_dir, lifecycle_id, target)?;
     let loaded = parent_context.loaded.clone();
@@ -2030,10 +2273,9 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
     let initial_condition_context = LifecycleConditionContext {
         blockers: Vec::new(),
         cleanup_candidates_present,
-        hygiene_preflight_required: Some(program_hygiene_preflight_required_for_target(
-            &repo_root,
+        hygiene_preflight_required: Some(program_hygiene_preflight_required(
             &parent_context.loaded.contract,
-            &parent_context.target_rel,
+            &target_state,
         )?),
     };
     let (mut program_route, mut program_gate_results, mut blocked_by_program_gate) =
@@ -2043,8 +2285,11 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             plan_program_level_route(
                 &repo_root,
                 &parent_context,
+                &target_state,
                 &mut program_blockers,
                 &initial_condition_context,
+                checkpoint.map(|checkpoint| checkpoint.run_id.as_str()),
+                run_inputs,
             )?
         };
 
@@ -2259,6 +2504,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         let mut terminal_outcome = None;
         let mut final_verdict = "deferred".to_string();
         let mut receipt_digests = BTreeMap::new();
+        let mut receipt_states = BTreeMap::new();
         let mut gate_status = ProgramChildGateStatus::default();
         let mut write_scopes = declared_or_default_write_scopes(child, &child_target_rel)?;
 
@@ -2282,7 +2528,20 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                     terminal_outcome = plan.terminal_outcome.clone();
                     final_verdict = plan.final_verdict.clone();
                     receipt_digests = receipt_digest_map(&plan);
+                    receipt_states = plan.receipt_states.clone();
                     gate_status = child_gate_status_from_lifecycle_plan(&plan);
+                    let archive_ready_terminal_closeout =
+                        child_archive_route_ready_after_terminal_closeout(&plan);
+                    if terminal_outcome.is_none() && archive_ready_terminal_closeout {
+                        if let Some(archive_route) = child_route_plan_state(
+                            octon_dir,
+                            &child_lifecycle_id,
+                            ROUTE_ID_ARCHIVE_PROPOSAL,
+                        )? {
+                            selected_route = Some(archive_route);
+                            final_verdict = "route-ready".to_string();
+                        }
+                    }
                     if plan.terminal_outcome.as_deref() != Some("archived") {
                         let worktree_hygiene_blocked =
                             lifecycle_plan_has_worktree_hygiene_blocker(&plan);
@@ -2319,10 +2578,16 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                                 recovery_route: None,
                             });
                         }
+                        let only_review_stale_after_terminal_closeout =
+                            archive_ready_terminal_closeout
+                                && selected_route.as_ref().map(|route| route.route_id.as_str())
+                                    == Some(ROUTE_ID_ARCHIVE_PROPOSAL)
+                                && stale_receipts_are_only(&plan, &[RECEIPT_ID_PROPOSAL_REVIEW]);
                         if plan
                             .receipt_states
                             .values()
                             .any(|receipt| receipt.stale == Some(true))
+                            && !only_review_stale_after_terminal_closeout
                         {
                             blockers.push(ProgramBlocker {
                                 blocker_class: "stale-receipt".to_string(),
@@ -2398,6 +2663,18 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         {
             route_gate_results.clear();
         }
+        let terminal_evidence_summary = normalized_child_terminal_evidence_summary(
+            &repo_root,
+            child,
+            &child_lifecycle_id,
+            &child_target_abs,
+            &child_target_rel,
+            &final_verdict,
+            selected_route.as_ref(),
+            terminal_outcome.as_deref(),
+            &receipt_states,
+            &blockers,
+        );
 
         child_states.insert(
             child.child_id.clone(),
@@ -2419,6 +2696,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 route_gate_results,
                 terminal_outcome,
                 receipt_digests,
+                terminal_evidence_summary: Some(terminal_evidence_summary),
                 gate_status,
                 dependency_gate_status: BTreeMap::new(),
                 write_scopes,
@@ -2432,7 +2710,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
     apply_archive_route_evidence_blockers(octon_dir, &repo_root, &mut child_states, checkpoint)?;
     apply_dependency_blockers(&mut child_states);
     let closeout_hygiene_suppressions =
-        apply_closeout_hygiene_suppressions(&repo_root, checkpoint, &mut child_states)?;
+        apply_closeout_hygiene_suppressions(&repo_root, checkpoint, run_inputs, &mut child_states)?;
     apply_lifecycle_residue_cleanup_blocker(
         &context.loaded.contract,
         program,
@@ -2441,6 +2719,14 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         invocation_authority,
         &mut program_blockers,
     );
+    clear_satisfied_lifecycle_residue_cleanup_blockers(
+        &repo_root,
+        &target_state,
+        checkpoint.map(|checkpoint| checkpoint.run_id.as_str()),
+        run_inputs,
+        cleanup_candidates_present,
+        &mut program_blockers,
+    )?;
     if !program
         .supported_execution_modes
         .iter()
@@ -2481,8 +2767,26 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         &mut program_blockers,
         checkpoint,
     );
-    apply_recovery_progress_blockers(program, &mut child_states, checkpoint);
-    apply_recovery_budget_blockers(program, &mut child_states, checkpoint);
+    apply_recovery_progress_blockers(
+        &repo_root,
+        run_inputs,
+        program,
+        &mut child_states,
+        checkpoint,
+    )?;
+    apply_recovery_budget_blockers(
+        &repo_root,
+        run_inputs,
+        program,
+        &mut child_states,
+        checkpoint,
+    )?;
+    apply_closeout_worktree_handoff_route_unblocks(
+        &repo_root,
+        run_inputs,
+        &mut child_states,
+        checkpoint,
+    )?;
     apply_recovery_approval_blockers(
         program,
         &context.registry_digest,
@@ -2497,6 +2801,25 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         &mut program_blockers,
     );
     apply_recoverable_dispatchability_blockers(program, &mut child_states, &mut program_blockers);
+    let retained_publication_preflight_blocked = apply_retained_publication_freshness_blocker(
+        &repo_root,
+        checkpoint.map(|checkpoint| checkpoint.run_id.as_str()),
+        program,
+        &mut program_blockers,
+    )?;
+    if retained_publication_preflight_blocked
+        && program_route
+            .as_ref()
+            .is_some_and(|route| route.route_id == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        && lifecycle_residue_cleanup_completed_with_zero_candidates(
+            &target_state,
+            cleanup_candidates_present,
+        )
+    {
+        program_route = None;
+        program_gate_results.clear();
+        blocked_by_program_gate = None;
+    }
 
     if program_route.is_none() && terminal_outcome.is_none() {
         let structure_results = run_program_gate_by_id(
@@ -2539,6 +2862,17 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 &program_blockers,
             );
         }
+        if program_route
+            .as_ref()
+            .is_some_and(|route| route.route_id == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+            && lifecycle_residue_cleanup_receipt_requires_closeout_worktree_handoff(
+                &target_state,
+                cleanup_candidates_present,
+            )
+        {
+            program_route = None;
+            retarget_cleanup_redispatch_blockers_to_closeout_worktree(&mut program_blockers);
+        }
         if program_route.is_none() {
             let condition_context = LifecycleConditionContext {
                 blockers: program_blockers
@@ -2548,10 +2882,9 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 cleanup_candidates_present,
                 hygiene_preflight_required: Some(
                     !closeout_hygiene_suppressions.is_empty()
-                        || program_hygiene_preflight_required_for_target(
-                            &repo_root,
+                        || program_hygiene_preflight_required(
                             &context.loaded.contract,
-                            &context.target_rel,
+                            &target_state,
                         )?,
                 ),
             };
@@ -2559,12 +2892,39 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 plan_program_level_route(
                     &repo_root,
                     &parent_context,
+                    &target_state,
                     &mut program_blockers,
                     &condition_context,
+                    checkpoint.map(|checkpoint| checkpoint.run_id.as_str()),
+                    run_inputs,
                 )?;
             if context_route.is_some() {
                 program_route = context_route;
                 program_gate_results.extend(context_gate_results);
+            }
+            if retained_publication_preflight_blocked
+                && program_route
+                    .as_ref()
+                    .is_some_and(|route| route.route_id == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+                && lifecycle_residue_cleanup_completed_with_zero_candidates(
+                    &target_state,
+                    cleanup_candidates_present,
+                )
+            {
+                program_route = None;
+                program_gate_results.clear();
+                blocked_by_program_gate = None;
+            }
+            if program_route
+                .as_ref()
+                .is_some_and(|route| route.route_id == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+                && lifecycle_residue_cleanup_receipt_requires_closeout_worktree_handoff(
+                    &target_state,
+                    cleanup_candidates_present,
+                )
+            {
+                program_route = None;
+                retarget_cleanup_redispatch_blockers_to_closeout_worktree(&mut program_blockers);
             }
             if blocked_by_program_gate.is_none() {
                 if let Some(failed_gate) = context_blocked_gate {
@@ -2573,9 +2933,28 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             }
         }
     }
+    if terminal_outcome.is_none()
+        && lifecycle_residue_cleanup_receipt_requires_closeout_worktree_handoff(
+            &target_state,
+            cleanup_candidates_present,
+        )
+        && program_blockers.iter().any(|blocker| {
+            blocker.recovery_route.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        })
+    {
+        retarget_cleanup_redispatch_blockers_to_closeout_worktree(&mut program_blockers);
+    }
+    clear_satisfied_lifecycle_residue_cleanup_blockers(
+        &repo_root,
+        &target_state,
+        checkpoint.map(|checkpoint| checkpoint.run_id.as_str()),
+        run_inputs,
+        cleanup_candidates_present,
+        &mut program_blockers,
+    )?;
 
     let mut runnable_batch = select_runnable_batch(program, &context.registry, &mut child_states);
-    if program_route.is_some()
+    let dispatch_suppressed_by_program_state = program_route.is_some()
         || terminal_outcome.is_some()
         || program_blockers.iter().any(|blocker| {
             matches!(
@@ -2585,9 +2964,20 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 && blocker
                     .message
                     .contains("program scheduling failed required gate"))
-        })
-    {
+        });
+    if dispatch_suppressed_by_program_state {
         runnable_batch.clear();
+    }
+    if runnable_batch.is_empty()
+        && !dispatch_suppressed_by_program_state
+        && context.registry.execution_mode == "gated-parallel"
+    {
+        runnable_batch = select_unblocked_route_ready_batch(&context.registry, &child_states);
+        runnable_batch = enforce_write_scope_independence(
+            &mut child_states,
+            runnable_batch,
+            program.recovery_policy.serialize_write_scope_conflicts,
+        );
     }
 
     let approval_blockers = collect_approval_blockers(
@@ -2721,6 +3111,7 @@ pub(crate) fn run_program_lifecycle_from_octon_dir(
     let execution_strategy = resolve_lifecycle_execution_strategy(&parent_context.loaded.contract)?;
     let target_rel = parent_context.target_rel.clone();
     let registry_binding_digest = program_registry_binding_digest(&parent_context)?;
+    let registry_execution_mode = program_registry_execution_mode(&parent_context.registry_abs)?;
     if let Some(checkpoint) = previous_checkpoint.as_ref() {
         validate_program_checkpoint_binding(
             &repo_root,
@@ -2753,6 +3144,22 @@ pub(crate) fn run_program_lifecycle_from_octon_dir(
         &sanitized_run_id,
         &options.invocation_authority,
     )?;
+    if let Some(blocked_result) = ensure_program_worktree_baseline(
+        &repo_root,
+        &evidence_root,
+        &control_root,
+        &sanitized_run_id,
+        &options.lifecycle_id,
+        &target_rel,
+        &registry_binding_digest,
+        &registry_execution_mode,
+        &run_inputs,
+        previous_checkpoint.as_ref(),
+        &options.invocation_authority,
+        options.executor.as_str(),
+    )? {
+        return Ok(blocked_result);
+    }
     if let Some(checkpoint) = previous_checkpoint.as_ref() {
         if program_checkpoint_cancelled(checkpoint)
             || lifecycle_cancellation_token_path(&control_root).exists()
@@ -2923,12 +3330,13 @@ fn run_program_lifecycle_single_step(
 ) -> Result<ProgramLifecycleStepOutcome> {
     let parent_context =
         load_program_parent_context(octon_dir, &options.lifecycle_id, &options.target)?;
-    let mut plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+    let mut plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
         octon_dir,
         &options.lifecycle_id,
         &options.target,
         previous_checkpoint,
         &options.invocation_authority,
+        run_inputs,
     )?;
     let mut program_recovery_action_attempts = previous_checkpoint
         .map(|checkpoint| checkpoint.program_recovery_action_attempts.clone())
@@ -2957,8 +3365,15 @@ fn run_program_lifecycle_single_step(
             [("final_verdict", plan.final_verdict.as_str())],
         ),
     )?;
-    let (incoming_interaction_request_refs, incoming_interaction_return_refs) =
+    let (incoming_interaction_request_refs, mut incoming_interaction_return_refs) =
         lifecycle_interaction_refs_from_run_inputs(repo_root, run_inputs)?;
+    for retained_ref in closeout_worktree_return_refs_from_inputs_and_retained_dir(
+        repo_root,
+        sanitized_run_id,
+        run_inputs,
+    )? {
+        push_unique_string(&mut incoming_interaction_return_refs, retained_ref);
+    }
     if !incoming_interaction_request_refs.is_empty() || !incoming_interaction_return_refs.is_empty()
     {
         let mut interaction_data = program_step_event_data(
@@ -3040,7 +3455,7 @@ fn run_program_lifecycle_single_step(
             ),
         )?;
     }
-    let selected_parent_route = if cancelled_before_dispatch {
+    let mut selected_parent_route = if cancelled_before_dispatch {
         None
     } else {
         plan.program_route.clone()
@@ -3048,7 +3463,176 @@ fn run_program_lifecycle_single_step(
     let mut parent_route_result = None;
     let mut parent_route_handled = false;
 
-    if !cancelled_before_dispatch && plan.program_route.is_some() {
+    if !cancelled_before_dispatch
+        && publication_preflight_blocked
+        && cleanup_parent_route_should_yield_to_publication_drift(&plan)
+    {
+        append_program_event(
+            control_root,
+            evidence_root,
+            sanitized_run_id,
+            "parent-route-suppressed",
+            None,
+            Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE),
+            "cleanup-lifecycle-residue suppressed while publication-drift recovery is active",
+            program_step_event_data(
+                step_context.as_ref(),
+                "program-recovery-action",
+                [
+                    ("blocker_class", "publication-drift"),
+                    ("action_id", REFRESH_PUBLICATION_PROJECTIONS_ACTION),
+                    ("suppressed_route", ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE),
+                ],
+            ),
+        )?;
+        plan.program_route = None;
+        selected_parent_route = None;
+    }
+
+    if !cancelled_before_dispatch
+        && !publication_preflight_blocked
+        && cleanup_receipt_requests_closeout_worktree_handoff(
+            repo_root,
+            sanitized_run_id,
+            run_inputs,
+            &plan,
+            previous_checkpoint,
+        )?
+    {
+        child_results = child_results_for_cleanup_receipt_handoff(
+            repo_root,
+            evidence_root,
+            sanitized_run_id,
+            run_inputs,
+            &plan,
+            previous_checkpoint,
+        )?;
+        parent_route_handled = true;
+        selected_parent_route = None;
+        plan.runnable_batch.clear();
+        final_verdict = "blocked-human".to_string();
+        terminal_outcome = None;
+        if !child_results.is_empty() {
+            emit_program_child_handoff_requests(
+                repo_root,
+                evidence_root,
+                control_root,
+                sanitized_run_id,
+                &options.lifecycle_id,
+                target_rel,
+                &plan,
+                &mut child_results,
+                step_context,
+            )?;
+        }
+        let mut handoff_data = program_step_event_data(
+            step_context.as_ref(),
+            "closeout-worktree-hygiene",
+            [
+                ("handoff_route", "closeout-worktree"),
+                ("handoff_scope", "parent"),
+                ("authority", "non-authorizing-request"),
+                ("required_return_evidence", "closeout-worktree-report-v1"),
+            ],
+        );
+        if let Some(receipt) = plan.parent_receipt_states.get("lifecycle-residue-cleanup") {
+            handoff_data.insert("cleanup_receipt_ref".to_string(), receipt.path.clone());
+            if let Ok(digest) = file_digest(&repo_root.join(&receipt.path)) {
+                handoff_data.insert("cleanup_receipt_digest".to_string(), digest);
+            }
+            if let Some(fingerprint) = receipt.fields.get("worktree_hygiene_foreign_fingerprint") {
+                handoff_data.insert("foreign_fingerprint".to_string(), fingerprint.clone());
+            }
+        }
+        append_program_event(
+            control_root,
+            evidence_root,
+            sanitized_run_id,
+            "lifecycle-residue-handoff-requested",
+            None,
+            Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE),
+            "fresh lifecycle residue cleanup receipt requested governed closeout-worktree handoff",
+            handoff_data,
+        )?;
+    }
+
+    if !cancelled_before_dispatch && !parent_route_handled {
+        if let Some(loop_blocker) =
+            parent_route_replan_loop_blocker(repo_root, evidence_root, control_root, &plan)?
+        {
+            let evidence_path = write_parent_route_replan_loop_blocker_evidence(
+                repo_root,
+                evidence_root,
+                sanitized_run_id,
+                &loop_blocker,
+            )?;
+            let evidence_path_rel = rel_display(repo_root, &evidence_path);
+            let repeated_start_count = loop_blocker.repeated_start_count.to_string();
+            let previous_start_event_index = loop_blocker.previous_start_event_index.to_string();
+            append_program_event(
+                control_root,
+                evidence_root,
+                sanitized_run_id,
+                "parent-route-loop-blocked",
+                None,
+                Some(&loop_blocker.route_id),
+                "program parent route dispatch stopped by stale planner route-loop guard",
+                program_step_event_data(
+                    step_context.as_ref(),
+                    "parent-route-dispatch",
+                    [
+                        ("blocker_class", BLOCKER_PLANNER_STALE_REPLAN_LOOP),
+                        ("route_id", loop_blocker.route_id.as_str()),
+                        ("evidence_path", evidence_path_rel.as_str()),
+                        ("repeated_start_count", repeated_start_count.as_str()),
+                        (
+                            "previous_start_event_index",
+                            previous_start_event_index.as_str(),
+                        ),
+                        (
+                            "planner_blocker_fingerprint",
+                            loop_blocker.blocker_fingerprint.as_str(),
+                        ),
+                        (
+                            "route_evidence_fingerprint",
+                            loop_blocker.route_evidence_fingerprint.as_str(),
+                        ),
+                    ],
+                ),
+            )?;
+            parent_route_result = Some(parent_route_replan_loop_blocked_result(
+                sanitized_run_id,
+                &loop_blocker,
+                evidence_path,
+            )?);
+            parent_route_handled = true;
+            selected_parent_route = None;
+            plan.program_route = None;
+            plan.runnable_batch.clear();
+            plan.aggregate_state = "blocked".to_string();
+            plan.final_verdict = "blocked-unsafe".to_string();
+            plan.stop_reason = Some(format!(
+                "{BLOCKER_PLANNER_STALE_REPLAN_LOOP}: repeated parent route {} selected without fresh terminal, blocker, authorization, or classifier evidence",
+                loop_blocker.route_id
+            ));
+            plan.program_blockers.push(ProgramBlocker {
+                blocker_class: BLOCKER_PLANNER_STALE_REPLAN_LOOP.to_string(),
+                message: format!(
+                    "same parent route {} was selected repeatedly without fresh terminal evidence, blocker fingerprint change, or route-specific authorization/classifier evidence",
+                    loop_blocker.route_id
+                ),
+                recovery_route: None,
+            });
+            plan.normalized_program_blockers = normalized_program_blockers(
+                parent_context.loaded.contract.program.as_ref(),
+                &plan.program_blockers,
+            );
+            final_verdict = "blocked-unsafe".to_string();
+            terminal_outcome = None;
+        }
+    }
+
+    if !cancelled_before_dispatch && !parent_route_handled && plan.program_route.is_some() {
         parent_route_handled = true;
         if options.execute_routes {
             let before_parent_plan = plan.clone();
@@ -3083,12 +3667,13 @@ fn run_program_lifecycle_single_step(
                             previous_checkpoint,
                             &residue_cleanup_attempts,
                         );
-                    plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+                    plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
                         octon_dir,
                         &options.lifecycle_id,
                         &options.target,
                         replan_checkpoint.as_ref(),
                         &options.invocation_authority,
+                        run_inputs,
                     )?;
                     if let (Some(program), Some(blocker_class)) = (
                         parent_context.loaded.contract.program.as_ref(),
@@ -3143,19 +3728,20 @@ fn run_program_lifecycle_single_step(
         plan.runnable_batch.clear();
     }
 
+    let selected_pre_dispatch_program_recovery_action = parent_context
+        .loaded
+        .contract
+        .program
+        .as_ref()
+        .and_then(|program| select_program_recovery_action(program, &plan, previous_checkpoint));
     if !cancelled_before_dispatch
         && options.execute_routes
         && !parent_route_handled
-        && (!plan.runnable_batch.is_empty()
-            || parent_context
-                .loaded
-                .contract
-                .program
-                .as_ref()
-                .and_then(|program| {
-                    select_program_recovery_action(program, &plan, previous_checkpoint)
-                })
-                .is_some())
+        && should_execute_program_recovery_before_child_dispatch(
+            plan.runnable_batch.is_empty(),
+            publication_preflight_blocked,
+            selected_pre_dispatch_program_recovery_action,
+        )
     {
         if let Some(program) = parent_context.loaded.contract.program.as_ref() {
             if let Some(outcome) = execute_selected_program_recovery_action(
@@ -3181,12 +3767,13 @@ fn run_program_lifecycle_single_step(
                         program_recovery_action_attempts =
                             replan_checkpoint.program_recovery_action_attempts.clone();
                     }
-                    plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+                    plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
                         octon_dir,
                         &options.lifecycle_id,
                         &options.target,
                         replan_checkpoint.as_ref(),
                         &options.invocation_authority,
+                        run_inputs,
                     )?;
                     if plan.program_route.is_none() {
                         if let Some(child_id) = options.program_child_filter.as_ref() {
@@ -3320,12 +3907,13 @@ fn run_program_lifecycle_single_step(
                 step_context,
             )?;
             let replan_checkpoint = checkpoint_for_post_execution_replan(previous_checkpoint);
-            plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+            plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
                 octon_dir,
                 &options.lifecycle_id,
                 &options.target,
                 replan_checkpoint.as_ref(),
                 &options.invocation_authority,
+                run_inputs,
             )?;
             if plan.program_route.is_none() {
                 if let Some(child_id) = options.program_child_filter.as_ref() {
@@ -3381,12 +3969,13 @@ fn run_program_lifecycle_single_step(
                                     replan_checkpoint.program_recovery_action_attempts.clone();
                             }
                             plan =
-                                plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+                                plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
                                     octon_dir,
                                     &options.lifecycle_id,
                                     &options.target,
                                     replan_checkpoint.as_ref(),
                                     &options.invocation_authority,
+                                    run_inputs,
                                 )?;
                             if plan.program_route.is_none() {
                                 if let Some(child_id) = options.program_child_filter.as_ref() {
@@ -3759,10 +4348,17 @@ fn apply_publication_freshness_preflight(
     let blocker_class = if passed { "none" } else { "publication-drift" };
     let evidence_path = preflight_root.join("summary.yml");
     let exit_code = output.status.code().unwrap_or(-1);
+    let publication_freshness_digest = publication_freshness_evidence_digest_from_parts(
+        passed,
+        &output.stdout,
+        &output.stderr,
+        exit_code,
+    );
     fs::write(
         &evidence_path,
         format!(
-            "schema_version: \"octon-program-publication-freshness-preflight-v1\"\nstatus: \"{status}\"\nblocker_class: \"{blocker_class}\"\nrecovery_action_id: \"{REFRESH_PUBLICATION_PROJECTIONS_ACTION}\"\ncanonical_recovery_commands:\n{}selected_children:\n{}stdout_path: {}\nstderr_path: {}\nexit_code: {exit_code}\ngenerated_outputs_authority: \"derived-only\"\n",
+            "schema_version: \"octon-program-publication-freshness-preflight-v1\"\nstatus: \"{status}\"\nblocker_class: \"{blocker_class}\"\nrecovery_action_id: \"{REFRESH_PUBLICATION_PROJECTIONS_ACTION}\"\npublication_freshness_digest: {}\ncanonical_recovery_commands:\n{}selected_children:\n{}stdout_path: {}\nstderr_path: {}\nexit_code: {exit_code}\ngenerated_outputs_authority: \"derived-only\"\n",
+            yaml_scalar(&publication_freshness_digest),
             yaml_list(&canonical_publication_recovery_commands()),
             yaml_list(&plan.runnable_batch),
             yaml_scalar(&rel_display(repo_root, &stdout_path)),
@@ -3771,6 +4367,7 @@ fn apply_publication_freshness_preflight(
     )?;
 
     if passed {
+        clear_publication_drift_blockers(plan);
         append_program_event(
             control_root,
             evidence_root,
@@ -3794,7 +4391,10 @@ fn apply_publication_freshness_preflight(
     if !plan_has_publication_drift_blocker(plan) {
         plan.program_blockers.push(ProgramBlocker {
             blocker_class: "publication-drift".to_string(),
-            message: publication_drift_blocker_message(),
+            message: format!(
+                "{}; publication_freshness_digest={publication_freshness_digest}",
+                publication_drift_blocker_message()
+            ),
             recovery_route: None,
         });
     }
@@ -3818,6 +4418,10 @@ fn apply_publication_freshness_preflight(
                 ("blocker_class", "publication-drift"),
                 ("recovery_action_id", REFRESH_PUBLICATION_PROJECTIONS_ACTION),
                 (
+                    "publication_freshness_digest",
+                    publication_freshness_digest.as_str(),
+                ),
+                (
                     "evidence_path",
                     rel_display(repo_root, &evidence_path).as_str(),
                 ),
@@ -3825,6 +4429,17 @@ fn apply_publication_freshness_preflight(
         ),
     )?;
     Ok(true)
+}
+
+fn clear_publication_drift_blockers(plan: &mut ProgramLifecyclePlanResult) {
+    plan.program_blockers.retain(|blocker| {
+        !(blocker.blocker_class == "publication-drift"
+            && blocker.message.contains("publication_freshness_digest="))
+            && !(blocker.blocker_class == "recovery-budget-override-required"
+                && blocker
+                    .message
+                    .contains(REFRESH_PUBLICATION_PROJECTIONS_ACTION))
+    });
 }
 
 fn program_declares_publication_recovery(program: &ProgramSpec) -> bool {
@@ -3843,6 +4458,14 @@ fn plan_has_publication_drift_blocker(plan: &ProgramLifecyclePlanResult) -> bool
                 .iter()
                 .any(|blocker| blocker.blocker_class == "publication-drift")
         })
+}
+
+fn cleanup_parent_route_should_yield_to_publication_drift(
+    plan: &ProgramLifecyclePlanResult,
+) -> bool {
+    plan.program_route
+        .as_ref()
+        .is_some_and(|route| route.route_id == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
 }
 
 fn append_program_run_started_if_needed(
@@ -3865,6 +4488,309 @@ fn append_program_run_started_if_needed(
         program_event_data([("invocation_authority", invocation_authority)]),
     )?;
     Ok(())
+}
+
+struct ProgramWorktreeBaselineDecision {
+    receipt_ref: String,
+    status: String,
+    verdict: String,
+    blocker_class: Option<String>,
+    message: String,
+}
+
+fn ensure_program_worktree_baseline(
+    repo_root: &Path,
+    evidence_root: &Path,
+    control_root: &Path,
+    run_id: &str,
+    lifecycle_id: &str,
+    target_rel: &str,
+    child_registry_digest: &str,
+    execution_mode: &str,
+    run_inputs: &BTreeMap<String, String>,
+    previous_checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    invocation_authority: &str,
+    executor: &str,
+) -> Result<Option<ProgramLifecycleRunResult>> {
+    let baseline_path = evidence_root.join(PROGRAM_WORKTREE_BASELINE_FILE);
+    if baseline_path.is_file() {
+        return Ok(None);
+    }
+    let decision = write_program_worktree_baseline_receipt(
+        repo_root,
+        evidence_root,
+        run_id,
+        target_rel,
+        run_inputs,
+        previous_checkpoint.is_some(),
+    )?;
+    append_program_event(
+        control_root,
+        evidence_root,
+        run_id,
+        if decision.blocker_class.is_some() {
+            "worktree-baseline-preflight-blocked"
+        } else {
+            "worktree-baseline-recorded"
+        },
+        None,
+        None,
+        &decision.message,
+        program_event_data([
+            ("worktree_baseline_ref", decision.receipt_ref.as_str()),
+            ("worktree_baseline_status", decision.status.as_str()),
+            ("worktree_isolation_verdict", decision.verdict.as_str()),
+        ]),
+    )?;
+    if let Some(blocker_class) = decision.blocker_class {
+        let mut checkpoint = ProgramLifecycleCheckpoint {
+            schema_version: "octon-program-lifecycle-checkpoint-v1".to_string(),
+            run_id: run_id.to_string(),
+            lifecycle_id: lifecycle_id.to_string(),
+            execution_strategy: default_orchestrated_replan_loop_execution_strategy(),
+            target: target_rel.to_string(),
+            executor: Some(executor.to_string()),
+            invocation_authority: invocation_authority.to_string(),
+            child_registry_digest: child_registry_digest.to_string(),
+            execution_mode: execution_mode.to_string(),
+            run_inputs: run_inputs.clone(),
+            worktree_baseline_ref: Some(decision.receipt_ref.clone()),
+            final_verdict: "blocked-human".to_string(),
+            resume_instruction: format!("octon lifecycle resume --run-id {run_id}"),
+            ..Default::default()
+        };
+        enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
+        let checkpoint_path = control_root.join(PROGRAM_CHECKPOINT_FILE);
+        write_program_checkpoint_files(&checkpoint_path, evidence_root, &checkpoint)?;
+        return Ok(Some(ProgramLifecycleRunResult {
+            schema_version: "octon-program-lifecycle-run-result-v1".to_string(),
+            run_id: run_id.to_string(),
+            lifecycle_id: lifecycle_id.to_string(),
+            execution_strategy: checkpoint.execution_strategy,
+            target: target_rel.to_string(),
+            executor: executor.to_string(),
+            route_execution_mode: "none".to_string(),
+            bundle_root: rel_display(repo_root, evidence_root),
+            checkpoint_path: rel_display(repo_root, &checkpoint_path),
+            event_log_path: rel_display(repo_root, &program_control_event_log_path(control_root)),
+            latest_event_offset: checkpoint.latest_event_offset,
+            selected_parent_route: None,
+            parent_route_result: None,
+            selected_children: Vec::new(),
+            child_results: vec![ProgramChildExecutionSummary {
+                child_id: "program-worktree-baseline".to_string(),
+                child_run_id: run_id.to_string(),
+                route_id: "worktree-baseline-preflight".to_string(),
+                status: "blocked-human".to_string(),
+                attempts: 0,
+                retryable: false,
+                blocker_class: Some(blocker_class),
+                error_message: Some(decision.message),
+                error_class: Some("worktree-baseline".to_string()),
+                evidence_paths: vec![decision.receipt_ref],
+                worktree_hygiene_foreign_fingerprint: None,
+            }],
+            interaction_request_refs: Vec::new(),
+            interaction_return_refs: Vec::new(),
+            terminal_outcome: None,
+            final_verdict: "blocked-human".to_string(),
+        }));
+    }
+    Ok(None)
+}
+
+fn write_program_worktree_baseline_receipt(
+    repo_root: &Path,
+    evidence_root: &Path,
+    run_id: &str,
+    target_rel: &str,
+    run_inputs: &BTreeMap<String, String>,
+    resumed_without_baseline: bool,
+) -> Result<ProgramWorktreeBaselineDecision> {
+    fs::create_dir_all(evidence_root)?;
+    let baseline_path = evidence_root.join(PROGRAM_WORKTREE_BASELINE_FILE);
+    let baseline_ref = rel_display(repo_root, &baseline_path);
+    let lease_mode = run_inputs
+        .get(INPUT_WORKTREE_BASELINE_LEASE)
+        .map(String::as_str)
+        .unwrap_or("");
+    let lease_path_input = run_inputs
+        .get(INPUT_WORKTREE_BASELINE_LEASE_PATHS)
+        .map(String::as_str)
+        .unwrap_or("");
+    let lease_valid = matches!(
+        lease_mode,
+        "explicit-dirty-start" | "allow-dirty-start" | "leased"
+    );
+    let status = git_status_porcelain(repo_root)?;
+    let (status_mode, line_count, fingerprint) = match status.as_deref() {
+        Some(raw) => (
+            if raw.trim().is_empty() {
+                "clean"
+            } else {
+                "dirty"
+            },
+            raw.lines().filter(|line| !line.trim().is_empty()).count(),
+            sha256_digest(raw.as_bytes()),
+        ),
+        None => ("not-git-worktree", 0, sha256_digest(b"not-git-worktree")),
+    };
+    let dirty_paths = status
+        .as_deref()
+        .map(git_status_porcelain_paths)
+        .unwrap_or_default();
+    let lease_paths = parse_worktree_baseline_lease_paths(lease_path_input)?;
+    let leased_path_set: BTreeSet<_> = lease_paths.iter().cloned().collect();
+    let mut run_owned_paths = Vec::new();
+    let mut leased_paths = Vec::new();
+    let mut foreign_paths = Vec::new();
+    for path in &dirty_paths {
+        if path_is_run_owned_baseline_path(path, run_id) {
+            run_owned_paths.push(path.clone());
+        } else if lease_valid && (leased_path_set.is_empty() || leased_path_set.contains(path)) {
+            leased_paths.push(path.clone());
+        } else {
+            foreign_paths.push(path.clone());
+        }
+    }
+    let (verdict, blocker_class, message) = if resumed_without_baseline {
+        (
+            "resumed-without-start-baseline",
+            None,
+            "program lifecycle resumed without a start baseline; closeout hygiene remains fail-closed".to_string(),
+        )
+    } else if status_mode == "not-git-worktree" {
+        (
+            "not-git-worktree",
+            None,
+            "program lifecycle baseline skipped because the fixture root is not a git worktree"
+                .to_string(),
+        )
+    } else if status_mode == "clean" {
+        (
+            "isolated-clean",
+            None,
+            "program lifecycle worktree baseline recorded clean start".to_string(),
+        )
+    } else if lease_valid && foreign_paths.is_empty() {
+        (
+            "explicitly-leased-dirty-start",
+            None,
+            "program lifecycle worktree baseline recorded explicit dirty-start lease".to_string(),
+        )
+    } else {
+        (
+            "blocked-dirty-start-without-lease",
+            Some("artifact-ownership-unclear".to_string()),
+            "program lifecycle fresh run requires a clean worktree or explicit worktree_baseline_lease before route dispatch".to_string(),
+        )
+    };
+    fs::write(
+        &baseline_path,
+        format!(
+            "schema_version: octon-program-worktree-baseline-v1\nrun_id: {}\ntarget: {}\nrecorded_at: {}\nstatus_mode: {}\nstatus_line_count: {}\nstatus_fingerprint: {}\nworktree_isolation_verdict: {}\nexplicit_lease_input: {}\nlease_scope: {}\nresumed_without_start_baseline: {}\nrun_owned_path_count: {}\nleased_path_count: {}\nforeign_path_count: {}\ndirty_paths:\n{}run_owned_paths:\n{}leased_paths:\n{}foreign_paths:\n{}authority_boundary: {}\nparent_summary_not_child_receipt: true\nchild_closeout_authority_preserved: true\n",
+            yaml_scalar(run_id),
+            yaml_scalar(target_rel),
+            yaml_scalar(&now_rfc3339()?),
+            yaml_scalar(status_mode),
+            line_count,
+            yaml_scalar(&fingerprint),
+            yaml_scalar(verdict),
+            yaml_scalar(if lease_mode.is_empty() { "none" } else { lease_mode }),
+            yaml_scalar(if lease_path_input.trim().is_empty() {
+                "all-start-dirty-paths"
+            } else {
+                INPUT_WORKTREE_BASELINE_LEASE_PATHS
+            }),
+            if resumed_without_baseline { "true" } else { "false" },
+            run_owned_paths.len(),
+            leased_paths.len(),
+            foreign_paths.len(),
+            yaml_list_block(dirty_paths.iter().map(String::as_str)),
+            yaml_list_block(run_owned_paths.iter().map(String::as_str)),
+            yaml_list_block(leased_paths.iter().map(String::as_str)),
+            yaml_list_block(foreign_paths.iter().map(String::as_str)),
+            yaml_scalar("baseline records initial ownership evidence only; it does not authorize cleanup, publication, promotion, archive, closeout, or child receipt substitution"),
+        ),
+    )?;
+    Ok(ProgramWorktreeBaselineDecision {
+        receipt_ref: baseline_ref,
+        status: status_mode.to_string(),
+        verdict: verdict.to_string(),
+        blocker_class,
+        message,
+    })
+}
+
+fn git_status_porcelain(repo_root: &Path) -> Result<Option<String>> {
+    let inside = Command::new("git")
+        .arg("-C")
+        .arg(repo_root)
+        .arg("rev-parse")
+        .arg("--is-inside-work-tree")
+        .output()?;
+    if !inside.status.success() {
+        return Ok(None);
+    }
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(repo_root)
+        .arg("status")
+        .arg("--porcelain=v1")
+        .arg("--untracked-files=all")
+        .output()?;
+    if !output.status.success() {
+        bail!(
+            "git status failed while recording program worktree baseline: {}",
+            String::from_utf8_lossy(&output.stderr).trim()
+        );
+    }
+    Ok(Some(String::from_utf8_lossy(&output.stdout).into_owned()))
+}
+
+fn git_status_porcelain_paths(status: &str) -> Vec<String> {
+    status
+        .lines()
+        .filter_map(|line| {
+            let trimmed = line.trim_end();
+            if trimmed.len() < 4 {
+                return None;
+            }
+            let raw_path = trimmed.get(3..)?;
+            let path = raw_path
+                .rsplit_once(" -> ")
+                .map(|(_, after)| after)
+                .unwrap_or(raw_path)
+                .trim_matches('"')
+                .to_string();
+            (!path.is_empty()).then_some(path)
+        })
+        .collect()
+}
+
+fn parse_worktree_baseline_lease_paths(raw: &str) -> Result<Vec<String>> {
+    let mut paths = Vec::new();
+    for item in raw.split([',', '\n']) {
+        let path = item.trim();
+        if path.is_empty() {
+            continue;
+        }
+        if !is_safe_repo_relative(path) {
+            bail!("worktree_baseline_lease_paths contains unsafe path: {path}");
+        }
+        paths.push(path.to_string());
+    }
+    Ok(paths)
+}
+
+fn path_is_run_owned_baseline_path(path: &str, run_id: &str) -> bool {
+    path_is_under_or_equal(
+        path,
+        &format!(".octon/state/evidence/runs/workflows/{run_id}"),
+    ) || path_is_under_or_equal(
+        path,
+        &format!(".octon/state/control/execution/runs/{run_id}"),
+    )
 }
 
 fn checkpoint_for_post_execution_replan(
@@ -3903,6 +4829,7 @@ fn rebaseline_checkpoint_recovery_state(
     }
     let mut progress_keys = Vec::new();
     let mut attempt_keys = BTreeSet::new();
+    let mut matched_child_scoped_blocker = false;
     for state in before_plan.child_states.values() {
         if !state
             .blockers
@@ -3911,6 +4838,7 @@ fn rebaseline_checkpoint_recovery_state(
         {
             continue;
         }
+        matched_child_scoped_blocker = true;
         let selected_route = state
             .selected_route
             .as_ref()
@@ -3941,6 +4869,46 @@ fn rebaseline_checkpoint_recovery_state(
                 .cloned(),
         );
     }
+    if !matched_child_scoped_blocker
+        && before_plan
+            .program_blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == blocker_class)
+    {
+        for state in before_plan.child_states.values() {
+            if state.final_verdict != "route-ready" || state.terminal_outcome.is_some() {
+                continue;
+            }
+            let selected_route = state
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.as_str());
+            for (key, fingerprint) in &checkpoint.recovery_progress_fingerprints {
+                if fingerprint.child_id != state.child_id {
+                    continue;
+                }
+                if selected_route
+                    .map(|route_id| fingerprint.route_id == route_id)
+                    .unwrap_or(true)
+                {
+                    progress_keys.push(key.clone());
+                    attempt_keys.insert(recovery_attempt_key(
+                        &fingerprint.child_id,
+                        &fingerprint.blocker_class,
+                    ));
+                }
+            }
+            attempt_keys.extend(
+                checkpoint
+                    .recovery_attempts
+                    .keys()
+                    .filter(|key| {
+                        *key == &state.child_id || key.starts_with(&format!("{}:", state.child_id))
+                    })
+                    .cloned(),
+            );
+        }
+    }
     for key in progress_keys {
         checkpoint.recovery_progress_fingerprints.remove(&key);
     }
@@ -3966,10 +4934,296 @@ fn rewrite_program_recovery_log(
     Ok(())
 }
 
+fn parent_route_replan_loop_blocker(
+    repo_root: &Path,
+    evidence_root: &Path,
+    control_root: &Path,
+    plan: &ProgramLifecyclePlanResult,
+) -> Result<Option<ProgramParentRouteReplanLoopBlocker>> {
+    let Some(route) = plan.program_route.as_ref() else {
+        return Ok(None);
+    };
+    let events = read_program_events(control_root)?;
+    if events.is_empty() {
+        return Ok(None);
+    }
+    let route_id = route.route_id.as_str();
+    let latest_finish_index = events
+        .iter()
+        .filter(|event| {
+            event.event_type == "parent-route-finished"
+                && event.route_id.as_deref() == Some(route_id)
+        })
+        .map(|event| event.event_index)
+        .max()
+        .unwrap_or(0);
+    let starts_after_latest_finish = events
+        .iter()
+        .filter(|event| {
+            event.event_type == "parent-route-started"
+                && event.route_id.as_deref() == Some(route_id)
+                && event.event_index > latest_finish_index
+        })
+        .collect::<Vec<_>>();
+    let Some(latest_start) = starts_after_latest_finish.last() else {
+        return Ok(None);
+    };
+    if parent_route_has_terminal_or_fresh_route_evidence_after(
+        &events,
+        latest_start.event_index,
+        route_id,
+    ) {
+        return Ok(None);
+    }
+
+    let blocker_fingerprint = parent_route_blocker_fingerprint(plan, route_id);
+    let route_evidence_fingerprint =
+        parent_route_specific_evidence_fingerprint(repo_root, evidence_root, plan, route_id)?;
+    let blocker_fingerprint_unchanged = latest_start
+        .data
+        .get("planner_blocker_fingerprint")
+        .map(|previous| previous == &blocker_fingerprint)
+        .unwrap_or(true);
+    let route_evidence_fingerprint_unchanged = latest_start
+        .data
+        .get("route_evidence_fingerprint")
+        .map(|previous| previous == &route_evidence_fingerprint)
+        .unwrap_or(true);
+    if !blocker_fingerprint_unchanged || !route_evidence_fingerprint_unchanged {
+        return Ok(None);
+    }
+
+    Ok(Some(ProgramParentRouteReplanLoopBlocker {
+        route_id: route_id.to_string(),
+        previous_start_event_index: latest_start.event_index,
+        repeated_start_count: starts_after_latest_finish.len() + 1,
+        blocker_fingerprint,
+        route_evidence_fingerprint,
+    }))
+}
+
+fn parent_route_has_terminal_or_fresh_route_evidence_after(
+    events: &[ProgramEvent],
+    event_index: u64,
+    route_id: &str,
+) -> bool {
+    events
+        .iter()
+        .filter(|event| event.event_index > event_index)
+        .any(|event| {
+            event.event_type == "parent-route-finished"
+                && event.route_id.as_deref() == Some(route_id)
+                || event.route_id.as_deref() == Some(route_id)
+                    && parent_route_event_carries_fresh_authorization_or_classifier_evidence(event)
+                || route_id == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE
+                    && event.event_type == "lifecycle-residue-handoff-requested"
+        })
+}
+
+fn parent_route_event_carries_fresh_authorization_or_classifier_evidence(
+    event: &ProgramEvent,
+) -> bool {
+    matches!(
+        event.event_type.as_str(),
+        "delegated-promotion-authorized" | "human-exception-grant-written"
+    ) || event.data.keys().any(|key| {
+        key.contains("authorization")
+            || key.contains("authority")
+            || key.contains("classifier")
+            || key.contains("classification")
+    })
+}
+
+fn parent_route_blocker_fingerprint(plan: &ProgramLifecyclePlanResult, route_id: &str) -> String {
+    let mut parts = vec![
+        format!("route_id:{route_id}"),
+        format!("aggregate_state:{}", plan.aggregate_state),
+        format!("final_verdict:{}", plan.final_verdict),
+        format!(
+            "terminal_outcome:{}",
+            plan.terminal_outcome.as_deref().unwrap_or("none")
+        ),
+        format!(
+            "stop_reason:{}",
+            plan.stop_reason.as_deref().unwrap_or("none")
+        ),
+    ];
+    for (receipt_id, receipt) in &plan.parent_receipt_states {
+        parts.push(format!(
+            "parent_receipt:{receipt_id}:path={}:exists={}:verdict={}:stale={}:stored={}:current={}:missing={}",
+            receipt.path,
+            receipt.exists,
+            receipt.verdict.as_deref().unwrap_or("none"),
+            receipt.stale
+                .map(|value| value.to_string())
+                .unwrap_or_else(|| "none".to_string()),
+            receipt.stored_digest.as_deref().unwrap_or("none"),
+            receipt.current_digest.as_deref().unwrap_or("none"),
+            receipt.missing_required_fields.join(",")
+        ));
+        for (field, value) in &receipt.fields {
+            parts.push(format!("parent_receipt_field:{receipt_id}:{field}={value}"));
+        }
+    }
+    for blocker in &plan.program_blockers {
+        parts.push(format!(
+            "program_blocker:{}:{}:{}",
+            blocker.blocker_class,
+            blocker.recovery_route.as_deref().unwrap_or("none"),
+            blocker.message
+        ));
+    }
+    for (child_id, state) in &plan.child_states {
+        parts.push(format!(
+            "child_state:{child_id}:final_verdict={}:terminal={}:selected_route={}",
+            state.final_verdict,
+            state.terminal_outcome.as_deref().unwrap_or("none"),
+            state
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.as_str())
+                .unwrap_or("none")
+        ));
+        for blocker in &state.blockers {
+            parts.push(format!(
+                "child_blocker:{child_id}:{}:{}:{}",
+                blocker.blocker_class,
+                blocker.recovery_route.as_deref().unwrap_or("none"),
+                blocker.message
+            ));
+        }
+    }
+    stable_text_digest(&parts.join("\n"))
+}
+
+fn parent_route_specific_evidence_fingerprint(
+    repo_root: &Path,
+    evidence_root: &Path,
+    plan: &ProgramLifecyclePlanResult,
+    route_id: &str,
+) -> Result<String> {
+    let mut parts = vec![format!("route_id:{route_id}")];
+    for (receipt_id, receipt) in &plan.parent_receipt_states {
+        parts.push(format!(
+            "parent_receipt_digest:{receipt_id}:stored={}:current={}",
+            receipt.stored_digest.as_deref().unwrap_or("none"),
+            receipt.current_digest.as_deref().unwrap_or("none")
+        ));
+    }
+    let mut evidence_files = Vec::new();
+    collect_parent_route_specific_evidence_files(
+        &evidence_root.join("parent"),
+        0,
+        &mut evidence_files,
+    )?;
+    evidence_files.sort();
+    evidence_files.dedup();
+    for path in evidence_files {
+        parts.push(format!(
+            "route_evidence:{}:{}",
+            rel_display(repo_root, &path),
+            file_digest(&path)?
+        ));
+    }
+    Ok(stable_text_digest(&parts.join("\n")))
+}
+
+fn collect_parent_route_specific_evidence_files(
+    root: &Path,
+    depth: usize,
+    evidence_files: &mut Vec<PathBuf>,
+) -> Result<()> {
+    if depth > 4 || !root.is_dir() {
+        return Ok(());
+    }
+    for entry in fs::read_dir(root)? {
+        let path = entry?.path();
+        if path.is_dir() {
+            collect_parent_route_specific_evidence_files(&path, depth + 1, evidence_files)?;
+        } else if parent_route_specific_evidence_file_name(&path) {
+            evidence_files.push(path);
+        }
+    }
+    Ok(())
+}
+
+fn parent_route_specific_evidence_file_name(path: &Path) -> bool {
+    let Some(file_name) = path.file_name().and_then(|name| name.to_str()) else {
+        return false;
+    };
+    let file_name = file_name.to_ascii_lowercase();
+    file_name.contains("authorization")
+        || file_name.contains("authority")
+        || file_name.contains("classifier")
+        || file_name.contains("classification")
+        || file_name.contains("cleanup")
+        || file_name.contains("handoff")
+        || file_name.contains("lifecycle-residue")
+}
+
+fn write_parent_route_replan_loop_blocker_evidence(
+    repo_root: &Path,
+    evidence_root: &Path,
+    program_run_id: &str,
+    blocker: &ProgramParentRouteReplanLoopBlocker,
+) -> Result<PathBuf> {
+    let path = evidence_root.join("planner-stale-state-replan-loop.yml");
+    fs::write(
+        &path,
+        format!(
+            "schema_version: \"octon-program-parent-route-loop-blocker-v1\"\nrun_id: {}\nstatus: \"blocked\"\nblocker_class: {}\nroute_id: {}\nprevious_start_event_index: {}\nrepeated_start_count: {}\nplanner_blocker_fingerprint: {}\nroute_evidence_fingerprint: {}\nnested_executor_spawned: false\nroute_execution_continued: false\nfinal_verdict: \"blocked-unsafe\"\nevidence_path: {}\nnext_required_action: \"refresh route-specific evidence, change blocker fingerprint, or start a clean superseding lifecycle run after the controller fix is present\"\n",
+            yaml_scalar(program_run_id),
+            yaml_scalar(BLOCKER_PLANNER_STALE_REPLAN_LOOP),
+            yaml_scalar(&blocker.route_id),
+            blocker.previous_start_event_index,
+            blocker.repeated_start_count,
+            yaml_scalar(&blocker.blocker_fingerprint),
+            yaml_scalar(&blocker.route_evidence_fingerprint),
+            yaml_scalar(&rel_display(repo_root, &path)),
+        ),
+    )?;
+    Ok(path)
+}
+
+fn parent_route_replan_loop_blocked_result(
+    program_run_id: &str,
+    blocker: &ProgramParentRouteReplanLoopBlocker,
+    evidence_path: PathBuf,
+) -> Result<LifecycleRouteExecutionResult> {
+    let now = now_rfc3339()?;
+    Ok(LifecycleRouteExecutionResult {
+        schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
+        run_id: program_run_id.to_string(),
+        route_id: blocker.route_id.clone(),
+        phase_id: None,
+        executor_used: "program-controller".to_string(),
+        status: "blocked-unsafe".to_string(),
+        started_at: now.clone(),
+        ended_at: now,
+        manifest_status_before: None,
+        manifest_status_after: None,
+        receipts_observed: Vec::new(),
+        evidence_paths: vec![evidence_path],
+        stdout_path: None,
+        stderr_path: None,
+        prompt_packet_path: None,
+        retryable: false,
+        next_action: "stop-with-planner-stale-state-replan-loop".to_string(),
+        error_class: Some(LifecycleErrorClass::CompletionNotObserved),
+        error_message: Some(format!(
+            "{BLOCKER_PLANNER_STALE_REPLAN_LOOP}: parent route {} was selected repeatedly without fresh terminal evidence, blocker fingerprint change, or route-specific authorization/classifier evidence",
+            blocker.route_id
+        )),
+    })
+}
+
 fn program_execute_loop_should_stop(
     result: &ProgramLifecycleRunResult,
     invocation_authority: &str,
 ) -> bool {
+    if program_result_has_parent_replan_loop_blocker(result) {
+        return true;
+    }
     if result.terminal_outcome.is_some() {
         return true;
     }
@@ -3987,6 +5241,19 @@ fn program_execute_loop_should_stop(
                 || !program_result_has_agent_continuable_dispatch(result)
         }
     }
+}
+
+fn program_result_has_parent_replan_loop_blocker(result: &ProgramLifecycleRunResult) -> bool {
+    result
+        .parent_route_result
+        .as_ref()
+        .is_some_and(|route_result| {
+            route_result.status == "blocked-unsafe"
+                && route_result
+                    .error_message
+                    .as_deref()
+                    .is_some_and(|message| message.contains(BLOCKER_PLANNER_STALE_REPLAN_LOOP))
+        })
 }
 
 fn program_result_has_pending_dispatch(result: &ProgramLifecycleRunResult) -> bool {
@@ -5174,6 +6441,7 @@ fn apply_mutation_to_registry(
                 required_metadata: Vec::new(),
                 source_lineage_refs: Vec::new(),
                 parent_contract_refs: Vec::new(),
+                evidence_index_refs: Vec::new(),
                 readiness_requirements: Vec::new(),
                 predecessor_constraints: Vec::new(),
                 successor_constraints: Vec::new(),
@@ -5244,6 +6512,7 @@ fn apply_mutation_to_registry(
                 required_metadata: Vec::new(),
                 source_lineage_refs: Vec::new(),
                 parent_contract_refs: Vec::new(),
+                evidence_index_refs: Vec::new(),
                 readiness_requirements: Vec::new(),
                 predecessor_constraints: Vec::new(),
                 successor_constraints: Vec::new(),
@@ -5448,6 +6717,7 @@ fn scaffold_child_to_registry_child(
         required_metadata: Vec::new(),
         source_lineage_refs: Vec::new(),
         parent_contract_refs: Vec::new(),
+        evidence_index_refs: Vec::new(),
         readiness_requirements: Vec::new(),
         predecessor_constraints: Vec::new(),
         successor_constraints: Vec::new(),
@@ -5580,6 +6850,20 @@ fn program_registry_binding_digest(context: &ProgramParentContext) -> Result<Str
     } else {
         Ok(MISSING_CHILD_REGISTRY_DIGEST.to_string())
     }
+}
+
+fn program_registry_execution_mode(registry_abs: &Path) -> Result<String> {
+    if !registry_abs.is_file() {
+        return Ok("unknown".to_string());
+    }
+    let registry: ProgramChildRegistry = serde_yaml::from_slice(&fs::read(registry_abs)?)
+        .with_context(|| {
+            format!(
+                "failed to parse child registry {} for worktree baseline",
+                registry_abs.display()
+            )
+        })?;
+    Ok(registry.execution_mode)
 }
 
 fn validate_authority_boundaries(program: &ProgramSpec) -> Result<()> {
@@ -6402,9 +7686,182 @@ fn run_program_gate_by_id(
         .iter()
         .find(|validator| validator.validator_id == gate.validator_id)
         .with_context(|| format!("missing validator {}", gate.validator_id))?;
-    Ok(vec![run_validator(
+    Ok(vec![run_program_validator(
         repo_root, contract, target_abs, gate, validator,
     )?])
+}
+
+fn run_program_validator(
+    repo_root: &Path,
+    contract: &LifecycleContract,
+    target_abs: &Path,
+    gate: &GateSpec,
+    validator: &ValidatorSpec,
+) -> Result<GatePlanResult> {
+    run_program_validator_with_bash_runtime(repo_root, contract, target_abs, gate, validator, None)
+}
+
+fn run_program_validator_with_bash_runtime(
+    repo_root: &Path,
+    contract: &LifecycleContract,
+    target_abs: &Path,
+    gate: &GateSpec,
+    validator: &ValidatorSpec,
+    bash_runtime_override: Option<&Path>,
+) -> Result<GatePlanResult> {
+    if validator.argv.is_empty() {
+        bail!("validator {} has empty argv", validator.validator_id);
+    }
+    let target_arg = rel_display(repo_root, target_abs);
+    let argv = validator
+        .argv
+        .iter()
+        .map(|arg| arg.replace("{{target}}", &target_arg))
+        .collect::<Vec<_>>();
+    validate_lifecycle_command_argv(
+        repo_root,
+        &contract.owner_extension,
+        &argv,
+        &format!("validator {}", validator.validator_id),
+    )?;
+    let output =
+        run_program_command_argv_with_bash_runtime(repo_root, &argv, bash_runtime_override)
+            .with_context(|| format!("failed to run validator {}", validator.validator_id))?;
+    Ok(GatePlanResult {
+        gate_id: gate.gate_id.clone(),
+        validator_id: validator.validator_id.clone(),
+        passed: output.status.success(),
+        exit_code: output.status.code(),
+        stdout: String::from_utf8_lossy(&output.stdout).trim().to_string(),
+        stderr: String::from_utf8_lossy(&output.stderr).trim().to_string(),
+    })
+}
+
+fn run_program_command_argv_with_bash_runtime(
+    repo_root: &Path,
+    argv: &[String],
+    bash_runtime_override: Option<&Path>,
+) -> Result<std::process::Output> {
+    let (program, args) = argv
+        .split_first()
+        .context("program command missing argv[0]")?;
+    let mut command =
+        program_lifecycle_command_with_bash_runtime(repo_root, program, bash_runtime_override)?;
+    command
+        .args(args)
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| format!("failed to run program lifecycle command {}", argv.join(" ")))
+}
+
+fn program_lifecycle_command(repo_root: &Path, program: &str) -> Result<Command> {
+    program_lifecycle_command_with_bash_runtime(repo_root, program, None)
+}
+
+fn program_lifecycle_command_with_bash_runtime(
+    repo_root: &Path,
+    program: &str,
+    bash_runtime_override: Option<&Path>,
+) -> Result<Command> {
+    if program_command_is_bash(program) {
+        let runtime = if let Some(runtime) = bash_runtime_override {
+            if !supported_program_bash_runtime(runtime) {
+                bail!(
+                    "configured Bash runtime is not an executable Bash with program lifecycle script support: {}",
+                    runtime.display()
+                );
+            }
+            runtime.to_path_buf()
+        } else {
+            resolve_program_bash_runtime(repo_root)?
+        };
+        return Ok(Command::new(runtime));
+    }
+    Ok(Command::new(program))
+}
+
+fn program_command_is_bash(program: &str) -> bool {
+    Path::new(program)
+        .file_name()
+        .and_then(|name| name.to_str())
+        == Some("bash")
+}
+
+fn resolve_program_bash_runtime(repo_root: &Path) -> Result<PathBuf> {
+    resolve_program_bash_runtime_with_env(
+        repo_root,
+        std::env::var_os("OCTON_BASH_RUNTIME").or_else(|| std::env::var_os("OCTON_BASH")),
+        std::env::var_os("PATH"),
+    )
+}
+
+fn resolve_program_bash_runtime_with_env(
+    repo_root: &Path,
+    explicit_runtime: Option<OsString>,
+    path_env: Option<OsString>,
+) -> Result<PathBuf> {
+    if let Some(runtime) = explicit_runtime {
+        let runtime = PathBuf::from(runtime);
+        if supported_program_bash_runtime(&runtime) {
+            return Ok(runtime);
+        }
+        bail!(
+            "configured Bash runtime is not an executable Bash with program lifecycle script support: {}",
+            runtime.display()
+        );
+    }
+    let repo_local_bash = repo_root.join(".octon/framework/assurance/runtime/_ops/bin/bash");
+    if supported_program_bash_runtime(&repo_local_bash) {
+        return Ok(repo_local_bash);
+    }
+    if let Some(path_env) = path_env {
+        for dir in std::env::split_paths(&path_env) {
+            let candidate = dir.join("bash");
+            if supported_program_bash_runtime(&candidate) {
+                return Ok(candidate);
+            }
+        }
+    }
+    for candidate in [
+        PathBuf::from("/opt/homebrew/bin/bash"),
+        PathBuf::from("/usr/local/bin/bash"),
+        PathBuf::from("/bin/bash"),
+        PathBuf::from("/usr/bin/bash"),
+    ] {
+        if supported_program_bash_runtime(&candidate) {
+            return Ok(candidate);
+        }
+    }
+    bail!("unable to resolve a supported Bash runtime for program lifecycle dispatch")
+}
+
+fn supported_program_bash_runtime(path: &Path) -> bool {
+    let Ok(metadata) = fs::metadata(path) else {
+        return false;
+    };
+    if !metadata.is_file() {
+        return false;
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        metadata.permissions().mode() & 0o111 != 0 && bash_supports_program_lifecycle_scripts(path)
+    }
+    #[cfg(not(unix))]
+    {
+        bash_supports_program_lifecycle_scripts(path)
+    }
+}
+
+fn bash_supports_program_lifecycle_scripts(path: &Path) -> bool {
+    let Ok(output) = Command::new(path)
+        .arg("-c")
+        .arg("declare -A __octon_probe=([x]=y); test \"${__octon_probe[x]}\" = y")
+        .output()
+    else {
+        return false;
+    };
+    output.status.success()
 }
 
 #[derive(Default, Deserialize)]
@@ -6417,6 +7874,14 @@ struct CleanupLocalRunArtifactsSummary {
     cleanup_candidates: Option<u64>,
 }
 
+#[derive(Default, Deserialize)]
+struct PublicationFreshnessPreflightSummary {
+    status: Option<String>,
+    blocker_class: Option<String>,
+    recovery_action_id: Option<String>,
+    publication_freshness_digest: Option<String>,
+}
+
 fn lifecycle_residue_cleanup_candidates_present(
     repo_root: &Path,
     active_run_id: Option<&str>,
@@ -6426,9 +7891,11 @@ fn lifecycle_residue_cleanup_candidates_present(
         return Ok(None);
     }
     let octon_dir = repo_root.join(".octon");
-    let mut command = Command::new("bash");
+    let mut command = program_lifecycle_command(repo_root, "bash")?;
     command.arg(script);
-    command.arg("--summary-only");
+    if active_run_id.is_none() {
+        command.arg("--summary-only");
+    }
     if let Some(run_id) = active_run_id {
         command.arg("--active-run-id").arg(run_id);
     }
@@ -6489,19 +7956,16 @@ fn is_current_program_run_cleanup_candidate(path: &str, run_id: &str) -> bool {
     .any(|prefix| path.starts_with(prefix))
 }
 
-fn program_hygiene_preflight_required_for_target(
-    repo_root: &Path,
+fn program_hygiene_preflight_required(
     contract: &LifecycleContract,
-    target_rel: &str,
+    target_state: &TargetState,
 ) -> Result<bool> {
-    let target_abs = resolve_lifecycle_target_path(repo_root, Path::new(target_rel))?;
-    let target_state = build_target_state(repo_root, contract, &target_abs)?;
     let condition_context = LifecycleConditionContext::default();
     for route in &contract.routes {
         if !program_route_has_hygiene_preflight(route.route_id.as_str()) {
             continue;
         }
-        if route_matches_with_context(route, contract, &target_state, &condition_context)? {
+        if route_matches_with_context(route, contract, target_state, &condition_context)? {
             return Ok(true);
         }
     }
@@ -6534,6 +7998,36 @@ fn lifecycle_residue_blocks_program_route(target_state: &TargetState, route_id: 
     }
 }
 
+fn lifecycle_residue_blocks_program_route_with_parent_handoff(
+    repo_root: &Path,
+    target_state: &TargetState,
+    route_id: &str,
+    program_run_id: Option<&str>,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<bool> {
+    if !lifecycle_residue_blocks_program_route(target_state, route_id) {
+        return Ok(false);
+    }
+    let Some(program_run_id) = program_run_id else {
+        return Ok(true);
+    };
+    let Some(receipt) = target_state.receipts.get("lifecycle-residue-cleanup") else {
+        return Ok(true);
+    };
+    if closeout_worktree_parent_return_allows_lifecycle_residue_closeout(
+        repo_root,
+        program_run_id,
+        run_inputs,
+        route_id,
+        receipt,
+    )?
+    .is_some()
+    {
+        return Ok(false);
+    }
+    Ok(true)
+}
+
 fn receipt_bool_is_true(value: &str) -> bool {
     matches!(
         value.trim().to_ascii_lowercase().as_str(),
@@ -6544,18 +8038,31 @@ fn receipt_bool_is_true(value: &str) -> bool {
 fn plan_program_level_route(
     repo_root: &Path,
     context: &ProgramParentContext,
+    target_state: &TargetState,
     program_blockers: &mut Vec<ProgramBlocker>,
     condition_context: &LifecycleConditionContext,
+    program_run_id: Option<&str>,
+    run_inputs: &BTreeMap<String, String>,
 ) -> Result<(Option<RoutePlanState>, Vec<GatePlanResult>, Option<String>)> {
-    let target_abs = resolve_lifecycle_target_path(repo_root, Path::new(&context.target_rel))?;
-    let target_state = build_target_state(repo_root, &context.loaded.contract, &target_abs)?;
-    let Some(route) =
-        select_route_with_context(&context.loaded.contract, &target_state, condition_context)?
+    let Some(route) = select_program_route_with_parent_handoff_context(
+        repo_root,
+        &context.loaded.contract,
+        target_state,
+        condition_context,
+        program_run_id,
+        run_inputs,
+    )?
     else {
         return Ok((None, Vec::new(), None));
     };
     let route_id = route.route_id.clone();
-    if lifecycle_residue_blocks_program_route(&target_state, &route_id) {
+    if lifecycle_residue_blocks_program_route_with_parent_handoff(
+        repo_root,
+        target_state,
+        &route_id,
+        program_run_id,
+        run_inputs,
+    )? {
         program_blockers.push(ProgramBlocker {
             blocker_class: "worktree-hygiene-blocked".to_string(),
             message: format!(
@@ -6565,8 +8072,12 @@ fn plan_program_level_route(
         });
         return Ok((None, Vec::new(), None));
     }
-    let gate_results =
-        run_required_gates(repo_root, &context.loaded.contract, &target_abs, &route_id)?;
+    let gate_results = run_required_gates(
+        repo_root,
+        &context.loaded.contract,
+        &context.target_abs,
+        &route_id,
+    )?;
     if let Some(failed_gate_id) = gate_results
         .iter()
         .find(|result| !result.passed)
@@ -6589,6 +8100,344 @@ fn plan_program_level_route(
         return Ok((fallback, gate_results, Some(failed_gate_id)));
     }
     Ok((Some(route_plan_state(route)), gate_results, None))
+}
+
+fn select_program_route_with_parent_handoff_context(
+    repo_root: &Path,
+    contract: &LifecycleContract,
+    target_state: &TargetState,
+    condition_context: &LifecycleConditionContext,
+    program_run_id: Option<&str>,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<Option<RouteSpec>> {
+    for route in &contract.routes {
+        if route.route_id == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE {
+            let cleanup_completed_zero = lifecycle_residue_cleanup_completed_with_zero_candidates(
+                target_state,
+                condition_context.cleanup_candidates_present,
+            )
+                || lifecycle_residue_cleanup_receipt_current_run_zero_candidates(target_state)
+                || (lifecycle_residue_cleanup_receipt_completed_with_zero_candidates(target_state)
+                    && retained_publication_freshness_preflight_blocked(
+                        repo_root,
+                        program_run_id,
+                    )?);
+            if cleanup_completed_zero
+                && !retained_parent_closeout_worktree_return_has_cleaned_claim(
+                    repo_root,
+                    program_run_id,
+                    run_inputs,
+                )?
+            {
+                continue;
+            }
+        }
+        if !route_matches_with_context(route, contract, target_state, condition_context)? {
+            continue;
+        }
+        if lifecycle_residue_cleanup_handoff_satisfied_by_parent_return(
+            repo_root,
+            target_state,
+            &route.route_id,
+            program_run_id,
+            run_inputs,
+            condition_context,
+        )?
+        .is_some()
+        {
+            continue;
+        }
+        return Ok(Some(route.clone()));
+    }
+    Ok(None)
+}
+
+fn lifecycle_residue_cleanup_handoff_satisfied_by_parent_return(
+    repo_root: &Path,
+    target_state: &TargetState,
+    route_id: &str,
+    program_run_id: Option<&str>,
+    run_inputs: &BTreeMap<String, String>,
+    condition_context: &LifecycleConditionContext,
+) -> Result<Option<String>> {
+    if route_id != ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE
+        || condition_context.cleanup_candidates_present == Some(true)
+    {
+        return Ok(None);
+    }
+    let Some(program_run_id) = program_run_id else {
+        return Ok(None);
+    };
+    let Some(receipt) = target_state.receipts.get("lifecycle-residue-cleanup") else {
+        return Ok(None);
+    };
+    if !receipt.exists
+        || !receipt.missing_required_fields.is_empty()
+        || receipt.stale == Some(true)
+        || receipt
+            .fields
+            .get("implementation_blocking")
+            .map(|value| receipt_bool_is_true(value))
+            .unwrap_or(false)
+        || !receipt
+            .fields
+            .get("worktree_hygiene_handoff_required")
+            .map(|value| receipt_bool_is_true(value))
+            .unwrap_or(false)
+        || !receipt
+            .fields
+            .get("worktree_hygiene_handoff_route")
+            .map(|value| value.trim() == "closeout-worktree")
+            .unwrap_or(false)
+    {
+        return Ok(None);
+    }
+    closeout_worktree_parent_return_allows_lifecycle_residue_closeout(
+        repo_root,
+        program_run_id,
+        run_inputs,
+        route_id,
+        receipt,
+    )
+}
+
+fn lifecycle_residue_cleanup_receipt_requires_closeout_worktree_handoff(
+    target_state: &TargetState,
+    cleanup_candidates_present: Option<bool>,
+) -> bool {
+    if cleanup_candidates_present == Some(true) {
+        return false;
+    }
+    let Some(receipt) = target_state.receipts.get("lifecycle-residue-cleanup") else {
+        return false;
+    };
+    receipt.exists
+        && receipt.missing_required_fields.is_empty()
+        && receipt.stale != Some(true)
+        && receipt
+            .fields
+            .get("cleanup_candidates")
+            .is_some_and(|value| value.trim() == "0")
+        && !receipt
+            .fields
+            .get("implementation_blocking")
+            .map(|value| receipt_bool_is_true(value))
+            .unwrap_or(false)
+        && receipt
+            .fields
+            .get("worktree_hygiene_handoff_required")
+            .map(|value| receipt_bool_is_true(value))
+            .unwrap_or(false)
+        && receipt
+            .fields
+            .get("worktree_hygiene_handoff_route")
+            .is_some_and(|value| value.trim() == "closeout-worktree")
+}
+
+fn lifecycle_residue_cleanup_completed_with_zero_candidates(
+    target_state: &TargetState,
+    cleanup_candidates_present: Option<bool>,
+) -> bool {
+    if cleanup_candidates_present == Some(true) {
+        return false;
+    }
+    lifecycle_residue_cleanup_receipt_completed_with_zero_candidates(target_state)
+}
+
+fn lifecycle_residue_cleanup_receipt_completed_with_zero_candidates(
+    target_state: &TargetState,
+) -> bool {
+    let Some(receipt) = target_state.receipts.get("lifecycle-residue-cleanup") else {
+        return false;
+    };
+    receipt.exists
+        && receipt.missing_required_fields.is_empty()
+        && receipt.stale != Some(true)
+        && receipt
+            .fields
+            .get("cleanup_candidates")
+            .is_some_and(|value| value.trim() == "0")
+}
+
+fn lifecycle_residue_cleanup_receipt_current_run_zero_candidates(
+    target_state: &TargetState,
+) -> bool {
+    let Some(receipt) = target_state.receipts.get("lifecycle-residue-cleanup") else {
+        return false;
+    };
+    receipt.exists
+        && receipt.missing_required_fields.is_empty()
+        && receipt.stale != Some(true)
+        && receipt
+            .fields
+            .get("cleanup_candidates")
+            .is_some_and(|value| value.trim() == "0")
+        && receipt
+            .fields
+            .get("cleanup_helper_current_cleanup_candidates")
+            .is_some_and(|value| value.trim() == "0")
+        && receipt
+            .fields
+            .get("cleanup_helper_current_eligible_cleanup_candidates")
+            .is_some_and(|value| value.trim() == "0")
+}
+
+fn retained_publication_freshness_preflight_summary(
+    repo_root: &Path,
+    program_run_id: Option<&str>,
+) -> Result<Option<PublicationFreshnessPreflightSummary>> {
+    let Some(program_run_id) = program_run_id else {
+        return Ok(None);
+    };
+    let sanitized_run_id = sanitize_run_id(program_run_id)?;
+    let evidence_path = repo_root
+        .join(".octon")
+        .join(WORKFLOW_EVIDENCE_ROOT_REL)
+        .join(sanitized_run_id)
+        .join("publication-freshness-preflight")
+        .join("summary.yml");
+    if !evidence_path.is_file() {
+        return Ok(None);
+    }
+    Ok(Some(
+        serde_yaml::from_slice::<PublicationFreshnessPreflightSummary>(&fs::read(&evidence_path)?)
+            .unwrap_or_default(),
+    ))
+}
+
+fn retained_publication_freshness_preflight_blocked(
+    repo_root: &Path,
+    program_run_id: Option<&str>,
+) -> Result<bool> {
+    Ok(
+        retained_publication_freshness_preflight_summary(repo_root, program_run_id)?.is_some_and(
+            |summary| {
+                summary.status.as_deref() == Some("blocked")
+                    && summary.blocker_class.as_deref() == Some("publication-drift")
+                    && summary.recovery_action_id.as_deref()
+                        == Some(REFRESH_PUBLICATION_PROJECTIONS_ACTION)
+            },
+        ),
+    )
+}
+
+fn apply_retained_publication_freshness_blocker(
+    repo_root: &Path,
+    program_run_id: Option<&str>,
+    program: &ProgramSpec,
+    program_blockers: &mut Vec<ProgramBlocker>,
+) -> Result<bool> {
+    if !program_declares_publication_recovery(program)
+        || program_blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "publication-drift")
+    {
+        return Ok(false);
+    }
+    let Some(summary) =
+        retained_publication_freshness_preflight_summary(repo_root, program_run_id)?
+    else {
+        return Ok(false);
+    };
+    if summary.status.as_deref() != Some("blocked")
+        || summary.blocker_class.as_deref() != Some("publication-drift")
+        || summary.recovery_action_id.as_deref() != Some(REFRESH_PUBLICATION_PROJECTIONS_ACTION)
+    {
+        return Ok(false);
+    }
+    let publication_freshness_digest = summary
+        .publication_freshness_digest
+        .filter(|digest| !digest.trim().is_empty())
+        .unwrap_or_else(|| {
+            program_run_id
+                .and_then(|run_id| {
+                    let evidence_path = repo_root
+                        .join(".octon")
+                        .join(WORKFLOW_EVIDENCE_ROOT_REL)
+                        .join(sanitize_run_id(run_id).ok()?)
+                        .join("publication-freshness-preflight")
+                        .join("summary.yml");
+                    file_digest(&evidence_path).ok()
+                })
+                .unwrap_or_else(|| "sha256:unavailable".to_string())
+        });
+    program_blockers.push(ProgramBlocker {
+        blocker_class: "publication-drift".to_string(),
+        message: format!(
+            "{}; publication_freshness_digest={publication_freshness_digest}",
+            publication_drift_blocker_message()
+        ),
+        recovery_route: None,
+    });
+    Ok(true)
+}
+
+fn retarget_cleanup_redispatch_blockers_to_closeout_worktree(
+    program_blockers: &mut Vec<ProgramBlocker>,
+) {
+    let mut retargeted = false;
+    for blocker in program_blockers.iter_mut() {
+        if blocker.recovery_route.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE) {
+            blocker.blocker_class = "parent-worktree-disposition-required".to_string();
+            blocker.recovery_route = Some("closeout-worktree".to_string());
+            blocker.message = format!(
+                "{}; completed lifecycle-residue-cleanup receipt has zero cleanup candidates and requires governed closeout-worktree disposition before lifecycle closeout can continue; required_return_evidence=closeout-worktree-report-v1",
+                blocker.message
+            );
+            retargeted = true;
+        }
+    }
+    if !retargeted {
+        program_blockers.push(ProgramBlocker {
+            blocker_class: "parent-worktree-disposition-required".to_string(),
+            message: "completed lifecycle-residue-cleanup receipt has zero cleanup candidates and requires governed closeout-worktree disposition; required_return_evidence=closeout-worktree-report-v1; cleanup-lifecycle-residue must not be redispatched without fresh cleanup evidence".to_string(),
+            recovery_route: Some("closeout-worktree".to_string()),
+        });
+    }
+}
+
+fn clear_satisfied_lifecycle_residue_cleanup_blockers(
+    repo_root: &Path,
+    target_state: &TargetState,
+    program_run_id: Option<&str>,
+    run_inputs: &BTreeMap<String, String>,
+    cleanup_candidates_present: Option<bool>,
+    program_blockers: &mut Vec<ProgramBlocker>,
+) -> Result<()> {
+    if !lifecycle_residue_cleanup_receipt_requires_closeout_worktree_handoff(
+        target_state,
+        cleanup_candidates_present,
+    ) {
+        return Ok(());
+    }
+    let Some(program_run_id) = program_run_id else {
+        return Ok(());
+    };
+    let Some(receipt) = target_state.receipts.get("lifecycle-residue-cleanup") else {
+        return Ok(());
+    };
+    if closeout_worktree_parent_return_allows_lifecycle_residue_closeout(
+        repo_root,
+        program_run_id,
+        run_inputs,
+        ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE,
+        receipt,
+    )?
+    .is_none()
+    {
+        return Ok(());
+    }
+    program_blockers.retain(|blocker| {
+        let lifecycle_residue_cleanup_blocker = blocker.blocker_class
+            == BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED
+            || blocker.blocker_class == "parent-worktree-disposition-required";
+        let lifecycle_residue_cleanup_route = matches!(
+            blocker.recovery_route.as_deref(),
+            Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE) | Some("closeout-worktree")
+        );
+        !(lifecycle_residue_cleanup_blocker && lifecycle_residue_cleanup_route)
+    });
+    Ok(())
 }
 
 fn resolve_program_child_target(active_target_abs: &Path) -> Result<PathBuf> {
@@ -7173,6 +9022,416 @@ fn child_gate_status_from_lifecycle_plan(plan: &LifecyclePlanResult) -> ProgramC
     }
 }
 
+fn normalized_child_terminal_evidence_summary(
+    repo_root: &Path,
+    child: &ProgramChildSpec,
+    child_lifecycle_id: &str,
+    child_target_abs: &Path,
+    child_target_rel: &str,
+    final_verdict: &str,
+    selected_route: Option<&RoutePlanState>,
+    terminal_outcome: Option<&str>,
+    receipt_states: &BTreeMap<String, ReceiptPlanState>,
+    blockers: &[ProgramBlocker],
+) -> ProgramChildTerminalEvidenceSummary {
+    let manifest_path = child_target_abs.join("proposal.yml");
+    let manifest = read_yaml_value(&manifest_path);
+    let manifest_status = manifest
+        .as_ref()
+        .and_then(|value| value.get("status"))
+        .and_then(serde_yaml::Value::as_str);
+    let archive = manifest.as_ref().and_then(|value| {
+        value
+            .get("archive")
+            .or_else(|| value.get("archive_metadata"))
+    });
+    let archive_metadata_implemented = archive
+        .and_then(|value| value.get("archived_from_status"))
+        .and_then(serde_yaml::Value::as_str)
+        == Some("implemented")
+        && archive
+            .and_then(|value| value.get("disposition"))
+            .and_then(serde_yaml::Value::as_str)
+            == Some("implemented");
+    let promotion_evidence_present = archive
+        .and_then(|value| value.get(INPUT_PROMOTION_EVIDENCE))
+        .and_then(serde_yaml::Value::as_sequence)
+        .map(|entries| !entries.is_empty())
+        .unwrap_or(false);
+    let active_implemented = manifest_status == Some("implemented");
+    let archived_implemented = manifest_status == Some("archived") && archive_metadata_implemented;
+    let rejected_terminal =
+        manifest_status == Some("rejected") || terminal_outcome == Some("rejected");
+    let non_terminal = terminal_outcome.is_none();
+    let child_terminal_state = if archived_implemented {
+        "archived-implemented".to_string()
+    } else if active_implemented {
+        "active-implemented".to_string()
+    } else if rejected_terminal {
+        "rejected-terminal".to_string()
+    } else if let Some(outcome) = terminal_outcome {
+        format!("terminal:{outcome}")
+    } else {
+        "non-terminal".to_string()
+    };
+    let blocker_state = if blockers.is_empty() {
+        "none".to_string()
+    } else {
+        let classes = blockers
+            .iter()
+            .map(|blocker| blocker.blocker_class.as_str())
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect::<Vec<_>>()
+            .join(",");
+        format!("blocked:{classes}")
+    };
+    let retained_evidence_index =
+        retained_evidence_index_status(repo_root, &child.evidence_index_refs);
+    let mut source_refs = vec![
+        child_terminal_evidence_source_ref(repo_root, "child-manifest", &manifest_path),
+        child_terminal_evidence_source_ref(
+            repo_root,
+            "implementation-run",
+            &child_target_abs.join("support/implementation-run.md"),
+        ),
+        child_terminal_evidence_source_ref(
+            repo_root,
+            "implementation-conformance",
+            &child_target_abs.join("support/implementation-conformance-review.md"),
+        ),
+        child_terminal_evidence_source_ref(
+            repo_root,
+            "post-implementation-drift-churn",
+            &child_target_abs.join("support/post-implementation-drift-churn-review.md"),
+        ),
+        child_terminal_evidence_source_ref(
+            repo_root,
+            "proposal-closeout",
+            &child_target_abs.join("support/proposal-closeout.md"),
+        ),
+        child_terminal_evidence_source_ref(
+            repo_root,
+            "terminal-closeout",
+            &child_target_abs.join("support/proposal-terminal-closeout.yml"),
+        ),
+        child_terminal_evidence_source_ref(
+            repo_root,
+            "validation",
+            &child_target_abs.join("support/validation.md"),
+        ),
+    ];
+    for evidence_ref in &child.evidence_index_refs {
+        source_refs.push(registry_evidence_index_source_ref(
+            repo_root,
+            "retained-evidence-index",
+            evidence_ref,
+        ));
+    }
+
+    ProgramChildTerminalEvidenceSummary {
+        schema_version: "proposal-child-terminal-evidence-summary-v1".to_string(),
+        child_id: child.child_id.clone(),
+        child_lifecycle_id: child_lifecycle_id.to_string(),
+        child_target: child_target_rel.to_string(),
+        required: child.required,
+        deferred: child.deferred,
+        final_verdict: final_verdict.to_string(),
+        selected_route: selected_route.map(|route| route.route_id.clone()),
+        terminal_outcome: terminal_outcome.map(str::to_string),
+        child_terminal_state,
+        blocker_state,
+        evidence_status: ProgramChildTerminalEvidenceStatus {
+            active_implemented,
+            archived_implemented,
+            rejected_terminal,
+            non_terminal,
+            implementation_run: normalized_receipt_status(
+                receipt_states,
+                RECEIPT_ID_IMPLEMENTATION_RUN,
+            ),
+            implementation_conformance: normalized_receipt_status(
+                receipt_states,
+                RECEIPT_ID_IMPLEMENTATION_CONFORMANCE,
+            ),
+            post_implementation_drift_churn: normalized_receipt_status(
+                receipt_states,
+                RECEIPT_ID_POST_IMPLEMENTATION_DRIFT,
+            ),
+            proposal_closeout: normalized_receipt_status(
+                receipt_states,
+                RECEIPT_ID_PROPOSAL_CLOSEOUT,
+            ),
+            terminal_closeout: terminal_closeout_status(receipt_states, child_target_abs),
+            validation: child_terminal_file_status(
+                child_target_abs,
+                "support/validation.md",
+                "verdict",
+                Some("pass"),
+            ),
+            archive_metadata: if archived_implemented {
+                "implemented".to_string()
+            } else if manifest_status == Some("archived") {
+                "archived-non-implemented".to_string()
+            } else {
+                "not-applicable".to_string()
+            },
+            promotion_evidence: if promotion_evidence_present {
+                "present".to_string()
+            } else if manifest_status == Some("archived") {
+                "missing".to_string()
+            } else {
+                "not-applicable".to_string()
+            },
+            retained_evidence_index,
+        },
+        source_refs,
+        freshness: ProgramChildTerminalEvidenceFreshness {
+            source_digest_required: true,
+            stale_behavior: "fail-closed".to_string(),
+            missing_source_behavior: "fail-closed".to_string(),
+            digest_mismatch_behavior: "fail-closed".to_string(),
+        },
+        authority_boundaries: ProgramChildTerminalEvidenceAuthorityBoundaries {
+            parent_summary_satisfies_child_receipts: false,
+            parent_evidence_replaces_child_evidence: false,
+            proposal_inputs_authorize_terminal_readiness: false,
+            generated_outputs_authorize_terminal_readiness: false,
+            retained_evidence_authorizes_execution: false,
+            retained_evidence_is_evidence_only: true,
+        },
+        non_authority_classification: "diagnostic-evidence-summary-only".to_string(),
+        failure_behavior: vec![
+            "fail-closed-on-source-missing".to_string(),
+            "fail-closed-on-source-digest-mismatch".to_string(),
+            "fail-closed-on-stale-child-evidence".to_string(),
+            "fail-closed-on-parent-summary-substitution".to_string(),
+            "fail-closed-on-generated-output-authority-claim".to_string(),
+        ],
+    }
+}
+
+fn read_yaml_value(path: &Path) -> Option<serde_yaml::Value> {
+    fs::read(path)
+        .ok()
+        .and_then(|bytes| serde_yaml::from_slice(&bytes).ok())
+}
+
+fn normalized_receipt_status(
+    receipt_states: &BTreeMap<String, ReceiptPlanState>,
+    receipt_id: &str,
+) -> String {
+    let Some(receipt) = receipt_states.get(receipt_id) else {
+        return "not-declared".to_string();
+    };
+    if !receipt.exists {
+        return "missing".to_string();
+    }
+    if !receipt.missing_required_fields.is_empty() {
+        return format!(
+            "missing-required-fields:{}",
+            receipt.missing_required_fields.join(",")
+        );
+    }
+    if receipt.stale == Some(true) {
+        return "stale".to_string();
+    }
+    receipt
+        .verdict
+        .as_ref()
+        .map(|verdict| format!("verdict:{verdict}"))
+        .unwrap_or_else(|| "present".to_string())
+}
+
+fn terminal_closeout_status(
+    receipt_states: &BTreeMap<String, ReceiptPlanState>,
+    child_target_abs: &Path,
+) -> String {
+    let status = normalized_receipt_status(receipt_states, RECEIPT_ID_PROPOSAL_TERMINAL_CLOSEOUT);
+    if status != "not-declared" {
+        return status;
+    }
+    child_terminal_file_status(
+        child_target_abs,
+        "support/proposal-terminal-closeout.yml",
+        "terminal_verdict",
+        None,
+    )
+}
+
+fn child_terminal_file_status(
+    child_target_abs: &Path,
+    rel_path: &str,
+    field: &str,
+    expected: Option<&str>,
+) -> String {
+    let path = child_target_abs.join(rel_path);
+    if !path.is_file() || !path.starts_with(child_target_abs) {
+        return "missing".to_string();
+    }
+    let Ok(fields) = parse_receipt_fields(&path) else {
+        return "present-unreadable".to_string();
+    };
+    let Some(actual) = fields.get(field) else {
+        return "present".to_string();
+    };
+    if expected.map(|expected| actual == expected).unwrap_or(false) {
+        "pass".to_string()
+    } else {
+        format!("{field}:{actual}")
+    }
+}
+
+fn retained_evidence_index_status(repo_root: &Path, refs: &[String]) -> String {
+    if refs.is_empty() {
+        return "not-declared".to_string();
+    }
+    let mut missing = Vec::new();
+    let mut unsafe_refs = Vec::new();
+    for evidence_ref in refs {
+        if !is_safe_repo_relative(evidence_ref) {
+            unsafe_refs.push(evidence_ref.as_str());
+            continue;
+        }
+        if !repo_root.join(evidence_ref).is_file() {
+            missing.push(evidence_ref.as_str());
+        }
+    }
+    if !unsafe_refs.is_empty() {
+        format!("unsafe-ref:{}", unsafe_refs.join(","))
+    } else if !missing.is_empty() {
+        format!("missing:{}", missing.join(","))
+    } else {
+        "present".to_string()
+    }
+}
+
+fn child_terminal_evidence_source_ref(
+    repo_root: &Path,
+    role: &str,
+    path: &Path,
+) -> ProgramChildTerminalEvidenceSourceRef {
+    let present = path.is_file();
+    ProgramChildTerminalEvidenceSourceRef {
+        role: role.to_string(),
+        path: rel_display(repo_root, path),
+        digest: if present {
+            file_digest(path).unwrap_or_else(|_| "unavailable".to_string())
+        } else {
+            "missing".to_string()
+        },
+        status: if present { "present" } else { "missing" }.to_string(),
+    }
+}
+
+fn registry_evidence_index_source_ref(
+    repo_root: &Path,
+    role: &str,
+    evidence_ref: &str,
+) -> ProgramChildTerminalEvidenceSourceRef {
+    let path = repo_root.join(evidence_ref);
+    let safe = is_safe_repo_relative(evidence_ref);
+    let present = safe && path.is_file();
+    ProgramChildTerminalEvidenceSourceRef {
+        role: role.to_string(),
+        path: evidence_ref.to_string(),
+        digest: if present {
+            file_digest(&path).unwrap_or_else(|_| "unavailable".to_string())
+        } else {
+            "missing".to_string()
+        },
+        status: if !safe {
+            "unsafe".to_string()
+        } else if present {
+            "present".to_string()
+        } else {
+            "missing".to_string()
+        },
+    }
+}
+
+fn child_archive_route_ready_after_terminal_closeout(plan: &LifecyclePlanResult) -> bool {
+    plan.terminal_outcome.is_none()
+        && plan.manifest_status.as_deref() == Some("implemented")
+        && receipt_field_equals(
+            &plan.receipt_states,
+            RECEIPT_ID_IMPLEMENTATION_CONFORMANCE,
+            "verdict",
+            "pass",
+        )
+        && receipt_field_equals(
+            &plan.receipt_states,
+            RECEIPT_ID_POST_IMPLEMENTATION_DRIFT,
+            "verdict",
+            "pass",
+        )
+        && receipt_field_equals(
+            &plan.receipt_states,
+            RECEIPT_ID_PROPOSAL_CLOSEOUT,
+            "verdict",
+            "pass",
+        )
+        && receipt_field_equals(
+            &plan.receipt_states,
+            RECEIPT_ID_PROPOSAL_CLOSEOUT,
+            "archive_authorized",
+            "yes",
+        )
+        && receipt_complete(&plan.receipt_states, RECEIPT_ID_PROPOSAL_TERMINAL_CLOSEOUT)
+        && receipt_field_equals(
+            &plan.receipt_states,
+            RECEIPT_ID_PROPOSAL_TERMINAL_CLOSEOUT,
+            "terminal_verdict",
+            "archive-ready",
+        )
+        && receipt_field_equals(
+            &plan.receipt_states,
+            RECEIPT_ID_PROPOSAL_TERMINAL_CLOSEOUT,
+            "archive_ready",
+            "yes",
+        )
+}
+
+fn stale_receipts_are_only(plan: &LifecyclePlanResult, allowed_ids: &[&str]) -> bool {
+    let stale_ids = plan
+        .receipt_states
+        .iter()
+        .filter_map(|(receipt_id, receipt)| {
+            (receipt.stale == Some(true)).then_some(receipt_id.as_str())
+        })
+        .collect::<Vec<_>>();
+    !stale_ids.is_empty()
+        && stale_ids
+            .iter()
+            .all(|receipt_id| allowed_ids.iter().any(|allowed| allowed == receipt_id))
+}
+
+fn receipt_complete(receipts: &BTreeMap<String, ReceiptPlanState>, receipt_id: &str) -> bool {
+    receipts
+        .get(receipt_id)
+        .map(|receipt| receipt.exists && receipt.missing_required_fields.is_empty())
+        .unwrap_or(false)
+}
+
+fn receipt_field_equals(
+    receipts: &BTreeMap<String, ReceiptPlanState>,
+    receipt_id: &str,
+    field: &str,
+    expected: &str,
+) -> bool {
+    receipts
+        .get(receipt_id)
+        .filter(|receipt| receipt.exists && receipt.missing_required_fields.is_empty())
+        .and_then(|receipt| {
+            receipt.fields.get(field).map(String::as_str).or_else(|| {
+                matches!(field, "verdict" | "terminal_verdict")
+                    .then_some(receipt.verdict.as_deref())
+                    .flatten()
+            })
+        })
+        == Some(expected)
+}
+
 fn receipt_passed(receipts: &BTreeMap<String, ReceiptPlanState>, receipt_id: &str) -> bool {
     receipts
         .get(receipt_id)
@@ -7332,6 +9591,7 @@ fn apply_dependency_blockers(child_states: &mut BTreeMap<String, ProgramChildPla
 fn apply_closeout_hygiene_suppressions(
     repo_root: &Path,
     checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    run_inputs: &BTreeMap<String, String>,
     child_states: &mut BTreeMap<String, ProgramChildPlanState>,
 ) -> Result<BTreeMap<String, ProgramCloseoutHygieneSuppression>> {
     let mut active = BTreeMap::new();
@@ -7373,6 +9633,32 @@ fn apply_closeout_hygiene_suppressions(
             )
         {
             continue;
+        }
+        let stdout_path = repo_root.join(
+            suppression
+                .evidence_paths
+                .iter()
+                .find_map(|path| {
+                    is_worktree_hygiene_preflight_stdout_ref(path).then_some(path.as_str())
+                })
+                .unwrap_or_default(),
+        );
+        if stdout_path.is_file() {
+            let stdout_ref = rel_display(repo_root, &stdout_path);
+            if closeout_worktree_handoff_return_allows_hygiene_preflight(
+                repo_root,
+                &checkpoint.run_id,
+                run_inputs,
+                state,
+                &suppression.route_id,
+                &stdout_ref,
+                &stdout_path,
+                current.decision.foreign_fingerprint.as_deref(),
+            )?
+            .is_some()
+            {
+                continue;
+            }
         }
         let blocker = ProgramBlocker {
             blocker_class: suppression.blocker_class.clone(),
@@ -7531,6 +9817,224 @@ fn record_residue_cleanup_attempts_for_parent_route(
             },
         );
     }
+}
+
+fn cleanup_receipt_requests_closeout_worktree_handoff(
+    repo_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+    plan: &ProgramLifecyclePlanResult,
+    _checkpoint: Option<&ProgramLifecycleCheckpoint>,
+) -> Result<bool> {
+    let Some(receipt) = plan.parent_receipt_states.get("lifecycle-residue-cleanup") else {
+        return Ok(false);
+    };
+    let receipt_requests_handoff = receipt_complete_and_not_stale(Some(receipt))
+        && receipt
+            .fields
+            .get("worktree_hygiene_handoff_required")
+            .map(|value| receipt_bool_is_true(value))
+            .unwrap_or(false)
+        && receipt
+            .fields
+            .get("worktree_hygiene_handoff_route")
+            .map(|value| value.trim() == "closeout-worktree")
+            .unwrap_or(false);
+    if !receipt_requests_handoff {
+        return Ok(false);
+    }
+    let receipt_state = receipt_state_from_plan(repo_root, receipt);
+    Ok(
+        closeout_worktree_parent_return_allows_lifecycle_residue_closeout(
+            repo_root,
+            program_run_id,
+            run_inputs,
+            ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE,
+            &receipt_state,
+        )?
+        .is_none(),
+    )
+}
+
+fn receipt_state_from_plan(repo_root: &Path, receipt: &ReceiptPlanState) -> ReceiptState {
+    ReceiptState {
+        path_abs: repo_root.join(&receipt.path),
+        exists: receipt.exists,
+        fields: receipt.fields.clone(),
+        missing_required_fields: receipt.missing_required_fields.clone(),
+        stale: receipt.stale,
+        stored_digest: receipt.stored_digest.clone(),
+        current_digest: receipt.current_digest.clone(),
+    }
+}
+
+fn child_results_for_cleanup_receipt_handoff(
+    repo_root: &Path,
+    evidence_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+) -> Result<Vec<ProgramChildExecutionSummary>> {
+    let suppressions: Vec<&ProgramCloseoutHygieneSuppression> =
+        if plan.closeout_hygiene_suppressions.is_empty() {
+            checkpoint
+                .map(|checkpoint| checkpoint.closeout_hygiene_suppressions.values().collect())
+                .unwrap_or_default()
+        } else {
+            plan.closeout_hygiene_suppressions.values().collect()
+        };
+    let mut summaries = Vec::new();
+    for suppression in suppressions {
+        if suppression.blocker_class != "artifact-ownership-unclear"
+            || !route_has_closeout_hygiene_preflight(&suppression.route_id)
+        {
+            continue;
+        }
+        let Some(state) = plan.child_states.get(&suppression.child_id) else {
+            continue;
+        };
+        let stdout_path = repo_root.join(
+            suppression
+                .evidence_paths
+                .iter()
+                .find_map(|path| {
+                    is_worktree_hygiene_preflight_stdout_ref(path).then_some(path.as_str())
+                })
+                .unwrap_or_default(),
+        );
+        if stdout_path.is_file() {
+            let stdout_ref = rel_display(repo_root, &stdout_path);
+            if closeout_worktree_handoff_return_allows_hygiene_preflight(
+                repo_root,
+                program_run_id,
+                run_inputs,
+                state,
+                &suppression.route_id,
+                &stdout_ref,
+                &stdout_path,
+                suppression.worktree_hygiene_foreign_fingerprint.as_deref(),
+            )?
+            .is_some()
+            {
+                continue;
+            }
+        }
+        summaries.push(ProgramChildExecutionSummary {
+            child_id: suppression.child_id.clone(),
+            child_run_id: format!(
+                "{program_run_id}-{}-worktree-hygiene-handoff",
+                suppression.child_id
+            ),
+            route_id: suppression.route_id.clone(),
+            status: "blocked".to_string(),
+            attempts: 0,
+            retryable: false,
+            blocker_class: Some(suppression.blocker_class.clone()),
+            error_message: Some(
+                "fresh lifecycle-residue-cleanup receipt requires governed closeout-worktree handoff"
+                    .to_string(),
+            ),
+            error_class: Some("worktree-hygiene-handoff-required".to_string()),
+            evidence_paths: suppression.evidence_paths.clone(),
+            worktree_hygiene_foreign_fingerprint: suppression
+                .worktree_hygiene_foreign_fingerprint
+                .clone(),
+        });
+    }
+    if !summaries.is_empty() {
+        return Ok(summaries);
+    }
+    child_results_for_retained_worktree_hygiene_evidence(
+        repo_root,
+        evidence_root,
+        program_run_id,
+        run_inputs,
+        plan,
+        checkpoint,
+    )
+}
+
+fn child_results_for_retained_worktree_hygiene_evidence(
+    repo_root: &Path,
+    evidence_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+) -> Result<Vec<ProgramChildExecutionSummary>> {
+    let receipt_fingerprint = plan
+        .parent_receipt_states
+        .get("lifecycle-residue-cleanup")
+        .and_then(|receipt| receipt.fields.get("worktree_hygiene_foreign_fingerprint"))
+        .cloned();
+    let mut summaries = Vec::new();
+    for (child_id, state) in &plan.child_states {
+        let child_evidence_root = evidence_root.join("children").join(child_id);
+        let stdout_path = child_evidence_root.join("worktree-hygiene-preflight.stdout.yml");
+        if !stdout_path.is_file() {
+            continue;
+        }
+        let stderr_path = child_evidence_root.join("worktree-hygiene-preflight.stderr.log");
+        let stdout = fs::read_to_string(&stdout_path)?;
+        let decision = classify_worktree_hygiene_preflight(true, &stdout);
+        if decision.status != "blocked" || decision.blocker_class != "artifact-ownership-unclear" {
+            continue;
+        }
+        let route_id = state
+            .selected_route
+            .as_ref()
+            .map(|route| route.route_id.as_str())
+            .filter(|route_id| route_has_closeout_hygiene_preflight(route_id))
+            .or_else(|| {
+                checkpoint
+                    .and_then(|checkpoint| checkpoint.child_states.get(child_id))
+                    .and_then(|state| state.current_state.as_deref())
+                    .filter(|route_id| route_has_closeout_hygiene_preflight(route_id))
+            })
+            .unwrap_or("closeout-packet")
+            .to_string();
+        let mut evidence_paths = vec![rel_display(repo_root, &stdout_path)];
+        if stderr_path.is_file() {
+            evidence_paths.push(rel_display(repo_root, &stderr_path));
+        }
+        if closeout_worktree_handoff_return_allows_hygiene_preflight(
+            repo_root,
+            program_run_id,
+            run_inputs,
+            state,
+            &route_id,
+            &rel_display(repo_root, &stdout_path),
+            &stdout_path,
+            decision
+                .foreign_fingerprint
+                .as_deref()
+                .or(receipt_fingerprint.as_deref()),
+        )?
+        .is_some()
+        {
+            continue;
+        }
+        summaries.push(ProgramChildExecutionSummary {
+            child_id: child_id.clone(),
+            child_run_id: format!("{program_run_id}-{child_id}-worktree-hygiene-handoff"),
+            route_id,
+            status: "blocked".to_string(),
+            attempts: 0,
+            retryable: false,
+            blocker_class: Some("artifact-ownership-unclear".to_string()),
+            error_message: Some(
+                "fresh lifecycle-residue-cleanup receipt requires governed closeout-worktree handoff from retained classifier evidence"
+                    .to_string(),
+            ),
+            error_class: Some("worktree-hygiene-handoff-required".to_string()),
+            evidence_paths,
+            worktree_hygiene_foreign_fingerprint: decision
+                .foreign_fingerprint
+                .or_else(|| receipt_fingerprint.clone()),
+        });
+    }
+    Ok(summaries)
 }
 
 fn checkpoint_for_post_execution_replan_with_residue_attempts(
@@ -8158,8 +10662,12 @@ fn apply_program_recovery_action_budget_to_blocker(
     let budget = recovery_attempt_budget(program, &blocker.blocker_class)
         .or(program.recovery_policy.max_recovery_attempts)
         .unwrap_or(1);
-    let used =
-        program_recovery_action_attempt_count(Some(checkpoint), &blocker.blocker_class, action_id);
+    let used = program_recovery_action_attempt_count_for_blocker(
+        Some(checkpoint),
+        &blocker.blocker_class,
+        action_id,
+        blocker,
+    );
     if used < budget {
         return;
     }
@@ -8172,28 +10680,36 @@ fn apply_program_recovery_action_budget_to_blocker(
 }
 
 fn apply_recovery_budget_blockers(
+    repo_root: &Path,
+    run_inputs: &BTreeMap<String, String>,
     program: &ProgramSpec,
     child_states: &mut BTreeMap<String, ProgramChildPlanState>,
     checkpoint: Option<&ProgramLifecycleCheckpoint>,
-) {
+) -> Result<()> {
     let Some(checkpoint) = checkpoint else {
-        return;
+        return Ok(());
     };
     for state in child_states.values_mut() {
-        let exhausted = state
-            .blockers
-            .iter()
-            .enumerate()
-            .find_map(|(index, blocker)| {
-                if selected_stale_receipt_route_can_advance(program, state, blocker) {
-                    return None;
-                }
-                let budget = recovery_attempt_budget(program, &blocker.blocker_class)?;
-                let attempts =
-                    recovery_attempt_count(checkpoint, &state.child_id, &blocker.blocker_class);
-                (attempts >= budget)
-                    .then(|| (index, blocker.blocker_class.clone(), attempts, budget))
-            });
+        let mut exhausted = None;
+        for (index, blocker) in state.blockers.iter().enumerate() {
+            if selected_stale_receipt_route_can_advance(program, state, blocker)
+                || selected_archive_authorization_route_can_advance(state, blocker)
+                || selected_closeout_worktree_handoff_route_can_advance(
+                    repo_root, run_inputs, state, blocker, checkpoint,
+                )?
+            {
+                continue;
+            }
+            let Some(budget) = recovery_attempt_budget(program, &blocker.blocker_class) else {
+                continue;
+            };
+            let attempts =
+                recovery_attempt_count(checkpoint, &state.child_id, &blocker.blocker_class);
+            if attempts >= budget {
+                exhausted = Some((index, blocker.blocker_class.clone(), attempts, budget));
+                break;
+            }
+        }
         if let Some((exhausted_index, blocker_class, attempts, budget)) = exhausted {
             let alternate_safe_route = state.blockers.iter().find_map(|blocker| {
                 (blocker.blocker_class.as_str() != blocker_class.as_str()
@@ -8219,39 +10735,51 @@ fn apply_recovery_budget_blockers(
             });
         }
     }
+    Ok(())
 }
 
 fn apply_recovery_progress_blockers(
+    repo_root: &Path,
+    run_inputs: &BTreeMap<String, String>,
     program: &ProgramSpec,
     child_states: &mut BTreeMap<String, ProgramChildPlanState>,
     checkpoint: Option<&ProgramLifecycleCheckpoint>,
-) {
+) -> Result<()> {
     let Some(checkpoint) = checkpoint else {
-        return;
+        return Ok(());
     };
     for state in child_states.values_mut() {
-        let no_progress = state
-            .blockers
-            .iter()
-            .enumerate()
-            .find_map(|(index, blocker)| {
-                if selected_stale_receipt_route_can_advance(program, state, blocker) {
-                    return None;
-                }
-                let route_id = recovery_route_for_blocker(program, blocker)
-                    .or(blocker.recovery_route.as_deref())
-                    .or_else(|| {
-                        state
-                            .selected_route
-                            .as_ref()
-                            .map(|route| route.route_id.as_str())
-                    })?;
-                let key = recovery_progress_key(&state.child_id, route_id, &blocker.blocker_class);
-                let previous = checkpoint.recovery_progress_fingerprints.get(&key)?;
-                let current = child_progress_fingerprint(state, route_id, &blocker.blocker_class);
-                (previous == &current)
-                    .then(|| (index, blocker.blocker_class.clone(), route_id.to_string()))
-            });
+        let mut no_progress = None;
+        for (index, blocker) in state.blockers.iter().enumerate() {
+            if selected_stale_receipt_route_can_advance(program, state, blocker)
+                || selected_archive_authorization_route_can_advance(state, blocker)
+                || selected_closeout_worktree_handoff_route_can_advance(
+                    repo_root, run_inputs, state, blocker, checkpoint,
+                )?
+            {
+                continue;
+            }
+            let Some(route_id) = recovery_route_for_blocker(program, blocker)
+                .or(blocker.recovery_route.as_deref())
+                .or_else(|| {
+                    state
+                        .selected_route
+                        .as_ref()
+                        .map(|route| route.route_id.as_str())
+                })
+            else {
+                continue;
+            };
+            let key = recovery_progress_key(&state.child_id, route_id, &blocker.blocker_class);
+            let Some(previous) = checkpoint.recovery_progress_fingerprints.get(&key) else {
+                continue;
+            };
+            let current = child_progress_fingerprint(state, route_id, &blocker.blocker_class);
+            if previous == &current {
+                no_progress = Some((index, blocker.blocker_class.clone(), route_id.to_string()));
+                break;
+            }
+        }
         if let Some((index, blocker_class, route_id)) = no_progress {
             state.blockers.remove(index);
             state.blockers.push(ProgramBlocker {
@@ -8263,6 +10791,7 @@ fn apply_recovery_progress_blockers(
             });
         }
     }
+    Ok(())
 }
 
 fn selected_stale_receipt_route_can_advance(
@@ -8280,6 +10809,133 @@ fn selected_stale_receipt_route_can_advance(
         return false;
     };
     recovery_route_id == selected_route.route_id
+}
+
+fn selected_archive_authorization_route_can_advance(
+    state: &ProgramChildPlanState,
+    blocker: &ProgramBlocker,
+) -> bool {
+    if !blocker.blocker_class.starts_with("archive-authorization-")
+        || state.terminal_outcome.is_some()
+        || state.final_verdict != "route-ready"
+    {
+        return false;
+    }
+    state
+        .selected_route
+        .as_ref()
+        .map(|route| route.route_id == "archive-proposal")
+        .unwrap_or(false)
+}
+
+fn selected_closeout_worktree_handoff_route_can_advance(
+    repo_root: &Path,
+    run_inputs: &BTreeMap<String, String>,
+    state: &ProgramChildPlanState,
+    blocker: &ProgramBlocker,
+    checkpoint: &ProgramLifecycleCheckpoint,
+) -> Result<bool> {
+    if blocker.blocker_class != "artifact-ownership-unclear" || state.terminal_outcome.is_some() {
+        return Ok(false);
+    }
+    let Some(selected_route) = state.selected_route.as_ref() else {
+        return Ok(false);
+    };
+    if !route_has_closeout_hygiene_preflight(&selected_route.route_id) {
+        return Ok(false);
+    }
+    if let Some(suppression) =
+        checkpoint
+            .closeout_hygiene_suppressions
+            .get(&closeout_hygiene_suppression_key(
+                &state.child_id,
+                &selected_route.route_id,
+            ))
+    {
+        if suppression.blocker_class != blocker.blocker_class {
+            return Ok(false);
+        }
+        let Some(stdout_ref) = suppression.evidence_paths.iter().find_map(|path| {
+            is_worktree_hygiene_preflight_stdout_ref(path).then_some(path.as_str())
+        }) else {
+            return Ok(false);
+        };
+        if !is_safe_repo_relative(stdout_ref) {
+            return Ok(false);
+        }
+        let stdout_path = repo_root.join(stdout_ref);
+        if !stdout_path.is_file() {
+            return Ok(false);
+        }
+        if closeout_worktree_handoff_return_allows_hygiene_preflight(
+            repo_root,
+            &checkpoint.run_id,
+            run_inputs,
+            state,
+            &selected_route.route_id,
+            stdout_ref,
+            &stdout_path,
+            suppression.worktree_hygiene_foreign_fingerprint.as_deref(),
+        )?
+        .is_some()
+        {
+            return Ok(true);
+        }
+    }
+
+    let retained_stdout_ref = format!(
+        ".octon/state/evidence/runs/workflows/{}/children/{}/worktree-hygiene-preflight.stdout.yml",
+        checkpoint.run_id, state.child_id
+    );
+    if !is_safe_repo_relative(&retained_stdout_ref) {
+        return Ok(false);
+    }
+    let retained_stdout_path = repo_root.join(&retained_stdout_ref);
+    if !retained_stdout_path.is_file() {
+        return Ok(false);
+    }
+    let stdout = fs::read_to_string(&retained_stdout_path)?;
+    let decision = classify_worktree_hygiene_preflight(true, &stdout);
+    if decision.status != "blocked" || decision.blocker_class != blocker.blocker_class {
+        return Ok(false);
+    }
+    closeout_worktree_handoff_return_allows_selected_closeout_route(
+        repo_root,
+        &checkpoint.run_id,
+        run_inputs,
+        state,
+        &selected_route.route_id,
+        decision.foreign_fingerprint.as_deref(),
+    )
+    .map(|report_ref| report_ref.is_some())
+}
+
+fn apply_closeout_worktree_handoff_route_unblocks(
+    repo_root: &Path,
+    run_inputs: &BTreeMap<String, String>,
+    child_states: &mut BTreeMap<String, ProgramChildPlanState>,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+) -> Result<()> {
+    let Some(checkpoint) = checkpoint else {
+        return Ok(());
+    };
+    for state in child_states.values_mut() {
+        if state.terminal_outcome.is_some() || state.blockers.is_empty() {
+            continue;
+        }
+        let mut retained = Vec::new();
+        let blockers = std::mem::take(&mut state.blockers);
+        for blocker in blockers {
+            if selected_closeout_worktree_handoff_route_can_advance(
+                repo_root, run_inputs, state, &blocker, checkpoint,
+            )? {
+                continue;
+            }
+            retained.push(blocker);
+        }
+        state.blockers = retained;
+    }
+    Ok(())
 }
 
 fn apply_recovery_approval_blockers(
@@ -8488,7 +11144,50 @@ fn select_runnable_batch(
             program.recovery_policy.serialize_write_scope_conflicts,
         );
     }
+    if candidates.is_empty() && registry.execution_mode == "gated-parallel" {
+        candidates = select_unblocked_route_ready_batch(registry, child_states);
+        if registry.execution_mode != "sequential" && registry.execution_mode != "program-atomic" {
+            candidates = enforce_write_scope_independence(
+                child_states,
+                candidates,
+                program.recovery_policy.serialize_write_scope_conflicts,
+            );
+        }
+    }
     candidates
+}
+
+fn select_unblocked_route_ready_batch(
+    registry: &ProgramChildRegistry,
+    child_states: &BTreeMap<String, ProgramChildPlanState>,
+) -> Vec<String> {
+    let mut selected = Vec::new();
+    let mut selected_phase = None;
+    for child_id in dependency_ordered_child_ids(registry) {
+        let Some(child) = registry_child(registry, &child_id) else {
+            continue;
+        };
+        let phase = child_phase_key(child);
+        if selected_phase
+            .as_ref()
+            .is_some_and(|selected_phase| selected_phase != &phase)
+        {
+            break;
+        }
+        let Some(state) = child_states.get(&child_id) else {
+            continue;
+        };
+        if state.required
+            && !state.deferred
+            && state.terminal_outcome.is_none()
+            && state.selected_route.is_some()
+            && state.blockers.is_empty()
+        {
+            selected_phase.get_or_insert(phase);
+            selected.push(child_id);
+        }
+    }
+    selected
 }
 
 fn dependency_ordered_child_ids(registry: &ProgramChildRegistry) -> Vec<String> {
@@ -9207,6 +11906,290 @@ fn child_promotion_evidence_preflight(
     ))
 }
 
+fn child_terminal_target_outcome_preflight(
+    repo_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+    state: &ProgramChildPlanState,
+    child_evidence_root: &Path,
+    route_id: &str,
+    registry_digest: &str,
+    write_scope_digest: Option<&str>,
+    authority_decision_path: &str,
+) -> Result<ChildTerminalTargetOutcomePreflight> {
+    if route_id != ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT {
+        return Ok(ChildTerminalTargetOutcomePreflight::Bound(
+            ChildTerminalTargetOutcomeBinding {
+                run_inputs: run_inputs.clone(),
+                target_outcome: run_inputs
+                    .get(INPUT_TARGET_OUTCOME)
+                    .cloned()
+                    .unwrap_or_default(),
+                source_receipt_ref: "not-applicable".to_string(),
+                source_receipt_digest: "not-applicable".to_string(),
+                binding_evidence_ref: "not-applicable".to_string(),
+                parent_run_inputs_unchanged: true,
+            },
+        ));
+    }
+
+    let child_target_abs = resolve_lifecycle_target_path(repo_root, Path::new(&state.target))?;
+    let receipt_path = resolve_target_local_path(
+        &child_target_abs,
+        &receipt_path_for_id(RECEIPT_ID_PROPOSAL_CLOSEOUT),
+        "proposal packet terminal closeout target_outcome source receipt",
+    )?;
+    let receipt_ref = rel_display(repo_root, &receipt_path);
+    let (receipt_digest, observed_fields) =
+        if receipt_path.is_file() && receipt_path.starts_with(&child_target_abs) {
+            (
+                file_digest(&receipt_path)?,
+                parse_receipt_fields(&receipt_path)?,
+            )
+        } else {
+            ("missing".to_string(), BTreeMap::<String, String>::new())
+        };
+
+    let failure = validate_child_terminal_target_outcome_binding(
+        run_inputs,
+        state,
+        &receipt_path,
+        &receipt_ref,
+        &receipt_digest,
+        &observed_fields,
+    );
+    let target_outcome = match failure {
+        Ok(value) => value,
+        Err(failure) => {
+            return Ok(ChildTerminalTargetOutcomePreflight::Blocked(
+                write_child_terminal_target_outcome_blocker(
+                    repo_root,
+                    program_run_id,
+                    state,
+                    child_evidence_root,
+                    route_id,
+                    registry_digest,
+                    write_scope_digest,
+                    authority_decision_path,
+                    failure,
+                )?,
+            ));
+        }
+    };
+
+    let mut route_run_inputs = run_inputs.clone();
+    let parent_run_inputs_unchanged = !run_inputs.contains_key(INPUT_TARGET_OUTCOME);
+    route_run_inputs.insert(INPUT_TARGET_OUTCOME.to_string(), target_outcome.clone());
+
+    let expected_receipt_digest = state
+        .receipt_digests
+        .get(RECEIPT_ID_PROPOSAL_CLOSEOUT)
+        .cloned()
+        .unwrap_or_else(|| "not-recorded".to_string());
+    let evidence_path =
+        child_evidence_root.join("proposal-packet-terminal-closeout-target-outcome-binding.yml");
+    fs::create_dir_all(child_evidence_root)?;
+    let evidence = ChildTerminalTargetOutcomeBindingEvidence {
+        schema_version: "octon-program-child-terminal-target-outcome-binding-v1".to_string(),
+        program_run_id: program_run_id.to_string(),
+        child_id: state.child_id.clone(),
+        child_target: state.target.clone(),
+        route_id: route_id.to_string(),
+        target_outcome: target_outcome.clone(),
+        source_receipt_ref: receipt_ref.clone(),
+        source_receipt_digest: receipt_digest.clone(),
+        expected_receipt_digest,
+        registry_digest: registry_digest.to_string(),
+        write_scope_digest: write_scope_digest.map(str::to_string),
+        authority_zone_decision_ref: authority_decision_path.to_string(),
+        parent_run_inputs_unchanged,
+        parent_summary_not_child_closeout_receipt: true,
+        child_closeout_authority_preserved: true,
+        parent_evidence_replaces_child_evidence: false,
+        route_scoped_child_input_only: true,
+        recorded_at: now_rfc3339()?,
+    };
+    fs::write(&evidence_path, serde_yaml::to_string(&evidence)?)?;
+    let binding_evidence_ref = rel_display(repo_root, &evidence_path);
+
+    Ok(ChildTerminalTargetOutcomePreflight::Bound(
+        ChildTerminalTargetOutcomeBinding {
+            run_inputs: route_run_inputs,
+            target_outcome,
+            source_receipt_ref: receipt_ref,
+            source_receipt_digest: receipt_digest,
+            binding_evidence_ref,
+            parent_run_inputs_unchanged,
+        },
+    ))
+}
+
+fn validate_child_terminal_target_outcome_binding(
+    run_inputs: &BTreeMap<String, String>,
+    state: &ProgramChildPlanState,
+    receipt_path: &Path,
+    receipt_ref: &str,
+    receipt_digest: &str,
+    fields: &BTreeMap<String, String>,
+) -> std::result::Result<String, TerminalTargetOutcomeBindingFailure> {
+    if !receipt_path.is_file() {
+        return Err(terminal_target_outcome_failure(
+            "missing child-owned proposal-closeout receipt",
+            receipt_ref,
+            receipt_digest,
+            fields,
+        ));
+    }
+    if let Some(expected_digest) = state.receipt_digests.get(RECEIPT_ID_PROPOSAL_CLOSEOUT) {
+        if expected_digest != receipt_digest {
+            return Err(terminal_target_outcome_failure(
+                &format!(
+                    "child proposal-closeout digest drifted from {expected_digest} to {receipt_digest}"
+                ),
+                receipt_ref,
+                receipt_digest,
+                fields,
+            ));
+        }
+    }
+    let Some(target_outcome) = fields.get(INPUT_TARGET_OUTCOME).map(String::as_str) else {
+        return Err(terminal_target_outcome_failure(
+            "child proposal-closeout receipt does not record target_outcome",
+            receipt_ref,
+            receipt_digest,
+            fields,
+        ));
+    };
+    if !valid_terminal_target_outcome(target_outcome) {
+        return Err(terminal_target_outcome_failure(
+            &format!(
+                "child proposal-closeout target_outcome is not schema-valid: {target_outcome}"
+            ),
+            receipt_ref,
+            receipt_digest,
+            fields,
+        ));
+    }
+    if let Some(bound) = run_inputs.get(INPUT_TARGET_OUTCOME) {
+        if bound != target_outcome {
+            return Err(terminal_target_outcome_failure(
+                &format!(
+                    "route-scoped target_outcome {target_outcome} conflicts with bound run input {bound}"
+                ),
+                receipt_ref,
+                receipt_digest,
+                fields,
+            ));
+        }
+    }
+    if target_outcome == "archive-ready" {
+        for (field, expected) in [
+            ("verdict", "pass"),
+            ("archive_authorized", "yes"),
+            ("lifecycle_outcome", "archive-ready"),
+        ] {
+            if fields.get(field).map(String::as_str) != Some(expected) {
+                return Err(terminal_target_outcome_failure(
+                    &format!(
+                        "archive-ready target_outcome requires proposal-closeout {field}: {expected}"
+                    ),
+                    receipt_ref,
+                    receipt_digest,
+                    fields,
+                ));
+            }
+        }
+        if fields
+            .get("blockers")
+            .is_some_and(|value| !matches!(value.as_str(), "[]" | "none" | "0"))
+        {
+            return Err(terminal_target_outcome_failure(
+                "archive-ready target_outcome requires proposal-closeout blockers to be empty",
+                receipt_ref,
+                receipt_digest,
+                fields,
+            ));
+        }
+    }
+    Ok(target_outcome.to_string())
+}
+
+fn valid_terminal_target_outcome(value: &str) -> bool {
+    matches!(value, "archive-ready" | "blocked")
+}
+
+fn terminal_target_outcome_failure(
+    message: &str,
+    source_receipt_ref: &str,
+    source_receipt_digest: &str,
+    observed_fields: &BTreeMap<String, String>,
+) -> TerminalTargetOutcomeBindingFailure {
+    TerminalTargetOutcomeBindingFailure {
+        blocker_class: "input-binding".to_string(),
+        message: message.to_string(),
+        source_receipt_ref: source_receipt_ref.to_string(),
+        source_receipt_digest: source_receipt_digest.to_string(),
+        observed_fields: observed_fields.clone(),
+    }
+}
+
+fn write_child_terminal_target_outcome_blocker(
+    repo_root: &Path,
+    program_run_id: &str,
+    state: &ProgramChildPlanState,
+    child_evidence_root: &Path,
+    route_id: &str,
+    registry_digest: &str,
+    write_scope_digest: Option<&str>,
+    authority_decision_path: &str,
+    failure: TerminalTargetOutcomeBindingFailure,
+) -> Result<ProgramChildExecutionSummary> {
+    fs::create_dir_all(child_evidence_root)?;
+    let evidence_path = child_evidence_root
+        .join("proposal-packet-terminal-closeout-target-outcome-binding-blocked.yml");
+    let evidence = ChildTerminalTargetOutcomeBindingBlockerEvidence {
+        schema_version: "octon-program-child-terminal-target-outcome-binding-blocked-v1"
+            .to_string(),
+        program_run_id: program_run_id.to_string(),
+        child_id: state.child_id.clone(),
+        child_target: state.target.clone(),
+        route_id: route_id.to_string(),
+        blocker_class: failure.blocker_class.clone(),
+        message: failure.message.clone(),
+        source_receipt_ref: failure.source_receipt_ref,
+        source_receipt_digest: failure.source_receipt_digest,
+        observed_fields: failure.observed_fields,
+        registry_digest: registry_digest.to_string(),
+        write_scope_digest: write_scope_digest.map(str::to_string),
+        authority_zone_decision_ref: authority_decision_path.to_string(),
+        authority_boundary:
+            "proposal-packet-terminal-closeout target_outcome must be schema-valid and derived from selected child-owned proposal-closeout receipt"
+                .to_string(),
+        next_required_action:
+            "refresh child-owned proposal-closeout evidence or stop for a new lifecycle-compatible input binding route"
+                .to_string(),
+        recorded_at: now_rfc3339()?,
+    };
+    fs::write(&evidence_path, serde_yaml::to_string(&evidence)?)?;
+    let evidence_ref = rel_display(repo_root, &evidence_path);
+    Ok(ProgramChildExecutionSummary {
+        child_id: state.child_id.clone(),
+        child_run_id: format!(
+            "{program_run_id}-{}-terminal-target-outcome-binding",
+            state.child_id
+        ),
+        route_id: route_id.to_string(),
+        status: "blocked".to_string(),
+        attempts: 0,
+        retryable: false,
+        blocker_class: Some(failure.blocker_class),
+        error_message: Some(failure.message),
+        error_class: Some("input-binding".to_string()),
+        evidence_paths: vec![evidence_ref],
+        worktree_hygiene_foreign_fingerprint: None,
+    })
+}
+
 fn normalize_child_promotion_evidence_paths(
     raw_evidence: &str,
 ) -> std::result::Result<Vec<String>, PromotionEvidenceBindingFailure> {
@@ -9905,7 +12888,11 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
             ProgramNormalizedCategory::Human,
             "cleanup touches critical or authority-sensitive artifacts",
         ),
-        "worktree-hygiene-blocked" | "artifact-ownership-unclear" => (
+        "parent-worktree-disposition-required"
+        | "worktree-handoff-evidence-changed"
+        | "stale-closeout-worktree-return"
+        | "worktree-hygiene-blocked"
+        | "artifact-ownership-unclear" => (
             "artifact-ownership-unclear",
             ProgramNormalizedCategory::Human,
             "artifact ownership or criticality is unclear and must not be guessed",
@@ -10006,6 +12993,11 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
             "recovery-integrity-risk",
             ProgramNormalizedCategory::Recoverable,
             "repeated recovery attempts require bounded run-bound rebaseline before retry",
+        ),
+        BLOCKER_PLANNER_STALE_REPLAN_LOOP => (
+            BLOCKER_PLANNER_STALE_REPLAN_LOOP,
+            ProgramNormalizedCategory::Unsafe,
+            "planner selected the same parent route again without fresh terminal, blocker, authorization, or classifier evidence",
         ),
         "authority-zone-ambiguous" | "self-authorization-attempt" => (
             blocker_class,
@@ -10421,6 +13413,14 @@ fn execute_parent_program_route(
     let Some(route) = plan.program_route.as_ref() else {
         return Ok(None);
     };
+    let repo_root = repo_root_for_octon(octon_dir)?;
+    let planner_blocker_fingerprint = parent_route_blocker_fingerprint(plan, &route.route_id);
+    let route_evidence_fingerprint = parent_route_specific_evidence_fingerprint(
+        &repo_root,
+        evidence_root,
+        plan,
+        &route.route_id,
+    )?;
     append_program_event(
         control_root,
         evidence_root,
@@ -10432,7 +13432,16 @@ fn execute_parent_program_route(
         program_step_event_data(
             step_context.as_ref(),
             "parent-route-dispatch",
-            std::iter::empty::<(&str, &str)>(),
+            [
+                (
+                    "planner_blocker_fingerprint",
+                    planner_blocker_fingerprint.as_str(),
+                ),
+                (
+                    "route_evidence_fingerprint",
+                    route_evidence_fingerprint.as_str(),
+                ),
+            ],
         ),
     )?;
     let parent_evidence_root = evidence_root.join("parent");
@@ -10469,7 +13478,6 @@ fn execute_parent_program_route(
             &parent_evidence_root,
         )
     });
-    let repo_root = repo_root_for_octon(octon_dir)?;
     let parent_delegation_contract_basis =
         parent_route_delegation_contract_basis(octon_dir, plan, route)?;
     let parent_invocation_authority = if options.invocation_authority == "unattended"
@@ -11010,15 +14018,17 @@ fn build_child_execution_jobs(
                 child_evidence_root.join("child-plan.yml"),
                 serde_yaml::to_string(state)?,
             )?;
-            if let Some(summary) = closeout_worktree_hygiene_preflight(
+            let closeout_hygiene_preflight = closeout_worktree_hygiene_preflight(
                 repo_root,
                 control_root,
                 evidence_root,
                 &child_evidence_root,
                 program_run_id,
+                run_inputs,
                 state,
                 &route.route_id,
-            )? {
+            )?;
+            if let Some(summary) = closeout_hygiene_preflight.blocked_summary {
                 preflight_summaries.push(summary);
                 continue;
             }
@@ -11068,6 +14078,66 @@ fn build_child_execution_jobs(
             let authority_decision_path =
                 write_authority_zone_decision(evidence_root, &authority_decision)?;
             let mut child_run_inputs = run_inputs.clone();
+            if let Some(report_ref) = closeout_hygiene_preflight.accepted_report_ref.as_ref() {
+                let return_ref_count = if let Some(return_ref) =
+                    closeout_hygiene_preflight.accepted_return_ref.as_ref()
+                {
+                    child_run_inputs.insert(
+                        INPUT_LIFECYCLE_INTERACTION_RETURN_REFS.to_string(),
+                        return_ref.clone(),
+                    );
+                    "1"
+                } else {
+                    "0"
+                };
+                child_run_inputs.insert(
+                    INPUT_PROGRAM_CHILD_CLOSEOUT_WORKTREE_REPORT_REF.to_string(),
+                    report_ref.clone(),
+                );
+                if let Some(classifier_ref) =
+                    closeout_hygiene_preflight.classifier_output_ref.as_ref()
+                {
+                    child_run_inputs.insert(
+                        INPUT_PROGRAM_CHILD_WORKTREE_HYGIENE_CLASSIFIER_REF.to_string(),
+                        classifier_ref.clone(),
+                    );
+                }
+                if let Some(fingerprint) = closeout_hygiene_preflight.foreign_fingerprint.as_ref() {
+                    child_run_inputs.insert(
+                        INPUT_PROGRAM_CHILD_WORKTREE_HYGIENE_FOREIGN_FINGERPRINT.to_string(),
+                        fingerprint.clone(),
+                    );
+                }
+                append_program_event(
+                    control_root,
+                    evidence_root,
+                    program_run_id,
+                    "child-closeout-worktree-return-bound",
+                    Some(child_id),
+                    Some(&route.route_id),
+                    "validated closeout-worktree return refs bound to child route inputs without replacing child closeout authority",
+                    event_data([
+                        ("closeout_worktree_report_ref", report_ref.as_str()),
+                        (
+                            "classifier_output_ref",
+                            closeout_hygiene_preflight
+                                .classifier_output_ref
+                                .as_deref()
+                                .unwrap_or("none"),
+                        ),
+                        (
+                            "foreign_fingerprint",
+                            closeout_hygiene_preflight
+                                .foreign_fingerprint
+                                .as_deref()
+                                .unwrap_or("none"),
+                        ),
+                        ("return_ref_count", return_ref_count),
+                        ("parent_summary_not_child_closeout_receipt", "true"),
+                        ("child_closeout_authority_preserved", "true"),
+                    ]),
+                )?;
+            }
             if route.route_id == ROUTE_ID_PROMOTE_PROPOSAL {
                 match child_promotion_evidence_preflight(
                     octon_dir,
@@ -11115,6 +14185,68 @@ fn build_child_execution_jobs(
                             Some(child_id),
                             Some(&route.route_id),
                             "child promotion evidence failed selected-child binding before workflow dispatch",
+                            event_data([
+                                ("blocker_class", blocker_class.as_str()),
+                                ("evidence_path", evidence_ref.as_str()),
+                                ("authority_decision", authority_decision_path.as_str()),
+                            ]),
+                        )?;
+                        preflight_summaries.push(summary);
+                        continue;
+                    }
+                }
+            }
+            if route.route_id == ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT {
+                match child_terminal_target_outcome_preflight(
+                    repo_root,
+                    program_run_id,
+                    &child_run_inputs,
+                    state,
+                    &child_evidence_root,
+                    &route.route_id,
+                    &plan.child_registry_digest,
+                    authority_decision.write_scope_digest.as_deref(),
+                    &authority_decision_path,
+                )? {
+                    ChildTerminalTargetOutcomePreflight::Bound(binding) => {
+                        append_program_event(
+                            control_root,
+                            evidence_root,
+                            program_run_id,
+                            "child-terminal-target-outcome-bound",
+                            Some(child_id),
+                            Some(&route.route_id),
+                            "child-owned proposal-closeout receipt supplied route-scoped terminal target_outcome before workflow dispatch",
+                            event_data([
+                                (INPUT_TARGET_OUTCOME, binding.target_outcome.as_str()),
+                                ("source_receipt_ref", binding.source_receipt_ref.as_str()),
+                                ("source_receipt_digest", binding.source_receipt_digest.as_str()),
+                                ("binding_evidence_ref", binding.binding_evidence_ref.as_str()),
+                                (
+                                    "parent_run_inputs_unchanged",
+                                    if binding.parent_run_inputs_unchanged {
+                                        "true"
+                                    } else {
+                                        "false"
+                                    },
+                                ),
+                                ("child_closeout_authority_preserved", "true"),
+                            ]),
+                        )?;
+                        child_run_inputs = binding.run_inputs;
+                    }
+                    ChildTerminalTargetOutcomePreflight::Blocked(summary) => {
+                        let blocker_class = summary.blocker_class.clone().unwrap_or_default();
+                        let evidence_ref =
+                            summary.evidence_paths.first().cloned().unwrap_or_default();
+                        append_program_event(
+                            control_root,
+                            evidence_root,
+                            program_run_id,
+                            "child-terminal-target-outcome-blocked",
+                            Some(child_id),
+                            Some(&route.route_id),
+                            "child terminal closeout target_outcome could not be bound from child-owned receipt evidence",
                             event_data([
                                 ("blocker_class", blocker_class.as_str()),
                                 ("evidence_path", evidence_ref.as_str()),
@@ -11296,7 +14428,13 @@ fn build_child_execution_jobs(
                 )),
             )?
             .with_context(|| format!("missing selected route for child {child_id}"))?;
-            let lock_path = acquire_child_lock(control_root, child_id)?;
+            let lock_path = acquire_child_lock_for_route(
+                control_root,
+                evidence_root,
+                program_run_id,
+                child_id,
+                &route.route_id,
+            )?;
             let max_attempts = plan
                 .child_states
                 .get(child_id)
@@ -11347,31 +14485,64 @@ fn build_child_execution_jobs(
     Ok((jobs, preflight_summaries))
 }
 
+#[derive(Default)]
+struct CloseoutWorktreeHygienePreflight {
+    blocked_summary: Option<ProgramChildExecutionSummary>,
+    accepted_return_ref: Option<String>,
+    accepted_report_ref: Option<String>,
+    classifier_output_ref: Option<String>,
+    foreign_fingerprint: Option<String>,
+}
+
+struct AcceptedCloseoutWorktreeHandoff {
+    return_ref: String,
+    report_ref: String,
+}
+
+struct StaleCloseoutWorktreeHandoffReturn {
+    blocker_class: String,
+    message: String,
+    evidence_paths: Vec<String>,
+}
+
 fn closeout_worktree_hygiene_preflight(
     repo_root: &Path,
     control_root: &Path,
     evidence_root: &Path,
     child_evidence_root: &Path,
     program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
     state: &ProgramChildPlanState,
     route_id: &str,
-) -> Result<Option<ProgramChildExecutionSummary>> {
+) -> Result<CloseoutWorktreeHygienePreflight> {
     if !route_has_closeout_hygiene_preflight(route_id) {
-        return Ok(None);
+        return Ok(CloseoutWorktreeHygienePreflight::default());
     }
     let stdout_path = child_evidence_root.join("worktree-hygiene-preflight.stdout.yml");
     let stderr_path = child_evidence_root.join("worktree-hygiene-preflight.stderr.log");
     let Some(classifier) =
         closeout_worktree_hygiene_classifier(repo_root, &state.target, program_run_id)?
     else {
-        return Ok(None);
+        return Ok(CloseoutWorktreeHygienePreflight::default());
     };
     fs::write(&stdout_path, &classifier.stdout)?;
     fs::write(&stderr_path, &classifier.stderr)?;
+    let stdout_snapshot_path = write_worktree_hygiene_preflight_snapshot(
+        child_evidence_root,
+        "stdout.yml",
+        &classifier.stdout,
+    )?;
+    let stderr_snapshot_path = write_worktree_hygiene_preflight_snapshot(
+        child_evidence_root,
+        "stderr.log",
+        &classifier.stderr,
+    )?;
     let decision = classifier.decision;
     let status = decision.status;
-    let stdout_rel = rel_display(repo_root, &stdout_path);
-    let stderr_rel = rel_display(repo_root, &stderr_path);
+    let current_stdout_rel = rel_display(repo_root, &stdout_path);
+    let current_stderr_rel = rel_display(repo_root, &stderr_path);
+    let stdout_rel = rel_display(repo_root, &stdout_snapshot_path);
+    let stderr_rel = rel_display(repo_root, &stderr_snapshot_path);
     append_program_event(
         control_root,
         evidence_root,
@@ -11382,26 +14553,130 @@ fn closeout_worktree_hygiene_preflight(
         "child closeout worktree hygiene preflight completed",
         program_event_data([
             ("status", status),
-            ("stdout_path", stdout_rel.as_str()),
-            ("stderr_path", stderr_rel.as_str()),
+            ("stdout_path", current_stdout_rel.as_str()),
+            ("stderr_path", current_stderr_rel.as_str()),
+            ("classifier_output_ref", stdout_rel.as_str()),
+            ("classifier_stderr_ref", stderr_rel.as_str()),
         ]),
     )?;
     if status == "pass" {
-        return Ok(None);
+        return Ok(CloseoutWorktreeHygienePreflight {
+            classifier_output_ref: Some(stdout_rel),
+            foreign_fingerprint: decision.foreign_fingerprint,
+            ..CloseoutWorktreeHygienePreflight::default()
+        });
     }
-    Ok(Some(ProgramChildExecutionSummary {
-        child_id: state.child_id.clone(),
-        child_run_id: format!("{program_run_id}-{}-worktree-hygiene", state.child_id),
-        route_id: route_id.to_string(),
-        status: "blocked".to_string(),
-        attempts: 0,
-        retryable: false,
-        blocker_class: Some(decision.blocker_class),
-        error_message: Some(decision.message),
-        error_class: None,
-        evidence_paths: vec![stdout_rel, stderr_rel],
-        worktree_hygiene_foreign_fingerprint: decision.foreign_fingerprint,
-    }))
+    if let Some(accepted_handoff) = closeout_worktree_handoff_return_allows_hygiene_preflight(
+        repo_root,
+        program_run_id,
+        run_inputs,
+        state,
+        route_id,
+        &stdout_rel,
+        &stdout_snapshot_path,
+        decision.foreign_fingerprint.as_deref(),
+    )? {
+        append_program_event(
+            control_root,
+            evidence_root,
+            program_run_id,
+            "worktree-hygiene-handoff-return-accepted",
+            Some(&state.child_id),
+            Some(route_id),
+            "closeout-worktree return evidence preserved foreign worktree residue without replacing child closeout authority",
+            program_event_data([
+                (
+                    "closeout_worktree_report_ref",
+                    accepted_handoff.report_ref.as_str(),
+                ),
+                ("classifier_output_ref", stdout_rel.as_str()),
+                (
+                    "foreign_fingerprint",
+                    decision.foreign_fingerprint.as_deref().unwrap_or("none"),
+                ),
+                ("parent_summary_not_child_closeout_receipt", "true"),
+                ("child_closeout_authority_preserved", "true"),
+            ]),
+        )?;
+        return Ok(CloseoutWorktreeHygienePreflight {
+            accepted_return_ref: Some(accepted_handoff.return_ref),
+            accepted_report_ref: Some(accepted_handoff.report_ref),
+            classifier_output_ref: Some(stdout_rel),
+            foreign_fingerprint: decision.foreign_fingerprint,
+            ..CloseoutWorktreeHygienePreflight::default()
+        });
+    }
+    if let Some(stale_return) = closeout_worktree_handoff_return_stale_for_hygiene_preflight(
+        repo_root,
+        program_run_id,
+        run_inputs,
+        state,
+        route_id,
+        &stdout_rel,
+        decision.foreign_fingerprint.as_deref(),
+    )? {
+        let mut evidence_paths = vec![stdout_rel.clone(), stderr_rel];
+        evidence_paths.extend(stale_return.evidence_paths);
+        return Ok(CloseoutWorktreeHygienePreflight {
+            blocked_summary: Some(ProgramChildExecutionSummary {
+                child_id: state.child_id.clone(),
+                child_run_id: format!("{program_run_id}-{}-worktree-hygiene", state.child_id),
+                route_id: route_id.to_string(),
+                status: "blocked".to_string(),
+                attempts: 0,
+                retryable: false,
+                blocker_class: Some(stale_return.blocker_class),
+                error_message: Some(stale_return.message),
+                error_class: Some("closeout-worktree-return".to_string()),
+                evidence_paths,
+                worktree_hygiene_foreign_fingerprint: decision.foreign_fingerprint.clone(),
+            }),
+            classifier_output_ref: Some(stdout_rel),
+            foreign_fingerprint: decision.foreign_fingerprint,
+            ..CloseoutWorktreeHygienePreflight::default()
+        });
+    }
+    Ok(CloseoutWorktreeHygienePreflight {
+        blocked_summary: Some(ProgramChildExecutionSummary {
+            child_id: state.child_id.clone(),
+            child_run_id: format!("{program_run_id}-{}-worktree-hygiene", state.child_id),
+            route_id: route_id.to_string(),
+            status: "blocked".to_string(),
+            attempts: 0,
+            retryable: false,
+            blocker_class: Some(decision.blocker_class),
+            error_message: Some(decision.message),
+            error_class: None,
+            evidence_paths: vec![stdout_rel.clone(), stderr_rel],
+            worktree_hygiene_foreign_fingerprint: decision.foreign_fingerprint.clone(),
+        }),
+        classifier_output_ref: Some(stdout_rel),
+        foreign_fingerprint: decision.foreign_fingerprint,
+        ..CloseoutWorktreeHygienePreflight::default()
+    })
+}
+
+fn write_worktree_hygiene_preflight_snapshot(
+    child_evidence_root: &Path,
+    extension: &str,
+    contents: &[u8],
+) -> Result<PathBuf> {
+    let digest = sha256_digest(contents);
+    let digest_hex = digest.strip_prefix("sha256:").unwrap_or(&digest);
+    let snapshot_path = child_evidence_root.join(format!(
+        "worktree-hygiene-preflight-{digest_hex}.{extension}"
+    ));
+    if snapshot_path.is_file() {
+        if file_digest(&snapshot_path)? != digest {
+            bail!(
+                "worktree hygiene preflight snapshot digest collision at {}",
+                snapshot_path.display()
+            );
+        }
+    } else {
+        fs::write(&snapshot_path, contents)?;
+    }
+    Ok(snapshot_path)
 }
 
 fn route_has_closeout_hygiene_preflight(route_id: &str) -> bool {
@@ -11428,7 +14703,8 @@ fn closeout_worktree_hygiene_classifier(
     if !repo_root.join(script).is_file() {
         return Ok(None);
     }
-    let output = Command::new("bash")
+    let mut command = program_lifecycle_command(repo_root, "bash")?;
+    let output = command
         .arg(script)
         .arg("--target")
         .arg(target)
@@ -11513,6 +14789,1062 @@ fn classify_worktree_hygiene_preflight(
         message: "closeout/archive blocked by foreign or ambiguous worktree hygiene".to_string(),
         foreign_fingerprint,
     }
+}
+
+#[derive(Default, Deserialize)]
+struct LifecycleInteractionReturnReceipt {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    consumer: LifecycleInteractionReturnConsumer,
+    #[serde(default)]
+    outcome: LifecycleInteractionReturnOutcome,
+    #[serde(default)]
+    return_evidence_refs: Vec<LifecycleInteractionEvidenceRef>,
+}
+
+#[derive(Default, Deserialize)]
+struct LifecycleInteractionReturnConsumer {
+    #[serde(default)]
+    lifecycle_id: String,
+}
+
+#[derive(Default, Deserialize)]
+struct LifecycleInteractionReturnOutcome {
+    #[serde(default)]
+    completed: bool,
+    #[serde(default)]
+    status: String,
+}
+
+impl LifecycleInteractionReturnOutcome {
+    fn is_completed(&self) -> bool {
+        self.completed || self.status == "completed"
+    }
+}
+
+#[derive(Default, Deserialize)]
+struct LifecycleInteractionEvidenceRef {
+    #[serde(default, rename = "ref")]
+    ref_path: String,
+    #[serde(default)]
+    digest: String,
+}
+
+#[derive(Default, Deserialize)]
+struct CloseoutWorktreeReport {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    read_only_classification: Option<bool>,
+    #[serde(default)]
+    detection_is_deletion_authority: Option<bool>,
+    #[serde(default)]
+    direct_material_actions_performed: Option<bool>,
+    #[serde(default)]
+    repo_hygiene_cleanup_actions_performed: Option<bool>,
+    #[serde(default)]
+    worktree_terminal_state: Option<String>,
+    #[serde(default)]
+    candidates: Vec<CloseoutWorktreeReportCandidate>,
+    #[serde(default)]
+    final_candidate_dispositions: BTreeMap<String, CloseoutWorktreeFinalDisposition>,
+}
+
+#[derive(Default, Deserialize)]
+struct CloseoutWorktreeReportCandidate {
+    #[serde(default)]
+    candidate_id: String,
+    #[serde(default)]
+    disposition: String,
+    #[serde(default)]
+    residue_routing_class: String,
+    #[serde(default)]
+    boundaries: CloseoutWorktreeBoundaries,
+    #[serde(default)]
+    proposal_program_handoff_authorization: Option<CloseoutWorktreeHandoffAuthorization>,
+    #[serde(default)]
+    proposal_program_parent_handoff_authorization:
+        Option<CloseoutWorktreeParentHandoffAuthorization>,
+}
+
+#[derive(Default, Deserialize)]
+struct CloseoutWorktreeBoundaries {
+    #[serde(default)]
+    include_paths: Vec<String>,
+}
+
+#[derive(Default, Deserialize)]
+struct CloseoutWorktreeFinalDisposition {
+    #[serde(default)]
+    state: String,
+}
+
+#[derive(Default, Deserialize)]
+struct CloseoutWorktreeHandoffAuthorization {
+    #[serde(default)]
+    authorization_grant: Option<String>,
+    #[serde(default)]
+    child_id: String,
+    #[serde(default)]
+    route_id: String,
+    #[serde(default)]
+    classifier_output_ref: String,
+    #[serde(default)]
+    classifier_output_digest: String,
+    #[serde(default)]
+    authorized_foreign_fingerprint: String,
+    #[serde(default)]
+    foreign_fingerprint: Option<String>,
+    #[serde(default)]
+    authorized_paths: Vec<String>,
+    #[serde(default)]
+    disposition: String,
+    #[serde(default)]
+    outside_child_route_write_scope: Option<bool>,
+    #[serde(default)]
+    non_mutating: Option<bool>,
+    #[serde(default)]
+    preserve_and_exclude_from_child_closeout_blocking: Option<bool>,
+    #[serde(default)]
+    parent_summary_not_child_closeout_receipt: Option<bool>,
+    #[serde(default)]
+    child_closeout_authority_preserved: Option<bool>,
+    #[serde(default)]
+    forbidden_actions: BTreeMap<String, bool>,
+}
+
+#[derive(Default, Deserialize)]
+struct CloseoutWorktreeParentHandoffAuthorization {
+    #[serde(default)]
+    authorization_grant: Option<String>,
+    #[serde(default)]
+    program_run_id: String,
+    #[serde(default)]
+    parent_route_id: String,
+    #[serde(default)]
+    cleanup_receipt_ref: String,
+    #[serde(default, rename = "cleanup_receipt_digest")]
+    _cleanup_receipt_digest: String,
+    #[serde(default)]
+    cleanup_candidates_digest: Option<String>,
+    #[serde(default)]
+    repo_hygiene_cleanup_receipt_digest: Option<String>,
+    #[serde(default)]
+    cleanup_authorization_digest: Option<String>,
+    #[serde(default)]
+    post_cleanup_summary_digest: Option<String>,
+    #[serde(default)]
+    residue_fingerprint: Option<String>,
+    #[serde(default)]
+    authorized_path_set_digest: Option<String>,
+    #[serde(default)]
+    classifier_output_ref: String,
+    #[serde(default)]
+    classifier_output_digest: String,
+    #[serde(default)]
+    authorized_foreign_fingerprint: String,
+    #[serde(default)]
+    foreign_fingerprint: Option<String>,
+    #[serde(default)]
+    authorized_paths: Vec<String>,
+    #[serde(default)]
+    disposition: String,
+    #[serde(default)]
+    outside_child_owned_closeout_authority: Option<bool>,
+    #[serde(default)]
+    separately_partitioned_for_later_legal_closeout: Option<bool>,
+    #[serde(default)]
+    non_mutating: Option<bool>,
+    #[serde(default)]
+    preserve_and_exclude_from_lifecycle_closeout_blocking: Option<bool>,
+    #[serde(default)]
+    parent_summary_not_child_closeout_receipt: Option<bool>,
+    #[serde(default)]
+    child_closeout_authority_preserved: Option<bool>,
+    #[serde(default)]
+    parent_evidence_replaces_child_evidence: Option<bool>,
+    #[serde(default)]
+    forbidden_actions: BTreeMap<String, bool>,
+}
+
+fn closeout_worktree_handoff_return_allows_hygiene_preflight(
+    repo_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    classifier_output_ref: &str,
+    classifier_output_path: &Path,
+    foreign_fingerprint: Option<&str>,
+) -> Result<Option<AcceptedCloseoutWorktreeHandoff>> {
+    let return_refs = closeout_worktree_return_refs_from_inputs_and_retained_dir(
+        repo_root,
+        program_run_id,
+        run_inputs,
+    )?;
+    if return_refs.is_empty() {
+        return Ok(None);
+    }
+    let classifier_output_digest = file_digest(classifier_output_path)?;
+    for return_ref in return_refs {
+        let return_path = repo_root.join(&return_ref);
+        if !return_path.is_file() {
+            continue;
+        }
+        let receipt: LifecycleInteractionReturnReceipt =
+            match serde_json::from_slice(&fs::read(&return_path)?) {
+                Ok(receipt) => receipt,
+                Err(_) => continue,
+            };
+        if receipt.schema_version != LIFECYCLE_INTERACTION_RETURN_SCHEMA
+            || receipt.consumer.lifecycle_id != "closeout-worktree"
+            || !receipt.outcome.is_completed()
+        {
+            continue;
+        }
+        for evidence in receipt.return_evidence_refs {
+            if !is_safe_repo_relative(&evidence.ref_path) {
+                continue;
+            }
+            let report_path = repo_root.join(&evidence.ref_path);
+            if !report_path.is_file() || file_digest(&report_path)? != evidence.digest {
+                continue;
+            }
+            let report: CloseoutWorktreeReport =
+                match serde_yaml::from_slice(&fs::read(&report_path)?) {
+                    Ok(report) => report,
+                    Err(_) => continue,
+                };
+            if closeout_worktree_report_authorizes_hygiene_preflight(
+                &report,
+                program_run_id,
+                state,
+                route_id,
+                classifier_output_ref,
+                &classifier_output_digest,
+                foreign_fingerprint,
+            ) {
+                return Ok(Some(AcceptedCloseoutWorktreeHandoff {
+                    return_ref: return_ref.clone(),
+                    report_ref: evidence.ref_path,
+                }));
+            }
+        }
+    }
+    Ok(None)
+}
+
+fn closeout_worktree_handoff_return_stale_for_hygiene_preflight(
+    repo_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    current_classifier_output_ref: &str,
+    foreign_fingerprint: Option<&str>,
+) -> Result<Option<StaleCloseoutWorktreeHandoffReturn>> {
+    let return_refs = closeout_worktree_return_refs_from_inputs_and_retained_dir(
+        repo_root,
+        program_run_id,
+        run_inputs,
+    )?;
+    if return_refs.is_empty() {
+        return Ok(None);
+    }
+    for return_ref in return_refs {
+        let return_path = repo_root.join(&return_ref);
+        if !return_path.is_file() {
+            continue;
+        }
+        let receipt: LifecycleInteractionReturnReceipt =
+            match serde_json::from_slice(&fs::read(&return_path)?) {
+                Ok(receipt) => receipt,
+                Err(_) => continue,
+            };
+        if receipt.schema_version != LIFECYCLE_INTERACTION_RETURN_SCHEMA
+            || receipt.consumer.lifecycle_id != "closeout-worktree"
+            || !receipt.outcome.is_completed()
+        {
+            continue;
+        }
+        for evidence in receipt.return_evidence_refs {
+            if !is_safe_repo_relative(&evidence.ref_path) {
+                continue;
+            }
+            let report_path = repo_root.join(&evidence.ref_path);
+            if !report_path.is_file() || file_digest(&report_path)? != evidence.digest {
+                continue;
+            }
+            let report: CloseoutWorktreeReport =
+                match serde_yaml::from_slice(&fs::read(&report_path)?) {
+                    Ok(report) => report,
+                    Err(_) => continue,
+                };
+            let Some(auth) = report.candidates.iter().find_map(|candidate| {
+                let auth = candidate.proposal_program_handoff_authorization.as_ref()?;
+                (auth.child_id == state.child_id && auth.route_id == route_id).then_some(auth)
+            }) else {
+                continue;
+            };
+            let current_fingerprint = foreign_fingerprint.unwrap_or(UNKNOWN_RESIDUE_FINGERPRINT);
+            let evidence_paths = vec![return_ref.clone(), evidence.ref_path.clone()];
+            if auth.authorized_foreign_fingerprint != current_fingerprint {
+                return Ok(Some(StaleCloseoutWorktreeHandoffReturn {
+                    blocker_class: "worktree-handoff-evidence-changed".to_string(),
+                    message: format!(
+                        "closeout-worktree return targets prior classifier evidence for child {} route {}; authorized_foreign_fingerprint={} current_foreign_fingerprint={}; a fresh typed return is required before closeout handoff can proceed",
+                        state.child_id,
+                        route_id,
+                        auth.authorized_foreign_fingerprint,
+                        current_fingerprint,
+                    ),
+                    evidence_paths,
+                }));
+            }
+            return Ok(Some(StaleCloseoutWorktreeHandoffReturn {
+                blocker_class: "stale-closeout-worktree-return".to_string(),
+                message: format!(
+                    "closeout-worktree return for child {} route {} no longer satisfies current classifier evidence {}; a fresh typed return is required before closeout handoff can proceed",
+                    state.child_id, route_id, current_classifier_output_ref
+                ),
+                evidence_paths,
+            }));
+        }
+    }
+    Ok(None)
+}
+
+fn closeout_worktree_handoff_return_allows_selected_closeout_route(
+    repo_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    foreign_fingerprint: Option<&str>,
+) -> Result<Option<String>> {
+    let return_refs = closeout_worktree_return_refs_from_inputs_and_retained_dir(
+        repo_root,
+        program_run_id,
+        run_inputs,
+    )?;
+    if return_refs.is_empty() {
+        return Ok(None);
+    }
+    for return_ref in return_refs {
+        let return_path = repo_root.join(&return_ref);
+        if !return_path.is_file() {
+            continue;
+        }
+        let receipt: LifecycleInteractionReturnReceipt =
+            match serde_json::from_slice(&fs::read(&return_path)?) {
+                Ok(receipt) => receipt,
+                Err(_) => continue,
+            };
+        if receipt.schema_version != LIFECYCLE_INTERACTION_RETURN_SCHEMA
+            || receipt.consumer.lifecycle_id != "closeout-worktree"
+            || !receipt.outcome.is_completed()
+        {
+            continue;
+        }
+        for evidence in receipt.return_evidence_refs {
+            if !is_safe_repo_relative(&evidence.ref_path) {
+                continue;
+            }
+            let report_path = repo_root.join(&evidence.ref_path);
+            if !report_path.is_file() || file_digest(&report_path)? != evidence.digest {
+                continue;
+            }
+            let report: CloseoutWorktreeReport =
+                match serde_yaml::from_slice(&fs::read(&report_path)?) {
+                    Ok(report) => report,
+                    Err(_) => continue,
+                };
+            if closeout_worktree_report_authorizes_selected_closeout_route(
+                repo_root,
+                &report,
+                program_run_id,
+                state,
+                route_id,
+                foreign_fingerprint,
+            )? {
+                return Ok(Some(evidence.ref_path));
+            }
+        }
+    }
+    Ok(None)
+}
+
+fn closeout_worktree_parent_return_allows_lifecycle_residue_closeout(
+    repo_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+    route_id: &str,
+    cleanup_receipt: &ReceiptState,
+) -> Result<Option<String>> {
+    if !matches!(
+        route_id,
+        ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE
+            | "generate-program-closeout-prompt"
+            | "closeout-program"
+            | ROUTE_ID_ARCHIVE_PROPOSAL
+    ) {
+        return Ok(None);
+    }
+    let return_refs = closeout_worktree_parent_return_refs(repo_root, program_run_id, run_inputs)?;
+    if return_refs.is_empty() {
+        return Ok(None);
+    }
+    for return_ref in return_refs {
+        let return_path = repo_root.join(&return_ref);
+        if !return_path.is_file() {
+            continue;
+        }
+        let receipt: LifecycleInteractionReturnReceipt =
+            match serde_json::from_slice(&fs::read(&return_path)?) {
+                Ok(receipt) => receipt,
+                Err(_) => continue,
+            };
+        if receipt.schema_version != LIFECYCLE_INTERACTION_RETURN_SCHEMA
+            || receipt.consumer.lifecycle_id != "closeout-worktree"
+            || !receipt.outcome.is_completed()
+        {
+            continue;
+        }
+        for evidence in receipt.return_evidence_refs {
+            if !is_safe_repo_relative(&evidence.ref_path) {
+                continue;
+            }
+            let report_path = repo_root.join(&evidence.ref_path);
+            if !report_path.is_file() || file_digest(&report_path)? != evidence.digest {
+                continue;
+            }
+            let report: CloseoutWorktreeReport =
+                match serde_yaml::from_slice(&fs::read(&report_path)?) {
+                    Ok(report) => report,
+                    Err(_) => continue,
+                };
+            if closeout_worktree_report_authorizes_lifecycle_residue_closeout(
+                repo_root,
+                &report,
+                program_run_id,
+                route_id,
+                cleanup_receipt,
+            )? {
+                return Ok(Some(evidence.ref_path));
+            }
+        }
+    }
+    Ok(None)
+}
+
+fn retained_parent_closeout_worktree_return_has_cleaned_claim(
+    repo_root: &Path,
+    program_run_id: Option<&str>,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<bool> {
+    let Some(program_run_id) = program_run_id else {
+        return Ok(false);
+    };
+    let return_refs = closeout_worktree_parent_return_refs(repo_root, program_run_id, run_inputs)?;
+    for return_ref in return_refs {
+        let return_path = repo_root.join(&return_ref);
+        if !return_path.is_file() {
+            continue;
+        }
+        let receipt: LifecycleInteractionReturnReceipt =
+            match serde_json::from_slice(&fs::read(&return_path)?) {
+                Ok(receipt) => receipt,
+                Err(_) => continue,
+            };
+        if receipt.schema_version != LIFECYCLE_INTERACTION_RETURN_SCHEMA
+            || receipt.consumer.lifecycle_id != "closeout-worktree"
+            || !receipt.outcome.is_completed()
+        {
+            continue;
+        }
+        for evidence in receipt.return_evidence_refs {
+            if !is_safe_repo_relative(&evidence.ref_path) {
+                continue;
+            }
+            let report_path = repo_root.join(&evidence.ref_path);
+            if !report_path.is_file() || file_digest(&report_path)? != evidence.digest {
+                continue;
+            }
+            let report: CloseoutWorktreeReport =
+                match serde_yaml::from_slice(&fs::read(&report_path)?) {
+                    Ok(report) => report,
+                    Err(_) => continue,
+                };
+            if report.candidates.iter().any(|candidate| {
+                candidate
+                    .proposal_program_parent_handoff_authorization
+                    .as_ref()
+                    .is_some_and(|auth| {
+                        auth.program_run_id == program_run_id
+                            && auth.parent_route_id == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE
+                            && auth.forbidden_actions.get("cleaned_claim") == Some(&true)
+                    })
+            }) {
+                return Ok(true);
+            }
+        }
+    }
+    Ok(false)
+}
+
+fn closeout_worktree_parent_return_refs(
+    repo_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<Vec<String>> {
+    closeout_worktree_return_refs_from_inputs_and_retained_dir(
+        repo_root,
+        program_run_id,
+        run_inputs,
+    )
+}
+
+fn closeout_worktree_return_refs_from_inputs_and_retained_dir(
+    repo_root: &Path,
+    program_run_id: &str,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<Vec<String>> {
+    let (_, mut refs) = lifecycle_interaction_refs_from_run_inputs(repo_root, run_inputs)?;
+    let interaction_dir = repo_root
+        .join(".octon/state/evidence/runs/workflows")
+        .join(program_run_id)
+        .join("lifecycle-interactions");
+    if !interaction_dir.is_dir() {
+        return Ok(refs);
+    }
+    for entry in fs::read_dir(&interaction_dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.extension().and_then(|ext| ext.to_str()) != Some("json") {
+            continue;
+        }
+        let Ok(receipt) =
+            serde_json::from_slice::<LifecycleInteractionReturnReceipt>(&fs::read(&path)?)
+        else {
+            continue;
+        };
+        if receipt.schema_version != LIFECYCLE_INTERACTION_RETURN_SCHEMA
+            || receipt.consumer.lifecycle_id != "closeout-worktree"
+            || !receipt.outcome.is_completed()
+        {
+            continue;
+        }
+        let rel = rel_display(repo_root, &path);
+        if is_safe_repo_relative(&rel) && !refs.contains(&rel) {
+            refs.push(rel);
+        }
+    }
+    Ok(refs)
+}
+
+fn closeout_worktree_report_authorizes_hygiene_preflight(
+    report: &CloseoutWorktreeReport,
+    program_run_id: &str,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    classifier_output_ref: &str,
+    classifier_output_digest: &str,
+    foreign_fingerprint: Option<&str>,
+) -> bool {
+    if report.schema_version != CLOSEOUT_WORKTREE_REPORT_SCHEMA
+        || report.read_only_classification != Some(true)
+        || report.detection_is_deletion_authority != Some(false)
+        || report.direct_material_actions_performed != Some(false)
+        || report.repo_hygiene_cleanup_actions_performed == Some(true)
+        || report.worktree_terminal_state.as_deref() == Some("git_clean_terminal")
+    {
+        return false;
+    }
+
+    report.candidates.iter().any(|candidate| {
+        closeout_worktree_candidate_authorizes_hygiene_preflight(
+            report,
+            candidate,
+            program_run_id,
+            state,
+            route_id,
+            classifier_output_ref,
+            classifier_output_digest,
+            foreign_fingerprint,
+        )
+    })
+}
+
+fn closeout_worktree_report_authorizes_selected_closeout_route(
+    repo_root: &Path,
+    report: &CloseoutWorktreeReport,
+    program_run_id: &str,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    foreign_fingerprint: Option<&str>,
+) -> Result<bool> {
+    if report.schema_version != CLOSEOUT_WORKTREE_REPORT_SCHEMA
+        || report.read_only_classification != Some(true)
+        || report.detection_is_deletion_authority != Some(false)
+        || report.direct_material_actions_performed != Some(false)
+        || report.repo_hygiene_cleanup_actions_performed == Some(true)
+        || report.worktree_terminal_state.as_deref() == Some("git_clean_terminal")
+    {
+        return Ok(false);
+    }
+
+    for candidate in &report.candidates {
+        if closeout_worktree_candidate_authorizes_selected_closeout_route(
+            repo_root,
+            report,
+            candidate,
+            program_run_id,
+            state,
+            route_id,
+            foreign_fingerprint,
+        )? {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn closeout_worktree_report_authorizes_lifecycle_residue_closeout(
+    repo_root: &Path,
+    report: &CloseoutWorktreeReport,
+    program_run_id: &str,
+    route_id: &str,
+    cleanup_receipt: &ReceiptState,
+) -> Result<bool> {
+    if report.schema_version != CLOSEOUT_WORKTREE_REPORT_SCHEMA
+        || report.read_only_classification != Some(true)
+        || report.detection_is_deletion_authority != Some(false)
+        || report.direct_material_actions_performed != Some(false)
+        || report.repo_hygiene_cleanup_actions_performed == Some(true)
+        || report.worktree_terminal_state.as_deref() == Some("git_clean_terminal")
+    {
+        return Ok(false);
+    }
+
+    for candidate in &report.candidates {
+        if closeout_worktree_candidate_authorizes_lifecycle_residue_closeout(
+            repo_root,
+            report,
+            candidate,
+            program_run_id,
+            route_id,
+            cleanup_receipt,
+        )? {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn closeout_worktree_candidate_authorizes_hygiene_preflight(
+    report: &CloseoutWorktreeReport,
+    candidate: &CloseoutWorktreeReportCandidate,
+    _program_run_id: &str,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    classifier_output_ref: &str,
+    classifier_output_digest: &str,
+    foreign_fingerprint: Option<&str>,
+) -> bool {
+    let Some(auth) = candidate.proposal_program_handoff_authorization.as_ref() else {
+        return false;
+    };
+    let authorized_or_outside_scope = auth
+        .authorization_grant
+        .as_deref()
+        .is_some_and(|grant| !grant.trim().is_empty())
+        || (auth.outside_child_route_write_scope == Some(true)
+            && auth
+                .authorized_paths
+                .iter()
+                .all(|path| !path_is_under_or_equal(path, &state.target)));
+    let final_state = report
+        .final_candidate_dispositions
+        .get(&candidate.candidate_id)
+        .map(|disposition| disposition.state.as_str());
+    let matching_fingerprint = foreign_fingerprint
+        .map(|fingerprint| {
+            auth.authorized_foreign_fingerprint == fingerprint
+                && auth.foreign_fingerprint.as_deref().unwrap_or(fingerprint) == fingerprint
+        })
+        .unwrap_or(false);
+    let classifier_digest_matches = auth.classifier_output_digest == classifier_output_digest;
+    authorized_or_outside_scope
+        && auth.child_id == state.child_id
+        && auth.route_id == route_id
+        && auth.classifier_output_ref == classifier_output_ref
+        && (classifier_digest_matches || matching_fingerprint)
+        && matching_fingerprint
+        && auth.disposition == "preserve-and-exclude-from-child-closeout-blocking"
+        && auth.non_mutating == Some(true)
+        && auth.preserve_and_exclude_from_child_closeout_blocking == Some(true)
+        && auth.parent_summary_not_child_closeout_receipt == Some(true)
+        && auth.child_closeout_authority_preserved == Some(true)
+        && closeout_worktree_handoff_forbidden_actions_are_all_false(&auth.forbidden_actions)
+        && candidate.residue_routing_class == "foreign_manual_review"
+        && candidate.disposition == "foreign"
+        && final_state == Some("foreign")
+        && path_sets_equal(&candidate.boundaries.include_paths, &auth.authorized_paths)
+}
+
+fn closeout_worktree_candidate_authorizes_selected_closeout_route(
+    repo_root: &Path,
+    report: &CloseoutWorktreeReport,
+    candidate: &CloseoutWorktreeReportCandidate,
+    _program_run_id: &str,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    foreign_fingerprint: Option<&str>,
+) -> Result<bool> {
+    let Some(auth) = candidate.proposal_program_handoff_authorization.as_ref() else {
+        return Ok(false);
+    };
+    let authorized_or_outside_scope = auth
+        .authorization_grant
+        .as_deref()
+        .is_some_and(|grant| !grant.trim().is_empty())
+        || (auth.outside_child_route_write_scope == Some(true)
+            && auth
+                .authorized_paths
+                .iter()
+                .all(|path| !path_is_under_or_equal(path, &state.target)));
+    let final_state = report
+        .final_candidate_dispositions
+        .get(&candidate.candidate_id)
+        .map(|disposition| disposition.state.as_str());
+    let matching_fingerprint = foreign_fingerprint
+        .map(|fingerprint| {
+            auth.authorized_foreign_fingerprint == fingerprint
+                && auth.foreign_fingerprint.as_deref().unwrap_or(fingerprint) == fingerprint
+        })
+        .unwrap_or(false);
+    if !(authorized_or_outside_scope
+        && auth.child_id == state.child_id
+        && auth.route_id == route_id
+        && matching_fingerprint
+        && auth.disposition == "preserve-and-exclude-from-child-closeout-blocking"
+        && auth.non_mutating == Some(true)
+        && auth.preserve_and_exclude_from_child_closeout_blocking == Some(true)
+        && auth.parent_summary_not_child_closeout_receipt == Some(true)
+        && auth.child_closeout_authority_preserved == Some(true)
+        && closeout_worktree_handoff_forbidden_actions_are_all_false(&auth.forbidden_actions)
+        && candidate.residue_routing_class == "foreign_manual_review"
+        && candidate.disposition == "foreign"
+        && final_state == Some("foreign")
+        && path_sets_equal(&candidate.boundaries.include_paths, &auth.authorized_paths)
+        && is_safe_repo_relative(&auth.classifier_output_ref))
+    {
+        return Ok(false);
+    }
+    let classifier_path = repo_root.join(&auth.classifier_output_ref);
+    if !classifier_path.is_file() {
+        return Ok(false);
+    }
+    let classifier_digest_matches = file_digest(&classifier_path)? == auth.classifier_output_digest;
+    let classifier_fingerprint_matches = closeout_worktree_classifier_fingerprint_matches(
+        &classifier_path,
+        &auth.authorized_foreign_fingerprint,
+    )?;
+    Ok(classifier_digest_matches || classifier_fingerprint_matches)
+}
+
+fn closeout_worktree_candidate_authorizes_lifecycle_residue_closeout(
+    repo_root: &Path,
+    report: &CloseoutWorktreeReport,
+    candidate: &CloseoutWorktreeReportCandidate,
+    program_run_id: &str,
+    _route_id: &str,
+    cleanup_receipt: &ReceiptState,
+) -> Result<bool> {
+    let Some(auth) = candidate
+        .proposal_program_parent_handoff_authorization
+        .as_ref()
+    else {
+        return Ok(false);
+    };
+    let final_state = report
+        .final_candidate_dispositions
+        .get(&candidate.candidate_id)
+        .map(|disposition| disposition.state.as_str());
+    let cleanup_receipt_ref = rel_display(repo_root, &cleanup_receipt.path_abs);
+    if auth
+        .authorization_grant
+        .as_deref()
+        .map(|grant| grant.trim().is_empty())
+        .unwrap_or(true)
+        || auth.program_run_id != program_run_id
+        || auth.parent_route_id != ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE
+        || auth.cleanup_receipt_ref != cleanup_receipt_ref
+        || !lifecycle_residue_cleanup_deletion_phase_completed(cleanup_receipt)
+        || auth.disposition != "preserve-and-exclude-from-lifecycle-closeout-blocking"
+        || auth.non_mutating != Some(true)
+        || auth.preserve_and_exclude_from_lifecycle_closeout_blocking != Some(true)
+        || auth.parent_summary_not_child_closeout_receipt != Some(true)
+        || auth.child_closeout_authority_preserved != Some(true)
+        || auth.parent_evidence_replaces_child_evidence == Some(true)
+        || !(auth.outside_child_owned_closeout_authority == Some(true)
+            || auth.separately_partitioned_for_later_legal_closeout == Some(true))
+        || candidate.residue_routing_class != "foreign_manual_review"
+        || candidate.disposition != "foreign"
+        || final_state != Some("foreign")
+        || !path_sets_equal(&candidate.boundaries.include_paths, &auth.authorized_paths)
+        || !auth
+            .authorized_paths
+            .iter()
+            .all(|path| is_safe_repo_relative(path))
+    {
+        return Ok(false);
+    }
+    if !parent_handoff_forbidden_actions_are_all_false(&auth.forbidden_actions) {
+        return Ok(false);
+    }
+    if auth
+        .foreign_fingerprint
+        .as_deref()
+        .unwrap_or(auth.authorized_foreign_fingerprint.as_str())
+        != auth.authorized_foreign_fingerprint
+    {
+        return Ok(false);
+    }
+    if !closeout_worktree_parent_handoff_stable_fields_match(auth, cleanup_receipt) {
+        return Ok(false);
+    }
+    if !is_safe_repo_relative(&auth.classifier_output_ref) {
+        return Ok(false);
+    }
+    let classifier_path = repo_root.join(&auth.classifier_output_ref);
+    if !classifier_path.is_file() {
+        return Ok(false);
+    }
+    let classifier_digest_matches = file_digest(&classifier_path)? == auth.classifier_output_digest;
+    let classifier_fingerprint_matches = closeout_worktree_classifier_fingerprint_matches(
+        &classifier_path,
+        &auth.authorized_foreign_fingerprint,
+    )?;
+    Ok(classifier_digest_matches || classifier_fingerprint_matches)
+}
+
+fn lifecycle_residue_cleanup_deletion_phase_completed(cleanup_receipt: &ReceiptState) -> bool {
+    if !cleanup_receipt.exists || !cleanup_receipt.missing_required_fields.is_empty() {
+        return false;
+    }
+    if cleanup_receipt
+        .fields
+        .get("cleanup_candidates")
+        .map(|value| value.trim() == "0")
+        != Some(true)
+    {
+        return false;
+    }
+    if cleanup_receipt
+        .fields
+        .get("implementation_blocking")
+        .map(|value| receipt_bool_is_true(value))
+        .unwrap_or(false)
+    {
+        return false;
+    }
+    let route_completed = cleanup_receipt
+        .fields
+        .get("cleaned_at")
+        .is_some_and(|value| !value.trim().is_empty())
+        || cleanup_receipt
+            .fields
+            .get("verdict")
+            .is_some_and(|value| matches!(value.trim(), "pass" | "blocked-retained"));
+    if !route_completed {
+        return false;
+    }
+    let deletion_occurred = [
+        "deletion_performed",
+        "cleanup_deletion_performed",
+        "repo_hygiene_cleanup_performed",
+    ]
+    .iter()
+    .any(|field| {
+        cleanup_receipt
+            .fields
+            .get(*field)
+            .map(|value| receipt_bool_is_true(value))
+            .unwrap_or(false)
+    });
+    if deletion_occurred
+        && ![
+            "deletion_evidence_digest",
+            "repo_hygiene_cleanup_receipt_digest",
+            "cleanup_authorization_digest",
+        ]
+        .iter()
+        .any(|field| cleanup_receipt_field_nonempty(cleanup_receipt, field))
+    {
+        return false;
+    }
+    true
+}
+
+fn closeout_worktree_parent_handoff_stable_fields_match(
+    auth: &CloseoutWorktreeParentHandoffAuthorization,
+    cleanup_receipt: &ReceiptState,
+) -> bool {
+    if let Some(residue_fingerprint) =
+        cleanup_receipt
+            .fields
+            .get("residue_fingerprint")
+            .or_else(|| {
+                cleanup_receipt
+                    .fields
+                    .get("worktree_hygiene_foreign_fingerprint")
+            })
+    {
+        if auth
+            .residue_fingerprint
+            .as_deref()
+            .unwrap_or(auth.authorized_foreign_fingerprint.as_str())
+            != residue_fingerprint
+        {
+            return false;
+        }
+    }
+    if let Some(digest) = auth.cleanup_candidates_digest.as_deref() {
+        let observed = cleanup_receipt
+            .fields
+            .get("cleanup_candidates")
+            .map(|value| stable_text_digest(&format!("cleanup_candidates={}", value.trim())));
+        if observed.as_deref() != Some(digest) {
+            return false;
+        }
+    }
+    if let Some(digest) = auth.authorized_path_set_digest.as_deref() {
+        let observed = stable_path_set_digest(&auth.authorized_paths);
+        if observed.as_deref() != Some(digest) {
+            return false;
+        }
+    }
+    optional_cleanup_digest_field_matches(
+        cleanup_receipt,
+        auth.repo_hygiene_cleanup_receipt_digest.as_deref(),
+        &[
+            "repo_hygiene_cleanup_receipt_digest",
+            "repo_hygiene_cleanup_digest",
+        ],
+    ) && optional_cleanup_digest_field_matches(
+        cleanup_receipt,
+        auth.cleanup_authorization_digest.as_deref(),
+        &["cleanup_authorization_digest"],
+    ) && optional_cleanup_digest_field_matches(
+        cleanup_receipt,
+        auth.post_cleanup_summary_digest.as_deref(),
+        &["post_cleanup_summary_digest", "post_cleanup_digest"],
+    )
+}
+
+fn cleanup_receipt_field_nonempty(cleanup_receipt: &ReceiptState, field: &str) -> bool {
+    cleanup_receipt
+        .fields
+        .get(field)
+        .is_some_and(|value| !value.trim().is_empty())
+}
+
+fn optional_cleanup_digest_field_matches(
+    cleanup_receipt: &ReceiptState,
+    auth_digest: Option<&str>,
+    fields: &[&str],
+) -> bool {
+    let observed = fields.iter().find_map(|field| {
+        cleanup_receipt
+            .fields
+            .get(*field)
+            .map(|value| value.trim())
+            .filter(|value| !value.is_empty())
+    });
+    match observed {
+        Some(observed) => auth_digest == Some(observed),
+        None => true,
+    }
+}
+
+fn stable_path_set_digest(paths: &[String]) -> Option<String> {
+    if paths.is_empty() {
+        return None;
+    }
+    let mut normalized = paths
+        .iter()
+        .map(|path| path.trim().trim_start_matches("./").to_string())
+        .filter(|path| !path.is_empty())
+        .collect::<Vec<_>>();
+    normalized.sort();
+    Some(stable_text_digest(&normalized.join("\n")))
+}
+
+fn closeout_worktree_handoff_forbidden_actions_are_all_false(
+    actions: &BTreeMap<String, bool>,
+) -> bool {
+    const FORBIDDEN_CLAIMS: &[&str] = &[
+        "deletion",
+        "reset",
+        "staging",
+        "commit",
+        "push",
+        "publication",
+        "archive",
+        "branch_cleanup",
+        "git_ref_mutation",
+        "cleaned_claim",
+    ];
+    FORBIDDEN_CLAIMS
+        .iter()
+        .all(|action| actions.get(*action) != Some(&true))
+        && !actions.values().any(|performed| *performed)
+}
+
+fn parent_handoff_forbidden_actions_are_all_false(actions: &BTreeMap<String, bool>) -> bool {
+    const REQUIRED_FALSE_ACTIONS: &[&str] = &[
+        "deletion",
+        "reset",
+        "staging",
+        "commit",
+        "push",
+        "publication",
+        "archive",
+        "branch_cleanup",
+        "git_ref_mutation",
+        "cleaned_claim",
+    ];
+    REQUIRED_FALSE_ACTIONS
+        .iter()
+        .all(|action| actions.get(*action) == Some(&false))
+        && !actions.values().any(|performed| *performed)
+}
+
+fn closeout_worktree_classifier_fingerprint_matches(
+    classifier_path: &Path,
+    expected_foreign_fingerprint: &str,
+) -> Result<bool> {
+    let value: serde_yaml::Value = serde_yaml::from_slice(&fs::read(classifier_path)?)?;
+    Ok(value
+        .get("worktree_hygiene_foreign_fingerprint")
+        .and_then(|value| value.as_str())
+        == Some(expected_foreign_fingerprint))
+}
+
+fn path_sets_equal(left: &[String], right: &[String]) -> bool {
+    if left.is_empty() || right.is_empty() {
+        return false;
+    }
+    left.iter().collect::<BTreeSet<_>>() == right.iter().collect::<BTreeSet<_>>()
+}
+
+fn path_is_under_or_equal(path: &str, base: &str) -> bool {
+    path == base
+        || path
+            .strip_prefix(base)
+            .is_some_and(|suffix| suffix.starts_with('/'))
 }
 
 fn selected_route_for_child_execution(
@@ -11774,9 +16106,10 @@ fn recovery_route_for_blocker<'a>(
     program: &'a ProgramSpec,
     blocker: &'a ProgramBlocker,
 ) -> Option<&'a str> {
-    recovery_route_id(program, &blocker.blocker_class)
-        .map(String::as_str)
-        .or(blocker.recovery_route.as_deref())
+    blocker
+        .recovery_route
+        .as_deref()
+        .or_else(|| recovery_route_id(program, &blocker.blocker_class).map(String::as_str))
 }
 
 fn recovery_recipe_for_blocker<'a>(
@@ -11949,6 +16282,159 @@ fn recovery_attempt_count(
 
 fn program_recovery_action_attempt_key(blocker_class: &str, action_id: &str) -> String {
     format!("{blocker_class}:{action_id}")
+}
+
+fn program_recovery_action_attempt_key_for_fingerprint(
+    blocker_class: &str,
+    action_id: &str,
+    condition_fingerprint: &str,
+) -> String {
+    format!("{blocker_class}:{action_id}:{condition_fingerprint}")
+}
+
+fn program_recovery_action_attempt_key_for_plan(
+    blocker_class: &str,
+    action_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+) -> String {
+    program_recovery_action_condition_fingerprint(blocker_class, action_id, plan)
+        .map(|fingerprint| {
+            program_recovery_action_attempt_key_for_fingerprint(
+                blocker_class,
+                action_id,
+                &fingerprint,
+            )
+        })
+        .unwrap_or_else(|| program_recovery_action_attempt_key(blocker_class, action_id))
+}
+
+fn program_recovery_action_attempt_key_for_blocker(
+    blocker_class: &str,
+    action_id: &str,
+    blocker: &ProgramBlocker,
+) -> String {
+    if blocker_class == "publication-drift" && action_id == REFRESH_PUBLICATION_PROJECTIONS_ACTION {
+        if let Some(fingerprint) =
+            publication_freshness_digest_from_blocker_message(&blocker.message)
+        {
+            return program_recovery_action_attempt_key_for_fingerprint(
+                blocker_class,
+                action_id,
+                &fingerprint,
+            );
+        }
+    }
+    program_recovery_action_attempt_key(blocker_class, action_id)
+}
+
+fn program_recovery_action_condition_fingerprint(
+    blocker_class: &str,
+    action_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+) -> Option<String> {
+    if blocker_class != "publication-drift" || action_id != REFRESH_PUBLICATION_PROJECTIONS_ACTION {
+        return None;
+    }
+    publication_freshness_digest_from_plan(plan)
+}
+
+fn publication_freshness_digest_from_plan(plan: &ProgramLifecyclePlanResult) -> Option<String> {
+    plan.program_blockers
+        .iter()
+        .chain(
+            plan.child_states
+                .values()
+                .flat_map(|state| state.blockers.iter()),
+        )
+        .filter(|blocker| blocker.blocker_class == "publication-drift")
+        .find_map(|blocker| publication_freshness_digest_from_blocker_message(&blocker.message))
+        .or_else(|| {
+            let mut publication_blockers = plan
+                .child_states
+                .values()
+                .filter(|state| {
+                    state
+                        .blockers
+                        .iter()
+                        .any(|blocker| blocker.blocker_class == "publication-drift")
+                })
+                .map(|state| {
+                    child_progress_fingerprint(
+                        state,
+                        state
+                            .selected_route
+                            .as_ref()
+                            .map(|route| route.route_id.as_str())
+                            .unwrap_or("none"),
+                        "publication-drift",
+                    )
+                })
+                .collect::<Vec<_>>();
+            if publication_blockers.is_empty() {
+                return None;
+            }
+            publication_blockers.sort_by(|left, right| left.child_id.cmp(&right.child_id));
+            serializable_digest(&publication_blockers).ok()
+        })
+}
+
+fn publication_freshness_digest_from_blocker_message(message: &str) -> Option<String> {
+    message
+        .split_whitespace()
+        .find_map(|part| part.strip_prefix("publication_freshness_digest="))
+        .map(|value| value.trim_end_matches(';').to_string())
+        .filter(|value| !value.is_empty())
+}
+
+fn publication_freshness_evidence_digest_from_parts(
+    passed: bool,
+    stdout: &[u8],
+    stderr: &[u8],
+    exit_code: i32,
+) -> String {
+    stable_text_digest(&format!(
+        "status={}\nexit_code={exit_code}\nstdout={}\nstderr={}",
+        if passed { "pass" } else { "blocked" },
+        sha256_digest(stdout),
+        sha256_digest(stderr)
+    ))
+}
+
+fn program_recovery_action_attempt_count_for_plan(
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    blocker_class: &str,
+    action_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+) -> u32 {
+    let Some(checkpoint) = checkpoint else {
+        return 0;
+    };
+    let key = program_recovery_action_attempt_key_for_plan(blocker_class, action_id, plan);
+    checkpoint
+        .program_recovery_action_attempts
+        .get(&key)
+        .copied()
+        .unwrap_or(0)
+}
+
+fn program_recovery_action_attempt_count_for_blocker(
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    blocker_class: &str,
+    action_id: &str,
+    blocker: &ProgramBlocker,
+) -> u32 {
+    checkpoint
+        .and_then(|checkpoint| {
+            checkpoint
+                .program_recovery_action_attempts
+                .get(&program_recovery_action_attempt_key_for_blocker(
+                    blocker_class,
+                    action_id,
+                    blocker,
+                ))
+                .copied()
+        })
+        .unwrap_or(0)
 }
 
 fn program_recovery_action_attempt_count(
@@ -12351,7 +16837,10 @@ fn closeout_recovery_blocked_by_worktree(
         && state.blockers.iter().any(|blocker| {
             matches!(
                 blocker.blocker_class.as_str(),
-                "worktree-hygiene-blocked" | "artifact-ownership-unclear"
+                "worktree-hygiene-blocked"
+                    | "artifact-ownership-unclear"
+                    | "worktree-handoff-evidence-changed"
+                    | "stale-closeout-worktree-return"
             )
         })
 }
@@ -12657,8 +17146,12 @@ fn select_program_recovery_action<'a>(
         let budget = recovery_attempt_budget(program, &blocker.blocker_class)
             .or(program.recovery_policy.max_recovery_attempts)
             .unwrap_or(1);
-        let used =
-            program_recovery_action_attempt_count(checkpoint, &blocker.blocker_class, action_id);
+        let used = program_recovery_action_attempt_count_for_plan(
+            checkpoint,
+            &blocker.blocker_class,
+            action_id,
+            plan,
+        );
         if used < budget
             || rebaseline_checkpoint_has_resettable_recovery_state(
                 checkpoint,
@@ -12678,10 +17171,11 @@ fn select_program_recovery_action<'a>(
             let budget = recovery_attempt_budget(program, &blocker.blocker_class)
                 .or(program.recovery_policy.max_recovery_attempts)
                 .unwrap_or(1);
-            let used = program_recovery_action_attempt_count(
+            let used = program_recovery_action_attempt_count_for_plan(
                 checkpoint,
                 &blocker.blocker_class,
                 action_id,
+                plan,
             );
             if used < budget
                 || rebaseline_checkpoint_has_resettable_recovery_state(
@@ -12696,6 +17190,23 @@ fn select_program_recovery_action<'a>(
         }
     }
     None
+}
+
+fn should_execute_program_recovery_before_child_dispatch(
+    runnable_batch_empty: bool,
+    publication_preflight_blocked: bool,
+    selected_action: Option<(&str, &str)>,
+) -> bool {
+    if publication_preflight_blocked {
+        return true;
+    }
+    if runnable_batch_empty {
+        return selected_action.is_some();
+    }
+    matches!(
+        selected_action,
+        Some(("publication-drift", REFRESH_PUBLICATION_PROJECTIONS_ACTION))
+    )
 }
 
 fn rebaseline_checkpoint_has_resettable_recovery_state(
@@ -12748,7 +17259,7 @@ fn execute_selected_program_recovery_action(
     else {
         return Ok(None);
     };
-    let key = program_recovery_action_attempt_key(blocker_class, action_id);
+    let key = program_recovery_action_attempt_key_for_plan(blocker_class, action_id, plan);
     let attempt_number = program_recovery_action_attempts
         .get(&key)
         .copied()
@@ -13352,7 +17863,7 @@ fn run_program_recovery_command(
     let (script, args) = argv
         .split_first()
         .context("program recovery command missing script")?;
-    let mut command = Command::new("bash");
+    let mut command = program_lifecycle_command(repo_root, "bash")?;
     command
         .arg(script)
         .args(args)
@@ -14562,7 +19073,7 @@ fn emit_program_child_handoff_requests(
 ) -> Result<Vec<String>> {
     let mut request_refs = Vec::new();
     for result in child_results.iter_mut() {
-        let Some(spec) = program_handoff_request_spec(&result.route_id, &result.status) else {
+        let Some(spec) = program_handoff_request_spec(result) else {
             continue;
         };
         let Some(state) = plan.child_states.get(&result.child_id) else {
@@ -14592,6 +19103,17 @@ fn emit_program_child_handoff_requests(
                     spec.requested_atomic_unit_type,
                 ),
                 ("authority", "non-authorizing-request"),
+                (
+                    "blocker_class",
+                    result.blocker_class.as_deref().unwrap_or("none"),
+                ),
+                (
+                    "foreign_fingerprint",
+                    result
+                        .worktree_hygiene_foreign_fingerprint
+                        .as_deref()
+                        .unwrap_or("none"),
+                ),
             ],
         );
         data.insert(
@@ -14612,11 +19134,30 @@ fn emit_program_child_handoff_requests(
     Ok(request_refs)
 }
 
-fn program_handoff_request_spec(route_id: &str, status: &str) -> Option<ProgramHandoffRequestSpec> {
-    if status != "completed" {
+fn program_handoff_request_spec(
+    result: &ProgramChildExecutionSummary,
+) -> Option<ProgramHandoffRequestSpec> {
+    if result.status == "blocked"
+        && matches!(
+            result.route_id.as_str(),
+            "closeout-packet" | "archive-proposal"
+        )
+        && result.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+    {
+        return Some(ProgramHandoffRequestSpec {
+            requested_capability: "closeout-worktree",
+            requested_lifecycle_id: "closeout-worktree",
+            requested_route_surface: "closeout-worktree",
+            requested_atomic_unit_type: "worktree",
+            requested_target_outcome: "preserved",
+            expected_return_evidence: &["closeout-worktree-report-v1"],
+            phase_id: "closeout-worktree-hygiene",
+        });
+    }
+    if result.status != "completed" {
         return None;
     }
-    match route_id {
+    match result.route_id.as_str() {
         "run-packet-implementation"
         | "run-program-implementation-orchestration"
         | "run-implementation" => Some(ProgramHandoffRequestSpec {
@@ -14664,7 +19205,7 @@ fn write_program_child_handoff_request(
     fs::write(
         &basis_path,
         format!(
-            "schema_version: octon-program-lifecycle-interaction-basis-v1\nprogram_run_id: {}\nchild_id: {}\nchild_run_id: {}\nsource_lifecycle_id: {}\nchild_lifecycle_id: {}\nroute_id: {}\nroute_status: {}\nnon_authorizing: true\nboundary_digest: {}\nrecorded_at: {}\n",
+            "schema_version: octon-program-lifecycle-interaction-basis-v1\nprogram_run_id: {}\nchild_id: {}\nchild_run_id: {}\nsource_lifecycle_id: {}\nchild_lifecycle_id: {}\nroute_id: {}\nroute_status: {}\nblocker_class: {}\nforeign_fingerprint: {}\nclassifier_output_ref: {}\nclassifier_output_digest: {}\nclassifier_stderr_ref: {}\nclassifier_stderr_digest: {}\ninclude_paths:\n{}\nexclude_paths:\n{}\nrequired_return_evidence:\n{}\nnon_authorizing: true\nparent_summary_not_child_closeout_receipt: true\nchild_closeout_authority_preserved: true\nboundary_digest: {}\nrecorded_at: {}\n",
             yaml_scalar(program_run_id),
             yaml_scalar(&result.child_id),
             yaml_scalar(&result.child_run_id),
@@ -14672,6 +19213,42 @@ fn write_program_child_handoff_request(
             yaml_scalar(&state.child_lifecycle_id),
             yaml_scalar(&result.route_id),
             yaml_scalar(&result.status),
+            yaml_scalar(result.blocker_class.as_deref().unwrap_or("none")),
+            yaml_scalar(
+                result
+                    .worktree_hygiene_foreign_fingerprint
+                    .as_deref()
+                    .unwrap_or("none"),
+            ),
+            yaml_scalar(
+                handoff_evidence_path_by_suffix(result, "worktree-hygiene-preflight.stdout.yml")
+                    .unwrap_or("none"),
+            ),
+            yaml_scalar(
+                handoff_evidence_digest_by_suffix(
+                    repo_root,
+                    result,
+                    "worktree-hygiene-preflight.stdout.yml",
+                )?
+                .as_deref()
+                .unwrap_or("none"),
+            ),
+            yaml_scalar(
+                handoff_evidence_path_by_suffix(result, "worktree-hygiene-preflight.stderr.log")
+                    .unwrap_or("none"),
+            ),
+            yaml_scalar(
+                handoff_evidence_digest_by_suffix(
+                    repo_root,
+                    result,
+                    "worktree-hygiene-preflight.stderr.log",
+                )?
+                .as_deref()
+                .unwrap_or("none"),
+            ),
+            yaml_list_block(include_paths.iter().map(String::as_str)),
+            yaml_list_block(exclude_paths.iter().map(String::as_str)),
+            yaml_list_block(spec.expected_return_evidence.iter().copied()),
             yaml_scalar(&boundary_digest),
             yaml_scalar(&now_rfc3339()?),
         ),
@@ -14791,6 +19368,65 @@ fn program_handoff_evidence_offered(
         }
     }
     Ok(offered)
+}
+
+fn handoff_evidence_path_by_suffix<'a>(
+    result: &'a ProgramChildExecutionSummary,
+    suffix: &str,
+) -> Option<&'a str> {
+    result
+        .evidence_paths
+        .iter()
+        .map(String::as_str)
+        .find(|path| {
+            path.ends_with(suffix)
+                || (suffix == "worktree-hygiene-preflight.stdout.yml"
+                    && is_worktree_hygiene_preflight_stdout_ref(path))
+                || (suffix == "worktree-hygiene-preflight.stderr.log"
+                    && is_worktree_hygiene_preflight_stderr_ref(path))
+        })
+}
+
+fn is_worktree_hygiene_preflight_stdout_ref(path: &str) -> bool {
+    let file_name = path.rsplit('/').next().unwrap_or(path);
+    file_name == "worktree-hygiene-preflight.stdout.yml"
+        || (file_name.starts_with("worktree-hygiene-preflight-")
+            && file_name.ends_with(".stdout.yml"))
+}
+
+fn is_worktree_hygiene_preflight_stderr_ref(path: &str) -> bool {
+    let file_name = path.rsplit('/').next().unwrap_or(path);
+    file_name == "worktree-hygiene-preflight.stderr.log"
+        || (file_name.starts_with("worktree-hygiene-preflight-")
+            && file_name.ends_with(".stderr.log"))
+}
+
+fn handoff_evidence_digest_by_suffix(
+    repo_root: &Path,
+    result: &ProgramChildExecutionSummary,
+    suffix: &str,
+) -> Result<Option<String>> {
+    let Some(path) = handoff_evidence_path_by_suffix(result, suffix) else {
+        return Ok(None);
+    };
+    let Some((_, absolute)) = normalize_existing_program_evidence_ref(repo_root, path) else {
+        return Ok(None);
+    };
+    Ok(Some(file_digest(&absolute)?))
+}
+
+fn yaml_list_block<'a>(items: impl IntoIterator<Item = &'a str>) -> String {
+    let mut rendered = String::new();
+    for item in items {
+        rendered.push_str("  - ");
+        rendered.push_str(&yaml_scalar(item));
+        rendered.push('\n');
+    }
+    if rendered.is_empty() {
+        "  []\n".to_string()
+    } else {
+        rendered
+    }
 }
 
 fn normalize_existing_program_evidence_ref(
@@ -15193,6 +19829,121 @@ fn acquire_child_lock(control_root: &Path, child_id: &str) -> Result<PathBuf> {
         .with_context(|| format!("child target lock already exists for {child_id}"))?;
     writeln!(file, "child_id: {child_id}")?;
     Ok(lock_path)
+}
+
+fn acquire_child_lock_for_route(
+    control_root: &Path,
+    evidence_root: &Path,
+    program_run_id: &str,
+    child_id: &str,
+    route_id: &str,
+) -> Result<PathBuf> {
+    match acquire_child_lock(control_root, child_id) {
+        Ok(lock_path) => Ok(lock_path),
+        Err(error) => {
+            let lock_path = control_root.join("locks").join(format!("{child_id}.lock"));
+            let Some(stale_route_id) =
+                recoverable_stale_child_lock_route(control_root, child_id, &lock_path)?
+            else {
+                return Err(error);
+            };
+            let lock_path_display = lock_path.to_string_lossy().to_string();
+            append_program_event(
+                control_root,
+                evidence_root,
+                program_run_id,
+                "stale-child-lock-recovery-started",
+                Some(child_id),
+                Some(&stale_route_id),
+                "program lifecycle found recoverable stale child lock before dispatch",
+                event_data([
+                    ("new_route_id", route_id),
+                    ("lock_path", lock_path_display.as_str()),
+                ]),
+            )?;
+            release_child_lock(
+                control_root,
+                evidence_root,
+                program_run_id,
+                child_id,
+                &stale_route_id,
+                &lock_path,
+            )
+            .with_context(|| {
+                format!("program child stale lock recovery failed for {child_id}:{stale_route_id}")
+            })?;
+            append_program_event(
+                control_root,
+                evidence_root,
+                program_run_id,
+                "stale-child-lock-recovered",
+                Some(child_id),
+                Some(&stale_route_id),
+                "program lifecycle recovered stale child lock before dispatch",
+                event_data([
+                    ("new_route_id", route_id),
+                    ("lock_path", lock_path_display.as_str()),
+                ]),
+            )?;
+            acquire_child_lock(control_root, child_id).with_context(|| {
+                format!(
+                    "child target lock could not be reacquired after stale recovery for {child_id}"
+                )
+            })
+        }
+    }
+}
+
+fn recoverable_stale_child_lock_route(
+    control_root: &Path,
+    child_id: &str,
+    lock_path: &Path,
+) -> Result<Option<String>> {
+    let expected_lock_path = control_root.join("locks").join(format!("{child_id}.lock"));
+    if lock_path != expected_lock_path || !lock_path.is_file() {
+        return Ok(None);
+    }
+    let contents = fs::read_to_string(lock_path)?;
+    if contents.trim() != format!("child_id: {child_id}") {
+        return Ok(None);
+    }
+    let events = read_program_events(control_root)?;
+    let Some(started) = events.iter().rev().find(|event| {
+        event.child_id.as_deref() == Some(child_id) && event.event_type == "child-route-started"
+    }) else {
+        return Ok(None);
+    };
+    if events.iter().any(|event| {
+        event.event_index > started.event_index
+            && event.child_id.as_deref() == Some(child_id)
+            && matches!(
+                event.event_type.as_str(),
+                "child-lock-released" | "atomic-lock-released"
+            )
+    }) {
+        return Ok(None);
+    }
+    let controller_advanced_after_start = events.iter().any(|event| {
+        event.event_index > started.event_index
+            && matches!(
+                event.event_type.as_str(),
+                "plan-created"
+                    | "parent-route-started"
+                    | "parent-route-finished"
+                    | "aggregate-terminal-blockers"
+                    | "compact-evidence-written"
+                    | "token-budget-ledger-written"
+                    | "publication-freshness-preflight-passed"
+                    | "publication-freshness-preflight-blocked"
+                    | "program-recovery-action-started"
+                    | "program-recovery-action-finished"
+                    | "schedule-created"
+            )
+    });
+    if !controller_advanced_after_start {
+        return Ok(None);
+    }
+    Ok(started.route_id.clone())
 }
 
 fn release_child_locks_after_build_failure(
@@ -15798,6 +20549,7 @@ fn checkpoint_from_plan(
         closeout_hygiene_suppressions,
         aggregate_terminal_blockers: plan.aggregate_terminal_blockers.clone(),
         residue_cleanup_attempts: BTreeMap::new(),
+        worktree_baseline_ref: None,
         interaction_request_refs: Vec::new(),
         interaction_return_refs: Vec::new(),
         approvals,
@@ -15886,8 +20638,21 @@ fn write_program_checkpoint_snapshot(
         })
         .unwrap_or_default();
     let repo_root = repo_root_for_octon(octon_dir)?;
-    let (mut interaction_request_refs, interaction_return_refs) =
+    checkpoint.worktree_baseline_ref = previous_checkpoint
+        .and_then(|checkpoint| checkpoint.worktree_baseline_ref.clone())
+        .or_else(|| {
+            let baseline = evidence_root.join(PROGRAM_WORKTREE_BASELINE_FILE);
+            baseline
+                .is_file()
+                .then(|| rel_display(&repo_root, &baseline))
+        });
+    let (mut interaction_request_refs, mut interaction_return_refs) =
         lifecycle_interaction_refs_from_run_inputs(&repo_root, run_inputs)?;
+    for retained_ref in
+        closeout_worktree_return_refs_from_inputs_and_retained_dir(&repo_root, run_id, run_inputs)?
+    {
+        push_unique_string(&mut interaction_return_refs, retained_ref);
+    }
     for emitted_ref in child_result_interaction_request_refs(&repo_root, child_results)? {
         push_unique_string(&mut interaction_request_refs, emitted_ref);
     }
@@ -16307,6 +21072,9 @@ fn write_program_planner_state_artifacts(
         scheduler_phase: plan.scheduler_phase.clone(),
         route_decision: route_decision.clone(),
         runnable_batch: plan.runnable_batch.clone(),
+        blocker_vector: program_blocker_vector(plan),
+        diagnostics: program_planner_diagnostics(plan),
+        route_ready: program_route_ready_state(plan, checkpoint),
         blocker_counts: program_blocker_counts(plan),
         child_states: program_planner_child_states(plan),
         source_refs: source_refs.clone(),
@@ -16331,6 +21099,9 @@ fn write_program_planner_state_artifacts(
         dependency_vector: program_context_dependency_vector(plan),
         runnable_batch: plan.runnable_batch.clone(),
         blockers: program_context_blockers(plan),
+        blocker_vector: program_blocker_vector(plan),
+        diagnostics: program_planner_diagnostics(plan),
+        route_ready: program_route_ready_state(plan, checkpoint),
         route_decision: route_decision.clone(),
         key_digests: program_context_key_digests(checkpoint, &source_refs),
         evidence_refs: source_refs
@@ -17128,6 +21899,199 @@ fn program_context_blockers(plan: &ProgramLifecyclePlanResult) -> Vec<ProgramCon
     blockers
 }
 
+fn program_blocker_vector(plan: &ProgramLifecyclePlanResult) -> Vec<ProgramBlockerVectorEntry> {
+    let mut entries = Vec::new();
+    for blocker in &plan.program_blockers {
+        entries.push(program_blocker_vector_entry(
+            "program",
+            program_blocker_concern_scope("program", &blocker.blocker_class),
+            None,
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.clone())
+                .or_else(|| blocker.recovery_route.clone()),
+            &blocker.blocker_class,
+            &blocker.message,
+            blocker.recovery_route.clone(),
+        ));
+    }
+    for state in plan.child_states.values() {
+        for blocker in &state.blockers {
+            entries.push(program_blocker_vector_entry(
+                "child",
+                program_blocker_concern_scope("child", &blocker.blocker_class),
+                Some(state.child_id.clone()),
+                state
+                    .selected_route
+                    .as_ref()
+                    .map(|route| route.route_id.clone())
+                    .or_else(|| blocker.recovery_route.clone()),
+                &blocker.blocker_class,
+                &blocker.message,
+                blocker.recovery_route.clone(),
+            ));
+        }
+    }
+    for blocker in &plan.approval_blockers {
+        let blocker_class = blocker
+            .blocker_class
+            .clone()
+            .unwrap_or_else(|| "route-approval-required".to_string());
+        entries.push(program_blocker_vector_entry(
+            "approval",
+            "authorization".to_string(),
+            Some(blocker.child_id.clone()),
+            Some(blocker.route_id.clone()),
+            &blocker_class,
+            &blocker.reason,
+            Some(blocker.route_id.clone()),
+        ));
+    }
+    entries
+}
+
+fn program_blocker_vector_entry(
+    scope: &str,
+    concern_scope: String,
+    child_id: Option<String>,
+    route_id: Option<String>,
+    blocker_class: &str,
+    message: &str,
+    recovery_route: Option<String>,
+) -> ProgramBlockerVectorEntry {
+    ProgramBlockerVectorEntry {
+        scope: scope.to_string(),
+        concern_scope,
+        child_id,
+        route_id,
+        blocker_class: blocker_class.to_string(),
+        message: message.to_string(),
+        recovery_route,
+        actionable: true,
+        disposition: normalize_program_blocker_class(blocker_class)
+            .normalized_category
+            .disposition()
+            .to_string(),
+    }
+}
+
+fn program_blocker_concern_scope(scope: &str, blocker_class: &str) -> String {
+    let concern = match blocker_class {
+        "publication-drift" | "generated-effective-stale" | "generated-publication-stale" => {
+            "generated-artifact"
+        }
+        "worktree-hygiene-blocked"
+        | "parent-worktree-disposition-required"
+        | "worktree-handoff-evidence-changed"
+        | "stale-closeout-worktree-return"
+        | "artifact-ownership-unclear"
+        | "noncritical-artifact-cleanup"
+        | "local-run-residue"
+        | "child-lock-stale"
+        | "generated-scratch-stale"
+        | "lifecycle-residue-cleanup-needed" => "worktree-hygiene",
+        "executor-preflight-blocked"
+        | "executor-unavailable"
+        | "executor-failed"
+        | "executor-timed-out"
+        | "invalid-child-registry"
+        | "receipt-recovery-unavailable"
+        | "recovery-route-unavailable"
+        | "unsafe-resume" => "lifecycle-tooling",
+        "authority-ambiguity"
+        | "authority-boundary-ambiguous"
+        | "authority-zone-ambiguous"
+        | "hosted-provider-authorization"
+        | "branch-cleanup-authorization"
+        | "worktree-cleanup-authorization"
+        | "archive-authorization"
+        | "promotion-authorization"
+        | "recovery-budget-override-required"
+        | "policy-override"
+        | "route-approval-required" => "authorization",
+        class
+            if class.contains("git")
+                || class.contains("branch-no-pr")
+                || class.contains("delivery")
+                || class.contains("pr-fallback") =>
+        {
+            "git-delivery"
+        }
+        _ if scope == "program" => "parent",
+        _ if scope == "child" => "child",
+        _ => scope,
+    };
+    concern.to_string()
+}
+
+fn program_planner_diagnostics(plan: &ProgramLifecyclePlanResult) -> Vec<ProgramPlannerDiagnostic> {
+    let mut diagnostics = Vec::new();
+    if plan.program_blockers.is_empty() && !plan.program_gate_results.is_empty() {
+        diagnostics.push(ProgramPlannerDiagnostic {
+            scope: "program".to_string(),
+            child_id: None,
+            diagnostic_class: "program-gates-passed".to_string(),
+            message:
+                "program gate results are retained diagnostics and do not block the selected route"
+                    .to_string(),
+            blocks_next_route: false,
+        });
+    }
+    for state in plan.child_states.values() {
+        if state.blockers.is_empty() && state.selected_route.is_some() {
+            diagnostics.push(ProgramPlannerDiagnostic {
+                scope: "child".to_string(),
+                child_id: Some(state.child_id.clone()),
+                diagnostic_class: "child-route-ready".to_string(),
+                message: "child has an enterable selected route and no actionable planner blockers"
+                    .to_string(),
+                blocks_next_route: false,
+            });
+        } else if state.terminal_outcome.is_some() {
+            diagnostics.push(ProgramPlannerDiagnostic {
+                scope: "child".to_string(),
+                child_id: Some(state.child_id.clone()),
+                diagnostic_class: "child-terminal".to_string(),
+                message:
+                    "child terminal outcome is retained as status context and does not block a next route"
+                        .to_string(),
+                blocks_next_route: false,
+            });
+        }
+    }
+    diagnostics
+}
+
+fn program_route_ready_state(
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+) -> ProgramRouteReadyState {
+    let selected_parent_route = plan
+        .program_route
+        .as_ref()
+        .map(|route| route.route_id.clone());
+    let parent_route_ready = selected_parent_route.is_some();
+    let child_batch_ready = !plan.runnable_batch.is_empty();
+    let no_dispatch_ready = !parent_route_ready && !child_batch_ready;
+    let explanation = if parent_route_ready {
+        "parent route selected for dispatch"
+    } else if child_batch_ready {
+        "child batch selected for dispatch"
+    } else if checkpoint.terminal_outcome.is_some() {
+        "terminal outcome observed; no dispatch required"
+    } else {
+        "no route currently dispatchable"
+    };
+    ProgramRouteReadyState {
+        parent_route_ready,
+        child_batch_ready,
+        no_dispatch_ready,
+        selected_parent_route,
+        selected_children: plan.runnable_batch.clone(),
+        explanation: explanation.to_string(),
+    }
+}
+
 fn write_program_blocker_recovery_artifacts(
     repo_root: &Path,
     evidence_root: &Path,
@@ -17876,6 +22840,11 @@ fn collect_program_evidence_index_sources(
     let mut sources = Vec::new();
     for (file_name, role, relevance) in [
         ("program-plan.yml", "program-plan", "handle-only-by-default"),
+        (
+            PROGRAM_WORKTREE_BASELINE_FILE,
+            "program-worktree-baseline",
+            "compact-reader-default",
+        ),
         (
             "scheduler-decision.yml",
             "scheduler-decision",
@@ -20184,6 +25153,7 @@ mod tests {
             route_gate_results: Vec::new(),
             terminal_outcome: None,
             receipt_digests: BTreeMap::new(),
+            terminal_evidence_summary: None,
             gate_status: ProgramChildGateStatus::default(),
             dependency_gate_status: BTreeMap::new(),
             write_scopes: vec![format!("children/{child_id}")],
@@ -20265,6 +25235,184 @@ mod tests {
             stop_reason: Some("dispatch-available".to_string()),
             final_verdict: "planned".to_string(),
         }
+    }
+
+    #[test]
+    fn program_blocker_vector_reports_all_scopes() {
+        let mut child_states = BTreeMap::new();
+        child_states.insert(
+            "a".to_string(),
+            child_state("a", vec![blocker("validation-failed")]),
+        );
+        child_states.insert("b".to_string(), child_state("b", Vec::new()));
+        let mut plan = program_plan_with_children(child_states, vec!["b"]);
+        plan.program_blockers = vec![
+            blocker("missing-evidence"),
+            blocker("publication-drift"),
+            blocker("worktree-hygiene-blocked"),
+            blocker("executor-unavailable"),
+            blocker("branch-no-pr-delivery-blocked"),
+        ];
+        plan.approval_blockers.push(approval_blocker());
+
+        let vector = program_blocker_vector(&plan);
+        let concern_scopes = vector
+            .iter()
+            .map(|entry| entry.concern_scope.as_str())
+            .collect::<BTreeSet<_>>();
+        for expected in [
+            "parent",
+            "child",
+            "generated-artifact",
+            "worktree-hygiene",
+            "lifecycle-tooling",
+            "git-delivery",
+            "authorization",
+        ] {
+            assert!(
+                concern_scopes.contains(expected),
+                "missing concern scope {expected}: {concern_scopes:?}"
+            );
+        }
+        assert!(vector.iter().all(|entry| entry.actionable));
+
+        let diagnostics = program_planner_diagnostics(&plan);
+        assert!(diagnostics.iter().any(|diagnostic| {
+            diagnostic.child_id.as_deref() == Some("b")
+                && diagnostic.diagnostic_class == "child-route-ready"
+                && !diagnostic.blocks_next_route
+        }));
+        assert!(!vector.iter().any(|entry| {
+            entry.child_id.as_deref() == Some("b") && entry.blocker_class == "child-route-ready"
+        }));
+
+        let route_ready = program_route_ready_state(
+            &plan,
+            &ProgramLifecycleCheckpoint {
+                final_verdict: "planned".to_string(),
+                ..ProgramLifecycleCheckpoint::default()
+            },
+        );
+        assert!(route_ready.child_batch_ready);
+        assert!(!route_ready.parent_route_ready);
+        assert_eq!(route_ready.selected_children, vec!["b".to_string()]);
+    }
+
+    #[test]
+    fn cleanup_route_yields_to_publication_drift_blocker() {
+        let mut plan = program_plan_with_children(BTreeMap::new(), Vec::new());
+        plan.program_route = Some(RoutePlanState {
+            route_id: ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE.to_string(),
+            route_type: "extension".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        plan.program_blockers = vec![blocker("publication-drift")];
+
+        assert!(cleanup_parent_route_should_yield_to_publication_drift(
+            &plan
+        ));
+    }
+
+    #[test]
+    fn validator_dispatch_uses_supported_bash_runtime() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("validator-supported-bash-runtime", true);
+        fixture.write(
+            ".octon/framework/assurance/runtime/_ops/scripts/pass-program-gate.sh",
+            "#!/usr/bin/env bash\nprintf 'direct script should not be used by this fixture\\n'\n",
+        );
+        let fake_bash = fixture.root.join("fake-bin/bash");
+        fs::create_dir_all(fake_bash.parent().unwrap()).unwrap();
+        fs::write(
+            &fake_bash,
+            "#!/bin/sh\nprintf 'resolved-bash:%s\\n' \"$1\"\nexit 0\n",
+        )
+        .unwrap();
+        #[cfg(unix)]
+        {
+            let mut permissions = fs::metadata(&fake_bash).unwrap().permissions();
+            permissions.set_mode(0o755);
+            fs::set_permissions(&fake_bash, permissions).unwrap();
+        }
+        let contract: LifecycleContract = serde_yaml::from_str(
+            r#"
+lifecycle_id: proposal-program
+owner_extension: test-extension
+target:
+  manifest_path: proposal.yml
+  status_field: status
+validators:
+  - validator_id: supported-bash-validator
+    argv:
+      - bash
+      - .octon/framework/assurance/runtime/_ops/scripts/pass-program-gate.sh
+      - --package
+      - "{{target}}"
+gates:
+  - gate_id: program-structure
+    validator_id: supported-bash-validator
+"#,
+        )
+        .unwrap();
+        let gate = &contract.gates[0];
+        let validator = &contract.validators[0];
+        let result = run_program_validator_with_bash_runtime(
+            &fixture.root,
+            &contract,
+            &fixture.root.join("parent"),
+            gate,
+            validator,
+            Some(&fake_bash),
+        )
+        .unwrap();
+
+        assert!(result.passed);
+        assert!(result.stdout.contains(
+            "resolved-bash:.octon/framework/assurance/runtime/_ops/scripts/pass-program-gate.sh"
+        ));
+
+        let error = run_program_validator_with_bash_runtime(
+            &fixture.root,
+            &contract,
+            &fixture.root.join("parent"),
+            gate,
+            validator,
+            Some(&fixture.root.join("missing/bash")),
+        )
+        .unwrap_err()
+        .chain()
+        .any(|cause| cause.to_string().contains("not an executable Bash"));
+        assert!(error);
+    }
+
+    #[test]
+    fn program_bash_runtime_prefers_supported_path_candidate() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("program-bash-runtime-path-selection", true);
+        let unsupported_bin = fixture.root.join("unsupported-bin");
+        let supported_bin = fixture.root.join("supported-bin");
+        fs::create_dir_all(&unsupported_bin).unwrap();
+        fs::create_dir_all(&supported_bin).unwrap();
+        let unsupported_bash = unsupported_bin.join("bash");
+        let supported_bash = supported_bin.join("bash");
+        fs::write(&unsupported_bash, "#!/bin/sh\nexit 2\n").unwrap();
+        fs::write(&supported_bash, "#!/bin/sh\nexit 0\n").unwrap();
+        #[cfg(unix)]
+        {
+            for path in [&unsupported_bash, &supported_bash] {
+                let mut permissions = fs::metadata(path).unwrap().permissions();
+                permissions.set_mode(0o755);
+                fs::set_permissions(path, permissions).unwrap();
+            }
+        }
+
+        let path_env = std::env::join_paths([unsupported_bin, supported_bin]).unwrap();
+        let resolved =
+            resolve_program_bash_runtime_with_env(&fixture.root, None, Some(path_env)).unwrap();
+
+        assert_eq!(resolved, supported_bash);
     }
 
     #[test]
@@ -20606,6 +25754,148 @@ mod tests {
                 REBASELINE_CHECKPOINT_ACTION
             ),
             0
+        );
+    }
+
+    #[test]
+    fn program_level_recovery_integrity_rebaseline_resets_route_ready_child_retry_state() {
+        let program = program_with_recovery_integrity_rebaseline_action();
+        let mut state = child_state("a", Vec::new());
+        state.selected_route = Some(RoutePlanState {
+            route_id: "archive-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        let mut child_states = BTreeMap::new();
+        child_states.insert("a".to_string(), state);
+        let mut plan = program_plan_with_children(child_states, vec![]);
+        plan.final_verdict = "blocked-recoverable".to_string();
+        plan.program_blockers = vec![blocker("recovery-integrity-risk")];
+
+        assert_eq!(
+            select_program_recovery_action(&program, &plan, None),
+            Some(("recovery-integrity-risk", REBASELINE_CHECKPOINT_ACTION))
+        );
+
+        let child_results = vec![ProgramChildExecutionSummary {
+            child_id: "a".to_string(),
+            child_run_id: "archive-authorization-a".to_string(),
+            route_id: "archive-proposal".to_string(),
+            status: "blocked".to_string(),
+            attempts: 1,
+            retryable: false,
+            blocker_class: Some("archive-authorization-non-authorizing".to_string()),
+            error_message: Some("archive dispatch receipt was stale".to_string()),
+            error_class: Some("archive-authorization-non-authorizing".to_string()),
+            evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
+        }];
+        let checkpoint = checkpoint_from_plan(
+            "program-level-recovery-integrity-rebaseline",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "unattended",
+            &BTreeMap::new(),
+            &plan,
+            &child_results,
+            "blocked-recoverable",
+            None,
+            0,
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        let progress_key = recovery_progress_key(
+            "a",
+            "archive-proposal",
+            "archive-authorization-non-authorizing",
+        );
+        assert!(checkpoint
+            .recovery_progress_fingerprints
+            .contains_key(&progress_key));
+
+        let rebased = checkpoint_for_recovery_action_replan(
+            Some(&checkpoint),
+            REBASELINE_CHECKPOINT_ACTION,
+            "recovery-integrity-risk",
+            &plan,
+        )
+        .unwrap();
+
+        assert!(rebased.child_states.is_empty());
+        assert!(!rebased
+            .recovery_progress_fingerprints
+            .contains_key(&progress_key));
+        assert_eq!(
+            recovery_attempt_count(&rebased, "a", "archive-authorization-non-authorizing"),
+            0
+        );
+    }
+
+    #[test]
+    fn selected_archive_authorization_blocker_can_retry_instead_of_rebaseline_loop() {
+        let program = program_with_recovery_integrity_rebaseline_action();
+        let mut state = child_state("a", vec![blocker("archive-authorization-non-authorizing")]);
+        state.selected_route = Some(RoutePlanState {
+            route_id: "archive-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        let progress_key = recovery_progress_key(
+            "a",
+            "archive-proposal",
+            "archive-authorization-non-authorizing",
+        );
+        let previous = child_progress_fingerprint(
+            &state,
+            "archive-proposal",
+            "archive-authorization-non-authorizing",
+        );
+        let mut child_states = BTreeMap::new();
+        child_states.insert("a".to_string(), state);
+        let plan = program_plan_with_children(child_states.clone(), vec![]);
+        let mut checkpoint = checkpoint_from_plan(
+            "selected-archive-authorization-retry",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "unattended",
+            &BTreeMap::new(),
+            &plan,
+            &[],
+            "blocked-recoverable",
+            None,
+            0,
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        checkpoint
+            .recovery_progress_fingerprints
+            .insert(progress_key, previous);
+
+        apply_recovery_progress_blockers(
+            &PathBuf::from("."),
+            &BTreeMap::new(),
+            &program,
+            &mut child_states,
+            Some(&checkpoint),
+        )
+        .unwrap();
+
+        let blocker = child_states.get("a").unwrap().blockers.first().unwrap();
+        assert_eq!(
+            blocker.blocker_class,
+            "archive-authorization-non-authorizing"
         );
     }
 
@@ -21279,6 +26569,19 @@ lifecycle_id: "proposal-packet"
 owner_extension: "test-extension"
 version: "1.0.0"
 target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented", "archived"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  proposal_path:
+    source: "lifecycle.target"
+  lifecycle_interaction_return_refs:
+    source: "run.input.lifecycle_interaction_return_refs"
+  program_child_closeout_worktree_report_ref:
+    source: "run.input.program_child_closeout_worktree_report_ref"
+  program_child_worktree_hygiene_classifier_ref:
+    source: "run.input.program_child_worktree_hygiene_classifier_ref"
+  program_child_worktree_hygiene_foreign_fingerprint:
+    source: "run.input.program_child_worktree_hygiene_foreign_fingerprint"
 states: [{ state_id: "implement" }, { state_id: "verify" }, { state_id: "closeout" }]
 terminal_outcomes:
   - outcome_id: "archived"
@@ -21443,6 +26746,139 @@ routes:
         - receipt_field_equals: { receipt_id: "proposal-closeout", field: "archive_authorized", value: "yes" }
     completion:
       expected_manifest_status: "archived"
+"#,
+            );
+        }
+
+        fn write_terminal_closeout_child_contract(&self) {
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented", "archived"] }
+input_bindings:
+  proposal_path:
+    source: "lifecycle.target"
+  target_outcome:
+    source: "run.input.target_outcome"
+states: [{ state_id: "closeout" }]
+terminal_outcomes:
+  - outcome_id: "archived"
+    when: { manifest_status: "archived" }
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "archive_authorized", "target_outcome"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-terminal-closeout"
+    path: "support/proposal-terminal-closeout.yml"
+routes:
+  - route_id: "proposal-packet-terminal-closeout"
+    route_type: "workflow"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: ["proposal-closeout"]
+      required_receipts_before_completion: ["proposal-terminal-closeout"]
+      replay_class: "no-op-safe"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+    required_inputs: ["target_outcome"]
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "proposal-closeout"
+    completion:
+      expected_receipts: ["proposal-terminal-closeout"]
+"#,
+            );
+        }
+
+        fn write_archive_ready_child_contract_with_stale_review(&self) {
+            self.write(
+                ".octon/framework/assurance/runtime/_ops/scripts/test-digest.sh",
+                "#!/usr/bin/env bash\nprintf 'sha256:live\\n'\n",
+            );
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented", "archived"] }
+states: [{ state_id: "review" }, { state_id: "closeout" }, { state_id: "archive" }]
+terminal_outcomes:
+  - outcome_id: "archived"
+    when: { manifest_status: "archived" }
+receipts:
+  - receipt_id: "proposal-review"
+    path: "support/proposal-review.md"
+    required_fields: ["review_id", "verdict", "reviewed_packet_digest"]
+    verdict_field: "verdict"
+    freshness:
+      digest_command: ["bash", ".octon/framework/assurance/runtime/_ops/scripts/test-digest.sh", "{{target}}"]
+      digest_field: "reviewed_packet_digest"
+  - receipt_id: "implementation-conformance"
+    path: "support/implementation-conformance-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "post-implementation-drift"
+    path: "support/post-implementation-drift-churn-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "archive_authorized"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-terminal-closeout"
+    path: "support/proposal-terminal-closeout.yml"
+    required_fields: ["terminal_verdict", "terminalized_at", "target_outcome", "archive_ready", "next_canonical_route"]
+    verdict_field: "terminal_verdict"
+routes:
+  - route_id: "review-packet"
+    route_type: "extension"
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_stale: "proposal-review"
+    completion:
+      expected_receipts: ["proposal-review"]
+  - route_id: "archive-proposal"
+    route_type: "workflow"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: ["implementation-conformance", "post-implementation-drift", "proposal-closeout", "proposal-terminal-closeout"]
+      required_receipts_before_completion: []
+      replay_class: "no-op-safe"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation", "stale-evidence-acceptance"]
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "implementation-conformance"
+        - receipt_field_equals: { receipt_id: "implementation-conformance", field: "verdict", value: "pass" }
+        - receipt_complete: "post-implementation-drift"
+        - receipt_field_equals: { receipt_id: "post-implementation-drift", field: "verdict", value: "pass" }
+        - receipt_complete: "proposal-closeout"
+        - receipt_field_equals: { receipt_id: "proposal-closeout", field: "verdict", value: "pass" }
+        - receipt_field_equals: { receipt_id: "proposal-closeout", field: "archive_authorized", value: "yes" }
+        - receipt_complete: "proposal-terminal-closeout"
+        - receipt_field_equals: { receipt_id: "proposal-terminal-closeout", field: "terminal_verdict", value: "archive-ready" }
+        - receipt_field_equals: { receipt_id: "proposal-terminal-closeout", field: "archive_ready", value: "yes" }
+    completion:
+      expected_manifest_status: "archived"
+      replan_required: true
 "#,
             );
         }
@@ -22919,6 +28355,205 @@ fi
             );
         }
 
+        fn write_closeout_worktree_handoff_return(
+            &self,
+            run_id: &str,
+            child_id: &str,
+            route_id: &str,
+            fingerprint: &str,
+            authorized_paths: &[&str],
+        ) -> String {
+            let classifier_ref = self.child_handoff_classifier_ref(run_id, child_id);
+            let classifier_path = self.root.join(&classifier_ref);
+            assert!(
+                classifier_path.is_file(),
+                "classifier evidence must exist before writing handoff return"
+            );
+            let classifier_digest = file_digest(&classifier_path).unwrap();
+            let request_ref = format!(
+                ".octon/state/evidence/runs/workflows/{run_id}/lifecycle-interactions/program-child-batch-handoff-{run_id}-{child_id}-{route_id}.json"
+            );
+            let report_ref = format!(
+                ".octon/state/evidence/validation/analysis/{run_id}-{child_id}-{route_id}-closeout-worktree-report.yml"
+            );
+            let authorized_path_yaml = authorized_paths
+                .iter()
+                .map(|path| format!("        - {}\n", yaml_scalar(path)))
+                .collect::<String>();
+            let retained_residue = authorized_paths
+                .iter()
+                .map(|path| {
+                    format!(
+                        "  - candidate_id: \"authorized-foreign-artifacts\"\n    path: {}\n    disposition: \"foreign manual user-owned residue preserved and excluded from child closeout blocking\"\n",
+                        yaml_scalar(path)
+                    )
+                })
+                .collect::<String>();
+            self.write(
+                &report_ref,
+                &format!(
+                    "schema_version: closeout-worktree-report-v1\nwrapper_id: closeout-worktree\ndefault_work_unit: Change\nrun_id: {}\nobserved_change_set_count: 1\nread_only_classification: true\ndetection_is_deletion_authority: false\ndirect_material_actions_performed: false\nrepo_hygiene_cleanup_actions_performed: false\ninitial_inventory_ref: {}\nresidue_classification_ref: {}\nfinal_inventory_ref: {}\nselected_candidate_id: \"authorized-foreign-artifacts\"\ncandidates:\n  - candidate_id: \"authorized-foreign-artifacts\"\n    disposition: \"foreign\"\n    residue_routing_class: \"foreign_manual_review\"\n    ownership: \"foreign/manual explicitly authorized for non-mutating preservation\"\n    route_hint: \"closeout-worktree\"\n    target_lifecycle_outcome: \"preserved\"\n    rollback_or_discard_posture: \"preserve-only; no mutation performed\"\n    boundaries:\n      include_paths:\n{}      exclude_paths:\n        - {}\n    proposal_program_handoff_authorization:\n      authorization_grant: \"test-authorized-foreign-artifact-disposition\"\n      child_id: {}\n      route_id: {}\n      interaction_request_ref: {}\n      classifier_output_ref: {}\n      classifier_output_digest: {}\n      authorized_foreign_fingerprint: {}\n      foreign_fingerprint: {}\n      authorized_paths:\n{}      disposition: \"preserve-and-exclude-from-child-closeout-blocking\"\n      outside_child_route_write_scope: true\n      non_mutating: true\n      preserve_and_exclude_from_child_closeout_blocking: true\n      parent_summary_not_child_closeout_receipt: true\n      child_closeout_authority_preserved: true\n      forbidden_actions:\n        deletion: false\n        reset: false\n        staging: false\n        commit: false\n        publication: false\n        archive: false\n        branch_cleanup: false\n        cleaned_claim: false\niterations: []\nfinal_candidate_dispositions:\n  authorized-foreign-artifacts:\n    state: \"foreign\"\nretained_residue:\n{}blockers: []\nfinal_residue_classes:\n  ignored: 0\nworktree_terminal_state: disposition_complete_with_retained_residue\nnext_route_condition: \"return to proposal-program closeout-packet hygiene preflight with child authority preserved\"\n",
+                    yaml_scalar(run_id),
+                    yaml_scalar(&classifier_ref),
+                    yaml_scalar(&classifier_ref),
+                    yaml_scalar(&classifier_ref),
+                    authorized_path_yaml,
+                    yaml_scalar(&format!("children/{child_id}")),
+                    yaml_scalar(child_id),
+                    yaml_scalar(route_id),
+                    yaml_scalar(&request_ref),
+                    yaml_scalar(&classifier_ref),
+                    yaml_scalar(&classifier_digest),
+                    yaml_scalar(fingerprint),
+                    yaml_scalar(fingerprint),
+                    authorized_path_yaml,
+                    retained_residue,
+                ),
+            );
+            let report_digest = file_digest(&self.root.join(&report_ref)).unwrap();
+            let return_ref = format!(
+                ".octon/state/evidence/runs/workflows/{run_id}/lifecycle-interactions/{child_id}-{route_id}-closeout-worktree-return.json"
+            );
+            self.write(
+                &return_ref,
+                &format!(
+                    "{}\n",
+                    serde_json::to_string_pretty(&serde_json::json!({
+                        "schema_version": LIFECYCLE_INTERACTION_RETURN_SCHEMA,
+                        "interaction_id": lifecycle_interaction_id(&format!("{child_id}-{route_id}-closeout-worktree-return")),
+                        "consumer": {
+                            "lifecycle_id": "closeout-worktree",
+                            "run_id": format!("{run_id}-closeout-worktree"),
+                        },
+                        "outcome": {
+                            "completed": true,
+                            "lifecycle_outcome": "preserved",
+                            "blocker": null,
+                        },
+                        "return_evidence_refs": [{
+                            "ref": report_ref,
+                            "digest": report_digest,
+                        }],
+                        "remaining_residue": authorized_paths,
+                    }))
+                    .unwrap()
+                ),
+            );
+            return_ref
+        }
+
+        fn child_handoff_classifier_ref(&self, run_id: &str, child_id: &str) -> String {
+            let child_evidence_rel =
+                format!(".octon/state/evidence/runs/workflows/{run_id}/children/{child_id}");
+            let child_evidence_dir = self.root.join(&child_evidence_rel);
+            let mut snapshot_refs = fs::read_dir(&child_evidence_dir)
+                .unwrap()
+                .filter_map(|entry| entry.ok())
+                .filter_map(|entry| {
+                    let file_name = entry.file_name().to_string_lossy().into_owned();
+                    if file_name.starts_with("worktree-hygiene-preflight-")
+                        && file_name.ends_with(".stdout.yml")
+                    {
+                        Some(format!("{child_evidence_rel}/{file_name}"))
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Vec<_>>();
+            snapshot_refs.sort();
+            snapshot_refs.into_iter().next().unwrap_or_else(|| {
+                format!("{child_evidence_rel}/worktree-hygiene-preflight.stdout.yml")
+            })
+        }
+
+        fn write_parent_closeout_worktree_handoff_return(
+            &self,
+            run_id: &str,
+            fingerprint: &str,
+            authorized_paths: &[&str],
+            cleaned_claim: bool,
+        ) -> String {
+            let classifier_ref = format!(
+                ".octon/state/evidence/runs/workflows/{run_id}/parent/worktree-hygiene-classification.yml"
+            );
+            self.write(
+                &classifier_ref,
+                &format!(
+                    "schema_version: octon-proposal-worktree-hygiene-v1\nworktree_hygiene_verdict: blocked\nworktree_hygiene_foreign_fingerprint: {}\n",
+                    yaml_scalar(fingerprint)
+                ),
+            );
+            let classifier_digest = file_digest(&self.root.join(&classifier_ref)).unwrap();
+            let cleanup_receipt_ref = "parent/support/lifecycle-residue-cleanup.md";
+            let cleanup_receipt_digest = file_digest(&self.root.join(cleanup_receipt_ref)).unwrap();
+            let report_ref = format!(
+                ".octon/state/evidence/validation/analysis/{run_id}-parent-closeout-worktree-report.yml"
+            );
+            let authorized_path_yaml = authorized_paths
+                .iter()
+                .map(|path| format!("        - {}\n", yaml_scalar(path)))
+                .collect::<String>();
+            let retained_residue = authorized_paths
+                .iter()
+                .map(|path| {
+                    format!(
+                        "  - candidate_id: \"parent-foreign-residue\"\n    path: {}\n    disposition: \"foreign manual parent residue preserved and excluded from lifecycle closeout blocking\"\n",
+                        yaml_scalar(path)
+                    )
+                })
+                .collect::<String>();
+            self.write(
+                &report_ref,
+                &format!(
+                    "schema_version: closeout-worktree-report-v1\nwrapper_id: closeout-worktree\ndefault_work_unit: Change\nrun_id: {}\nobserved_change_set_count: 1\nread_only_classification: true\ndetection_is_deletion_authority: false\ndirect_material_actions_performed: false\nrepo_hygiene_cleanup_actions_performed: false\ninitial_inventory_ref: {}\nresidue_classification_ref: {}\nfinal_inventory_ref: {}\nselected_candidate_id: \"parent-foreign-residue\"\ncandidates:\n  - candidate_id: \"parent-foreign-residue\"\n    disposition: \"foreign\"\n    residue_routing_class: \"foreign_manual_review\"\n    ownership: \"parent foreign/manual residue explicitly authorized for non-mutating preserve/exclude\"\n    route_hint: \"closeout-worktree\"\n    target_lifecycle_outcome: \"preserved\"\n    rollback_or_discard_posture: \"preserve-only; no mutation performed\"\n    boundaries:\n      include_paths:\n{}      exclude_paths:\n        - child closeout receipts\n        - child validation receipts\n        - archive authorization\n        - child lifecycle outcomes\n    proposal_program_parent_handoff_authorization:\n      authorization_grant: \"test-parent-residue-preserve-exclude\"\n      program_run_id: {}\n      parent_route_id: \"cleanup-lifecycle-residue\"\n      cleanup_receipt_ref: {}\n      cleanup_receipt_digest: {}\n      classifier_output_ref: {}\n      classifier_output_digest: {}\n      authorized_foreign_fingerprint: {}\n      foreign_fingerprint: {}\n      authorized_paths:\n{}      disposition: \"preserve-and-exclude-from-lifecycle-closeout-blocking\"\n      outside_child_owned_closeout_authority: true\n      separately_partitioned_for_later_legal_closeout: true\n      non_mutating: true\n      preserve_and_exclude_from_lifecycle_closeout_blocking: true\n      parent_summary_not_child_closeout_receipt: true\n      child_closeout_authority_preserved: true\n      parent_evidence_replaces_child_evidence: false\n      forbidden_actions:\n        deletion: false\n        reset: false\n        staging: false\n        commit: false\n        push: false\n        publication: false\n        archive: false\n        branch_cleanup: false\n        git_ref_mutation: false\n        cleaned_claim: {cleaned_claim}\niterations: []\nfinal_candidate_dispositions:\n  parent-foreign-residue:\n    state: \"foreign\"\nretained_residue:\n{}blockers: []\nfinal_residue_classes:\n  ignored: 0\nworktree_terminal_state: disposition_complete_with_retained_residue\nnext_route_condition: \"return to proposal-program lifecycle closeout with child authority preserved\"\n",
+                    yaml_scalar(run_id),
+                    yaml_scalar(&classifier_ref),
+                    yaml_scalar(&classifier_ref),
+                    yaml_scalar(&classifier_ref),
+                    authorized_path_yaml,
+                    yaml_scalar(run_id),
+                    yaml_scalar(cleanup_receipt_ref),
+                    yaml_scalar(&cleanup_receipt_digest),
+                    yaml_scalar(&classifier_ref),
+                    yaml_scalar(&classifier_digest),
+                    yaml_scalar(fingerprint),
+                    yaml_scalar(fingerprint),
+                    authorized_path_yaml,
+                    retained_residue,
+                ),
+            );
+            let report_digest = file_digest(&self.root.join(&report_ref)).unwrap();
+            let return_ref = format!(
+                ".octon/state/evidence/runs/workflows/{run_id}/lifecycle-interactions/parent-closeout-worktree-return.json"
+            );
+            self.write(
+                &return_ref,
+                &format!(
+                    "{}\n",
+                    serde_json::to_string_pretty(&serde_json::json!({
+                        "schema_version": LIFECYCLE_INTERACTION_RETURN_SCHEMA,
+                        "interaction_id": lifecycle_interaction_id(&format!("{run_id}-parent-closeout-worktree-return")),
+                        "consumer": {
+                            "lifecycle_id": "closeout-worktree",
+                            "run_id": format!("{run_id}-closeout-worktree"),
+                        },
+                        "outcome": {
+                            "completed": true,
+                            "lifecycle_outcome": "preserved",
+                            "blocker": null,
+                        },
+                        "return_evidence_refs": [{
+                            "ref": report_ref,
+                            "digest": report_digest,
+                        }],
+                        "remaining_residue": authorized_paths,
+                    }))
+                    .unwrap()
+                ),
+            );
+            return_ref
+        }
+
         fn write_program_contract_with_safe_unsafe_repair(&self) {
             self.write(
                 ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
@@ -23344,7 +28979,16 @@ routes:
             self.write(
                 "parent/support/lifecycle-residue-cleanup.md",
                 &format!(
-                    "verdict: {verdict}\ncleaned_at: 2026-05-12T00:00:00Z\ncleanup_candidates: {cleanup_candidates}\nactive_implementation_work_intact: yes\nimplementation_blocking: {implementation_blocking}\ncloseout_blocking: {closeout_blocking}\narchive_blocking: {archive_blocking}\nimplementation_hygiene_verdict: pass\npublication_hygiene_verdict: blocked\nmanual_review_count: 1\nworktree_hygiene_verdict: blocked\nremaining_blocker_class: worktree-hygiene-blocked\nresidue_fingerprint: {fingerprint}\n"
+                    "verdict: {verdict}\ncleaned_at: 2026-05-12T00:00:00Z\ncleanup_candidates: {cleanup_candidates}\nactive_implementation_work_intact: yes\nimplementation_blocking: {implementation_blocking}\ncloseout_blocking: {closeout_blocking}\narchive_blocking: {archive_blocking}\nimplementation_hygiene_verdict: pass\npublication_hygiene_verdict: blocked\nmanual_review_count: 1\nworktree_hygiene_verdict: blocked\nremaining_blocker_class: worktree-hygiene-blocked\nworktree_hygiene_foreign_fingerprint: {fingerprint}\nresidue_fingerprint: {fingerprint}\n"
+                ),
+            );
+        }
+
+        fn write_lifecycle_residue_cleanup_handoff_receipt(&self, fingerprint: &str) {
+            self.write(
+                "parent/support/lifecycle-residue-cleanup.md",
+                &format!(
+                    "verdict: blocked-retained\ncleaned_at: 2026-05-12T00:00:00Z\ncleanup_candidates: 0\ncleanup_helper_current_cleanup_candidates: 0\ncleanup_helper_current_eligible_cleanup_candidates: 0\nactive_implementation_work_intact: yes\nimplementation_blocking: false\ncloseout_blocking: true\narchive_blocking: true\nimplementation_hygiene_verdict: pass\npublication_hygiene_verdict: blocked\nmanual_review_count: 1\nworktree_hygiene_verdict: blocked\nremaining_blocker_class: worktree-hygiene-blocked\nworktree_hygiene_foreign_fingerprint: {fingerprint}\nresidue_fingerprint: {fingerprint}\nworktree_hygiene_handoff_required: true\nworktree_hygiene_handoff_route: closeout-worktree\nworktree_hygiene_required_return_evidence: closeout-worktree-report-v1\nparent_summary_not_child_closeout_receipt: true\nchild_closeout_authority_preserved: true\n"
                 ),
             );
         }
@@ -23407,6 +29051,14 @@ routes:
             self.write(
                 &format!("children/{id}/support/proposal-closeout.md"),
                 "verdict: pass\narchive_authorized: yes\n",
+            );
+            self.write(
+                &format!("children/{id}/support/proposal-terminal-closeout.yml"),
+                "terminal_verdict: archive-ready\nterminalized_at: 2026-05-12T00:00:00Z\ntarget_outcome: archive-ready\narchive_ready: yes\nnext_canonical_route: archive-proposal\n",
+            );
+            self.write(
+                &format!("children/{id}/support/validation.md"),
+                "verdict: pass\nvalidation_id: archived-implemented-terminal-evidence\n",
             );
         }
 
@@ -26244,7 +31896,10 @@ routes:
         )
         .unwrap();
 
-        assert!(preflight_summaries.is_empty());
+        assert!(
+            preflight_summaries.is_empty(),
+            "unexpected preflight summaries: {preflight_summaries:#?}"
+        );
         assert_eq!(jobs.len(), 1);
         assert_eq!(
             jobs[0]
@@ -26338,7 +31993,10 @@ routes:
             None,
         )
         .unwrap();
-        assert!(preflight_summaries.is_empty());
+        assert!(
+            preflight_summaries.is_empty(),
+            "unexpected preflight summaries: {preflight_summaries:#?}"
+        );
         assert_eq!(jobs.len(), 1);
         assert!(jobs[0].unsafe_repair.is_some());
         let summaries = execute_child_jobs(
@@ -28149,6 +33807,43 @@ routes:
     }
 
     #[test]
+    fn program_recovery_rebaseline_does_not_preempt_runnable_child_dispatch() {
+        assert!(!should_execute_program_recovery_before_child_dispatch(
+            false,
+            false,
+            Some((
+                "recovery-budget-override-required",
+                REBASELINE_CHECKPOINT_ACTION,
+            )),
+        ));
+        assert!(!should_execute_program_recovery_before_child_dispatch(
+            false,
+            false,
+            Some(("recovery-integrity-risk", REBASELINE_CHECKPOINT_ACTION)),
+        ));
+    }
+
+    #[test]
+    fn program_recovery_still_runs_when_dispatch_is_blocked_or_publication_stale() {
+        assert!(should_execute_program_recovery_before_child_dispatch(
+            false, true, None,
+        ));
+        assert!(should_execute_program_recovery_before_child_dispatch(
+            true,
+            false,
+            Some((
+                "recovery-budget-override-required",
+                REBASELINE_CHECKPOINT_ACTION,
+            )),
+        ));
+        assert!(should_execute_program_recovery_before_child_dispatch(
+            false,
+            false,
+            Some(("publication-drift", REFRESH_PUBLICATION_PROJECTIONS_ACTION)),
+        ));
+    }
+
+    #[test]
     fn no_dispatch_terminal_parent_writes_compact_completion_capsule() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("compact-completion-capsule", true);
@@ -29933,6 +35628,32 @@ rationale: "prove overwrite guard"
             blocker.blocker_class == "receipt-recovery-unavailable"
                 || blocker.message.contains("missing required fields")
         }));
+        let summary = plan
+            .child_states
+            .get("a")
+            .and_then(|state| state.terminal_evidence_summary.as_ref())
+            .unwrap();
+        assert_eq!(summary.child_terminal_state, "archived-implemented");
+        assert!(summary.evidence_status.archived_implemented);
+        assert_eq!(
+            summary.evidence_status.terminal_closeout,
+            "terminal_verdict:archive-ready"
+        );
+        assert_eq!(summary.evidence_status.validation, "pass");
+        assert_eq!(
+            summary.evidence_status.retained_evidence_index,
+            "not-declared"
+        );
+        assert!(
+            !summary
+                .authority_boundaries
+                .parent_summary_satisfies_child_receipts
+        );
+        assert!(
+            !summary
+                .authority_boundaries
+                .parent_evidence_replaces_child_evidence
+        );
 
         let result = run_program_lifecycle_from_octon_dir(
             &fixture.octon_dir,
@@ -30003,6 +35724,20 @@ rationale: "prove overwrite guard"
                     .message
                     .contains("implementation-run missing required fields")
         }));
+        let summary = plan
+            .child_states
+            .get("a")
+            .and_then(|state| state.terminal_evidence_summary.as_ref())
+            .unwrap();
+        assert_eq!(summary.child_terminal_state, "active-implemented");
+        assert!(summary.evidence_status.active_implemented);
+        assert!(!summary.evidence_status.archived_implemented);
+        assert_eq!(
+            summary
+                .authority_boundaries
+                .generated_outputs_authorize_terminal_readiness,
+            false
+        );
     }
 
     #[test]
@@ -31113,7 +36848,10 @@ rationale: "prove overwrite guard"
         )
         .unwrap();
 
-        assert_eq!(result.final_verdict, "blocked-recoverable");
+        assert!(matches!(
+            result.final_verdict.as_str(),
+            "blocked-recoverable" | "step-budget-exhausted-continuable"
+        ));
         assert!(result.child_results.is_empty());
         let preflight_summary = fs::read_to_string(fixture.octon_dir.join(
             "state/evidence/runs/workflows/publication-preflight-blocks/publication-freshness-preflight/summary.yml",
@@ -31144,6 +36882,177 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn publication_drift_suppresses_cleanup_redispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("publication-drift-suppresses-cleanup", true);
+        fixture.write_full_child_contract();
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "program_packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented"] }
+program:
+  child_registry_path: "resources/child-packet-index.yml"
+  child_lifecycle_id_default: "proposal-packet"
+  supported_execution_modes: ["parallel-independent"]
+  recovery_policy:
+    max_recovery_attempts: 2
+    serialize_write_scope_conflicts: true
+    recipes:
+      - blocker_class: "publication-drift"
+        recovery_action_id: "refresh-publication-projections"
+        idempotency_class: "idempotent-rerun"
+        human_required: false
+        retry_budget: 1
+        dependent_handling: "pause-dependent"
+        post_attempt_validation: ["replan-live-state", "publication-freshness-cleared", "replay-verify"]
+        replan_behavior: "after-attempt"
+  authority_boundaries:
+    parent_coordinates_only: true
+    child_receipts_remain_child_owned: true
+    child_promotion_targets_remain_child_owned: true
+states: [{ state_id: "coordinate" }]
+receipts:
+  - receipt_id: "lifecycle-residue-cleanup"
+    path: "support/lifecycle-residue-cleanup.md"
+    required_fields: ["verdict", "cleaned_at", "cleanup_candidates", "active_implementation_work_intact", "implementation_blocking", "closeout_blocking", "archive_blocking", "implementation_hygiene_verdict", "publication_hygiene_verdict", "manual_review_count", "worktree_hygiene_verdict", "remaining_blocker_class", "residue_fingerprint"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "cleanup-lifecycle-residue"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared", "octon-run-bound", "current-run-agent-artifact"]
+      declared_write_scope_source: "route-completion-and-target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: ["lifecycle-residue-cleanup"]
+      replay_class: "idempotent-rerun"
+      automated_recovery_policy: "bounded-retry"
+      human_only_boundaries: ["scope-expansion", "policy-override", "unresolved-risk-acceptance", "authority-ambiguity"]
+    completion:
+      expected_receipts: ["lifecycle-residue-cleanup"]
+      expected_paths: ["support/lifecycle-residue-cleanup.md"]
+      replan_required: true
+    enter_when:
+      all:
+        - receipt_complete: "lifecycle-residue-cleanup"
+  - route_id: "generate-program-implementation-orchestration-prompt"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
+      replay_class: "idempotent"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+"#,
+        );
+        let run_id = "publication-drift-suppresses-cleanup";
+        fixture.write_cleanup_candidates_helper(1);
+        fixture.write_lifecycle_residue_cleanup_receipt(
+            "blocked-retained",
+            0,
+            false,
+            true,
+            true,
+            "sha256:clean-parent",
+        );
+        fixture.write(
+            &format!(
+                ".octon/state/evidence/runs/workflows/{run_id}/publication-freshness-preflight/summary.yml"
+            ),
+            "schema_version: \"octon-program-publication-freshness-preflight-v1\"\nstatus: \"blocked\"\nblocker_class: \"publication-drift\"\nrecovery_action_id: \"refresh-publication-projections\"\npublication_freshness_digest: \"sha256:stale-publication\"\n",
+        );
+        fixture.write_publication_recovery_scripts(true, false);
+        fixture.write_publication_freshness_validator(false);
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let checkpoint = ProgramLifecycleCheckpoint {
+            schema_version: "octon-program-lifecycle-checkpoint-v1".to_string(),
+            run_id: run_id.to_string(),
+            lifecycle_id: "proposal-program".to_string(),
+            target: "parent".to_string(),
+            execution_strategy: default_orchestrated_replan_loop_execution_strategy(),
+            executor: Some("mock".to_string()),
+            invocation_authority: default_invocation_authority_unattended(),
+            child_registry_digest: file_digest(
+                &fixture.root.join("parent/resources/child-packet-index.yml"),
+            )
+            .unwrap(),
+            execution_mode: "parallel-independent".to_string(),
+            ..ProgramLifecycleCheckpoint::default()
+        };
+        fixture.write(
+            &format!(
+                ".octon/state/control/execution/runs/{run_id}/program-lifecycle-checkpoint.yml"
+            ),
+            &serde_yaml::to_string(&checkpoint).unwrap(),
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some(run_id.to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert!(matches!(
+            result.final_verdict.as_str(),
+            "blocked-recoverable" | "step-budget-exhausted-continuable"
+        ));
+        if let Some(parent_result) = result.parent_route_result.as_ref() {
+            assert_ne!(parent_result.route_id, ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE);
+        }
+        assert!(result.child_results.is_empty());
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/publication-drift-suppresses-cleanup"),
+        )
+        .unwrap();
+        assert!(events
+            .iter()
+            .any(|event| event.event_type == "publication-freshness-preflight-blocked"));
+        assert!(events
+            .iter()
+            .any(|event| event.event_type == "program-recovery-action-started"));
+        assert!(!events.iter().any(|event| {
+            event.event_type == "parent-route-started"
+                && event.route_id.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        }));
+    }
+
+    #[test]
     fn stale_publication_freshness_blocks_when_recovery_budget_exhausted() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("publication-preflight-budget-exhausted", true);
@@ -31168,11 +37077,18 @@ rationale: "prove overwrite guard"
             Path::new("parent"),
         )
         .unwrap();
+        let freshness_digest = publication_freshness_evidence_digest_from_parts(
+            false,
+            b"",
+            b"publication freshness stale\n",
+            4,
+        );
         let mut program_recovery_action_attempts = BTreeMap::new();
         program_recovery_action_attempts.insert(
-            program_recovery_action_attempt_key(
+            program_recovery_action_attempt_key_for_fingerprint(
                 "publication-drift",
                 REFRESH_PUBLICATION_PROJECTIONS_ACTION,
+                &freshness_digest,
             ),
             1,
         );
@@ -31237,6 +37153,135 @@ rationale: "prove overwrite guard"
         assert!(!events
             .iter()
             .any(|event| event.event_type == "child-route-started"));
+    }
+
+    #[test]
+    fn changed_publication_drift_evidence_gets_new_budgeted_recovery_attempt() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("publication-preflight-changed-drift", true);
+        fixture.write_full_child_contract();
+        fixture.write_program_contract_with_publication_recovery_action();
+        fixture.write_publication_recovery_scripts(true, false);
+        fixture.write(
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh",
+            "#!/usr/bin/env bash\nprintf 'host projection stale v2\\n' >&2\nexit 4\n",
+        );
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let old_freshness_digest = publication_freshness_evidence_digest_from_parts(
+            false,
+            b"",
+            b"host projection stale v1\n",
+            4,
+        );
+        let current_freshness_digest = publication_freshness_evidence_digest_from_parts(
+            false,
+            b"",
+            b"host projection stale v2\n",
+            4,
+        );
+        let mut program_recovery_action_attempts = BTreeMap::new();
+        program_recovery_action_attempts.insert(
+            program_recovery_action_attempt_key_for_fingerprint(
+                "publication-drift",
+                REFRESH_PUBLICATION_PROJECTIONS_ACTION,
+                &old_freshness_digest,
+            ),
+            1,
+        );
+        let checkpoint = checkpoint_from_plan(
+            "publication-preflight-changed-drift",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "unattended",
+            &BTreeMap::new(),
+            &plan,
+            &[],
+            "planned",
+            None,
+            0,
+            BTreeMap::new(),
+            program_recovery_action_attempts,
+            BTreeMap::new(),
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        let checkpoint_path = fixture.octon_dir.join(
+            "state/control/execution/runs/publication-preflight-changed-drift/program-lifecycle-checkpoint.yml",
+        );
+        fs::create_dir_all(checkpoint_path.parent().unwrap()).unwrap();
+        fs::write(
+            &checkpoint_path,
+            serde_yaml::to_string(&checkpoint).unwrap(),
+        )
+        .unwrap();
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("publication-preflight-changed-drift".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "blocked-recoverable");
+        assert!(result.child_results.is_empty());
+        let recovery_summary = fs::read_to_string(fixture.octon_dir.join(
+            "state/evidence/runs/workflows/publication-preflight-changed-drift/program-recovery-actions/refresh-publication-projections/attempt-1/summary.yml",
+        ))
+        .unwrap();
+        assert!(
+            recovery_summary.contains("failed_command: \"validate-publication-freshness-gates\"")
+        );
+        let checkpoint = read_program_checkpoint_for_run(
+            &fixture.octon_dir,
+            "publication-preflight-changed-drift",
+        )
+        .unwrap()
+        .unwrap();
+        assert!(checkpoint.program_recovery_action_attempts.contains_key(
+            &program_recovery_action_attempt_key_for_fingerprint(
+                "publication-drift",
+                REFRESH_PUBLICATION_PROJECTIONS_ACTION,
+                &current_freshness_digest,
+            )
+        ));
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/publication-preflight-changed-drift"),
+        )
+        .unwrap();
+        assert!(events
+            .iter()
+            .any(|event| event.event_type == "program-recovery-action-started"));
     }
 
     #[test]
@@ -31661,6 +37706,55 @@ rationale: "prove overwrite guard"
             summary.blocker_class.as_deref(),
             Some("artifact-ownership-unclear")
         );
+        assert_eq!(
+            summary.worktree_hygiene_foreign_fingerprint.as_deref(),
+            Some("sha256:dirty")
+        );
+        assert_eq!(result.interaction_request_refs.len(), 1);
+        let request_ref = result.interaction_request_refs.first().unwrap();
+        let request_path = fixture.root.join(request_ref);
+        let request: serde_json::Value =
+            serde_json::from_slice(&fs::read(&request_path).unwrap()).unwrap();
+        assert_eq!(
+            request
+                .get("request")
+                .and_then(|value| value.get("requested_route_surface"))
+                .and_then(|value| value.as_str()),
+            Some("closeout-worktree")
+        );
+        assert_eq!(
+            request
+                .get("request")
+                .and_then(|value| value.get("requested_target_outcome"))
+                .and_then(|value| value.as_str()),
+            Some("preserved")
+        );
+        let offered = request
+            .get("evidence_offered")
+            .and_then(|value| value.as_array())
+            .unwrap();
+        assert!(offered.iter().any(|value| {
+            value
+                .get("ref")
+                .and_then(|value| value.as_str())
+                .is_some_and(is_worktree_hygiene_preflight_stdout_ref)
+        }));
+        let basis_ref = offered
+            .iter()
+            .find_map(|value| {
+                let class = value
+                    .get("acceptance_class")
+                    .and_then(|value| value.as_str())?;
+                (class == "advisory-context")
+                    .then(|| value.get("ref").and_then(|value| value.as_str()))
+                    .flatten()
+            })
+            .unwrap();
+        let basis = fs::read_to_string(fixture.root.join(basis_ref)).unwrap();
+        assert!(basis.contains("foreign_fingerprint:"));
+        assert!(basis.contains("sha256:dirty"));
+        assert!(basis.contains("parent_summary_not_child_closeout_receipt: true"));
+        assert!(basis.contains("child_closeout_authority_preserved: true"));
         let events = read_program_events(
             &fixture
                 .octon_dir
@@ -31670,6 +37764,1506 @@ rationale: "prove overwrite guard"
         assert!(events
             .iter()
             .any(|event| event.event_type == "worktree-hygiene-preflight"));
+        assert!(events.iter().any(|event| {
+            event.event_type == "lifecycle-interaction-requested"
+                && event.child_id.as_deref() == Some("a")
+                && event.route_id.as_deref() == Some("closeout-packet")
+                && event.data.get("foreign_fingerprint").map(String::as_str) == Some("sha256:dirty")
+        }));
+    }
+
+    #[test]
+    fn terminal_closeout_binds_target_outcome_from_child_closeout_without_parent_run_input_mutation(
+    ) {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("terminal-target-outcome-binding", true);
+        fixture.write_terminal_closeout_child_contract();
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/proposal-closeout.md",
+            "verdict: pass\narchive_authorized: yes\ntarget_outcome: archive-ready\nlifecycle_outcome: archive-ready\nblockers: []\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
+        assert_eq!(
+            plan.child_states
+                .get("a")
+                .and_then(|state| state.selected_route.as_ref())
+                .map(|route| route.route_id.as_str()),
+            Some(ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT)
+        );
+
+        let mut parent_run_inputs = BTreeMap::new();
+        parent_run_inputs.insert(
+            INPUT_WORKTREE_BASELINE_LEASE.to_string(),
+            "disabled".to_string(),
+        );
+        let program_run_id = "terminal-target-outcome-binding";
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(program_run_id);
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(program_run_id);
+        fs::create_dir_all(&evidence_root).unwrap();
+        fs::create_dir_all(&control_root).unwrap();
+        let options = RunLifecycleOptions {
+            lifecycle_id: "proposal-program".to_string(),
+            target: PathBuf::from("parent"),
+            run_id: Some(program_run_id.to_string()),
+            executor: ExecutorKind::Mock,
+            max_iterations: None,
+            execute_routes: true,
+            max_steps: Some(1),
+            timeout_seconds: None,
+            max_child_concurrency: None,
+            invocation_authority: "unattended".to_string(),
+            run_inputs: parent_run_inputs.clone(),
+            program_child_filter: None,
+        };
+
+        let (jobs, preflight_summaries) = build_child_execution_jobs(
+            &fixture.octon_dir,
+            &fixture.root,
+            program_run_id,
+            &parent_run_inputs,
+            &options,
+            &plan,
+            &evidence_root,
+            &control_root,
+            None,
+            None,
+        )
+        .unwrap();
+
+        assert!(
+            preflight_summaries.is_empty(),
+            "unexpected preflight summaries: {preflight_summaries:#?}"
+        );
+        assert_eq!(jobs.len(), 1);
+        assert_eq!(
+            jobs[0]
+                .request
+                .bound_inputs
+                .get(INPUT_TARGET_OUTCOME)
+                .map(String::as_str),
+            Some("archive-ready")
+        );
+        assert!(!parent_run_inputs.contains_key(INPUT_TARGET_OUTCOME));
+        let evidence_path = evidence_root
+            .join("children/a/proposal-packet-terminal-closeout-target-outcome-binding.yml");
+        let evidence = fs::read_to_string(evidence_path).unwrap();
+        assert!(evidence.contains("target_outcome: archive-ready"));
+        assert!(evidence.contains("parent_run_inputs_unchanged: true"));
+        assert!(evidence.contains("child_closeout_authority_preserved: true"));
+        let checkpoint_inputs = options.run_inputs;
+        assert!(!checkpoint_inputs.contains_key(INPUT_TARGET_OUTCOME));
+        let events = read_program_events(&control_root).unwrap();
+        assert!(events.iter().any(|event| {
+            event.event_type == "child-terminal-target-outcome-bound"
+                && event.child_id.as_deref() == Some("a")
+                && event.route_id.as_deref() == Some(ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT)
+                && event.data.get(INPUT_TARGET_OUTCOME).map(String::as_str) == Some("archive-ready")
+                && event
+                    .data
+                    .get("child_closeout_authority_preserved")
+                    .map(String::as_str)
+                    == Some("true")
+        }));
+    }
+
+    #[test]
+    fn archive_ready_terminal_closeout_routes_to_child_archive_despite_review_digest_drift() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("archive-ready-terminal-review-drift", true);
+        fixture.write_archive_ready_child_contract_with_stale_review();
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/proposal-review.md",
+            "review_id: review-1\nverdict: accepted\nreviewed_packet_digest: sha256:old\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/proposal-closeout.md",
+            "verdict: pass\narchive_authorized: yes\n",
+        );
+        fixture.write(
+            "children/a/support/proposal-terminal-closeout.yml",
+            "terminal_verdict: archive-ready\nterminalized_at: 2026-06-21T00:00:00Z\ntarget_outcome: archive-ready\narchive_ready: yes\nnext_canonical_route: archive-proposal\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let child = plan.child_states.get("a").unwrap();
+
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
+        assert_eq!(
+            child
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some(ROUTE_ID_ARCHIVE_PROPOSAL)
+        );
+        assert_eq!(child.terminal_outcome, None);
+        assert!(child.gate_status.closeout);
+        assert!(!child.gate_status.terminal);
+        assert!(
+            !child
+                .blockers
+                .iter()
+                .any(|blocker| blocker.blocker_class == "stale-receipt"),
+            "child blockers: {:?}",
+            child.blockers
+        );
+    }
+
+    #[test]
+    fn gated_parallel_falls_back_to_unblocked_archive_prerequisite() {
+        let registry: ProgramChildRegistry = serde_yaml::from_str(
+            r#"
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+children:
+  - child_id: "a"
+    path: "children/a"
+    phase_id: "phase-1"
+  - child_id: "b"
+    path: "children/b"
+    dependencies: ["a"]
+    dependency_gate: "terminal"
+    phase_id: "phase-2"
+"#,
+        )
+        .unwrap();
+        let mut child_states = BTreeMap::new();
+        let mut archive_ready = child_state("a", Vec::new());
+        archive_ready.phase_id = Some("phase-1".to_string());
+        archive_ready.selected_route = Some(RoutePlanState {
+            route_id: ROUTE_ID_ARCHIVE_PROPOSAL.to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        let mut dependent = child_state(
+            "b",
+            vec![ProgramBlocker {
+                blocker_class: "dependency-gate-unsatisfied".to_string(),
+                message: "dependency a has not satisfied terminal gate: observed closeout"
+                    .to_string(),
+                recovery_route: None,
+            }],
+        );
+        dependent.phase_id = Some("phase-2".to_string());
+        dependent.selected_route = Some(RoutePlanState {
+            route_id: "generate-packet-implementation-prompt".to_string(),
+            route_type: "extension".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        child_states.insert("a".to_string(), archive_ready);
+        child_states.insert("b".to_string(), dependent);
+
+        let batch = select_runnable_batch(&test_program_spec(), &registry, &mut child_states);
+
+        assert_eq!(batch, vec!["a".to_string()]);
+        assert!(child_states
+            .get("b")
+            .unwrap()
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "dependency-gate-unsatisfied"));
+    }
+
+    #[test]
+    fn terminal_closeout_target_outcome_binding_fails_closed_on_invalid_child_receipt() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("terminal-target-outcome-invalid", true);
+        fixture.write_terminal_closeout_child_contract();
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/proposal-closeout.md",
+            "verdict: pass\narchive_authorized: yes\ntarget_outcome: publish-ready\nlifecycle_outcome: archive-ready\nblockers: []\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let program_run_id = "terminal-target-outcome-invalid";
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(program_run_id);
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(program_run_id);
+        fs::create_dir_all(&evidence_root).unwrap();
+        fs::create_dir_all(&control_root).unwrap();
+        let run_inputs = BTreeMap::new();
+        let options = RunLifecycleOptions {
+            lifecycle_id: "proposal-program".to_string(),
+            target: PathBuf::from("parent"),
+            run_id: Some(program_run_id.to_string()),
+            executor: ExecutorKind::Mock,
+            max_iterations: None,
+            execute_routes: true,
+            max_steps: Some(1),
+            timeout_seconds: None,
+            max_child_concurrency: None,
+            invocation_authority: "unattended".to_string(),
+            run_inputs: run_inputs.clone(),
+            program_child_filter: None,
+        };
+
+        let (jobs, preflight_summaries) = build_child_execution_jobs(
+            &fixture.octon_dir,
+            &fixture.root,
+            program_run_id,
+            &run_inputs,
+            &options,
+            &plan,
+            &evidence_root,
+            &control_root,
+            None,
+            None,
+        )
+        .unwrap();
+
+        assert!(jobs.is_empty());
+        assert_eq!(preflight_summaries.len(), 1);
+        let summary = &preflight_summaries[0];
+        assert_eq!(summary.route_id, ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT);
+        assert_eq!(summary.status, "blocked");
+        assert_eq!(summary.blocker_class.as_deref(), Some("input-binding"));
+        assert_eq!(summary.error_class.as_deref(), Some("input-binding"));
+        let evidence_path = fixture.root.join(summary.evidence_paths.first().unwrap());
+        let evidence = fs::read_to_string(evidence_path).unwrap();
+        assert!(evidence.contains(
+            "schema_version: octon-program-child-terminal-target-outcome-binding-blocked-v1"
+        ));
+        assert!(evidence.contains("publish-ready"));
+        assert!(evidence.contains("target_outcome"));
+        let events = read_program_events(&control_root).unwrap();
+        assert!(events.iter().any(|event| {
+            event.event_type == "child-terminal-target-outcome-blocked"
+                && event.child_id.as_deref() == Some("a")
+                && event.route_id.as_deref() == Some(ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT)
+                && event.data.get("blocker_class").map(String::as_str) == Some("input-binding")
+        }));
+    }
+
+    #[test]
+    fn closeout_worktree_return_allows_matching_hygiene_preflight_only() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-return", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let first = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-return".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        assert!(first.child_results.iter().any(|summary| {
+            summary.child_id == "a"
+                && summary.route_id == "closeout-packet"
+                && summary.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+        }));
+        assert!(!fixture
+            .root
+            .join("children/a/support/proposal-closeout.md")
+            .exists());
+
+        let return_ref = fixture.write_closeout_worktree_handoff_return(
+            "closeout-hygiene-return",
+            "a",
+            "closeout-packet",
+            "sha256:dirty-a",
+            &[".codex/skills/closeout-worktree/SKILL.md"],
+        );
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert("lifecycle_interaction_return_refs".to_string(), return_ref);
+
+        let second = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-return".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs,
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert!(second
+            .interaction_return_refs
+            .iter()
+            .any(|path| path.ends_with("a-closeout-packet-closeout-worktree-return.json")));
+        assert!(!second.child_results.iter().any(|summary| {
+            summary.child_id == "a"
+                && summary.route_id == "closeout-packet"
+                && summary.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+        }));
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/closeout-hygiene-return"),
+        )
+        .unwrap();
+        assert!(events.iter().any(|event| {
+            event.event_type == "worktree-hygiene-handoff-return-accepted"
+                && event.child_id.as_deref() == Some("a")
+                && event.route_id.as_deref() == Some("closeout-packet")
+                && event
+                    .data
+                    .get("child_closeout_authority_preserved")
+                    .map(String::as_str)
+                    == Some("true")
+        }));
+        assert!(fixture
+            .root
+            .join("children/a/support/proposal-closeout.md")
+            .exists());
+    }
+
+    #[test]
+    fn closeout_worktree_return_is_bound_to_child_closeout_route_inputs() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-bound-inputs", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let run_id = "closeout-hygiene-bound-inputs";
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(run_id);
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(run_id);
+        fs::create_dir_all(&evidence_root).unwrap();
+        fs::create_dir_all(&control_root).unwrap();
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        assert_eq!(
+            plan.child_states
+                .get("a")
+                .and_then(|state| state.selected_route.as_ref())
+                .map(|route| route.route_id.as_str()),
+            Some("closeout-packet")
+        );
+        let options = RunLifecycleOptions {
+            lifecycle_id: "proposal-program".to_string(),
+            target: PathBuf::from("parent"),
+            run_id: Some(run_id.to_string()),
+            executor: ExecutorKind::Mock,
+            max_iterations: None,
+            execute_routes: true,
+            max_steps: Some(1),
+            timeout_seconds: None,
+            max_child_concurrency: None,
+            invocation_authority: "unattended".to_string(),
+            run_inputs: BTreeMap::new(),
+            program_child_filter: None,
+        };
+
+        let (jobs, preflight_summaries) = build_child_execution_jobs(
+            &fixture.octon_dir,
+            &fixture.root,
+            run_id,
+            &BTreeMap::new(),
+            &options,
+            &plan,
+            &evidence_root,
+            &control_root,
+            None,
+            None,
+        )
+        .unwrap();
+        assert!(jobs.is_empty());
+        assert!(preflight_summaries.iter().any(|summary| {
+            summary.child_id == "a"
+                && summary.route_id == "closeout-packet"
+                && summary.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+        }));
+
+        let return_ref = fixture.write_closeout_worktree_handoff_return(
+            run_id,
+            "a",
+            "closeout-packet",
+            "sha256:dirty-a",
+            &[".codex/skills/closeout-worktree/SKILL.md"],
+        );
+        fixture.write(
+            ".octon/state/evidence/runs/workflows/closeout-hygiene-bound-inputs/lifecycle-interactions/stale-unrelated-closeout-worktree-return.json",
+            r#"{
+  "schema_version": "lifecycle-interaction-return-v1",
+  "consumer": {"lifecycle_id": "closeout-worktree"},
+  "outcome": {"completed": true},
+  "return_evidence_refs": []
+}
+"#,
+        );
+        let (jobs, preflight_summaries) = build_child_execution_jobs(
+            &fixture.octon_dir,
+            &fixture.root,
+            run_id,
+            &BTreeMap::new(),
+            &options,
+            &plan,
+            &evidence_root,
+            &control_root,
+            None,
+            None,
+        )
+        .unwrap();
+
+        assert!(preflight_summaries.is_empty());
+        assert_eq!(jobs.len(), 1);
+        let bound_inputs = &jobs[0].request.bound_inputs;
+        assert_eq!(
+            bound_inputs
+                .get(INPUT_LIFECYCLE_INTERACTION_RETURN_REFS)
+                .map(String::as_str),
+            Some(return_ref.as_str())
+        );
+        assert_eq!(
+            bound_inputs
+                .get(INPUT_PROGRAM_CHILD_CLOSEOUT_WORKTREE_REPORT_REF)
+                .map(String::as_str),
+            Some(
+                ".octon/state/evidence/validation/analysis/closeout-hygiene-bound-inputs-a-closeout-packet-closeout-worktree-report.yml"
+            )
+        );
+        let classifier_ref = bound_inputs
+            .get(INPUT_PROGRAM_CHILD_WORKTREE_HYGIENE_CLASSIFIER_REF)
+            .expect("classifier ref should be bound");
+        assert!(
+            classifier_ref.starts_with(
+                ".octon/state/evidence/runs/workflows/closeout-hygiene-bound-inputs/children/a/worktree-hygiene-preflight-"
+            ) && classifier_ref.ends_with(".stdout.yml"),
+            "classifier ref should point at immutable preflight snapshot, got {classifier_ref}"
+        );
+        assert!(fixture.root.join(classifier_ref).is_file());
+        assert_eq!(
+            bound_inputs
+                .get(INPUT_PROGRAM_CHILD_WORKTREE_HYGIENE_FOREIGN_FINGERPRINT)
+                .map(String::as_str),
+            Some("sha256:dirty-a")
+        );
+        assert!(!bound_inputs.contains_key(INPUT_TARGET_OUTCOME));
+        let events = read_program_events(&control_root).unwrap();
+        assert!(events.iter().any(|event| {
+            event.event_type == "child-closeout-worktree-return-bound"
+                && event.child_id.as_deref() == Some("a")
+                && event.route_id.as_deref() == Some("closeout-packet")
+                && event
+                    .data
+                    .get("child_closeout_authority_preserved")
+                    .map(String::as_str)
+                    == Some("true")
+                && event.data.get("return_ref_count").map(String::as_str) == Some("1")
+        }));
+    }
+
+    #[test]
+    fn closeout_worktree_return_allows_zero_budget_selected_closeout_retry() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-zero-budget", true);
+        let run_id = "closeout-hygiene-zero-budget";
+        let classifier_ref = format!(
+            ".octon/state/evidence/runs/workflows/{run_id}/children/a/worktree-hygiene-preflight.stdout.yml"
+        );
+        fixture.write(
+            &classifier_ref,
+            "worktree_hygiene_verdict: blocked\nworktree_hygiene_blocker_class: worktree-hygiene-blocked\nworktree_hygiene_foreign_path_count: 1\nworktree_hygiene_foreign_fingerprint: sha256:dirty-a\n",
+        );
+
+        let mut program = test_program_spec();
+        program.recovery_policy.handlers.insert(
+            "artifact-ownership-unclear".to_string(),
+            ProgramRecoveryHandlerSpec {
+                recovery_route_id: None,
+                max_attempts: Some(0),
+                replan_after_attempt: false,
+                human_required: true,
+            },
+        );
+
+        let mut closeout_state = child_state("a", vec![blocker("artifact-ownership-unclear")]);
+        closeout_state.selected_route = Some(RoutePlanState {
+            route_id: "closeout-packet".to_string(),
+            route_type: "extension".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        let mut checkpoint = ProgramLifecycleCheckpoint {
+            run_id: run_id.to_string(),
+            ..ProgramLifecycleCheckpoint::default()
+        };
+        checkpoint.closeout_hygiene_suppressions.insert(
+            closeout_hygiene_suppression_key("a", "closeout-packet"),
+            ProgramCloseoutHygieneSuppression {
+                child_id: "a".to_string(),
+                route_id: "closeout-packet".to_string(),
+                blocker_class: "artifact-ownership-unclear".to_string(),
+                message: "closeout blocked by foreign worktree hygiene".to_string(),
+                evidence_paths: vec![classifier_ref.clone()],
+                worktree_hygiene_foreign_fingerprint: Some("sha256:dirty-a".to_string()),
+            },
+        );
+        checkpoint.recovery_progress_fingerprints.insert(
+            recovery_progress_key("a", "closeout-packet", "artifact-ownership-unclear"),
+            child_progress_fingerprint(
+                &closeout_state,
+                "closeout-packet",
+                "artifact-ownership-unclear",
+            ),
+        );
+
+        let mut blocked_without_return =
+            BTreeMap::from([("a".to_string(), closeout_state.clone())]);
+        apply_recovery_budget_blockers(
+            &fixture.root,
+            &BTreeMap::new(),
+            &program,
+            &mut blocked_without_return,
+            Some(&checkpoint),
+        )
+        .unwrap();
+        assert!(blocked_without_return
+            .get("a")
+            .unwrap()
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "recovery-budget-override-required"));
+
+        let _return_ref = fixture.write_closeout_worktree_handoff_return(
+            run_id,
+            "a",
+            "closeout-packet",
+            "sha256:dirty-a",
+            &[".codex/skills/closeout-worktree/SKILL.md"],
+        );
+
+        let mut child_states = BTreeMap::from([("a".to_string(), closeout_state)]);
+        apply_recovery_progress_blockers(
+            &fixture.root,
+            &BTreeMap::new(),
+            &program,
+            &mut child_states,
+            Some(&checkpoint),
+        )
+        .unwrap();
+        apply_recovery_budget_blockers(
+            &fixture.root,
+            &BTreeMap::new(),
+            &program,
+            &mut child_states,
+            Some(&checkpoint),
+        )
+        .unwrap();
+        let blockers = &child_states.get("a").unwrap().blockers;
+        assert!(blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "artifact-ownership-unclear"));
+        assert!(!blockers.iter().any(|blocker| {
+            blocker.blocker_class == "recovery-budget-override-required"
+                || blocker.blocker_class == "recovery-integrity-risk"
+        }));
+
+        let mut checkpoint_without_suppression = checkpoint.clone();
+        checkpoint_without_suppression
+            .closeout_hygiene_suppressions
+            .clear();
+        let mut retained_child_states =
+            BTreeMap::from([("a".to_string(), child_states.get("a").unwrap().clone())]);
+        apply_recovery_progress_blockers(
+            &fixture.root,
+            &BTreeMap::new(),
+            &program,
+            &mut retained_child_states,
+            Some(&checkpoint_without_suppression),
+        )
+        .unwrap();
+        apply_recovery_budget_blockers(
+            &fixture.root,
+            &BTreeMap::new(),
+            &program,
+            &mut retained_child_states,
+            Some(&checkpoint_without_suppression),
+        )
+        .unwrap();
+        let retained_blockers = &retained_child_states.get("a").unwrap().blockers;
+        assert!(!retained_blockers.iter().any(|blocker| {
+            blocker.blocker_class == "recovery-budget-override-required"
+                || blocker.blocker_class == "recovery-integrity-risk"
+        }));
+
+        apply_closeout_worktree_handoff_route_unblocks(
+            &fixture.root,
+            &BTreeMap::new(),
+            &mut retained_child_states,
+            Some(&checkpoint_without_suppression),
+        )
+        .unwrap();
+        assert!(retained_child_states.get("a").unwrap().blockers.is_empty());
+    }
+
+    #[test]
+    fn closeout_worktree_return_is_discovered_from_retained_interaction_dir() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-retained-return", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let first = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-retained-return".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        assert!(first.child_results.iter().any(|summary| {
+            summary.child_id == "a"
+                && summary.route_id == "closeout-packet"
+                && summary.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+        }));
+
+        let return_ref = fixture.write_closeout_worktree_handoff_return(
+            "closeout-hygiene-retained-return",
+            "a",
+            "closeout-packet",
+            "sha256:dirty-a",
+            &[".codex/skills/closeout-worktree/SKILL.md"],
+        );
+
+        let second = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-retained-return".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert!(second
+            .interaction_return_refs
+            .iter()
+            .any(|path| path == &return_ref));
+        assert!(!second.child_results.iter().any(|summary| {
+            summary.child_id == "a"
+                && summary.route_id == "closeout-packet"
+                && summary.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+        }));
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "closeout-hygiene-retained-return")
+                .unwrap()
+                .unwrap();
+        assert!(checkpoint
+            .interaction_return_refs
+            .iter()
+            .any(|path| path == &return_ref));
+        assert!(fixture
+            .root
+            .join("children/a/support/proposal-closeout.md")
+            .exists());
+    }
+
+    #[test]
+    fn closeout_worktree_return_status_completed_allows_hygiene_preflight() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-return-status", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-return-status".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        let return_ref = fixture.write_closeout_worktree_handoff_return(
+            "closeout-hygiene-return-status",
+            "a",
+            "closeout-packet",
+            "sha256:dirty-a",
+            &[".codex/skills/closeout-worktree/SKILL.md"],
+        );
+        let return_path = fixture.root.join(&return_ref);
+        let mut receipt: serde_json::Value =
+            serde_json::from_slice(&fs::read(&return_path).unwrap()).unwrap();
+        receipt["outcome"] = serde_json::json!({
+            "status": "completed",
+            "target_lifecycle_outcome": "preserved"
+        });
+        fs::write(
+            &return_path,
+            format!("{}\n", serde_json::to_string_pretty(&receipt).unwrap()),
+        )
+        .unwrap();
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert("lifecycle_interaction_return_refs".to_string(), return_ref);
+
+        let second = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-return-status".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs,
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert!(!second.child_results.iter().any(|summary| {
+            summary.child_id == "a"
+                && summary.route_id == "closeout-packet"
+                && summary.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+        }));
+        assert!(fixture
+            .root
+            .join("children/a/support/proposal-closeout.md")
+            .exists());
+    }
+
+    #[test]
+    fn closeout_worktree_report_allows_classifier_digest_churn_when_fingerprint_matches() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-digest-churn", true);
+        let run_id = "closeout-hygiene-digest-churn";
+        let classifier_ref = format!(
+            ".octon/state/evidence/runs/workflows/{run_id}/children/a/worktree-hygiene-preflight.stdout.yml"
+        );
+        fixture.write(
+            &classifier_ref,
+            "worktree_hygiene_verdict: blocked\nworktree_hygiene_blocker_class: worktree-hygiene-blocked\nworktree_hygiene_foreign_path_count: 1\nworktree_hygiene_foreign_fingerprint: sha256:dirty-a\n",
+        );
+        let _return_ref = fixture.write_closeout_worktree_handoff_return(
+            run_id,
+            "a",
+            "closeout-packet",
+            "sha256:dirty-a",
+            &[".codex/skills/closeout-worktree/SKILL.md"],
+        );
+        let report_ref = format!(
+            ".octon/state/evidence/validation/analysis/{run_id}-a-closeout-packet-closeout-worktree-report.yml"
+        );
+        let report: CloseoutWorktreeReport =
+            serde_yaml::from_slice(&fs::read(fixture.root.join(&report_ref)).unwrap()).unwrap();
+        let state = child_state("a", Vec::new());
+
+        assert!(closeout_worktree_report_authorizes_hygiene_preflight(
+            &report,
+            run_id,
+            &state,
+            "closeout-packet",
+            &classifier_ref,
+            "sha256:classifier-file-digest-changed",
+            Some("sha256:dirty-a"),
+        ));
+    }
+
+    #[test]
+    fn closeout_worktree_return_rejects_fingerprint_drift() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-return-drift", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-return-drift".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        let return_ref = fixture.write_closeout_worktree_handoff_return(
+            "closeout-hygiene-return-drift",
+            "a",
+            "closeout-packet",
+            "sha256:dirty-b",
+            &[".codex/skills/closeout-worktree/SKILL.md"],
+        );
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert("lifecycle_interaction_return_refs".to_string(), return_ref);
+
+        let second = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-return-drift".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs,
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(second.final_verdict, "blocked-human");
+        assert!(!fixture
+            .root
+            .join("children/a/support/proposal-closeout.md")
+            .exists());
+        let status =
+            status_program_lifecycle_run(&fixture.octon_dir, "closeout-hygiene-return-drift")
+                .unwrap();
+        assert!(status
+            .child_blockers
+            .get("a")
+            .unwrap()
+            .iter()
+            .any(|blocker| blocker.blocker_class == "artifact-ownership-unclear"));
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/closeout-hygiene-return-drift"),
+        )
+        .unwrap();
+        assert!(!events
+            .iter()
+            .any(|event| event.event_type == "worktree-hygiene-handoff-return-accepted"));
+    }
+
+    #[test]
+    fn changed_child_handoff_classifier_blocks_without_re_requesting_same_return() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-handoff-changed-evidence", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-handoff-changed-evidence".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        let return_ref = fixture.write_closeout_worktree_handoff_return(
+            "closeout-handoff-changed-evidence",
+            "a",
+            "closeout-packet",
+            "sha256:dirty-a",
+            &[".codex/skills/closeout-worktree/SKILL.md"],
+        );
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-b");
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert("lifecycle_interaction_return_refs".to_string(), return_ref);
+
+        let second = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-handoff-changed-evidence".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs,
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert!(second.child_results.iter().any(|summary| {
+            summary.child_id == "a"
+                && summary.route_id == "closeout-packet"
+                && matches!(
+                    summary.blocker_class.as_deref(),
+                    Some("worktree-handoff-evidence-changed")
+                        | Some("stale-closeout-worktree-return")
+                )
+        }));
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/closeout-handoff-changed-evidence"),
+        )
+        .unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| {
+                    event.event_type == "lifecycle-interaction-requested"
+                        && event.child_id.as_deref() == Some("a")
+                        && event.route_id.as_deref() == Some("closeout-packet")
+                })
+                .count(),
+            1
+        );
+        assert!(!events.iter().any(|event| {
+            event.event_type == "worktree-hygiene-handoff-return-accepted"
+                && event.child_id.as_deref() == Some("a")
+                && event.route_id.as_deref() == Some("closeout-packet")
+                && event.data.get("foreign_fingerprint").map(String::as_str)
+                    == Some("sha256:dirty-b")
+        }));
+    }
+
+    #[test]
+    fn cleanup_receipt_handoff_prevents_relaunching_cleanup_executor() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("cleanup-receipt-handoff", true);
+        fixture.write_full_child_contract();
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_worktree_hygiene_classifier(false);
+        fixture.write_residue_fingerprint_script("sha256:cleanup");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let first = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("cleanup-receipt-handoff".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        assert!(first.child_results.iter().any(|summary| {
+            summary.child_id == "a"
+                && summary.route_id == "closeout-packet"
+                && summary.status == "blocked"
+                && summary.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+        }));
+        let mut checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "cleanup-receipt-handoff")
+                .unwrap()
+                .unwrap();
+        assert!(!checkpoint.closeout_hygiene_suppressions.is_empty());
+        checkpoint.closeout_hygiene_suppressions.clear();
+        let checkpoint_path =
+            program_checkpoint_path_for_run(&fixture.octon_dir, "cleanup-receipt-handoff").unwrap();
+        fs::write(
+            &checkpoint_path,
+            serde_yaml::to_string(&checkpoint).unwrap(),
+        )
+        .unwrap();
+
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:cleanup");
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("cleanup-receipt-handoff".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        if let Some(route) = result.selected_parent_route.as_ref() {
+            assert_eq!(route.route_id, ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE);
+        }
+        assert!(result.parent_route_result.is_none());
+        assert!(matches!(
+            result.final_verdict.as_str(),
+            "blocked-human" | "blocked-recoverable"
+        ));
+        assert_eq!(result.child_results.len(), 1);
+        let summary = &result.child_results[0];
+        assert_eq!(summary.child_id, "a");
+        assert_eq!(summary.route_id, "closeout-packet");
+        assert_eq!(
+            summary.blocker_class.as_deref(),
+            Some("artifact-ownership-unclear")
+        );
+        assert_eq!(
+            summary.error_class.as_deref(),
+            Some("worktree-hygiene-handoff-required")
+        );
+        assert_eq!(
+            summary.worktree_hygiene_foreign_fingerprint.as_deref(),
+            Some("sha256:dirty")
+        );
+        assert_eq!(result.interaction_request_refs.len(), 1);
+        let request_path = fixture
+            .root
+            .join(result.interaction_request_refs[0].as_str());
+        let request: serde_json::Value =
+            serde_json::from_slice(&fs::read(&request_path).unwrap()).unwrap();
+        assert_eq!(
+            request
+                .get("request")
+                .and_then(|value| value.get("requested_route_surface"))
+                .and_then(|value| value.as_str()),
+            Some("closeout-worktree")
+        );
+        let basis_ref = request
+            .get("evidence_offered")
+            .and_then(|value| value.as_array())
+            .unwrap()
+            .iter()
+            .find_map(|value| {
+                let class = value
+                    .get("acceptance_class")
+                    .and_then(|value| value.as_str())?;
+                (class == "advisory-context")
+                    .then(|| value.get("ref").and_then(|value| value.as_str()))
+                    .flatten()
+            })
+            .unwrap();
+        let basis = fs::read_to_string(fixture.root.join(basis_ref)).unwrap();
+        assert!(basis.contains("classifier_output_ref:"));
+        assert!(!basis.contains("classifier_output_ref: none"));
+        assert!(basis.contains("classifier_output_digest:"));
+        assert!(!basis.contains("classifier_output_digest: none"));
+        assert!(basis.contains("foreign_fingerprint: sha256:dirty"));
+        assert!(basis.contains("parent_summary_not_child_closeout_receipt: true"));
+        assert!(basis.contains("child_closeout_authority_preserved: true"));
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/cleanup-receipt-handoff"),
+        )
+        .unwrap();
+        assert!(events
+            .iter()
+            .any(|event| event.event_type == "lifecycle-residue-handoff-requested"));
+    }
+
+    #[test]
+    fn retained_parent_closeout_worktree_return_unblocks_cleanup_receipt_handoff() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("cleanup-receipt-handoff-returned", true);
+        fixture.write_full_child_contract();
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_worktree_hygiene_classifier(false);
+        fixture.write_residue_fingerprint_script("sha256:cleanup");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let _first = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("cleanup-receipt-handoff-returned".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:cleanup");
+        fixture.write_parent_closeout_worktree_handoff_return(
+            "cleanup-receipt-handoff-returned",
+            "sha256:cleanup",
+            &["parent/manual-residue.md"],
+            false,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("cleanup-receipt-handoff-returned".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert!(result.parent_route_result.is_none());
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/cleanup-receipt-handoff-returned"),
+        )
+        .unwrap();
+        assert!(!events
+            .iter()
+            .any(|event| event.event_type == "lifecycle-residue-handoff-requested"));
+    }
+
+    #[test]
+    fn program_worktree_baseline_blocks_fresh_dirty_unleased_git_run() {
+        let _guard = crate::acquire_kernel_test_lock();
+        if Command::new("git").arg("--version").output().is_err() {
+            return;
+        }
+        let fixture = ProgramFixture::new("worktree-baseline-dirty", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let init = Command::new("git")
+            .arg("-C")
+            .arg(&fixture.root)
+            .arg("init")
+            .output()
+            .unwrap();
+        assert!(init.status.success());
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("worktree-baseline-dirty".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "blocked-human");
+        assert_eq!(result.route_execution_mode, "none");
+        let baseline_ref =
+            "state/evidence/runs/workflows/worktree-baseline-dirty/worktree-baseline.yml";
+        let baseline = fs::read_to_string(fixture.octon_dir.join(baseline_ref)).unwrap();
+        assert!(baseline.contains("worktree_isolation_verdict:"));
+        assert!(baseline.contains("blocked-dirty-start-without-lease"));
+        assert!(baseline.contains("parent_summary_not_child_receipt: true"));
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "worktree-baseline-dirty")
+                .unwrap()
+                .unwrap();
+        assert_eq!(
+            checkpoint.worktree_baseline_ref.as_deref(),
+            Some(".octon/state/evidence/runs/workflows/worktree-baseline-dirty/worktree-baseline.yml")
+        );
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/worktree-baseline-dirty"),
+        )
+        .unwrap();
+        assert!(events
+            .iter()
+            .any(|event| event.event_type == "worktree-baseline-preflight-blocked"));
+    }
+
+    #[test]
+    fn program_worktree_baseline_records_run_owned_leased_and_foreign_paths() {
+        let dirty_paths = git_status_porcelain_paths(
+            " M .octon/state/evidence/runs/workflows/worktree-baseline-partition/preexisting.yml\n?? leased.md\n?? foreign.md\n",
+        );
+        let lease_paths = parse_worktree_baseline_lease_paths("leased.md")
+            .unwrap()
+            .into_iter()
+            .collect::<BTreeSet<_>>();
+        let mut run_owned_paths = Vec::new();
+        let mut leased_paths = Vec::new();
+        let mut foreign_paths = Vec::new();
+        for path in &dirty_paths {
+            if path_is_run_owned_baseline_path(path, "worktree-baseline-partition") {
+                run_owned_paths.push(path.clone());
+            } else if lease_paths.contains(path) {
+                leased_paths.push(path.clone());
+            } else {
+                foreign_paths.push(path.clone());
+            }
+        }
+
+        assert_eq!(
+            run_owned_paths,
+            vec![
+                ".octon/state/evidence/runs/workflows/worktree-baseline-partition/preexisting.yml"
+                    .to_string()
+            ]
+        );
+        assert_eq!(leased_paths, vec!["leased.md".to_string()]);
+        assert_eq!(foreign_paths, vec!["foreign.md".to_string()]);
     }
 
     #[test]
@@ -32013,6 +39607,121 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn repeated_parent_route_without_fresh_evidence_stops_with_replan_loop_blocker() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let run_id = "parent-route-replan-loop-breaker";
+        let fixture = ProgramFixture::new(run_id, true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(run_id);
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(run_id);
+        append_program_event(
+            &control_root,
+            &evidence_root,
+            run_id,
+            "parent-route-started",
+            None,
+            Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE),
+            "prior parent route start interrupted before terminal evidence",
+            program_event_data([("test_seed", "unfinished-parent-route")]),
+        )
+        .unwrap();
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some(run_id.to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "blocked-unsafe");
+        let parent_result = result
+            .parent_route_result
+            .as_ref()
+            .expect("controller should emit typed parent route result");
+        assert_eq!(parent_result.status, "blocked-unsafe");
+        assert!(parent_result
+            .error_message
+            .as_deref()
+            .unwrap_or_default()
+            .contains(BLOCKER_PLANNER_STALE_REPLAN_LOOP));
+        assert!(result.selected_parent_route.is_none());
+        assert!(
+            result
+                .child_results
+                .iter()
+                .all(|summary| summary.route_id != ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE),
+            "loop blocker must not spawn cleanup child or parent route results: {:?}",
+            result.child_results
+        );
+
+        let events = read_program_events(&control_root).unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| {
+                    event.event_type == "parent-route-started"
+                        && event.route_id.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+                })
+                .count(),
+            1
+        );
+        assert!(events.iter().any(|event| {
+            event.event_type == "parent-route-loop-blocked"
+                && event.data.get("blocker_class").map(String::as_str)
+                    == Some(BLOCKER_PLANNER_STALE_REPLAN_LOOP)
+        }));
+        assert!(!events.iter().any(|event| {
+            event.event_type == "parent-route-finished"
+                && event.route_id.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        }));
+        let evidence = fs::read_to_string(
+            fixture
+                .octon_dir
+                .join("state/evidence/runs/workflows")
+                .join(run_id)
+                .join("planner-stale-state-replan-loop.yml"),
+        )
+        .unwrap();
+        assert!(evidence.contains("nested_executor_spawned: false"));
+        assert!(evidence.contains(BLOCKER_PLANNER_STALE_REPLAN_LOOP));
+    }
+
+    #[test]
     fn blocked_retained_cleanup_receipt_does_not_preempt_runnable_child() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("residue-cleanup-child-progress", true);
@@ -32142,6 +39851,557 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn parent_closeout_worktree_return_allows_lifecycle_closeout_blocker() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-return", true);
+        let run_id = "parent-residue-handoff-return";
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let _return_ref = fixture.write_parent_closeout_worktree_handoff_return(
+            run_id,
+            "sha256:dirty-parent",
+            &[".octon/state/evidence/runs/workflows/parent-residue-handoff-return/parent/manual-residue.yml"],
+            false,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&ProgramLifecycleCheckpoint {
+                run_id: run_id.to_string(),
+                ..ProgramLifecycleCheckpoint::default()
+            }),
+            "unattended",
+            &BTreeMap::new(),
+        )
+        .unwrap();
+
+        assert_eq!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("closeout-program")
+        );
+        assert!(!plan
+            .program_blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "worktree-hygiene-blocked"));
+    }
+
+    #[test]
+    fn parent_closeout_worktree_return_clears_cleanup_needed_blocker() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-clears-cleanup", true);
+        let run_id = "parent-residue-handoff-clears-cleanup";
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        fixture.write_parent_closeout_worktree_handoff_return(
+            run_id,
+            "sha256:dirty-parent",
+            &[".octon/state/evidence/runs/workflows/parent-residue-handoff-clears-cleanup/parent/manual-residue.yml"],
+            false,
+        );
+        let mut checkpoint = ProgramLifecycleCheckpoint {
+            run_id: run_id.to_string(),
+            ..ProgramLifecycleCheckpoint::default()
+        };
+        checkpoint.closeout_hygiene_suppressions.insert(
+            closeout_hygiene_suppression_key("a", "closeout-packet"),
+            ProgramCloseoutHygieneSuppression {
+                child_id: "a".to_string(),
+                route_id: "closeout-packet".to_string(),
+                blocker_class: "artifact-ownership-unclear".to_string(),
+                message: "closeout blocked by parent residue".to_string(),
+                evidence_paths: vec![
+                    ".octon/state/evidence/runs/workflows/parent-residue-handoff-clears-cleanup/parent/worktree-hygiene-classification.yml".to_string(),
+                ],
+                worktree_hygiene_foreign_fingerprint: Some("sha256:dirty-parent".to_string()),
+            },
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+            "unattended",
+            &BTreeMap::new(),
+        )
+        .unwrap();
+
+        assert_ne!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        );
+        assert!(!plan.program_blockers.iter().any(|blocker| {
+            blocker.blocker_class == BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED
+                || blocker.blocker_class == "parent-worktree-disposition-required"
+        }));
+        assert!(
+            !plan
+                .safe_repair_candidates
+                .iter()
+                .any(|candidate| candidate.selected_repair_route
+                    == ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        );
+    }
+
+    #[test]
+    fn explicit_blocker_recovery_route_overrides_generic_recipe_route() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("program-blocker-explicit-route", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        let loaded = load_lifecycle_contract(&fixture.octon_dir, "proposal-program").unwrap();
+        let program = loaded.contract.program.as_ref().unwrap();
+        let blocker = ProgramBlocker {
+            blocker_class: BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED.to_string(),
+            message: "completed cleanup receipt requires closeout-worktree handoff".to_string(),
+            recovery_route: Some("closeout-worktree".to_string()),
+        };
+
+        assert_eq!(
+            recovery_route_for_blocker(program, &blocker),
+            Some("closeout-worktree")
+        );
+        assert!(selected_program_repair_route(&loaded.contract, program, &blocker).is_none());
+    }
+
+    #[test]
+    fn refreshed_parent_cleanup_receipt_does_not_invalidate_stable_worktree_disposition() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-refreshed-receipt", true);
+        let run_id = "parent-residue-handoff-refreshed-receipt";
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_cleanup_candidates_helper(0);
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        fixture.write_parent_closeout_worktree_handoff_return(
+            run_id,
+            "sha256:dirty-parent",
+            &[".octon/state/evidence/runs/workflows/parent-residue-handoff-refreshed-receipt/parent/manual-residue.yml"],
+            false,
+        );
+        let cleanup_receipt = fixture
+            .root
+            .join("parent/support/lifecycle-residue-cleanup.md");
+        let mut refreshed = fs::read_to_string(&cleanup_receipt).unwrap();
+        refreshed.push_str("support_receipt_refreshed_at: 2026-06-22T00:00:00Z\n");
+        fs::write(&cleanup_receipt, refreshed).unwrap();
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&ProgramLifecycleCheckpoint {
+                run_id: run_id.to_string(),
+                ..ProgramLifecycleCheckpoint::default()
+            }),
+            "unattended",
+            &BTreeMap::new(),
+        )
+        .unwrap();
+
+        assert_ne!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        );
+        assert_eq!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("closeout-program")
+        );
+        assert!(!plan.program_blockers.iter().any(|blocker| {
+            blocker.recovery_route.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+                || blocker.blocker_class == "worktree-hygiene-blocked"
+        }));
+    }
+
+    #[test]
+    fn parent_closeout_worktree_return_suppresses_cleanup_redispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-skips-cleanup", true);
+        let run_id = "parent-residue-handoff-skips-cleanup";
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        fixture.write_parent_closeout_worktree_handoff_return(
+            run_id,
+            "sha256:dirty-parent",
+            &[".octon/state/evidence/runs/workflows/parent-residue-handoff-skips-cleanup/parent/manual-residue.yml"],
+            false,
+        );
+
+        let loaded = load_lifecycle_contract(&fixture.octon_dir, "proposal-program").unwrap();
+        let target_state = build_target_state(
+            &fixture.root,
+            &loaded.contract,
+            &fixture.root.join("parent"),
+        )
+        .unwrap();
+        let condition_context = LifecycleConditionContext {
+            blockers: vec![BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED.to_string()],
+            cleanup_candidates_present: Some(false),
+            hygiene_preflight_required: Some(true),
+        };
+
+        let selected = select_program_route_with_parent_handoff_context(
+            &fixture.root,
+            &loaded.contract,
+            &target_state,
+            &condition_context,
+            Some(run_id),
+            &BTreeMap::new(),
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(selected.route_id, "closeout-program");
+    }
+
+    #[test]
+    fn run_scoped_zero_cleanup_receipt_suppresses_cleanup_when_helper_reports_foreign_candidates() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-helper-noise-skips-cleanup", true);
+        let run_id = "parent-residue-helper-noise-skips-cleanup";
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let loaded = load_lifecycle_contract(&fixture.octon_dir, "proposal-program").unwrap();
+        let target_state = build_target_state(
+            &fixture.root,
+            &loaded.contract,
+            &fixture.root.join("parent"),
+        )
+        .unwrap();
+        let condition_context = LifecycleConditionContext {
+            blockers: vec![BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED.to_string()],
+            cleanup_candidates_present: Some(true),
+            hygiene_preflight_required: Some(true),
+        };
+
+        let selected = select_program_route_with_parent_handoff_context(
+            &fixture.root,
+            &loaded.contract,
+            &target_state,
+            &condition_context,
+            Some(run_id),
+            &BTreeMap::new(),
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_ne!(selected.route_id, ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE);
+        assert_eq!(selected.route_id, "closeout-program");
+    }
+
+    #[test]
+    fn pending_parent_closeout_worktree_handoff_suppresses_cleanup_redispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-awaits-return", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        fixture.write_cleanup_candidates_helper(0);
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&ProgramLifecycleCheckpoint {
+                run_id: "parent-residue-handoff-awaits-return".to_string(),
+                ..ProgramLifecycleCheckpoint::default()
+            }),
+        )
+        .unwrap();
+
+        assert!(plan.program_route.is_none());
+        assert!(!plan.program_blockers.iter().any(|blocker| {
+            blocker.recovery_route.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        }));
+    }
+
+    #[test]
+    fn parent_closeout_worktree_return_with_cleaned_claim_does_not_skip_cleanup() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-keeps-cleanup", true);
+        let run_id = "parent-residue-handoff-keeps-cleanup";
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        fixture.write_parent_closeout_worktree_handoff_return(
+            run_id,
+            "sha256:dirty-parent",
+            &[".octon/state/evidence/runs/workflows/parent-residue-handoff-keeps-cleanup/parent/manual-residue.yml"],
+            true,
+        );
+
+        let loaded = load_lifecycle_contract(&fixture.octon_dir, "proposal-program").unwrap();
+        let target_state = build_target_state(
+            &fixture.root,
+            &loaded.contract,
+            &fixture.root.join("parent"),
+        )
+        .unwrap();
+        let condition_context = LifecycleConditionContext {
+            blockers: vec![BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED.to_string()],
+            cleanup_candidates_present: Some(false),
+            hygiene_preflight_required: Some(true),
+        };
+
+        let selected = select_program_route_with_parent_handoff_context(
+            &fixture.root,
+            &loaded.contract,
+            &target_state,
+            &condition_context,
+            Some(run_id),
+            &BTreeMap::new(),
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(selected.route_id, ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE);
+    }
+
+    #[test]
+    fn parent_closeout_worktree_return_allows_archive_blocker_when_non_mutating() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-archive-allowed", true);
+        let run_id = "parent-residue-handoff-archive-allowed";
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        let return_ref = fixture.write_parent_closeout_worktree_handoff_return(
+            run_id,
+            "sha256:dirty-parent",
+            &[".octon/state/evidence/runs/workflows/parent-residue-handoff-archive-allowed/parent/manual-residue.yml"],
+            false,
+        );
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert("lifecycle_interaction_return_refs".to_string(), return_ref);
+        let cleanup_receipt_path = fixture
+            .root
+            .join("parent/support/lifecycle-residue-cleanup.md");
+        let target_state = TargetState {
+            target_abs: fixture.root.join("parent"),
+            target_exists: true,
+            manifest_status: Some("implemented".to_string()),
+            receipts: BTreeMap::from([(
+                "lifecycle-residue-cleanup".to_string(),
+                ReceiptState {
+                    path_abs: cleanup_receipt_path,
+                    exists: true,
+                    fields: BTreeMap::from([
+                        ("archive_blocking".to_string(), "true".to_string()),
+                        ("cleaned_at".to_string(), "2026-05-12T00:00:00Z".to_string()),
+                        ("cleanup_candidates".to_string(), "0".to_string()),
+                        ("implementation_blocking".to_string(), "false".to_string()),
+                        ("verdict".to_string(), "blocked-retained".to_string()),
+                        (
+                            "worktree_hygiene_foreign_fingerprint".to_string(),
+                            "sha256:dirty-parent".to_string(),
+                        ),
+                    ]),
+                    missing_required_fields: Vec::new(),
+                    stale: Some(false),
+                    stored_digest: Some("mock".to_string()),
+                    current_digest: Some("mock".to_string()),
+                },
+            )]),
+        };
+
+        assert!(!lifecycle_residue_blocks_program_route_with_parent_handoff(
+            &fixture.root,
+            &target_state,
+            "archive-proposal",
+            Some(run_id),
+            &run_inputs,
+        )
+        .unwrap());
+    }
+
+    #[test]
+    fn parent_closeout_worktree_return_allows_classifier_digest_churn_when_fingerprint_matches() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-digest-churn", true);
+        let run_id = "parent-residue-handoff-digest-churn";
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        let return_ref = fixture.write_parent_closeout_worktree_handoff_return(
+            run_id,
+            "sha256:dirty-parent",
+            &[".octon/state/evidence/runs/workflows/parent-residue-handoff-digest-churn/parent/manual-residue.yml"],
+            false,
+        );
+        let classifier_ref = format!(
+            ".octon/state/evidence/runs/workflows/{run_id}/parent/worktree-hygiene-classification.yml"
+        );
+        let classifier_path = fixture.root.join(&classifier_ref);
+        let mut classifier = fs::read_to_string(&classifier_path).unwrap();
+        classifier.push_str("volatile_metadata: true\n");
+        fs::write(&classifier_path, classifier).unwrap();
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert("lifecycle_interaction_return_refs".to_string(), return_ref);
+        let cleanup_receipt_path = fixture
+            .root
+            .join("parent/support/lifecycle-residue-cleanup.md");
+        let target_state = TargetState {
+            target_abs: fixture.root.join("parent"),
+            target_exists: true,
+            manifest_status: Some("implemented".to_string()),
+            receipts: BTreeMap::from([(
+                "lifecycle-residue-cleanup".to_string(),
+                ReceiptState {
+                    path_abs: cleanup_receipt_path,
+                    exists: true,
+                    fields: BTreeMap::from([
+                        ("cleaned_at".to_string(), "2026-05-12T00:00:00Z".to_string()),
+                        ("cleanup_candidates".to_string(), "0".to_string()),
+                        ("closeout_blocking".to_string(), "true".to_string()),
+                        ("implementation_blocking".to_string(), "false".to_string()),
+                        ("verdict".to_string(), "blocked-retained".to_string()),
+                    ]),
+                    missing_required_fields: Vec::new(),
+                    stale: Some(false),
+                    stored_digest: Some("mock".to_string()),
+                    current_digest: Some("mock".to_string()),
+                },
+            )]),
+        };
+
+        assert!(!lifecycle_residue_blocks_program_route_with_parent_handoff(
+            &fixture.root,
+            &target_state,
+            "closeout-program",
+            Some(run_id),
+            &run_inputs,
+        )
+        .unwrap());
+    }
+
+    #[test]
+    fn parent_closeout_worktree_return_rejects_archive_blocker_with_cleaned_claim() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("parent-residue-handoff-archive-cleaned", true);
+        let run_id = "parent-residue-handoff-archive-cleaned";
+        fixture.write_residue_fingerprint_script("sha256:dirty-parent");
+        fixture.write_lifecycle_residue_cleanup_handoff_receipt("sha256:dirty-parent");
+        let return_ref = fixture.write_parent_closeout_worktree_handoff_return(
+            run_id,
+            "sha256:dirty-parent",
+            &[".octon/state/evidence/runs/workflows/parent-residue-handoff-archive-cleaned/parent/manual-residue.yml"],
+            true,
+        );
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert("lifecycle_interaction_return_refs".to_string(), return_ref);
+        let cleanup_receipt_path = fixture
+            .root
+            .join("parent/support/lifecycle-residue-cleanup.md");
+        let target_state = TargetState {
+            target_abs: fixture.root.join("parent"),
+            target_exists: true,
+            manifest_status: Some("implemented".to_string()),
+            receipts: BTreeMap::from([(
+                "lifecycle-residue-cleanup".to_string(),
+                ReceiptState {
+                    path_abs: cleanup_receipt_path,
+                    exists: true,
+                    fields: BTreeMap::from([
+                        ("archive_blocking".to_string(), "true".to_string()),
+                        (
+                            "worktree_hygiene_foreign_fingerprint".to_string(),
+                            "sha256:dirty-parent".to_string(),
+                        ),
+                    ]),
+                    missing_required_fields: Vec::new(),
+                    stale: Some(false),
+                    stored_digest: Some("mock".to_string()),
+                    current_digest: Some("mock".to_string()),
+                },
+            )]),
+        };
+
+        assert!(lifecycle_residue_blocks_program_route_with_parent_handoff(
+            &fixture.root,
+            &target_state,
+            "archive-proposal",
+            Some(run_id),
+            &run_inputs,
+        )
+        .unwrap());
+    }
+
+    #[test]
     fn archive_blocking_cleanup_receipt_blocks_archive_route() {
         let target_state = TargetState {
             target_abs: PathBuf::from("parent"),
@@ -32263,6 +40523,60 @@ rationale: "prove overwrite guard"
                 "cleanup_candidate\tlocal_run_residue\t.octon/state/control/execution/runs/lifecycle-proposal-program-current-run/program-lifecycle-checkpoint.yml\tunreferenced local proposal lifecycle runner residue",
             ],
             2,
+        );
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "prompt_id: a\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let checkpoint = ProgramLifecycleCheckpoint {
+            run_id: run_id.to_string(),
+            ..Default::default()
+        };
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+            "unattended",
+        )
+        .unwrap();
+
+        assert!(plan.program_route.is_none());
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
+    }
+
+    #[test]
+    fn active_run_cleanup_preflight_uses_rows_to_filter_current_run_candidates() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-current-run-row-filter", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        let run_id = "lifecycle-proposal-program-current-run-row-filter";
+        fixture.write(
+            ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+            r#"#!/usr/bin/env bash
+set -euo pipefail
+for arg in "$@"; do
+  if [[ "$arg" == "--summary-only" ]]; then
+    echo "summary-only omitted cleanup candidate rows" >&2
+    exit 3
+  fi
+done
+printf 'cleanup_candidate\tlocal_run_residue\t.octon/state/evidence/runs/workflows/lifecycle-proposal-program-current-run-row-filter/parent/interrupted-route.log\tcurrent-run route residue\n'
+cat <<'YAML'
+summary:
+  cleanup_candidates: 1
+[OK] dry-run complete
+YAML
+"#,
         );
         fixture.write_child("a", "framework/a.md", "accepted");
         fixture.write(
@@ -33326,6 +41640,7 @@ routes:
                     route_gate_results: Vec::new(),
                     terminal_outcome: None,
                     receipt_digests: BTreeMap::new(),
+                    terminal_evidence_summary: None,
                     gate_status: ProgramChildGateStatus::default(),
                     dependency_gate_status: BTreeMap::new(),
                     write_scopes: vec![target.to_string(), scope.to_string()],
@@ -33436,6 +41751,119 @@ routes:
         assert!(criticality.contains("criticality: non-critical"));
         assert!(criticality.contains("human_input_required: false"));
         assert!(criticality.contains("after_validation: lock artifact absent"));
+    }
+
+    #[test]
+    fn stale_child_lock_recovery_reclaims_current_run_lock_after_controller_progress() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("stale-lock-recovery", true);
+        let program_run_id = "stale-lock-recovery";
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(program_run_id);
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(program_run_id);
+        fs::create_dir_all(control_root.join("locks")).unwrap();
+        fs::create_dir_all(&evidence_root).unwrap();
+        let lock_path = control_root.join("locks/a.lock");
+        fs::write(&lock_path, "child_id: a\n").unwrap();
+        append_program_event(
+            &control_root,
+            &evidence_root,
+            program_run_id,
+            "child-route-started",
+            Some("a"),
+            Some("promote-proposal"),
+            "child route execution started",
+            event_data(std::iter::empty::<(&str, &str)>()),
+        )
+        .unwrap();
+        append_program_event(
+            &control_root,
+            &evidence_root,
+            program_run_id,
+            "plan-created",
+            None,
+            None,
+            "program lifecycle plan created after interrupted child route",
+            event_data([("final_verdict", "partial")]),
+        )
+        .unwrap();
+
+        let reacquired = acquire_child_lock_for_route(
+            &control_root,
+            &evidence_root,
+            program_run_id,
+            "a",
+            "promote-proposal",
+        )
+        .unwrap();
+
+        assert_eq!(reacquired, lock_path);
+        assert!(lock_path.is_file());
+        assert_eq!(fs::read_to_string(&lock_path).unwrap(), "child_id: a\n");
+        let events = fs::read_to_string(control_root.join("program-events.ndjson")).unwrap();
+        assert!(events.contains("stale-child-lock-recovery-started"));
+        assert!(events.contains("child-lock-released"));
+        assert!(events.contains("stale-child-lock-recovered"));
+        let criticality = fs::read_to_string(
+            evidence_root.join("artifact-criticality/remove_child_lock-a-promote-proposal.yml"),
+        )
+        .unwrap();
+        assert!(criticality.contains("criticality: non-critical"));
+        assert!(criticality.contains("authority_surface: current-run-control-lock"));
+        assert!(criticality.contains("mutation_status: completed"));
+        assert!(criticality.contains("after_validation: lock artifact absent"));
+    }
+
+    #[test]
+    fn child_lock_recovery_preserves_lock_when_controller_has_not_advanced() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("active-lock-preserved", true);
+        let program_run_id = "active-lock-preserved";
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(program_run_id);
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(program_run_id);
+        fs::create_dir_all(control_root.join("locks")).unwrap();
+        fs::create_dir_all(&evidence_root).unwrap();
+        let lock_path = control_root.join("locks/a.lock");
+        fs::write(&lock_path, "child_id: a\n").unwrap();
+        append_program_event(
+            &control_root,
+            &evidence_root,
+            program_run_id,
+            "child-route-started",
+            Some("a"),
+            Some("promote-proposal"),
+            "child route execution started",
+            event_data(std::iter::empty::<(&str, &str)>()),
+        )
+        .unwrap();
+
+        let error = acquire_child_lock_for_route(
+            &control_root,
+            &evidence_root,
+            program_run_id,
+            "a",
+            "promote-proposal",
+        )
+        .unwrap_err();
+
+        assert!(error
+            .to_string()
+            .contains("child target lock already exists for a"));
+        assert!(lock_path.is_file());
+        let events = fs::read_to_string(control_root.join("program-events.ndjson")).unwrap();
+        assert!(!events.contains("stale-child-lock-recovered"));
+        assert!(!events.contains("child-lock-released"));
     }
 
     #[test]

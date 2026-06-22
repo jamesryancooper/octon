@@ -40,9 +40,37 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
 3. **Classify Residue** — Run the read-only residue classifier and classify
    staged, unstaged, untracked, ignored, generated, host-projection, evidence,
    release, input-surface, repo-hygiene cleanup candidates, protected
-   referenced paths, manual-review paths, and branch residue. Repo-hygiene
-   cleanup classification is routing evidence only; this wrapper does not
-   perform cleanup actions.
+   referenced paths, manual-review paths, and branch residue. For proposal
+   packet or proposal program closeout, consume
+   `classify-proposal-worktree-hygiene.sh` partitions explicitly:
+   `publishable_changes`, `publishable_closeout_evidence`,
+   `cleanup_safe_local_residue`, `protected_retained_evidence`,
+   `protected_active_control_state`, and
+   `manual_review_foreign_ambiguous_unsafe_or_user_owned`. These partitions
+   are routing evidence only; they do not authorize deletion, cleanup,
+   publication, promotion, archive, closeout, branch deletion, or a `cleaned`
+   claim.
+   When invoked from a proposal-program
+   `lifecycle-interaction-request-v1`, treat the request, its basis receipt,
+   classifier output ref and digest, foreign fingerprint, include/exclude
+   paths, and required return evidence as non-authorizing handoff context.
+   The wrapper may route a coherent candidate to `closeout-change`, but the
+   request never replaces child closeout receipts, child validation,
+   archive authorization, or child lifecycle outcomes.
+   When all blocker paths are proven outside the child/route write scope or
+   covered by an explicit handoff authorization, the wrapper may return a
+   non-mutating `closeout-worktree-report-v1` plus
+   `lifecycle-interaction-return-v1` that records
+   `proposal_program_handoff_authorization`. When a parent
+   `cleanup-lifecycle-residue` handoff has explicit operator authorization,
+   the wrapper may instead record
+   `proposal_program_parent_handoff_authorization` proving the cleanup receipt
+   digest, classifier digest, foreign fingerprint, exact authorized path set,
+   and non-mutating disposition
+   `preserve-and-exclude-from-lifecycle-closeout-blocking`. These reports may
+   preserve and exclude foreign paths from the named lifecycle blocker only;
+   they must not stage, delete, reset, commit, publish, archive, branch-clean,
+   or claim `cleaned` for those paths.
 4. **Partition Candidate Changes** — Group residue into candidate Change
    scopes by intent, touched paths, branch identity, receipt references,
    validation requirements, and operator instructions. When grouping is
@@ -70,7 +98,18 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    rollback evidence, including the governed helper rerun path when sandbox,
    provider, host, remote, fetch, push, or ref-write controls block mutation.
    For branch cleanup, the delegated `closeout-change` run must own governed
-   cleanup authorization and any local or remote branch deletion.
+   cleanup authorization and any local or remote branch deletion. Terminal
+   proof remains owned by the delegated `closeout-change` receipt: the wrapper
+   may cite or summarize `terminal_current_state_proof_ref` only after that
+   receipt proves landing evidence, final sync proof, cleanup authorization,
+   cleanup disposition, rollback posture, and validation evidence, and only
+   when the proof sink or receipt path is distinct from `landed_ref`.
+   When the delegated run records git mutation permission diagnostics for
+   fetch, checkout, branch-local commit, branch publication, hosted landing,
+   final sync, branch cleanup, or local or remote branch deletion or pruning,
+   the wrapper may summarize those diagnostics as routing evidence only. The
+   delegated `closeout-change` run remains the owning rerun route and mutation
+   authority boundary.
 8. **Delegate Repo-Hygiene Residue** — When classification identifies eligible
    local Octon run/artifact residue, delegate it to `repo-hygiene-cleanup`
    using that feature's classify-first, receipt-backed helper route. The
@@ -137,6 +176,24 @@ to `closeout-change`. Only `local_private_retained` and
 `disposition_complete_with_retained_residue`, and only with candidate-keyed
 retained evidence. `unsafe` and `ambiguous` always force
 `worktree_terminal_state: nonterminal` with candidate-keyed blocker evidence.
+Raw/private Octon paths normally cannot be reported as
+`foreign_manual_review`. The only exception is a proposal-program handoff
+candidate with `proposal_program_handoff_authorization` or
+`proposal_program_parent_handoff_authorization` proving the exact classifier
+output ref and digest, foreign fingerprint, authorized path set, non-mutating
+preserved/excluded disposition, parent-summary non-substitution, child
+authority preservation, and no forbidden mutation, archive, publication,
+branch-cleanup, git-ref, or cleaned claim.
+
+When a delegated candidate is blocked by a permission-sensitive git mutation,
+the wrapper report may summarize the delegated diagnostic evidence, including
+operation class, current and target refs when known, expected authorization
+gate, likely sandbox, host, provider, remote, or ref-write blocker, and owning
+rerun route. The summary does not authorize fetch, checkout, commit, push,
+hosted landing, final sync, branch cleanup, local or remote branch deletion or
+pruning, publication, closeout, or `cleaned`; the wrapper must report the
+delegated lower actual outcome, blocker, deferred state, or next-route
+condition.
 
 Completed proposal-program lifecycle closeout may classify lifecycle-owned
 input/archive moves, generated effective publication outputs, proposal
@@ -161,8 +218,13 @@ local workflow evidence to be published as material Change content.
   branch cleanup is completed with governed cleanup authorization.
   Proposal-program, generated-publication, archive, or correction-branch
   terminal claims must cite `terminal_current_state_proof_ref` evidence from the
-  delegated singular Change. If post-primary branch-no-pr correction branches
-  occurred, the delegated Change must also cite
+  delegated singular Change. That evidence is retained proof only: it may
+  remain in the local terminal sink after landing, final sync, cleanup
+  authorization, cleanup disposition, rollback posture, and validation proof
+  exist, but it does not replace the delegated Change receipt or authorize
+  hosted mutation, branch cleanup, publication, archive, or `cleaned`. If
+  post-primary branch-no-pr correction branches occurred, the delegated Change
+  must also cite
   `correction_branch_aggregate_receipt_ref`. Ignored terminal sink residue
   under `.octon/state/evidence/local/terminal-closeout/<change-id>/` may remain
   only when its `terminal-closeout-local-evidence-v1` manifest validates by
@@ -192,6 +254,26 @@ When repo-hygiene residue is present, the report should include
 `repo_hygiene_next_route_condition`. `repo_hygiene_cleanup_actions_performed`
 must remain false; route actual cleanup to `repo-hygiene-cleanup` or a
 singular route with its own cleanup authority.
+
+For proposal packet closeout, map classifier partitions to wrapper candidates
+without inventing a new route or status:
+
+- `publishable_changes` may become a `publishable_change` candidate only when
+  the paths are declared promotion targets for the scoped packet or program.
+- `publishable_closeout_evidence` may become
+  `publishable_closeout_evidence` only for child-owned support evidence in the
+  scoped packet; parent program evidence, aggregate evidence, proposal-local
+  notes, generated outputs, host state, chat, model memory, and tool
+  availability do not satisfy child cleanup, worktree partitioning, or
+  deletion authority.
+- `cleanup_safe_local_residue` routes to `repo-hygiene-cleanup`; this wrapper
+  records the route and must not delete it directly.
+- `protected_retained_evidence` and `protected_active_control_state` route to
+  retained or blocked disposition with candidate-keyed evidence and cannot be
+  branch-cleaned or generic-cleaned from classifier output.
+- `manual_review_foreign_ambiguous_unsafe_or_user_owned` forces
+  `worktree_terminal_state: nonterminal` unless a later singular route records
+  an authority-backed disposition for the exact candidate.
 
 When stale detached Git worktrees are observed, the report must either retain
 them with rationale or cite explicit worktree cleanup safety proof: detached

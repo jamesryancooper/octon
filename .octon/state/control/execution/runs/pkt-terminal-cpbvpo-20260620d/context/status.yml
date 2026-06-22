@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/pkt-terminal-cpbvpo-20260620d/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/pkt-terminal-cpbvpo-20260620d/context/context-pack.json
+route_id: review-packet
+run_id: pkt-terminal-cpbvpo-20260620d
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T19:49:07.122283Z
+validity_state: valid

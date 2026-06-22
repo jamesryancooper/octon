@@ -1,0 +1,16 @@
+schema_version: architecture-proposal-v1
+architecture_scope: planner-contract
+decision_type: boundary-change
+status: draft
+owner: Octon lifecycle child-packet architect
+created_date: 2026-06-20
+summary: Normalize or alias execution modes across program manifests, registries, contracts, validators, and planner code.
+architecture_drivers:
+  - Parent manifests and child registries used inconsistent execution-mode vocabulary such as sequenced-gated and gated-parallel.
+  - Preserve Octon fail-closed governance and child-owned evidence.
+  - Reduce repeated operator intervention only where deterministic governed recovery is safe.
+constraints:
+  - Do not implement durable behavior in this proposal creation route.
+  - Do not widen promotion targets silently.
+  - Do not weaken validators or generated-output non-authority.
+  - Preserve explicit authorization for material side effects.

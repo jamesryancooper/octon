@@ -364,7 +364,7 @@ unsupported-mode|unsupported-mode-config|unsupported-mode-authority|\
 write-scope-conflict|write-scope-serialization-required|atomic-write-scope-conflict|\
 dependency-blocked|dependency-gate-unsatisfied|scheduler-paused|deferred|step-budget-exhausted-continuable|\
 target-drift|target-drift-explained|target-drift-unclear|\
-noncritical-artifact-cleanup|lifecycle-residue-cleanup-needed|critical-artifact-cleanup-required|artifact-cleanup-required|worktree-hygiene-blocked|artifact-ownership-unclear|\
+noncritical-artifact-cleanup|lifecycle-residue-cleanup-needed|critical-artifact-cleanup-required|artifact-cleanup-required|worktree-hygiene-blocked|artifact-ownership-unclear|parent-worktree-disposition-required|worktree-handoff-evidence-changed|stale-closeout-worktree-return|\
 recovery-budget-exhausted-alternate-route|recovery-budget-override-required|recovery-integrity-risk|\
 recovery-route-unavailable|receipt-recovery-unavailable|finding-binding-unavailable|deferred-evidence-missing|aggregate-closeout-readiness-missing|\
 authority-zone-denied|authority-zone-ambiguous|self-authorization-attempt|scope-expansion|protected-artifact-authority-ambiguity|\
@@ -413,7 +413,7 @@ program_blocker_unsafe() {
 program_blocker_human_required() {
   case "$1" in
     authority-ambiguity|authority-ambiguity|executor-preflight-blocked|unsupported-mode-config|target-drift|target-drift-unclear|\
-critical-artifact-cleanup-required|artifact-cleanup-required|worktree-hygiene-blocked|artifact-ownership-unclear|\
+critical-artifact-cleanup-required|artifact-cleanup-required|worktree-hygiene-blocked|artifact-ownership-unclear|parent-worktree-disposition-required|worktree-handoff-evidence-changed|stale-closeout-worktree-return|\
 recovery-route-unavailable|receipt-recovery-unavailable|finding-binding-unavailable|\
 deferred-evidence-missing|aggregate-closeout-readiness-missing|authority-zone-denied|scope-expansion|protected-artifact-authority-ambiguity)
       return 0

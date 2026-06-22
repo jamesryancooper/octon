@@ -187,6 +187,17 @@ def require_receipt_pass(path, label):
         fail(f"{label} verdict must be pass: {repo_rel(path)}")
 
 
+def require_receipt_value(path, label, field, expected):
+    if not path.is_file():
+        fail(f"{label} missing: {repo_rel(path)}")
+        return
+    actual = receipt_field(path, field)
+    if actual == expected:
+        ok(f"{label} {field}={expected}")
+    else:
+        fail(f"{label} {field} must be {expected}: {repo_rel(path)}")
+
+
 def proposal_review_digest(path):
     result = run([
         "bash",
@@ -231,6 +242,8 @@ def validate_projection_file():
         "authorizes_implementation",
         "authorizes_generated_publication",
         "replaces_source_evidence",
+        "parent_summary_satisfies_child_receipts",
+        "retained_evidence_authorizes_execution",
     ]
     for key in expected_false:
         if boundary.get(key) is False:
@@ -461,6 +474,19 @@ def validate_program():
                 ok(f"child {child_id} archive metadata implemented")
             else:
                 fail(f"child {child_id} archive metadata must preserve implemented disposition")
+            require_receipt_pass(child_dir / "support/validation.md", f"child {child_id} validation receipt")
+            require_receipt_value(
+                child_dir / "support/proposal-terminal-closeout.yml",
+                f"child {child_id} terminal closeout receipt",
+                "terminal_verdict",
+                "archive-ready",
+            )
+            require_receipt_value(
+                child_dir / "support/proposal-terminal-closeout.yml",
+                f"child {child_id} terminal closeout receipt",
+                "archive_ready",
+                "yes",
+            )
 
         index_refs = child.get("evidence_index_refs") or []
         if required and (terminal_required or status in {"implemented", "archived"}):

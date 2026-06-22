@@ -1,0 +1,13 @@
+summary:
+  mode: dry-run
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 764
+  manual_review: 0
+  git_status_digest: sha256:7251fb2f35948821983d9c4b77bdcf16a71ba09cc8816344b151f46ebceb1f8d
+  classification_digest: sha256:23c4fa40e0e27653733cc0e7bca3cffb111aeb012808bd7bb0b69efc4708d19e
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:a73bc4447c57f87941c097ccabc2260e65faaafe1d7772fea5b99b4ec36a0e5f
+  manual_review_paths_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+status: dry-run-complete
+next_command_hint: rerun with --confirm or --authorization <receipt.json> to remove cleanup candidates only

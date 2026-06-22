@@ -1,0 +1,95 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-parent-worktree-residue-2026-06-22T08-16-24Z
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260622T081624Z.yml
+residue_classification_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260622T081624Z.yml
+residue_classification_digest: sha256:40824b3600e7f4f53c9bea43d1895b07065c05471f8fd9baee1c2f7489ac247f
+final_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260622T081624Z.yml
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/post-cleanup-summary-20260622T075439Z-direct.yml
+repo_hygiene_cleanup_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-consumption-20260622T075439Z-direct.log
+repo_hygiene_cleanup_digest: sha256:ab7f7c32dbddc7cddc0d720f1ef69956bf0cceccc52d80a22f42f444b409e07e
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260622T075439Z-direct.json
+repo_hygiene_cleanup_authorization_digest: sha256:f6e36e5f48c3a33bfc6e21bc7a3acfaacad023c64641f2cc4a7af285bf26c58c
+repo_hygiene_cleanup_outcome: delegated-cleaned
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+repo_hygiene_next_route_condition: repo-hygiene cleanup candidates remain exhausted; foreign/manual parent residue is retained and separately partitioned, not deletion authority
+selected_candidate_id: parent-foreign-residue-current
+candidates:
+  - candidate_id: parent-foreign-residue-current
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: parent foreign/manual residue explicitly authorized for non-mutating preserve/exclude from lifecycle closeout blocking
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, staging, commit, push, publication, archive, branch cleanup, git ref mutation, or cleaned claim
+    boundaries:
+      include_paths:
+        - .octon
+        - .codex
+        - .gitignore
+      exclude_paths:
+        - child closeout receipts
+        - child validation receipts
+        - archive authorization
+        - child lifecycle outcomes
+    proposal_program_parent_handoff_authorization:
+      authorization_grant: operator-authorized-parent-residue-preserve-and-exclude-for-lifecycle-closeout
+      program_run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+      parent_route_id: cleanup-lifecycle-residue
+      cleanup_receipt_ref: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md
+      cleanup_receipt_digest: sha256:971cfc9a30bdcc2cb056f7c76d56977986cec62af636f2e4b7dc4ba9aeb48615
+      classifier_output_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/worktree-hygiene-classification-20260622T081624Z.yml
+      classifier_output_digest: sha256:40824b3600e7f4f53c9bea43d1895b07065c05471f8fd9baee1c2f7489ac247f
+      authorized_foreign_fingerprint: sha256:1beaea3543945049aae1927948f8be65be97fe09a075f4e14082a6159c0f5a27
+      foreign_fingerprint: sha256:1beaea3543945049aae1927948f8be65be97fe09a075f4e14082a6159c0f5a27
+      authorized_paths:
+        - .octon
+        - .codex
+        - .gitignore
+      disposition: preserve-and-exclude-from-lifecycle-closeout-blocking
+      outside_child_owned_closeout_authority: true
+      separately_partitioned_for_later_legal_closeout: true
+      non_mutating: true
+      preserve_and_exclude_from_lifecycle_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+iterations: []
+final_candidate_dispositions:
+  parent-foreign-residue-current:
+    state: foreign
+retained_residue:
+  - candidate_id: parent-foreign-residue-current
+    path: .octon
+    disposition: foreign manual residue preserved and excluded from lifecycle closeout blocking
+  - candidate_id: parent-foreign-residue-current
+    path: .codex
+    disposition: foreign manual residue preserved and excluded from lifecycle closeout blocking
+  - candidate_id: parent-foreign-residue-current
+    path: .gitignore
+    disposition: foreign manual residue preserved and excluded from lifecycle closeout blocking
+blockers: []
+final_residue_classes:
+  ignored: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program lifecycle closeout with child authority preserved; no cleaned claim

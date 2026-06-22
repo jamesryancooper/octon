@@ -1,0 +1,28 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: packet-terminal-cpbvpo-20260620T1945Z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/complete-program-blocker-vector-planner-output
+current_state: proposal-packet-terminal-closeout
+current_phase: packet-terminal-closeout
+completed_states: []
+last_route: proposal-packet-terminal-closeout
+loop_counts: {}
+phase_counts:
+  packet-terminal-closeout: 1
+last_phase_transition: phase-entered:packet-terminal-closeout
+phase_blockers:
+  final_verdict: failed
+receipt_digests:
+  proposal-review: sha256:8dfed2500181af154589ce4ee2dd4dcbc18e2a6e1b95e48328e1740f97dffaff
+last_validator_results: []
+run_inputs:
+  target_outcome: blocked
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: failed
+resume_instruction: octon lifecycle resume --run-id packet-terminal-cpbvpo-20260620T1945Z

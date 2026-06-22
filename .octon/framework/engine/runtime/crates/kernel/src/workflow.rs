@@ -467,6 +467,7 @@ pub struct RunProposalPacketTerminalCloseoutOptions {
     pub target_outcome: String,
     pub profile_path: Option<PathBuf>,
     pub terminal_run_id: Option<String>,
+    pub lifecycle_interaction_return_refs: Vec<String>,
 }
 
 #[derive(Clone, Debug)]
@@ -3530,6 +3531,7 @@ pub fn run_proposal_packet_terminal_closeout_from_octon_dir(
         &proposal_rel,
         &manifest,
         &workflow_request_id,
+        &options.lifecycle_interaction_return_refs,
     )?;
     if worktree.foreign_or_ambiguous_count > 0 {
         set_terminal_blocker(
@@ -3562,6 +3564,7 @@ pub fn run_proposal_packet_terminal_closeout_from_octon_dir(
         worktree.report_body.clone(),
     )?);
     retained_inventory.push(worktree.report_rel.clone());
+    retained_inventory.extend(worktree.closeout_worktree_report_refs.clone());
 
     let evidence_review_report = bundle_root.join("reports/evidence-only-reviews.md");
     fs::write(
@@ -3844,6 +3847,8 @@ struct TerminalWorktreeClassification {
     foreign_or_ambiguous_count: usize,
     retained_fixture_path_count: usize,
     retained_fixture_receipt_refs: Vec<String>,
+    closeout_worktree_covered_path_count: usize,
+    closeout_worktree_report_refs: Vec<String>,
     dirty_worktree: bool,
 }
 
@@ -3875,6 +3880,184 @@ struct FixtureRetentionCoverage {
     by_path: BTreeMap<String, (String, String)>,
     receipt_refs: BTreeSet<String>,
     ambiguous_paths: BTreeSet<String>,
+}
+
+#[derive(Clone, Debug)]
+struct TerminalCloseoutWorktreeCoverage {
+    by_path: BTreeMap<String, TerminalCloseoutWorktreeCoverageEntry>,
+    report_refs: BTreeSet<String>,
+    rejected_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug)]
+struct TerminalCloseoutWorktreeCoverageEntry {
+    report_ref: String,
+    candidate_id: String,
+    coverage_kind: String,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalLifecycleInteractionReturnReceipt {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    consumer: TerminalLifecycleInteractionConsumer,
+    #[serde(default)]
+    outcome: TerminalLifecycleInteractionOutcome,
+    #[serde(default)]
+    return_evidence_refs: Vec<TerminalLifecycleInteractionEvidenceRef>,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalLifecycleInteractionConsumer {
+    #[serde(default)]
+    lifecycle_id: String,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalLifecycleInteractionOutcome {
+    #[serde(default)]
+    completed: bool,
+    #[serde(default)]
+    non_mutating: Option<bool>,
+    #[serde(default)]
+    cleaned_claim: Option<bool>,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalLifecycleInteractionEvidenceRef {
+    #[serde(rename = "ref")]
+    #[serde(default)]
+    ref_path: String,
+    #[serde(default)]
+    digest: String,
+    #[serde(default)]
+    schema_version: String,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalCloseoutWorktreeReport {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    read_only_classification: Option<bool>,
+    #[serde(default)]
+    detection_is_deletion_authority: Option<bool>,
+    #[serde(default)]
+    direct_material_actions_performed: Option<bool>,
+    #[serde(default)]
+    repo_hygiene_cleanup_actions_performed: Option<bool>,
+    #[serde(default)]
+    worktree_terminal_state: Option<String>,
+    #[serde(default)]
+    candidates: Vec<TerminalCloseoutWorktreeReportCandidate>,
+    #[serde(default)]
+    final_candidate_dispositions: BTreeMap<String, TerminalCloseoutWorktreeFinalDisposition>,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalCloseoutWorktreeReportCandidate {
+    #[serde(default)]
+    candidate_id: String,
+    #[serde(default)]
+    disposition: String,
+    #[serde(default)]
+    residue_routing_class: String,
+    #[serde(default)]
+    boundaries: TerminalCloseoutWorktreeBoundaries,
+    #[serde(default)]
+    proposal_program_handoff_authorization: Option<TerminalCloseoutWorktreeHandoffAuthorization>,
+    #[serde(default)]
+    proposal_program_parent_handoff_authorization:
+        Option<TerminalCloseoutWorktreeParentHandoffAuthorization>,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalCloseoutWorktreeBoundaries {
+    #[serde(default)]
+    include_paths: Vec<String>,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalCloseoutWorktreeFinalDisposition {
+    #[serde(default)]
+    state: String,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalCloseoutWorktreeHandoffAuthorization {
+    #[serde(default)]
+    child_id: String,
+    #[serde(default)]
+    route_id: String,
+    #[serde(default)]
+    classifier_output_ref: String,
+    #[serde(default)]
+    classifier_output_digest: String,
+    #[serde(default)]
+    authorized_foreign_fingerprint: String,
+    #[serde(default)]
+    foreign_fingerprint: Option<String>,
+    #[serde(default)]
+    authorized_paths: Vec<String>,
+    #[serde(default)]
+    disposition: String,
+    #[serde(default)]
+    outside_child_route_write_scope: Option<bool>,
+    #[serde(default)]
+    non_mutating: Option<bool>,
+    #[serde(default)]
+    preserve_and_exclude_from_child_closeout_blocking: Option<bool>,
+    #[serde(default)]
+    parent_summary_not_child_closeout_receipt: Option<bool>,
+    #[serde(default)]
+    child_closeout_authority_preserved: Option<bool>,
+    #[serde(default)]
+    parent_evidence_replaces_child_evidence: Option<bool>,
+    #[serde(default)]
+    forbidden_actions: BTreeMap<String, bool>,
+}
+
+#[derive(Default, Deserialize)]
+struct TerminalCloseoutWorktreeParentHandoffAuthorization {
+    #[serde(default)]
+    authorization_grant: Option<String>,
+    #[serde(default)]
+    program_run_id: String,
+    #[serde(default)]
+    parent_route_id: String,
+    #[serde(default)]
+    cleanup_receipt_ref: String,
+    #[serde(default)]
+    cleanup_receipt_digest: String,
+    #[serde(default)]
+    classifier_output_ref: String,
+    #[serde(default)]
+    classifier_output_digest: String,
+    #[serde(default)]
+    authorized_foreign_fingerprint: String,
+    #[serde(default)]
+    foreign_fingerprint: Option<String>,
+    #[serde(default)]
+    authorized_paths: Vec<String>,
+    #[serde(default)]
+    disposition: String,
+    #[serde(default)]
+    outside_child_owned_closeout_authority: Option<bool>,
+    #[serde(default)]
+    separately_partitioned_for_later_legal_closeout: Option<bool>,
+    #[serde(default)]
+    non_mutating: Option<bool>,
+    #[serde(default)]
+    preserve_and_exclude_from_lifecycle_closeout_blocking: Option<bool>,
+    #[serde(default)]
+    parent_summary_not_child_closeout_receipt: Option<bool>,
+    #[serde(default)]
+    child_closeout_authority_preserved: Option<bool>,
+    #[serde(default)]
+    parent_evidence_replaces_child_evidence: Option<bool>,
+    #[serde(default)]
+    forbidden_actions: BTreeMap<String, bool>,
 }
 
 #[derive(Clone, Debug)]
@@ -4499,8 +4682,25 @@ fn classify_terminal_worktree(
     proposal_rel: &str,
     manifest: &ProposalManifest,
     workflow_request_id: &str,
+    lifecycle_interaction_return_refs: &[String],
 ) -> Result<TerminalWorktreeClassification> {
     let fixture_coverage = load_valid_fixture_retention_coverage(repo_root)?;
+    let closeout_fields = parse_terminal_flat_receipt_fields(
+        &repo_root
+            .join(proposal_rel)
+            .join("support/proposal-closeout.md"),
+    )
+    .unwrap_or_default();
+    let program_run_id = closeout_fields
+        .get("program_run_id")
+        .map(String::as_str)
+        .unwrap_or_default();
+    let closeout_coverage = load_terminal_closeout_worktree_coverage(
+        repo_root,
+        proposal_rel,
+        manifest,
+        lifecycle_interaction_return_refs,
+    )?;
     let output = Command::new("git")
         .args(["status", "--porcelain=v1", "--untracked-files=all"])
         .current_dir(repo_root)
@@ -4509,6 +4709,7 @@ fn classify_terminal_worktree(
     let stdout = String::from_utf8_lossy(&output.stdout);
     let mut in_scope = Vec::<String>::new();
     let mut retained_fixture = Vec::<String>::new();
+    let mut retained_closeout_worktree = Vec::<String>::new();
     let mut foreign = Vec::<String>::new();
     for line in stdout.lines() {
         if line.len() < 4 {
@@ -4522,7 +4723,7 @@ fn classify_terminal_worktree(
             .unwrap_or(raw_path)
             .trim()
             .to_string();
-        if terminal_path_in_scope(&path, proposal_rel, manifest)
+        if terminal_path_in_scope(&path, proposal_rel, manifest, program_run_id)
             || terminal_current_run_acp_decision_log_append(
                 repo_root,
                 &path,
@@ -4543,6 +4744,11 @@ fn classify_terminal_worktree(
                 .map(|(_, receipt_ref)| receipt_ref.clone())
                 .unwrap_or_else(|| "unknown-fixture-retention-receipt".to_string());
             retained_fixture.push(format!("{status} {path} (receipt: {receipt_ref})"));
+        } else if let Some(coverage) = closeout_coverage.by_path.get(&path) {
+            retained_closeout_worktree.push(format!(
+                "{status} {path} ({}: {}, report: {})",
+                coverage.coverage_kind, coverage.candidate_id, coverage.report_ref
+            ));
         } else {
             foreign.push(path);
         }
@@ -4552,19 +4758,30 @@ fn classify_terminal_worktree(
         .iter()
         .cloned()
         .collect::<Vec<_>>();
+    let closeout_worktree_report_refs = closeout_coverage
+        .report_refs
+        .iter()
+        .cloned()
+        .collect::<Vec<_>>();
     let report_path = bundle_root.join("reports/worktree-hygiene-classification.md");
     let report_body = format!(
-        "# Worktree Hygiene Classification\n\n- git_status_exit: `{}`\n- in_scope_path_count: `{}`\n- retained_fixture_path_count: `{}`\n- fixture_retention_receipt_count: `{}`\n- fixture_retention_ambiguous_path_count: `{}`\n- foreign_or_ambiguous_count: `{}`\n- dirty_worktree: `{}`\n\n## In Scope\n\n{}\n\n## Retained Fixture Evidence\n\n{}\n\n## Fixture Retention Receipts\n\n{}\n\n## Ambiguous Fixture Retention Coverage\n\n{}\n\n## Foreign Or Ambiguous\n\n{}\n",
+        "# Worktree Hygiene Classification\n\n- git_status_exit: `{}`\n- in_scope_path_count: `{}`\n- retained_fixture_path_count: `{}`\n- closeout_worktree_covered_path_count: `{}`\n- fixture_retention_receipt_count: `{}`\n- closeout_worktree_report_count: `{}`\n- fixture_retention_ambiguous_path_count: `{}`\n- closeout_worktree_rejected_ref_count: `{}`\n- foreign_or_ambiguous_count: `{}`\n- dirty_worktree: `{}`\n\n## In Scope\n\n{}\n\n## Retained Fixture Evidence\n\n{}\n\n## Fixture Retention Receipts\n\n{}\n\n## Closeout Worktree Handoff Coverage\n\n{}\n\n## Closeout Worktree Reports\n\n{}\n\n## Rejected Closeout Worktree Handoff Evidence\n\n{}\n\n## Ambiguous Fixture Retention Coverage\n\n{}\n\n## Foreign Or Ambiguous\n\n{}\n",
         output.status,
         in_scope.len(),
         retained_fixture.len(),
+        retained_closeout_worktree.len(),
         retained_fixture_receipt_refs.len(),
+        closeout_worktree_report_refs.len(),
         fixture_coverage.ambiguous_paths.len(),
+        closeout_coverage.rejected_refs.len(),
         foreign.len(),
         !foreign.is_empty(),
         terminal_bullets(&in_scope),
         terminal_bullets(&retained_fixture),
         terminal_bullets(&retained_fixture_receipt_refs),
+        terminal_bullets(&retained_closeout_worktree),
+        terminal_bullets(&closeout_worktree_report_refs),
+        terminal_bullets(&closeout_coverage.rejected_refs),
         terminal_bullets(
             &fixture_coverage
                 .ambiguous_paths
@@ -4581,15 +4798,491 @@ fn classify_terminal_worktree(
         foreign_or_ambiguous_count: foreign.len(),
         retained_fixture_path_count: retained_fixture.len(),
         retained_fixture_receipt_refs,
+        closeout_worktree_covered_path_count: retained_closeout_worktree.len(),
+        closeout_worktree_report_refs,
         dirty_worktree: !foreign.is_empty(),
     })
 }
 
-fn terminal_path_in_scope(path: &str, proposal_rel: &str, manifest: &ProposalManifest) -> bool {
+fn load_terminal_closeout_worktree_coverage(
+    repo_root: &Path,
+    proposal_rel: &str,
+    manifest: &ProposalManifest,
+    explicit_return_refs: &[String],
+) -> Result<TerminalCloseoutWorktreeCoverage> {
+    let mut coverage = TerminalCloseoutWorktreeCoverage {
+        by_path: BTreeMap::new(),
+        report_refs: BTreeSet::new(),
+        rejected_refs: Vec::new(),
+    };
+    let closeout_fields = parse_terminal_flat_receipt_fields(
+        &repo_root
+            .join(proposal_rel)
+            .join("support/proposal-closeout.md"),
+    )
+    .unwrap_or_default();
+    let program_run_id = closeout_fields
+        .get("program_run_id")
+        .map(String::as_str)
+        .unwrap_or_default();
+    let child_id = closeout_fields
+        .get("program_child_id")
+        .map(String::as_str)
+        .unwrap_or(&manifest.proposal_id);
+
+    if let Some(report_ref) = closeout_fields.get("closeout_worktree_report_ref") {
+        let expected_digest = closeout_fields
+            .get("closeout_worktree_report_digest")
+            .map(String::as_str);
+        add_terminal_closeout_report_coverage(
+            repo_root,
+            report_ref,
+            expected_digest,
+            program_run_id,
+            child_id,
+            &mut coverage,
+        )?;
+    }
+
+    let mut return_refs = explicit_return_refs
+        .iter()
+        .filter(|path| terminal_is_safe_repo_relative(path))
+        .cloned()
+        .collect::<Vec<_>>();
+    if let Some(return_ref) = closeout_fields.get("closeout_worktree_return_ref") {
+        if terminal_is_safe_repo_relative(return_ref) && !return_refs.contains(return_ref) {
+            return_refs.push(return_ref.clone());
+        }
+    }
+    if !program_run_id.trim().is_empty() {
+        let parent_return_ref = format!(
+            "{WORKFLOW_REPORTS_ROOT_REL}/{program_run_id}/lifecycle-interactions/parent-closeout-worktree-return.json"
+        );
+        if repo_root.join(&parent_return_ref).is_file() && !return_refs.contains(&parent_return_ref)
+        {
+            return_refs.push(parent_return_ref);
+        }
+    }
+
+    for return_ref in return_refs {
+        add_terminal_closeout_return_coverage(
+            repo_root,
+            &return_ref,
+            program_run_id,
+            child_id,
+            &mut coverage,
+        )?;
+    }
+    Ok(coverage)
+}
+
+fn add_terminal_closeout_return_coverage(
+    repo_root: &Path,
+    return_ref: &str,
+    program_run_id: &str,
+    child_id: &str,
+    coverage: &mut TerminalCloseoutWorktreeCoverage,
+) -> Result<()> {
+    if !terminal_is_safe_repo_relative(return_ref) {
+        coverage
+            .rejected_refs
+            .push(format!("{return_ref} (unsafe return ref)"));
+        return Ok(());
+    }
+    let return_path = repo_root.join(return_ref);
+    if !return_path.is_file() {
+        coverage
+            .rejected_refs
+            .push(format!("{return_ref} (missing return receipt)"));
+        return Ok(());
+    }
+    let receipt: TerminalLifecycleInteractionReturnReceipt =
+        match serde_json::from_slice(&fs::read(&return_path)?) {
+            Ok(receipt) => receipt,
+            Err(_) => {
+                coverage
+                    .rejected_refs
+                    .push(format!("{return_ref} (invalid lifecycle return JSON)"));
+                return Ok(());
+            }
+        };
+    if receipt.schema_version != "lifecycle-interaction-return-v1"
+        || receipt.consumer.lifecycle_id != "closeout-worktree"
+        || !receipt.outcome.completed
+        || receipt.outcome.non_mutating == Some(false)
+        || receipt.outcome.cleaned_claim == Some(true)
+    {
+        coverage.rejected_refs.push(format!(
+            "{return_ref} (return receipt not a completed non-mutating closeout-worktree return)"
+        ));
+        return Ok(());
+    }
+    for evidence in receipt.return_evidence_refs {
+        if evidence.schema_version != "closeout-worktree-report-v1" {
+            coverage.rejected_refs.push(format!(
+                "{} (unsupported return evidence schema)",
+                evidence.ref_path
+            ));
+            continue;
+        }
+        add_terminal_closeout_report_coverage(
+            repo_root,
+            &evidence.ref_path,
+            Some(&evidence.digest),
+            program_run_id,
+            child_id,
+            coverage,
+        )?;
+    }
+    Ok(())
+}
+
+fn add_terminal_closeout_report_coverage(
+    repo_root: &Path,
+    report_ref: &str,
+    expected_digest: Option<&str>,
+    program_run_id: &str,
+    child_id: &str,
+    coverage: &mut TerminalCloseoutWorktreeCoverage,
+) -> Result<()> {
+    if !terminal_is_safe_repo_relative(report_ref) {
+        coverage
+            .rejected_refs
+            .push(format!("{report_ref} (unsafe report ref)"));
+        return Ok(());
+    }
+    let report_path = repo_root.join(report_ref);
+    if !report_path.is_file() {
+        coverage
+            .rejected_refs
+            .push(format!("{report_ref} (missing report)"));
+        return Ok(());
+    }
+    let actual_digest = terminal_file_digest(&report_path)?;
+    if expected_digest
+        .filter(|digest| !digest.trim().is_empty())
+        .is_some_and(|digest| digest != actual_digest)
+    {
+        coverage
+            .rejected_refs
+            .push(format!("{report_ref} (report digest mismatch)"));
+        return Ok(());
+    }
+    let report: TerminalCloseoutWorktreeReport =
+        match serde_yaml::from_slice(&fs::read(&report_path)?) {
+            Ok(report) => report,
+            Err(_) => {
+                coverage
+                    .rejected_refs
+                    .push(format!("{report_ref} (invalid report YAML)"));
+                return Ok(());
+            }
+        };
+    if !terminal_closeout_report_top_level_allows_coverage(&report) {
+        coverage.rejected_refs.push(format!(
+            "{report_ref} (report top-level safety flags do not allow coverage)"
+        ));
+        return Ok(());
+    }
+
+    let mut accepted_any = false;
+    for candidate in &report.candidates {
+        let coverage_kind = if terminal_child_closeout_candidate_allows_coverage(
+            repo_root, &report, candidate, child_id,
+        )? {
+            Some("child-closeout-worktree")
+        } else if terminal_parent_closeout_candidate_allows_coverage(
+            repo_root,
+            &report,
+            candidate,
+            program_run_id,
+        )? {
+            Some("parent-closeout-worktree")
+        } else {
+            None
+        };
+        let Some(coverage_kind) = coverage_kind else {
+            continue;
+        };
+        accepted_any = true;
+        coverage.report_refs.insert(report_ref.to_string());
+        for path in &candidate.boundaries.include_paths {
+            if !terminal_is_safe_repo_relative(path) {
+                continue;
+            }
+            coverage.by_path.entry(path.clone()).or_insert_with(|| {
+                TerminalCloseoutWorktreeCoverageEntry {
+                    report_ref: report_ref.to_string(),
+                    candidate_id: candidate.candidate_id.clone(),
+                    coverage_kind: coverage_kind.to_string(),
+                }
+            });
+        }
+    }
+    if !accepted_any {
+        coverage.rejected_refs.push(format!(
+            "{report_ref} (no candidate matched terminal closeout coverage rules)"
+        ));
+    }
+    Ok(())
+}
+
+fn terminal_closeout_report_top_level_allows_coverage(
+    report: &TerminalCloseoutWorktreeReport,
+) -> bool {
+    report.schema_version == "closeout-worktree-report-v1"
+        && report.read_only_classification == Some(true)
+        && report.detection_is_deletion_authority == Some(false)
+        && report.direct_material_actions_performed == Some(false)
+        && report.repo_hygiene_cleanup_actions_performed == Some(false)
+        && report.worktree_terminal_state.as_deref() != Some("git_clean_terminal")
+}
+
+fn terminal_child_closeout_candidate_allows_coverage(
+    repo_root: &Path,
+    report: &TerminalCloseoutWorktreeReport,
+    candidate: &TerminalCloseoutWorktreeReportCandidate,
+    child_id: &str,
+) -> Result<bool> {
+    let Some(auth) = candidate.proposal_program_handoff_authorization.as_ref() else {
+        return Ok(false);
+    };
+    let final_state = report
+        .final_candidate_dispositions
+        .get(&candidate.candidate_id)
+        .map(|disposition| disposition.state.as_str());
+    if auth.child_id != child_id
+        || auth.route_id != "closeout-packet"
+        || auth.disposition != "preserve-and-exclude-from-child-closeout-blocking"
+        || auth.non_mutating != Some(true)
+        || auth.preserve_and_exclude_from_child_closeout_blocking != Some(true)
+        || auth.parent_summary_not_child_closeout_receipt != Some(true)
+        || auth.child_closeout_authority_preserved != Some(true)
+        || auth.parent_evidence_replaces_child_evidence == Some(true)
+        || auth.outside_child_route_write_scope != Some(true)
+        || candidate.residue_routing_class != "foreign_manual_review"
+        || candidate.disposition != "foreign"
+        || final_state != Some("foreign")
+        || !terminal_path_sets_equal(&candidate.boundaries.include_paths, &auth.authorized_paths)
+        || !terminal_forbidden_actions_are_all_false(&auth.forbidden_actions)
+        || !auth
+            .authorized_paths
+            .iter()
+            .all(|path| terminal_is_safe_repo_relative(path))
+    {
+        return Ok(false);
+    }
+    terminal_classifier_digest_and_fingerprint_match(
+        repo_root,
+        &auth.classifier_output_ref,
+        &auth.classifier_output_digest,
+        &auth.authorized_foreign_fingerprint,
+        auth.foreign_fingerprint.as_deref(),
+    )
+}
+
+fn terminal_parent_closeout_candidate_allows_coverage(
+    repo_root: &Path,
+    report: &TerminalCloseoutWorktreeReport,
+    candidate: &TerminalCloseoutWorktreeReportCandidate,
+    program_run_id: &str,
+) -> Result<bool> {
+    let Some(auth) = candidate
+        .proposal_program_parent_handoff_authorization
+        .as_ref()
+    else {
+        return Ok(false);
+    };
+    let final_state = report
+        .final_candidate_dispositions
+        .get(&candidate.candidate_id)
+        .map(|disposition| disposition.state.as_str());
+    if auth
+        .authorization_grant
+        .as_deref()
+        .map(|grant| grant.trim().is_empty())
+        .unwrap_or(true)
+        || auth.program_run_id != program_run_id
+        || auth.parent_route_id != "cleanup-lifecycle-residue"
+        || auth.disposition != "preserve-and-exclude-from-lifecycle-closeout-blocking"
+        || auth.non_mutating != Some(true)
+        || auth.preserve_and_exclude_from_lifecycle_closeout_blocking != Some(true)
+        || auth.parent_summary_not_child_closeout_receipt != Some(true)
+        || auth.child_closeout_authority_preserved != Some(true)
+        || auth.parent_evidence_replaces_child_evidence == Some(true)
+        || !(auth.outside_child_owned_closeout_authority == Some(true)
+            || auth.separately_partitioned_for_later_legal_closeout == Some(true))
+        || candidate.residue_routing_class != "foreign_manual_review"
+        || candidate.disposition != "foreign"
+        || final_state != Some("foreign")
+        || !terminal_path_sets_equal(&candidate.boundaries.include_paths, &auth.authorized_paths)
+        || !terminal_forbidden_actions_are_all_false(&auth.forbidden_actions)
+        || !auth
+            .authorized_paths
+            .iter()
+            .all(|path| terminal_is_safe_repo_relative(path))
+    {
+        return Ok(false);
+    }
+    if !auth.cleanup_receipt_ref.trim().is_empty() {
+        if !terminal_digest_matches(
+            repo_root,
+            &auth.cleanup_receipt_ref,
+            &auth.cleanup_receipt_digest,
+        )? {
+            return Ok(false);
+        }
+    }
+    terminal_classifier_digest_and_fingerprint_match(
+        repo_root,
+        &auth.classifier_output_ref,
+        &auth.classifier_output_digest,
+        &auth.authorized_foreign_fingerprint,
+        auth.foreign_fingerprint.as_deref(),
+    )
+}
+
+fn terminal_classifier_digest_and_fingerprint_match(
+    repo_root: &Path,
+    classifier_output_ref: &str,
+    classifier_output_digest: &str,
+    authorized_foreign_fingerprint: &str,
+    foreign_fingerprint: Option<&str>,
+) -> Result<bool> {
+    if !terminal_digest_matches(repo_root, classifier_output_ref, classifier_output_digest)? {
+        return Ok(false);
+    }
+    if foreign_fingerprint.unwrap_or(authorized_foreign_fingerprint)
+        != authorized_foreign_fingerprint
+    {
+        return Ok(false);
+    }
+    let classifier_path = repo_root.join(classifier_output_ref);
+    let value: serde_yaml::Value = serde_yaml::from_slice(&fs::read(classifier_path)?)?;
+    Ok(value
+        .get("worktree_hygiene_foreign_fingerprint")
+        .and_then(|value| value.as_str())
+        == Some(authorized_foreign_fingerprint))
+}
+
+fn terminal_digest_matches(repo_root: &Path, rel: &str, expected_digest: &str) -> Result<bool> {
+    if expected_digest.trim().is_empty() || !terminal_is_safe_repo_relative(rel) {
+        return Ok(false);
+    }
+    let path = repo_root.join(rel);
+    Ok(path.is_file() && terminal_file_digest(&path)? == expected_digest)
+}
+
+fn terminal_file_digest(path: &Path) -> Result<String> {
+    Ok(format!(
+        "sha256:{}",
+        hex::encode(Sha256::digest(fs::read(path)?))
+    ))
+}
+
+fn terminal_path_sets_equal(left: &[String], right: &[String]) -> bool {
+    !left.is_empty()
+        && !right.is_empty()
+        && left.iter().collect::<BTreeSet<_>>() == right.iter().collect::<BTreeSet<_>>()
+}
+
+fn terminal_forbidden_actions_are_all_false(actions: &BTreeMap<String, bool>) -> bool {
+    const REQUIRED_FALSE_ACTIONS: &[&str] = &[
+        "deletion",
+        "reset",
+        "staging",
+        "commit",
+        "push",
+        "publication",
+        "archive",
+        "branch_cleanup",
+        "git_ref_mutation",
+        "cleaned_claim",
+    ];
+    REQUIRED_FALSE_ACTIONS
+        .iter()
+        .all(|action| actions.get(*action) == Some(&false))
+        && !actions.values().any(|performed| *performed)
+}
+
+fn parse_terminal_flat_receipt_fields(path: &Path) -> Result<BTreeMap<String, String>> {
+    let mut fields = BTreeMap::new();
+    let raw = fs::read_to_string(path)?;
+    for line in raw.lines() {
+        let trimmed = line.trim();
+        if trimmed.is_empty()
+            || line != trimmed
+            || trimmed.starts_with('#')
+            || trimmed.starts_with('-')
+        {
+            continue;
+        }
+        let Some((key, value)) = trimmed.split_once(':') else {
+            continue;
+        };
+        if key
+            .chars()
+            .all(|ch| ch.is_ascii_alphanumeric() || ch == '_')
+        {
+            fields.insert(key.to_string(), terminal_unquote_scalar(value.trim()));
+        }
+    }
+    Ok(fields)
+}
+
+fn terminal_unquote_scalar(value: &str) -> String {
+    value
+        .trim()
+        .trim_matches('"')
+        .trim_matches('\'')
+        .to_string()
+}
+
+fn terminal_is_safe_repo_relative(path: &str) -> bool {
+    if path.trim().is_empty()
+        || path.starts_with('/')
+        || path.starts_with('~')
+        || path.contains('\\')
+        || path.contains('\0')
+    {
+        return false;
+    }
+    !Path::new(path).components().any(|component| {
+        matches!(
+            component,
+            std::path::Component::ParentDir
+                | std::path::Component::RootDir
+                | std::path::Component::Prefix(_)
+        )
+    })
+}
+
+fn terminal_path_in_scope(
+    path: &str,
+    proposal_rel: &str,
+    manifest: &ProposalManifest,
+    program_run_id: &str,
+) -> bool {
     let proposal_validation_prefix = format!(
         ".octon/state/evidence/validation/proposals/{}/",
         manifest.proposal_id
     );
+    let run_cleanup_evidence_prefix = if program_run_id.trim().is_empty() {
+        None
+    } else {
+        Some(format!(
+            ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/{}/",
+            program_run_id.trim()
+        ))
+    };
+    let local_cleanup_evidence_prefix = if program_run_id.trim().is_empty() {
+        None
+    } else {
+        Some(format!(
+            ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/{}",
+            program_run_id.trim()
+        ))
+    };
     path == proposal_rel
         || path.starts_with(&format!("{proposal_rel}/"))
         || path.starts_with(".octon/state/evidence/runs/workflows/")
@@ -4598,6 +5291,14 @@ fn terminal_path_in_scope(path: &str, proposal_rel: &str, manifest: &ProposalMan
         || path.starts_with(".octon/state/continuity/runs/")
         || path.starts_with(".octon/state/evidence/external-index/runs/")
         || path.starts_with(&proposal_validation_prefix)
+        || run_cleanup_evidence_prefix
+            .as_deref()
+            .map(|prefix| path.starts_with(prefix))
+            .unwrap_or(false)
+        || local_cleanup_evidence_prefix
+            .as_deref()
+            .map(|prefix| path.starts_with(prefix))
+            .unwrap_or(false)
         || manifest.promotion_targets.iter().any(|target| {
             path == target || path.starts_with(&format!("{}/", target.trim_end_matches('/')))
         })
@@ -5122,7 +5823,7 @@ fn build_terminal_receipt_yaml(
         })
         .collect::<String>();
     format!(
-        "schema_version: proposal-packet-terminal-closeout-receipt-v1\nterminal_run_id: {}\nterminalized_at: {}\npacket:\n  proposal_id: {}\n  path: {}\n  proposal_kind: {}\n  status: {}\ntarget_outcome: {}\nterminal_verdict: {}\narchive_ready: {}\nprofile:\n  profile_ref: {}\n  profile_digest: {}\n  profile_validation_evidence_ref: {}\nstate_ledger:\n{}implementation:\n  conformance_receipt_ref: {}\n  conformance_validator_ref: {}\n  conformance_fresh: {}\n  post_implementation_drift_receipt_ref: {}\n  post_implementation_drift_validator_ref: {}\n  post_implementation_drift_fresh: {}\ndurable_implementation_state_evidence_refs:\n{}\npublication_freshness:\n  validators:\n{}  publisher_refresh_receipts: []\n  rerun_evidence_refs:\n{}\n  direct_generated_output_edit_used: false\ngenerated_input_non_authority:\n  validation_ref: {}\n  proposal_inputs_non_authority: true\n  generated_outputs_non_authority: true\n  generated_prompts_non_authority: true\n  host_state_non_authority: true\n  chat_state_non_authority: true\n  tool_state_non_authority: true\n  model_memory_non_authority: true\nrun_health:\n  validation_ref: {}\n  verdict: {}\ncapability_publication:\n  validation_ref: {}\n  verdict: {}\nextension_publication:\n  validation_ref: {}\n  verdict: {}\nrepo_hygiene:\n  classification_ref: {}\n  cleanup_performed: false\n  cleanup_authorization_refs: []\n  unauthorized_deletion_performed: false\nworktree_hygiene:\n  classification_ref: {}\n  verdict: {}\n  foreign_or_ambiguous_count: {}\n  retained_fixture_path_count: {}\n  fixture_retention_refs:\n{}  dirty_worktree: {}\nevidence_only_reviews:\n  post_integration_architecture_review_ref: {}\n  post_integration_architecture_review_authority: evidence-only\n  packet_terminal_evaluator_ref: {}\n  packet_terminal_evaluator_authority: evidence-only\n  lifecycle_postmortem_ref: {}\n  lifecycle_postmortem_authority: evidence-only\ngit_github_route:\n  route_ref: {}\n  branch_no_pr: false\n  mutation_delegated: true\n  exact_sha_checks_ref: not-applicable\n  landing_authorization_ref: not-applicable\n  branch_cleanup_required: false\n  branch_cleanup_authorization_ref: not-applicable\narchive_boundary:\n  archive_owner_ref: .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml\n  relocation_performed: false\nblocker:\n  class: {}\n  detail: {}\n  failing_evidence_ref: {}\n  next_canonical_route: {}\nretained_evidence_inventory:\n{}\nexpected_no_new_evidence_loop: true\nnon_authority_declarations:\n  proposal_inputs: non-authority\n  generated_outputs: derived-only-non-authority\n  generated_prompts: non-authority\n  host_state: non-authority\n  dashboards: non-authority\n  chat: non-authority\n  tool_state: non-authority\n  model_memory: non-authority\ntarget_owned_evidence_policy:\n  cites_target_owned_evidence: true\n  aggregate_receipt_replaces_target_owned_receipts: false\n",
+        "schema_version: proposal-packet-terminal-closeout-receipt-v1\nterminal_run_id: {}\nterminalized_at: {}\npacket:\n  proposal_id: {}\n  path: {}\n  proposal_kind: {}\n  status: {}\ntarget_outcome: {}\nterminal_verdict: {}\narchive_ready: {}\nprofile:\n  profile_ref: {}\n  profile_digest: {}\n  profile_validation_evidence_ref: {}\nstate_ledger:\n{}implementation:\n  conformance_receipt_ref: {}\n  conformance_validator_ref: {}\n  conformance_fresh: {}\n  post_implementation_drift_receipt_ref: {}\n  post_implementation_drift_validator_ref: {}\n  post_implementation_drift_fresh: {}\ndurable_implementation_state_evidence_refs:\n{}\npublication_freshness:\n  validators:\n{}  publisher_refresh_receipts: []\n  rerun_evidence_refs:\n{}\n  direct_generated_output_edit_used: false\ngenerated_input_non_authority:\n  validation_ref: {}\n  proposal_inputs_non_authority: true\n  generated_outputs_non_authority: true\n  generated_prompts_non_authority: true\n  host_state_non_authority: true\n  chat_state_non_authority: true\n  tool_state_non_authority: true\n  model_memory_non_authority: true\nrun_health:\n  validation_ref: {}\n  verdict: {}\ncapability_publication:\n  validation_ref: {}\n  verdict: {}\nextension_publication:\n  validation_ref: {}\n  verdict: {}\nrepo_hygiene:\n  classification_ref: {}\n  cleanup_performed: false\n  cleanup_authorization_refs: []\n  unauthorized_deletion_performed: false\nworktree_hygiene:\n  classification_ref: {}\n  verdict: {}\n  foreign_or_ambiguous_count: {}\n  retained_fixture_path_count: {}\n  fixture_retention_refs:\n{}  closeout_worktree_covered_path_count: {}\n  closeout_worktree_report_refs:\n{}  dirty_worktree: {}\nevidence_only_reviews:\n  post_integration_architecture_review_ref: {}\n  post_integration_architecture_review_authority: evidence-only\n  packet_terminal_evaluator_ref: {}\n  packet_terminal_evaluator_authority: evidence-only\n  lifecycle_postmortem_ref: {}\n  lifecycle_postmortem_authority: evidence-only\ngit_github_route:\n  route_ref: {}\n  branch_no_pr: false\n  mutation_delegated: true\n  exact_sha_checks_ref: not-applicable\n  landing_authorization_ref: not-applicable\n  branch_cleanup_required: false\n  branch_cleanup_authorization_ref: not-applicable\narchive_boundary:\n  archive_owner_ref: .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml\n  relocation_performed: false\nblocker:\n  class: {}\n  detail: {}\n  failing_evidence_ref: {}\n  next_canonical_route: {}\nretained_evidence_inventory:\n{}\nexpected_no_new_evidence_loop: true\nnon_authority_declarations:\n  proposal_inputs: non-authority\n  generated_outputs: derived-only-non-authority\n  generated_prompts: non-authority\n  host_state: non-authority\n  dashboards: non-authority\n  chat: non-authority\n  tool_state: non-authority\n  model_memory: non-authority\ntarget_owned_evidence_policy:\n  cites_target_owned_evidence: true\n  aggregate_receipt_replaces_target_owned_receipts: false\n",
         terminal_yaml_quote(terminal_run_id),
         terminal_yaml_quote(terminalized_at),
         terminal_yaml_quote(&manifest.proposal_id),
@@ -5174,6 +5875,8 @@ fn build_terminal_receipt_yaml(
         worktree.foreign_or_ambiguous_count,
         worktree.retained_fixture_path_count,
         terminal_yaml_array_or_empty(&worktree.retained_fixture_receipt_refs, "  "),
+        worktree.closeout_worktree_covered_path_count,
+        terminal_yaml_array_or_empty(&worktree.closeout_worktree_report_refs, "  "),
         if worktree.dirty_worktree { "true" } else { "false" },
         terminal_yaml_quote(&evidence_review_rel),
         terminal_yaml_quote(&evidence_review_rel),
@@ -8986,6 +9689,64 @@ mod tests {
         fs::write(path, contents).expect("file should be written");
     }
 
+    fn empty_terminal_closeout_coverage() -> TerminalCloseoutWorktreeCoverage {
+        TerminalCloseoutWorktreeCoverage {
+            by_path: BTreeMap::new(),
+            report_refs: BTreeSet::new(),
+            rejected_refs: Vec::new(),
+        }
+    }
+
+    fn terminal_test_manifest() -> ProposalManifest {
+        ProposalManifest {
+            schema_version: "proposal-v1".to_string(),
+            proposal_id: "child-proposal".to_string(),
+            title: "Child Proposal".to_string(),
+            summary: "test".to_string(),
+            proposal_kind: "architecture".to_string(),
+            promotion_scope: "atomic".to_string(),
+            promotion_targets: vec!["framework/runtime.rs".to_string()],
+            status: "implemented".to_string(),
+            archive: None,
+            lifecycle: ProposalLifecycle {
+                temporary: false,
+                exit_expectation: "archive-ready".to_string(),
+            },
+            related_proposals: Vec::new(),
+            extra: BTreeMap::new(),
+        }
+    }
+
+    #[test]
+    fn terminal_path_scope_includes_current_program_repo_hygiene_cleanup_evidence() {
+        let manifest = terminal_test_manifest();
+
+        assert!(terminal_path_in_scope(
+            ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/program-run/cleanup-receipt.yml",
+            ".octon/inputs/exploratory/proposals/architecture/child-proposal",
+            &manifest,
+            "program-run",
+        ));
+        assert!(terminal_path_in_scope(
+            ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/program-run-cleanup-route/raw.log",
+            ".octon/inputs/exploratory/proposals/architecture/child-proposal",
+            &manifest,
+            "program-run",
+        ));
+        assert!(!terminal_path_in_scope(
+            ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/other-run/cleanup-receipt.yml",
+            ".octon/inputs/exploratory/proposals/architecture/child-proposal",
+            &manifest,
+            "program-run",
+        ));
+        assert!(!terminal_path_in_scope(
+            ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/program-run/cleanup-receipt.yml",
+            ".octon/inputs/exploratory/proposals/architecture/child-proposal",
+            &manifest,
+            "",
+        ));
+    }
+
     #[test]
     fn terminal_acp_diff_accepts_only_current_run_appends() {
         let run_id = "proposal-packet-terminal-closeout-123-456";
@@ -9020,6 +9781,271 @@ index 1111111..2222222 100644
             &missing_run_id,
             run_id
         ));
+    }
+
+    #[test]
+    fn terminal_closeout_consumes_non_mutating_parent_worktree_handoff() {
+        let root = make_temp_root("terminal-parent-worktree-handoff");
+        let classifier_ref = ".octon/state/evidence/runs/workflows/program-run/parent/worktree.yml";
+        let cleanup_ref =
+            ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/program-run/receipt.yml";
+        let report_ref = ".octon/state/evidence/validation/analysis/parent-report.yml";
+        let return_ref =
+            ".octon/state/evidence/runs/workflows/program-run/lifecycle-interactions/parent-return.json";
+        write_file(
+            &root.join(classifier_ref),
+            "worktree_hygiene_foreign_fingerprint: sha256:parent\n",
+        );
+        write_file(&root.join(cleanup_ref), "schema_version: cleanup\n");
+        let cleanup_digest = terminal_file_digest(&root.join(cleanup_ref)).unwrap();
+        write_file(
+            &root.join(report_ref),
+            &format!(
+                r#"schema_version: closeout-worktree-report-v1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+candidates:
+  - candidate_id: parent-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    boundaries:
+      include_paths:
+        - foreign/manual.md
+    proposal_program_parent_handoff_authorization:
+      authorization_grant: operator-authorized-parent-residue-preserve-and-exclude-for-lifecycle-closeout
+      program_run_id: program-run
+      parent_route_id: cleanup-lifecycle-residue
+      cleanup_receipt_ref: {cleanup_ref}
+      cleanup_receipt_digest: "{cleanup_digest}"
+      classifier_output_ref: {classifier_ref}
+      classifier_output_digest: "{classifier_digest}"
+      authorized_foreign_fingerprint: "sha256:parent"
+      foreign_fingerprint: "sha256:parent"
+      authorized_paths:
+        - foreign/manual.md
+      disposition: preserve-and-exclude-from-lifecycle-closeout-blocking
+      outside_child_owned_closeout_authority: true
+      separately_partitioned_for_later_legal_closeout: true
+      non_mutating: true
+      preserve_and_exclude_from_lifecycle_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+final_candidate_dispositions:
+  parent-residue:
+    state: foreign
+"#,
+                cleanup_ref = cleanup_ref,
+                cleanup_digest = cleanup_digest,
+                classifier_ref = classifier_ref,
+                classifier_digest = terminal_file_digest(&root.join(classifier_ref)).unwrap()
+            ),
+        );
+        let report_digest = terminal_file_digest(&root.join(report_ref)).unwrap();
+        write_file(
+            &root.join(return_ref),
+            &format!(
+                r#"{{
+  "schema_version": "lifecycle-interaction-return-v1",
+  "consumer": {{"lifecycle_id": "closeout-worktree"}},
+  "outcome": {{"completed": true, "non_mutating": true, "cleaned_claim": false}},
+  "return_evidence_refs": [
+    {{"ref": "{report_ref}", "digest": "{report_digest}", "schema_version": "closeout-worktree-report-v1"}}
+  ]
+}}
+"#
+            ),
+        );
+
+        let mut coverage = empty_terminal_closeout_coverage();
+        add_terminal_closeout_return_coverage(
+            &root,
+            return_ref,
+            "program-run",
+            "child-id",
+            &mut coverage,
+        )
+        .unwrap();
+
+        assert!(coverage.by_path.contains_key("foreign/manual.md"));
+        assert!(coverage.report_refs.contains(report_ref));
+        assert!(coverage.rejected_refs.is_empty());
+    }
+
+    #[test]
+    fn terminal_closeout_rejects_parent_handoff_with_forbidden_mutation() {
+        let root = make_temp_root("terminal-parent-worktree-handoff-mutating");
+        let classifier_ref = ".octon/state/evidence/runs/workflows/program-run/parent/worktree.yml";
+        let cleanup_ref =
+            ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/program-run/receipt.yml";
+        let report_ref = ".octon/state/evidence/validation/analysis/parent-report.yml";
+        write_file(
+            &root.join(classifier_ref),
+            "worktree_hygiene_foreign_fingerprint: sha256:parent\n",
+        );
+        write_file(&root.join(cleanup_ref), "schema_version: cleanup\n");
+        write_file(
+            &root.join(report_ref),
+            &format!(
+                r#"schema_version: closeout-worktree-report-v1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: true
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+candidates:
+  - candidate_id: parent-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    boundaries:
+      include_paths:
+        - foreign/manual.md
+    proposal_program_parent_handoff_authorization:
+      authorization_grant: operator-authorized-parent-residue-preserve-and-exclude-for-lifecycle-closeout
+      program_run_id: program-run
+      parent_route_id: cleanup-lifecycle-residue
+      cleanup_receipt_ref: {cleanup_ref}
+      cleanup_receipt_digest: "{cleanup_digest}"
+      classifier_output_ref: {classifier_ref}
+      classifier_output_digest: "{classifier_digest}"
+      authorized_foreign_fingerprint: "sha256:parent"
+      foreign_fingerprint: "sha256:parent"
+      authorized_paths:
+        - foreign/manual.md
+      disposition: preserve-and-exclude-from-lifecycle-closeout-blocking
+      outside_child_owned_closeout_authority: true
+      non_mutating: true
+      preserve_and_exclude_from_lifecycle_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: true
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+final_candidate_dispositions:
+  parent-residue:
+    state: foreign
+"#,
+                cleanup_ref = cleanup_ref,
+                cleanup_digest = terminal_file_digest(&root.join(cleanup_ref)).unwrap(),
+                classifier_ref = classifier_ref,
+                classifier_digest = terminal_file_digest(&root.join(classifier_ref)).unwrap()
+            ),
+        );
+
+        let mut coverage = empty_terminal_closeout_coverage();
+        add_terminal_closeout_report_coverage(
+            &root,
+            report_ref,
+            Some(&terminal_file_digest(&root.join(report_ref)).unwrap()),
+            "program-run",
+            "child-id",
+            &mut coverage,
+        )
+        .unwrap();
+
+        assert!(!coverage.by_path.contains_key("foreign/manual.md"));
+        assert!(!coverage.rejected_refs.is_empty());
+    }
+
+    #[test]
+    fn terminal_closeout_consumes_child_handoff_without_substituting_child_authority() {
+        let root = make_temp_root("terminal-child-worktree-handoff");
+        let classifier_ref =
+            ".octon/state/evidence/runs/workflows/program-run/children/child-id/worktree.yml";
+        let report_ref = ".octon/state/evidence/validation/analysis/child-report.yml";
+        write_file(
+            &root.join(classifier_ref),
+            "worktree_hygiene_foreign_fingerprint: sha256:child\n",
+        );
+        write_file(
+            &root.join(report_ref),
+            &format!(
+                r#"schema_version: closeout-worktree-report-v1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+candidates:
+  - candidate_id: child-foreign
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    boundaries:
+      include_paths:
+        - foreign/child.md
+    proposal_program_handoff_authorization:
+      child_id: child-id
+      route_id: closeout-packet
+      classifier_output_ref: {classifier_ref}
+      classifier_output_digest: "{classifier_digest}"
+      authorized_foreign_fingerprint: "sha256:child"
+      foreign_fingerprint: "sha256:child"
+      authorized_paths:
+        - foreign/child.md
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+final_candidate_dispositions:
+  child-foreign:
+    state: foreign
+"#,
+                classifier_ref = classifier_ref,
+                classifier_digest = terminal_file_digest(&root.join(classifier_ref)).unwrap()
+            ),
+        );
+
+        let mut coverage = empty_terminal_closeout_coverage();
+        add_terminal_closeout_report_coverage(
+            &root,
+            report_ref,
+            Some(&terminal_file_digest(&root.join(report_ref)).unwrap()),
+            "program-run",
+            "child-id",
+            &mut coverage,
+        )
+        .unwrap();
+
+        let entry = coverage.by_path.get("foreign/child.md").unwrap();
+        assert_eq!(entry.coverage_kind, "child-closeout-worktree");
+        assert!(coverage.report_refs.contains(report_ref));
     }
 
     #[test]

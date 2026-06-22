@@ -1,0 +1,29 @@
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' octon-internal targets stay under .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' avoids mixed target families
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' promotion target avoids proposal-path backreferences: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' promotion target avoids proposal-path backreferences: .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' promotion target avoids proposal-path backreferences: .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' promotion target avoids proposal-path backreferences: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks' assurance test fixture target may include proposal-path examples: .octon/framework/assurance/runtime/_ops/tests/
+Validation summary: errors=0 warnings=0

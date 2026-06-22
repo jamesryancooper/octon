@@ -1,0 +1,14 @@
+# Child Packet Index
+
+- `complete-program-blocker-vector-planner-output`: Produce a complete blocker vector before mutation and distinguish blockers, diagnostics, and route-ready state. Dependencies: none.
+- `lifecycle-validator-runtime-resolver`: Resolve the repository-supported shell/runtime before lifecycle validator dispatch without weakening gates. Dependencies: none.
+- `proposal-program-execution-mode-normalization`: Normalize or alias execution modes across program manifests, registries, contracts, validators, and planner code. Dependencies: lifecycle-validator-runtime-resolver.
+- `normalized-child-terminal-evidence-summary`: Add or compute a normalized terminal evidence summary for child packets and archived children. Dependencies: complete-program-blocker-vector-planner-output.
+- `completed-plan-nonblocking-diagnostics`: Move irrelevant stale receipt data into compact nonblocking diagnostics when final_verdict is completed. Dependencies: normalized-child-terminal-evidence-summary.
+- `targeted-proposal-freshness-checks`: Add safe targeted freshness checks for one proposal plus dependency refs while retaining full registry as final gate. Dependencies: complete-program-blocker-vector-planner-output.
+- `batched-review-and-architecture-digest-refresh`: Batch digest refresh after phase-stable mutations and provide deterministic stale-cause diagnostics. Dependencies: targeted-proposal-freshness-checks.
+- `autonomous-proposal-program-recovery-envelope`: Add a bounded autonomous recovery envelope for low-risk governed routes until the next material side effect. Dependencies: complete-program-blocker-vector-planner-output, lifecycle-validator-runtime-resolver, proposal-program-execution-mode-normalization, normalized-child-terminal-evidence-summary, batched-review-and-architecture-digest-refresh, targeted-proposal-freshness-checks.
+- `delivery-retained-evidence-index`: Create a compact retained delivery evidence index for local terminal proof bundles. Dependencies: normalized-child-terminal-evidence-summary.
+- `proposal-program-delivery-postmortem-evaluation-profile`: Extend the generic lifecycle postmortem mechanism with a proposal-program delivery evaluation profile for any completed proposal-program lifecycle. Dependencies: complete-program-blocker-vector-planner-output, normalized-child-terminal-evidence-summary, delivery-retained-evidence-index.
+- `branch-no-pr-delivery-receipt-builder`: Provide a canonical receipt builder for hosted landing, sync, cleanup authorization, branch cleanup, and cleaned proof. Dependencies: delivery-retained-evidence-index.
+- `branch-no-pr-bounded-authorization-envelope`: Define and validate a bounded authorization envelope with staged proof locks for branch-no-PR delivery. Dependencies: branch-no-pr-delivery-receipt-builder.

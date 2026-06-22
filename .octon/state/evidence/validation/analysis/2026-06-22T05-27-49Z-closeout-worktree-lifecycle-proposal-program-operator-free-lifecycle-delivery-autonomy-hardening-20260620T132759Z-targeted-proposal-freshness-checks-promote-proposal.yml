@@ -1,0 +1,51 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-targeted-proposal-freshness-checks-promote-proposal-closeout-worktree
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/promote-proposal-closeout-worktree-hygiene.yml
+residue_classification_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/promote-proposal-closeout-worktree-hygiene.yml
+final_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/promote-proposal-closeout-worktree-hygiene.yml
+selected_candidate_id: targeted-proposal-freshness-checks-promote-proposal-change
+candidates:
+  - candidate_id: targeted-proposal-freshness-checks-promote-proposal-change
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: selected promotion change requires singular closeout-change authority; closeout-worktree inspected and partitioned only
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: preserve-only; no mutation performed by closeout-worktree
+    boundaries:
+      include_paths:
+        - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+        - .octon/framework/assurance/runtime/_ops/tests
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+        - .octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks
+      exclude_paths:
+        - .git
+        - .octon/generated
+        - .octon/state/control
+        - .octon/state/evidence
+iterations: []
+final_candidate_dispositions:
+  targeted-proposal-freshness-checks-promote-proposal-change:
+    state: blocked
+retained_residue: []
+blockers:
+  - candidate_id: targeted-proposal-freshness-checks-promote-proposal-change
+    blocker: closeout-change-route-authority-required
+    reason: closeout-worktree request is non-authorizing and forbids git-ref mutation, worktree cleanup, publication, archive, and cleaned claims; the selected promotion change must be routed through closeout-change or another selected legal route before cleaned can be claimed
+    handoff_request_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-targeted-proposal-freshness-checks-promote-proposal.json
+    classifier_output_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/targeted-proposal-freshness-checks/promote-proposal-closeout-worktree-hygiene.yml
+    classifier_output_digest: sha256:52d48daedf943ac1a5b722048fde2cda737a1adc146bd1b541b6af91c730b062
+    handoff_request_digest: sha256:e3f9ac9bcb3da872abe9994293c14e15f233bfb510211a789ddd7e2bf6778588
+final_residue_classes:
+  ignored: 0
+worktree_terminal_state: nonterminal
+next_route_condition: route selected candidate through closeout-change under active route authority before cleaned claim

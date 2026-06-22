@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/context/context-pack.json
+context_pack_sha256: sha256:fbd034aec53978d58ef5c228c6d15803fe19286748a964967915bf96d446fcce
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/context/model-visible-context.json
+model_visible_context_sha256: sha256:0d8b04d3d82cb02bf9e24e33c203f6dcd18dd70673e43bf4b5f241dac6bb6ddd
+receipt_sha256: sha256:294157e432e780e7338961348019a8f4c7499b3dcb7a9d5a39626d774ea09c35
+route_id: closeout-packet
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver
+schema_version: active-context-pack-v1
+updated_at: 2026-06-22T13:20:59.458076Z
+validity_state: valid

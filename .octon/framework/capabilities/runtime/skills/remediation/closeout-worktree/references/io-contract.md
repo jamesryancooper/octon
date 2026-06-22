@@ -174,6 +174,58 @@ A selected candidate may stop before delegation only when candidate-keyed
 blocker evidence explains why the selected candidate itself cannot safely run
 through `closeout-change`.
 
+When a proposal-program `lifecycle-interaction-request-v1` asks for
+`closeout-worktree` handoff of `artifact-ownership-unclear` closeout residue,
+a `foreign_manual_review` candidate may include raw/private Octon paths only
+when it records `proposal_program_handoff_authorization` with:
+
+- `authorization_grant` or `outside_child_route_write_scope: true`
+- `child_id`, `route_id`, `interaction_request_ref`
+- `classifier_output_ref` and matching `classifier_output_digest`
+- `authorized_foreign_fingerprint` matching the classifier output
+- `authorized_paths` exactly matching `boundaries.include_paths`
+- `disposition: preserve-and-exclude-from-child-closeout-blocking`
+- `non_mutating: true`
+- `preserve_and_exclude_from_child_closeout_blocking: true`
+- `parent_summary_not_child_closeout_receipt: true`
+- `child_closeout_authority_preserved: true`
+- `forbidden_actions` with every mutation, publication, archive, cleanup, and
+  `cleaned` claim value set to `false`
+
+This authorization supports retained/foreign disposition evidence only. It
+does not authorize deletion, reset, staging, commit, publication, branch
+cleanup, archive, promotion, child receipt replacement, child validation
+replacement, archive authorization replacement, or child lifecycle outcome
+replacement.
+
+When a parent `cleanup-lifecycle-residue` handoff has route-specific operator
+authorization to preserve and exclude parent residue from lifecycle closeout
+blocking, a `foreign_manual_review` candidate may instead include
+`proposal_program_parent_handoff_authorization` with:
+
+- `authorization_grant`, `program_run_id`, and
+  `parent_route_id: cleanup-lifecycle-residue`
+- `cleanup_receipt_ref` and matching `cleanup_receipt_digest`
+- `classifier_output_ref` and matching `classifier_output_digest`
+- `authorized_foreign_fingerprint` matching the classifier output
+- `authorized_paths` exactly matching `boundaries.include_paths`
+- `disposition: preserve-and-exclude-from-lifecycle-closeout-blocking`
+- `outside_child_owned_closeout_authority: true` or
+  `separately_partitioned_for_later_legal_closeout: true`
+- `non_mutating: true`
+- `preserve_and_exclude_from_lifecycle_closeout_blocking: true`
+- `parent_summary_not_child_closeout_receipt: true`
+- `child_closeout_authority_preserved: true`
+- `parent_evidence_replaces_child_evidence: false`
+- `forbidden_actions` with deletion, reset, staging, commit, push,
+  publication, archive, branch cleanup, git ref mutation, and `cleaned` claim
+  values all set to `false`
+
+This parent authorization supports preserved/foreign disposition for the named
+lifecycle blocker only. It does not authorize archive, publication, cleanup,
+branch cleanup, git mutation, a `cleaned` claim, or replacement of child-owned
+receipts, child validation, archive authorization, or child lifecycle outcomes.
+
 A fixture residue candidate may use `residue_routing_class:
 local_private_retained` only when it includes
 `fixture_retention_receipt_ref` pointing to a validating

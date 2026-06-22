@@ -1,0 +1,61 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+run_id: "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z"
+route_id: "cleanup-lifecycle-residue"
+created_at: "2026-06-22T06:48:26Z"
+cleanup_route: "authorization-receipt"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260622T064440Z.json"
+authorization_digest: "sha256:ea1ad1fc346bedd0b5c180dcf2eb3995e35b98c457072a3c5b4831a442680c0c"
+authorization_id: "repo-hygiene-cleanup-f99768c128ad0d7a"
+authorization_result: "approved"
+authorized_path_count: 2
+authorized_path_classes:
+  local_run_residue: 2
+deleted_count: 2
+redaction_posture: "publishable receipt excludes raw helper path listings and local-private payloads"
+local_private_evidence_ref: ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-cleanup-lifecycle-residue-20260622T064440Z/post-cleanup-summary.yml"
+local_private_evidence_digest: "sha256:4d0eb5a7c6765145ec2f92418e1782d8d10f864f66ae63c556a4ce78c3594e09"
+pre_cleanup_helper:
+  mode: "dry-run"
+  cleanup_candidates: 2
+  eligible_cleanup_candidates: 2
+  protected_referenced: 227
+  manual_review: 59
+  git_status_digest: "sha256:7adc1891253b76889573cb8177a27ee68a7a05b267d5b1b46689ec294c0157b2"
+  classification_digest: "sha256:475fcdcc6e7c9b1f233c97e4f66097abae2f6cbe5a80b47ea10ef12d9f0b3457"
+  cleanup_path_set_digest: "sha256:4cf6cfbb00726b901814c49c10f8d4c0a6c63407f0df252a89831b3fa8919429"
+  protected_paths_digest: "sha256:b2de06568e1804274ef7c24aff8e0aa1c19872e82bcf2d56502717971ec51631"
+  manual_review_paths_digest: "sha256:ba3fe40f4ae27ac68a7a596b93f18dce225c410d4eaf317f7980bb1ea127036a"
+authorization_helper:
+  mode: "authorization"
+  cleanup_candidates: 2
+  eligible_cleanup_candidates: 2
+  protected_referenced: 227
+  manual_review: 59
+  git_status_digest: "sha256:7adc1891253b76889573cb8177a27ee68a7a05b267d5b1b46689ec294c0157b2"
+  classification_digest: "sha256:475fcdcc6e7c9b1f233c97e4f66097abae2f6cbe5a80b47ea10ef12d9f0b3457"
+  cleanup_path_set_digest: "sha256:4cf6cfbb00726b901814c49c10f8d4c0a6c63407f0df252a89831b3fa8919429"
+  protected_paths_digest: "sha256:b2de06568e1804274ef7c24aff8e0aa1c19872e82bcf2d56502717971ec51631"
+  manual_review_paths_digest: "sha256:ba3fe40f4ae27ac68a7a596b93f18dce225c410d4eaf317f7980bb1ea127036a"
+post_cleanup_helper:
+  mode: "dry-run"
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 228
+  manual_review: 59
+  git_status_digest: "sha256:8bad60c4b9f6cd5e5cfc6c1c671ae91458dd633bddc5c52bbfe6b4d76a48ab2e"
+  classification_digest: "sha256:0d25725cdbc683b1bc2ddf638383ca45f7a34b63045b87a055248ecf153f5c22"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:168367eb35ac007843efebcc5d468e34da75139f17ede205618d0639e5bccf16"
+  manual_review_paths_digest: "sha256:ba3fe40f4ae27ac68a7a596b93f18dce225c410d4eaf317f7980bb1ea127036a"
+cleanup_outcome: "delegated-cleaned-then-reintroduced"
+reintroduced_after_cleanup:
+  detected: true
+  count: 2
+  detected_refs:
+    - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-normalized-child-terminal-evidence-summary/lifecycle-interaction-request.json"
+    - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-normalized-child-terminal-evidence-summary/worktree-hygiene.yml"
+  retained_rationale: "The paths reappeared after authorized deletion and are referenced by the normalized child packet closeout receipt as closeout-worktree handoff evidence; preserve for manual closeout-worktree routing instead of repeated deletion."
+remaining_blocker: "worktree hygiene remains blocked by foreign/manual-review paths and reintroduced child closeout handoff evidence"
+authority_boundary: "classification and cleanup receipts do not authorize publication, archive, branch cleanup, closeout, promotion, or cleaned claims"

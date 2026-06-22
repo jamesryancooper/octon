@@ -1,0 +1,31 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "autonomous-proposal-program-recovery-envelope-pre-integration-architecture-review-20260620T132000Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope"
+packet_digest: "sha256:40862c556f8e6c37d9e8e5c82642a9fa03473677b73c73d38fc3bd01b2056233"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/navigation/source-of-truth-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/navigation/artifact-catalog.md"
+  - ".octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope/resources/source-lineage.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict child-local pre-integration review covers autonomous program recovery envelope before implementation authorization."
+  target_architecture_fit: "The packet bounds autonomous recovery to deterministic local blockers and stops before material side effects."
+  authority_boundaries: "Recovery evidence remains retained route evidence and cannot override human-only boundaries."
+  evidence_and_validation_plan: "Validation strategy covers recovery envelope stopping behavior, lifecycle planning, and program structure."
+  rollback_and_closeout: "Rollback remains bounded to the child-declared promotion targets and child-owned lifecycle evidence."

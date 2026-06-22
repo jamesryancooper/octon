@@ -155,6 +155,12 @@ validate_static() {
   require_literal "$WRAPPER_IO" "final_candidate_dispositions" \
     "I/O contract documents final candidate dispositions" \
     "I/O contract must document final candidate dispositions"
+  require_literal "$WRAPPER_IO" "proposal_program_handoff_authorization" \
+    "I/O contract documents proposal-program handoff authorization" \
+    "I/O contract must document proposal-program handoff authorization"
+  require_literal "$WRAPPER_VALIDATION" "proposal_program_handoff_authorization" \
+    "validation documents proposal-program handoff authorization checks" \
+    "validation must document proposal-program handoff authorization checks"
   require_literal "$WRAPPER_IO" "Each iteration must include" \
     "I/O contract documents orchestration iterations" \
     "I/O contract must document orchestration iterations"
@@ -1069,6 +1075,228 @@ def path_is_raw_private_or_unsafe(value):
     return False
 
 
+def looks_like_sha256(value):
+    if not is_nonempty_string(value) or not value.startswith("sha256:") or len(value) != 71:
+        return False
+    return all(ch in "0123456789abcdef" for ch in value.removeprefix("sha256:"))
+
+
+def proposal_program_handoff_authorizes_path(candidate, path):
+    if not isinstance(candidate, dict):
+        return False
+    auth = candidate.get("proposal_program_handoff_authorization")
+    if not isinstance(auth, dict):
+        return False
+    authorized_paths = auth.get("authorized_paths")
+    if not isinstance(authorized_paths, list):
+        return False
+    return (
+        path_text(path) in {path_text(item) for item in authorized_paths if is_nonempty_string(item)}
+        and auth.get("non_mutating") is True
+        and auth.get("preserve_and_exclude_from_child_closeout_blocking") is True
+        and auth.get("parent_summary_not_child_closeout_receipt") is True
+        and auth.get("child_closeout_authority_preserved") is True
+        and auth.get("disposition") == "preserve-and-exclude-from-child-closeout-blocking"
+    )
+
+
+def proposal_program_parent_handoff_authorizes_path(candidate, path):
+    if not isinstance(candidate, dict):
+        return False
+    auth = candidate.get("proposal_program_parent_handoff_authorization")
+    if not isinstance(auth, dict):
+        return False
+    authorized_paths = auth.get("authorized_paths")
+    if not isinstance(authorized_paths, list):
+        return False
+    return (
+        path_text(path) in {path_text(item) for item in authorized_paths if is_nonempty_string(item)}
+        and auth.get("non_mutating") is True
+        and auth.get("preserve_and_exclude_from_lifecycle_closeout_blocking") is True
+        and auth.get("parent_summary_not_child_closeout_receipt") is True
+        and auth.get("child_closeout_authority_preserved") is True
+        and auth.get("parent_evidence_replaces_child_evidence") is False
+        and auth.get("disposition") == "preserve-and-exclude-from-lifecycle-closeout-blocking"
+    )
+
+
+def validate_proposal_program_handoff_authorization(candidate, include_paths, prefix):
+    auth = candidate.get("proposal_program_handoff_authorization") if isinstance(candidate, dict) else None
+    if auth is None:
+        return False
+    if not isinstance(auth, dict):
+        fail(f"{prefix}.proposal_program_handoff_authorization must be a mapping")
+        return False
+
+    for field in (
+        "child_id",
+        "route_id",
+        "interaction_request_ref",
+        "classifier_output_ref",
+        "classifier_output_digest",
+        "authorized_foreign_fingerprint",
+        "disposition",
+    ):
+        require(is_nonempty_string(auth.get(field)), f"{prefix}.proposal_program_handoff_authorization.{field} must be present")
+
+    has_explicit_grant = is_nonempty_string(auth.get("authorization_grant"))
+    has_outside_scope_proof = auth.get("outside_child_route_write_scope") is True
+    require(
+        has_explicit_grant or has_outside_scope_proof,
+        f"{prefix}.proposal_program_handoff_authorization must include authorization_grant or outside_child_route_write_scope: true",
+    )
+    require(
+        auth.get("disposition") == "preserve-and-exclude-from-child-closeout-blocking",
+        f"{prefix}.proposal_program_handoff_authorization.disposition must preserve and exclude without mutation",
+    )
+    for field in (
+        "non_mutating",
+        "preserve_and_exclude_from_child_closeout_blocking",
+        "parent_summary_not_child_closeout_receipt",
+        "child_closeout_authority_preserved",
+    ):
+        require(auth.get(field) is True, f"{prefix}.proposal_program_handoff_authorization.{field} must be true")
+
+    forbidden = auth.get("forbidden_actions")
+    require(isinstance(forbidden, dict), f"{prefix}.proposal_program_handoff_authorization.forbidden_actions must be a mapping")
+    if isinstance(forbidden, dict):
+        for action, performed in forbidden.items():
+            if performed is not False:
+                fail(f"{prefix}.proposal_program_handoff_authorization.forbidden_actions.{action} must be false")
+
+    authorized_paths = path_list(
+        auth.get("authorized_paths"),
+        f"{prefix}.proposal_program_handoff_authorization.authorized_paths",
+    )
+    if {path_text(path) for path in authorized_paths} != {path_text(path) for path in include_paths}:
+        fail(f"{prefix}.proposal_program_handoff_authorization.authorized_paths must exactly match candidate boundaries.include_paths")
+
+    for field in ("classifier_output_digest", "authorized_foreign_fingerprint"):
+        require(looks_like_sha256(auth.get(field)), f"{prefix}.proposal_program_handoff_authorization.{field} must be sha256")
+    if is_nonempty_string(auth.get("foreign_fingerprint")):
+        require(
+            auth.get("foreign_fingerprint") == auth.get("authorized_foreign_fingerprint"),
+            f"{prefix}.proposal_program_handoff_authorization.foreign_fingerprint must match authorized_foreign_fingerprint",
+        )
+
+    classifier_ref = auth.get("classifier_output_ref")
+    classifier_path = repo_path(classifier_ref, f"{prefix}.proposal_program_handoff_authorization.classifier_output_ref")
+    if classifier_path is None or not classifier_path.is_file():
+        fail(f"{prefix}.proposal_program_handoff_authorization.classifier_output_ref must resolve to retained classifier evidence")
+    else:
+        if sha256_digest(classifier_path) != auth.get("classifier_output_digest"):
+            fail(f"{prefix}.proposal_program_handoff_authorization.classifier_output_digest must match classifier_output_ref")
+        classifier = load_yaml_as_json(classifier_path, f"{prefix}.proposal_program_handoff_authorization.classifier_output_ref")
+        if classifier.get("worktree_hygiene_foreign_fingerprint") != auth.get("authorized_foreign_fingerprint"):
+            fail(f"{prefix}.proposal_program_handoff_authorization.authorized_foreign_fingerprint must match classifier output")
+
+    return True
+
+
+def validate_proposal_program_parent_handoff_authorization(candidate, include_paths, prefix):
+    auth = candidate.get("proposal_program_parent_handoff_authorization") if isinstance(candidate, dict) else None
+    if auth is None:
+        return False
+    if not isinstance(auth, dict):
+        fail(f"{prefix}.proposal_program_parent_handoff_authorization must be a mapping")
+        return False
+
+    for field in (
+        "authorization_grant",
+        "program_run_id",
+        "parent_route_id",
+        "cleanup_receipt_ref",
+        "cleanup_receipt_digest",
+        "classifier_output_ref",
+        "classifier_output_digest",
+        "authorized_foreign_fingerprint",
+        "disposition",
+    ):
+        require(is_nonempty_string(auth.get(field)), f"{prefix}.proposal_program_parent_handoff_authorization.{field} must be present")
+
+    require(
+        auth.get("parent_route_id") == "cleanup-lifecycle-residue",
+        f"{prefix}.proposal_program_parent_handoff_authorization.parent_route_id must be cleanup-lifecycle-residue",
+    )
+    require(
+        auth.get("disposition") == "preserve-and-exclude-from-lifecycle-closeout-blocking",
+        f"{prefix}.proposal_program_parent_handoff_authorization.disposition must preserve and exclude from lifecycle closeout blocking",
+    )
+    require(
+        auth.get("outside_child_owned_closeout_authority") is True
+        or auth.get("separately_partitioned_for_later_legal_closeout") is True,
+        f"{prefix}.proposal_program_parent_handoff_authorization must prove outside child-owned closeout authority or later legal closeout partitioning",
+    )
+    for field in (
+        "non_mutating",
+        "preserve_and_exclude_from_lifecycle_closeout_blocking",
+        "parent_summary_not_child_closeout_receipt",
+        "child_closeout_authority_preserved",
+    ):
+        require(auth.get(field) is True, f"{prefix}.proposal_program_parent_handoff_authorization.{field} must be true")
+    require(
+        auth.get("parent_evidence_replaces_child_evidence") is False,
+        f"{prefix}.proposal_program_parent_handoff_authorization.parent_evidence_replaces_child_evidence must be false",
+    )
+
+    forbidden = auth.get("forbidden_actions")
+    require(isinstance(forbidden, dict), f"{prefix}.proposal_program_parent_handoff_authorization.forbidden_actions must be a mapping")
+    required_forbidden = {
+        "deletion",
+        "reset",
+        "staging",
+        "commit",
+        "push",
+        "publication",
+        "archive",
+        "branch_cleanup",
+        "git_ref_mutation",
+        "cleaned_claim",
+    }
+    if isinstance(forbidden, dict):
+        for action in required_forbidden:
+            if forbidden.get(action) is not False:
+                fail(f"{prefix}.proposal_program_parent_handoff_authorization.forbidden_actions.{action} must be false")
+        for action, performed in forbidden.items():
+            if performed is not False:
+                fail(f"{prefix}.proposal_program_parent_handoff_authorization.forbidden_actions.{action} must be false")
+
+    authorized_paths = path_list(
+        auth.get("authorized_paths"),
+        f"{prefix}.proposal_program_parent_handoff_authorization.authorized_paths",
+    )
+    if {path_text(path) for path in authorized_paths} != {path_text(path) for path in include_paths}:
+        fail(f"{prefix}.proposal_program_parent_handoff_authorization.authorized_paths must exactly match candidate boundaries.include_paths")
+
+    for field in ("cleanup_receipt_digest", "classifier_output_digest", "authorized_foreign_fingerprint"):
+        require(looks_like_sha256(auth.get(field)), f"{prefix}.proposal_program_parent_handoff_authorization.{field} must be sha256")
+    if is_nonempty_string(auth.get("foreign_fingerprint")):
+        require(
+            auth.get("foreign_fingerprint") == auth.get("authorized_foreign_fingerprint"),
+            f"{prefix}.proposal_program_parent_handoff_authorization.foreign_fingerprint must match authorized_foreign_fingerprint",
+        )
+
+    cleanup_ref = auth.get("cleanup_receipt_ref")
+    cleanup_path = repo_path(cleanup_ref, f"{prefix}.proposal_program_parent_handoff_authorization.cleanup_receipt_ref")
+    if cleanup_path is None or not cleanup_path.is_file():
+        fail(f"{prefix}.proposal_program_parent_handoff_authorization.cleanup_receipt_ref must resolve to retained cleanup receipt")
+    elif sha256_digest(cleanup_path) != auth.get("cleanup_receipt_digest"):
+        fail(f"{prefix}.proposal_program_parent_handoff_authorization.cleanup_receipt_digest must match cleanup_receipt_ref")
+
+    classifier_ref = auth.get("classifier_output_ref")
+    classifier_path = repo_path(classifier_ref, f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_ref")
+    if classifier_path is None or not classifier_path.is_file():
+        fail(f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_ref must resolve to retained classifier evidence")
+    else:
+        if sha256_digest(classifier_path) != auth.get("classifier_output_digest"):
+            fail(f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_digest must match classifier_output_ref")
+        classifier = load_yaml_as_json(classifier_path, f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_ref")
+        if classifier.get("worktree_hygiene_foreign_fingerprint") != auth.get("authorized_foreign_fingerprint"):
+            fail(f"{prefix}.proposal_program_parent_handoff_authorization.authorized_foreign_fingerprint must match classifier output")
+
+    return True
+
+
 def validate_candidate_routing_paths(candidate_id, routing_class, include_paths, prefix, candidate):
     if routing_class == "publishable_closeout_evidence":
         for include_path in include_paths:
@@ -1092,12 +1320,21 @@ def validate_candidate_routing_paths(candidate_id, routing_class, include_paths,
             if not path_is_local_private_retained(include_path) and fixture_receipt is None:
                 fail(f"{prefix}.residue_routing_class local_private_retained may include only local private retained evidence paths unless fixture_retention_receipt_ref validates: {include_path}")
     elif routing_class == "foreign_manual_review":
+        has_proposal_handoff_authorization = validate_proposal_program_handoff_authorization(
+            candidate,
+            include_paths,
+            prefix,
+        ) or validate_proposal_program_parent_handoff_authorization(
+            candidate,
+            include_paths,
+            prefix,
+        )
         for include_path in include_paths:
-            if path_is_raw_private_or_unsafe(include_path):
+            if path_is_raw_private_or_unsafe(include_path) and not has_proposal_handoff_authorization:
                 fail(f"{prefix}.residue_routing_class foreign_manual_review must not mask raw/private Octon state or generated authority paths: {include_path}")
 
 
-def retained_evidence_matches_routing(candidate_id, routing_class, item, prefix):
+def retained_evidence_matches_routing(candidate_id, routing_class, item, prefix, candidate=None):
     item_path = item.get("path") if isinstance(item, dict) else None
     disposition = str(item.get("disposition", "") if isinstance(item, dict) else "").lower()
     evidence_text = " ".join(
@@ -1124,7 +1361,11 @@ def retained_evidence_matches_routing(candidate_id, routing_class, item, prefix)
                 fail(f"{prefix}.fixture_retention_receipt_ref must cover retained residue path {item_path}")
                 return False
     elif routing_class == "foreign_manual_review":
-        if path_is_raw_private_or_unsafe(item_path):
+        if (
+            path_is_raw_private_or_unsafe(item_path)
+            and not proposal_program_handoff_authorizes_path(candidate, item_path)
+            and not proposal_program_parent_handoff_authorizes_path(candidate, item_path)
+        ):
             fail(f"{prefix} foreign_manual_review residue evidence must not cite raw/private Octon state or generated authority paths")
             return False
         if not any(marker in evidence_text for marker in ("foreign", "manual", "user-owned", "user owned", "ignored", "local")):
@@ -1399,7 +1640,13 @@ for candidate in unresolved_candidates:
         else:
             routing_class = candidate_routing_classes.get(candidate_id)
             for item in evidence_items:
-                retained_evidence_matches_routing(candidate_id, routing_class, item, f"{prefix}.retained_residue")
+                retained_evidence_matches_routing(
+                    candidate_id,
+                    routing_class,
+                    item,
+                    f"{prefix}.retained_residue",
+                    candidates_by_id.get(candidate_id),
+                )
             for include_path in include_paths:
                 if not any(path_covers_boundary(item.get("path"), include_path) for item in evidence_items if is_nonempty_string(item.get("path"))):
                     fail(f"{prefix} retained_residue evidence must cover boundary path {include_path}")
@@ -1455,7 +1702,13 @@ else:
                 fail(f"{prefix} with state {state} must have retained_residue evidence")
             else:
                 for retained_item in retained_by_candidate.get(candidate_id, []):
-                    retained_evidence_matches_routing(candidate_id, candidate_routing_classes.get(candidate_id), retained_item, f"{prefix}.retained_residue")
+                    retained_evidence_matches_routing(
+                        candidate_id,
+                        candidate_routing_classes.get(candidate_id),
+                        retained_item,
+                        f"{prefix}.retained_residue",
+                        candidates_by_id.get(candidate_id),
+                    )
         elif state == "deferred":
             ref = item.get("closeout_change_ref")
             if retained_by_candidate.get(candidate_id) or blockers_by_candidate.get(candidate_id):
@@ -1807,7 +2060,13 @@ elif worktree_terminal_state == "disposition_complete_with_retained_residue":
         if routing_class not in retained_routing_classes:
             fail(f"disposition_complete_with_retained_residue candidate {candidate_id} must be local_private_retained or foreign_manual_review")
         for retained_item in retained_by_candidate.get(candidate_id, []):
-            retained_evidence_matches_routing(candidate_id, routing_class, retained_item, f"retained terminal candidate {candidate_id}")
+            retained_evidence_matches_routing(
+                candidate_id,
+                routing_class,
+                retained_item,
+                f"retained terminal candidate {candidate_id}",
+                candidates_by_id.get(candidate_id),
+            )
     forbidden_retained_counts = {
         key: final_residue_counts.get(key, 0)
         for key in (

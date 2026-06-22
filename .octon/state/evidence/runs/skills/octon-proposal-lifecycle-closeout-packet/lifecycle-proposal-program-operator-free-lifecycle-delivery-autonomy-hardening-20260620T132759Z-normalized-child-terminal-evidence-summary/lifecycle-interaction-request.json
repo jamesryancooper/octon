@@ -1,0 +1,93 @@
+{
+  "schema_version": "lifecycle-interaction-request-v1",
+  "interaction_id": "normalized-child-terminal-evidence-summary-closeout-worktree-handoff-20260622t062943z",
+  "created_at": "2026-06-22T06:29:43Z",
+  "source": {
+    "lifecycle_id": "proposal-packet",
+    "run_id": "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-normalized-child-terminal-evidence-summary",
+    "atomic_unit_type": "proposal-packet",
+    "target_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary",
+    "phase_id": "closeout-packet"
+  },
+  "request": {
+    "interaction_profile": "handoff",
+    "interaction_kind": "follow_on_work_required",
+    "requested_capability": "closeout-worktree",
+    "requested_lifecycle_id": "closeout-worktree",
+    "requested_route_surface": "closeout-worktree",
+    "requested_atomic_unit_type": "worktree",
+    "requested_target_outcome": "preserved"
+  },
+  "scope": {
+    "include_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary",
+      ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/product/contracts/proposal-child-terminal-evidence-summary-v1.schema.json",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-normalized-child-terminal-evidence-summary"
+    ],
+    "exclude_paths": [
+      ".octon/inputs/exploratory/ideation"
+    ],
+    "boundary_digest": "sha256:9fdff994fdf4fdbc885e2693de14b14a6e8a7c5f6411fc4b8c8e8d1cadc32f69"
+  },
+  "evidence_offered": [
+    {
+      "ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-normalized-child-terminal-evidence-summary/worktree-hygiene.yml",
+      "digest": "sha256:43d206df8f0a038bed68eab83a61372b4cb18baa51d8487fd1b9fa1e1ca5c70b",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/validation.md",
+      "digest": "sha256:8f380790ad1402ad10b0f1fcf59b355d3c5673c93636d3a8bbfeef8d3ff9e2b4",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-conformance-review.md",
+      "digest": "sha256:80789a430eeae43c3e42e4b590e74b156d00de1eb378e976b482fca4a4e0d68c",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/post-implementation-drift-churn-review.md",
+      "digest": "sha256:916858775fe38c3fbebcb604034576322e82f60a0b96429980716405a9dfb48a",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/support/implementation-run.md",
+      "digest": "sha256:ab07fa92df83c39a0dbf8f0392c85ae85e9ec62b5695b47f48d954a8553526c7",
+      "acceptance_class": "rollback-context"
+    }
+  ],
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "worktree-cleanup-authorization",
+      "repo-hygiene-deletion",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "stop_conditions": [
+    "Stop if the requested route would treat this request as authorization for git, hosted-provider, branch-cleanup, worktree-cleanup, repo-hygiene deletion, archive, promotion, or scope-expansion effects.",
+    "Stop if the requested route cannot preserve child closeout authority and parent-summary non-substitution.",
+    "Stop if fresh target-owned return evidence cannot cite the classifier output, blocker fingerprint, scoped paths, and independent validation result."
+  ],
+  "expected_return_evidence": [
+    "lifecycle-interaction-return-v1",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.child_id",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.route_id",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.classifier_output_ref",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.classifier_output_digest",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.authorized_foreign_fingerprint",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.authorized_paths",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.non_mutating",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.parent_summary_not_child_closeout_receipt",
+    "closeout-worktree-report-v1 with proposal_program_handoff_authorization.child_closeout_authority_preserved"
+  ]
+}

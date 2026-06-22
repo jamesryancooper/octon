@@ -1,0 +1,72 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-state-control-mutation-5a829080b057",
+    "token_type": "AuthorizedEffect<StateControlMutation>",
+    "effect_kind": "state-control-mutation",
+    "run_id": "publish-1782112249435-21634",
+    "request_id": "publish-1782112249435-21634",
+    "grant_id": "grant-publish-1782112249435-21634",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-publish-1782112249435-21634.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782112249435-21634.yml",
+    "run_control_root": ".octon/state/control/execution/runs/publish-1782112249435-21634",
+    "run_evidence_root": ".octon/state/evidence/runs/publish-1782112249435-21634",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/publish-1782112249435-21634/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-publication-bypass:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_freshness_mode": "publication-bypass",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/<pending>",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "publication-bypass",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "git",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/kernel/publish-1782112249435-21634",
+    "scope_envelope": {
+      "read": [
+        "/Users/jamesryancooper/Projects/octon"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/generated/effective/runtime",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/publication/runtime"
+      ],
+      "executor_profile": "scoped_repo_mutation",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/publish-1782112249435-21634/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-06-22T07:10:49.778568Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/publish-1782112249435-21634/effect-tokens/effect-token-state-control-mutation-5a829080b057.json",
+    "journal_ref": ".octon/state/control/execution/runs/publish-1782112249435-21634/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-5a829080b057",
+    "token_digest": "sha256:ca01b2e82a50772267baa7086cc179dd69add376bf2d10fa87c408be9b7e9582"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 2,
+  "issued_event_ref": ".octon/state/control/execution/runs/publish-1782112249435-21634/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-5a829080b057",
+  "last_event_ref": ".octon/state/control/execution/runs/publish-1782112249435-21634/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-5a829080b057",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/publish-1782112249435-21634/receipts/effect-tokens/effect-token-state-control-mutation-5a829080b057/consumption-f3e8501d7308.json",
+  "last_consumed_at": "2026-06-22T07:10:52.716865Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::finalize_execution:control",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/kernel/publish-1782112249435-21634",
+  "rejection_reason_codes": []
+}

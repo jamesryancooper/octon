@@ -18,6 +18,7 @@ use std::os::unix::process::CommandExt;
 const TERMINATION_GRACE: Duration = Duration::from_secs(2);
 const FORCE_KILL_GRACE: Duration = Duration::from_secs(2);
 const OBSERVATION_INTERVAL: Duration = Duration::from_secs(1);
+const CODEX_SERVICE_TIER_OVERRIDE: &str = "service_tier=\"fast\"";
 
 pub fn execute_codex(
     repo_root: &Path,
@@ -422,6 +423,8 @@ fn build_executor_command(
         "codex" => {
             command
                 .arg("exec")
+                .arg("-c")
+                .arg(CODEX_SERVICE_TIER_OVERRIDE)
                 .arg("--ephemeral")
                 .arg("--skip-git-repo-check")
                 .arg("--cd")
@@ -445,8 +448,9 @@ fn build_executor_command(
 fn executor_command_line(executor_bin: &Path, executor_name: &str, repo_root: &Path) -> String {
     match executor_name {
         "codex" => format!(
-            "{} exec --ephemeral --skip-git-repo-check --cd {}",
+            "{} exec -c '{}' --ephemeral --skip-git-repo-check --cd {}",
             executor_bin.display(),
+            CODEX_SERVICE_TIER_OVERRIDE,
             repo_root.display()
         ),
         "claude" => format!("{} -p --output-format text", executor_bin.display()),
@@ -699,6 +703,39 @@ mod tests {
         assert_eq!(error_class, Some(LifecycleErrorClass::Timeout));
         assert_eq!(timeout_terminal_state(Some(false)), "timed-out");
         assert_eq!(timeout_terminal_state(None), "timed-out");
+    }
+
+    #[test]
+    fn codex_command_applies_service_tier_override_and_preserves_executor_flags() {
+        let executor_bin = PathBuf::from("/usr/local/bin/codex");
+        let repo_root = std::env::temp_dir().join("octon lifecycle executor repo");
+
+        let command = build_executor_command(&executor_bin, "codex", &repo_root).unwrap();
+        let args = command
+            .get_args()
+            .map(|arg| arg.to_string_lossy().to_string())
+            .collect::<Vec<_>>();
+
+        assert_eq!(command.get_program(), executor_bin.as_os_str());
+        assert_eq!(command.get_current_dir(), Some(repo_root.as_path()));
+        assert_eq!(
+            args,
+            vec![
+                "exec".to_string(),
+                "-c".to_string(),
+                CODEX_SERVICE_TIER_OVERRIDE.to_string(),
+                "--ephemeral".to_string(),
+                "--skip-git-repo-check".to_string(),
+                "--cd".to_string(),
+                repo_root.display().to_string(),
+            ]
+        );
+
+        let command_line = executor_command_line(&executor_bin, "codex", &repo_root);
+        assert!(command_line.contains("-c 'service_tier=\"fast\"'"));
+        assert!(command_line.contains("--ephemeral"));
+        assert!(command_line.contains("--skip-git-repo-check"));
+        assert!(command_line.contains(&format!("--cd {}", repo_root.display())));
     }
 
     #[test]

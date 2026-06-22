@@ -1,0 +1,724 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening
+executor: auto
+invocation_authority: unattended
+timeout_seconds: 1800
+max_steps: 1
+max_child_concurrency: 1
+child_registry_digest: sha256:84637d8117554b1eb226c9eb49adab800fdde56898ba212f1b10aad4995eaed5
+execution_mode: gated-parallel
+run_inputs:
+  lifecycle_interaction_return_refs: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/complete-program-blocker-vector-planner-output-closeout-worktree-return.json
+scheduler_decision: []
+child_states:
+  autonomous-proposal-program-recovery-envelope:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:40862c556f8e6c37d9e8e5c82642a9fa03473677b73c73d38fc3bd01b2056233
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      batched-review-and-architecture-digest-refresh:
+        dependency_id: batched-review-and-architecture-digest-refresh
+        required_gate: terminal
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      complete-program-blocker-vector-planner-output:
+        dependency_id: complete-program-blocker-vector-planner-output
+        required_gate: terminal
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      lifecycle-validator-runtime-resolver:
+        dependency_id: lifecycle-validator-runtime-resolver
+        required_gate: terminal
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+      normalized-child-terminal-evidence-summary:
+        dependency_id: normalized-child-terminal-evidence-summary
+        required_gate: terminal
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-execution-mode-normalization:
+        dependency_id: proposal-program-execution-mode-normalization
+        required_gate: terminal
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      targeted-proposal-freshness-checks:
+        dependency_id: targeted-proposal-freshness-checks
+        required_gate: terminal
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+    - .octon/inputs/exploratory/proposals/architecture/autonomous-proposal-program-recovery-envelope
+  batched-review-and-architecture-digest-refresh:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/batched-review-and-architecture-digest-refresh
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:52812ec5e17cb88157d8b84f8a98e5b4f4d44c8ab60a02a3176d9be590888209
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      targeted-proposal-freshness-checks:
+        dependency_id: targeted-proposal-freshness-checks
+        required_gate: terminal
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+    - .octon/inputs/exploratory/proposals/architecture/batched-review-and-architecture-digest-refresh
+  branch-no-pr-bounded-authorization-envelope:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/branch-no-pr-bounded-authorization-envelope
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:0cc4212bc79296ba1e258cff31cfdb76735701d2a0d1c1906cac95ca74b2ad0f
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      branch-no-pr-delivery-receipt-builder:
+        dependency_id: branch-no-pr-delivery-receipt-builder
+        required_gate: terminal
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+    - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+    - .octon/framework/execution-roles/_ops/scripts/git/
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+    - .octon/framework/product/contracts/branch-no-pr-delivery-authorization-envelope-v1.schema.json
+    - .octon/inputs/exploratory/proposals/architecture/branch-no-pr-bounded-authorization-envelope
+  branch-no-pr-delivery-receipt-builder:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/branch-no-pr-delivery-receipt-builder
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:f6e0679a645ccfaa94da95d4fb7469a5a777cead8c58f09467d9b5d90a91e921
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      delivery-retained-evidence-index:
+        dependency_id: delivery-retained-evidence-index
+        required_gate: terminal
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh
+    - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+    - .octon/framework/product/contracts/change-receipt-v1.schema.json
+    - .octon/inputs/exploratory/proposals/architecture/branch-no-pr-delivery-receipt-builder
+  complete-program-blocker-vector-planner-output:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output
+    current_state: archived
+    final_verdict: completed
+    receipt_digests:
+      proposal-review: sha256:81b48cc42c8d78c92572ba04a78688c9545b42d8efbc169d8e22dbef3d76b7ab
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+    - .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output
+  completed-plan-nonblocking-diagnostics:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:b3dbd1b77f2e41365f46964416cf08f0311b122a5e60bcb8e0b369d43582f169
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      normalized-child-terminal-evidence-summary:
+        dependency_id: normalized-child-terminal-evidence-summary
+        required_gate: terminal
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+    - .octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics
+  delivery-retained-evidence-index:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/delivery-retained-evidence-index
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:8dd08f540320052031cbdecac4b66e171e1a8779172b9b7725a45b66b1f27643
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      normalized-child-terminal-evidence-summary:
+        dependency_id: normalized-child-terminal-evidence-summary
+        required_gate: terminal
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-program-delivery-evidence-index.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh
+    - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+    - .octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json
+    - .octon/inputs/exploratory/proposals/architecture/delivery-retained-evidence-index
+  lifecycle-validator-runtime-resolver:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:98c9e603486ff9fcea37dbcfdb84b190af7c55254fe2a6bb8d830dd4d75fe373
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+    - .octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver
+  normalized-child-terminal-evidence-summary:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:fa215e9cfc49c48bc92d0bfcf15ebad20bea5487913bffa63950d7d67a7ecfe8
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      complete-program-blocker-vector-planner-output:
+        dependency_id: complete-program-blocker-vector-planner-output
+        required_gate: terminal
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/product/contracts/proposal-child-terminal-evidence-summary-v1.schema.json
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary
+  proposal-program-delivery-postmortem-evaluation-profile:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:99fe142ff260ae1ab92ab119fe35c48dfe323ee9a9c2b18433d30a4bf01516dd
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      complete-program-blocker-vector-planner-output:
+        dependency_id: complete-program-blocker-vector-planner-output
+        required_gate: terminal
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+      delivery-retained-evidence-index:
+        dependency_id: delivery-retained-evidence-index
+        required_gate: terminal
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      normalized-child-terminal-evidence-summary:
+        dependency_id: normalized-child-terminal-evidence-summary
+        required_gate: terminal
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh
+    - .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh
+    - .octon/framework/engine/runtime/README.md
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile
+  proposal-program-execution-mode-normalization:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:57fd03b6a80ebe0b8733f86032877ee9954bcc7e6f51c3ec48cbaf8318cce995
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      lifecycle-validator-runtime-resolver:
+        dependency_id: lifecycle-validator-runtime-resolver
+        required_gate: terminal
+        satisfied: false
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+  targeted-proposal-freshness-checks:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:a32422ee0fdaa4075fba7009f189eefd1ca62b7bf0e277b529e5b237dc9fb29e
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      complete-program-blocker-vector-planner-output:
+        dependency_id: complete-program-blocker-vector-planner-output
+        required_gate: terminal
+        satisfied: true
+        observed_gate: terminal
+        reason: observed terminal
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks
+recovery_attempts:
+  complete-program-blocker-vector-planner-output: 42
+  complete-program-blocker-vector-planner-output:archive-authorization-non-authorizing: 1
+  complete-program-blocker-vector-planner-output:artifact-ownership-unclear: 0
+  complete-program-blocker-vector-planner-output:executor-failed: 6
+  complete-program-blocker-vector-planner-output:executor-preflight-blocked: 2
+  complete-program-blocker-vector-planner-output:route: 16
+  complete-program-blocker-vector-planner-output:stale-receipt: 17
+  lifecycle-validator-runtime-resolver: 8
+  lifecycle-validator-runtime-resolver:artifact-ownership-unclear: 0
+  lifecycle-validator-runtime-resolver:executor-failed: 3
+  lifecycle-validator-runtime-resolver:executor-preflight-blocked: 2
+  lifecycle-validator-runtime-resolver:route: 3
+  normalized-child-terminal-evidence-summary: 4
+  normalized-child-terminal-evidence-summary:artifact-ownership-unclear: 0
+  normalized-child-terminal-evidence-summary:route: 3
+  normalized-child-terminal-evidence-summary:stale-receipt: 1
+  targeted-proposal-freshness-checks: 8
+  targeted-proposal-freshness-checks:artifact-ownership-unclear: 0
+  targeted-proposal-freshness-checks:implementation-blocked: 2
+  targeted-proposal-freshness-checks:route: 4
+  targeted-proposal-freshness-checks:stale-receipt: 2
+program_recovery_action_attempts:
+  publication-drift:refresh-publication-projections: 1
+recovery_progress_fingerprints:
+  complete-program-blocker-vector-planner-output:archive-proposal:archive-authorization-non-authorizing:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: archive-proposal
+    blocker_class: archive-authorization-non-authorizing
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:5a63c98514a99dae38a5ef2a530532e5ae3fa85407275a13914c6c06f3f9c925
+    selected_route_id: archive-proposal
+  complete-program-blocker-vector-planner-output:archive-proposal:route:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: archive-proposal
+    blocker_class: route
+    final_verdict: completed
+    terminal_outcome: archived
+    gate_status:
+      terminal: true
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:81b48cc42c8d78c92572ba04a78688c9545b42d8efbc169d8e22dbef3d76b7ab
+    selected_route_id: null
+  complete-program-blocker-vector-planner-output:closeout-packet:executor-failed:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: closeout-packet
+    blocker_class: executor-failed
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:8dfed2500181af154589ce4ee2dd4dcbc18e2a6e1b95e48328e1740f97dffaff
+    selected_route_id: closeout-packet
+  complete-program-blocker-vector-planner-output:generate-packet-implementation-prompt:executor-preflight-blocked:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: generate-packet-implementation-prompt
+    blocker_class: executor-preflight-blocked
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:50d3e92db8dc263c955233201a293287504565db4f97716297aefdd66e4cf17b
+    selected_route_id: generate-packet-implementation-prompt
+  complete-program-blocker-vector-planner-output:promote-proposal:executor-failed:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: promote-proposal
+    blocker_class: executor-failed
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:50d3e92db8dc263c955233201a293287504565db4f97716297aefdd66e4cf17b
+    selected_route_id: promote-proposal
+  complete-program-blocker-vector-planner-output:proposal-packet-terminal-closeout:executor-failed:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: proposal-packet-terminal-closeout
+    blocker_class: executor-failed
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:a66331a0ddd06b26c4e25ed672456b8f12c36edd14aa9f307fdebb9c240ce35b
+    selected_route_id: proposal-packet-terminal-closeout
+  complete-program-blocker-vector-planner-output:proposal-packet-terminal-closeout:route:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: proposal-packet-terminal-closeout
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:5a63c98514a99dae38a5ef2a530532e5ae3fa85407275a13914c6c06f3f9c925
+    selected_route_id: review-packet
+  complete-program-blocker-vector-planner-output:review-packet:stale-receipt:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: review-packet
+    blocker_class: stale-receipt
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:183769311531807cdf7444603af700c911dc37b4d1a41095ba9a96d5013dc936
+    selected_route_id: proposal-packet-terminal-closeout
+  complete-program-blocker-vector-planner-output:run-packet-implementation:executor-preflight-blocked:
+    child_id: complete-program-blocker-vector-planner-output
+    route_id: run-packet-implementation
+    blocker_class: executor-preflight-blocked
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:50d3e92db8dc263c955233201a293287504565db4f97716297aefdd66e4cf17b
+    selected_route_id: run-packet-implementation
+  lifecycle-validator-runtime-resolver:closeout-packet:executor-failed:
+    child_id: lifecycle-validator-runtime-resolver
+    route_id: closeout-packet
+    blocker_class: executor-failed
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:98c9e603486ff9fcea37dbcfdb84b190af7c55254fe2a6bb8d830dd4d75fe373
+    selected_route_id: closeout-packet
+  lifecycle-validator-runtime-resolver:closeout-packet:route:
+    child_id: lifecycle-validator-runtime-resolver
+    route_id: closeout-packet
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:98c9e603486ff9fcea37dbcfdb84b190af7c55254fe2a6bb8d830dd4d75fe373
+    selected_route_id: closeout-packet
+  lifecycle-validator-runtime-resolver:generate-packet-implementation-prompt:executor-preflight-blocked:
+    child_id: lifecycle-validator-runtime-resolver
+    route_id: generate-packet-implementation-prompt
+    blocker_class: executor-preflight-blocked
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:da18b05b20d2ae1eec001bad0eb9b8c1326648aa71b90ccc6ea12876d9ab657d
+    selected_route_id: generate-packet-implementation-prompt
+  lifecycle-validator-runtime-resolver:promote-proposal:executor-failed:
+    child_id: lifecycle-validator-runtime-resolver
+    route_id: promote-proposal
+    blocker_class: executor-failed
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:da18b05b20d2ae1eec001bad0eb9b8c1326648aa71b90ccc6ea12876d9ab657d
+    selected_route_id: promote-proposal
+  lifecycle-validator-runtime-resolver:run-packet-implementation:executor-preflight-blocked:
+    child_id: lifecycle-validator-runtime-resolver
+    route_id: run-packet-implementation
+    blocker_class: executor-preflight-blocked
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:da18b05b20d2ae1eec001bad0eb9b8c1326648aa71b90ccc6ea12876d9ab657d
+    selected_route_id: run-packet-implementation
+  normalized-child-terminal-evidence-summary:closeout-packet:route:
+    child_id: normalized-child-terminal-evidence-summary
+    route_id: closeout-packet
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:fa215e9cfc49c48bc92d0bfcf15ebad20bea5487913bffa63950d7d67a7ecfe8
+    selected_route_id: closeout-packet
+  normalized-child-terminal-evidence-summary:generate-packet-implementation-prompt:route:
+    child_id: normalized-child-terminal-evidence-summary
+    route_id: generate-packet-implementation-prompt
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:3f7a4ecf4cf05ce92f80d173794966d9d27a6e4a8d68a412c225c79a81ab3f82
+    selected_route_id: run-packet-implementation
+  normalized-child-terminal-evidence-summary:review-packet:stale-receipt:
+    child_id: normalized-child-terminal-evidence-summary
+    route_id: review-packet
+    blocker_class: stale-receipt
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:fa215e9cfc49c48bc92d0bfcf15ebad20bea5487913bffa63950d7d67a7ecfe8
+    selected_route_id: closeout-packet
+  normalized-child-terminal-evidence-summary:run-packet-implementation:route:
+    child_id: normalized-child-terminal-evidence-summary
+    route_id: run-packet-implementation
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:3f7a4ecf4cf05ce92f80d173794966d9d27a6e4a8d68a412c225c79a81ab3f82
+    selected_route_id: promote-proposal
+  targeted-proposal-freshness-checks:closeout-packet:route:
+    child_id: targeted-proposal-freshness-checks
+    route_id: closeout-packet
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:a32422ee0fdaa4075fba7009f189eefd1ca62b7bf0e277b529e5b237dc9fb29e
+    selected_route_id: closeout-packet
+  targeted-proposal-freshness-checks:generate-packet-implementation-prompt:route:
+    child_id: targeted-proposal-freshness-checks
+    route_id: generate-packet-implementation-prompt
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:834e40f3dc1876d1b0adf832107fe0a09222d53184ca793ca215112bf6a3a89b
+    selected_route_id: run-packet-implementation
+  targeted-proposal-freshness-checks:promote-proposal:route:
+    child_id: targeted-proposal-freshness-checks
+    route_id: promote-proposal
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:a32422ee0fdaa4075fba7009f189eefd1ca62b7bf0e277b529e5b237dc9fb29e
+    selected_route_id: review-packet
+  targeted-proposal-freshness-checks:review-packet:stale-receipt:
+    child_id: targeted-proposal-freshness-checks
+    route_id: review-packet
+    blocker_class: stale-receipt
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:a32422ee0fdaa4075fba7009f189eefd1ca62b7bf0e277b529e5b237dc9fb29e
+    selected_route_id: closeout-packet
+  targeted-proposal-freshness-checks:run-packet-implementation:implementation-blocked:
+    child_id: targeted-proposal-freshness-checks
+    route_id: run-packet-implementation
+    blocker_class: implementation-blocked
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:d9869cc5f019a2d27574b992e086e5a22f36d1a05a47efa1d3f5285a17ffdd3c
+    selected_route_id: review-packet
+  targeted-proposal-freshness-checks:run-packet-implementation:route:
+    child_id: targeted-proposal-freshness-checks
+    route_id: run-packet-implementation
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:834e40f3dc1876d1b0adf832107fe0a09222d53184ca793ca215112bf6a3a89b
+    selected_route_id: run-packet-implementation
+closeout_hygiene_suppressions: {}
+aggregate_terminal_blockers:
+  path: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/aggregate-terminal-blockers.yml
+  digest: sha256:c76b0d0dc23eddab38ef23586b506952f6706db866fff1eebe06676750ace481
+  blocked_required_child_count: 11
+  authority_boundary: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+residue_cleanup_attempts: {}
+worktree_baseline_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/worktree-baseline.yml
+interaction_request_refs: []
+interaction_return_refs:
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/complete-program-blocker-vector-planner-output-closeout-worktree-return.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return-20260621T033211Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T055809Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/targeted-proposal-freshness-checks-closeout-packet-closeout-worktree-return-20260622T081624Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/targeted-proposal-freshness-checks-route-local-closeout-packet-closeout-worktree-return-20260622T090411Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return-20260622T081624Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T094401Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T131559Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/targeted-proposal-freshness-checks-promote-proposal-closeout-worktree-return.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T141612Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return-20260621T153853Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/normalized-child-terminal-evidence-summary-closeout-packet-closeout-worktree-return-20260622T142958Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/normalized-child-terminal-evidence-summary-closeout-packet-closeout-worktree-return-20260622T062019Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/parent-closeout-worktree-return-20260622T141111Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/normalized-child-terminal-evidence-summary-route-local-closeout-packet-closeout-worktree-return-20260622T063706Z.json
+- .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-return-20260622T121319Z.json
+approvals: []
+program_recovery_recipe_validation_status: null
+program_recovery_recipe_validation_failures: []
+program_recovery_recipe_blocker_class: null
+program_recovery_recipe_route_id: null
+program_recovery_recipe_delegation_contract_basis: null
+latest_event_offset: 1629
+latest_event_index: 1629
+latest_event_sha256: sha256:27f5af32a58cca5042edf410af8b4116910264b0782992d046004768d3aa2ccd
+event_log_sha256: sha256:94a469419d13d9ecbb1dbe3042f2d309b012779e035a2661334d52e1913ce950
+derived_from_event_index: 1629
+atomic_barrier_state: null
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: step-budget-exhausted-continuable
+resume_instruction: octon lifecycle resume --run-id lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z

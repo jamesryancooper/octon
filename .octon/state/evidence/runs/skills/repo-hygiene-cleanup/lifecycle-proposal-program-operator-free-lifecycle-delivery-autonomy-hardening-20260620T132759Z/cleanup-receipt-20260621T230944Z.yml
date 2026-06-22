@@ -1,0 +1,51 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+receipt_id: repo-hygiene-cleanup-3db69ba562a9be9d-cleanup
+created_at: 2026-06-21T23:12:59Z
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+delegating_route: cleanup-lifecycle-residue
+route: authorization-revalidated-cleanup
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+schema_ref: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+active_run_id_protected: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+classification_mode: classify-first
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260621T230944Z.json
+authorization_digest: sha256:96e627c914e41d023559b8183f5f6580406e312d02c28b11b83d137c731b0456
+authorization_id: repo-hygiene-cleanup-3db69ba562a9be9d
+authorization_result: approved
+authorized_path_count: 2
+authorized_path_class: local_run_residue
+deleted_count: 2
+pre_cleanup:
+  cleanup_candidates: 2
+  eligible_cleanup_candidates: 2
+  protected_referenced: 206
+  manual_review: 41
+  git_status_digest: sha256:967eaef6415ad5d385deb5f87f93476015dab8a4dee60d70e04d13eb9e764e14
+  classification_digest: sha256:adc1c235d2b512619ece9f32537b2a869384a5f874cf623b328dfa66c79c4d06
+  cleanup_path_set_digest: sha256:7a3f63265f7f27519828ab9785c118c43278e3650fa8e0ba9680e23942650059
+  protected_paths_digest: sha256:29bdb1b39c29c9ae9f8e542f6fbb48d8bed7213af9f0a74edb1e10d81ced31ac
+  manual_review_paths_digest: sha256:6654cec1f005eee8b3700ac8dfd8462e6df2d3fe5549229b2ecdd209e5c3b9b7
+post_cleanup:
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 207
+  manual_review: 41
+  git_status_digest: sha256:150130b1daabccd8cd8723cd5856d9833f0d3982c4763aadccca7c2036c87b63
+  classification_digest: sha256:e5420d6345a9d1803553ba888e58fb829700e561d0b4691a8075608157ff92a2
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:27053a944f4143be7e6b11ac47de1cc1db095dc3d0a306a34b847abd057dedf4
+  manual_review_paths_digest: sha256:6654cec1f005eee8b3700ac8dfd8462e6df2d3fe5549229b2ecdd209e5c3b9b7
+local_private_evidence_ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-cleanup-lifecycle-residue-20260621T230944Z/
+local_private_evidence_digest: sha256:191851bbab187a2cdad65f1f260c061d3e7c5f2055465a80f74ae28ac87d6303
+local_private_evidence_digests:
+  classification_dry_run: sha256:63722d14a36f43cb77c5f500882a38e439e0d11c4a2830c02c45a3396f6216d4
+  authorization_output: sha256:cab2b18c7f6e70dd793936e904c7308584455101da61125441362c773286366e
+  cleanup_output: sha256:c14343c83454b6882fc9bd9301a494a1acb9f53b1dbdb1dee11804da405c472f
+  post_cleanup_summary: sha256:7e19a638198cf9025310222b6877aa60addbee936d1f3c9e50347c83c3cd9848
+  proposal_worktree_hygiene: sha256:14e745c3d9b37abd2c4fc9676dcbc30e8f78652ad66603ecb05f5e24f5e4666f
+redaction_posture: raw_path_lists_local_private_only
+raw_path_lists_published: false
+retained_protected_state: true
+retained_manual_review_state: true
+blocker: remaining protected, foreign, and manual-review paths require their owning route; repo-hygiene cleanup candidates are exhausted

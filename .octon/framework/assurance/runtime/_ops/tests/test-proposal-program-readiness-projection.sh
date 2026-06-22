@@ -62,6 +62,7 @@ make_repo() {
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
+  cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-retained-run-evidence-index.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   chmod +x "$root"/.octon/framework/assurance/runtime/_ops/scripts/*.sh
@@ -104,6 +105,8 @@ write_parent() {
 write_parent_review() {
   local root="$1"
   local parent=".octon/inputs/exploratory/proposals/architecture/program-fixture"
+  local digest
+  digest="$(review_digest "$root" "$parent")"
   write_file "$root/$parent/support/proposal-review.md" \
     "# Proposal Review Receipt" \
     "review_id: program-review" \
@@ -111,7 +114,7 @@ write_parent_review() {
     "reviewer: test" \
     "verdict: accepted" \
     "implementation_prompt_authorized: yes" \
-    "reviewed_packet_digest: $(review_digest "$root" "$parent")" \
+    "reviewed_packet_digest: $digest" \
     "open_blocking_findings_count: 0" \
     "## Approved Promotion Targets" \
     "- .octon/framework/program-fixture.md" \
@@ -123,11 +126,34 @@ write_parent_review() {
     "None." \
     "## Final Route Recommendation" \
     "Proceed."
+  write_architecture_pre_integration_review "$root" "$parent" "$digest"
+}
+
+write_architecture_pre_integration_review() {
+  local root="$1" packet="$2" digest="$3"
+  write_file "$root/$packet/support/pre-integration-architecture-review.yml" \
+    'schema_version: "architectural-review-support-receipt-v1"' \
+    "receipt_id: \"${packet##*/}-pre-integration-architecture-review\"" \
+    "proposal_path: \"$packet\"" \
+    "packet_digest: \"$digest\"" \
+    'review_mode: "pre-integration-architecture-review"' \
+    'verdict: "pass"' \
+    'unresolved_count: 0' \
+    'non_authority_classification: "retained-evidence-only"' \
+    'evidence_refs:' \
+    "  - \"$packet/architecture/target-architecture.md\"" \
+    "  - \"$packet/architecture/acceptance-criteria.md\"" \
+    'validator_refs:' \
+    '  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"' \
+    'blockers: []' \
+    'mode_specific_coverage:' \
+    '  fixture: "covered"'
 }
 
 write_child() {
   local root="$1" status="${2:-implemented}"
   local child=".octon/inputs/exploratory/proposals/architecture/child-one"
+  local digest
   mkdir -p "$root/$child/support" "$root/$child/navigation" "$root/$child/architecture"
   write_file "$root/$child/proposal.yml" \
     'schema_version: "proposal-v1"' \
@@ -183,6 +209,7 @@ write_child() {
     "executable implementation prompt requires drift/churn receipt" \
     "executable implementation prompt includes closeout refusal criteria" \
     ".octon/framework/child-one.md"
+  digest="$(review_digest "$root" "$child")"
   write_file "$root/$child/support/proposal-review.md" \
     "# Proposal Review Receipt" \
     "review_id: child-review" \
@@ -190,7 +217,7 @@ write_child() {
     "reviewer: test" \
     "verdict: accepted" \
     "implementation_prompt_authorized: yes" \
-    "reviewed_packet_digest: $(review_digest "$root" "$child")" \
+    "reviewed_packet_digest: $digest" \
     "open_blocking_findings_count: 0" \
     "## Approved Promotion Targets" \
     "- .octon/framework/child-one.md" \
@@ -202,6 +229,7 @@ write_child() {
     "None." \
     "## Final Route Recommendation" \
     "Proceed."
+  write_architecture_pre_integration_review "$root" "$child" "$digest"
   write_file "$root/$child/support/implementation-run.md" "verdict: pass"
   write_file "$root/$child/support/implementation-conformance-review.md" "verdict: pass"
   write_file "$root/$child/support/post-implementation-drift-churn-review.md" "verdict: pass"
@@ -325,6 +353,8 @@ write_projection() {
     '  authorizes_implementation: false' \
     '  authorizes_generated_publication: false' \
     '  replaces_source_evidence: false' \
+    '  parent_summary_satisfies_child_receipts: false' \
+    '  retained_evidence_authorizes_execution: false' \
     '  generated_output_authority: "derived-only"' \
     '  proposal_input_authority: "non-authoritative"'
 }
@@ -351,6 +381,10 @@ archive_fixture() {
   write_file "$root/.octon/framework/child-one.md" "child fixture target"
   mv "$root/$active_child" "$root/$archived_child"
   yq -i '.status = "archived" | .archive = {"archived_at": "2026-06-11", "archived_from_status": "implemented", "disposition": "implemented", "original_path": ".octon/inputs/exploratory/proposals/architecture/child-one", "promotion_evidence": [".octon/framework/child-one.md"]}' "$root/$archived_child/proposal.yml"
+  write_file "$root/$archived_child/support/validation.md" "verdict: pass"
+  write_file "$root/$archived_child/support/proposal-terminal-closeout.yml" \
+    "terminal_verdict: archive-ready" \
+    "archive_ready: yes"
   mv "$root/$active_parent" "$root/$archived_parent"
   yq -i '.status = "archived" | .archive = {"archived_at": "2026-06-11", "archived_from_status": "implemented", "disposition": "implemented", "original_path": ".octon/inputs/exploratory/proposals/architecture/program-fixture", "promotion_evidence": [".octon/framework/program-fixture.md"]}' "$root/$archived_parent/proposal.yml"
   yq -i 'del(.children[].evidence_index_refs)' "$root/$archived_parent/resources/child-packet-index.yml"

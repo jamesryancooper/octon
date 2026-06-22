@@ -1,0 +1,54 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+run_id: "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z"
+route_id: "cleanup-lifecycle-residue"
+created_at: "2026-06-22T05:36:51Z"
+cleanup_route: "authorization-receipt"
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260622T053340Z.json"
+authorization_digest: "sha256:a6d32bd50596e1f43f1669894d7449ea887f2449762695559b3c799596a7de1f"
+authorization_id: "repo-hygiene-cleanup-f775556eda21e8c7"
+authorization_result: "approved"
+authorized_path_count: 63
+authorized_path_classes:
+  local_run_residue: 63
+deleted_count: 63
+redaction_posture: "publishable receipt excludes raw helper path listings and local-private payloads"
+local_private_evidence_ref: ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-cleanup-lifecycle-residue-20260622T053340Z/summary.yml"
+local_private_evidence_digest: "sha256:000e1a20be618447c616f437f78de90443cc7fe5f83016311854661f0671c90e"
+pre_cleanup_helper:
+  mode: "dry-run"
+  cleanup_candidates: 63
+  eligible_cleanup_candidates: 63
+  protected_referenced: 223
+  manual_review: 56
+  git_status_digest: "sha256:3ca62f0e87ba1e1ebfb316f58ad40678d9e29f3bc58666b565aabad87c6342ad"
+  classification_digest: "sha256:61dbf7fd2b701c1c4532847d521d1ba1a8b891e47585125b325c9596a27c1aeb"
+  cleanup_path_set_digest: "sha256:bcf8d0e0e64b9d910368ab73c84a91b3065a7b4aa028fe9f54f71e7f44e0513a"
+  protected_paths_digest: "sha256:b4bc7e6e85462a23a741a07cacfe0d4c90865055f5b6be79d7e0e001ff084c6d"
+  manual_review_paths_digest: "sha256:d498676c47216e9ca2550a231ede15049c391990731df35988c5a42d3f6a5075"
+post_cleanup_helper:
+  mode: "dry-run"
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 224
+  manual_review: 56
+  git_status_digest: "sha256:a9834b6680deb72147c6a225e44589558da11e07b7f2ff398b44349ac753d530"
+  classification_digest: "sha256:0f73bc0448ab99e2da319907ec8a7523784a103ff04ec3f0114dac0e2c01a7ac"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:9e0b1d9076fbb36db1173b8643fed326542ec8b1c7d33ba568ef5c3cb2d7acad"
+  manual_review_paths_digest: "sha256:d498676c47216e9ca2550a231ede15049c391990731df35988c5a42d3f6a5075"
+final_route_cleanup_helper:
+  mode: "dry-run"
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 225
+  manual_review: 56
+  git_status_digest: "sha256:6e8be3b775ceafa7eedb607bbbc97cbafd3b4f8a6083ca43ef7eb290f4d9c8fa"
+  classification_digest: "sha256:5291ce5c452fe872a1caf3a970e239e89b609c67a30c900f01ccb882f259fc59"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  protected_paths_digest: "sha256:3cfac571e23595d08bd8ecf1a3d3fcb1af8749815ce25dd365e34d51482b2a78"
+  manual_review_paths_digest: "sha256:d498676c47216e9ca2550a231ede15049c391990731df35988c5a42d3f6a5075"
+cleanup_outcome: "delegated-cleaned"
+remaining_blocker: "worktree hygiene remains blocked by foreign/manual-review paths; cleanup-safe local run residue is exhausted"
+authority_boundary: "classification and cleanup receipts do not authorize publication, archive, branch cleanup, closeout, promotion, or cleaned claims"

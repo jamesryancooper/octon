@@ -1,0 +1,61 @@
+schema_version: repo-hygiene-cleanup-receipt-v1
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+created_at: 2026-06-22T11:54:04Z
+route: receipt-backed-authorization-deletion
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+schema_ref: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+active_run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+operator_confirmation_present: false
+authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/cleanup-authorization-20260622T114925Z-delegated.json
+authorization_digest: sha256:fe68c27e00a9e2f65d755aa51c5aadce58dadf6005ff1271c717a55a7544297f
+authorization_consumed: true
+authorized_paths:
+  total_count: 23
+  by_class:
+    local_run_residue: 21
+    stale_unreferenced_publication_attempt: 2
+helper_summary:
+  authorization_generation:
+    mode: authorize
+    cleanup_candidates: 23
+    eligible_cleanup_candidates: 23
+    protected_referenced: 763
+    manual_review: 0
+    git_status_digest: sha256:5313a42704202d2358f4f9699a6bdb6182a8afb12c16bdf6ed15cdcd1b5f0a19
+    classification_digest: sha256:298e12f6c46cc3a938bc4651733b1fec006a34bb119e6cdb83bce7c296c5c5f9
+    cleanup_path_set_digest: sha256:965194ea4810c96309550dc594ecc4b3808516a966e56d43f0e6750c19cdb7ec
+    protected_paths_digest: sha256:328f9b971c1f9bec75912cce5cdd026be3b8e335e0877b5dbcba76d0615b824e
+    manual_review_paths_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  authorization_consumption:
+    mode: authorization
+    cleanup_candidates: 23
+    eligible_cleanup_candidates: 23
+    protected_referenced: 763
+    manual_review: 0
+    git_status_digest: sha256:5313a42704202d2358f4f9699a6bdb6182a8afb12c16bdf6ed15cdcd1b5f0a19
+    classification_digest: sha256:298e12f6c46cc3a938bc4651733b1fec006a34bb119e6cdb83bce7c296c5c5f9
+    cleanup_path_set_digest: sha256:965194ea4810c96309550dc594ecc4b3808516a966e56d43f0e6750c19cdb7ec
+    protected_paths_digest: sha256:328f9b971c1f9bec75912cce5cdd026be3b8e335e0877b5dbcba76d0615b824e
+    manual_review_paths_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  post_cleanup_dry_run:
+    mode: dry-run
+    cleanup_candidates: 0
+    eligible_cleanup_candidates: 0
+    protected_referenced: 764
+    manual_review: 0
+    git_status_digest: sha256:7251fb2f35948821983d9c4b77bdcf16a71ba09cc8816344b151f46ebceb1f8d
+    classification_digest: sha256:23c4fa40e0e27653733cc0e7bca3cffb111aeb012808bd7bb0b69efc4708d19e
+    cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    protected_paths_digest: sha256:a73bc4447c57f87941c097ccabc2260e65faaafe1d7772fea5b99b4ec36a0e5f
+    manual_review_paths_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+deleted_count: 23
+retained_protected_count: 764
+retained_manual_review_count: 0
+post_cleanup_summary_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/post-cleanup-summary-20260622T114925Z-delegated.yml
+post_cleanup_summary_digest: sha256:2b477b84629447927b055ac1578341cde50ba69109b1581441210c74ff456cfa
+redaction_posture: publishable summary only; raw helper path lists omitted except the authorized path proof set retained in the authorization receipt
+cleanup_outcome: completed-authorized-deletion
+blocker: none-for-helper-cleanup
+remaining_worktree_blocker: proposal worktree hygiene remains blocked by foreign/manual-review residue outside repo-hygiene cleanup authority
+next_route_condition: closeout-worktree or operator scope resolution must handle the remaining worktree-hygiene blocker before proposal archive or cleaned closeout claims.

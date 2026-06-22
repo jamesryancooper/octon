@@ -58,6 +58,7 @@ import difflib
 import hashlib
 import json
 import pathlib
+import re
 import shutil
 import subprocess
 import sys
@@ -127,6 +128,50 @@ def first_existing(paths):
             return path
     return None
 
+proposal_id_pattern = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
+proposal_kind_dirs = ["architecture", "design", "migration", "policy"]
+
+def resolve_dependency_proposal(dependency_id, ref_type, source_field):
+    if not isinstance(dependency_id, str) or not proposal_id_pattern.match(dependency_id):
+        fail(f"dependency ref is not a canonical proposal id in {source_field}: {dependency_id!r}")
+        return None
+
+    matches = []
+    proposal_root = root / ".octon/inputs/exploratory/proposals"
+    for archive_prefix in ["", ".archive"]:
+        for kind in proposal_kind_dirs:
+            if archive_prefix:
+                candidate_dir = proposal_root / archive_prefix / kind / dependency_id
+            else:
+                candidate_dir = proposal_root / kind / dependency_id
+            manifest = candidate_dir / "proposal.yml"
+            if not manifest.is_file():
+                continue
+            candidate = load_yaml(manifest)
+            if candidate.get("proposal_id") != dependency_id:
+                fail(f"dependency manifest id mismatch for {dependency_id}: {rel(manifest)}")
+                continue
+            matches.append((kind, candidate_dir, manifest))
+
+    if not matches:
+        fail(f"dependency proposal exists for {source_field}: {dependency_id}")
+        return None
+    if len(matches) > 1:
+        fail(f"dependency proposal id is ambiguous for {source_field}: {dependency_id}")
+        return None
+
+    kind, dependency_dir, manifest = matches[0]
+    return {
+        "ref_type": ref_type,
+        "proposal_id": dependency_id,
+        "proposal_kind": kind,
+        "proposal_path": rel(dependency_dir),
+        "manifest_ref": rel(manifest),
+        "manifest_sha256": sha256(manifest),
+        "source_field": source_field,
+        "required": True,
+    }
+
 proposal_manifest = proposal_dir / "proposal.yml"
 if not proposal_manifest.is_file():
     fail(f"proposal manifest missing: {proposal_manifest}")
@@ -143,6 +188,18 @@ related_proposals = proposal.get("related_proposals") or []
 source_lineage = proposal.get("source_lineage") or []
 evidence_requirements = proposal.get("evidence_requirements") or []
 validation_gates = proposal.get("validation_gates") or []
+dependency_refs = []
+if parent_program:
+    resolved_parent = resolve_dependency_proposal(parent_program, "parent_program", "proposal.yml#parent_program")
+    if resolved_parent:
+        dependency_refs.append(resolved_parent)
+if not isinstance(related_proposals, list):
+    fail("related_proposals must be a list when present")
+    related_proposals = []
+for related_id in related_proposals:
+    resolved_related = resolve_dependency_proposal(related_id, "related_proposal", "proposal.yml#related_proposals")
+    if resolved_related:
+        dependency_refs.append(resolved_related)
 
 subtype_manifest = first_existing([
     proposal_dir / f"{proposal_kind}-proposal.yml",
@@ -301,6 +358,7 @@ artifact_index = {
     },
     "source_refs": source_refs,
     "source_digests": required_source_digests,
+    "targeted_dependency_refs": dependency_refs,
     "artifact_count": len(artifact_rows),
     "artifacts": artifact_rows,
     "compact_outputs": compact_outputs,
@@ -370,6 +428,7 @@ program_spine = {
     "source_digests": spine_source_digests,
     "parent_program": parent_program or None,
     "related_proposals": related_proposals,
+    "dependency_refs": dependency_refs,
     "source_lineage": source_lineage,
     "lifecycle": {
         "status": status,
@@ -459,6 +518,7 @@ try:
         "dependency_vector": {
             "parent_program": parent_program or None,
             "related_proposals": related_proposals,
+            "dependency_refs": dependency_refs,
             "source_lineage": source_lineage,
         },
         "write_scope_map": [

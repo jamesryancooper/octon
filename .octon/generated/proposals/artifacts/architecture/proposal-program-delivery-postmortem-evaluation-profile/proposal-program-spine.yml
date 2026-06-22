@@ -1,0 +1,172 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml",
+      "manifest_sha256": "sha256:186581f0225a53d7fe859e66421d6425bf6d680a0106b42cb8d9bd1edcd32a8c",
+      "proposal_id": "operator-free-lifecycle-delivery-autonomy-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/proposal.yml",
+      "manifest_sha256": "sha256:de3b741d1573934a10a3cf331612b713c535b63bd9eb061b21256441980ef17d",
+      "proposal_id": "complete-program-blocker-vector-planner-output",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary/proposal.yml",
+      "manifest_sha256": "sha256:17c673428a98bb7d4ad3a6226bd25fc48862f80caa78c0a506a5361a86c489d0",
+      "proposal_id": "normalized-child-terminal-evidence-summary",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/normalized-child-terminal-evidence-summary",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/delivery-retained-evidence-index/proposal.yml",
+      "manifest_sha256": "sha256:4cc2406370303f965d6e532ac615a6ada68b5bd2b046e1e51dd566ac92916650",
+      "proposal_id": "delivery-retained-evidence-index",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/delivery-retained-evidence-index",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:99fe142ff260ae1ab92ab119fe35c48dfe323ee9a9c2b18433d30a4bf01516dd",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators pass.",
+    "status": "accepted",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-delivery-postmortem-evaluation-profile/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+    ".octon/framework/engine/runtime/README.md",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh",
+    ".octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  ],
+  "proposal_id": "proposal-program-delivery-postmortem-evaluation-profile",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 2237,
+      "estimated_tokens": 560,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:9bf3bf98fe7639c84a267c0c798a8c9be121ed9d622056634ae71f6ba4ca2aed"
+    },
+    {
+      "byte_size": 1646,
+      "estimated_tokens": 412,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-review.md",
+      "sha256": "sha256:14920eca68f0eb604f2646e7acfbb48bd1cd06a3cd4cf05385b232d4ad26a7cc"
+    }
+  ],
+  "related_proposals": [
+    "operator-free-lifecycle-delivery-autonomy-hardening",
+    "complete-program-blocker-vector-planner-output",
+    "normalized-child-terminal-evidence-summary",
+    "delivery-retained-evidence-index"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/architecture-proposal.yml": "sha256:e534403f44008b73e27754673b6f8c5f7ad9186cfc91ba5d9b6c68c4f5b554b0",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/architecture/acceptance-criteria.md": "sha256:5441d4aa6c92b6fe7cad83fdb2484ad0d7d28ed518a027591e2e1f3c4b78453f",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/architecture/implementation-plan.md": "sha256:d6d6de230406930c6687bfd870f225f04a9141b3794b8182c35ff0d4d3f703b8",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/navigation/artifact-catalog.md": "sha256:f075715f05ca4ceaf27258a31ecfd591252ac67ba229ed1ed51909f1538bd62f",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/navigation/source-of-truth-map.md": "sha256:37fb73454278fbbf48208591bb90046480f27e05d08c8594eaa4a5fe668c326e",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/proposal.yml": "sha256:698ff446072b9e19b0adf5645cd6a451b8147ee1929fc13f0a2acc119cb9c142",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-grade-completeness-review.md": "sha256:9bf3bf98fe7639c84a267c0c798a8c9be121ed9d622056634ae71f6ba4ca2aed",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-review.md": "sha256:14920eca68f0eb604f2646e7acfbb48bd1cd06a3cd4cf05385b232d4ad26a7cc"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy",
+    ".octon/state/evidence/runs/workflows/20260620T041705Z-proposal-program-delivery-operator-free-packet-lifecycle-autonomy/proposal-program-delivery-receipt.yml",
+    ".octon/state/evidence/local/terminal-closeout/operator-free-packet-lifecycle-autonomy-delivery-20260620T041705Z/",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh",
+    "/Users/jamesryancooper/.codex/attachments/2e09519b-0154-47ff-97cf-ab4725716217/pasted-text.txt"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-review.md"
+  ],
+  "status": "accepted"
+}

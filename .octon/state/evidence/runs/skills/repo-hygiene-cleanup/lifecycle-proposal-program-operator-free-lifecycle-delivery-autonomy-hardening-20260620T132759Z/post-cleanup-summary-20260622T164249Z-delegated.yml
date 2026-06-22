@@ -1,0 +1,22 @@
+schema_version: repo-hygiene-post-cleanup-summary-v1
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+created_at: 2026-06-22T16:42:49Z
+route: delegated-from-cleanup-lifecycle-residue
+active_run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+helper_summary:
+  mode: dry-run
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 1227
+  manual_review: 165
+  git_status_digest: sha256:12b3fe998eb040edd0fb5543094e84bc5f1397cb28172376cbd364082c74d458
+  classification_digest: sha256:b42203f6b99791443c132983946f3da8b9f8d6592a3ae6690137bbd380ef0c0d
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:e33fabd59edf2f4ba8e35481104d5edaf18acfdddc8cf63ad4994c96eecca07e
+  manual_review_paths_digest: sha256:311ab779079dd0f1280c2e7d47eec321a191e74e7c886817ced65520d05bc52f
+cleanup_outcome: no_remaining_helper_cleanup_candidates
+redaction_posture: publishable summary only; raw helper path lists omitted
+retained_protected_count: 1227
+retained_manual_review_count: 165
+next_route_condition: closeout-worktree or operator scope resolution must handle remaining worktree-hygiene blockers before proposal archive or cleaned closeout claims.

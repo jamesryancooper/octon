@@ -36,6 +36,18 @@ Successful wrapper execution proves:
 - `disposition_complete_with_retained_residue` is supported only by
   `local_private_retained` or `foreign_manual_review` candidates with
   candidate-keyed retained evidence;
+- proposal-program handoff candidates that retain raw/private Octon paths as
+  `foreign_manual_review` include
+  `proposal_program_handoff_authorization` or
+  `proposal_program_parent_handoff_authorization` with exact classifier output
+  digest, matching foreign fingerprint, exact authorized path-set match,
+  non-mutating preserved/excluded disposition, child-authority preservation,
+  parent-summary non-substitution, and every forbidden action set to `false`;
+- parent lifecycle-residue handoff candidates also prove the matching cleanup
+  receipt ref and digest, `parent_route_id: cleanup-lifecycle-residue`,
+  `preserve_and_exclude_from_lifecycle_closeout_blocking: true`,
+  `parent_evidence_replaces_child_evidence: false`, and no archive,
+  publication, cleanup, branch cleanup, git mutation, or `cleaned` claim;
 - `publishable_change` and `publishable_closeout_evidence` are the only
   routing classes delegated to `closeout-change`;
 - lifecycle-owned proposal input, generated effective, publication evidence,
@@ -171,6 +183,14 @@ Negative controls:
 - A wrapper report that counts broad raw/private state, `.octon/engine/**`,
   generated authority, transcripts, or input surfaces as publishable closeout
   evidence fails.
+- A wrapper report that records raw/private Octon paths as
+  `foreign_manual_review` without a matching
+  `proposal_program_handoff_authorization` or
+  `proposal_program_parent_handoff_authorization`, or with stale classifier
+  digest, stale cleanup receipt digest when parent-authorized, mismatched
+  foreign fingerprint, path-set drift, missing non-mutating flags,
+  child-authority substitution, parent-summary substitution,
+  parent-evidence substitution, or any forbidden action marked true, fails.
 - A wrapper report that classifies lifecycle-owned proposal input/generated
   publication/control surfaces as `publishable_change` without
   `lifecycle_closeout_authority` proof fails.

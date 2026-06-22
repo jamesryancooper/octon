@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/context/context-pack.json
+context_pack_sha256: sha256:f30e89a8464c001358d5007675f4f037163c8e6b4ab5ee7a130c3ad2a1d0edc0
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/parent/context/model-visible-context.json
+model_visible_context_sha256: sha256:191400e897ce8d0f7ed39a8f941105257f18641864b6a5d41ad97cb3e50c9cad
+receipt_sha256: sha256:982c53c7164e2913a1156f1eea0654fb7c70c30d07ca849f434e7286ef3fa312
+route_id: cleanup-lifecycle-residue
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+schema_version: active-context-pack-v1
+updated_at: 2026-06-22T16:37:42.614727Z
+validity_state: valid

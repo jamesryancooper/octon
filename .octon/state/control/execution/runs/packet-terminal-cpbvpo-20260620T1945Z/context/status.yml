@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/packet-terminal-cpbvpo-20260620T1945Z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/packet-terminal-cpbvpo-20260620T1945Z/context/context-pack.json
+route_id: proposal-packet-terminal-closeout
+run_id: packet-terminal-cpbvpo-20260620T1945Z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-20T19:43:02.327119Z
+validity_state: valid

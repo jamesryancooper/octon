@@ -1,0 +1,31 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "targeted-proposal-freshness-checks-pre-integration-architecture-review-20260622T054657Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks"
+packet_digest: "sha256:a32422ee0fdaa4075fba7009f189eefd1ca62b7bf0e277b529e5b237dc9fb29e"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/navigation/source-of-truth-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/navigation/artifact-catalog.md"
+  - ".octon/inputs/exploratory/proposals/architecture/targeted-proposal-freshness-checks/resources/source-lineage.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict child-local pre-integration review covers targeted proposal freshness checks before implementation authorization."
+  target_architecture_fit: "The packet narrows expensive freshness checks while preserving final full-registry gates."
+  authority_boundaries: "Targeted freshness output remains validation evidence and cannot replace authoritative proposal receipts."
+  evidence_and_validation_plan: "Validation strategy covers targeted freshness, registry generation, artifact indexing, and tests."
+  rollback_and_closeout: "Rollback remains bounded to the child-declared promotion targets and child-owned lifecycle evidence."

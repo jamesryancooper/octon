@@ -59,9 +59,12 @@ create_fixture_repo() {
   cp "$REPO_ROOT/$STANDARD_SCRIPT" "$fixture_root/$STANDARD_SCRIPT"
   cp "$REPO_ROOT/$READINESS_SCRIPT" "$fixture_root/$READINESS_SCRIPT"
   cp "$REPO_ROOT/$REVIEW_GATE_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
-  chmod +x "$fixture_root/$VALIDATE_SCRIPT" "$fixture_root/$STANDARD_SCRIPT" "$fixture_root/$READINESS_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
+  chmod +x "$fixture_root/$VALIDATE_SCRIPT" "$fixture_root/$STANDARD_SCRIPT" "$fixture_root/$READINESS_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
   printf '%s\n' "$fixture_root"
 }
 
@@ -281,6 +284,24 @@ None.
 
 Generate implementation prompt.
 EOF
+  cat >"$(packet_dir "$root" "$child_id")/support/pre-integration-architecture-review.yml" <<EOF
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "$child_id-pre-integration-architecture-review"
+proposal_path: "$(child_path "$child_id")"
+packet_digest: "$digest"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - "$(child_path "$child_id")/architecture/target-architecture.md"
+  - "$(child_path "$child_id")/architecture/acceptance-criteria.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+blockers: []
+mode_specific_coverage:
+  fixture: "covered"
+EOF
 }
 
 write_valid_fixture() {
@@ -405,6 +426,13 @@ EOF
   mkdir -p "$(dirname "$archive")"
   mv "$active" "$archive"
   yq -i '.status = "archived" | .archive.archived_at = "2026-05-12" | .archive.archived_from_status = "implemented" | .archive.disposition = "implemented" | .archive.original_path = ".octon/inputs/exploratory/proposals/architecture/base-child" | .archive.promotion_evidence = [".octon/framework/base-child.md"]' "$archive/proposal.yml"
+  cat >"$archive/support/proposal-terminal-closeout.yml" <<'EOF'
+terminal_verdict: archive-ready
+archive_ready: yes
+EOF
+  cat >"$archive/support/validation.md" <<'EOF'
+verdict: pass
+EOF
   run_validator "$root"
 }
 

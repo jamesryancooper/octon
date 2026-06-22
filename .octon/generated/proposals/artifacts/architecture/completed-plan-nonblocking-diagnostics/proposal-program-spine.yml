@@ -1,0 +1,133 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml",
+      "manifest_sha256": "sha256:186581f0225a53d7fe859e66421d6425bf6d680a0106b42cb8d9bd1edcd32a8c",
+      "proposal_id": "operator-free-lifecycle-delivery-autonomy-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:b3dbd1b77f2e41365f46964416cf08f0311b122a5e60bcb8e0b369d43582f169",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators pass.",
+    "status": "accepted",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/completed-plan-nonblocking-diagnostics/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "proposal_id": "completed-plan-nonblocking-diagnostics",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 1800,
+      "estimated_tokens": 450,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:f8a407d9eaea1824d12720c1dc1bc2aba23b6445474fd338768d81f743d4db97"
+    },
+    {
+      "byte_size": 1333,
+      "estimated_tokens": 334,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/support/proposal-review.md",
+      "sha256": "sha256:7cfc2dd6efafa3b8713a9e8f9c12cc1fafa0850aadccfe7daf2b272fca767eb9"
+    }
+  ],
+  "related_proposals": [
+    "operator-free-lifecycle-delivery-autonomy-hardening"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/architecture-proposal.yml": "sha256:655ed7dd482fe91a3d81308c93f9a9a39baddc99a23900f4b388b273fb12a882",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/architecture/acceptance-criteria.md": "sha256:ad11df640a498d766a941998c3bcee6965ff110fd29598dab36b5a8e682a62d4",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/architecture/implementation-plan.md": "sha256:47826897fde4595274ee94a16776d7e26a921c750c2ac39647abfc0c08f2061b",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/navigation/artifact-catalog.md": "sha256:29d1ab615eec11ff4f00dee9c74da23d6de0dad9408b5a6f07fbaf4b9d857d3f",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/navigation/source-of-truth-map.md": "sha256:6e10c9a4092143b418e0a68fb61078eb74998c80523e1e9fcbd5f7a7a591779a",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/proposal.yml": "sha256:c9362058629ca29927f292a17f5b1bfd8b16ba1b114b603cc2689e09329f2b8f",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/support/implementation-grade-completeness-review.md": "sha256:f8a407d9eaea1824d12720c1dc1bc2aba23b6445474fd338768d81f743d4db97",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/support/proposal-review.md": "sha256:7cfc2dd6efafa3b8713a9e8f9c12cc1fafa0850aadccfe7daf2b272fca767eb9"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy",
+    ".octon/state/evidence/runs/workflows/20260620T041705Z-proposal-program-delivery-operator-free-packet-lifecycle-autonomy/proposal-program-delivery-receipt.yml",
+    ".octon/state/evidence/local/terminal-closeout/operator-free-packet-lifecycle-autonomy-delivery-20260620T041705Z/",
+    ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/completed-plan-nonblocking-diagnostics/support/proposal-review.md"
+  ],
+  "status": "accepted"
+}

@@ -15,6 +15,7 @@ warnings=0
 STANDARD_SCRIPT="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
 READINESS_SCRIPT="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
 REVIEW_GATE_SCRIPT="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+RETAINED_INDEX_SCRIPT="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-retained-run-evidence-index.sh"
 
 declare -A CHILD_PATHS=()
 declare -A CHILD_REQUIRED=()
@@ -231,8 +232,8 @@ validate_implemented_child_ready() {
 }
 
 validate_archived_implemented_child_ready() {
-  local child_id="$1" child_abs="$2" manifest="$child_abs/proposal.yml"
-  local promotion_evidence_count
+  local child_id="$1" child_abs="$2" index="$3" manifest="$child_abs/proposal.yml"
+  local promotion_evidence_count evidence_index_count ref ref_index
 
   if child_is_archived_implemented "$manifest"; then
     pass "child $child_id archive metadata records implemented disposition"
@@ -262,6 +263,28 @@ validate_archived_implemented_child_ready() {
   receipt_field_equals "$child_abs/support/proposal-closeout.md" archive_authorized yes \
     && pass "child $child_id archived closeout authorizes archive" \
     || fail "child $child_id archived closeout authorizes archive"
+  receipt_field_equals "$child_abs/support/proposal-terminal-closeout.yml" terminal_verdict archive-ready \
+    && pass "child $child_id archived terminal closeout records archive-ready verdict" \
+    || fail "child $child_id archived terminal closeout records archive-ready verdict"
+  receipt_field_equals "$child_abs/support/proposal-terminal-closeout.yml" archive_ready yes \
+    && pass "child $child_id archived terminal closeout records archive_ready" \
+    || fail "child $child_id archived terminal closeout records archive_ready"
+  receipt_field_equals "$child_abs/support/validation.md" verdict pass \
+    && pass "child $child_id archived validation receipt passes" \
+    || fail "child $child_id archived validation receipt passes"
+
+  evidence_index_count="$(yq -r "(.children[$index].evidence_index_refs // []) | length" "$REGISTRY" 2>/dev/null || echo 0)"
+  if [[ "$evidence_index_count" -eq 0 ]]; then
+    warn "child $child_id archived terminal evidence has no registry evidence_index_refs"
+  else
+    for ((ref_index=0; ref_index<evidence_index_count; ref_index++)); do
+      ref="$(yq -r ".children[$index].evidence_index_refs[$ref_index] // \"\"" "$REGISTRY" 2>/dev/null || true)"
+      require_existing_ref "child $child_id retained evidence index ref" "$ref"
+      run_child_validator \
+        "child $child_id retained evidence index validates: $ref" \
+        bash "$RETAINED_INDEX_SCRIPT" --index "$ref"
+    done
+  fi
 }
 
 validate_child_metadata() {
@@ -325,7 +348,7 @@ validate_child_readiness() {
     "child $child_id implementation-grade completeness review passes" \
     bash "$READINESS_SCRIPT" --package "$child_validation_path"
   if child_is_archived_implemented "$manifest"; then
-    validate_archived_implemented_child_ready "$child_id" "$child_abs"
+    validate_archived_implemented_child_ready "$child_id" "$child_abs" "$index"
   elif child_is_implemented "$manifest"; then
     run_child_validator \
       "child $child_id implemented proposal-review evidence is preserved" \

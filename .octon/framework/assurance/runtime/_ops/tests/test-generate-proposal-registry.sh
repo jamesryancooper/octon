@@ -444,6 +444,16 @@ case_check_fails_on_orphaned_registry_entry() {
   run_generator_in_fixture "$fixture_root" --check
 }
 
+case_check_fails_on_duplicate_proposal_key() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  mkdir -p "$fixture_root/.octon/generated"
+  touch "$fixture_root/.octon/README.md"
+  write_active_architecture_proposal "$fixture_root"
+  write_archived_architecture_proposal "$fixture_root" "accepted" "archived"
+  run_generator_in_fixture "$fixture_root" --check
+}
+
 case_check_fails_on_invalid_archive_lineage() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
@@ -525,6 +535,10 @@ main() {
     "proposal registry generator rejects orphaned manual entries" \
     "proposal registry matches generated projection" \
     case_check_fails_on_orphaned_registry_entry
+  assert_failure_contains \
+    "proposal registry generator rejects duplicate proposal keys" \
+    "duplicate proposal key" \
+    case_check_fails_on_duplicate_proposal_key
   assert_failure_contains \
     "proposal registry generator rejects invalid archive lineage" \
     "archived_from_status valid" \
