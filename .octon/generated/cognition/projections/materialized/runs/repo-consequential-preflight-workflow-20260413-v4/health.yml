@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "repo-consequential-preflight-workflow-20260413-v4",
-  "generated_at": "2026-06-22T20:49:36Z",
+  "generated_at": "2026-06-23T18:30:12Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "fresh",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:95fb2abd331f403d3fcf9c391498014dab6a4655c54dd5bafe69e3dedd722581",
-    "checked_at": "2026-06-22T20:49:36Z",
+    "combined_source_digest": "sha256:668c8ce5206c1e237b035aa3def0f973f4aa5e32cbb8addc80987a514a1ee7bc",
+    "checked_at": "2026-06-23T18:30:12Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:ff15b6ec18b69d14903a49dfb6927cd26cddc59383efd2d1c133f0ab9e30d371",
+      "digest": "sha256:238b02272e5d449235b046eef84f6a540e986ed48f65b8d98f6a4e7bcdcf0546",
       "status": "present"
     },
     "pack_routes": {

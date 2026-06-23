@@ -1,0 +1,9 @@
+[
+  {
+    "omission_code": "explicit_policy_exclusion",
+    "policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+    "reason": "optional lifecycle context source is unavailable",
+    "route": "allow",
+    "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-creation.md"
+  }
+]

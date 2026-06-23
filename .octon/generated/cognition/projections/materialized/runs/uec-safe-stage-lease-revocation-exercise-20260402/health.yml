@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "uec-safe-stage-lease-revocation-exercise-20260402",
-  "generated_at": "2026-06-22T20:49:36Z",
+  "generated_at": "2026-06-23T18:30:12Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "fresh",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:4f25c1d1b0b8fb379e2f11ff5523893d039bb2696c743860600b6ce133ae5f61",
-    "checked_at": "2026-06-22T20:49:36Z",
+    "combined_source_digest": "sha256:7ad2f37d4dcb32eebc8ad1ab5c175549f466a19a07378e26d117c66a5b0ac7d9",
+    "checked_at": "2026-06-23T18:30:12Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:ff15b6ec18b69d14903a49dfb6927cd26cddc59383efd2d1c133f0ab9e30d371",
+      "digest": "sha256:238b02272e5d449235b046eef84f6a540e986ed48f65b8d98f6a4e7bcdcf0546",
       "status": "present"
     },
     "pack_routes": {

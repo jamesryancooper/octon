@@ -1,0 +1,14 @@
+== Runtime Effective State Validation ==
+[OK] root manifest raw_input_dependency policy is fail-closed
+[OK] root manifest generated_staleness policy is fail-closed
+[OK] version surfaces are in parity
+[OK] harness version and root manifest schema state are current
+[OK] root manifest class-root and profile bindings are current
+[OK] framework and instance companion manifests are current
+[OK] intake-wide raw input non-authority holds
+[OK] exploratory input surfaces are governed and current
+[OK] raw input archive retention is evidenced
+[OK] locality publication state is current and coherent
+[OK] extension publication state is current and coherent
+[OK] capability publication state is current and coherent
+Validation summary: errors=0

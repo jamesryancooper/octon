@@ -1,0 +1,1744 @@
+== Product Feature Catalog Validation ==
+[OK] found catalog: .octon/framework/product/features/catalog.yml
+[OK] catalog YAML parses
+[OK] schema version correct
+[OK] catalog role is navigation-only
+[OK] authority note declared
+[OK] feature ids are unique
+[OK] feature id valid: change-closeout-lifecycle
+[OK] feature change-closeout-lifecycle field declared: name
+[OK] feature change-closeout-lifecycle field declared: implementation_status
+[OK] feature change-closeout-lifecycle field declared: summary
+[OK] feature change-closeout-lifecycle implementation_status valid
+[OK] feature change-closeout-lifecycle array non-empty: primary_audiences
+[OK] feature change-closeout-lifecycle array item declared: primary_audiences[0]
+[OK] feature change-closeout-lifecycle array item declared: primary_audiences[1]
+[OK] feature change-closeout-lifecycle array item declared: primary_audiences[2]
+[OK] feature change-closeout-lifecycle array non-empty: owner_subsystems
+[OK] feature change-closeout-lifecycle array item declared: owner_subsystems[0]
+[OK] feature change-closeout-lifecycle array item declared: owner_subsystems[1]
+[OK] feature change-closeout-lifecycle array item declared: owner_subsystems[2]
+[OK] feature change-closeout-lifecycle array item declared: owner_subsystems[3]
+[OK] feature change-closeout-lifecycle array item declared: owner_subsystems[4]
+[OK] feature change-closeout-lifecycle array item declared: owner_subsystems[5]
+[OK] feature change-closeout-lifecycle array non-empty: authority_notes
+[OK] feature change-closeout-lifecycle array item declared: authority_notes[0]
+[OK] feature change-closeout-lifecycle array item declared: authority_notes[1]
+[OK] feature change-closeout-lifecycle array item declared: authority_notes[2]
+[OK] feature change-closeout-lifecycle array item declared: authority_notes[3]
+[OK] feature change-closeout-lifecycle array item declared: authority_notes[4]
+[OK] feature change-closeout-lifecycle array item declared: authority_notes[5]
+[OK] entrypoint kind valid: change-closeout-lifecycle.entrypoints[0]
+[OK] entrypoint value declared: change-closeout-lifecycle.entrypoints[0]
+[OK] entrypoint kind valid: change-closeout-lifecycle.entrypoints[1]
+[OK] entrypoint value declared: change-closeout-lifecycle.entrypoints[1]
+[OK] entrypoint kind valid: change-closeout-lifecycle.entrypoints[2]
+[OK] entrypoint value declared: change-closeout-lifecycle.entrypoints[2]
+[OK] entrypoint kind valid: change-closeout-lifecycle.entrypoints[3]
+[OK] entrypoint value declared: change-closeout-lifecycle.entrypoints[3]
+[OK] entrypoint kind valid: change-closeout-lifecycle.entrypoints[4]
+[OK] entrypoint value declared: change-closeout-lifecycle.entrypoints[4]
+[OK] entrypoint kind valid: change-closeout-lifecycle.entrypoints[5]
+[OK] entrypoint value declared: change-closeout-lifecycle.entrypoints[5]
+[OK] entrypoint kind valid: change-closeout-lifecycle.entrypoints[6]
+[OK] entrypoint value declared: change-closeout-lifecycle.entrypoints[6]
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[0]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[0]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/product/contracts/default-work-unit.yml
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[1]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[1]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/product/contracts/default-work-unit.md
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[2]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[2]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[2]
+[OK] reference path exists: .octon/framework/product/contracts/change-closeout-state-machine.yml
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[3]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[3]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[3]
+[OK] reference path exists: .octon/framework/product/contracts/change-closeout-state-machine.md
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[4]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[4]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[4]
+[OK] reference path exists: .octon/framework/product/contracts/change-receipt-v1.schema.json
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[5]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[5]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[5]
+[OK] reference path exists: .octon/framework/product/contracts/branch-landing-authorization-v1.schema.json
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[6]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[6]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[6]
+[OK] reference path exists: .octon/framework/product/contracts/branch-cleanup-authorization-v1.schema.json
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[7]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[7]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[7]
+[OK] reference path exists: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[8]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[8]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[8]
+[OK] reference path exists: .octon/framework/execution-roles/practices/standards/cleanup-pass.md
+[OK] reference role declared: change-closeout-lifecycle.authoritative_refs[9]
+[OK] reference authority_class declared: change-closeout-lifecycle.authoritative_refs[9]
+[OK] reference path is repo-relative: change-closeout-lifecycle.authoritative_refs[9]
+[OK] reference path exists: .octon/framework/engine/runtime/spec/evidence-store-v1.md
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[0]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[0]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[1]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[1]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[2]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[2]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[3]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[3]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[4]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[4]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[4]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/01-evaluate-context.md
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[5]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[5]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[5]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[6]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[6]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[6]
+[OK] reference path exists: .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[7]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[7]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[7]
+[OK] reference path exists: .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[8]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[8]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[8]
+[OK] reference path exists: .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[9]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[9]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[9]
+[OK] reference path exists: .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[10]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[10]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[10]
+[OK] reference path exists: .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh
+[OK] reference role declared: change-closeout-lifecycle.runtime_surfaces[11]
+[OK] reference authority_class declared: change-closeout-lifecycle.runtime_surfaces[11]
+[OK] reference path is repo-relative: change-closeout-lifecycle.runtime_surfaces[11]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+[OK] reference role declared: change-closeout-lifecycle.extension_surfaces[0]
+[OK] reference authority_class declared: change-closeout-lifecycle.extension_surfaces[0]
+[OK] reference path is repo-relative: change-closeout-lifecycle.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+[OK] input path is publication-input-only: change-closeout-lifecycle.extension_surfaces[0]
+[OK] reference role declared: change-closeout-lifecycle.generated_effective_surfaces[0]
+[OK] reference authority_class declared: change-closeout-lifecycle.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: change-closeout-lifecycle.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/capabilities/routing.effective.yml
+[OK] generated path is non-authority: change-closeout-lifecycle.generated_effective_surfaces[0]
+[OK] reference role declared: change-closeout-lifecycle.generated_effective_surfaces[1]
+[OK] reference authority_class declared: change-closeout-lifecycle.generated_effective_surfaces[1]
+[OK] reference path is repo-relative: change-closeout-lifecycle.generated_effective_surfaces[1]
+[OK] reference path exists: .octon/generated/effective/capabilities/artifact-map.yml
+[OK] generated path is non-authority: change-closeout-lifecycle.generated_effective_surfaces[1]
+[OK] reference role declared: change-closeout-lifecycle.generated_effective_surfaces[2]
+[OK] reference authority_class declared: change-closeout-lifecycle.generated_effective_surfaces[2]
+[OK] reference path is repo-relative: change-closeout-lifecycle.generated_effective_surfaces[2]
+[OK] reference path exists: .codex/skills/closeout-change/SKILL.md
+[OK] reference role declared: change-closeout-lifecycle.generated_effective_surfaces[3]
+[OK] reference authority_class declared: change-closeout-lifecycle.generated_effective_surfaces[3]
+[OK] reference path is repo-relative: change-closeout-lifecycle.generated_effective_surfaces[3]
+[OK] reference path exists: .codex/skills/closeout-worktree/SKILL.md
+[OK] reference role declared: change-closeout-lifecycle.generated_effective_surfaces[4]
+[OK] reference authority_class declared: change-closeout-lifecycle.generated_effective_surfaces[4]
+[OK] reference path is repo-relative: change-closeout-lifecycle.generated_effective_surfaces[4]
+[OK] reference path exists: .codex/skills/closeout-pr/SKILL.md
+[OK] reference role declared: change-closeout-lifecycle.evidence_surfaces[0]
+[OK] reference authority_class declared: change-closeout-lifecycle.evidence_surfaces[0]
+[OK] reference path pattern declared: change-closeout-lifecycle.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: change-closeout-lifecycle.evidence_surfaces[0]
+[OK] reference role declared: change-closeout-lifecycle.evidence_surfaces[1]
+[OK] reference authority_class declared: change-closeout-lifecycle.evidence_surfaces[1]
+[OK] reference path pattern declared: change-closeout-lifecycle.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: change-closeout-lifecycle.evidence_surfaces[1]
+[OK] reference role declared: change-closeout-lifecycle.evidence_surfaces[2]
+[OK] reference authority_class declared: change-closeout-lifecycle.evidence_surfaces[2]
+[OK] reference path pattern declared: change-closeout-lifecycle.evidence_surfaces[2]
+[OK] state/evidence path is retained evidence: change-closeout-lifecycle.evidence_surfaces[2]
+[OK] reference role declared: change-closeout-lifecycle.evidence_surfaces[3]
+[OK] reference authority_class declared: change-closeout-lifecycle.evidence_surfaces[3]
+[OK] reference path pattern declared: change-closeout-lifecycle.evidence_surfaces[3]
+[OK] state/evidence path is retained evidence: change-closeout-lifecycle.evidence_surfaces[3]
+[OK] reference role declared: change-closeout-lifecycle.evidence_surfaces[4]
+[OK] reference authority_class declared: change-closeout-lifecycle.evidence_surfaces[4]
+[OK] reference path pattern declared: change-closeout-lifecycle.evidence_surfaces[4]
+[OK] state/evidence path is retained evidence: change-closeout-lifecycle.evidence_surfaces[4]
+[OK] reference role declared: change-closeout-lifecycle.evidence_surfaces[5]
+[OK] reference authority_class declared: change-closeout-lifecycle.evidence_surfaces[5]
+[OK] reference path is repo-relative: change-closeout-lifecycle.evidence_surfaces[5]
+[OK] reference path exists: .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml
+[OK] state/evidence path is retained evidence: change-closeout-lifecycle.evidence_surfaces[5]
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[0]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[0]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[1]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[1]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[2]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[2]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[3]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[3]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[4]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[4]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[5]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[5]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[5]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[6]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[6]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[6]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[7]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[7]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[7]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[8]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[8]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[8]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[9]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[9]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[9]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-hosted-no-pr-landing.sh
+[OK] reference role declared: change-closeout-lifecycle.validation_refs[10]
+[OK] reference authority_class declared: change-closeout-lifecycle.validation_refs[10]
+[OK] reference path is repo-relative: change-closeout-lifecycle.validation_refs[10]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+[OK] reference role declared: change-closeout-lifecycle.related_docs[0]
+[OK] reference authority_class declared: change-closeout-lifecycle.related_docs[0]
+[OK] reference path is repo-relative: change-closeout-lifecycle.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/change-closeout-lifecycle.md
+[OK] reference role declared: change-closeout-lifecycle.related_docs[1]
+[OK] reference authority_class declared: change-closeout-lifecycle.related_docs[1]
+[OK] reference path is repo-relative: change-closeout-lifecycle.related_docs[1]
+[OK] reference path exists: .octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md
+[OK] reference role declared: change-closeout-lifecycle.related_docs[2]
+[OK] reference authority_class declared: change-closeout-lifecycle.related_docs[2]
+[OK] reference path is repo-relative: change-closeout-lifecycle.related_docs[2]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/io-contract.md
+[OK] reference role declared: change-closeout-lifecycle.related_docs[3]
+[OK] reference authority_class declared: change-closeout-lifecycle.related_docs[3]
+[OK] reference path is repo-relative: change-closeout-lifecycle.related_docs[3]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md
+[OK] reference role declared: change-closeout-lifecycle.related_docs[4]
+[OK] reference authority_class declared: change-closeout-lifecycle.related_docs[4]
+[OK] reference path is repo-relative: change-closeout-lifecycle.related_docs[4]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/references/io-contract.md
+[OK] reference role declared: change-closeout-lifecycle.related_docs[5]
+[OK] reference authority_class declared: change-closeout-lifecycle.related_docs[5]
+[OK] reference path is repo-relative: change-closeout-lifecycle.related_docs[5]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/change-closeout-and-repo-hygiene.md
+[OK] feature id valid: proposal-packet-terminal-closeout
+[OK] feature proposal-packet-terminal-closeout field declared: name
+[OK] feature proposal-packet-terminal-closeout field declared: implementation_status
+[OK] feature proposal-packet-terminal-closeout field declared: summary
+[OK] feature proposal-packet-terminal-closeout implementation_status valid
+[OK] feature proposal-packet-terminal-closeout array non-empty: primary_audiences
+[OK] feature proposal-packet-terminal-closeout array item declared: primary_audiences[0]
+[OK] feature proposal-packet-terminal-closeout array item declared: primary_audiences[1]
+[OK] feature proposal-packet-terminal-closeout array item declared: primary_audiences[2]
+[OK] feature proposal-packet-terminal-closeout array non-empty: owner_subsystems
+[OK] feature proposal-packet-terminal-closeout array item declared: owner_subsystems[0]
+[OK] feature proposal-packet-terminal-closeout array item declared: owner_subsystems[1]
+[OK] feature proposal-packet-terminal-closeout array item declared: owner_subsystems[2]
+[OK] feature proposal-packet-terminal-closeout array item declared: owner_subsystems[3]
+[OK] feature proposal-packet-terminal-closeout array item declared: owner_subsystems[4]
+[OK] feature proposal-packet-terminal-closeout array non-empty: authority_notes
+[OK] feature proposal-packet-terminal-closeout array item declared: authority_notes[0]
+[OK] feature proposal-packet-terminal-closeout array item declared: authority_notes[1]
+[OK] feature proposal-packet-terminal-closeout array item declared: authority_notes[2]
+[OK] feature proposal-packet-terminal-closeout array item declared: authority_notes[3]
+[OK] feature proposal-packet-terminal-closeout array item declared: authority_notes[4]
+[OK] entrypoint kind valid: proposal-packet-terminal-closeout.entrypoints[0]
+[OK] entrypoint value declared: proposal-packet-terminal-closeout.entrypoints[0]
+[OK] entrypoint kind valid: proposal-packet-terminal-closeout.entrypoints[1]
+[OK] entrypoint value declared: proposal-packet-terminal-closeout.entrypoints[1]
+[OK] entrypoint kind valid: proposal-packet-terminal-closeout.entrypoints[2]
+[OK] entrypoint value declared: proposal-packet-terminal-closeout.entrypoints[2]
+[OK] reference role declared: proposal-packet-terminal-closeout.authoritative_refs[0]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.authoritative_refs[0]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/product/contracts/proposal-packet-terminal-closeout-profile-v1.schema.json
+[OK] reference role declared: proposal-packet-terminal-closeout.authoritative_refs[1]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.authoritative_refs[1]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json
+[OK] reference role declared: proposal-packet-terminal-closeout.authoritative_refs[2]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.authoritative_refs[2]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.authoritative_refs[2]
+[OK] reference path exists: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] reference role declared: proposal-packet-terminal-closeout.authoritative_refs[3]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.authoritative_refs[3]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.authoritative_refs[3]
+[OK] reference path exists: .octon/framework/product/contracts/default-work-unit.yml
+[OK] reference role declared: proposal-packet-terminal-closeout.runtime_surfaces[0]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.runtime_surfaces[0]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml
+[OK] reference role declared: proposal-packet-terminal-closeout.runtime_surfaces[1]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.runtime_surfaces[1]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/stages/01-bind-profile.md
+[OK] reference role declared: proposal-packet-terminal-closeout.runtime_surfaces[2]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.runtime_surfaces[2]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/stages/10-emit-terminal-receipt.md
+[OK] reference role declared: proposal-packet-terminal-closeout.runtime_surfaces[3]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.runtime_surfaces[3]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/proposal-packet-terminal-closeout.md
+[OK] reference role declared: proposal-packet-terminal-closeout.runtime_surfaces[4]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.runtime_surfaces[4]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.runtime_surfaces[4]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/operations/proposal-packet-terminal-closeout/SKILL.md
+[OK] reference role declared: proposal-packet-terminal-closeout.extension_surfaces[0]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.extension_surfaces[0]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+[OK] input path is publication-input-only: proposal-packet-terminal-closeout.extension_surfaces[0]
+[OK] reference role declared: proposal-packet-terminal-closeout.extension_surfaces[1]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.extension_surfaces[1]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.extension_surfaces[1]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md
+[OK] input path is publication-input-only: proposal-packet-terminal-closeout.extension_surfaces[1]
+[OK] reference role declared: proposal-packet-terminal-closeout.extension_surfaces[2]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.extension_surfaces[2]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.extension_surfaces[2]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/README.md
+[OK] input path is publication-input-only: proposal-packet-terminal-closeout.extension_surfaces[2]
+[OK] reference role declared: proposal-packet-terminal-closeout.generated_effective_surfaces[0]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/capabilities/routing.effective.yml
+[OK] generated path is non-authority: proposal-packet-terminal-closeout.generated_effective_surfaces[0]
+[OK] reference role declared: proposal-packet-terminal-closeout.generated_effective_surfaces[1]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.generated_effective_surfaces[1]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.generated_effective_surfaces[1]
+[OK] reference path exists: .octon/generated/effective/capabilities/artifact-map.yml
+[OK] generated path is non-authority: proposal-packet-terminal-closeout.generated_effective_surfaces[1]
+[OK] reference role declared: proposal-packet-terminal-closeout.generated_effective_surfaces[2]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.generated_effective_surfaces[2]
+[OK] reference path pattern declared: proposal-packet-terminal-closeout.generated_effective_surfaces[2]
+[OK] generated path is non-authority: proposal-packet-terminal-closeout.generated_effective_surfaces[2]
+[OK] reference role declared: proposal-packet-terminal-closeout.generated_effective_surfaces[3]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.generated_effective_surfaces[3]
+[OK] reference path pattern declared: proposal-packet-terminal-closeout.generated_effective_surfaces[3]
+[OK] reference role declared: proposal-packet-terminal-closeout.evidence_surfaces[0]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.evidence_surfaces[0]
+[OK] reference path pattern declared: proposal-packet-terminal-closeout.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: proposal-packet-terminal-closeout.evidence_surfaces[0]
+[OK] reference role declared: proposal-packet-terminal-closeout.evidence_surfaces[1]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.evidence_surfaces[1]
+[OK] reference path pattern declared: proposal-packet-terminal-closeout.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: proposal-packet-terminal-closeout.evidence_surfaces[1]
+[OK] reference role declared: proposal-packet-terminal-closeout.evidence_surfaces[2]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.evidence_surfaces[2]
+[OK] reference path pattern declared: proposal-packet-terminal-closeout.evidence_surfaces[2]
+[OK] state/evidence path is retained evidence: proposal-packet-terminal-closeout.evidence_surfaces[2]
+[OK] reference role declared: proposal-packet-terminal-closeout.validation_refs[0]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.validation_refs[0]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh
+[OK] reference role declared: proposal-packet-terminal-closeout.validation_refs[1]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.validation_refs[1]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh
+[OK] reference role declared: proposal-packet-terminal-closeout.validation_refs[2]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.validation_refs[2]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh
+[OK] reference role declared: proposal-packet-terminal-closeout.validation_refs[3]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.validation_refs[3]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-terminal-closeout.sh
+[OK] reference role declared: proposal-packet-terminal-closeout.validation_refs[4]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.validation_refs[4]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+[OK] reference role declared: proposal-packet-terminal-closeout.related_docs[0]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.related_docs[0]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/proposal-packet-terminal-closeout.md
+[OK] reference role declared: proposal-packet-terminal-closeout.related_docs[1]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.related_docs[1]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.related_docs[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/README.md
+[OK] reference role declared: proposal-packet-terminal-closeout.related_docs[2]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.related_docs[2]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.related_docs[2]
+[OK] reference path exists: .octon/framework/assurance/evaluators/proposal-packet-terminal-closeout/README.md
+[OK] reference role declared: proposal-packet-terminal-closeout.related_docs[3]
+[OK] reference authority_class declared: proposal-packet-terminal-closeout.related_docs[3]
+[OK] reference path is repo-relative: proposal-packet-terminal-closeout.related_docs[3]
+[OK] reference path exists: .octon/framework/assurance/evaluators/templates/proposal-packet-terminal-closeout-template.md
+[OK] feature id valid: fixture-retention-closeout
+[OK] feature fixture-retention-closeout field declared: name
+[OK] feature fixture-retention-closeout field declared: implementation_status
+[OK] feature fixture-retention-closeout field declared: summary
+[OK] feature fixture-retention-closeout implementation_status valid
+[OK] feature fixture-retention-closeout array non-empty: primary_audiences
+[OK] feature fixture-retention-closeout array item declared: primary_audiences[0]
+[OK] feature fixture-retention-closeout array item declared: primary_audiences[1]
+[OK] feature fixture-retention-closeout array item declared: primary_audiences[2]
+[OK] feature fixture-retention-closeout array non-empty: owner_subsystems
+[OK] feature fixture-retention-closeout array item declared: owner_subsystems[0]
+[OK] feature fixture-retention-closeout array item declared: owner_subsystems[1]
+[OK] feature fixture-retention-closeout array item declared: owner_subsystems[2]
+[OK] feature fixture-retention-closeout array item declared: owner_subsystems[3]
+[OK] feature fixture-retention-closeout array item declared: owner_subsystems[4]
+[OK] feature fixture-retention-closeout array non-empty: authority_notes
+[OK] feature fixture-retention-closeout array item declared: authority_notes[0]
+[OK] feature fixture-retention-closeout array item declared: authority_notes[1]
+[OK] feature fixture-retention-closeout array item declared: authority_notes[2]
+[OK] feature fixture-retention-closeout array item declared: authority_notes[3]
+[OK] feature fixture-retention-closeout array item declared: authority_notes[4]
+[OK] entrypoint kind valid: fixture-retention-closeout.entrypoints[0]
+[OK] entrypoint value declared: fixture-retention-closeout.entrypoints[0]
+[OK] entrypoint kind valid: fixture-retention-closeout.entrypoints[1]
+[OK] entrypoint value declared: fixture-retention-closeout.entrypoints[1]
+[OK] entrypoint kind valid: fixture-retention-closeout.entrypoints[2]
+[OK] entrypoint value declared: fixture-retention-closeout.entrypoints[2]
+[OK] reference role declared: fixture-retention-closeout.authoritative_refs[0]
+[OK] reference authority_class declared: fixture-retention-closeout.authoritative_refs[0]
+[OK] reference path is repo-relative: fixture-retention-closeout.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/product/contracts/fixture-retention-closeout-receipt-v1.schema.json
+[OK] reference role declared: fixture-retention-closeout.runtime_surfaces[0]
+[OK] reference authority_class declared: fixture-retention-closeout.runtime_surfaces[0]
+[OK] reference path is repo-relative: fixture-retention-closeout.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/fixture-retention-closeout/workflow.yml
+[OK] reference role declared: fixture-retention-closeout.runtime_surfaces[1]
+[OK] reference authority_class declared: fixture-retention-closeout.runtime_surfaces[1]
+[OK] reference path is repo-relative: fixture-retention-closeout.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/fixture-retention-closeout/stages/01-resolve-fixture-identity.md
+[OK] reference role declared: fixture-retention-closeout.runtime_surfaces[2]
+[OK] reference authority_class declared: fixture-retention-closeout.runtime_surfaces[2]
+[OK] reference path is repo-relative: fixture-retention-closeout.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/fixture-retention-closeout/stages/05-emit-retention-receipt.md
+[OK] reference role declared: fixture-retention-closeout.runtime_surfaces[3]
+[OK] reference authority_class declared: fixture-retention-closeout.runtime_surfaces[3]
+[OK] reference path is repo-relative: fixture-retention-closeout.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/fixture-retention-closeout.md
+[OK] reference role declared: fixture-retention-closeout.runtime_surfaces[4]
+[OK] reference authority_class declared: fixture-retention-closeout.runtime_surfaces[4]
+[OK] reference path is repo-relative: fixture-retention-closeout.runtime_surfaces[4]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/operations/fixture-retention-closeout/SKILL.md
+[OK] reference role declared: fixture-retention-closeout.extension_surfaces[0]
+[OK] reference authority_class declared: fixture-retention-closeout.extension_surfaces[0]
+[OK] reference path is repo-relative: fixture-retention-closeout.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+[OK] input path is publication-input-only: fixture-retention-closeout.extension_surfaces[0]
+[OK] reference role declared: fixture-retention-closeout.generated_effective_surfaces[0]
+[OK] reference authority_class declared: fixture-retention-closeout.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: fixture-retention-closeout.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/capabilities/routing.effective.yml
+[OK] generated path is non-authority: fixture-retention-closeout.generated_effective_surfaces[0]
+[OK] reference role declared: fixture-retention-closeout.generated_effective_surfaces[1]
+[OK] reference authority_class declared: fixture-retention-closeout.generated_effective_surfaces[1]
+[OK] reference path pattern declared: fixture-retention-closeout.generated_effective_surfaces[1]
+[OK] reference role declared: fixture-retention-closeout.evidence_surfaces[0]
+[OK] reference authority_class declared: fixture-retention-closeout.evidence_surfaces[0]
+[OK] reference path pattern declared: fixture-retention-closeout.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: fixture-retention-closeout.evidence_surfaces[0]
+[OK] reference role declared: fixture-retention-closeout.evidence_surfaces[1]
+[OK] reference authority_class declared: fixture-retention-closeout.evidence_surfaces[1]
+[OK] reference path pattern declared: fixture-retention-closeout.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: fixture-retention-closeout.evidence_surfaces[1]
+[OK] reference role declared: fixture-retention-closeout.validation_refs[0]
+[OK] reference authority_class declared: fixture-retention-closeout.validation_refs[0]
+[OK] reference path is repo-relative: fixture-retention-closeout.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-receipt.sh
+[OK] reference role declared: fixture-retention-closeout.validation_refs[1]
+[OK] reference authority_class declared: fixture-retention-closeout.validation_refs[1]
+[OK] reference path is repo-relative: fixture-retention-closeout.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-fixture-retention-closeout-workflow.sh
+[OK] reference role declared: fixture-retention-closeout.validation_refs[2]
+[OK] reference authority_class declared: fixture-retention-closeout.validation_refs[2]
+[OK] reference path is repo-relative: fixture-retention-closeout.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-fixture-retention-closeout.sh
+[OK] reference role declared: fixture-retention-closeout.validation_refs[3]
+[OK] reference authority_class declared: fixture-retention-closeout.validation_refs[3]
+[OK] reference path is repo-relative: fixture-retention-closeout.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] reference role declared: fixture-retention-closeout.related_docs[0]
+[OK] reference authority_class declared: fixture-retention-closeout.related_docs[0]
+[OK] reference path is repo-relative: fixture-retention-closeout.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/fixture-retention-closeout.md
+[OK] reference role declared: fixture-retention-closeout.related_docs[1]
+[OK] reference authority_class declared: fixture-retention-closeout.related_docs[1]
+[OK] reference path is repo-relative: fixture-retention-closeout.related_docs[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/fixture-retention-closeout/README.md
+[OK] feature id valid: governed-proposal-delivery
+[OK] feature governed-proposal-delivery field declared: name
+[OK] feature governed-proposal-delivery field declared: implementation_status
+[OK] feature governed-proposal-delivery field declared: summary
+[OK] feature governed-proposal-delivery implementation_status valid
+[OK] feature governed-proposal-delivery array non-empty: primary_audiences
+[OK] feature governed-proposal-delivery array item declared: primary_audiences[0]
+[OK] feature governed-proposal-delivery array item declared: primary_audiences[1]
+[OK] feature governed-proposal-delivery array item declared: primary_audiences[2]
+[OK] feature governed-proposal-delivery array non-empty: owner_subsystems
+[OK] feature governed-proposal-delivery array item declared: owner_subsystems[0]
+[OK] feature governed-proposal-delivery array item declared: owner_subsystems[1]
+[OK] feature governed-proposal-delivery array item declared: owner_subsystems[2]
+[OK] feature governed-proposal-delivery array item declared: owner_subsystems[3]
+[OK] feature governed-proposal-delivery array item declared: owner_subsystems[4]
+[OK] feature governed-proposal-delivery array item declared: owner_subsystems[5]
+[OK] feature governed-proposal-delivery array non-empty: authority_notes
+[OK] feature governed-proposal-delivery array item declared: authority_notes[0]
+[OK] feature governed-proposal-delivery array item declared: authority_notes[1]
+[OK] feature governed-proposal-delivery array item declared: authority_notes[2]
+[OK] feature governed-proposal-delivery array item declared: authority_notes[3]
+[OK] feature governed-proposal-delivery array item declared: authority_notes[4]
+[OK] feature governed-proposal-delivery array item declared: authority_notes[5]
+[OK] entrypoint kind valid: governed-proposal-delivery.entrypoints[0]
+[OK] entrypoint value declared: governed-proposal-delivery.entrypoints[0]
+[OK] entrypoint kind valid: governed-proposal-delivery.entrypoints[1]
+[OK] entrypoint value declared: governed-proposal-delivery.entrypoints[1]
+[OK] entrypoint kind valid: governed-proposal-delivery.entrypoints[2]
+[OK] entrypoint value declared: governed-proposal-delivery.entrypoints[2]
+[OK] reference role declared: governed-proposal-delivery.authoritative_refs[0]
+[OK] reference authority_class declared: governed-proposal-delivery.authoritative_refs[0]
+[OK] reference path is repo-relative: governed-proposal-delivery.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+[OK] reference role declared: governed-proposal-delivery.authoritative_refs[1]
+[OK] reference authority_class declared: governed-proposal-delivery.authoritative_refs[1]
+[OK] reference path is repo-relative: governed-proposal-delivery.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+[OK] reference role declared: governed-proposal-delivery.authoritative_refs[2]
+[OK] reference authority_class declared: governed-proposal-delivery.authoritative_refs[2]
+[OK] reference path is repo-relative: governed-proposal-delivery.authoritative_refs[2]
+[OK] reference path exists: .octon/framework/product/contracts/default-work-unit.yml
+[OK] reference role declared: governed-proposal-delivery.authoritative_refs[3]
+[OK] reference authority_class declared: governed-proposal-delivery.authoritative_refs[3]
+[OK] reference path is repo-relative: governed-proposal-delivery.authoritative_refs[3]
+[OK] reference path exists: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] reference role declared: governed-proposal-delivery.runtime_surfaces[0]
+[OK] reference authority_class declared: governed-proposal-delivery.runtime_surfaces[0]
+[OK] reference path is repo-relative: governed-proposal-delivery.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+[OK] reference role declared: governed-proposal-delivery.runtime_surfaces[1]
+[OK] reference authority_class declared: governed-proposal-delivery.runtime_surfaces[1]
+[OK] reference path is repo-relative: governed-proposal-delivery.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/01-bind-profile.md
+[OK] reference role declared: governed-proposal-delivery.runtime_surfaces[2]
+[OK] reference authority_class declared: governed-proposal-delivery.runtime_surfaces[2]
+[OK] reference path is repo-relative: governed-proposal-delivery.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/08-emit-delivery-receipt.md
+[OK] reference role declared: governed-proposal-delivery.runtime_surfaces[3]
+[OK] reference authority_class declared: governed-proposal-delivery.runtime_surfaces[3]
+[OK] reference path is repo-relative: governed-proposal-delivery.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+[OK] reference role declared: governed-proposal-delivery.runtime_surfaces[4]
+[OK] reference authority_class declared: governed-proposal-delivery.runtime_surfaces[4]
+[OK] reference path is repo-relative: governed-proposal-delivery.runtime_surfaces[4]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+[OK] reference role declared: governed-proposal-delivery.extension_surfaces[0]
+[OK] reference authority_class declared: governed-proposal-delivery.extension_surfaces[0]
+[OK] reference path is repo-relative: governed-proposal-delivery.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+[OK] input path is publication-input-only: governed-proposal-delivery.extension_surfaces[0]
+[OK] reference role declared: governed-proposal-delivery.extension_surfaces[1]
+[OK] reference authority_class declared: governed-proposal-delivery.extension_surfaces[1]
+[OK] reference path is repo-relative: governed-proposal-delivery.extension_surfaces[1]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md
+[OK] input path is publication-input-only: governed-proposal-delivery.extension_surfaces[1]
+[OK] reference role declared: governed-proposal-delivery.extension_surfaces[2]
+[OK] reference authority_class declared: governed-proposal-delivery.extension_surfaces[2]
+[OK] reference path is repo-relative: governed-proposal-delivery.extension_surfaces[2]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/README.md
+[OK] input path is publication-input-only: governed-proposal-delivery.extension_surfaces[2]
+[OK] reference role declared: governed-proposal-delivery.generated_effective_surfaces[0]
+[OK] reference authority_class declared: governed-proposal-delivery.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: governed-proposal-delivery.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/capabilities/routing.effective.yml
+[OK] generated path is non-authority: governed-proposal-delivery.generated_effective_surfaces[0]
+[OK] reference role declared: governed-proposal-delivery.generated_effective_surfaces[1]
+[OK] reference authority_class declared: governed-proposal-delivery.generated_effective_surfaces[1]
+[OK] reference path is repo-relative: governed-proposal-delivery.generated_effective_surfaces[1]
+[OK] reference path exists: .octon/generated/effective/capabilities/artifact-map.yml
+[OK] generated path is non-authority: governed-proposal-delivery.generated_effective_surfaces[1]
+[OK] reference role declared: governed-proposal-delivery.generated_effective_surfaces[2]
+[OK] reference authority_class declared: governed-proposal-delivery.generated_effective_surfaces[2]
+[OK] reference path pattern declared: governed-proposal-delivery.generated_effective_surfaces[2]
+[OK] generated path is non-authority: governed-proposal-delivery.generated_effective_surfaces[2]
+[OK] reference role declared: governed-proposal-delivery.generated_effective_surfaces[3]
+[OK] reference authority_class declared: governed-proposal-delivery.generated_effective_surfaces[3]
+[OK] reference path pattern declared: governed-proposal-delivery.generated_effective_surfaces[3]
+[OK] reference role declared: governed-proposal-delivery.evidence_surfaces[0]
+[OK] reference authority_class declared: governed-proposal-delivery.evidence_surfaces[0]
+[OK] reference path pattern declared: governed-proposal-delivery.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: governed-proposal-delivery.evidence_surfaces[0]
+[OK] reference role declared: governed-proposal-delivery.evidence_surfaces[1]
+[OK] reference authority_class declared: governed-proposal-delivery.evidence_surfaces[1]
+[OK] reference path pattern declared: governed-proposal-delivery.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: governed-proposal-delivery.evidence_surfaces[1]
+[OK] reference role declared: governed-proposal-delivery.evidence_surfaces[2]
+[OK] reference authority_class declared: governed-proposal-delivery.evidence_surfaces[2]
+[OK] reference path pattern declared: governed-proposal-delivery.evidence_surfaces[2]
+[OK] state/evidence path is retained evidence: governed-proposal-delivery.evidence_surfaces[2]
+[OK] reference role declared: governed-proposal-delivery.validation_refs[0]
+[OK] reference authority_class declared: governed-proposal-delivery.validation_refs[0]
+[OK] reference path is repo-relative: governed-proposal-delivery.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+[OK] reference role declared: governed-proposal-delivery.validation_refs[1]
+[OK] reference authority_class declared: governed-proposal-delivery.validation_refs[1]
+[OK] reference path is repo-relative: governed-proposal-delivery.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+[OK] reference role declared: governed-proposal-delivery.validation_refs[2]
+[OK] reference authority_class declared: governed-proposal-delivery.validation_refs[2]
+[OK] reference path is repo-relative: governed-proposal-delivery.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+[OK] reference role declared: governed-proposal-delivery.validation_refs[3]
+[OK] reference authority_class declared: governed-proposal-delivery.validation_refs[3]
+[OK] reference path is repo-relative: governed-proposal-delivery.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+[OK] reference role declared: governed-proposal-delivery.validation_refs[4]
+[OK] reference authority_class declared: governed-proposal-delivery.validation_refs[4]
+[OK] reference path is repo-relative: governed-proposal-delivery.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+[OK] reference role declared: governed-proposal-delivery.related_docs[0]
+[OK] reference authority_class declared: governed-proposal-delivery.related_docs[0]
+[OK] reference path is repo-relative: governed-proposal-delivery.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/governed-proposal-delivery.md
+[OK] reference role declared: governed-proposal-delivery.related_docs[1]
+[OK] reference authority_class declared: governed-proposal-delivery.related_docs[1]
+[OK] reference path is repo-relative: governed-proposal-delivery.related_docs[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md
+[OK] reference role declared: governed-proposal-delivery.related_docs[2]
+[OK] reference authority_class declared: governed-proposal-delivery.related_docs[2]
+[OK] reference path is repo-relative: governed-proposal-delivery.related_docs[2]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+[OK] feature id valid: proposal-packet-delivery
+[OK] feature proposal-packet-delivery field declared: name
+[OK] feature proposal-packet-delivery field declared: implementation_status
+[OK] feature proposal-packet-delivery field declared: summary
+[OK] feature proposal-packet-delivery implementation_status valid
+[OK] feature proposal-packet-delivery array non-empty: primary_audiences
+[OK] feature proposal-packet-delivery array item declared: primary_audiences[0]
+[OK] feature proposal-packet-delivery array item declared: primary_audiences[1]
+[OK] feature proposal-packet-delivery array item declared: primary_audiences[2]
+[OK] feature proposal-packet-delivery array non-empty: owner_subsystems
+[OK] feature proposal-packet-delivery array item declared: owner_subsystems[0]
+[OK] feature proposal-packet-delivery array item declared: owner_subsystems[1]
+[OK] feature proposal-packet-delivery array item declared: owner_subsystems[2]
+[OK] feature proposal-packet-delivery array item declared: owner_subsystems[3]
+[OK] feature proposal-packet-delivery array item declared: owner_subsystems[4]
+[OK] feature proposal-packet-delivery array item declared: owner_subsystems[5]
+[OK] feature proposal-packet-delivery array non-empty: authority_notes
+[OK] feature proposal-packet-delivery array item declared: authority_notes[0]
+[OK] feature proposal-packet-delivery array item declared: authority_notes[1]
+[OK] feature proposal-packet-delivery array item declared: authority_notes[2]
+[OK] feature proposal-packet-delivery array item declared: authority_notes[3]
+[OK] feature proposal-packet-delivery array item declared: authority_notes[4]
+[OK] feature proposal-packet-delivery array item declared: authority_notes[5]
+[OK] feature proposal-packet-delivery array item declared: authority_notes[6]
+[OK] feature proposal-packet-delivery array item declared: authority_notes[7]
+[OK] feature proposal-packet-delivery array item declared: authority_notes[8]
+[OK] entrypoint kind valid: proposal-packet-delivery.entrypoints[0]
+[OK] entrypoint value declared: proposal-packet-delivery.entrypoints[0]
+[OK] entrypoint kind valid: proposal-packet-delivery.entrypoints[1]
+[OK] entrypoint value declared: proposal-packet-delivery.entrypoints[1]
+[OK] entrypoint kind valid: proposal-packet-delivery.entrypoints[2]
+[OK] entrypoint value declared: proposal-packet-delivery.entrypoints[2]
+[OK] reference role declared: proposal-packet-delivery.authoritative_refs[0]
+[OK] reference authority_class declared: proposal-packet-delivery.authoritative_refs[0]
+[OK] reference path is repo-relative: proposal-packet-delivery.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json
+[OK] reference role declared: proposal-packet-delivery.authoritative_refs[1]
+[OK] reference authority_class declared: proposal-packet-delivery.authoritative_refs[1]
+[OK] reference path is repo-relative: proposal-packet-delivery.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+[OK] reference role declared: proposal-packet-delivery.authoritative_refs[2]
+[OK] reference authority_class declared: proposal-packet-delivery.authoritative_refs[2]
+[OK] reference path is repo-relative: proposal-packet-delivery.authoritative_refs[2]
+[OK] reference path exists: .octon/framework/product/contracts/default-work-unit.yml
+[OK] reference role declared: proposal-packet-delivery.authoritative_refs[3]
+[OK] reference authority_class declared: proposal-packet-delivery.authoritative_refs[3]
+[OK] reference path is repo-relative: proposal-packet-delivery.authoritative_refs[3]
+[OK] reference path exists: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] reference role declared: proposal-packet-delivery.runtime_surfaces[0]
+[OK] reference authority_class declared: proposal-packet-delivery.runtime_surfaces[0]
+[OK] reference path is repo-relative: proposal-packet-delivery.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml
+[OK] reference role declared: proposal-packet-delivery.runtime_surfaces[1]
+[OK] reference authority_class declared: proposal-packet-delivery.runtime_surfaces[1]
+[OK] reference path is repo-relative: proposal-packet-delivery.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/stages/01-bind-profile.md
+[OK] reference role declared: proposal-packet-delivery.runtime_surfaces[2]
+[OK] reference authority_class declared: proposal-packet-delivery.runtime_surfaces[2]
+[OK] reference path is repo-relative: proposal-packet-delivery.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/stages/10-emit-delivery-receipt.md
+[OK] reference role declared: proposal-packet-delivery.runtime_surfaces[3]
+[OK] reference authority_class declared: proposal-packet-delivery.runtime_surfaces[3]
+[OK] reference path is repo-relative: proposal-packet-delivery.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md
+[OK] reference role declared: proposal-packet-delivery.runtime_surfaces[4]
+[OK] reference authority_class declared: proposal-packet-delivery.runtime_surfaces[4]
+[OK] reference path is repo-relative: proposal-packet-delivery.runtime_surfaces[4]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md
+[OK] reference role declared: proposal-packet-delivery.extension_surfaces[0]
+[OK] reference authority_class declared: proposal-packet-delivery.extension_surfaces[0]
+[OK] reference path is repo-relative: proposal-packet-delivery.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+[OK] input path is publication-input-only: proposal-packet-delivery.extension_surfaces[0]
+[OK] reference role declared: proposal-packet-delivery.extension_surfaces[1]
+[OK] reference authority_class declared: proposal-packet-delivery.extension_surfaces[1]
+[OK] reference path is repo-relative: proposal-packet-delivery.extension_surfaces[1]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md
+[OK] input path is publication-input-only: proposal-packet-delivery.extension_surfaces[1]
+[OK] reference role declared: proposal-packet-delivery.extension_surfaces[2]
+[OK] reference authority_class declared: proposal-packet-delivery.extension_surfaces[2]
+[OK] reference path is repo-relative: proposal-packet-delivery.extension_surfaces[2]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-packet-delivery.md
+[OK] input path is publication-input-only: proposal-packet-delivery.extension_surfaces[2]
+[OK] reference role declared: proposal-packet-delivery.extension_surfaces[3]
+[OK] reference authority_class declared: proposal-packet-delivery.extension_surfaces[3]
+[OK] reference path is repo-relative: proposal-packet-delivery.extension_surfaces[3]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/README.md
+[OK] input path is publication-input-only: proposal-packet-delivery.extension_surfaces[3]
+[OK] reference role declared: proposal-packet-delivery.generated_effective_surfaces[0]
+[OK] reference authority_class declared: proposal-packet-delivery.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: proposal-packet-delivery.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/capabilities/routing.effective.yml
+[OK] generated path is non-authority: proposal-packet-delivery.generated_effective_surfaces[0]
+[OK] reference role declared: proposal-packet-delivery.generated_effective_surfaces[1]
+[OK] reference authority_class declared: proposal-packet-delivery.generated_effective_surfaces[1]
+[OK] reference path is repo-relative: proposal-packet-delivery.generated_effective_surfaces[1]
+[OK] reference path exists: .octon/generated/effective/capabilities/artifact-map.yml
+[OK] generated path is non-authority: proposal-packet-delivery.generated_effective_surfaces[1]
+[OK] reference role declared: proposal-packet-delivery.generated_effective_surfaces[2]
+[OK] reference authority_class declared: proposal-packet-delivery.generated_effective_surfaces[2]
+[OK] reference path pattern declared: proposal-packet-delivery.generated_effective_surfaces[2]
+[OK] generated path is non-authority: proposal-packet-delivery.generated_effective_surfaces[2]
+[OK] reference role declared: proposal-packet-delivery.generated_effective_surfaces[3]
+[OK] reference authority_class declared: proposal-packet-delivery.generated_effective_surfaces[3]
+[OK] reference path is repo-relative: proposal-packet-delivery.generated_effective_surfaces[3]
+[OK] reference path exists: .claude/commands/octon-proposal-run-packet-delivery.md
+[OK] reference role declared: proposal-packet-delivery.generated_effective_surfaces[4]
+[OK] reference authority_class declared: proposal-packet-delivery.generated_effective_surfaces[4]
+[OK] reference path is repo-relative: proposal-packet-delivery.generated_effective_surfaces[4]
+[OK] reference path exists: .codex/commands/octon-proposal-run-packet-delivery.md
+[OK] reference role declared: proposal-packet-delivery.generated_effective_surfaces[5]
+[OK] reference authority_class declared: proposal-packet-delivery.generated_effective_surfaces[5]
+[OK] reference path is repo-relative: proposal-packet-delivery.generated_effective_surfaces[5]
+[OK] reference path exists: .cursor/commands/octon-proposal-run-packet-delivery.md
+[OK] reference role declared: proposal-packet-delivery.evidence_surfaces[0]
+[OK] reference authority_class declared: proposal-packet-delivery.evidence_surfaces[0]
+[OK] reference path pattern declared: proposal-packet-delivery.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: proposal-packet-delivery.evidence_surfaces[0]
+[OK] reference role declared: proposal-packet-delivery.evidence_surfaces[1]
+[OK] reference authority_class declared: proposal-packet-delivery.evidence_surfaces[1]
+[OK] reference path pattern declared: proposal-packet-delivery.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: proposal-packet-delivery.evidence_surfaces[1]
+[OK] reference role declared: proposal-packet-delivery.evidence_surfaces[2]
+[OK] reference authority_class declared: proposal-packet-delivery.evidence_surfaces[2]
+[OK] reference path pattern declared: proposal-packet-delivery.evidence_surfaces[2]
+[OK] state/evidence path is retained evidence: proposal-packet-delivery.evidence_surfaces[2]
+[OK] reference role declared: proposal-packet-delivery.validation_refs[0]
+[OK] reference authority_class declared: proposal-packet-delivery.validation_refs[0]
+[OK] reference path is repo-relative: proposal-packet-delivery.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh
+[OK] reference role declared: proposal-packet-delivery.validation_refs[1]
+[OK] reference authority_class declared: proposal-packet-delivery.validation_refs[1]
+[OK] reference path is repo-relative: proposal-packet-delivery.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
+[OK] reference role declared: proposal-packet-delivery.validation_refs[2]
+[OK] reference authority_class declared: proposal-packet-delivery.validation_refs[2]
+[OK] reference path is repo-relative: proposal-packet-delivery.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
+[OK] reference role declared: proposal-packet-delivery.validation_refs[3]
+[OK] reference authority_class declared: proposal-packet-delivery.validation_refs[3]
+[OK] reference path is repo-relative: proposal-packet-delivery.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-delivery.sh
+[OK] reference role declared: proposal-packet-delivery.validation_refs[4]
+[OK] reference authority_class declared: proposal-packet-delivery.validation_refs[4]
+[OK] reference path is repo-relative: proposal-packet-delivery.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+[OK] reference role declared: proposal-packet-delivery.related_docs[0]
+[OK] reference authority_class declared: proposal-packet-delivery.related_docs[0]
+[OK] reference path is repo-relative: proposal-packet-delivery.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/proposal-packet-delivery.md
+[OK] reference role declared: proposal-packet-delivery.related_docs[1]
+[OK] reference authority_class declared: proposal-packet-delivery.related_docs[1]
+[OK] reference path is repo-relative: proposal-packet-delivery.related_docs[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/README.md
+[OK] reference role declared: proposal-packet-delivery.related_docs[2]
+[OK] reference authority_class declared: proposal-packet-delivery.related_docs[2]
+[OK] reference path is repo-relative: proposal-packet-delivery.related_docs[2]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md
+[OK] feature id valid: governed-mechanism-integration-verification
+[OK] feature governed-mechanism-integration-verification field declared: name
+[OK] feature governed-mechanism-integration-verification field declared: implementation_status
+[OK] feature governed-mechanism-integration-verification field declared: summary
+[OK] feature governed-mechanism-integration-verification implementation_status valid
+[OK] feature governed-mechanism-integration-verification array non-empty: primary_audiences
+[OK] feature governed-mechanism-integration-verification array item declared: primary_audiences[0]
+[OK] feature governed-mechanism-integration-verification array item declared: primary_audiences[1]
+[OK] feature governed-mechanism-integration-verification array item declared: primary_audiences[2]
+[OK] feature governed-mechanism-integration-verification array non-empty: owner_subsystems
+[OK] feature governed-mechanism-integration-verification array item declared: owner_subsystems[0]
+[OK] feature governed-mechanism-integration-verification array item declared: owner_subsystems[1]
+[OK] feature governed-mechanism-integration-verification array item declared: owner_subsystems[2]
+[OK] feature governed-mechanism-integration-verification array item declared: owner_subsystems[3]
+[OK] feature governed-mechanism-integration-verification array item declared: owner_subsystems[4]
+[OK] feature governed-mechanism-integration-verification array non-empty: authority_notes
+[OK] feature governed-mechanism-integration-verification array item declared: authority_notes[0]
+[OK] feature governed-mechanism-integration-verification array item declared: authority_notes[1]
+[OK] feature governed-mechanism-integration-verification array item declared: authority_notes[2]
+[OK] feature governed-mechanism-integration-verification array item declared: authority_notes[3]
+[OK] feature governed-mechanism-integration-verification array item declared: authority_notes[4]
+[OK] entrypoint kind valid: governed-mechanism-integration-verification.entrypoints[0]
+[OK] entrypoint value declared: governed-mechanism-integration-verification.entrypoints[0]
+[OK] entrypoint kind valid: governed-mechanism-integration-verification.entrypoints[1]
+[OK] entrypoint value declared: governed-mechanism-integration-verification.entrypoints[1]
+[OK] reference role declared: governed-mechanism-integration-verification.authoritative_refs[0]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.authoritative_refs[0]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/product/contracts/governed-mechanism-integration-profile-v1.schema.json
+[OK] reference role declared: governed-mechanism-integration-verification.authoritative_refs[1]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.authoritative_refs[1]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/product/contracts/governed-mechanism-integration-receipt-v1.schema.json
+[OK] reference role declared: governed-mechanism-integration-verification.authoritative_refs[2]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.authoritative_refs[2]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.authoritative_refs[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/workflow.yml
+[OK] reference role declared: governed-mechanism-integration-verification.runtime_surfaces[0]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.runtime_surfaces[0]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/workflow.yml
+[OK] reference role declared: governed-mechanism-integration-verification.runtime_surfaces[1]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.runtime_surfaces[1]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/stages/01-bind-profile.md
+[OK] reference role declared: governed-mechanism-integration-verification.runtime_surfaces[2]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.runtime_surfaces[2]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/stages/06-retain-evidence.md
+[OK] reference role declared: governed-mechanism-integration-verification.extension_surfaces[0]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.extension_surfaces[0]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle/SKILL.md
+[OK] input path is publication-input-only: governed-mechanism-integration-verification.extension_surfaces[0]
+[OK] reference role declared: governed-mechanism-integration-verification.extension_surfaces[1]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.extension_surfaces[1]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.extension_surfaces[1]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/run-packet-implementation/stages/01-run-packet-implementation.md
+[OK] input path is publication-input-only: governed-mechanism-integration-verification.extension_surfaces[1]
+[OK] reference role declared: governed-mechanism-integration-verification.extension_surfaces[2]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.extension_surfaces[2]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.extension_surfaces[2]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-packet/stages/01-closeout-packet.md
+[OK] input path is publication-input-only: governed-mechanism-integration-verification.extension_surfaces[2]
+[OK] reference role declared: governed-mechanism-integration-verification.extension_surfaces[3]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.extension_surfaces[3]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.extension_surfaces[3]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/generate-packet-closeout-prompt/stages/01-generate-packet-closeout-prompt.md
+[OK] input path is publication-input-only: governed-mechanism-integration-verification.extension_surfaces[3]
+[OK] reference role declared: governed-mechanism-integration-verification.generated_effective_surfaces[0]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/proposals/registry.yml
+[OK] generated path is non-authority: governed-mechanism-integration-verification.generated_effective_surfaces[0]
+[OK] reference role declared: governed-mechanism-integration-verification.generated_effective_surfaces[1]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.generated_effective_surfaces[1]
+[OK] reference path pattern declared: governed-mechanism-integration-verification.generated_effective_surfaces[1]
+[OK] generated path is non-authority: governed-mechanism-integration-verification.generated_effective_surfaces[1]
+[OK] reference role declared: governed-mechanism-integration-verification.generated_effective_surfaces[2]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.generated_effective_surfaces[2]
+[OK] reference path pattern declared: governed-mechanism-integration-verification.generated_effective_surfaces[2]
+[OK] generated path is non-authority: governed-mechanism-integration-verification.generated_effective_surfaces[2]
+[OK] reference role declared: governed-mechanism-integration-verification.evidence_surfaces[0]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.evidence_surfaces[0]
+[OK] reference path pattern declared: governed-mechanism-integration-verification.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: governed-mechanism-integration-verification.evidence_surfaces[0]
+[OK] reference role declared: governed-mechanism-integration-verification.evidence_surfaces[1]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.evidence_surfaces[1]
+[OK] reference path pattern declared: governed-mechanism-integration-verification.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: governed-mechanism-integration-verification.evidence_surfaces[1]
+[OK] reference role declared: governed-mechanism-integration-verification.evidence_surfaces[2]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.evidence_surfaces[2]
+[OK] reference path pattern declared: governed-mechanism-integration-verification.evidence_surfaces[2]
+[OK] support receipt path is not authority: governed-mechanism-integration-verification.evidence_surfaces[2]
+[OK] reference role declared: governed-mechanism-integration-verification.validation_refs[0]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.validation_refs[0]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-profile.sh
+[OK] reference role declared: governed-mechanism-integration-verification.validation_refs[1]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.validation_refs[1]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-governed-mechanism-integration-receipt.sh
+[OK] reference role declared: governed-mechanism-integration-verification.validation_refs[2]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.validation_refs[2]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-governed-mechanism-integration.sh
+[OK] reference role declared: governed-mechanism-integration-verification.validation_refs[3]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.validation_refs[3]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh
+[OK] reference role declared: governed-mechanism-integration-verification.validation_refs[4]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.validation_refs[4]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+[OK] reference role declared: governed-mechanism-integration-verification.validation_refs[5]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.validation_refs[5]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.validation_refs[5]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+[OK] reference role declared: governed-mechanism-integration-verification.related_docs[0]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.related_docs[0]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/governed-mechanism-integration-verification.md
+[OK] reference role declared: governed-mechanism-integration-verification.related_docs[1]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.related_docs[1]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.related_docs[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/verify-governed-mechanism-integration/README.md
+[OK] reference role declared: governed-mechanism-integration-verification.related_docs[2]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.related_docs[2]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.related_docs[2]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md
+[OK] reference role declared: governed-mechanism-integration-verification.related_docs[3]
+[OK] reference authority_class declared: governed-mechanism-integration-verification.related_docs[3]
+[OK] reference path is repo-relative: governed-mechanism-integration-verification.related_docs[3]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/governed-mechanism-integration-verification.md
+[OK] feature id valid: architectural-review-mechanism
+[OK] feature architectural-review-mechanism field declared: name
+[OK] feature architectural-review-mechanism field declared: implementation_status
+[OK] feature architectural-review-mechanism field declared: summary
+[OK] feature architectural-review-mechanism implementation_status valid
+[OK] feature architectural-review-mechanism array non-empty: primary_audiences
+[OK] feature architectural-review-mechanism array item declared: primary_audiences[0]
+[OK] feature architectural-review-mechanism array item declared: primary_audiences[1]
+[OK] feature architectural-review-mechanism array item declared: primary_audiences[2]
+[OK] feature architectural-review-mechanism array non-empty: owner_subsystems
+[OK] feature architectural-review-mechanism array item declared: owner_subsystems[0]
+[OK] feature architectural-review-mechanism array item declared: owner_subsystems[1]
+[OK] feature architectural-review-mechanism array item declared: owner_subsystems[2]
+[OK] feature architectural-review-mechanism array item declared: owner_subsystems[3]
+[OK] feature architectural-review-mechanism array item declared: owner_subsystems[4]
+[OK] feature architectural-review-mechanism array non-empty: authority_notes
+[OK] feature architectural-review-mechanism array item declared: authority_notes[0]
+[OK] feature architectural-review-mechanism array item declared: authority_notes[1]
+[OK] feature architectural-review-mechanism array item declared: authority_notes[2]
+[OK] feature architectural-review-mechanism array item declared: authority_notes[3]
+[OK] feature architectural-review-mechanism array item declared: authority_notes[4]
+[OK] feature architectural-review-mechanism array item declared: authority_notes[5]
+[OK] feature architectural-review-mechanism array item declared: authority_notes[6]
+[OK] entrypoint kind valid: architectural-review-mechanism.entrypoints[0]
+[OK] entrypoint value declared: architectural-review-mechanism.entrypoints[0]
+[OK] entrypoint kind valid: architectural-review-mechanism.entrypoints[1]
+[OK] entrypoint value declared: architectural-review-mechanism.entrypoints[1]
+[OK] entrypoint kind valid: architectural-review-mechanism.entrypoints[2]
+[OK] entrypoint value declared: architectural-review-mechanism.entrypoints[2]
+[OK] entrypoint kind valid: architectural-review-mechanism.entrypoints[3]
+[OK] entrypoint value declared: architectural-review-mechanism.entrypoints[3]
+[OK] entrypoint kind valid: architectural-review-mechanism.entrypoints[4]
+[OK] entrypoint value declared: architectural-review-mechanism.entrypoints[4]
+[OK] entrypoint kind valid: architectural-review-mechanism.entrypoints[5]
+[OK] entrypoint value declared: architectural-review-mechanism.entrypoints[5]
+[OK] entrypoint kind valid: architectural-review-mechanism.entrypoints[6]
+[OK] entrypoint value declared: architectural-review-mechanism.entrypoints[6]
+[OK] reference role declared: architectural-review-mechanism.authoritative_refs[0]
+[OK] reference authority_class declared: architectural-review-mechanism.authoritative_refs[0]
+[OK] reference path is repo-relative: architectural-review-mechanism.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/cognition/practices/methodology/architectural-review/README.md
+[OK] reference role declared: architectural-review-mechanism.authoritative_refs[1]
+[OK] reference authority_class declared: architectural-review-mechanism.authoritative_refs[1]
+[OK] reference path is repo-relative: architectural-review-mechanism.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/cognition/practices/methodology/architectural-review/naming.yml
+[OK] reference role declared: architectural-review-mechanism.authoritative_refs[2]
+[OK] reference authority_class declared: architectural-review-mechanism.authoritative_refs[2]
+[OK] reference path is repo-relative: architectural-review-mechanism.authoritative_refs[2]
+[OK] reference path exists: .octon/framework/cognition/practices/methodology/architectural-review/review-routing.yml
+[OK] reference role declared: architectural-review-mechanism.authoritative_refs[3]
+[OK] reference authority_class declared: architectural-review-mechanism.authoritative_refs[3]
+[OK] reference path is repo-relative: architectural-review-mechanism.authoritative_refs[3]
+[OK] reference path exists: .octon/framework/scaffolding/governance/patterns/proposal-standard.md
+[OK] reference role declared: architectural-review-mechanism.authoritative_refs[4]
+[OK] reference authority_class declared: architectural-review-mechanism.authoritative_refs[4]
+[OK] reference path is repo-relative: architectural-review-mechanism.authoritative_refs[4]
+[OK] reference path exists: .octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md
+[OK] reference role declared: architectural-review-mechanism.authoritative_refs[5]
+[OK] reference authority_class declared: architectural-review-mechanism.authoritative_refs[5]
+[OK] reference path is repo-relative: architectural-review-mechanism.authoritative_refs[5]
+[OK] reference path exists: .octon/framework/constitution/contracts/assurance/architectural-review-report-v1.schema.json
+[OK] reference role declared: architectural-review-mechanism.authoritative_refs[6]
+[OK] reference authority_class declared: architectural-review-mechanism.authoritative_refs[6]
+[OK] reference path is repo-relative: architectural-review-mechanism.authoritative_refs[6]
+[OK] reference path exists: .octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v1.schema.json
+[OK] reference role declared: architectural-review-mechanism.authoritative_refs[7]
+[OK] reference authority_class declared: architectural-review-mechanism.authoritative_refs[7]
+[OK] reference path is repo-relative: architectural-review-mechanism.authoritative_refs[7]
+[OK] reference path exists: .octon/framework/constitution/contracts/assurance/architectural-review-support-receipt-v1.schema.json
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[0]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[0]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[1]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[1]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[2]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[2]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[3]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[3]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[4]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[4]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[4]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/audit/architecture-readiness-audit/
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[5]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[5]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[5]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[6]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[6]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[6]
+[OK] reference path exists: .octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[7]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[7]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[7]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/architecture-readiness-audit.md
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[8]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[8]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[8]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/audit-domain-architecture.md
+[OK] reference role declared: architectural-review-mechanism.runtime_surfaces[9]
+[OK] reference authority_class declared: architectural-review-mechanism.runtime_surfaces[9]
+[OK] reference path is repo-relative: architectural-review-mechanism.runtime_surfaces[9]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/audit-surface-architecture.md
+[OK] reference role declared: architectural-review-mechanism.extension_surfaces[0]
+[OK] reference authority_class declared: architectural-review-mechanism.extension_surfaces[0]
+[OK] reference path is repo-relative: architectural-review-mechanism.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-concept-integration/skills/octon-concept-integration-architecture-revision-packet/SKILL.md
+[OK] input path is publication-input-only: architectural-review-mechanism.extension_surfaces[0]
+[OK] reference role declared: architectural-review-mechanism.extension_surfaces[1]
+[OK] reference authority_class declared: architectural-review-mechanism.extension_surfaces[1]
+[OK] reference path is repo-relative: architectural-review-mechanism.extension_surfaces[1]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-concept-integration/skills/octon-concept-integration-source-to-architecture-packet/SKILL.md
+[OK] input path is publication-input-only: architectural-review-mechanism.extension_surfaces[1]
+[OK] reference role declared: architectural-review-mechanism.generated_effective_surfaces[0]
+[OK] reference authority_class declared: architectural-review-mechanism.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: architectural-review-mechanism.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/capabilities/routing.effective.yml
+[OK] generated path is non-authority: architectural-review-mechanism.generated_effective_surfaces[0]
+[OK] reference role declared: architectural-review-mechanism.generated_effective_surfaces[1]
+[OK] reference authority_class declared: architectural-review-mechanism.generated_effective_surfaces[1]
+[OK] reference path is repo-relative: architectural-review-mechanism.generated_effective_surfaces[1]
+[OK] reference path exists: .octon/generated/effective/capabilities/artifact-map.yml
+[OK] generated path is non-authority: architectural-review-mechanism.generated_effective_surfaces[1]
+[OK] reference role declared: architectural-review-mechanism.generated_effective_surfaces[2]
+[OK] reference authority_class declared: architectural-review-mechanism.generated_effective_surfaces[2]
+[OK] reference path pattern declared: architectural-review-mechanism.generated_effective_surfaces[2]
+[OK] reference role declared: architectural-review-mechanism.generated_effective_surfaces[3]
+[OK] reference authority_class declared: architectural-review-mechanism.generated_effective_surfaces[3]
+[OK] reference path pattern declared: architectural-review-mechanism.generated_effective_surfaces[3]
+[OK] reference role declared: architectural-review-mechanism.evidence_surfaces[0]
+[OK] reference authority_class declared: architectural-review-mechanism.evidence_surfaces[0]
+[OK] reference path pattern declared: architectural-review-mechanism.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: architectural-review-mechanism.evidence_surfaces[0]
+[OK] reference role declared: architectural-review-mechanism.evidence_surfaces[1]
+[OK] reference authority_class declared: architectural-review-mechanism.evidence_surfaces[1]
+[OK] reference path pattern declared: architectural-review-mechanism.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: architectural-review-mechanism.evidence_surfaces[1]
+[OK] reference role declared: architectural-review-mechanism.evidence_surfaces[2]
+[OK] reference authority_class declared: architectural-review-mechanism.evidence_surfaces[2]
+[OK] reference path pattern declared: architectural-review-mechanism.evidence_surfaces[2]
+[OK] state/evidence path is retained evidence: architectural-review-mechanism.evidence_surfaces[2]
+[OK] reference role declared: architectural-review-mechanism.evidence_surfaces[3]
+[OK] reference authority_class declared: architectural-review-mechanism.evidence_surfaces[3]
+[OK] reference path pattern declared: architectural-review-mechanism.evidence_surfaces[3]
+[OK] state/evidence path is retained evidence: architectural-review-mechanism.evidence_surfaces[3]
+[OK] reference role declared: architectural-review-mechanism.evidence_surfaces[4]
+[OK] reference authority_class declared: architectural-review-mechanism.evidence_surfaces[4]
+[OK] reference path pattern declared: architectural-review-mechanism.evidence_surfaces[4]
+[OK] state/evidence path is retained evidence: architectural-review-mechanism.evidence_surfaces[4]
+[OK] reference role declared: architectural-review-mechanism.evidence_surfaces[5]
+[OK] reference authority_class declared: architectural-review-mechanism.evidence_surfaces[5]
+[OK] reference path pattern declared: architectural-review-mechanism.evidence_surfaces[5]
+[OK] state/evidence path is retained evidence: architectural-review-mechanism.evidence_surfaces[5]
+[OK] reference role declared: architectural-review-mechanism.validation_refs[0]
+[OK] reference authority_class declared: architectural-review-mechanism.validation_refs[0]
+[OK] reference path is repo-relative: architectural-review-mechanism.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-naming.sh
+[OK] reference role declared: architectural-review-mechanism.validation_refs[1]
+[OK] reference authority_class declared: architectural-review-mechanism.validation_refs[1]
+[OK] reference path is repo-relative: architectural-review-mechanism.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-workflows.sh
+[OK] reference role declared: architectural-review-mechanism.validation_refs[2]
+[OK] reference authority_class declared: architectural-review-mechanism.validation_refs[2]
+[OK] reference path is repo-relative: architectural-review-mechanism.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-skills-commands.sh
+[OK] reference role declared: architectural-review-mechanism.validation_refs[3]
+[OK] reference authority_class declared: architectural-review-mechanism.validation_refs[3]
+[OK] reference path is repo-relative: architectural-review-mechanism.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh
+[OK] reference role declared: architectural-review-mechanism.validation_refs[4]
+[OK] reference authority_class declared: architectural-review-mechanism.validation_refs[4]
+[OK] reference path is repo-relative: architectural-review-mechanism.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+[OK] reference role declared: architectural-review-mechanism.validation_refs[5]
+[OK] reference authority_class declared: architectural-review-mechanism.validation_refs[5]
+[OK] reference path is repo-relative: architectural-review-mechanism.validation_refs[5]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-architectural-review-validators.sh
+[OK] reference role declared: architectural-review-mechanism.related_docs[0]
+[OK] reference authority_class declared: architectural-review-mechanism.related_docs[0]
+[OK] reference path is repo-relative: architectural-review-mechanism.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/architectural-review-mechanism.md
+[OK] reference role declared: architectural-review-mechanism.related_docs[1]
+[OK] reference authority_class declared: architectural-review-mechanism.related_docs[1]
+[OK] reference path is repo-relative: architectural-review-mechanism.related_docs[1]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/architectural-review-mechanism.md
+[OK] reference role declared: architectural-review-mechanism.related_docs[2]
+[OK] reference authority_class declared: architectural-review-mechanism.related_docs[2]
+[OK] reference path is repo-relative: architectural-review-mechanism.related_docs[2]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml
+[OK] reference role declared: architectural-review-mechanism.related_docs[3]
+[OK] reference authority_class declared: architectural-review-mechanism.related_docs[3]
+[OK] reference path is repo-relative: architectural-review-mechanism.related_docs[3]
+[OK] reference path exists: .octon/framework/cognition/practices/methodology/architectural-review/README.md
+[OK] feature id valid: governed-lifecycle-orchestration
+[OK] feature governed-lifecycle-orchestration field declared: name
+[OK] feature governed-lifecycle-orchestration field declared: implementation_status
+[OK] feature governed-lifecycle-orchestration field declared: summary
+[OK] feature governed-lifecycle-orchestration implementation_status valid
+[OK] feature governed-lifecycle-orchestration array non-empty: primary_audiences
+[OK] feature governed-lifecycle-orchestration array item declared: primary_audiences[0]
+[OK] feature governed-lifecycle-orchestration array item declared: primary_audiences[1]
+[OK] feature governed-lifecycle-orchestration array item declared: primary_audiences[2]
+[OK] feature governed-lifecycle-orchestration array non-empty: owner_subsystems
+[OK] feature governed-lifecycle-orchestration array item declared: owner_subsystems[0]
+[OK] feature governed-lifecycle-orchestration array item declared: owner_subsystems[1]
+[OK] feature governed-lifecycle-orchestration array item declared: owner_subsystems[2]
+[OK] feature governed-lifecycle-orchestration array item declared: owner_subsystems[3]
+[OK] feature governed-lifecycle-orchestration array item declared: owner_subsystems[4]
+[OK] feature governed-lifecycle-orchestration array non-empty: authority_notes
+[OK] feature governed-lifecycle-orchestration array item declared: authority_notes[0]
+[OK] feature governed-lifecycle-orchestration array item declared: authority_notes[1]
+[OK] feature governed-lifecycle-orchestration array item declared: authority_notes[2]
+[OK] feature governed-lifecycle-orchestration array item declared: authority_notes[3]
+[OK] feature governed-lifecycle-orchestration array item declared: authority_notes[4]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[0]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[0]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[1]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[1]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[2]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[2]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[3]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[3]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[4]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[4]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[5]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[5]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[6]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[6]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[7]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[7]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[8]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[8]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[9]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[9]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[10]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[10]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[11]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[11]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[12]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[12]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[13]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[13]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[14]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[14]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[15]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[15]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[16]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[16]
+[OK] entrypoint kind valid: governed-lifecycle-orchestration.entrypoints[17]
+[OK] entrypoint value declared: governed-lifecycle-orchestration.entrypoints[17]
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[0]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[0]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/constitution/CHARTER.md
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[1]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[1]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/constitution/obligations/fail-closed.yml
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[2]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[2]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[2]
+[OK] reference path exists: .octon/framework/constitution/obligations/evidence.yml
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[3]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[3]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[3]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[4]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[4]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[4]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/proposal-program-child-registry.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[5]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[5]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[5]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/program-lifecycle-event.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[6]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[6]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[6]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/lifecycle-run-event.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[7]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[7]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[7]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/proposal-program-mutation.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[8]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[8]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[8]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/proposal-program-scaffold.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[9]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[9]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[9]
+[OK] reference path exists: .octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[10]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[10]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[10]
+[OK] reference path exists: .octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[11]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[11]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[11]
+[OK] reference path exists: .octon/framework/engine/runtime/spec/lifecycle-route-execution-result-v1.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[12]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[12]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[12]
+[OK] reference path exists: .octon/framework/engine/runtime/spec/lifecycle-route-completion-observation-v1.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[13]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[13]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[13]
+[OK] reference path exists: .octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.authoritative_refs[14]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.authoritative_refs[14]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.authoritative_refs[14]
+[OK] reference path exists: .octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json
+[OK] reference role declared: governed-lifecycle-orchestration.runtime_surfaces[0]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.runtime_surfaces[0]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+[OK] reference role declared: governed-lifecycle-orchestration.runtime_surfaces[1]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.runtime_surfaces[1]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] reference role declared: governed-lifecycle-orchestration.runtime_surfaces[2]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.runtime_surfaces[2]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs
+[OK] reference role declared: governed-lifecycle-orchestration.runtime_surfaces[3]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.runtime_surfaces[3]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/engine/runtime/crates/lifecycle_executor
+[OK] reference role declared: governed-lifecycle-orchestration.extension_surfaces[0]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.extension_surfaces[0]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.extension_surfaces[0]
+[OK] reference role declared: governed-lifecycle-orchestration.extension_surfaces[1]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.extension_surfaces[1]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.extension_surfaces[1]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.extension_surfaces[1]
+[OK] reference role declared: governed-lifecycle-orchestration.extension_surfaces[2]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.extension_surfaces[2]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.extension_surfaces[2]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-packet-lifecycle.md
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.extension_surfaces[2]
+[OK] reference role declared: governed-lifecycle-orchestration.extension_surfaces[3]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.extension_surfaces[3]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.extension_surfaces[3]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-packet-lifecycle/SKILL.md
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.extension_surfaces[3]
+[OK] reference role declared: governed-lifecycle-orchestration.extension_surfaces[4]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.extension_surfaces[4]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.extension_surfaces[4]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.extension_surfaces[4]
+[OK] reference role declared: governed-lifecycle-orchestration.extension_surfaces[5]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.extension_surfaces[5]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.extension_surfaces[5]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.extension_surfaces[5]
+[OK] reference role declared: governed-lifecycle-orchestration.generated_effective_surfaces[0]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/extensions/catalog.effective.yml
+[OK] generated path is non-authority: governed-lifecycle-orchestration.generated_effective_surfaces[0]
+[OK] reference role declared: governed-lifecycle-orchestration.generated_effective_surfaces[1]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.generated_effective_surfaces[1]
+[OK] reference path pattern declared: governed-lifecycle-orchestration.generated_effective_surfaces[1]
+[OK] generated path is non-authority: governed-lifecycle-orchestration.generated_effective_surfaces[1]
+[OK] reference role declared: governed-lifecycle-orchestration.generated_effective_surfaces[2]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.generated_effective_surfaces[2]
+[OK] reference path pattern declared: governed-lifecycle-orchestration.generated_effective_surfaces[2]
+[OK] generated path is non-authority: governed-lifecycle-orchestration.generated_effective_surfaces[2]
+[OK] reference role declared: governed-lifecycle-orchestration.generated_effective_surfaces[3]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.generated_effective_surfaces[3]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.generated_effective_surfaces[3]
+[OK] reference path exists: .octon/generated/effective/runtime/route-bundle.yml
+[OK] generated path is non-authority: governed-lifecycle-orchestration.generated_effective_surfaces[3]
+[OK] reference role declared: governed-lifecycle-orchestration.evidence_surfaces[0]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.evidence_surfaces[0]
+[OK] reference path pattern declared: governed-lifecycle-orchestration.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: governed-lifecycle-orchestration.evidence_surfaces[0]
+[OK] reference role declared: governed-lifecycle-orchestration.evidence_surfaces[1]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.evidence_surfaces[1]
+[OK] reference path pattern declared: governed-lifecycle-orchestration.evidence_surfaces[1]
+[OK] state/control path is mutable operational truth: governed-lifecycle-orchestration.evidence_surfaces[1]
+[OK] reference role declared: governed-lifecycle-orchestration.evidence_surfaces[2]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.evidence_surfaces[2]
+[OK] reference path pattern declared: governed-lifecycle-orchestration.evidence_surfaces[2]
+[OK] state/control path is mutable operational truth: governed-lifecycle-orchestration.evidence_surfaces[2]
+[OK] reference role declared: governed-lifecycle-orchestration.evidence_surfaces[3]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.evidence_surfaces[3]
+[OK] reference path pattern declared: governed-lifecycle-orchestration.evidence_surfaces[3]
+[OK] state/evidence path is retained evidence: governed-lifecycle-orchestration.evidence_surfaces[3]
+[OK] reference role declared: governed-lifecycle-orchestration.evidence_surfaces[4]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.evidence_surfaces[4]
+[OK] reference path pattern declared: governed-lifecycle-orchestration.evidence_surfaces[4]
+[OK] state/control path is mutable operational truth: governed-lifecycle-orchestration.evidence_surfaces[4]
+[OK] reference role declared: governed-lifecycle-orchestration.evidence_surfaces[5]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.evidence_surfaces[5]
+[OK] reference path pattern declared: governed-lifecycle-orchestration.evidence_surfaces[5]
+[OK] state/control path is mutable operational truth: governed-lifecycle-orchestration.evidence_surfaces[5]
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[0]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[0]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[1]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[1]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[2]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[2]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[3]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[3]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[4]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[4]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-interaction-receipts.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[5]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[5]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[5]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-child-readiness.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[6]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[6]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[6]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[7]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[7]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[7]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[8]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[8]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[8]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-v1-acceptance.sh
+[OK] reference role declared: governed-lifecycle-orchestration.validation_refs[9]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.validation_refs[9]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.validation_refs[9]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-route-resolution.sh
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.validation_refs[9]
+[OK] reference role declared: governed-lifecycle-orchestration.related_docs[0]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.related_docs[0]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/governed-lifecycle-orchestration.md
+[OK] reference role declared: governed-lifecycle-orchestration.related_docs[1]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.related_docs[1]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.related_docs[1]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/README.md
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.related_docs[1]
+[OK] reference role declared: governed-lifecycle-orchestration.related_docs[2]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.related_docs[2]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.related_docs[2]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/routing-guide.md
+[OK] input path is publication-input-only: governed-lifecycle-orchestration.related_docs[2]
+[OK] reference role declared: governed-lifecycle-orchestration.related_docs[3]
+[OK] reference authority_class declared: governed-lifecycle-orchestration.related_docs[3]
+[OK] reference path is repo-relative: governed-lifecycle-orchestration.related_docs[3]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/governed-lifecycle-orchestration.md
+[OK] feature id valid: governed-incoming-intake-routing
+[OK] feature governed-incoming-intake-routing field declared: name
+[OK] feature governed-incoming-intake-routing field declared: implementation_status
+[OK] feature governed-incoming-intake-routing field declared: summary
+[OK] feature governed-incoming-intake-routing implementation_status valid
+[OK] feature governed-incoming-intake-routing array non-empty: primary_audiences
+[OK] feature governed-incoming-intake-routing array item declared: primary_audiences[0]
+[OK] feature governed-incoming-intake-routing array item declared: primary_audiences[1]
+[OK] feature governed-incoming-intake-routing array item declared: primary_audiences[2]
+[OK] feature governed-incoming-intake-routing array non-empty: owner_subsystems
+[OK] feature governed-incoming-intake-routing array item declared: owner_subsystems[0]
+[OK] feature governed-incoming-intake-routing array item declared: owner_subsystems[1]
+[OK] feature governed-incoming-intake-routing array item declared: owner_subsystems[2]
+[OK] feature governed-incoming-intake-routing array item declared: owner_subsystems[3]
+[OK] feature governed-incoming-intake-routing array item declared: owner_subsystems[4]
+[OK] feature governed-incoming-intake-routing array item declared: owner_subsystems[5]
+[OK] feature governed-incoming-intake-routing array non-empty: authority_notes
+[OK] feature governed-incoming-intake-routing array item declared: authority_notes[0]
+[OK] feature governed-incoming-intake-routing array item declared: authority_notes[1]
+[OK] feature governed-incoming-intake-routing array item declared: authority_notes[2]
+[OK] feature governed-incoming-intake-routing array item declared: authority_notes[3]
+[OK] feature governed-incoming-intake-routing array item declared: authority_notes[4]
+[OK] feature governed-incoming-intake-routing array item declared: authority_notes[5]
+[OK] feature governed-incoming-intake-routing array item declared: authority_notes[6]
+[OK] entrypoint kind valid: governed-incoming-intake-routing.entrypoints[0]
+[OK] entrypoint value declared: governed-incoming-intake-routing.entrypoints[0]
+[OK] entrypoint kind valid: governed-incoming-intake-routing.entrypoints[1]
+[OK] entrypoint value declared: governed-incoming-intake-routing.entrypoints[1]
+[OK] entrypoint kind valid: governed-incoming-intake-routing.entrypoints[2]
+[OK] entrypoint value declared: governed-incoming-intake-routing.entrypoints[2]
+[OK] entrypoint kind valid: governed-incoming-intake-routing.entrypoints[3]
+[OK] entrypoint value declared: governed-incoming-intake-routing.entrypoints[3]
+[OK] reference role declared: governed-incoming-intake-routing.authoritative_refs[0]
+[OK] reference authority_class declared: governed-incoming-intake-routing.authoritative_refs[0]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/engine/governance/inputs/additive/incoming-intake-processing.md
+[OK] reference role declared: governed-incoming-intake-routing.authoritative_refs[1]
+[OK] reference authority_class declared: governed-incoming-intake-routing.authoritative_refs[1]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing.md
+[OK] reference role declared: governed-incoming-intake-routing.authoritative_refs[2]
+[OK] reference authority_class declared: governed-incoming-intake-routing.authoritative_refs[2]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.authoritative_refs[2]
+[OK] reference path exists: .octon/framework/product/contracts/governed-incoming-intake-route-decision-v1.schema.json
+[OK] reference role declared: governed-incoming-intake-routing.authoritative_refs[3]
+[OK] reference authority_class declared: governed-incoming-intake-routing.authoritative_refs[3]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.authoritative_refs[3]
+[OK] reference path exists: .octon/framework/product/contracts/governed-incoming-intake-handoff-v1.schema.json
+[OK] reference role declared: governed-incoming-intake-routing.authoritative_refs[4]
+[OK] reference authority_class declared: governed-incoming-intake-routing.authoritative_refs[4]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.authoritative_refs[4]
+[OK] reference path exists: .octon/framework/product/contracts/target-owned-intake-admission-contract-v1.schema.json
+[OK] reference role declared: governed-incoming-intake-routing.authoritative_refs[5]
+[OK] reference authority_class declared: governed-incoming-intake-routing.authoritative_refs[5]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.authoritative_refs[5]
+[OK] reference path exists: .octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json
+[OK] reference role declared: governed-incoming-intake-routing.authoritative_refs[6]
+[OK] reference authority_class declared: governed-incoming-intake-routing.authoritative_refs[6]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.authoritative_refs[6]
+[OK] reference path exists: .octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json
+[OK] reference role declared: governed-incoming-intake-routing.runtime_surfaces[0]
+[OK] reference authority_class declared: governed-incoming-intake-routing.runtime_surfaces[0]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/capabilities/runtime/commands/process-incoming-intake.md
+[OK] reference role declared: governed-incoming-intake-routing.runtime_surfaces[1]
+[OK] reference authority_class declared: governed-incoming-intake-routing.runtime_surfaces[1]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/workflow.yml
+[OK] reference role declared: governed-incoming-intake-routing.runtime_surfaces[2]
+[OK] reference authority_class declared: governed-incoming-intake-routing.runtime_surfaces[2]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/stages/01-validate-intake.md
+[OK] reference role declared: governed-incoming-intake-routing.runtime_surfaces[3]
+[OK] reference authority_class declared: governed-incoming-intake-routing.runtime_surfaces[3]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/stages/02-classify-route.md
+[OK] reference role declared: governed-incoming-intake-routing.runtime_surfaces[4]
+[OK] reference authority_class declared: governed-incoming-intake-routing.runtime_surfaces[4]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.runtime_surfaces[4]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/stages/03-execute-disposition.md
+[OK] reference role declared: governed-incoming-intake-routing.runtime_surfaces[5]
+[OK] reference authority_class declared: governed-incoming-intake-routing.runtime_surfaces[5]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.runtime_surfaces[5]
+[OK] reference path exists: .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/stages/04-validate-closeout.md
+[OK] reference role declared: governed-incoming-intake-routing.extension_surfaces[0]
+[OK] reference authority_class declared: governed-incoming-intake-routing.extension_surfaces[0]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-packet-intake-admission.contract.yml
+[OK] input path is publication-input-only: governed-incoming-intake-routing.extension_surfaces[0]
+[OK] reference role declared: governed-incoming-intake-routing.extension_surfaces[1]
+[OK] reference authority_class declared: governed-incoming-intake-routing.extension_surfaces[1]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.extension_surfaces[1]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-program-intake-admission.contract.yml
+[OK] input path is publication-input-only: governed-incoming-intake-routing.extension_surfaces[1]
+[OK] reference role declared: governed-incoming-intake-routing.extension_surfaces[2]
+[OK] reference authority_class declared: governed-incoming-intake-routing.extension_surfaces[2]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.extension_surfaces[2]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+[OK] input path is publication-input-only: governed-incoming-intake-routing.extension_surfaces[2]
+[OK] reference role declared: governed-incoming-intake-routing.extension_surfaces[3]
+[OK] reference authority_class declared: governed-incoming-intake-routing.extension_surfaces[3]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.extension_surfaces[3]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+[OK] input path is publication-input-only: governed-incoming-intake-routing.extension_surfaces[3]
+[OK] reference role declared: governed-incoming-intake-routing.generated_effective_surfaces[0]
+[OK] reference authority_class declared: governed-incoming-intake-routing.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/extensions/catalog.effective.yml
+[OK] generated path is non-authority: governed-incoming-intake-routing.generated_effective_surfaces[0]
+[OK] reference role declared: governed-incoming-intake-routing.generated_effective_surfaces[1]
+[OK] reference authority_class declared: governed-incoming-intake-routing.generated_effective_surfaces[1]
+[OK] reference path pattern declared: governed-incoming-intake-routing.generated_effective_surfaces[1]
+[OK] generated path is non-authority: governed-incoming-intake-routing.generated_effective_surfaces[1]
+[OK] reference role declared: governed-incoming-intake-routing.generated_effective_surfaces[2]
+[OK] reference authority_class declared: governed-incoming-intake-routing.generated_effective_surfaces[2]
+[OK] reference path pattern declared: governed-incoming-intake-routing.generated_effective_surfaces[2]
+[OK] generated path is non-authority: governed-incoming-intake-routing.generated_effective_surfaces[2]
+[OK] reference role declared: governed-incoming-intake-routing.generated_effective_surfaces[3]
+[OK] reference authority_class declared: governed-incoming-intake-routing.generated_effective_surfaces[3]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.generated_effective_surfaces[3]
+[OK] reference path exists: .octon/generated/effective/runtime/route-bundle.yml
+[OK] generated path is non-authority: governed-incoming-intake-routing.generated_effective_surfaces[3]
+[OK] reference role declared: governed-incoming-intake-routing.evidence_surfaces[0]
+[OK] reference authority_class declared: governed-incoming-intake-routing.evidence_surfaces[0]
+[OK] reference path pattern declared: governed-incoming-intake-routing.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: governed-incoming-intake-routing.evidence_surfaces[0]
+[OK] reference role declared: governed-incoming-intake-routing.evidence_surfaces[1]
+[OK] reference authority_class declared: governed-incoming-intake-routing.evidence_surfaces[1]
+[OK] reference path pattern declared: governed-incoming-intake-routing.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: governed-incoming-intake-routing.evidence_surfaces[1]
+[OK] reference role declared: governed-incoming-intake-routing.evidence_surfaces[2]
+[OK] reference authority_class declared: governed-incoming-intake-routing.evidence_surfaces[2]
+[OK] reference path pattern declared: governed-incoming-intake-routing.evidence_surfaces[2]
+[OK] state/evidence path is retained evidence: governed-incoming-intake-routing.evidence_surfaces[2]
+[OK] reference role declared: governed-incoming-intake-routing.evidence_surfaces[3]
+[OK] reference authority_class declared: governed-incoming-intake-routing.evidence_surfaces[3]
+[OK] reference path pattern declared: governed-incoming-intake-routing.evidence_surfaces[3]
+[OK] state/evidence path is retained evidence: governed-incoming-intake-routing.evidence_surfaces[3]
+[OK] reference role declared: governed-incoming-intake-routing.validation_refs[0]
+[OK] reference authority_class declared: governed-incoming-intake-routing.validation_refs[0]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh
+[OK] reference role declared: governed-incoming-intake-routing.validation_refs[1]
+[OK] reference authority_class declared: governed-incoming-intake-routing.validation_refs[1]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-incoming-intake-unit.sh
+[OK] reference role declared: governed-incoming-intake-routing.validation_refs[2]
+[OK] reference authority_class declared: governed-incoming-intake-routing.validation_refs[2]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh
+[OK] reference role declared: governed-incoming-intake-routing.validation_refs[3]
+[OK] reference authority_class declared: governed-incoming-intake-routing.validation_refs[3]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-governed-incoming-intake-routing.sh
+[OK] reference role declared: governed-incoming-intake-routing.validation_refs[4]
+[OK] reference authority_class declared: governed-incoming-intake-routing.validation_refs[4]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh
+[OK] reference role declared: governed-incoming-intake-routing.validation_refs[5]
+[OK] reference authority_class declared: governed-incoming-intake-routing.validation_refs[5]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.validation_refs[5]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-interaction-receipts.sh
+[OK] reference role declared: governed-incoming-intake-routing.validation_refs[6]
+[OK] reference authority_class declared: governed-incoming-intake-routing.validation_refs[6]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.validation_refs[6]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh
+[OK] reference role declared: governed-incoming-intake-routing.validation_refs[7]
+[OK] reference authority_class declared: governed-incoming-intake-routing.validation_refs[7]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.validation_refs[7]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+[OK] reference role declared: governed-incoming-intake-routing.related_docs[0]
+[OK] reference authority_class declared: governed-incoming-intake-routing.related_docs[0]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/governed-incoming-intake-routing.md
+[OK] reference role declared: governed-incoming-intake-routing.related_docs[1]
+[OK] reference authority_class declared: governed-incoming-intake-routing.related_docs[1]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.related_docs[1]
+[OK] reference path exists: .octon/framework/product/features/governed-lifecycle-orchestration.md
+[OK] reference role declared: governed-incoming-intake-routing.related_docs[2]
+[OK] reference authority_class declared: governed-incoming-intake-routing.related_docs[2]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.related_docs[2]
+[OK] reference path exists: .octon/framework/product/features/extension-packs.md
+[OK] reference role declared: governed-incoming-intake-routing.related_docs[3]
+[OK] reference authority_class declared: governed-incoming-intake-routing.related_docs[3]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.related_docs[3]
+[OK] reference path exists: .octon/framework/product/features/change-closeout-lifecycle.md
+[OK] reference role declared: governed-incoming-intake-routing.related_docs[4]
+[OK] reference authority_class declared: governed-incoming-intake-routing.related_docs[4]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.related_docs[4]
+[OK] reference path exists: .octon/inputs/additive/extensions/octon-proposal-lifecycle/README.md
+[OK] input path is publication-input-only: governed-incoming-intake-routing.related_docs[4]
+[OK] reference role declared: governed-incoming-intake-routing.related_docs[5]
+[OK] reference authority_class declared: governed-incoming-intake-routing.related_docs[5]
+[OK] reference path is repo-relative: governed-incoming-intake-routing.related_docs[5]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md
+[OK] feature id valid: extension-packs
+[OK] feature extension-packs field declared: name
+[OK] feature extension-packs field declared: implementation_status
+[OK] feature extension-packs field declared: summary
+[OK] feature extension-packs implementation_status valid
+[OK] feature extension-packs array non-empty: primary_audiences
+[OK] feature extension-packs array item declared: primary_audiences[0]
+[OK] feature extension-packs array item declared: primary_audiences[1]
+[OK] feature extension-packs array item declared: primary_audiences[2]
+[OK] feature extension-packs array item declared: primary_audiences[3]
+[OK] feature extension-packs array non-empty: owner_subsystems
+[OK] feature extension-packs array item declared: owner_subsystems[0]
+[OK] feature extension-packs array item declared: owner_subsystems[1]
+[OK] feature extension-packs array item declared: owner_subsystems[2]
+[OK] feature extension-packs array item declared: owner_subsystems[3]
+[OK] feature extension-packs array item declared: owner_subsystems[4]
+[OK] feature extension-packs array non-empty: authority_notes
+[OK] feature extension-packs array item declared: authority_notes[0]
+[OK] feature extension-packs array item declared: authority_notes[1]
+[OK] feature extension-packs array item declared: authority_notes[2]
+[OK] feature extension-packs array item declared: authority_notes[3]
+[OK] entrypoint kind valid: extension-packs.entrypoints[0]
+[OK] entrypoint value declared: extension-packs.entrypoints[0]
+[OK] entrypoint kind valid: extension-packs.entrypoints[1]
+[OK] entrypoint value declared: extension-packs.entrypoints[1]
+[OK] entrypoint kind valid: extension-packs.entrypoints[2]
+[OK] entrypoint value declared: extension-packs.entrypoints[2]
+[OK] reference role declared: extension-packs.authoritative_refs[0]
+[OK] reference authority_class declared: extension-packs.authoritative_refs[0]
+[OK] reference path is repo-relative: extension-packs.authoritative_refs[0]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-pack.schema.json
+[OK] reference role declared: extension-packs.authoritative_refs[1]
+[OK] reference authority_class declared: extension-packs.authoritative_refs[1]
+[OK] reference path is repo-relative: extension-packs.authoritative_refs[1]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-routing-contract.schema.json
+[OK] reference role declared: extension-packs.authoritative_refs[2]
+[OK] reference authority_class declared: extension-packs.authoritative_refs[2]
+[OK] reference path is repo-relative: extension-packs.authoritative_refs[2]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json
+[OK] reference role declared: extension-packs.authoritative_refs[3]
+[OK] reference authority_class declared: extension-packs.authoritative_refs[3]
+[OK] reference path is repo-relative: extension-packs.authoritative_refs[3]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json
+[OK] reference role declared: extension-packs.runtime_surfaces[0]
+[OK] reference authority_class declared: extension-packs.runtime_surfaces[0]
+[OK] reference path is repo-relative: extension-packs.runtime_surfaces[0]
+[OK] reference path exists: .octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh
+[OK] reference role declared: extension-packs.runtime_surfaces[1]
+[OK] reference authority_class declared: extension-packs.runtime_surfaces[1]
+[OK] reference path is repo-relative: extension-packs.runtime_surfaces[1]
+[OK] reference path exists: .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh
+[OK] reference role declared: extension-packs.runtime_surfaces[2]
+[OK] reference authority_class declared: extension-packs.runtime_surfaces[2]
+[OK] reference path is repo-relative: extension-packs.runtime_surfaces[2]
+[OK] reference path exists: .octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh
+[OK] reference role declared: extension-packs.runtime_surfaces[3]
+[OK] reference authority_class declared: extension-packs.runtime_surfaces[3]
+[OK] reference path is repo-relative: extension-packs.runtime_surfaces[3]
+[OK] reference path exists: .octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh
+[OK] reference role declared: extension-packs.extension_surfaces[0]
+[OK] reference authority_class declared: extension-packs.extension_surfaces[0]
+[OK] reference path is repo-relative: extension-packs.extension_surfaces[0]
+[OK] reference path exists: .octon/inputs/additive/extensions
+[OK] input path is publication-input-only: extension-packs.extension_surfaces[0]
+[OK] reference role declared: extension-packs.extension_surfaces[1]
+[OK] reference authority_class declared: extension-packs.extension_surfaces[1]
+[OK] reference path is repo-relative: extension-packs.extension_surfaces[1]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/README.md
+[OK] reference role declared: extension-packs.extension_surfaces[2]
+[OK] reference authority_class declared: extension-packs.extension_surfaces[2]
+[OK] reference path is repo-relative: extension-packs.extension_surfaces[2]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/README.md
+[OK] reference role declared: extension-packs.generated_effective_surfaces[0]
+[OK] reference authority_class declared: extension-packs.generated_effective_surfaces[0]
+[OK] reference path is repo-relative: extension-packs.generated_effective_surfaces[0]
+[OK] reference path exists: .octon/generated/effective/extensions/catalog.effective.yml
+[OK] generated path is non-authority: extension-packs.generated_effective_surfaces[0]
+[OK] reference role declared: extension-packs.generated_effective_surfaces[1]
+[OK] reference authority_class declared: extension-packs.generated_effective_surfaces[1]
+[OK] reference path is repo-relative: extension-packs.generated_effective_surfaces[1]
+[OK] reference path exists: .octon/generated/effective/extensions/artifact-map.yml
+[OK] generated path is non-authority: extension-packs.generated_effective_surfaces[1]
+[OK] reference role declared: extension-packs.generated_effective_surfaces[2]
+[OK] reference authority_class declared: extension-packs.generated_effective_surfaces[2]
+[OK] reference path is repo-relative: extension-packs.generated_effective_surfaces[2]
+[OK] reference path exists: .octon/generated/effective/extensions/generation.lock.yml
+[OK] generated path is non-authority: extension-packs.generated_effective_surfaces[2]
+[OK] reference role declared: extension-packs.evidence_surfaces[0]
+[OK] reference authority_class declared: extension-packs.evidence_surfaces[0]
+[OK] reference path pattern declared: extension-packs.evidence_surfaces[0]
+[OK] state/evidence path is retained evidence: extension-packs.evidence_surfaces[0]
+[OK] reference role declared: extension-packs.evidence_surfaces[1]
+[OK] reference authority_class declared: extension-packs.evidence_surfaces[1]
+[OK] reference path pattern declared: extension-packs.evidence_surfaces[1]
+[OK] state/evidence path is retained evidence: extension-packs.evidence_surfaces[1]
+[OK] reference role declared: extension-packs.validation_refs[0]
+[OK] reference authority_class declared: extension-packs.validation_refs[0]
+[OK] reference path is repo-relative: extension-packs.validation_refs[0]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh
+[OK] reference role declared: extension-packs.validation_refs[1]
+[OK] reference authority_class declared: extension-packs.validation_refs[1]
+[OK] reference path is repo-relative: extension-packs.validation_refs[1]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+[OK] reference role declared: extension-packs.validation_refs[2]
+[OK] reference authority_class declared: extension-packs.validation_refs[2]
+[OK] reference path is repo-relative: extension-packs.validation_refs[2]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-validate-extension-pack-contract.sh
+[OK] reference role declared: extension-packs.validation_refs[3]
+[OK] reference authority_class declared: extension-packs.validation_refs[3]
+[OK] reference path is repo-relative: extension-packs.validation_refs[3]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-resolve-extension-route.sh
+[OK] reference role declared: extension-packs.validation_refs[4]
+[OK] reference authority_class declared: extension-packs.validation_refs[4]
+[OK] reference path is repo-relative: extension-packs.validation_refs[4]
+[OK] reference path exists: .octon/framework/assurance/runtime/_ops/tests/test-resolve-extension-prompt-bundle.sh
+[OK] reference role declared: extension-packs.related_docs[0]
+[OK] reference authority_class declared: extension-packs.related_docs[0]
+[OK] reference path is repo-relative: extension-packs.related_docs[0]
+[OK] reference path exists: .octon/framework/product/features/extension-packs.md
+[OK] reference role declared: extension-packs.related_docs[1]
+[OK] reference authority_class declared: extension-packs.related_docs[1]
+[OK] reference path is repo-relative: extension-packs.related_docs[1]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/generated/effective/extensions/README.md
+[OK] reference role declared: extension-packs.related_docs[2]
+[OK] reference authority_class declared: extension-packs.related_docs[2]
+[OK] reference path is repo-relative: extension-packs.related_docs[2]
+[OK] reference path exists: .octon/framework/engine/governance/extensions/trust-and-compatibility.md
+[OK] reference role declared: extension-packs.related_docs[3]
+[OK] reference authority_class declared: extension-packs.related_docs[3]
+[OK] reference path is repo-relative: extension-packs.related_docs[3]
+[OK] reference path exists: .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/README.md
+[OK] support boundary phrase present: governed-lifecycle-orchestration feature note -> not universal transactionality
+[OK] support boundary phrase present: governed-lifecycle-orchestration feature note -> does not create the Governed Workflow Runtime transition
+[OK] support boundary phrase present: governed-lifecycle-orchestration feature note -> generated effective projections
+[OK] support boundary phrase present: governed-lifecycle-orchestration feature note -> proposal-local receipts remain evidence only
+[OK] support boundary phrase present: governed-lifecycle-orchestration feature note -> never self-approve
+[OK] support claim qualified: governed-lifecycle-orchestration feature note
+[OK] support claim qualified: governed-lifecycle-orchestration feature note
+[OK] support claim qualified: governed-lifecycle-orchestration feature note
+[OK] support boundary phrase present: governed-mechanism-integration-verification feature note -> navigation-only
+[OK] support boundary phrase present: governed-mechanism-integration-verification feature note -> does not create a mechanism-level control plane
+[OK] support boundary phrase present: governed-mechanism-integration-verification feature note -> current-state mechanism architecture review remains evidence-only
+[OK] support boundary phrase present: governed-mechanism-integration-verification feature note -> lifecycle postmortem remains evidence-only
+[OK] support boundary phrase present: governed-mechanism-integration-verification feature note -> generated outputs remain derived-only
+[OK] support boundary phrase present: governed-mechanism-integration-verification feature note -> proposal-local receipts remain evidence only
+[OK] architectural-review-mechanism product feature entry present
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> navigation-only
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> does not authorize review outcomes
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> Pre-Integration Architecture Review remains mandatory
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> Post-Integration Architecture Review remains evidence-only
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> Current-State Mechanism Architecture Review remains evidence-only
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> Generated outputs remain derived-only
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> Proposal-local receipts remain evidence only
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> audit-domain-architecture
+[OK] support boundary phrase present: architectural-review-mechanism feature note -> audit-surface-architecture
+[OK] architectural-review command entrypoint declared: /pre-integration-architecture-review
+[OK] architectural-review command entrypoint declared: /post-integration-architecture-review
+[OK] architectural-review command entrypoint declared: /current-state-mechanism-architecture-review
+[OK] architectural-review command entrypoint declared: /architecture-readiness-audit
+[OK] architectural-review command entrypoint declared: /audit-domain-architecture
+[OK] architectural-review command entrypoint declared: /audit-surface-architecture
+Validation summary: errors=0

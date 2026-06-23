@@ -1,0 +1,10 @@
+schema_version: octon-lifecycle-workflow-in-process-terminal-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T182501Z
+route_id: proposal-packet-terminal-closeout
+workflow_run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t182501z-workflow
+status: failed
+final_verdict: none
+workflow_bundle: none
+workflow_summary: none
+ended_at: 2026-06-23T18:25:09.128709Z
+error_message: 'CAPABILITY_DENIED: runtime-effective route bundle validation failed: CAPABILITY_DENIED: extensions catalog digest drift detected'
