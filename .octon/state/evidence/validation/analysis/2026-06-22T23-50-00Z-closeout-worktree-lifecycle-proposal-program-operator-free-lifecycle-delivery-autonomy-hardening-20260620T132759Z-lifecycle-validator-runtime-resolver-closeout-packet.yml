@@ -1,0 +1,1388 @@
+---
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-20260622T235000Z
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight-120189aaae6ce6fc65c0314764ea3c00bcedbfe64c9319a6ef779f3d4e0678d6.stdout.yml"
+residue_classification_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight-120189aaae6ce6fc65c0314764ea3c00bcedbfe64c9319a6ef779f3d4e0678d6.stdout.yml"
+final_inventory_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight-120189aaae6ce6fc65c0314764ea3c00bcedbfe64c9319a6ef779f3d4e0678d6.stdout.yml"
+selected_candidate_id: current-foreign-manual-residue-20260622T235000Z
+candidates:
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  disposition: foreign
+  residue_routing_class: foreign_manual_review
+  ownership: foreign/manual worktree residue preserved and excluded from child closeout
+    blocking by governed closeout-worktree handoff
+  route_hint: closeout-worktree
+  target_lifecycle_outcome: preserved
+  rollback_or_discard_posture: preserve-only; no mutation performed
+  boundaries:
+    include_paths: &1
+    - ".octon/generated/effective/capabilities/artifact-map.yml"
+    - ".octon/generated/effective/capabilities/generation.lock.yml"
+    - ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+    - ".octon/generated/effective/capabilities/pack-routes.lock.yml"
+    - ".octon/generated/effective/capabilities/routing.effective.yml"
+    - ".octon/generated/effective/extensions/artifact-map.yml"
+    - ".octon/generated/effective/extensions/catalog.effective.yml"
+    - ".octon/generated/effective/extensions/generation.lock.yml"
+    - ".octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/prompts/closeout-packet/stages/01-closeout-packet.md"
+    - ".octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md"
+    - ".octon/generated/effective/runtime/route-bundle.lock.yml"
+    - ".octon/generated/effective/runtime/route-bundle.yml"
+    - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-packet/stages/01-closeout-packet.md"
+    - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-pack-shape.sh"
+    - ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md"
+    - ".codex/skills/closeout-worktree/SKILL.md"
+    - ".codex/skills/closeout-worktree/references/io-contract.md"
+    - ".codex/skills/closeout-worktree/references/validation.md"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+    - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+    - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md"
+    - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md"
+    - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+    - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md"
+    - ".octon/state/continuity/runs/publish-1782156653711-55357/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782157099048-89494/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782157125524-1721/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782157136300-3869/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782167636997-77581/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782170476033-79402/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782170677428-39312/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782170696975-48090/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782170702718-48723/handoff.yml"
+    - ".octon/state/continuity/runs/publish-1782170918551-4740/handoff.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-evidence-mutation-7bb5c58ea17e.json"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-evidence-mutation-9748d04535d9.json"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-evidence-mutation-abbe569f1366.json"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-extension-activation-040df5653f46.json"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-extension-activation-fe7f08865331.json"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-state-control-mutation-d3695a866d3a.json"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782156653711-55357/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/effect-tokens/effect-token-capability-pack-activation-2f5a8795fb35.json"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/effect-tokens/effect-token-evidence-mutation-abe1b3d43554.json"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/effect-tokens/effect-token-evidence-mutation-cc538735128b.json"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/effect-tokens/effect-token-state-control-mutation-210225557b2e.json"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782157099048-89494/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/effect-tokens/effect-token-evidence-mutation-0df0bae73b0e.json"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/effect-tokens/effect-token-evidence-mutation-a77113535410.json"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/effect-tokens/effect-token-generated-effective-publication-4b6c237c49a2.json"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/effect-tokens/effect-token-state-control-mutation-4fb8f01416e5.json"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782157125524-1721/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/effect-tokens/effect-token-evidence-mutation-7b6127e104e7.json"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/effect-tokens/effect-token-evidence-mutation-87efe742fffe.json"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/effect-tokens/effect-token-generated-effective-publication-9c700ad663f3.json"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/effect-tokens/effect-token-state-control-mutation-d88881656198.json"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782157136300-3869/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-evidence-mutation-571651e74ccc.json"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-evidence-mutation-8e4a4d11fdd7.json"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-evidence-mutation-a0c50b8670c1.json"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-extension-activation-43dfa92803fd.json"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-extension-activation-cca66b65ff53.json"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-state-control-mutation-cc077935fd86.json"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782167636997-77581/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-evidence-mutation-1a8e1d8ad2aa.json"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-evidence-mutation-2c2ca38da8af.json"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-evidence-mutation-a523807f7933.json"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-extension-activation-37460122ed65.json"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-extension-activation-64a54b2ed003.json"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-state-control-mutation-934db9ea4d2a.json"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782170476033-79402/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/effect-tokens/effect-token-capability-pack-activation-7dc2591b31d5.json"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/effect-tokens/effect-token-evidence-mutation-8e5fb66da7e8.json"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/effect-tokens/effect-token-evidence-mutation-b968ba4e8b69.json"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/effect-tokens/effect-token-state-control-mutation-5f34db1db6f1.json"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782170677428-39312/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/effect-tokens/effect-token-evidence-mutation-2c5648113d7f.json"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/effect-tokens/effect-token-evidence-mutation-603dba3db9a4.json"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/effect-tokens/effect-token-generated-effective-publication-11b9ece0e687.json"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/effect-tokens/effect-token-state-control-mutation-33e58b9a350c.json"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782170696975-48090/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/effect-tokens/effect-token-evidence-mutation-4fcbe4593237.json"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/effect-tokens/effect-token-evidence-mutation-b2a3d0326aa0.json"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/effect-tokens/effect-token-generated-effective-publication-5611bada6297.json"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/effect-tokens/effect-token-state-control-mutation-42efe58ccd5d.json"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782170702718-48723/stage-attempts/initial.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/authority/budget-ledger.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/authority/grant-bundle.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/authority/review-dispositions.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/checkpoints/bound.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/checkpoints/execution-complete.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/checkpoints/execution-start.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/contamination/current.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-evidence-mutation-0026a4421d97.json"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-extension-activation-3008a9cc58d2.json"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-extension-activation-a156f99d9538.json"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-extension-activation-b19d2218b3e7.json"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-state-control-mutation-5f93d63879da.json"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/events.manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/events.ndjson"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/retry-records/baseline.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/rollback-posture.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/run-contract.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/run-manifest.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/runtime-state.yml"
+    - ".octon/state/control/execution/runs/publish-1782170918551-4740/stage-attempts/initial.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782156653711-55357.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782157099048-89494.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782157125524-1721.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782157136300-3869.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782167636997-77581.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782170476033-79402.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782170677428-39312.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782170696975-48090.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782170702718-48723.yml"
+    - ".octon/state/evidence/control/execution/authority-decision-publish-1782170918551-4740.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782156653711-55357.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782157099048-89494.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782157125524-1721.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782157136300-3869.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782167636997-77581.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170476033-79402.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170677428-39312.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170696975-48090.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170702718-48723.yml"
+    - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170918551-4740.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782156653711-55357.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782157099048-89494.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782157125524-1721.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782157136300-3869.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782167636997-77581.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782170476033-79402.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782170677428-39312.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782170696975-48090.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782170702718-48723.yml"
+    - ".octon/state/evidence/external-index/runs/publish-1782170918551-4740.yml"
+    - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-20260622T204421Z/authorization.json"
+    exclude_paths:
+    - ".git"
+    - ".octon/state/control/execution/runs/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z"
+    - ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z"
+    - child closeout receipts
+    - child validation receipts
+    - archive authorization
+    - child lifecycle outcomes
+  proposal_program_handoff_authorization:
+    authorization_grant: operator-authorized-blocker-resolution-through-delivery
+    child_id: lifecycle-validator-runtime-resolver
+    route_id: closeout-packet
+    interaction_request_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-lifecycle-validator-runtime-resolver-closeout-packet.json"
+    classifier_output_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight-120189aaae6ce6fc65c0314764ea3c00bcedbfe64c9319a6ef779f3d4e0678d6.stdout.yml"
+    classifier_output_digest: sha256:120189aaae6ce6fc65c0314764ea3c00bcedbfe64c9319a6ef779f3d4e0678d6
+    authorized_foreign_fingerprint: sha256:7aa1683a658a24b5927b0d3faba5f860ecef75bc3aa5e115c44836a50c0aaf96
+    foreign_fingerprint: sha256:7aa1683a658a24b5927b0d3faba5f860ecef75bc3aa5e115c44836a50c0aaf96
+    authorized_paths: *1
+    disposition: preserve-and-exclude-from-child-closeout-blocking
+    outside_child_route_write_scope: true
+    non_mutating: true
+    preserve_and_exclude_from_child_closeout_blocking: true
+    parent_summary_not_child_closeout_receipt: true
+    child_closeout_authority_preserved: true
+    forbidden_actions:
+      deletion: false
+      reset: false
+      staging: false
+      commit: false
+      push: false
+      publication: false
+      archive: false
+      branch_cleanup: false
+      git_ref_mutation: false
+      repo_hygiene_cleanup: false
+      promotion: false
+      worktree_cleanup: false
+      cleaned_claim: false
+      child_receipt_replacement: false
+      child_validation_replacement: false
+      archive_authorization_replacement: false
+      child_lifecycle_outcome_replacement: false
+iterations: []
+final_candidate_dispositions:
+  current-foreign-manual-residue-20260622T235000Z:
+    state: foreign
+retained_residue:
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/capabilities/artifact-map.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/capabilities/generation.lock.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/capabilities/pack-routes.lock.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/capabilities/routing.effective.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/extensions/artifact-map.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/extensions/catalog.effective.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/extensions/generation.lock.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/prompts/closeout-packet/stages/01-closeout-packet.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/runtime/route-bundle.lock.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/generated/effective/runtime/route-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-packet/stages/01-closeout-packet.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-pack-shape.sh"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".codex/skills/closeout-worktree/SKILL.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".codex/skills/closeout-worktree/references/io-contract.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".codex/skills/closeout-worktree/references/validation.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782156653711-55357/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782157099048-89494/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782157125524-1721/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782157136300-3869/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782167636997-77581/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782170476033-79402/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782170677428-39312/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782170696975-48090/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782170702718-48723/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/continuity/runs/publish-1782170918551-4740/handoff.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-evidence-mutation-7bb5c58ea17e.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-evidence-mutation-9748d04535d9.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-evidence-mutation-abbe569f1366.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-extension-activation-040df5653f46.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-extension-activation-fe7f08865331.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/effect-tokens/effect-token-state-control-mutation-d3695a866d3a.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782156653711-55357/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/effect-tokens/effect-token-capability-pack-activation-2f5a8795fb35.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/effect-tokens/effect-token-evidence-mutation-abe1b3d43554.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/effect-tokens/effect-token-evidence-mutation-cc538735128b.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/effect-tokens/effect-token-state-control-mutation-210225557b2e.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157099048-89494/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/effect-tokens/effect-token-evidence-mutation-0df0bae73b0e.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/effect-tokens/effect-token-evidence-mutation-a77113535410.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/effect-tokens/effect-token-generated-effective-publication-4b6c237c49a2.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/effect-tokens/effect-token-state-control-mutation-4fb8f01416e5.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157125524-1721/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/effect-tokens/effect-token-evidence-mutation-7b6127e104e7.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/effect-tokens/effect-token-evidence-mutation-87efe742fffe.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/effect-tokens/effect-token-generated-effective-publication-9c700ad663f3.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/effect-tokens/effect-token-state-control-mutation-d88881656198.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782157136300-3869/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-evidence-mutation-571651e74ccc.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-evidence-mutation-8e4a4d11fdd7.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-evidence-mutation-a0c50b8670c1.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-extension-activation-43dfa92803fd.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-extension-activation-cca66b65ff53.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/effect-tokens/effect-token-state-control-mutation-cc077935fd86.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782167636997-77581/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-evidence-mutation-1a8e1d8ad2aa.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-evidence-mutation-2c2ca38da8af.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-evidence-mutation-a523807f7933.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-extension-activation-37460122ed65.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-extension-activation-64a54b2ed003.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/effect-tokens/effect-token-state-control-mutation-934db9ea4d2a.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170476033-79402/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/effect-tokens/effect-token-capability-pack-activation-7dc2591b31d5.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/effect-tokens/effect-token-evidence-mutation-8e5fb66da7e8.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/effect-tokens/effect-token-evidence-mutation-b968ba4e8b69.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/effect-tokens/effect-token-state-control-mutation-5f34db1db6f1.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170677428-39312/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/effect-tokens/effect-token-evidence-mutation-2c5648113d7f.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/effect-tokens/effect-token-evidence-mutation-603dba3db9a4.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/effect-tokens/effect-token-generated-effective-publication-11b9ece0e687.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/effect-tokens/effect-token-state-control-mutation-33e58b9a350c.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170696975-48090/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/effect-tokens/effect-token-evidence-mutation-4fcbe4593237.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/effect-tokens/effect-token-evidence-mutation-b2a3d0326aa0.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/effect-tokens/effect-token-generated-effective-publication-5611bada6297.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/effect-tokens/effect-token-state-control-mutation-42efe58ccd5d.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170702718-48723/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/authority/budget-ledger.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/authority/grant-bundle.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/authority/review-dispositions.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/checkpoints/bound.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/checkpoints/execution-complete.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/checkpoints/execution-start.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/contamination/current.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-evidence-mutation-0026a4421d97.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-extension-activation-3008a9cc58d2.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-extension-activation-a156f99d9538.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-extension-activation-b19d2218b3e7.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/effect-tokens/effect-token-state-control-mutation-5f93d63879da.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/events.manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/events.ndjson"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/retry-records/baseline.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/rollback-posture.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/run-contract.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/run-manifest.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/runtime-state.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/control/execution/runs/publish-1782170918551-4740/stage-attempts/initial.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782156653711-55357.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782157099048-89494.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782157125524-1721.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782157136300-3869.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782167636997-77581.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782170476033-79402.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782170677428-39312.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782170696975-48090.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782170702718-48723.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-decision-publish-1782170918551-4740.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782156653711-55357.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782157099048-89494.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782157125524-1721.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782157136300-3869.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782167636997-77581.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170476033-79402.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170677428-39312.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170696975-48090.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170702718-48723.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1782170918551-4740.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782156653711-55357.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782157099048-89494.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782157125524-1721.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782157136300-3869.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782167636997-77581.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782170476033-79402.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782170677428-39312.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782170696975-48090.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782170702718-48723.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/external-index/runs/publish-1782170918551-4740.yml"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+- candidate_id: current-foreign-manual-residue-20260622T235000Z
+  path: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-20260622T204421Z/authorization.json"
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking;
+    no mutation performed
+blockers: []
+final_residue_classes:
+  ignored: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program closeout-packet hygiene preflight
+  with child authority preserved

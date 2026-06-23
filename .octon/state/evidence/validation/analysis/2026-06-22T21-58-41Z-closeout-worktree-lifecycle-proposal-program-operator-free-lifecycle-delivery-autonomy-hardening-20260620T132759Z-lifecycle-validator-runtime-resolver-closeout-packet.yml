@@ -1,0 +1,120 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-lifecycle-validator-runtime-resolver-closeout-packet-closeout-worktree-20260622T215841Z
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight-3e6097b36a653fe4fe44ad1ba18e2b44ba811213661f7361fa7e6ba5e1b46943.stdout.yml
+residue_classification_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight-3e6097b36a653fe4fe44ad1ba18e2b44ba811213661f7361fa7e6ba5e1b46943.stdout.yml
+final_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight-3e6097b36a653fe4fe44ad1ba18e2b44ba811213661f7361fa7e6ba5e1b46943.stdout.yml
+selected_candidate_id: current-foreign-manual-residue
+candidates:
+- candidate_id: current-foreign-manual-residue
+  disposition: foreign
+  residue_routing_class: foreign_manual_review
+  ownership: foreign/manual worktree residue preserved and excluded from child closeout blocking by governed closeout-worktree handoff
+  route_hint: closeout-worktree
+  target_lifecycle_outcome: preserved
+  rollback_or_discard_posture: preserve-only; no mutation performed
+  boundaries:
+    include_paths: &authorized_paths
+    - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+    - .octon/state/continuity/runs/publish-1782156653711-55357
+    - .octon/state/continuity/runs/publish-1782157099048-89494
+    - .octon/state/continuity/runs/publish-1782157125524-1721
+    - .octon/state/continuity/runs/publish-1782157136300-3869
+    - .octon/state/control/execution/runs/publish-1782156653711-55357
+    - .octon/state/control/execution/runs/publish-1782157099048-89494
+    - .octon/state/control/execution/runs/publish-1782157125524-1721
+    - .octon/state/control/execution/runs/publish-1782157136300-3869
+    - .octon/state/evidence/control/execution
+    - .octon/state/evidence/external-index/runs
+    - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-20260622T204421Z
+    exclude_paths:
+    - .git
+    - .octon/generated
+    - .octon/state/control/execution/runs/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+  proposal_program_handoff_authorization:
+    authorization_grant: operator-authorized-blocker-resolution-through-delivery
+    child_id: lifecycle-validator-runtime-resolver
+    route_id: closeout-packet
+    interaction_request_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-lifecycle-validator-runtime-resolver-closeout-packet.json
+    classifier_output_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/lifecycle-validator-runtime-resolver/worktree-hygiene-preflight-3e6097b36a653fe4fe44ad1ba18e2b44ba811213661f7361fa7e6ba5e1b46943.stdout.yml
+    classifier_output_digest: sha256:3e6097b36a653fe4fe44ad1ba18e2b44ba811213661f7361fa7e6ba5e1b46943
+    authorized_foreign_fingerprint: sha256:9a9b0d7cbff37615c85ed390082dc9ef3c9c5933ffddf1746a990d0d641b4a3f
+    foreign_fingerprint: sha256:9a9b0d7cbff37615c85ed390082dc9ef3c9c5933ffddf1746a990d0d641b4a3f
+    authorized_paths: *authorized_paths
+    disposition: preserve-and-exclude-from-child-closeout-blocking
+    outside_child_route_write_scope: true
+    non_mutating: true
+    preserve_and_exclude_from_child_closeout_blocking: true
+    parent_summary_not_child_closeout_receipt: true
+    child_closeout_authority_preserved: true
+    forbidden_actions:
+      deletion: false
+      reset: false
+      staging: false
+      commit: false
+      push: false
+      publication: false
+      archive: false
+      branch_cleanup: false
+      git_ref_mutation: false
+      repo_hygiene_cleanup: false
+      promotion: false
+      worktree_cleanup: false
+      cleaned_claim: false
+      child_receipt_replacement: false
+      child_validation_replacement: false
+      archive_authorization_replacement: false
+      child_lifecycle_outcome_replacement: false
+iterations: []
+final_candidate_dispositions:
+  current-foreign-manual-residue:
+    state: foreign
+retained_residue:
+- candidate_id: current-foreign-manual-residue
+  path: .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/continuity/runs/publish-1782156653711-55357
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/continuity/runs/publish-1782157099048-89494
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/continuity/runs/publish-1782157125524-1721
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/continuity/runs/publish-1782157136300-3869
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/control/execution/runs/publish-1782156653711-55357
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/control/execution/runs/publish-1782157099048-89494
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/control/execution/runs/publish-1782157125524-1721
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/control/execution/runs/publish-1782157136300-3869
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/evidence/control/execution
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/evidence/external-index/runs
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+- candidate_id: current-foreign-manual-residue
+  path: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-20260622T204421Z
+  disposition: foreign/manual residue preserved and excluded from child closeout blocking; no mutation performed
+blockers: []
+final_residue_classes:
+  ignored: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program closeout-packet hygiene preflight with child authority preserved
