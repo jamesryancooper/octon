@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-validate-publication-freshness/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-validate-publication-freshness/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-validate-publication-freshness/context/model-visible-context.json
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-validate-publication-freshness
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-23T18:05:37.071237Z
+validity_state: valid

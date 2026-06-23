@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:ba661b3281e6debe8c08b4f2fec2c748b3433f0bc6fc501a0582ab9e3f28a1bb
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift/replay/manifest.yml
+  recorded_at: 2026-06-23T18:04:37.316674Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:843ed769339d794c1bd9c515784375290dfb01684d951e952ed1252ac8477cfe
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift/replay/manifest.yml
+  recorded_at: 2026-06-23T18:04:37.316674Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-verify-post-implementation-drift
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:04:37.316674Z

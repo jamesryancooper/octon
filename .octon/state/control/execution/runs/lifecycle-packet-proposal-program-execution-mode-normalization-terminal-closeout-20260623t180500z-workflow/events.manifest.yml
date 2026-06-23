@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+ledger_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:1d14c9a797d65bc49bfc61c7be6d04435dc786e40f51fe04071e159342e6c836
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  sequence: 1
+  event_hash: sha256:b2469ea4cb5b3b0da798e51fd3e196be79ef45427bb803a3c266f279eb98d498
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  sequence: 29
+  event_hash: sha256:9b40591d91c8946ae4886373d5cebe1ef5871194c798ca010ca86020dbe6c54c
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:b2469ea4cb5b3b0da798e51fd3e196be79ef45427bb803a3c266f279eb98d498
+  tail_event_hash: sha256:9b40591d91c8946ae4886373d5cebe1ef5871194c798ca010ca86020dbe6c54c
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  context_pack_ref: evt-context-pack-bound-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  disclosure_ref: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-a439ecafa13b
+  run_contract_ref: evt-001-run-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  run_manifest_ref: evt-002-run-bound-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  runtime_state_ref: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  stage_attempt_ref: evt-stage-started-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:9b40591d91c8946ae4886373d5cebe1ef5871194c798ca010ca86020dbe6c54c
+  materialized_at: 2026-06-23T18:05:49.984042Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-23T18:05:50.730392Z

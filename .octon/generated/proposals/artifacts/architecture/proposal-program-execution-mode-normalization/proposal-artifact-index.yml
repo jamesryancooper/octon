@@ -1,5 +1,5 @@
 {
-  "artifact_count": 19,
+  "artifact_count": 20,
   "artifacts": [
     {
       "byte_size": 608,
@@ -238,8 +238,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 5406,
-      "estimated_tokens": 1352,
+      "byte_size": 6810,
+      "estimated_tokens": 1703,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/implementation-run.md",
@@ -250,7 +250,7 @@
         "validator-dispute"
       ],
       "role": "implementation-run",
-      "sha256": "sha256:afa5361fe0c7e27d66a8cb412914ad4166ca0df068b75a8664e457b61110f4ae",
+      "sha256": "sha256:61829e712a0929d8b605f70685353c186a89a087a94dc9b30e1fb88d5fba5af9",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -299,8 +299,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 9197,
-      "estimated_tokens": 2300,
+      "byte_size": 12095,
+      "estimated_tokens": 3024,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/proposal-closeout.md",
@@ -311,7 +311,7 @@
         "validator-dispute"
       ],
       "role": "proposal-closeout",
-      "sha256": "sha256:cefe312a777c8ff60c1d11d1ab11e384e8c47207d98d1f2e7265f964dc089ea1",
+      "sha256": "sha256:71673894ce2cb6d1628b464dc4b09bdad14c1ee1eedbcb465c35cffed263063a",
       "stage_relevance": [
         "support-review"
       ],
@@ -338,8 +338,27 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 6720,
-      "estimated_tokens": 1680,
+      "byte_size": 30335,
+      "estimated_tokens": 7584,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:7952ed58475fbabdc689dec93e2934e4650ab8621d1f77a4461b7cef0e55a626",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 7322,
+      "estimated_tokens": 1831,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/validation.md",
@@ -350,7 +369,7 @@
         "validator-dispute"
       ],
       "role": "validation",
-      "sha256": "sha256:9ea35e3a38d849b5842b61606e88ce3991bbb04a95b3d5f6be48c29c5a19c4f9",
+      "sha256": "sha256:5c3e395dcaf5c1b54d0c82ac3af44bd43d1d16047adbb8b993ff8e64a9ca5f45",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",

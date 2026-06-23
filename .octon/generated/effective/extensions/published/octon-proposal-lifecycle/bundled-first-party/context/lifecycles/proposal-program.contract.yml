@@ -59,6 +59,11 @@ program:
     - "gated-parallel"
     - "approval-gated"
     - "program-atomic"
+  # Legacy registry/manifests may spell `gated-parallel` as
+  # `sequenced-gated`. That spelling is an input alias only: validators and
+  # planner code normalize it to `gated-parallel`, keep supported modes
+  # canonical, and fail closed when parent `program_execution_mode` disagrees
+  # with `resources/child-packet-index.yml#execution_mode` after normalization.
   # Scheduler contract: runnable child batches are ordered by declared child
   # dependencies, then by registry order for peers. `max_child_concurrency`
   # limits simultaneous executors inside the selected batch without creating

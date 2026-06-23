@@ -146,6 +146,9 @@ reviewed_file_inventory() {
       support/proposal-closeout.md)
         continue
         ;;
+      support/proposal-terminal-closeout.yml)
+        continue
+        ;;
       support/lifecycle-residue-cleanup.md)
         continue
         ;;
@@ -195,6 +198,9 @@ legacy_reviewed_file_inventory() {
         continue
         ;;
       support/proposal-closeout.md)
+        continue
+        ;;
+      support/proposal-terminal-closeout.yml)
         continue
         ;;
       support/validation.md|support/validation/*|support/.tmp/*)

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:6ecb17ab482eff3a5aae5cfeee34b355e5dc9668251ca5a8133b32a996fb46d0
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-23T18:05:44.490886Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:8de67fdef1807bf574647283f608edabe9a37aece9c2fe7b127b3084c0ed4228
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-23T18:05:44.490886Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-run-evidence-only-reviews
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:05:44.490886Z

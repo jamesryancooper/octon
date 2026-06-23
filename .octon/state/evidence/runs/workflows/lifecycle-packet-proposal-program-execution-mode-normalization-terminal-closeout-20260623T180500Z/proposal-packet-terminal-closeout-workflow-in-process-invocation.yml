@@ -1,0 +1,14 @@
+schema_version: octon-lifecycle-workflow-in-process-invocation-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z
+route_id: proposal-packet-terminal-closeout
+workflow_run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+executor: auto
+started_at: 2026-06-23T18:04:20.840816Z
+bound_inputs:
+  disposition: implemented
+  promotion_evidence: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-standard.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-architecture-proposal.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-implementation-readiness.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-review-gate.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-implementation-conformance.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-post-implementation-drift.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-live-parent-program-structure.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-program-execution-mode.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-gated-parallel.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-lifecycle-loop-fixes-exact.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log,.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml
+  proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+  target: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+  target_outcome: archive-ready
+  terminal_target_outcome_binding: proposal-closeout-receipt
+  terminal_target_outcome_source_ref: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md

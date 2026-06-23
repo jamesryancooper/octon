@@ -106,10 +106,10 @@
       "sha256": "sha256:5ad35a71e25f9ecb7d8f54881d27e2d03f0d1069678380aa45a7aa8751f9f73d"
     },
     {
-      "byte_size": 5406,
-      "estimated_tokens": 1352,
+      "byte_size": 6810,
+      "estimated_tokens": 1703,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md",
-      "sha256": "sha256:afa5361fe0c7e27d66a8cb412914ad4166ca0df068b75a8664e457b61110f4ae"
+      "sha256": "sha256:61829e712a0929d8b605f70685353c186a89a087a94dc9b30e1fb88d5fba5af9"
     },
     {
       "byte_size": 3543,
@@ -118,10 +118,10 @@
       "sha256": "sha256:94e9063a9c72e87b75178932b6d95d8bfd07a8aac19f50b0b5b914c50fe7f6a5"
     },
     {
-      "byte_size": 9197,
-      "estimated_tokens": 2300,
+      "byte_size": 12095,
+      "estimated_tokens": 3024,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md",
-      "sha256": "sha256:cefe312a777c8ff60c1d11d1ab11e384e8c47207d98d1f2e7265f964dc089ea1"
+      "sha256": "sha256:71673894ce2cb6d1628b464dc4b09bdad14c1ee1eedbcb465c35cffed263063a"
     },
     {
       "byte_size": 2465,
@@ -130,10 +130,10 @@
       "sha256": "sha256:69ca170d6e4056a1fca43dab781ba8bdf244ba4b25fe03ebf019ac7fde47913b"
     },
     {
-      "byte_size": 6720,
-      "estimated_tokens": 1680,
+      "byte_size": 7322,
+      "estimated_tokens": 1831,
       "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/validation.md",
-      "sha256": "sha256:9ea35e3a38d849b5842b61606e88ce3991bbb04a95b3d5f6be48c29c5a19c4f9"
+      "sha256": "sha256:5c3e395dcaf5c1b54d0c82ac3af44bd43d1d16047adbb8b993ff8e64a9ca5f45"
     }
   ],
   "related_proposals": [

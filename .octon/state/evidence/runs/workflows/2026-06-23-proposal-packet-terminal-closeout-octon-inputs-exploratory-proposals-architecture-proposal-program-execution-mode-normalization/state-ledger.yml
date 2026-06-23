@@ -1,0 +1,153 @@
+schema_version: proposal-packet-terminal-closeout-state-ledger-v1
+terminal_run_id: "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow"
+workflow_run_id: "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow"
+packet:
+  proposal_id: "proposal-program-execution-mode-normalization"
+  path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization"
+  proposal_kind: "architecture"
+  status: "implemented"
+target_outcome: "archive-ready"
+profile:
+  profile_ref: ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/profile.yml"
+  profile_digest: "sha256:fe86eeb5ef367a81c6afc62d7ea7122f5ebff47767d4b9c434e4bb76026fd146"
+  profile_validation_evidence_ref: ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/bind-profile-profile-validation.log"
+state_ledger:
+  - state_id: bind-profile
+    input_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/profile.yml"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh --profile .octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/profile.yml"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/profile.yml"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/bind-profile-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/bind-profile-profile-validation.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/bind-profile/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-durable-implementation-state
+    input_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml"
+    validator_command_refs:
+      - "deterministic promotion target existence check"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/durable-implementation-state.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/verify-durable-implementation-state-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/verify-durable-implementation-state/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-implementation-conformance
+    input_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/verify-implementation-conformance-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/implementation-conformance.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/verify-implementation-conformance/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-post-implementation-drift
+    input_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/verify-post-implementation-drift-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/post-implementation-drift.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/verify-post-implementation-drift/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: validate-publication-freshness
+    input_refs:
+      - "terminal closeout publication validator selection"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh"
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh"
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/validate-publication-freshness-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/capability-publication-state.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/extension-publication-state.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/generated-non-authority.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/input-non-authority.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/product-feature-catalog.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/run-health-read-model.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/validate-publication-freshness/outcome.json"
+    state_verdict: blocked
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: classify-repo-hygiene
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/generated-non-authority.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/input-non-authority.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/run-health-read-model.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/capability-publication-state.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/extension-publication-state.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/product-feature-catalog.log"
+    validator_command_refs:
+      - "deterministic repo hygiene classification"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/classify-repo-hygiene-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/repo-hygiene-classification.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/classify-repo-hygiene/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: classify-worktree-hygiene
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/repo-hygiene-classification.md"
+    validator_command_refs:
+      - "git status --porcelain"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/classify-worktree-hygiene-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/worktree-hygiene-classification.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/classify-worktree-hygiene/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: run-evidence-only-reviews
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/worktree-hygiene-classification.md"
+    validator_command_refs:
+      - "deterministic evidence-only review classification"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/evidence-only-reviews.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/run-evidence-only-reviews-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/run-evidence-only-reviews/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: resolve-git-github-route
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/worktree-hygiene-classification.md"
+    validator_command_refs:
+      - "deterministic Git/GitHub route classification"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/git-github-route.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/resolve-git-github-route-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/resolve-git-github-route/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: emit-terminal-receipt
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/git-github-route.md"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh --receipt .octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/terminal-receipt.yml"
+    output_evidence_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/reports/emit-terminal-receipt-report.md"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stage-logs/terminal-receipt-validation.log"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/stages/emit-terminal-receipt/outcome.json"
+      - ".octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization/terminal-receipt.yml"
+    state_verdict: blocked
+    retry_count: 0
+    resume_cursor: complete

@@ -319,6 +319,15 @@ verdict: pass
 closed_at: 2026-05-07T00:00:00Z
 archive_authorized: yes
 EOF
+  cat >"$(packet_dir "$root")/support/proposal-terminal-closeout.yml" <<'EOF'
+schema_version: proposal-packet-terminal-closeout-receipt-v1
+terminal_verdict: blocked
+target_outcome: archive-ready
+archive_ready: no
+next_canonical_route: blocked
+blocker:
+  class: publication-freshness-blocked
+EOF
   run_validator "$root" --require-implementation-authorization
 }
 
@@ -405,7 +414,7 @@ main() {
     '"minimal_repair_hint"' \
     case_accepted_open_blockers_emit_hard_blocker
   assert_success \
-    "accepted review remains fresh after post-review operational receipts" \
+    "accepted review remains fresh after post-review terminal receipts" \
     case_accepted_review_survives_post_review_receipts
   assert_failure_contains \
     "old program prompt support file is not excluded from review digest" \

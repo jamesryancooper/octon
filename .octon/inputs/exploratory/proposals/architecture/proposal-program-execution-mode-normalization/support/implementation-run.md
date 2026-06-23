@@ -60,6 +60,14 @@ fresh proposal-closeout receipt for direct packet lifecycle dispatch, while
 refusing to bind `archive-ready` from a blocked or internally inconsistent
 closeout receipt.
 
+The next terminal resume exposed stale publication state for extension inputs
+owned by this child: the two changed `octon-proposal-lifecycle` validation test
+files had stale generated extension publication digests. The branch refreshed
+extension and capability publication through the canonical publishers and added
+a review-gate freshness fix so historical `support/proposal-terminal-closeout.yml`
+receipts do not stale accepted review authorization or route the implemented
+packet back to `review-packet`.
+
 ## Evidence Refs
 
 - `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T163644Z/cargo-test-program-execution-mode-alias.log`
@@ -73,6 +81,11 @@ closeout receipt.
 - `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/cargo-test-stale-hygiene-live-pass-recovery.log`
 - `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/live-child-plan-blocked-no-route.log`
 - `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log`
+- `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/publish-extension-state.log`
+- `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/publish-capability-routing.log`
+- `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/test-validate-proposal-review-gate.log`
+- `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-current-child-review-gate-after-summary-update.log`
+- `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-proposal-lifecycle-terminal-freshness-after-summary-update.log`
 
 ## Scope Guard
 

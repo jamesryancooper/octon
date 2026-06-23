@@ -1,0 +1,89 @@
+schema_version: proposal-packet-terminal-closeout-profile-v1
+profile_id: proposal-packet-terminal-closeout-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+created_at: "2026-06-23T18:04:29.384877Z"
+packet:
+  proposal_id: proposal-program-execution-mode-normalization
+  path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+  expected_status: implemented
+target_outcome: archive-ready
+route_preference: none-closeout-only
+pr_policy:
+  allow_pr_creation: false
+  allow_branch_no_pr: false
+  exact_sha_required: true
+publication_freshness_policy:
+  canonical_publisher_only: true
+  direct_generated_edits_forbidden: true
+  validator_family_map:
+    - target_family: publication
+      validators:
+        - validate-generated-non-authority.sh
+        - validate-run-health-read-model.sh
+        - validate-capability-publication-state.sh
+        - validate-extension-publication-state.sh
+hygiene_policy:
+  repo_hygiene_delegation_only: true
+  worktree_foreign_residue_blocks_archive_ready: true
+  cleanup_authorization_required: true
+expected_retained_evidence:
+  - evidence_id: implementation-conformance
+    required: true
+    owner: proposal-packet
+    path_pattern: ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md"
+  - evidence_id: post-implementation-drift
+    required: true
+    owner: proposal-packet
+    path_pattern: ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md"
+required_validators_by_target_family:
+  - target_family: terminal-closeout
+    validators:
+      - validate-proposal-implementation-conformance.sh
+      - validate-proposal-post-implementation-drift.sh
+      - validate-proposal-packet-terminal-closeout-receipt.sh
+post_integration_architecture_review_policy:
+  run_when_applicable: true
+  evidence_only: true
+packet_terminal_evaluator_policy:
+  required_for:
+    - blocked
+    - nonterminal
+    - cancelled
+    - rollback
+    - repeated-retry
+  evidence_only: true
+git_github_hosted_check_policy:
+  delegate_to_closeout_routes: true
+  exact_sha_required_when_hosted: true
+  landing_authorization_required: true
+  branch_cleanup_authorization_required: true
+blocker_reporting:
+  required: true
+  allowed_blocker_classes:
+    - none
+    - missing-evidence
+    - stale-evidence
+    - validator-failed
+    - publication-freshness-blocked
+    - hygiene-blocked
+    - git-route-blocked
+    - scope-overrun
+    - archive-boundary-violation
+  allowed_next_routes:
+    - archive-proposal
+    - promote-proposal
+    - run-packet-implementation
+    - run-packet-verification-and-correction-loop
+    - repo-hygiene-cleanup
+    - closeout-worktree
+    - closeout-change
+    - blocked
+    - manual-intervention
+forbidden_authority_requests:
+  archive_relocation: false
+  proposal_status_mutation: false
+  generated_direct_publication: false
+  git_mutation: false
+  residue_deletion: false
+  host_state_authority: false
+  chat_or_model_memory_authority: false
+  tool_authority: false

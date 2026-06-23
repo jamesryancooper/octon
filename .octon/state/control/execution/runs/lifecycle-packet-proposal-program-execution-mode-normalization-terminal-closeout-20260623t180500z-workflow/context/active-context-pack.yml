@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/context/context-pack.json
+context_pack_sha256: sha256:e2dbf513d15e1f2a9bedd4c3422faf3aca48eb979a7a0c9080f7ac76c310c4c2
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow/context/model-visible-context.json
+model_visible_context_sha256: sha256:6171275fa3fc4787df613736af5531a8de31d0644183e3d2c932c9abac8656fa
+receipt_sha256: sha256:276e41981bf667b603d0e4f6b74437deff37e35ec6afb18488d8d797a6fa127a
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow
+schema_version: active-context-pack-v1
+updated_at: 2026-06-23T18:04:21.279171Z
+validity_state: valid

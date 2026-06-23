@@ -1,0 +1,14 @@
+[
+  ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md sha256:a13181cfdb508dd35e1d5627503067c810f6f945eecd31ba372a66d2c755cc5c",
+  ".octon/generated/effective/extensions/catalog.effective.yml sha256:b7a924bb14a136404e0c10149e0a042ac1a92e99c1200f48eda56221d2be9af4",
+  ".octon/generated/effective/runtime/route-bundle.yml sha256:ff15b6ec18b69d14903a49dfb6927cd26cddc59383efd2d1c133f0ab9e30d371",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml sha256:d9a69c91b12c624cb76b0a80f5998854338b220b75fe3db5e293025df5643a94",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md sha256:d561e63ea44f33e1c67bb83ce4cd5f7ac2f09b5acbf24f5a83a9d163de46f121",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md sha256:5ad35a71e25f9ecb7d8f54881d27e2d03f0d1069678380aa45a7aa8751f9f73d",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md sha256:afa5361fe0c7e27d66a8cb412914ad4166ca0df068b75a8664e457b61110f4ae",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md sha256:94e9063a9c72e87b75178932b6d95d8bfd07a8aac19f50b0b5b914c50fe7f6a5",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md sha256:cefe312a777c8ff60c1d11d1ab11e384e8c47207d98d1f2e7265f964dc089ea1",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md sha256:69ca170d6e4056a1fca43dab781ba8bdf244ba4b25fe03ebf019ac7fde47913b",
+  ".octon/instance/governance/policies/context-packing.yml sha256:be178d1e81a6244320f67c9334a03e3de68521923c12e6570ecf1b98dbebdd2f",
+  ".octon/instance/ingress/AGENTS.md sha256:0d1244e63d5605fdee0ee96dab8a48959b719d03166f36184a192d74adc4f86e"
+]

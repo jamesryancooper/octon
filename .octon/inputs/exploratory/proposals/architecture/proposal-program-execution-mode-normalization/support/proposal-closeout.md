@@ -41,6 +41,8 @@ staging_performed: false
 commit_performed: false
 push_performed: false
 publication_performed: false
+post_closeout_publication_refresh_performed: true
+post_closeout_publication_refresh_evidence: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/publish-extension-state.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/publish-capability-routing.log
 branch_cleanup_performed: false
 repo_hygiene_cleanup_performed: false
 worktree_cleanup_performed: false
@@ -64,6 +66,11 @@ promotion_evidence:
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-gated-parallel.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-lifecycle-loop-fixes-exact.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-extension-publication-state.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-capability-publication-state.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/test-validate-proposal-review-gate.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-current-child-review-gate-after-summary-update.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-proposal-lifecycle-terminal-freshness-after-summary-update.log
   - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml
 
 validation_summary:
@@ -99,6 +106,20 @@ cleared_blockers:
       fresh, schema-valid child-owned proposal-closeout receipt and refuses to
       reuse a blocked closeout as archive-ready terminal evidence.
     evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log
+  - class: publication-freshness-blocked
+    detail: >-
+      Terminal closeout exposed stale generated extension publication digests
+      for this child's changed proposal lifecycle validation tests. Extension
+      and capability publication were refreshed through canonical publishers,
+      and the terminal publication validator set now passes.
+    evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-extension-publication-state.log
+  - class: review-stale-terminal-receipt-reentry
+    detail: >-
+      Historical proposal-terminal-closeout receipts are now excluded from the
+      proposal review digest alongside other post-review operational receipts,
+      preventing an implemented packet from returning to review solely because
+      terminal closeout evidence was retained.
+    evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/test-validate-proposal-review-gate.log
 
 ## Closeout Decision
 
@@ -122,7 +143,10 @@ closeout-worktree exclusion is required for this fresh closeout.
 - `validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening`: pass.
 - Focused cargo regressions for execution-mode normalization, scheduler dependency preservation, route binding, run-id compaction, and stale closeout loop suppression: pass.
 - Focused cargo regressions for direct packet terminal `target_outcome` binding from child-owned closeout evidence and stale blocked closeout suppression: pass.
-- `validate-proposal-lifecycle-terminal-freshness.sh --proposal .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --targeted`: pass after canonical artifact refresh.
+- Canonical extension and capability publication refresh plus terminal publication/non-authority validators: pass.
+- Review-gate regression proving retained terminal closeout receipts do not stale accepted review authorization: pass.
+- `validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --require-implementation-authorization`: pass after retaining the blocked terminal receipt.
+- `validate-proposal-lifecycle-terminal-freshness.sh --proposal .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --targeted`: pass after canonical artifact refresh and support receipt updates.
 
 ## Archive Decision
 

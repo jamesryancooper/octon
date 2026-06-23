@@ -1,0 +1,228 @@
+{
+  "schema_version": "token-budget-ledger-v1",
+  "schema_ref": ".octon/framework/engine/runtime/spec/token-budget-ledger-v1.schema.json",
+  "ledger_id": "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z:proposal-packet-terminal-closeout",
+  "run_id": "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z",
+  "lifecycle_id": "proposal-packet",
+  "route_id": "proposal-packet-terminal-closeout",
+  "phase_id": "packet-terminal-closeout",
+  "ledger_scope": {
+    "level": "route",
+    "target_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization",
+    "evidence_root_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z"
+  },
+  "produced_by": {
+    "name": "octon_lifecycle_executor::token_budget",
+    "version": "token-budget-ledger-v1",
+    "recorded_at": "2026-06-23T18:05:50.77359Z"
+  },
+  "ledger_role": "retained-token-measurement-evidence-not-authority",
+  "token_generation_mode": "deterministic-byte-estimate-provider-usage-when-present",
+  "provider_usage": {
+    "status": "not_available",
+    "usage_mismatch_detected": false,
+    "notes": [
+      "provider usage artifact was not supplied for this route"
+    ]
+  },
+  "token_summary": {
+    "estimated_total_tokens": 18070,
+    "model_visible_estimated_tokens": 3885,
+    "prompt_estimated_tokens": 0,
+    "context_estimated_tokens": 3885,
+    "completion_estimated_tokens": 0,
+    "tool_output_estimated_tokens": 0,
+    "evidence_estimated_tokens": 14185,
+    "repeated_source_percentage": 0.01,
+    "repeated_source_token_estimate": 1,
+    "prompt_boilerplate_percentage": 0.0,
+    "prompt_boilerplate_token_estimate": 0,
+    "generated_state_reread_count": 0,
+    "raw_log_reread_count": 0,
+    "high_reasoning_call_count": 0
+  },
+  "levels": [
+    {
+      "level": "parent",
+      "subject_id": "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z",
+      "estimated_tokens": 18070,
+      "source_count": 13,
+      "notes": [
+        "route-level estimate rolled up to parent/program subject"
+      ]
+    },
+    {
+      "level": "child",
+      "subject_id": "none",
+      "estimated_tokens": 18070,
+      "source_count": 13,
+      "notes": [
+        "child subject is explicit only for program child routes"
+      ]
+    },
+    {
+      "level": "stage",
+      "subject_id": "packet-terminal-closeout",
+      "estimated_tokens": 18070,
+      "source_count": 13,
+      "notes": [
+        "stage derives from phase/group id when available"
+      ]
+    },
+    {
+      "level": "source",
+      "subject_id": "source-records",
+      "estimated_tokens": 18070,
+      "source_count": 13,
+      "notes": [
+        "source level sums digest-bound source records"
+      ]
+    },
+    {
+      "level": "model",
+      "subject_id": "auto",
+      "estimated_tokens": 3885,
+      "source_count": 1,
+      "notes": [
+        "model level uses provider usage when present, otherwise deterministic estimates"
+      ]
+    }
+  ],
+  "source_records": [
+    {
+      "source_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/authorization/proposal-packet-terminal-closeout-delegation-proof.yml",
+      "sha256": "sha256:c27d0200c3e456873a097a2ed75640d5b31396fa4dcf662e28220f03e9fb4f1f",
+      "bytes": 3022,
+      "estimated_tokens": 756,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/context/context-pack-receipt.json",
+      "sha256": "sha256:c20f1824bb5eaa5f77fb45a176249aaadf8beb5bf538732932013cbd10319a88",
+      "bytes": 12901,
+      "estimated_tokens": 3226,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/context/context-pack.json",
+      "sha256": "sha256:6280c5e0cdbe42a28ad629e415ba47112d66b1bf73b596779ef84be687b8934f",
+      "bytes": 18733,
+      "estimated_tokens": 4684,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/context/invalidation-events.json",
+      "sha256": "sha256:37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "estimated_tokens": 1,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/context/model-visible-context.json",
+      "sha256": "sha256:b1ec8190bd39ea8bdfbae12aa209023ffcb1784b7cfad458457730077dd9808f",
+      "bytes": 15538,
+      "estimated_tokens": 3885,
+      "source_class": "context",
+      "model_visible": true,
+      "inclusion_mode": "full"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/context/model-visible-context.sha256",
+      "sha256": "sha256:d7d5a4d298854d807067bf62008cb81ef6fc145118f47c50e7f335e4a8eb0644",
+      "bytes": 72,
+      "estimated_tokens": 18,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/context/omissions.json",
+      "sha256": "sha256:3dfc504c28c91122562d7d2aa82325043303dbe3e394cb5faab3125648ba25f7",
+      "bytes": 749,
+      "estimated_tokens": 188,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/context/redactions.json",
+      "sha256": "sha256:37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "estimated_tokens": 1,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/context/source-manifest.json",
+      "sha256": "sha256:0a3b56577a07af1af0ab84fc9c96e42d353107fc48c8f755f217c7c175398095",
+      "bytes": 2104,
+      "estimated_tokens": 526,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/proposal-packet-terminal-closeout-completion-observation.yml",
+      "sha256": "sha256:32f96a0c88e9ac9d30ac6e7276668f539d3b6431244673822d41542ae3897d27",
+      "bytes": 14601,
+      "estimated_tokens": 3651,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/proposal-packet-terminal-closeout-workflow-in-process-invocation.yml",
+      "sha256": "sha256:85d293022c68f07ba2ec1754ece5248f10bd52d51d6a4c578339dc7f48305675",
+      "bytes": 2723,
+      "estimated_tokens": 681,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/proposal-packet-terminal-closeout-workflow-in-process-terminal.yml",
+      "sha256": "sha256:e67b1b61e85c3ec1fddd1ed8b0edff6e51babeae68254bfc5dc321bcff1d592e",
+      "bytes": 924,
+      "estimated_tokens": 231,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    },
+    {
+      "source_ref": ".octon/state/evidence/validation/analysis/2026-06-23-proposal-packet-terminal-closeout.md",
+      "sha256": "sha256:8841322c5a84f17311073728e51b149785ab09ca6b1d00a61dd04f8832412ad3",
+      "bytes": 888,
+      "estimated_tokens": 222,
+      "source_class": "evidence",
+      "model_visible": false,
+      "inclusion_mode": "digest-bound"
+    }
+  ],
+  "regression_guard": {
+    "baseline_ref": null,
+    "candidate_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T180500Z/token-budget-ledger.json",
+    "avoidable_regression_threshold_percent": 30,
+    "status": "measurement-only",
+    "notes": [
+      "route ledger records deterministic estimates; regression decisions are validator-owned"
+    ]
+  },
+  "authority_boundary": {
+    "artifact_class": "retained-evidence-read-model",
+    "replaces_source_evidence": false,
+    "authorizes_execution": false,
+    "raw_evidence_retained": true,
+    "proposal_input_authority": "non-authoritative",
+    "generated_output_authority": "derived-only",
+    "failure_behavior": "fail-closed-for-regression-claims-not-for-authorization"
+  }
+}

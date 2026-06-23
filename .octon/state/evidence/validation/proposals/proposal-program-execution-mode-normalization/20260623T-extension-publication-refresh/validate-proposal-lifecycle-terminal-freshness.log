@@ -1,0 +1,479 @@
+[OK] target proposal exists: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+[OK] scoped proposal has manifest: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+[ERROR] generated artifact stale: .octon/generated/proposals/artifacts/architecture/proposal-program-execution-mode-normalization/proposal-artifact-index.yml
+--- .octon/generated/proposals/artifacts/architecture/proposal-program-execution-mode-normalization/proposal-artifact-index.yml
++++ generated/proposal-artifact-index.yml
+@@ -1,5 +1,5 @@
+ {
+-  "artifact_count": 19,
++  "artifact_count": 20,
+   "artifacts": [
+     {
+       "byte_size": 608,
+@@ -334,6 +334,25 @@
+       "stage_relevance": [
+         "run-packet-implementation",
+         "promote-proposal"
++      ],
++      "stage_role": "evidence-annex"
++    },
++    {
++      "byte_size": 30335,
++      "estimated_tokens": 7584,
++      "freshness_state": "digest-bound",
++      "inclusion_mode": "annex-ref",
++      "packet_relative_path": "support/proposal-terminal-closeout.yml",
++      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml",
++      "read_raw_only_if": [
++        "receipt-freshness-dispute",
++        "evidence-audit-request",
++        "validator-dispute"
++      ],
++      "role": "proposal-terminal-closeout",
++      "sha256": "sha256:7952ed58475fbabdc689dec93e2934e4650ab8621d1f77a4461b7cef0e55a626",
++      "stage_relevance": [
++        "support-review"
+       ],
+       "stage_role": "evidence-annex"
+     },
+[OK] generated artifact matches: .octon/generated/proposals/artifacts/architecture/proposal-program-execution-mode-normalization/proposal-program-spine.yml
+Proposal artifact generation summary: errors=1
+[ERROR] proposal artifact index is fresh: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+[OK] proposal manifest exists
+[OK] proposal artifact index exists
+[OK] proposal program spine exists
+[OK] proposal artifact index schema is octon-proposal-artifact-index-v1
+[OK] proposal program spine schema is octon-proposal-program-spine-v1
+[OK] proposal artifact index authority boundary replaces_source_evidence
+[OK] proposal artifact index authority boundary authorizes_execution
+[OK] proposal artifact index authority boundary proposal_input_authority
+[OK] proposal artifact index authority boundary generated_output_authority
+[OK] proposal artifact index authority boundary raw_evidence_retained
+[OK] proposal artifact index authority boundary generated_registry_replaces_manifest
+[OK] proposal program spine authority boundary replaces_source_evidence
+[OK] proposal program spine authority boundary authorizes_execution
+[OK] proposal program spine authority boundary proposal_input_authority
+[OK] proposal program spine authority boundary generated_output_authority
+[OK] proposal program spine authority boundary raw_evidence_retained
+[OK] proposal program spine authority boundary generated_registry_replaces_manifest
+[OK] reader preferences require escalation before raw packet body reads
+[OK] proposal artifact index points at proposal path
+[OK] proposal program spine points at proposal path
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/README.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/README.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/README.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/README.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/README.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/README.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/README.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/target-architecture.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/target-architecture.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/target-architecture.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/target-architecture.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/target-architecture.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/target-architecture.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/target-architecture.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/resources/source-lineage.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/resources/source-lineage.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/resources/source-lineage.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/resources/source-lineage.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/resources/source-lineage.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/resources/source-lineage.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/resources/source-lineage.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/pre-integration-architecture-review.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/pre-integration-architecture-review.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/pre-integration-architecture-review.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/pre-integration-architecture-review.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/pre-integration-architecture-review.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/pre-integration-architecture-review.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/pre-integration-architecture-review.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/validation.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/validation-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/validation-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/validation-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/validation-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/validation-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/validation-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/validation-plan.md
+[OK] required packet artifact indexed: architecture-proposal.yml
+[OK] required packet artifact indexed: proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture-proposal.yml
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/acceptance-criteria.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/architecture/implementation-plan.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/artifact-catalog.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/navigation/source-of-truth-map.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/executable-implementation-prompt.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+[OK] compact output role present: proposal-program-spine
+[OK] compact output role present: proposal-artifact-index
+Proposal artifact spine validation summary: errors=0
+[OK] proposal artifact spine validates: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+[OK] governed mechanism integration receipt not required for current lifecycle state: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+[OK] targeted dependency metadata validates: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+[OK] targeted dependency queued: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening
+[OK] scoped proposal has manifest: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening
+[OK] generated artifact matches: .octon/generated/proposals/artifacts/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal-artifact-index.yml
+[OK] generated artifact matches: .octon/generated/proposals/artifacts/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-spine.yml
+Proposal artifact generation summary: errors=0
+[OK] proposal artifact index is fresh: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening
+[OK] proposal manifest exists
+[OK] proposal artifact index exists
+[OK] proposal program spine exists
+[OK] proposal artifact index schema is octon-proposal-artifact-index-v1
+[OK] proposal program spine schema is octon-proposal-program-spine-v1
+[OK] proposal artifact index authority boundary replaces_source_evidence
+[OK] proposal artifact index authority boundary authorizes_execution
+[OK] proposal artifact index authority boundary proposal_input_authority
+[OK] proposal artifact index authority boundary generated_output_authority
+[OK] proposal artifact index authority boundary raw_evidence_retained
+[OK] proposal artifact index authority boundary generated_registry_replaces_manifest
+[OK] proposal program spine authority boundary replaces_source_evidence
+[OK] proposal program spine authority boundary authorizes_execution
+[OK] proposal program spine authority boundary proposal_input_authority
+[OK] proposal program spine authority boundary generated_output_authority
+[OK] proposal program spine authority boundary raw_evidence_retained
+[OK] proposal program spine authority boundary generated_registry_replaces_manifest
+[OK] reader preferences require escalation before raw packet body reads
+[OK] proposal artifact index points at proposal path
+[OK] proposal program spine points at proposal path
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/README.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/README.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/README.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/README.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/README.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/README.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/README.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/RISK-REGISTER.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/RISK-REGISTER.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/RISK-REGISTER.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/RISK-REGISTER.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/RISK-REGISTER.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/RISK-REGISTER.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/RISK-REGISTER.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/child-packet-contract.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/child-packet-contract.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/child-packet-contract.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/child-packet-contract.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/child-packet-contract.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/child-packet-contract.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/child-packet-contract.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/packet-sequence.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/packet-sequence.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/packet-sequence.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/packet-sequence.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/packet-sequence.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/packet-sequence.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/packet-sequence.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/program-closeout-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/program-closeout-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/program-closeout-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/program-closeout-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/program-closeout-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/program-closeout-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/program-closeout-plan.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/target-architecture.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/target-architecture.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/target-architecture.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/target-architecture.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/target-architecture.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/target-architecture.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/target-architecture.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/child-packet-index.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/source-lineage.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/source-lineage.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/source-lineage.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/source-lineage.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/source-lineage.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/source-lineage.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/resources/source-lineage.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/pre-integration-architecture-review.yml
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-creation.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-prompt.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T130630Z.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T131041Z.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/revisions/revision-20260620T133900Z.md
+[OK] indexed artifact .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/validation-plan.md exists
+[OK] indexed artifact digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/validation-plan.md
+[OK] indexed artifact byte size matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/validation-plan.md
+[OK] indexed artifact token estimate matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/validation-plan.md
+[OK] indexed artifact stage role valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/validation-plan.md
+[OK] indexed artifact inclusion mode valid: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/validation-plan.md
+[OK] indexed artifact raw-read conditions present: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/validation-plan.md
+[OK] required packet artifact indexed: proposal.yml
+[OK] required packet artifact indexed: architecture-proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md
+[OK] source digest ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md exists
+[OK] source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture-proposal.yml
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/acceptance-criteria.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/architecture/implementation-plan.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/artifact-catalog.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/navigation/source-of-truth-map.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal.yml
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/implementation-grade-completeness-review.md
+[OK] spine source ref .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md exists
+[OK] spine source digest matches: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-review.md
+[OK] compact output role present: proposal-program-spine
+[OK] compact output role present: proposal-artifact-index
+Proposal artifact spine validation summary: errors=0
+[OK] proposal artifact spine validates: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening
+[OK] governed mechanism integration receipt not required for current lifecycle state: .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening
+Terminal freshness validation summary: checked=2 errors=1

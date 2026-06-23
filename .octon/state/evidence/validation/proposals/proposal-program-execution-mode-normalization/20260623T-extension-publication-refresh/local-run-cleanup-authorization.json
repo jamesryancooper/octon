@@ -1,0 +1,23 @@
+{
+  "authorization_id": "repo-hygiene-cleanup-34f8f573d6f1f269",
+  "authorization_result": "denied",
+  "authorized_paths": [],
+  "classification_digest": "sha256:3948eab62906243e0668f86d91bd816d76cb5da39c7d1248289f11da5d8a1ebc",
+  "classification_ref": "inline:cleanup-local-run-artifacts.sh",
+  "cleanup_path_set_digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "created_at": "2026-06-23T18:23:07Z",
+  "discard_or_rollback_posture": "delete only the exact untracked authorized path set; retain protected and manual-review residue",
+  "git_status_digest": "sha256:af84c3af8cb755647624943794ffdbc818a026e391aecfe61685dc12bf6defef",
+  "head_ref": "25e1d3b9a25dd02fd50eb7a67ce7f57acb696037",
+  "helper_ref": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+  "main_ref": "f8bd472f92d4021f7a97357683b60743743aff00",
+  "manual_review_paths_digest": "sha256:648e9068e0a9ec1c94a2ca729fa256614640e33df98d63c7cd4d7124f053b182",
+  "origin_main_ref": "f8bd472f92d4021f7a97357683b60743743aff00",
+  "policy_ref": ".octon/instance/governance/policies/repo-hygiene.yml",
+  "protected_paths_digest": "sha256:2196f48a6bef50a454de8aa8acf88d0c64d9e599604d2f4e88aa345a56c643bf",
+  "repo_root_ref": ".",
+  "runtime_safety_boundary": "Classifier output is routing evidence only; this receipt cannot authorize protected retained evidence, active control state, build-to-delete evidence, terminal local evidence, generated authority, generated run-health, tracked, referenced, proposal-input, ignored non-metadata, or user-owned paths and does not bypass filesystem, sandbox, host, provider, or platform permission boundaries.",
+  "schema_ref": ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+  "schema_version": "repo-hygiene-cleanup-authorization-v1",
+  "valid_until_status_changes": true
+}

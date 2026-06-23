@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-classify-worktree-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-classify-worktree-hygiene/context/context-pack.json
+context_pack_sha256: sha256:413dd05a2c1f551416979c788fbdc63a9175dc862a281f860af5db64a42517da
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-classify-worktree-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:f1deaebdd51f997af1cea05f687c1fc4a6821bb6fdde5c0496bf240a9f474a88
+receipt_sha256: sha256:d8be31e49f496acfd0d885846f94fe609c85470759e9172779841952b9830c01
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t180500z-workflow-classify-worktree-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-23T18:05:41.438172Z
+validity_state: valid

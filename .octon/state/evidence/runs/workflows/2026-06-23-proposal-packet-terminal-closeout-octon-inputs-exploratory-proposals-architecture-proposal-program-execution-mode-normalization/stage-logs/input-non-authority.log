@@ -1,0 +1,29 @@
+# Terminal Closeout Validator
+
+- command: `bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh`
+- status: `exit status: 0`
+
+## stdout
+
+```
+== Input Non-Authority Validation ==
+[OK] local inputs README states inputs are non-authoritative
+[OK] local additive README states raw inputs are non-authoritative
+[OK] intake-wide architecture states inputs are non-authoritative
+[OK] exploratory contract states raw inputs are non-authoritative
+[OK] incoming contract documents intake envelope
+[OK] additive architecture covers all raw additive authority boundaries
+[OK] incoming-intake command is additive-only
+[OK] incoming-intake governance states raw intake is non-authoritative
+[OK] allowed inputs root entry: README.md
+[OK] allowed inputs root entry: additive
+[OK] allowed inputs root entry: exploratory
+Validation summary: errors=0
+
+```
+
+## stderr
+
+```
+
+```

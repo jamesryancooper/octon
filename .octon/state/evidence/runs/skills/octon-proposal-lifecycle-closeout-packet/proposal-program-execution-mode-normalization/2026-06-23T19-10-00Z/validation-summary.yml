@@ -1,6 +1,6 @@
 schema_version: closeout-packet-validation-summary-v1
 verdict: pass
-validated_at: 2026-06-23T18:02:13Z
+validated_at: 2026-06-23T18:20:00Z
 proposal_id: proposal-program-execution-mode-normalization
 proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
 closeout_receipt: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
@@ -13,10 +13,30 @@ worktree_hygiene:
   foreign_fingerprint: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 terminal_freshness:
   verdict: pass
-  evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/validate-terminal-freshness-after-terminal-binding-fix.log
+  evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-proposal-lifecycle-terminal-freshness-after-summary-update.log
 canonical_generators:
   - evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/generate-child-artifacts-after-terminal-binding-fix.log
   - evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/generate-parent-artifacts-after-terminal-binding-fix.log
+  - evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/generate-child-artifacts-after-support-update.log
+  - evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/generate-parent-artifacts-after-support-update.log
+  - evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/generate-child-artifacts-after-summary-update.log
+  - evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/generate-parent-artifacts-after-summary-update.log
+post_closeout_publication_refresh:
+  verdict: pass
+  publisher_refs:
+    - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/publish-extension-state.log
+    - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/publish-capability-routing.log
+  validation_refs:
+    - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-extension-publication-state.log
+    - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-capability-publication-state.log
+    - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-run-health-read-model-before-refresh.log
+    - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-generated-non-authority.log
+    - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-input-non-authority.log
+    - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-product-feature-catalog.log
+review_freshness:
+  verdict: pass
+  regression_evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/test-validate-proposal-review-gate.log
+  child_gate_evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-current-child-review-gate-after-summary-update.log
 validation_logs:
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-standard.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-architecture-proposal.log
@@ -26,6 +46,16 @@ validation_logs:
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-post-implementation-drift.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-live-parent-program-structure.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-current-child-review-gate.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-proposal-lifecycle-terminal-freshness-after-artifact-refresh.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/generate-child-artifacts-after-support-update.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/generate-parent-artifacts-after-support-update.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-current-child-review-gate-after-support-update.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-proposal-lifecycle-terminal-freshness-after-support-update.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/generate-child-artifacts-after-summary-update.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/generate-parent-artifacts-after-summary-update.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-current-child-review-gate-after-summary-update.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-proposal-lifecycle-terminal-freshness-after-summary-update.log
 authority_boundaries:
   parent_summary_not_child_closeout_receipt: true
   closeout_route_archived_packet: false
