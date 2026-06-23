@@ -1,0 +1,30 @@
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/pipeline.rs:1870:38
+     |
+1870 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+     |
+     = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/workflow.rs:9440:38
+     |
+9440 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+
+warning: `octon_kernel` (bin "octon" test) generated 2 warnings
+warning: `octon_kernel` (bin "octon") generated 2 warnings (2 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running unittests src/main.rs (.octon/framework/engine/runtime/crates/target/debug/deps/octon-597887facfea30ff)
+
+running 1 test
+test lifecycle::lifecycle_program::tests::program_execution_mode_manifest_registry_disagreement_fails_closed ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 368 filtered out; finished in 0.01s
+
+     Running tests/proposal_program_cli.rs (.octon/framework/engine/runtime/crates/target/debug/deps/proposal_program_cli-842bf0995cdc083d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+

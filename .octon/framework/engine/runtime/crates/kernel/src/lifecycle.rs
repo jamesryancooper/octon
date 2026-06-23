@@ -28,6 +28,7 @@ const GENERATED_EXTENSION_PUBLISHED_PREFIX: &str =
 const FRAMEWORK_ASSURANCE_SCRIPT_PREFIX: &str = ".octon/framework/assurance/runtime/_ops/scripts/";
 const WORKFLOW_EVIDENCE_ROOT_REL: &str = "state/evidence/runs/workflows";
 const RUN_CONTROL_ROOT_REL: &str = "state/control/execution/runs";
+const ROUTE_ID_CLOSEOUT_PACKET: &str = "closeout-packet";
 const ROUTE_PROGRESSION_STRATEGY: &str = "route-progression";
 const ORCHESTRATED_REPLAN_LOOP_STRATEGY: &str = "orchestrated-replan-loop";
 const LIFECYCLE_EVENT_SCHEMA_VERSION: &str = "octon-lifecycle-run-event-v1";
@@ -2331,6 +2332,13 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
     }
 
     let receipt_states = receipt_plan_states(&repo_root, &loaded.contract, &target_state);
+    if selected_route_reuses_worktree_hygiene_blocked_closeout(
+        selected_route.as_ref(),
+        &receipt_states,
+    ) {
+        selected_route = None;
+        final_verdict = "blocked-no-route".to_string();
+    }
     let (blocker_class, blocker_message) =
         lifecycle_plan_blocker_for_receipts(&final_verdict, &receipt_states);
     let current_phase = current_phase_for_plan(
@@ -3549,6 +3557,16 @@ pub(crate) fn lifecycle_plan_has_worktree_hygiene_blocker(plan: &LifecyclePlanRe
     receipt_states_have_worktree_hygiene_blocker(&plan.receipt_states)
 }
 
+fn selected_route_reuses_worktree_hygiene_blocked_closeout(
+    selected_route: Option<&RouteSpec>,
+    receipt_states: &BTreeMap<String, ReceiptPlanState>,
+) -> bool {
+    selected_route
+        .map(|route| route.route_id.as_str() == ROUTE_ID_CLOSEOUT_PACKET)
+        .unwrap_or(false)
+        && receipt_states_have_worktree_hygiene_blocker(receipt_states)
+}
+
 fn lifecycle_plan_blocker_for_receipts(
     final_verdict: &str,
     receipt_states: &BTreeMap<String, ReceiptPlanState>,
@@ -3712,6 +3730,19 @@ fn lifecycle_execution_request_for_route(
                 .or_insert_with(|| value.clone());
         }
     }
+    normalize_archive_proposal_disposition_binding(&route.route_id, &mut bound_inputs);
+    normalize_archive_proposal_promotion_evidence_binding(
+        &repo_root,
+        &route.route_id,
+        &mut bound_inputs,
+    );
+    bind_promote_proposal_promotion_evidence_from_implementation_run(
+        &repo_root,
+        &target,
+        &loaded.contract,
+        &route.route_id,
+        &mut bound_inputs,
+    )?;
     let expected_receipts = route_spec
         .completion
         .as_ref()
@@ -3845,6 +3876,182 @@ fn receipt_field_binding(source: &str) -> Result<Option<(&str, &str)>> {
     Ok(Some((receipt_id, field)))
 }
 
+fn normalize_archive_proposal_disposition_binding(
+    route_id: &str,
+    bound_inputs: &mut BTreeMap<String, String>,
+) {
+    if route_id != "archive-proposal" {
+        return;
+    }
+    if bound_inputs.get("disposition").map(String::as_str) != Some("archive-ready") {
+        return;
+    }
+    bound_inputs.insert("disposition".to_string(), "implemented".to_string());
+    bound_inputs.insert(
+        "archive_disposition_source_outcome".to_string(),
+        "archive-ready".to_string(),
+    );
+    bound_inputs.insert(
+        "archive_disposition_mapping".to_string(),
+        "archive-ready->implemented".to_string(),
+    );
+}
+
+fn normalize_archive_proposal_promotion_evidence_binding(
+    repo_root: &Path,
+    route_id: &str,
+    bound_inputs: &mut BTreeMap<String, String>,
+) {
+    if route_id != "archive-proposal" {
+        return;
+    }
+    let Some(raw_evidence) = bound_inputs.get("promotion_evidence").cloned() else {
+        return;
+    };
+
+    let mut existing_refs = Vec::new();
+    let mut missing_refs = Vec::new();
+    for raw_entry in raw_evidence.split(',') {
+        let normalized = raw_entry.trim().trim_end_matches('/').to_string();
+        if normalized.is_empty() || !is_safe_repo_relative(&normalized) {
+            return;
+        }
+        if repo_root.join(&normalized).exists() {
+            existing_refs.push(normalized);
+        } else {
+            missing_refs.push(normalized);
+        }
+    }
+
+    if existing_refs.is_empty() || missing_refs.is_empty() {
+        return;
+    }
+
+    bound_inputs.insert("promotion_evidence".to_string(), existing_refs.join(","));
+    bound_inputs.insert(
+        "archive_promotion_evidence_binding".to_string(),
+        "suppressed-missing-retained-evidence-refs".to_string(),
+    );
+    bound_inputs.insert(
+        "archive_promotion_evidence_source_ref_count".to_string(),
+        (existing_refs.len() + missing_refs.len()).to_string(),
+    );
+    bound_inputs.insert(
+        "archive_promotion_evidence_suppressed_missing_count".to_string(),
+        missing_refs.len().to_string(),
+    );
+    bound_inputs.insert(
+        "archive_promotion_evidence_suppressed_missing_refs".to_string(),
+        missing_refs.join(","),
+    );
+}
+
+fn bind_promote_proposal_promotion_evidence_from_implementation_run(
+    repo_root: &Path,
+    target: &Path,
+    contract: &LifecycleContract,
+    route_id: &str,
+    bound_inputs: &mut BTreeMap<String, String>,
+) -> Result<()> {
+    if route_id != "promote-proposal" {
+        return Ok(());
+    }
+    let Some(receipt) = contract
+        .receipts
+        .iter()
+        .find(|receipt| receipt.receipt_id == "implementation-run")
+    else {
+        return Ok(());
+    };
+    let path = resolve_target_local_path(
+        target,
+        &receipt.path,
+        "promote-proposal implementation-run promotion evidence binding",
+    )?;
+    if !path.is_file() {
+        return Ok(());
+    }
+
+    let content = fs::read_to_string(&path)?;
+    let refs = implementation_run_promotion_evidence_refs(repo_root, &content);
+    if refs.is_empty() {
+        bound_inputs.remove("promotion_evidence");
+        bound_inputs.insert(
+            "promote_promotion_evidence_binding".to_string(),
+            "implementation-run-evidence-missing".to_string(),
+        );
+        return Ok(());
+    }
+
+    let prior = bound_inputs.insert("promotion_evidence".to_string(), refs.join(","));
+    bound_inputs.insert(
+        "promote_promotion_evidence_binding".to_string(),
+        "implementation-run-evidence-refs".to_string(),
+    );
+    bound_inputs.insert(
+        "promote_promotion_evidence_source_ref_count".to_string(),
+        refs.len().to_string(),
+    );
+    if prior.is_some() {
+        bound_inputs.insert(
+            "promote_promotion_evidence_prior_binding".to_string(),
+            "superseded-non-controlling".to_string(),
+        );
+    }
+    Ok(())
+}
+
+fn implementation_run_promotion_evidence_refs(repo_root: &Path, content: &str) -> Vec<String> {
+    let fields = parse_receipt_fields_from_str(content);
+    let raw_refs = fields
+        .get("promotion_evidence")
+        .map(|raw| receipt_ref_list(raw))
+        .unwrap_or_else(|| markdown_evidence_refs(content));
+    if raw_refs.is_empty() {
+        return Vec::new();
+    }
+    if raw_refs
+        .iter()
+        .any(|reference| !is_safe_repo_relative(reference) || !repo_root.join(reference).is_file())
+    {
+        return Vec::new();
+    }
+    raw_refs
+}
+
+fn receipt_ref_list(raw: &str) -> Vec<String> {
+    raw.split(',')
+        .map(|entry| clean_scalar(entry.trim()).trim_end_matches('/').to_string())
+        .filter(|entry| !entry.is_empty())
+        .collect()
+}
+
+fn markdown_evidence_refs(content: &str) -> Vec<String> {
+    let mut refs = Vec::new();
+    let mut in_evidence_section = false;
+    for line in content.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with("## ") {
+            let heading = trimmed.trim_start_matches('#').trim().to_ascii_lowercase();
+            in_evidence_section = heading.contains("evidence refs");
+            continue;
+        }
+        if !in_evidence_section {
+            continue;
+        }
+        let Some(raw_ref) = trimmed.strip_prefix("- ") else {
+            continue;
+        };
+        let reference = clean_scalar(raw_ref.trim())
+            .trim_end_matches('/')
+            .to_string();
+        if !reference.is_empty() {
+            refs.push(reference);
+        }
+    }
+    refs
+}
+
 fn lifecycle_receipt_field_value(
     target: &Path,
     contract: &LifecycleContract,
@@ -3870,8 +4077,11 @@ fn lifecycle_receipt_field_value(
 }
 
 fn parse_receipt_fields(path: &Path) -> Result<BTreeMap<String, String>> {
+    Ok(parse_receipt_fields_from_str(&fs::read_to_string(path)?))
+}
+
+fn parse_receipt_fields_from_str(content: &str) -> BTreeMap<String, String> {
     let mut fields = BTreeMap::new();
-    let content = fs::read_to_string(path)?;
     let lines = content.lines().collect::<Vec<_>>();
     let mut index = 0;
     while index < lines.len() {
@@ -3904,7 +4114,7 @@ fn parse_receipt_fields(path: &Path) -> Result<BTreeMap<String, String>> {
         }
         index += 1;
     }
-    Ok(fields)
+    fields
 }
 
 fn receipt_sequence_value(lines: &[&str], start_index: usize) -> Option<String> {
@@ -4677,6 +4887,112 @@ packs:
     }
 
     #[test]
+    fn blocked_worktree_hygiene_closeout_receipt_stops_closeout_route_reentry() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("hygiene-closeout-route-reentry");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented"] }
+states: [{ state_id: "closeout" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "implementation-conformance"
+    path: "support/implementation-conformance-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "post-implementation-drift"
+    path: "support/post-implementation-drift-churn-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "closeout-packet"
+    route_type: "extension"
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "implementation-conformance"
+        - receipt_field_equals:
+            receipt_id: "implementation-conformance"
+            field: "verdict"
+            value: "pass"
+        - receipt_complete: "post-implementation-drift"
+        - receipt_field_equals:
+            receipt_id: "post-implementation-drift"
+            field: "verdict"
+            value: "pass"
+        - any:
+            - receipt_absent: "proposal-closeout"
+            - receipt_field_equals:
+                receipt_id: "proposal-closeout"
+                field: "verdict"
+                value: "blocked"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            "packet/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "packet/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+
+        let initial_plan = plan_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-packet",
+            Path::new("packet"),
+        )
+        .unwrap();
+
+        assert_eq!(initial_plan.final_verdict, "route-ready");
+        assert_eq!(
+            initial_plan
+                .next_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some(ROUTE_ID_CLOSEOUT_PACKET)
+        );
+
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: blocked\narchive_authorized: no\nworktree_hygiene_verdict: blocked\nworktree_hygiene_blocker_class: worktree-hygiene-blocked\n",
+        );
+
+        let blocked_plan = plan_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-packet",
+            Path::new("packet"),
+        )
+        .unwrap();
+
+        assert_eq!(blocked_plan.final_verdict, "blocked-no-route");
+        assert!(blocked_plan.next_route.is_none());
+        assert_eq!(
+            blocked_plan.blocker_class.as_deref(),
+            Some("worktree-hygiene-blocked")
+        );
+        assert!(blocked_plan
+            .blocker_message
+            .as_deref()
+            .unwrap_or_default()
+            .contains("operator scope resolution"));
+    }
+
+    #[test]
     fn lifecycle_execution_strategy_defaults_packet_to_route_progression() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = FixtureRepo::new("strategy-default-packet");
@@ -5118,6 +5434,292 @@ routes:
     }
 
     #[test]
+    fn archive_proposal_request_maps_archive_ready_outcome_to_implemented_disposition() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("archive-ready-disposition-binding");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  disposition:
+    source: "receipt.proposal-closeout.archive_disposition"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "archive" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "archive-proposal"
+    route_type: "workflow"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: pass\nclosed_at: 2026-06-23T00:00:00Z\narchive_authorized: yes\narchive_disposition: archive-ready\npromotion_evidence: .octon/state/evidence/example.md\n",
+        );
+        let route = RoutePlanState {
+            route_id: "archive-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request.bound_inputs.get("disposition").map(String::as_str),
+            Some("implemented")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("archive_disposition_source_outcome")
+                .map(String::as_str),
+            Some("archive-ready")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("archive_disposition_mapping")
+                .map(String::as_str),
+            Some("archive-ready->implemented")
+        );
+    }
+
+    #[test]
+    fn archive_proposal_request_suppresses_missing_promotion_evidence_when_existing_refs_remain() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("archive-promotion-evidence-suppression");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  disposition:
+    source: "receipt.proposal-closeout.archive_disposition"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "archive" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "archive-proposal"
+    route_type: "workflow"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            ".octon/state/evidence/existing-return.json",
+            "{\"schema_version\":\"test\"}\n",
+        );
+        fixture.write(
+            ".octon/state/evidence/existing-report.yml",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: pass\nclosed_at: 2026-06-23T00:00:00Z\narchive_authorized: yes\narchive_disposition: archive-ready\npromotion_evidence:\n  - .octon/state/evidence/missing-validation-summary.yml\n  - .octon/state/evidence/existing-return.json\n  - .octon/state/evidence/existing-report.yml\n",
+        );
+        let route = RoutePlanState {
+            route_id: "archive-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request.bound_inputs.get("disposition").map(String::as_str),
+            Some("implemented")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promotion_evidence")
+                .map(String::as_str),
+            Some(".octon/state/evidence/existing-return.json,.octon/state/evidence/existing-report.yml")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("archive_promotion_evidence_binding")
+                .map(String::as_str),
+            Some("suppressed-missing-retained-evidence-refs")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("archive_promotion_evidence_suppressed_missing_refs")
+                .map(String::as_str),
+            Some(".octon/state/evidence/missing-validation-summary.yml")
+        );
+    }
+
+    #[test]
+    fn archive_proposal_request_keeps_missing_promotion_evidence_when_no_existing_refs_remain() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("archive-promotion-evidence-all-missing");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  disposition:
+    source: "receipt.proposal-closeout.archive_disposition"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "archive" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "archive-proposal"
+    route_type: "workflow"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: pass\nclosed_at: 2026-06-23T00:00:00Z\narchive_authorized: yes\narchive_disposition: implemented\npromotion_evidence:\n  - .octon/state/evidence/missing-one.yml\n  - .octon/state/evidence/missing-two.yml\n",
+        );
+        let route = RoutePlanState {
+            route_id: "archive-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promotion_evidence")
+                .map(String::as_str),
+            Some(".octon/state/evidence/missing-one.yml,.octon/state/evidence/missing-two.yml")
+        );
+        assert!(!request
+            .bound_inputs
+            .contains_key("archive_promotion_evidence_binding"));
+    }
+
+    #[test]
     fn lifecycle_execution_request_binds_list_inputs_from_receipt_fields() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = FixtureRepo::new("receipt-list-input-binding");
@@ -5196,6 +5798,216 @@ routes:
                 .get("promotion_evidence")
                 .map(String::as_str),
             Some(".octon/state/evidence/example-one.md,.octon/state/evidence/example-two.md")
+        );
+    }
+
+    #[test]
+    fn promote_proposal_request_binds_promotion_evidence_from_implementation_run_refs() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("promote-implementation-evidence-binding");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "promote" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields: ["verdict", "implemented_at", "promotion_evidence_count"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "promote-proposal"
+    route_type: "workflow"
+    required_inputs: ["promotion_evidence"]
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: accepted\n");
+        fixture.write(
+            ".octon/state/evidence/fresh-promote-one.yml",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            ".octon/state/evidence/fresh-promote-two.yml",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "packet/support/implementation-run.md",
+            "verdict: pass\nimplemented_at: 2026-06-23T00:00:00Z\npromotion_evidence_count: 2\n\n# Implementation Run\n\n## Evidence Refs\n\n- .octon/state/evidence/fresh-promote-one.yml\n- .octon/state/evidence/fresh-promote-two.yml\n",
+        );
+        let route = RoutePlanState {
+            route_id: "promote-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promotion_evidence")
+                .map(String::as_str),
+            Some(
+                ".octon/state/evidence/fresh-promote-one.yml,.octon/state/evidence/fresh-promote-two.yml"
+            )
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promote_promotion_evidence_binding")
+                .map(String::as_str),
+            Some("implementation-run-evidence-refs")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promote_promotion_evidence_source_ref_count")
+                .map(String::as_str),
+            Some("2")
+        );
+    }
+
+    #[test]
+    fn promote_proposal_request_supersedes_stale_closeout_promotion_evidence() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("promote-supersedes-closeout-evidence");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "promote" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields: ["verdict", "implemented_at", "promotion_evidence_count"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "promote-proposal"
+    route_type: "workflow"
+    required_inputs: ["promotion_evidence"]
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: accepted\n");
+        fixture.write(
+            ".octon/state/evidence/stale-closeout.yml",
+            "verdict: blocked\n",
+        );
+        fixture.write(".octon/state/evidence/fresh-promote.yml", "verdict: pass\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: blocked\nclosed_at: 2026-06-22T00:00:00Z\narchive_authorized: no\npromotion_evidence: .octon/state/evidence/stale-closeout.yml\n",
+        );
+        fixture.write(
+            "packet/support/implementation-run.md",
+            "verdict: pass\nimplemented_at: 2026-06-23T00:00:00Z\npromotion_evidence_count: 1\n\n# Implementation Run\n\n## Implementation Evidence Refs\n\n- .octon/state/evidence/fresh-promote.yml\n",
+        );
+        let route = RoutePlanState {
+            route_id: "promote-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promotion_evidence")
+                .map(String::as_str),
+            Some(".octon/state/evidence/fresh-promote.yml")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promote_promotion_evidence_prior_binding")
+                .map(String::as_str),
+            Some("superseded-non-controlling")
         );
     }
 

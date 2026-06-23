@@ -1,0 +1,28 @@
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/pipeline.rs:1870:38
+     |
+1870 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+     |
+     = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/workflow.rs:9440:38
+     |
+9440 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+
+schema_version: octon-lifecycle-run-result-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-hygiene-loop-check-retained-20260623T183000Z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+executor: auto
+route_execution_mode: none
+bundle_root: .octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-hygiene-loop-check-retained-20260623T183000Z
+checkpoint_path: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-hygiene-loop-check-retained-20260623T183000Z/lifecycle-checkpoint.yml
+selected_route: null
+current_phase: terminal-explanation-reporting
+terminal_outcome: null
+final_verdict: blocked-no-route
+

@@ -1,7 +1,7 @@
 schema_version: "architectural-review-support-receipt-v1"
-receipt_id: "proposal-program-execution-mode-normalization-pre-integration-architecture-review-20260620T132000Z"
+receipt_id: "proposal-program-execution-mode-normalization-pre-integration-architecture-review-20260623T165744Z"
 proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization"
-packet_digest: "sha256:57fd03b6a80ebe0b8733f86032877ee9954bcc7e6f51c3ec48cbaf8318cce995"
+packet_digest: "sha256:47e68a51f5df598ee6e90c749d8e546f2d5925613c31e2d0839a4cca56dcbea4"
 review_mode: "pre-integration-architecture-review"
 verdict: "pass"
 unresolved_count: 0

@@ -159,11 +159,69 @@ main() {
     fail "closeout prompt bundle is missing post-implementation receipt requirements"
   fi
 
+  if rg -n 'stale or blocked terminal closeout evidence as an open review' "$PACK_ROOT/prompts/review-packet" >/dev/null \
+    && rg -n 'support/proposal-terminal-closeout\.yml' "$PACK_ROOT/prompts/review-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-packet/SKILL.md" >/dev/null \
+    && rg -n 'child-owned historical evidence|child-owned historical route' "$PACK_ROOT/prompts/review-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-packet/SKILL.md" >/dev/null \
+    && rg -n 'Do not require terminal freshness validation for an `in-review` review verdict' "$PACK_ROOT/prompts/review-packet" >/dev/null; then
+    pass "review packet excludes stale terminal closeout from in-review blockers"
+  else
+    fail "review packet can still reuse stale terminal closeout as an in-review blocker"
+  fi
+
+  if rg -n 'Accepted review completion is atomic at route level|Accepted review completion is receipt-atomic' "$PACK_ROOT/prompts/review-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-packet/SKILL.md" >/dev/null \
+    && rg -n 'accepted-state packet digest' "$PACK_ROOT/prompts/review-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-packet/SKILL.md" >/dev/null \
+    && rg -n 'status-only accepted mutation' "$PACK_ROOT/prompts/review-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-packet/SKILL.md" >/dev/null \
+    && rg -n 'incomplete route (work|result)' "$PACK_ROOT/prompts/review-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-packet/SKILL.md" >/dev/null \
+    && rg -n 'strict pre-integration architecture receipt' "$PACK_ROOT/prompts/review-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-packet/SKILL.md" >/dev/null; then
+    pass "review packet requires accepted-state receipt-atomic completion"
+  else
+    fail "review packet can complete accepted status without fresh receipts"
+  fi
+
+  if rg -n 'Do not attempt to repair stale or blocked terminal closeout evidence' "$PACK_ROOT/prompts/revise-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-revise-packet/SKILL.md" >/dev/null \
+    && rg -n 'nonblocking route context' "$PACK_ROOT/prompts/revise-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-revise-packet/SKILL.md" >/dev/null \
+    && rg -n 'remaining review' "$PACK_ROOT/prompts/revise-packet" >/dev/null \
+    && rg -n 'Use the exact field name `post_revision_digest`' "$PACK_ROOT/prompts/revise-packet" >/dev/null \
+    && rg -n 'Do not emit `post_revision_packet_digest`, `pending`' "$PACK_ROOT/prompts/revise-packet" >/dev/null; then
+    pass "revise packet excludes stale terminal closeout and requires fresh revision digest"
+  else
+    fail "revise packet can still reuse stale terminal closeout or pending revision digest"
+  fi
+
   if rg -n 'route-required|selected implementation route uses a PR or branch lane' "$PACK_ROOT/prompts/generate-packet-closeout-prompt" "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/commands/octon-proposal-closeout-packet.md" >/dev/null \
     && ! rg -n 'final closeout is not complete until PR|the PR is unmerged' "$PACK_ROOT/prompts/generate-packet-closeout-prompt" "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/commands/octon-proposal-closeout-packet.md" >/dev/null; then
     pass "closeout wording keeps PR and branch gates route-conditional"
   else
     fail "closeout wording still makes PR or branch gates unconditional"
+  fi
+
+  if rg -n 'classifier snapshot ref churn|stable bound fingerprint|path-only classifier snapshot churn' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'program_child_worktree_hygiene_foreign_fingerprint' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'If no validated program-child closeout-worktree report has been accepted' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null; then
+    pass "program-child closeout accepts validated classifier snapshot churn by stable fingerprint"
+  else
+    fail "program-child closeout still requires exact classifier snapshot refs"
+  fi
+  if rg -n 'closeout/archive-readiness' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'closeout receipt may record `verdict: pass`' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n '`archive_authorized: yes`' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n '`lifecycle_outcome: archive-ready`' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null; then
+    pass "accepted program-child closeout-worktree report can clear archive-readiness hygiene blocker"
+  else
+    fail "accepted program-child closeout-worktree report still reads as archive-blocking"
+  fi
+
+  if rg -n 'after writing|after the route writes' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'generate-proposal-artifact-index\.sh --proposal <proposal_path> --write' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'targeted dependency proposal|parent program' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'validate-proposal-lifecycle-terminal-freshness\.sh --proposal <proposal_path> --targeted' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'post-write targeted freshness validation passes' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'reuse' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'blocked disposition' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null \
+    && rg -n 'fresh child-owned closeout evidence and post-write freshness' "$PACK_ROOT/prompts/closeout-packet" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" >/dev/null; then
+    pass "closeout packet refreshes generated artifacts after closeout receipt writes before archive-ready"
+  else
+    fail "closeout packet can self-stale terminal freshness after closeout receipt writes"
   fi
 
   if ! rg -n 'Fail-closed or pause states|blocked.*status|deferred.*status' "$PACK_ROOT/context" "$PACK_ROOT/prompts" >/dev/null; then

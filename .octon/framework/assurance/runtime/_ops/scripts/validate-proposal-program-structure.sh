@@ -157,6 +157,69 @@ related_child_ids() {
   } | awk 'NF' | sort -u
 }
 
+normalize_program_execution_mode() {
+  local mode="$1"
+  case "$mode" in
+    sequential|parallel-independent|gated-parallel|approval-gated|program-atomic)
+      printf '%s\n' "$mode"
+      ;;
+    sequenced-gated)
+      printf '%s\n' "gated-parallel"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+validate_program_execution_modes() {
+  local registry_mode parent_mode normalized_registry normalized_parent
+  registry_mode="$(yq -r '.execution_mode // ""' "$REGISTRY" 2>/dev/null || true)"
+  if normalized_registry="$(normalize_program_execution_mode "$registry_mode")"; then
+    if [[ "$registry_mode" == "sequenced-gated" ]]; then
+      pass "program registry execution_mode legacy alias normalizes to gated-parallel"
+    else
+      pass "program registry execution_mode is supported: $registry_mode"
+    fi
+  else
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(program_structure_repo_rel "$REGISTRY")#execution_mode" \
+      --observed-value "$registry_mode" \
+      --minimal-repair-hint "set resources/child-packet-index.yml#execution_mode to one of sequential, parallel-independent, gated-parallel, approval-gated, program-atomic, or the legacy sequenced-gated alias for gated-parallel" \
+      --rerun-gate "$(program_structure_rerun_gate)"
+    fail "program registry execution_mode is supported: $registry_mode"
+    return 0
+  fi
+
+  parent_mode="$(yq -r '.program_execution_mode // ""' "$MANIFEST" 2>/dev/null || true)"
+  [[ -n "$parent_mode" && "$parent_mode" != "null" ]] || return 0
+  if normalized_parent="$(normalize_program_execution_mode "$parent_mode")"; then
+    pass "parent program_execution_mode is supported: $parent_mode"
+  else
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(program_structure_repo_rel "$MANIFEST")#program_execution_mode" \
+      --observed-value "$parent_mode" \
+      --minimal-repair-hint "set proposal.yml#program_execution_mode to a supported canonical mode or the legacy sequenced-gated alias" \
+      --rerun-gate "$(program_structure_rerun_gate)"
+    fail "parent program_execution_mode is supported: $parent_mode"
+    return 0
+  fi
+
+  if [[ "$normalized_parent" == "$normalized_registry" ]]; then
+    pass "parent program_execution_mode agrees with registry execution_mode after normalization"
+  else
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(program_structure_repo_rel "$REGISTRY")#execution_mode" \
+      --observed-value "parent=$parent_mode registry=$registry_mode" \
+      --minimal-repair-hint "make proposal.yml#program_execution_mode and resources/child-packet-index.yml#execution_mode agree after alias normalization" \
+      --rerun-gate "$(program_structure_rerun_gate)"
+    fail "parent program_execution_mode agrees with registry execution_mode after normalization"
+  fi
+}
+
 compare_registry_to_related_proposals() {
   local missing extra
   missing="$(comm -23 <(registry_child_ids) <(related_child_ids) || true)"
@@ -240,6 +303,7 @@ require_file "$CHILD_CONTRACT" "child packet contract"
 require_file "$CLOSEOUT_PLAN" "program closeout plan"
 require_yaml "$MANIFEST" "parent proposal.yml"
 require_yaml "$REGISTRY" "program child registry"
+validate_program_execution_modes
 
 if [[ -d "$PROGRAM_DIR/children" ]]; then
   emit_hard_blocker_recovery_diagnostic \

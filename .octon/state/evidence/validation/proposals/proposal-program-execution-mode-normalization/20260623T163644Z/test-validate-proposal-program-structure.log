@@ -1,0 +1,72 @@
+[OK] parent proposal.yml exists
+[OK] program child registry exists
+[OK] human child index exists
+[OK] packet sequence exists
+[OK] child packet contract exists
+[OK] program closeout plan exists
+[OK] parent proposal.yml parses
+[OK] program child registry parses
+[OK] program registry execution_mode is supported: sequential
+[OK] program has no nested children directory
+[OK] program child registry declares children
+[OK] child id valid: child-a
+[OK] child id unique: child-a
+[OK] child child-a path is repo-relative
+[OK] child child-a path is not nested under parent program
+[OK] child id valid: child-b
+[OK] child id unique: child-b
+[OK] child child-b path is repo-relative
+[OK] child child-b path is not nested under parent program
+[OK] child child-b dependency references registry child: child-a
+[OK] related_proposals covers registry children
+[OK] related_proposals contains no extra child ids
+[OK] human child index mentions child id: child-a
+[OK] human child index mentions child id: child-b
+[OK] packet sequence mentions child id: child-a
+[OK] packet sequence mentions child id: child-b
+[OK] parent package contains no child-owned authority surfaces
+Validation summary: errors=0 warnings=0
+PASS: valid parent program structure passes
+[OK] parent proposal.yml exists
+[OK] program child registry exists
+[OK] human child index exists
+[OK] packet sequence exists
+[OK] child packet contract exists
+[OK] program closeout plan exists
+[OK] parent proposal.yml parses
+[OK] program child registry parses
+[OK] program registry execution_mode legacy alias normalizes to gated-parallel
+[OK] program has no nested children directory
+[OK] program child registry declares children
+[OK] child id valid: child-a
+[OK] child id unique: child-a
+[OK] child child-a path is repo-relative
+[OK] child child-a path is not nested under parent program
+[OK] child id valid: child-b
+[OK] child id unique: child-b
+[OK] child child-b path is repo-relative
+[OK] child child-b path is not nested under parent program
+[OK] child child-b dependency references registry child: child-a
+[OK] related_proposals covers registry children
+[OK] related_proposals contains no extra child ids
+[OK] human child index mentions child id: child-a
+[OK] human child index mentions child id: child-b
+[OK] packet sequence mentions child id: child-a
+[OK] packet sequence mentions child id: child-b
+[OK] parent package contains no child-owned authority surfaces
+Validation summary: errors=0 warnings=0
+PASS: sequenced-gated alias passes
+PASS: unknown execution mode fails
+PASS: unknown execution mode emits registry diagnostic
+PASS: manifest and registry execution modes must agree
+PASS: mismatched child ids fail
+PASS: unsafe child path fails
+PASS: unsafe child path emits child registry diagnostic
+PASS: nested child path fails
+PASS: missing human child index fails
+PASS: missing packet sequence fails
+PASS: parent-owned child authority surface fails
+PASS: parent-owned child authority emits hard blocker diagnostic
+
+Passed: 13
+Failed: 0

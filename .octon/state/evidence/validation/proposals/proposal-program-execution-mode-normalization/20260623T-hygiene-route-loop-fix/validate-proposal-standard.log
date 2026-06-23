@@ -1,0 +1,28 @@
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' artifact catalog references only on-disk files
+[WARN] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' artifact catalog omits some visible files; regenerate inventory for full coverage
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' octon-internal targets stay under .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' avoids mixed target families
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' promotion target avoids proposal-path backreferences: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' promotion target avoids proposal-path backreferences: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' promotion target avoids proposal-path backreferences: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization' promotion target avoids proposal-path backreferences: .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+Validation summary: errors=0 warnings=1

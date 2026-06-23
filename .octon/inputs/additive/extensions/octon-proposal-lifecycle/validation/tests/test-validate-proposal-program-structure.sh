@@ -115,6 +115,28 @@ case_valid_structure_passes() {
   run_validator "$program"
 }
 
+case_sequenced_gated_alias_passes() {
+  local program
+  program="$(create_fixture)"
+  yq -i '.execution_mode = "sequenced-gated"' "$program/resources/child-packet-index.yml"
+  run_validator "$program"
+}
+
+case_unknown_execution_mode_fails() {
+  local program
+  program="$(create_fixture)"
+  yq -i '.execution_mode = "unknown-mode"' "$program/resources/child-packet-index.yml"
+  run_validator "$program"
+}
+
+case_manifest_registry_execution_mode_disagreement_fails() {
+  local program
+  program="$(create_fixture)"
+  yq -i '.program_execution_mode = "sequential"' "$program/proposal.yml"
+  yq -i '.execution_mode = "gated-parallel"' "$program/resources/child-packet-index.yml"
+  run_validator "$program"
+}
+
 case_mismatched_related_proposals_fails() {
   local program
   program="$(create_fixture)"
@@ -161,6 +183,10 @@ EOF
 }
 
 assert_success "valid parent program structure passes" case_valid_structure_passes
+assert_success "sequenced-gated alias passes" case_sequenced_gated_alias_passes
+assert_failure_contains "unknown execution mode fails" "program registry execution_mode is supported: unknown-mode" case_unknown_execution_mode_fails
+assert_failure_contains "unknown execution mode emits registry diagnostic" "resources/child-packet-index.yml#execution_mode" case_unknown_execution_mode_fails
+assert_failure_contains "manifest and registry execution modes must agree" "parent program_execution_mode agrees with registry execution_mode after normalization" case_manifest_registry_execution_mode_disagreement_fails
 assert_failure_contains "mismatched child ids fail" "related_proposals covers registry children" case_mismatched_related_proposals_fails
 assert_failure_contains "unsafe child path fails" "child child-a path is repo-relative" case_unsafe_child_path_fails
 assert_failure_contains "unsafe child path emits child registry diagnostic" '"recovery_class":"child_registry_error"' case_unsafe_child_path_fails

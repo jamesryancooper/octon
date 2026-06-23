@@ -11,12 +11,15 @@ use octon_lifecycle_executor::{
     observer, DefaultLifecycleRouteExecutor, LifecycleErrorClass, LifecycleExecutionError,
     LifecycleRouteExecutionRequest, LifecycleRouteExecutionResult, LifecycleRouteExecutor,
 };
+use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, HashMap};
 use std::fs;
 use std::path::{Path, PathBuf};
 
 const DEFAULT_MAX_STEPS: u32 = 20;
 const DEFAULT_TIMEOUT_SECONDS: u64 = 1800;
+const MAX_WORKFLOW_RUN_ID_LEN: usize = 128;
+const COMPACT_WORKFLOW_RUN_ID_HASH_LEN: usize = 12;
 
 pub(crate) fn run_lifecycle_execute_from_octon_dir(
     octon_dir: &Path,
@@ -241,7 +244,7 @@ fn execute_workflow_route_in_process(
         "{}-completion-observation.yml",
         request.route.route_id
     ));
-    let workflow_run_id = format!("{}-workflow", request.run_id);
+    let workflow_run_id = workflow_in_process_run_id(&request.run_id);
     fs::write(
         &invocation_path,
         format!(
@@ -396,6 +399,58 @@ fn executor_kind_from_request(raw: &str) -> ExecutorKind {
     }
 }
 
+fn workflow_in_process_run_id(request_run_id: &str) -> String {
+    let requested = format!("{request_run_id}-workflow");
+    let canonical = canonical_workflow_run_id(&requested);
+    if canonical.len() <= MAX_WORKFLOW_RUN_ID_LEN {
+        return canonical;
+    }
+    compact_workflow_run_id(&canonical, &requested)
+}
+
+fn canonical_workflow_run_id(input: &str) -> String {
+    let mut out = String::with_capacity(input.len());
+    let mut last_was_hyphen = false;
+    for ch in input.chars() {
+        let mapped = if ch.is_ascii_alphanumeric() {
+            ch.to_ascii_lowercase()
+        } else {
+            '-'
+        };
+        if mapped == '-' {
+            if !out.is_empty() && !last_was_hyphen {
+                out.push('-');
+                last_was_hyphen = true;
+            }
+        } else {
+            out.push(mapped);
+            last_was_hyphen = false;
+        }
+    }
+    while out.ends_with('-') {
+        out.pop();
+    }
+    if out.is_empty() {
+        "workflow".to_string()
+    } else {
+        out
+    }
+}
+
+fn compact_workflow_run_id(canonical: &str, requested: &str) -> String {
+    let digest = hex::encode(Sha256::digest(requested.as_bytes()));
+    let suffix = format!("-workflow-{}", &digest[..COMPACT_WORKFLOW_RUN_ID_HASH_LEN]);
+    let max_prefix_len = MAX_WORKFLOW_RUN_ID_LEN.saturating_sub(suffix.len());
+    let mut prefix = canonical.chars().take(max_prefix_len).collect::<String>();
+    while prefix.ends_with('-') {
+        prefix.pop();
+    }
+    if prefix.is_empty() {
+        prefix.push_str("workflow");
+    }
+    format!("{prefix}{suffix}")
+}
+
 fn now_rfc3339_lifecycle() -> std::result::Result<String, LifecycleExecutionError> {
     time::OffsetDateTime::now_utc()
         .format(&time::format_description::well_known::Rfc3339)
@@ -406,4 +461,30 @@ fn yaml_string(value: &str) -> String {
     serde_yaml::to_string(value)
         .map(|value| value.trim().to_string())
         .unwrap_or_else(|_| format!("{value:?}"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn in_process_workflow_run_id_preserves_short_canonical_ids() {
+        assert_eq!(
+            workflow_in_process_run_id("lifecycle-test"),
+            "lifecycle-test-workflow"
+        );
+    }
+
+    #[test]
+    fn in_process_workflow_run_id_compacts_long_lifecycle_ids() {
+        let run_id = "lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620t132759z-proposal-program-execution-mode-normalization-direct-check";
+        let workflow_run_id = workflow_in_process_run_id(run_id);
+
+        assert!(workflow_run_id.len() <= MAX_WORKFLOW_RUN_ID_LEN);
+        assert!(workflow_run_id
+            .chars()
+            .all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-'));
+        assert!(workflow_run_id.contains("-workflow-"));
+        assert_ne!(workflow_run_id, format!("{run_id}-workflow"));
+    }
 }

@@ -1,0 +1,106 @@
+[OK] parent proposal.yml exists
+[OK] program child registry exists
+[OK] human child index exists
+[OK] packet sequence exists
+[OK] child packet contract exists
+[OK] program closeout plan exists
+[OK] parent proposal.yml parses
+[OK] program child registry parses
+[OK] program registry execution_mode is supported: gated-parallel
+[OK] parent program_execution_mode is supported: gated-parallel
+[OK] parent program_execution_mode agrees with registry execution_mode after normalization
+[OK] program has no nested children directory
+[OK] program child registry declares children
+[OK] child id valid: complete-program-blocker-vector-planner-output
+[OK] child id unique: complete-program-blocker-vector-planner-output
+[OK] child complete-program-blocker-vector-planner-output path is repo-relative
+[OK] child complete-program-blocker-vector-planner-output path is not nested under parent program
+[OK] child id valid: lifecycle-validator-runtime-resolver
+[OK] child id unique: lifecycle-validator-runtime-resolver
+[OK] child lifecycle-validator-runtime-resolver path is repo-relative
+[OK] child lifecycle-validator-runtime-resolver path is not nested under parent program
+[OK] child id valid: proposal-program-execution-mode-normalization
+[OK] child id unique: proposal-program-execution-mode-normalization
+[OK] child proposal-program-execution-mode-normalization path is repo-relative
+[OK] child proposal-program-execution-mode-normalization path is not nested under parent program
+[OK] child proposal-program-execution-mode-normalization dependency references registry child: lifecycle-validator-runtime-resolver
+[OK] child id valid: normalized-child-terminal-evidence-summary
+[OK] child id unique: normalized-child-terminal-evidence-summary
+[OK] child normalized-child-terminal-evidence-summary path is repo-relative
+[OK] child normalized-child-terminal-evidence-summary path is not nested under parent program
+[OK] child normalized-child-terminal-evidence-summary dependency references registry child: complete-program-blocker-vector-planner-output
+[OK] child id valid: completed-plan-nonblocking-diagnostics
+[OK] child id unique: completed-plan-nonblocking-diagnostics
+[OK] child completed-plan-nonblocking-diagnostics path is repo-relative
+[OK] child completed-plan-nonblocking-diagnostics path is not nested under parent program
+[OK] child completed-plan-nonblocking-diagnostics dependency references registry child: normalized-child-terminal-evidence-summary
+[OK] child id valid: targeted-proposal-freshness-checks
+[OK] child id unique: targeted-proposal-freshness-checks
+[OK] child targeted-proposal-freshness-checks path is repo-relative
+[OK] child targeted-proposal-freshness-checks path is not nested under parent program
+[OK] child targeted-proposal-freshness-checks dependency references registry child: complete-program-blocker-vector-planner-output
+[OK] child id valid: batched-review-and-architecture-digest-refresh
+[OK] child id unique: batched-review-and-architecture-digest-refresh
+[OK] child batched-review-and-architecture-digest-refresh path is repo-relative
+[OK] child batched-review-and-architecture-digest-refresh path is not nested under parent program
+[OK] child batched-review-and-architecture-digest-refresh dependency references registry child: targeted-proposal-freshness-checks
+[OK] child id valid: autonomous-proposal-program-recovery-envelope
+[OK] child id unique: autonomous-proposal-program-recovery-envelope
+[OK] child autonomous-proposal-program-recovery-envelope path is repo-relative
+[OK] child autonomous-proposal-program-recovery-envelope path is not nested under parent program
+[OK] child autonomous-proposal-program-recovery-envelope dependency references registry child: complete-program-blocker-vector-planner-output
+[OK] child autonomous-proposal-program-recovery-envelope dependency references registry child: lifecycle-validator-runtime-resolver
+[OK] child autonomous-proposal-program-recovery-envelope dependency references registry child: proposal-program-execution-mode-normalization
+[OK] child autonomous-proposal-program-recovery-envelope dependency references registry child: normalized-child-terminal-evidence-summary
+[OK] child autonomous-proposal-program-recovery-envelope dependency references registry child: batched-review-and-architecture-digest-refresh
+[OK] child autonomous-proposal-program-recovery-envelope dependency references registry child: targeted-proposal-freshness-checks
+[OK] child id valid: delivery-retained-evidence-index
+[OK] child id unique: delivery-retained-evidence-index
+[OK] child delivery-retained-evidence-index path is repo-relative
+[OK] child delivery-retained-evidence-index path is not nested under parent program
+[OK] child delivery-retained-evidence-index dependency references registry child: normalized-child-terminal-evidence-summary
+[OK] child id valid: proposal-program-delivery-postmortem-evaluation-profile
+[OK] child id unique: proposal-program-delivery-postmortem-evaluation-profile
+[OK] child proposal-program-delivery-postmortem-evaluation-profile path is repo-relative
+[OK] child proposal-program-delivery-postmortem-evaluation-profile path is not nested under parent program
+[OK] child proposal-program-delivery-postmortem-evaluation-profile dependency references registry child: complete-program-blocker-vector-planner-output
+[OK] child proposal-program-delivery-postmortem-evaluation-profile dependency references registry child: normalized-child-terminal-evidence-summary
+[OK] child proposal-program-delivery-postmortem-evaluation-profile dependency references registry child: delivery-retained-evidence-index
+[OK] child id valid: branch-no-pr-delivery-receipt-builder
+[OK] child id unique: branch-no-pr-delivery-receipt-builder
+[OK] child branch-no-pr-delivery-receipt-builder path is repo-relative
+[OK] child branch-no-pr-delivery-receipt-builder path is not nested under parent program
+[OK] child branch-no-pr-delivery-receipt-builder dependency references registry child: delivery-retained-evidence-index
+[OK] child id valid: branch-no-pr-bounded-authorization-envelope
+[OK] child id unique: branch-no-pr-bounded-authorization-envelope
+[OK] child branch-no-pr-bounded-authorization-envelope path is repo-relative
+[OK] child branch-no-pr-bounded-authorization-envelope path is not nested under parent program
+[OK] child branch-no-pr-bounded-authorization-envelope dependency references registry child: branch-no-pr-delivery-receipt-builder
+[OK] related_proposals covers registry children
+[OK] related_proposals contains no extra child ids
+[OK] human child index mentions child id: autonomous-proposal-program-recovery-envelope
+[OK] human child index mentions child id: batched-review-and-architecture-digest-refresh
+[OK] human child index mentions child id: branch-no-pr-bounded-authorization-envelope
+[OK] human child index mentions child id: branch-no-pr-delivery-receipt-builder
+[OK] human child index mentions child id: complete-program-blocker-vector-planner-output
+[OK] human child index mentions child id: completed-plan-nonblocking-diagnostics
+[OK] human child index mentions child id: delivery-retained-evidence-index
+[OK] human child index mentions child id: lifecycle-validator-runtime-resolver
+[OK] human child index mentions child id: normalized-child-terminal-evidence-summary
+[OK] human child index mentions child id: proposal-program-delivery-postmortem-evaluation-profile
+[OK] human child index mentions child id: proposal-program-execution-mode-normalization
+[OK] human child index mentions child id: targeted-proposal-freshness-checks
+[OK] packet sequence mentions child id: autonomous-proposal-program-recovery-envelope
+[OK] packet sequence mentions child id: batched-review-and-architecture-digest-refresh
+[OK] packet sequence mentions child id: branch-no-pr-bounded-authorization-envelope
+[OK] packet sequence mentions child id: branch-no-pr-delivery-receipt-builder
+[OK] packet sequence mentions child id: complete-program-blocker-vector-planner-output
+[OK] packet sequence mentions child id: completed-plan-nonblocking-diagnostics
+[OK] packet sequence mentions child id: delivery-retained-evidence-index
+[OK] packet sequence mentions child id: lifecycle-validator-runtime-resolver
+[OK] packet sequence mentions child id: normalized-child-terminal-evidence-summary
+[OK] packet sequence mentions child id: proposal-program-delivery-postmortem-evaluation-profile
+[OK] packet sequence mentions child id: proposal-program-execution-mode-normalization
+[OK] packet sequence mentions child id: targeted-proposal-freshness-checks
+[OK] parent package contains no child-owned authority surfaces
+Validation summary: errors=0 warnings=0
