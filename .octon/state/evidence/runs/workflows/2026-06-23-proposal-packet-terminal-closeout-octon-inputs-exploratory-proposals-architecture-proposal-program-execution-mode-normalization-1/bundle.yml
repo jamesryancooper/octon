@@ -1,0 +1,45 @@
+kind: workflow-execution-bundle
+id: 2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1
+workflow_id: proposal-packet-terminal-closeout
+package_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+mode: n/a
+executor: deterministic
+prepare_only: false
+slug: octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization
+started_at: 2026-06-23T18:35:06.974371Z
+completed_at: 2026-06-23T18:36:28.104399Z
+summary: summary.md
+reports_dir: reports
+stage_inputs_dir: stage-inputs
+stage_logs_dir: stage-logs
+selected_stages:
+- bind-profile
+- verify-durable-implementation-state
+- verify-implementation-conformance
+- verify-post-implementation-drift
+- validate-publication-freshness
+- classify-repo-hygiene
+- classify-worktree-hygiene
+- run-evidence-only-reviews
+- resolve-git-github-route
+- emit-terminal-receipt
+report_paths:
+  bind-profile: reports/bind-profile-report.md
+  classify-repo-hygiene: reports/classify-repo-hygiene-report.md
+  classify-worktree-hygiene: reports/classify-worktree-hygiene-report.md
+  emit-terminal-receipt: reports/emit-terminal-receipt-report.md
+  resolve-git-github-route: reports/resolve-git-github-route-report.md
+  run-evidence-only-reviews: reports/run-evidence-only-reviews-report.md
+  validate-publication-freshness: reports/validate-publication-freshness-report.md
+  verify-durable-implementation-state: reports/verify-durable-implementation-state-report.md
+  verify-implementation-conformance: reports/verify-implementation-conformance-report.md
+  verify-post-implementation-drift: reports/verify-post-implementation-drift-report.md
+changed_files: {}
+plan: state-ledger.yml
+inventory: inventory.md
+commands: commands.md
+validation: validation.md
+summary_report: .octon/state/evidence/validation/analysis/2026-06-23-proposal-packet-terminal-closeout-1.md
+final_verdict: archive-ready
+failure_class: null
+failed_stage: null

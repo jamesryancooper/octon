@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:5d7b2288de447431c2564bedccd6691c345e3e8da790d2f18da5da7023fa5085
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-23T18:35:13.164607Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:a5c0e4dbfab14cd8d8da507ae4a4e75177ab65d63fb756756e3c5118feee7413
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-23T18:35:13.164607Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:35:13.164607Z

@@ -1,0 +1,37 @@
+{
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/reports/verify-implementation-conformance-report.md"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": "read_only_analysis",
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-213583c39b94",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/stages/verify-implementation-conformance",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/effect-tokens/effect-token-evidence-mutation-213583c39b94.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/receipts/effect-tokens/effect-token-evidence-mutation-213583c39b94/consumption-48e5f900b446.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-213583c39b94",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-213583c39b94"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-a12205ed4224",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/stages/verify-implementation-conformance",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/effect-tokens/effect-token-state-control-mutation-a12205ed4224.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/receipts/effect-tokens/effect-token-state-control-mutation-a12205ed4224/consumption-d70c010e4552.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-a12205ed4224",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-a12205ed4224"
+      ]
+    }
+  ]
+}

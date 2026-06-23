@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:131aeb30c119968c1708f673c993524503f1b8b25ef7867d52057dcd21726765
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-23T18:35:10.949604Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:00747328570cf752e9432133586964a78a2bbb9f0f64d9e8aec6b6e953c4f6be
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-23T18:35:10.949604Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:35:10.949604Z

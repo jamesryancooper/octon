@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:899d7912934f135ed0a3e33dec0309e1aa1717e3a8dd98811fa8d68910e26b2b
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt/replay/manifest.yml
+  recorded_at: 2026-06-23T18:36:26.533197Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:af0cde5e5b021e597deb77fe8f1ac1131dc3dad1f0e09d939499503c8ae9bd29
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt/replay/manifest.yml
+  recorded_at: 2026-06-23T18:36:26.533197Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:36:26.533197Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:e568c22c2f3af9018765f0e792a3bd22501585ec019f26ffc0f0657798845d39
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:8b911e83f64b90d82fdca2506b953ddb49e551e245095b96b1b57833c5f1643c
+receipt_sha256: sha256:f919d559fce42e54e85357940fc2f932a51e9170ce68ab7fca3c019baa679c1e
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-23T18:36:17.169518Z
+validity_state: valid

@@ -1,0 +1,15 @@
+[
+  ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md sha256:a13181cfdb508dd35e1d5627503067c810f6f945eecd31ba372a66d2c755cc5c",
+  ".octon/generated/effective/extensions/catalog.effective.yml sha256:349e398d99a53c58dfea949af855ce8cd1ddf49f38ee7ee38e05fee2b0da9c1a",
+  ".octon/generated/effective/runtime/route-bundle.yml sha256:238b02272e5d449235b046eef84f6a540e986ed48f65b8d98f6a4e7bcdcf0546",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml sha256:d9a69c91b12c624cb76b0a80f5998854338b220b75fe3db5e293025df5643a94",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md sha256:d561e63ea44f33e1c67bb83ce4cd5f7ac2f09b5acbf24f5a83a9d163de46f121",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md sha256:5ad35a71e25f9ecb7d8f54881d27e2d03f0d1069678380aa45a7aa8751f9f73d",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md sha256:61829e712a0929d8b605f70685353c186a89a087a94dc9b30e1fb88d5fba5af9",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md sha256:94e9063a9c72e87b75178932b6d95d8bfd07a8aac19f50b0b5b914c50fe7f6a5",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md sha256:71673894ce2cb6d1628b464dc4b09bdad14c1ee1eedbcb465c35cffed263063a",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md sha256:69ca170d6e4056a1fca43dab781ba8bdf244ba4b25fe03ebf019ac7fde47913b",
+  ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml sha256:7952ed58475fbabdc689dec93e2934e4650ab8621d1f77a4461b7cef0e55a626",
+  ".octon/instance/governance/policies/context-packing.yml sha256:be178d1e81a6244320f67c9334a03e3de68521923c12e6570ecf1b98dbebdd2f",
+  ".octon/instance/ingress/AGENTS.md sha256:0d1244e63d5605fdee0ee96dab8a48959b719d03166f36184a192d74adc4f86e"
+]

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:316657b6ba819c8fdf392227ff172faab4225c4ceeff0db75655a7632606599b
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-23T18:36:24.542001Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:4e61a406c7c4953592f8ad64ff3520ae20cfbee922801256ed35b1a546ad9b18
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-06-23T18:36:24.542001Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:36:24.542001Z

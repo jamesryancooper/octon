@@ -1,0 +1,243 @@
+{
+  "authority_boundary": {
+    "authorize_execution_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md#authorization-validation",
+    "generated_outputs_are_authority": false,
+    "proposal_inputs_are_authority": false,
+    "subordinate_to_lifecycle_route_authorization": true
+  },
+  "authorization_binding_refs": [
+    ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/authorization/proposal-packet-terminal-closeout-delegation-proof.yml"
+  ],
+  "builder_notes": [
+    "Lifecycle route context packs are evidence for route authorization.",
+    "Generated route state is handle-only and proposal-local inputs are non-authoritative."
+  ],
+  "builder_spec_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+  "builder_version": "context-pack-builder-v1",
+  "built_at": "2026-06-23T18:35:06.182267Z",
+  "compaction_refs": [],
+  "context_pack_id": "context-pack-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z",
+  "context_pack_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/context/context-pack.json",
+  "context_pack_sha256": "sha256:7350aac777dee2c88108bbd06112ba48b8a68d0fddfac24cd4d6ff893947c42f",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "failure_policy": {
+    "invalid_required_context_route": "DENY",
+    "missing_required_context_route": "DENY",
+    "reason_codes": [
+      "CONTEXT_EVIDENCE_REQUIRED",
+      "FCR-007",
+      "FCR-013"
+    ],
+    "stale_required_context_route": "DENY",
+    "unverifiable_required_context_route": "DENY"
+  },
+  "freshness": {
+    "freshness_status": "valid",
+    "generated_at": "2026-06-23T18:35:06.182267Z",
+    "valid_until": "9999-12-31T23:59:59Z"
+  },
+  "invalidation_events_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/context/invalidation-events.json",
+  "invalidation_state": "not_invalidated",
+  "model_visible_context_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/context/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:d0eefcca736e41fbf8a4348ca24b668ebb00710707b34042036bbfba4f5d8b77",
+  "omissions": [
+    {
+      "omission_code": "explicit_policy_exclusion",
+      "policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "reason": "optional lifecycle context source is unavailable",
+      "route": "allow",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-creation.md"
+    }
+  ],
+  "omissions_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/context/omissions.json",
+  "rebuild_refs": [],
+  "receipt_id": "context-pack-receipt-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z",
+  "redactions_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/context/redactions.json",
+  "replay_reconstruction_refs": [
+    ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/context/model-visible-context.json",
+    ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/context/model-visible-context.sha256"
+  ],
+  "request_binding": {
+    "action_type": "proposal-packet-terminal-closeout",
+    "boundary_sensitive": true,
+    "consequential": true,
+    "request_id": "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z",
+    "requires_context_evidence": true,
+    "risk_tier": "lifecycle-route",
+    "support_target_tuple_ref": "lifecycle-route-context-pack",
+    "target_id": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization",
+    "workflow_mode": "workflow"
+  },
+  "request_id": "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z",
+  "run_id": "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z",
+  "schema_version": "context-pack-receipt-v1",
+  "source_manifest_ref": ".octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z/context/source-manifest.json",
+  "source_summary": {
+    "authority_source_count": 3,
+    "derived_source_count": 2,
+    "evidence_source_count": 0,
+    "failed_required_source_count": 0,
+    "non_authoritative_source_count": 8,
+    "required_source_count": 13
+  },
+  "sources": [
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": true,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:a13181cfdb508dd35e1d5627503067c810f6f945eecd31ba372a66d2c755cc5c",
+      "source_kind": "authority",
+      "source_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": true,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:be178d1e81a6244320f67c9334a03e3de68521923c12e6570ecf1b98dbebdd2f",
+      "source_kind": "authority",
+      "source_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "authoritative",
+      "evidence_ref": ".octon/instance/ingress/AGENTS.md",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:0d1244e63d5605fdee0ee96dab8a48959b719d03166f36184a192d74adc4f86e",
+      "source_kind": "authority",
+      "source_ref": ".octon/instance/ingress/AGENTS.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "derived",
+      "evidence_ref": ".octon/generated/effective/extensions/catalog.effective.yml",
+      "freshness_status": "valid",
+      "inclusion_mode": "handle-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:349e398d99a53c58dfea949af855ce8cd1ddf49f38ee7ee38e05fee2b0da9c1a",
+      "source_kind": "generated-handle",
+      "source_ref": ".octon/generated/effective/extensions/catalog.effective.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "derived",
+      "evidence_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "freshness_status": "valid",
+      "inclusion_mode": "handle-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:238b02272e5d449235b046eef84f6a540e986ed48f65b8d98f6a4e7bcdcf0546",
+      "source_kind": "generated-handle",
+      "source_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "non_authoritative",
+      "evidence_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:d9a69c91b12c624cb76b0a80f5998854338b220b75fe3db5e293025df5643a94",
+      "source_kind": "target-input",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "non_authoritative",
+      "evidence_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:d561e63ea44f33e1c67bb83ce4cd5f7ac2f09b5acbf24f5a83a9d163de46f121",
+      "source_kind": "target-input",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "non_authoritative",
+      "evidence_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:5ad35a71e25f9ecb7d8f54881d27e2d03f0d1069678380aa45a7aa8751f9f73d",
+      "source_kind": "target-input",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "non_authoritative",
+      "evidence_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:61829e712a0929d8b605f70685353c186a89a087a94dc9b30e1fb88d5fba5af9",
+      "source_kind": "target-input",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "non_authoritative",
+      "evidence_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:94e9063a9c72e87b75178932b6d95d8bfd07a8aac19f50b0b5b914c50fe7f6a5",
+      "source_kind": "target-input",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "non_authoritative",
+      "evidence_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:71673894ce2cb6d1628b464dc4b09bdad14c1ee1eedbcb465c35cffed263063a",
+      "source_kind": "target-input",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "non_authoritative",
+      "evidence_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:69ca170d6e4056a1fca43dab781ba8bdf244ba4b25fe03ebf019ac7fde47913b",
+      "source_kind": "target-input",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md",
+      "verification_status": "valid"
+    },
+    {
+      "authority_label": "non_authoritative",
+      "evidence_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml",
+      "freshness_status": "valid",
+      "inclusion_mode": "digest-only",
+      "required": false,
+      "resolved_at": "2026-06-23T18:35:06.182267Z",
+      "sha256": "sha256:7952ed58475fbabdc689dec93e2934e4650ab8621d1f77a4461b7cef0e55a626",
+      "source_kind": "target-input",
+      "source_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml",
+      "verification_status": "valid"
+    }
+  ],
+  "validity_state": "valid",
+  "verification_status": "valid"
+}

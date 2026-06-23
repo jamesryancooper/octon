@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:d088d973de00ae42860c836dedfd80bf519051fff34b2c1652e87a1541e671af
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:d8b90051536790921ccd3e78c71f1b6dbf2ec78b25c07997ecab53a8cddc6313
+receipt_sha256: sha256:d2bcdd69906aa66f6ba6a7550b0d1826bdf3b9b2918870e4e06f76e1ac50bc00
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-23T18:36:23.539024Z
+validity_state: valid

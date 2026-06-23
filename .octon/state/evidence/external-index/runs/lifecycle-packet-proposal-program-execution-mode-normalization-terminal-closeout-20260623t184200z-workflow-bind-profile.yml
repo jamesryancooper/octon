@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:b8620337c2be5bd6f9e893db4635cb2e432b2ceeddf09cfdbbc8a86d32078072
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-23T18:35:08.975069Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:099f9898b88cd19238db4dadc11830235afeaa13dbc0ca2ce886a7c471eff4d1
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-23T18:35:08.975069Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-bind-profile
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:35:08.975069Z

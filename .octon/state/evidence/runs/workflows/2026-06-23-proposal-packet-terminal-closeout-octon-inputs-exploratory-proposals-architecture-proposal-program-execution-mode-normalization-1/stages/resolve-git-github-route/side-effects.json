@@ -1,0 +1,37 @@
+{
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/reports/resolve-git-github-route-report.md"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": "read_only_analysis",
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-4e11f6cce64a",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/stages/resolve-git-github-route",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/effect-tokens/effect-token-evidence-mutation-4e11f6cce64a.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/receipts/effect-tokens/effect-token-evidence-mutation-4e11f6cce64a/consumption-fe2d1157e680.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-4e11f6cce64a",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-4e11f6cce64a"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-49610e74d54a",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/stages/resolve-git-github-route",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/effect-tokens/effect-token-state-control-mutation-49610e74d54a.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/receipts/effect-tokens/effect-token-state-control-mutation-49610e74d54a/consumption-23b85a975a61.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-49610e74d54a",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-resolve-git-github-route/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-49610e74d54a"
+      ]
+    }
+  ]
+}

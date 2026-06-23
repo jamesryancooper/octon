@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+ledger_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:930d471c03cb3863d4f9238784da2256f0b6c8d89d77841a2f549ccb8e56d269
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  sequence: 1
+  event_hash: sha256:bbde2a5022cabd04b3f6bd66490f8b661accd16f99a8664335016a5be61fcdea
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  sequence: 29
+  event_hash: sha256:a1cedb4354a90f62bbc7befe31fc361def644b7afe49a46eb40e1d7e355de4b9
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:bbde2a5022cabd04b3f6bd66490f8b661accd16f99a8664335016a5be61fcdea
+  tail_event_hash: sha256:a1cedb4354a90f62bbc7befe31fc361def644b7afe49a46eb40e1d7e355de4b9
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  context_pack_ref: evt-context-pack-bound-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  disclosure_ref: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-49a0067af51d
+  run_contract_ref: evt-001-run-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  run_manifest_ref: evt-002-run-bound-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  runtime_state_ref: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  stage_attempt_ref: evt-stage-started-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:a1cedb4354a90f62bbc7befe31fc361def644b7afe49a46eb40e1d7e355de4b9
+  materialized_at: 2026-06-23T18:36:22.4888Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-23T18:36:23.27223Z

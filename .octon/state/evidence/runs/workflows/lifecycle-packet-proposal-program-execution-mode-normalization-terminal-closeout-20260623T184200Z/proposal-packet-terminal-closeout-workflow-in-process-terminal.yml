@@ -1,0 +1,10 @@
+schema_version: octon-lifecycle-workflow-in-process-terminal-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z
+route_id: proposal-packet-terminal-closeout
+workflow_run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow
+status: completed
+final_verdict: archive-ready
+workflow_bundle: /Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1
+workflow_summary: /Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/validation/analysis/2026-06-23-proposal-packet-terminal-closeout-1.md
+ended_at: 2026-06-23T18:36:28.885417Z
+error_message: null

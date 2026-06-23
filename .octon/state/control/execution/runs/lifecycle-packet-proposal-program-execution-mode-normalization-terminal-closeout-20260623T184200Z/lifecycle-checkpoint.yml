@@ -1,0 +1,28 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+current_state: archive-proposal
+current_phase: archival
+completed_states: []
+last_route: archive-proposal
+loop_counts: {}
+phase_counts:
+  archival: 1
+  packet-terminal-closeout: 1
+last_phase_transition: phase-entered:archival
+phase_blockers:
+  final_verdict: blocked-max-steps
+receipt_digests:
+  proposal-review: sha256:47e68a51f5df598ee6e90c749d8e546f2d5925613c31e2d0839a4cca56dcbea4
+last_validator_results: []
+run_inputs: {}
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-max-steps
+resume_instruction: octon lifecycle resume --run-id lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T184200Z

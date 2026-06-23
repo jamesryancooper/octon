@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+ledger_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:bd4853e538a2506639d3549ca16c4a778f821a0b3d572d10379e2d95a8e67411
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  sequence: 1
+  event_hash: sha256:b8c30dcd2ad3459bba7c1ddc40e537536851329a165a845b947632a6440f906c
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  sequence: 29
+  event_hash: sha256:8ff06f1f697b7f61055751b95ba71983716034b211ec7ca26f0caff96cdd8a15
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:b8c30dcd2ad3459bba7c1ddc40e537536851329a165a845b947632a6440f906c
+  tail_event_hash: sha256:8ff06f1f697b7f61055751b95ba71983716034b211ec7ca26f0caff96cdd8a15
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  context_pack_ref: evt-context-pack-bound-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  disclosure_ref: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-a12205ed4224
+  run_contract_ref: evt-001-run-created-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  run_manifest_ref: evt-002-run-bound-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  runtime_state_ref: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  stage_attempt_ref: evt-stage-started-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-implementation-conformance
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:8ff06f1f697b7f61055751b95ba71983716034b211ec7ca26f0caff96cdd8a15
+  materialized_at: 2026-06-23T18:35:13.164607Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-23T18:35:13.933927Z

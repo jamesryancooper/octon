@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:91b39afc9fe9526669bb836644deba350b189082270bbed1ef2ecbceb1acbf8d
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-23T18:36:16.135382Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:b33d329b2cae076aa0f0e7ed5a3a2d2441002711cca8fc4d8c645b3c306e043f
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-23T18:36:16.135382Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-validate-publication-freshness
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:36:16.135382Z

@@ -1,0 +1,203 @@
+{
+  "schema_version": "execution-receipt-v3",
+  "request_id": "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow",
+  "grant_id": "grant-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow",
+  "target_id": "proposal-packet-terminal-closeout",
+  "action_type": "execute_workflow",
+  "path_type": "workflow",
+  "environment_class": "development",
+  "workflow_mode": "role-mediated",
+  "requested_capability_packs": [
+    "repo",
+    "shell",
+    "git",
+    "telemetry"
+  ],
+  "granted_capability_packs": [
+    "repo",
+    "git",
+    "shell",
+    "telemetry"
+  ],
+  "requested_capabilities": [
+    "workflow.execute",
+    "repo.write",
+    "evidence.write"
+  ],
+  "granted_capabilities": [
+    "workflow.execute",
+    "repo.write",
+    "evidence.write"
+  ],
+  "policy_mode_requested": "hard-enforce",
+  "policy_mode_effective": "hard-enforce",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "execution_role_ref": {
+    "kind": "system",
+    "id": "octon-kernel"
+  },
+  "context_pack_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/context/context-pack.json",
+  "context_evidence_required": true,
+  "context_evidence_binding": {
+    "context_pack_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/context/context-pack.json",
+    "context_pack_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/context/context-pack-receipt.json",
+    "context_pack_sha256": "sha256:8664a7956870fac2968360134de60d2c64f7c2c865081035988cf35200d1582a",
+    "receipt_sha256": "sha256:437d41701924b8b0eb5c27aa18a666b2d0fded42cbc63398470904062e468910",
+    "builder_spec_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+    "builder_version": "context-pack-builder-v1",
+    "verification_status": "valid",
+    "freshness_status": "valid",
+    "valid_until": "9999-12-31T23:59:59Z",
+    "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+    "model_visible_context_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/context/model-visible-context.json",
+    "model_visible_context_sha256": "sha256:2578c5c77478c5d2b41476ae778870f61f526bb8a61f6cba2efce7e5ce54cbe3",
+    "context_validity_state": "valid",
+    "context_rebuild_ref": null,
+    "context_invalidation_ref": null,
+    "source_count": 12,
+    "failed_required_source_count": 0,
+    "subordinate_to_authorize_execution": true
+  },
+  "risk_materiality_ref": ".octon/framework/constitution/contracts/authority/risk-materiality-v1.schema.json",
+  "support_target_tuple_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow#support_target_tuple",
+  "rollback_plan_ref": ".octon/framework/constitution/contracts/runtime/rollback-plan-v1.schema.json",
+  "browser_ui_record_refs": [],
+  "api_egress_record_refs": [],
+  "side_effects": {
+    "touched_scope": [
+      "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1",
+      "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/terminal-receipt.yml",
+      "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml"
+    ],
+    "shell_commands": [],
+    "network_targets": [],
+    "publications": [],
+    "branch_mutations": [],
+    "executor_profile": null,
+    "dangerous_flags_blocked": [],
+    "authorized_effects": [
+      {
+        "token_id": "effect-token-evidence-mutation-337f938bf97f",
+        "token_type": "AuthorizedEffect<EvidenceMutation>",
+        "effect_kind": "evidence-mutation",
+        "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/workflow-execution",
+        "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/effect-tokens/effect-token-evidence-mutation-337f938bf97f.json",
+        "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/effect-tokens/effect-token-evidence-mutation-337f938bf97f/consumption-079333372cc2.json",
+        "journal_event_refs": [
+          ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-337f938bf97f",
+          ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-337f938bf97f"
+        ]
+      },
+      {
+        "token_id": "effect-token-state-control-mutation-31be01cfcb4f",
+        "token_type": "AuthorizedEffect<StateControlMutation>",
+        "effect_kind": "state-control-mutation",
+        "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/workflow-execution",
+        "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/effect-tokens/effect-token-state-control-mutation-31be01cfcb4f.json",
+        "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/effect-tokens/effect-token-state-control-mutation-31be01cfcb4f/consumption-76a47f16498a.json",
+        "journal_event_refs": [
+          ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-31be01cfcb4f",
+          ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-31be01cfcb4f"
+        ]
+      }
+    ]
+  },
+  "mission_ref": null,
+  "slice_ref": null,
+  "intent_ref": {
+    "id": "workspace-charter://octon/octon-governed-harness",
+    "version": "1.3.0"
+  },
+  "mission_class": null,
+  "oversight_mode": null,
+  "execution_posture": null,
+  "reversibility_class": null,
+  "boundary_id": null,
+  "rollback_handle": null,
+  "compensation_handle": null,
+  "recovery_window": null,
+  "autonomy_budget_state": null,
+  "breaker_state": null,
+  "applied_directive_refs": [],
+  "applied_authorize_update_refs": [],
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1",
+    "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/terminal-receipt.yml",
+    "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml"
+  ],
+  "override_requested": false,
+  "override_accepted": true,
+  "ai_review_enforced": false,
+  "autonomy_policy_enforced": false,
+  "evidence_links": {
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow.yml",
+    "authority_grant_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow.yml",
+    "authorization_phase_grant": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/authorization-phases/grant.json",
+    "authorization_phase_preflight": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/authorization-phases/preflight.json",
+    "authorization_phase_receipt_materialization": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/authorization-phases/receipt-materialization.json",
+    "authorization_phase_request_materialization": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/authorization-phases/request-materialization.json",
+    "authorization_phase_routing": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/authorization-phases/routing.json",
+    "decision": "policy-decision.json",
+    "grant": "grant-bundle.json",
+    "instruction_manifest": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/instruction-layer-manifest.json",
+    "outcome": "outcome.json",
+    "policy_digest": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/policy-digest.latest.md",
+    "policy_receipt": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/policy-receipt.latest.json",
+    "receipt": "execution-receipt.json",
+    "replay_pointers": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/replay-pointers.yml",
+    "request": "execution-request.json",
+    "retained_evidence": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/retained-run-evidence.yml",
+    "run_control_root": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow",
+    "run_receipts_root": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts",
+    "run_root": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow",
+    "side_effects": "side-effects.json",
+    "stage_attempt": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/stage-attempts/initial.yml",
+    "trace_pointers": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/trace-pointers.yml"
+  },
+  "budget": null,
+  "support_tier": "repo-consequential",
+  "ownership_refs": [
+    "operator://octon-maintainers"
+  ],
+  "approval_request_ref": null,
+  "approval_grant_refs": [],
+  "exception_lease_refs": [],
+  "revocation_refs": [],
+  "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow.yml",
+  "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow.yml",
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-337f938bf97f",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/workflow-execution",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/effect-tokens/effect-token-evidence-mutation-337f938bf97f.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/effect-tokens/effect-token-evidence-mutation-337f938bf97f/consumption-079333372cc2.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-337f938bf97f",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-337f938bf97f"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-31be01cfcb4f",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/workflow-execution",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/effect-tokens/effect-token-state-control-mutation-31be01cfcb4f.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/receipts/effect-tokens/effect-token-state-control-mutation-31be01cfcb4f/consumption-76a47f16498a.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-31be01cfcb4f",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-31be01cfcb4f"
+      ]
+    }
+  ],
+  "network_egress_posture": null,
+  "evidence_completeness_status": null,
+  "timestamps": {
+    "started_at": "2026-06-23T18:35:06.974371Z",
+    "completed_at": "2026-06-23T18:36:28.104832Z"
+  }
+}

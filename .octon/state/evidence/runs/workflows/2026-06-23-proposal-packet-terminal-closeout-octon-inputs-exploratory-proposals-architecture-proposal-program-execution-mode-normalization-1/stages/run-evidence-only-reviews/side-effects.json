@@ -1,0 +1,37 @@
+{
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/reports/run-evidence-only-reviews-report.md"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": "read_only_analysis",
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-915962aca9d4",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/stages/run-evidence-only-reviews",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/effect-tokens/effect-token-evidence-mutation-915962aca9d4.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/receipts/effect-tokens/effect-token-evidence-mutation-915962aca9d4/consumption-92b6667a0b04.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-915962aca9d4",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-915962aca9d4"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-49a0067af51d",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/stages/run-evidence-only-reviews",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/effect-tokens/effect-token-state-control-mutation-49a0067af51d.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/receipts/effect-tokens/effect-token-state-control-mutation-49a0067af51d/consumption-d5d240965e20.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-49a0067af51d",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-run-evidence-only-reviews/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-49a0067af51d"
+      ]
+    }
+  ]
+}

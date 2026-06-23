@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt/context/context-pack.json
+context_pack_sha256: sha256:42fb166cd5dff4665eb322e1924e8a5eebfcf270b8c436ee2551c0e9f344d9f0
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt/context/model-visible-context.json
+model_visible_context_sha256: sha256:8b0c2c31e7ca9230ad4b8e1f7929a2d3eed3f24dbc21406f2f99d642d4af9b84
+receipt_sha256: sha256:34c922b76bd8cadce8ea0047d5d83b51d4e6c08c1d734a968f483e9b0ad0450c
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt
+schema_version: active-context-pack-v1
+updated_at: 2026-06-23T18:36:25.572873Z
+validity_state: valid

@@ -1,0 +1,37 @@
+{
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/reports/verify-durable-implementation-state-report.md"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": "read_only_analysis",
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-73229dfd55e1",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/stages/verify-durable-implementation-state",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/effect-tokens/effect-token-evidence-mutation-73229dfd55e1.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/receipts/effect-tokens/effect-token-evidence-mutation-73229dfd55e1/consumption-c2a8880116ef.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-73229dfd55e1",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-73229dfd55e1"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-2c909f546de1",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout/.octon/state/evidence/runs/workflows/2026-06-23-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-execution-mode-normalization-1/stages/verify-durable-implementation-state",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/effect-tokens/effect-token-state-control-mutation-2c909f546de1.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/receipts/effect-tokens/effect-token-state-control-mutation-2c909f546de1/consumption-26328f2626cc.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-2c909f546de1",
+        ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-verify-durable-implementation-state/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-2c909f546de1"
+      ]
+    }
+  ]
+}
