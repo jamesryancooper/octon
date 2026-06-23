@@ -1,0 +1,8 @@
+## main...origin/main
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-cleanup-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-landing-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/change-receipt-branch-no-pr-cleaned.json
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-refs.txt
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-status.txt
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/residue-classification.yml
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/terminal-current-state-proof.yml

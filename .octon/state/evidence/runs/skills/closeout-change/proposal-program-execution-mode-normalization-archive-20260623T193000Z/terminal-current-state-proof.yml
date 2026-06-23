@@ -1,0 +1,47 @@
+schema_version: lifecycle-terminal-current-state-proof-v1
+proof_id: terminal-proof-proposal-program-execution-mode-normalization-archive-20260623T193000Z-f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+observed_at: "2026-06-23T19:02:45Z"
+change_id: proposal-program-execution-mode-normalization-archive-20260623T193000Z
+lifecycle_outcome: cleaned
+non_authority_classification: retained-evidence-only
+final_refs:
+  head_ref: f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+  main_ref: f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+  origin_main_ref: f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+  landed_ref: f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+alignment:
+  head_equals_local_main: true
+  local_main_equals_origin_main: true
+  origin_main_contains_landed_ref: true
+  local_main_contains_landed_ref: true
+worktree:
+  status: retained_classified
+  status_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-status.txt
+  residue_counts:
+    staged: 0
+    unstaged: 0
+    untracked: 7
+    retained_evidence: 7
+  retained_residue_refs:
+    - .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/
+cleanup_classifier_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/residue-classification.yml
+validator_refs:
+  - validator: git-status
+    command: git status --short --branch --untracked-files=all
+    cwd: /Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout
+    runtime: git
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-status.txt
+  - validator: classify-change-closeout-residue
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root .
+    cwd: /Users/jamesryancooper/Projects/octon-proposal-program-execution-mode-normalization-closeout
+    runtime: bash
+    exit_code: 0
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/residue-classification.yml
+evidence_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-refs.txt
+  - .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-status.txt
+  - .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/residue-classification.yml
+  - .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-landing-authorization.json
+  - .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-cleanup-authorization.json
+  - .octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/change-receipt-branch-no-pr-cleaned.json

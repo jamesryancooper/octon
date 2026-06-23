@@ -1,0 +1,148 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-execution-mode-normalization-archive-20260623T193000Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Deliver the proposal-program-execution-mode-normalization child packet archive and lifecycle recovery fixes through a branch-no-pr route without opening a PR.",
+  "scope": {
+    "summary": "Archived the execution-mode normalization child packet, refreshed generated proposal projections, retained archive/recovery validation evidence, and codified narrow lifecycle recovery fixes for superseded archive projection and archived original-path planning.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/generated/proposals/artifacts/architecture/proposal-program-execution-mode-normalization/",
+      ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-standard.sh",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+      ".octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/"
+    ],
+    "diff_refs": [
+      "origin/main@f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+      "commit:f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-execution-mode-normalization-closeout",
+  "target_branch_ref": "origin/main@f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+  "remote_branch_ref": "origin/chore/proposal-program-execution-mode-normalization-closeout@f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-cleanup-authorization.json",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/proposal-program-execution-mode-normalization-closeout",
+    "source_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "target_pre_ref": "f8bd472f92d4021f7a97357683b60743743aff00",
+    "target_post_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "validated_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "target_ref": "origin/main@f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-landing-authorization.json",
+      "git-branch-land-hosted-no-pr.sh fast-forwarded origin/main to f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd"
+    ]
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "chore/proposal-program-execution-mode-normalization-closeout",
+    "source_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "landed_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "origin_main_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "origin/main@f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd contains origin/chore/proposal-program-execution-mode-normalization-closeout@f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd"
+    ]
+  },
+  "landed_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+  "main_alignment": {
+    "local_main_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "origin_main_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "landed_ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "aligned": true,
+    "origin_fetch_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-refs.txt",
+    "local_main_sync_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-refs.txt",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-status.txt"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "branch-cleanup-authorization-v1:.octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-cleanup-authorization.json",
+    "git-branch-cleanup.sh --confirm completed local and remote source branch cleanup"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/proposal-program-execution-mode-normalization-closeout",
+    "remote_branch": "origin/chore/proposal-program-execution-mode-normalization-closeout",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-cleanup-authorization.json",
+      "local source branch deleted after origin/main containment proof",
+      "remote source branch deleted after no-open-PR proof"
+    ]
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-archive-registry-projection-fix/generate-proposal-registry.log",
+    ".octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-archive-recovery-fix/test-validate-proposal-standard.log",
+    ".octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-archive-recovery-fix/test-generate-proposal-registry.log",
+    ".octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-archive-recovery-fix/cargo-test-archived-recovery.log",
+    ".octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-archive-recovery-fix/validate-archived-proposal-standard.log",
+    ".octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-archive-recovery-fix/generate-proposal-registry-check.log",
+    ".octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-archive-recovery-fix/git-diff-check.log",
+    "empty-check-set-explicitly-allowed@f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd"
+  ],
+  "review_waiver_refs": [
+    "operator-selected branch-no-pr route; no PR requested"
+  ],
+  "terminal_current_state_proof_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/terminal-current-state-proof.yml",
+  "durable_history": {
+    "kind": "commit",
+    "ref": "f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+    "branch": "chore/proposal-program-execution-mode-normalization-closeout"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-landing-authorization.json",
+    "instructions": "Revert commit f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd from main if post-landing verification fails; landing authorization records origin/main pre-ref f8bd472f92d4021f7a97357683b60743743aff00."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-status.txt",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/residue-classification.yml",
+    "phase_exit_refs": [
+      "branch-local commit f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd",
+      "origin branch pushed without PR",
+      "origin/main fast-forwarded to landed ref",
+      "source branch cleanup completed"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-execution-mode-normalization-archive-20260623T193000Z/final-status.txt"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-23T19:02:45Z"
+}

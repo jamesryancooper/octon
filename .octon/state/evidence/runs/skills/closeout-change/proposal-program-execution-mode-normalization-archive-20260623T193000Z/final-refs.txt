@@ -1,0 +1,7 @@
+head=f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+main=f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+origin/main=f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+landed_ref=f522d5a8da29e74ddf270cc87f9e07f0e43e5ffd
+source_branch_local_exists=no
+source_branch_remote_exists=no
+source_branch_remote_live=0
