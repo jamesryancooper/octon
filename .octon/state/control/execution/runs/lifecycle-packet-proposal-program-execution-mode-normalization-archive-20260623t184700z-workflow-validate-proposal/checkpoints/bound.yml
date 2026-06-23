@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal
+checkpoint_id: bound
+stage_attempt_id: validate-proposal--initial
+checkpoint_kind: binding
+status: materialized
+control_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal/checkpoints/bound.yml
+evidence_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal/checkpoints/bound.yml
+notes: Canonical run root bound before consequential side effects.
+created_at: 2026-06-23T18:37:42.832993Z
+updated_at: 2026-06-23T18:37:42.832993Z

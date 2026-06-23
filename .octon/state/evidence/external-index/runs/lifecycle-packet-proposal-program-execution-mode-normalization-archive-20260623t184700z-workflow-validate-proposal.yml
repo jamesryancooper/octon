@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:15ae6a31fc3f43e399438a0174c81301bb9397ccb81c2a94ec5d10e7f02034de
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-23T18:37:44.115832Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:524363423b782f5960f680ed4c26b7c25b1d801b0b32e2fe958c222b80287f39
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-23T18:37:44.115832Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:37:44.115832Z

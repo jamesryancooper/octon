@@ -1,0 +1,244 @@
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' repo-local targets stay outside .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' avoids mixed target families
+[WARN] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' promotion target not present yet: docs/policy.md
+[OK] proposal registry schema exists
+[OK] proposal registry schema parses as JSON
+[OK] proposal manifest discovery uses filesystem fallback
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' repo-local targets stay outside .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' avoids mixed target families
+[WARN] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' promotion target not present yet: docs/migration.md
+Validation summary: errors=0 warnings=1
+[OK] proposal packet validates without registry recursion: .octon/inputs/exploratory/proposals/migration/shared-id
+[OK] active proposal subtype validation skipped for projection-only registry recovery: .octon/inputs/exploratory/proposals/migration/shared-id
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' repo-local targets stay outside .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' avoids mixed target families
+[WARN] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' promotion target not present yet: docs/policy.md
+Validation summary: errors=0 warnings=1
+[OK] proposal packet validates without registry recursion: .octon/inputs/exploratory/proposals/policy/shared-id
+[OK] active proposal subtype validation skipped for projection-only registry recovery: .octon/inputs/exploratory/proposals/policy/shared-id
+[OK] generated proposal registry parses as YAML
+[OK] proposal registry matches generated projection
+Registry generation summary: errors=0
+[OK] proposal registry synchronized with manifest projection
+Validation summary: errors=0 warnings=1
+PASS: proposal standard validator accepts the same proposal_id across different kinds
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' repo-local targets stay outside .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' avoids mixed target families
+[WARN] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' promotion target not present yet: docs/policy.md
+[OK] proposal registry schema exists
+[OK] proposal registry schema parses as JSON
+[OK] proposal manifest discovery uses filesystem fallback
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' repo-local targets stay outside .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' avoids mixed target families
+[WARN] proposal '.octon/inputs/exploratory/proposals/migration/shared-id' promotion target not present yet: docs/migration.md
+Validation summary: errors=0 warnings=1
+[OK] proposal packet validates without registry recursion: .octon/inputs/exploratory/proposals/migration/shared-id
+[OK] active proposal subtype validation skipped for projection-only registry recovery: .octon/inputs/exploratory/proposals/migration/shared-id
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' repo-local targets stay outside .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' avoids mixed target families
+[WARN] proposal '.octon/inputs/exploratory/proposals/policy/shared-id' promotion target not present yet: docs/policy.md
+Validation summary: errors=0 warnings=1
+[OK] proposal packet validates without registry recursion: .octon/inputs/exploratory/proposals/policy/shared-id
+[OK] active proposal subtype validation skipped for projection-only registry recovery: .octon/inputs/exploratory/proposals/policy/shared-id
+[OK] generated proposal registry parses as YAML
+[OK] proposal registry matches generated projection
+Registry generation summary: errors=0
+[OK] proposal registry synchronized with manifest projection
+Validation summary: errors=0 warnings=1
+PASS: proposal standard validator accepts absolute package paths
+PASS: proposal standard validator rejects top-level exit_expectation
+PASS: proposal standard validator rejects stale artifact-catalog inventory
+PASS: proposal standard validator emits enum drift accepted values
+PASS: proposal standard validator emits generated freshness diagnostics
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archived path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archived proposals stay in archive paths
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archive metadata present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archived_from_status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archive disposition valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archive original_path present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' superseded archive keeps promotion evidence
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' superseded archive evidence paths are repo-relative, existing, and outside the superseded packet
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archived proposal preserves promotion target provenance
+[WARN] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' promotion target not present yet: .octon/README.md
+Validation summary: errors=0 warnings=1
+PASS: proposal standard validator accepts superseded archives with successor evidence
+PASS: proposal standard validator rejects superseded archives with empty successor evidence
+PASS: proposal standard validator rejects superseded archives with missing successor evidence
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archived path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archived proposals stay in archive paths
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archive metadata present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archived_from_status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archive disposition valid
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archive original_path present
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' superseded archive keeps promotion evidence
+[WARN] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' superseded archive evidence path is missing during registry projection and remains historical retained metadata, not current route authority: .octon/state/evidence/runs/workflows/missing-successor.yml
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' superseded archive evidence paths are repo-relative, existing, and outside the superseded packet
+[OK] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' archived proposal preserves promotion target provenance
+[WARN] proposal '.octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture' promotion target not present yet: .octon/README.md
+Validation summary: errors=0 warnings=2
+PASS: proposal standard validator warns on missing historical supersession evidence only in projection mode
+
+Passed: 10
+Failed: 0

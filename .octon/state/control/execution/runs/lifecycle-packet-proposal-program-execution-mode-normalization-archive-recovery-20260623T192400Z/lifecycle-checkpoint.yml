@@ -1,0 +1,27 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-recovery-20260623T192400Z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+current_state: archived
+current_phase: terminal-explanation-reporting
+completed_states:
+- archived
+last_route: null
+loop_counts: {}
+phase_counts:
+  terminal-explanation-reporting: 1
+last_phase_transition: phase-entered:terminal-explanation-reporting
+phase_blockers: {}
+receipt_digests:
+  proposal-review: sha256:aa94ce13dd380f4613daf72ce21422b0126ba9dc2632a7c2ea5b155f875feac4
+last_validator_results: []
+run_inputs: {}
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: archived
+final_verdict: completed
+resume_instruction: octon lifecycle resume --run-id lifecycle-packet-proposal-program-execution-mode-normalization-archive-recovery-20260623T192400Z

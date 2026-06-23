@@ -16,6 +16,7 @@ errors=0
 warnings=0
 
 GENERATOR_SCRIPT="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+SUPERSEDED_ARCHIVE_EVIDENCE_MODE="${OCTON_PROPOSAL_SUPERSEDED_ARCHIVE_EVIDENCE_MODE:-strict}"
 
 fail() {
   echo "[ERROR] $1"
@@ -504,6 +505,10 @@ validate_superseded_archive_evidence() {
         ;;
     esac
     if [[ ! -e "$ROOT_DIR/$evidence_rel" ]]; then
+      if [[ "$SUPERSEDED_ARCHIVE_EVIDENCE_MODE" == "projection-warning" ]]; then
+        warn "$label superseded archive evidence path is missing during registry projection and remains historical retained metadata, not current route authority: $evidence_rel"
+        continue
+      fi
       fail "$label superseded archive evidence path must exist: $evidence_rel"
       has_failure=1
       continue

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:0b087b6cad0f1ad6bedcdd3bdbed33949daebd2042e8d738f566d4cff4a41e90
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow/replay/manifest.yml
+  recorded_at: 2026-06-23T18:39:21.748771Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:6dba448aa8407bec29b0dfe8d0f9455646e65ad00bf6f907247b1c9481160e65
+  entry_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow/replay/manifest.yml
+  recorded_at: 2026-06-23T18:39:21.748771Z
+  run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-23T18:39:21.748771Z

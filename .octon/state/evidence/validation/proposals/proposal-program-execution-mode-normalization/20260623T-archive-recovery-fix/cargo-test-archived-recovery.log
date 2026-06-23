@@ -1,0 +1,36 @@
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/pipeline.rs:1870:38
+     |
+1870 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+     |
+     = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/workflow.rs:9415:38
+     |
+9415 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+
+warning: `octon_kernel` (bin "octon" test) generated 2 warnings
+warning: `octon_kernel` (bin "octon") generated 2 warnings (2 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running unittests src/main.rs (../../../../../.octon/generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon-597887facfea30ff)
+
+running 8 tests
+test lifecycle::lifecycle_program::tests::blocked_archive_evidence_prevents_parent_from_accepting_child_archived_terminal ... ok
+test lifecycle::lifecycle_program::tests::aggregate_closeout_accepts_archived_and_rejected_required_children ... ok
+test lifecycle::lifecycle_program::tests::archived_implemented_child_terminal_evidence_replaces_legacy_run_receipt_repair ... ok
+test lifecycle::lifecycle_program::tests::program_compact_child_registry_source_follows_archived_parent_target ... ok
+test lifecycle::lifecycle_program::tests::archive_completion_observation_preserves_archived_child_after_failed_retry ... ok
+test lifecycle::lifecycle_program::tests::program_planner_resolves_archived_registry_child_without_recreating_active_path ... ok
+test lifecycle::lifecycle_program::tests::program_planner_resolves_archived_parent_target_without_recreating_active_path ... ok
+test lifecycle::tests::proposal_packet_planner_resolves_archived_original_path_before_create_packet ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 368 filtered out; finished in 0.15s
+
+     Running tests/proposal_program_cli.rs (../../../../../.octon/generated/.tmp/engine/build/runtime-crates-target/debug/deps/proposal_program_cli-842bf0995cdc083d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s

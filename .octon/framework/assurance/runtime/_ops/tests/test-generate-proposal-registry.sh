@@ -221,6 +221,79 @@ EOF
 EOF
 }
 
+write_archived_superseded_architecture_proposal() {
+  local root="$1"
+  local proposal_dir="$root/.octon/inputs/exploratory/proposals/.archive/architecture/superseded-projection-fixture"
+  mkdir -p "$proposal_dir/navigation" "$proposal_dir/architecture"
+
+  write_file "$proposal_dir/proposal.yml" <<'EOF'
+schema_version: "proposal-v1"
+proposal_id: "superseded-projection-fixture"
+title: "Superseded Projection Fixture"
+summary: "Archived superseded fixture with stale historical evidence."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/README.md"
+status: "archived"
+archive:
+  archived_at: "2026-03-24"
+  archived_from_status: "accepted"
+  disposition: "superseded"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/superseded-projection-fixture"
+  promotion_evidence:
+    - ".octon/state/evidence/runs/workflows/missing-historical-successor.yml"
+lifecycle:
+  temporary: true
+  exit_expectation: "Retain historical lineage only."
+related_proposals: []
+EOF
+
+  write_file "$proposal_dir/architecture-proposal.yml" <<'EOF'
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+EOF
+
+  write_file "$proposal_dir/README.md" <<'EOF'
+# Superseded Projection Fixture
+EOF
+  write_file "$proposal_dir/navigation/source-of-truth-map.md" <<'EOF'
+# Sources
+EOF
+  write_file "$proposal_dir/architecture/target-architecture.md" <<'EOF'
+# Target
+EOF
+  write_file "$proposal_dir/architecture/acceptance-criteria.md" <<'EOF'
+# Acceptance
+EOF
+  write_file "$proposal_dir/architecture/implementation-plan.md" <<'EOF'
+# Plan
+EOF
+  write_file "$proposal_dir/navigation/artifact-catalog.md" <<'EOF'
+# Artifact Catalog
+
+## Proposal
+
+- `proposal_id`: `superseded-projection-fixture`
+- `proposal_kind`: `architecture`
+- `proposal_path`: `.octon/inputs/exploratory/proposals/.archive/architecture/superseded-projection-fixture`
+
+## Files
+
+| Path | Role |
+| --- | --- |
+| `README.md` | Generated inventory entry |
+| `proposal.yml` | Generated inventory entry |
+| `architecture-proposal.yml` | Generated inventory entry |
+| `navigation/artifact-catalog.md` | Generated inventory entry |
+| `navigation/source-of-truth-map.md` | Generated inventory entry |
+| `architecture/target-architecture.md` | Generated inventory entry |
+| `architecture/acceptance-criteria.md` | Generated inventory entry |
+| `architecture/implementation-plan.md` | Generated inventory entry |
+EOF
+}
+
 write_archived_legacy_design_import() {
   local root="$1"
   local proposal_dir="$root/.octon/inputs/exploratory/proposals/.archive/design/legacy-design-import"
@@ -524,6 +597,18 @@ case_projection_recovery_skips_active_invalid_subtype() {
   grep -Fq 'fixture-proposal' "$fixture_root/.octon/generated/proposals/registry.yml"
 }
 
+case_write_warns_on_historical_supersession_evidence_drift() {
+  local fixture_root
+  local output
+  fixture_root="$(create_fixture_repo)"
+  mkdir -p "$fixture_root/.octon/generated"
+  touch "$fixture_root/.octon/README.md"
+  write_archived_superseded_architecture_proposal "$fixture_root"
+  output="$(run_generator_in_fixture "$fixture_root" --write)"
+  grep -Fq "superseded archive evidence path is missing during registry projection" <<<"$output"
+  grep -Fq 'superseded-projection-fixture' "$fixture_root/.octon/generated/proposals/registry.yml"
+}
+
 main() {
   assert_success \
     "proposal registry generator reproduces a valid committed projection" \
@@ -564,6 +649,9 @@ main() {
   assert_success \
     "proposal registry projection recovery skips unrelated active subtype validation" \
     case_projection_recovery_skips_active_invalid_subtype
+  assert_success \
+    "proposal registry generator keeps stale historical supersession evidence from controlling projection refresh" \
+    case_write_warns_on_historical_supersession_evidence_drift
 
   echo
   echo "Passed: $pass_count"

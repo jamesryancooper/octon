@@ -2301,6 +2301,7 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
     }
     let target_abs = resolve_lifecycle_target_path(&repo_root, target)?;
     let target_state = build_target_state(&repo_root, &loaded.contract, &target_abs)?;
+    let effective_target_abs = target_state.target_abs.clone();
     let terminal_outcome = select_terminal_outcome(&loaded.contract, &target_state)?;
     let mut selected_route = if terminal_outcome.is_some() {
         None
@@ -2318,8 +2319,12 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
     let mut gate_results = Vec::new();
     let mut blocked_by_gate = None;
     if let Some(route) = selected_route.as_ref() {
-        let results =
-            run_required_gates(&repo_root, &loaded.contract, &target_abs, &route.route_id)?;
+        let results = run_required_gates(
+            &repo_root,
+            &loaded.contract,
+            &effective_target_abs,
+            &route.route_id,
+        )?;
         if let Some(failed) = results.iter().find(|result| !result.passed) {
             blocked_by_gate = Some(failed.gate_id.clone());
             if let Some(fallback) = fallback_route_for_gate(&loaded.contract, &failed.gate_id) {
@@ -2361,7 +2366,7 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
         owner_extension: loaded.contract.owner_extension.clone(),
         execution_strategy: execution_strategy.as_str().to_string(),
         contract_path: rel_display(&repo_root, &loaded.path),
-        target: rel_display(&repo_root, &target_abs),
+        target: rel_display(&repo_root, &effective_target_abs),
         target_exists: target_state.target_exists,
         manifest_status: target_state.manifest_status.clone(),
         receipt_states,
@@ -3034,12 +3039,19 @@ fn build_target_state(
     contract: &LifecycleContract,
     target_abs: &Path,
 ) -> Result<TargetState> {
-    let target_exists = target_abs.exists();
-    let manifest_status = read_manifest_status(target_abs, contract)?;
+    let effective_target_abs = if !target_abs.exists() && contract.lifecycle_id == "proposal-packet"
+    {
+        resolve_archived_proposal_target_by_original_path(repo_root, target_abs)?
+            .unwrap_or_else(|| target_abs.to_path_buf())
+    } else {
+        target_abs.to_path_buf()
+    };
+    let target_exists = effective_target_abs.exists();
+    let manifest_status = read_manifest_status(&effective_target_abs, contract)?;
     let mut receipts = BTreeMap::new();
     for receipt in &contract.receipts {
         let path_abs = resolve_target_local_path(
-            target_abs,
+            &effective_target_abs,
             &receipt.path,
             &format!("receipt path {}", receipt.receipt_id),
         )?;
@@ -3069,7 +3081,7 @@ fn build_target_state(
                 current_digest = run_digest_command(
                     repo_root,
                     &contract.owner_extension,
-                    target_abs,
+                    &effective_target_abs,
                     &freshness.digest_command,
                 )
                 .with_context(|| format!("failed freshness digest for {}", receipt.receipt_id))?;
@@ -3090,11 +3102,66 @@ fn build_target_state(
         );
     }
     Ok(TargetState {
-        target_abs: target_abs.to_path_buf(),
+        target_abs: effective_target_abs,
         target_exists,
         manifest_status,
         receipts,
     })
+}
+
+fn resolve_archived_proposal_target_by_original_path(
+    repo_root: &Path,
+    target_abs: &Path,
+) -> Result<Option<PathBuf>> {
+    let target_rel = rel_display(repo_root, target_abs);
+    let normalized_target = target_rel.trim_end_matches('/');
+    let archive_root = repo_root.join(".octon/inputs/exploratory/proposals/.archive");
+    if !archive_root.is_dir() {
+        return Ok(None);
+    }
+
+    let mut matches = Vec::new();
+    for kind_entry in fs::read_dir(&archive_root)
+        .with_context(|| format!("failed to read {}", archive_root.display()))?
+    {
+        let kind_entry = kind_entry?;
+        if !kind_entry.file_type()?.is_dir() {
+            continue;
+        }
+        for proposal_entry in fs::read_dir(kind_entry.path())? {
+            let proposal_entry = proposal_entry?;
+            if !proposal_entry.file_type()?.is_dir() {
+                continue;
+            }
+            let proposal_dir = proposal_entry.path();
+            let manifest_path = proposal_dir.join("proposal.yml");
+            if !manifest_path.is_file() {
+                continue;
+            }
+            let manifest: Value = serde_yaml::from_slice(&fs::read(&manifest_path)?)
+                .with_context(|| format!("failed to parse {}", manifest_path.display()))?;
+            if manifest.get("status").and_then(Value::as_str) != Some("archived") {
+                continue;
+            }
+            let original_path = manifest
+                .get("archive")
+                .and_then(|archive| archive.get("original_path"))
+                .and_then(Value::as_str)
+                .unwrap_or("")
+                .trim_end_matches('/');
+            if original_path == normalized_target {
+                matches.push(proposal_dir);
+            }
+        }
+    }
+
+    match matches.len() {
+        0 => Ok(None),
+        1 => Ok(matches.pop()),
+        _ => bail!(
+            "multiple archived proposal packets claim archive.original_path={normalized_target}"
+        ),
+    }
 }
 
 fn read_manifest_status(target_abs: &Path, contract: &LifecycleContract) -> Result<Option<String>> {
@@ -5092,6 +5159,64 @@ routes:
             .as_deref()
             .unwrap_or_default()
             .contains("operator scope resolution"));
+    }
+
+    #[test]
+    fn proposal_packet_planner_resolves_archived_original_path_before_create_packet() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("archived-original-path-recovery");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "archived"] }
+states: [{ state_id: "packet-creation" }, { state_id: "archival" }]
+terminal_outcomes:
+  - outcome_id: "archived"
+    when: { manifest_status: "archived" }
+receipts: []
+routes:
+  - route_id: "create-packet"
+    route_type: "extension"
+    required_inputs: ["source"]
+    enter_when: { target_missing: true }
+"#,
+        );
+        fixture.write(
+            ".octon/inputs/exploratory/proposals/.archive/architecture/a/proposal.yml",
+            r#"
+schema_version: "proposal-v1"
+proposal_id: "a"
+proposal_kind: "architecture"
+status: "archived"
+archive:
+  original_path: ".octon/inputs/exploratory/proposals/architecture/a"
+"#,
+        );
+
+        let plan = plan_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-packet",
+            Path::new(".octon/inputs/exploratory/proposals/architecture/a"),
+        )
+        .unwrap();
+
+        assert_eq!(
+            plan.target,
+            ".octon/inputs/exploratory/proposals/.archive/architecture/a"
+        );
+        assert!(plan.target_exists);
+        assert_eq!(plan.manifest_status.as_deref(), Some("archived"));
+        assert_eq!(plan.terminal_outcome.as_deref(), Some("archived"));
+        assert!(plan.next_route.is_none());
+        assert_eq!(plan.final_verdict, "completed");
     }
 
     #[test]

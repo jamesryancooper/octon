@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-archive-proposal
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-archive-proposal/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-archive-proposal/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-archive-proposal/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-archive-proposal/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-archive-proposal/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-archive-proposal/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow-archive-proposal/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: archive-proposal--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-archive-20260623t184700z-workflow/run-contract.yml
+next_action: null
+updated_at: 2026-06-23T18:39:21.634213Z

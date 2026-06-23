@@ -15,6 +15,7 @@ MODE=""
 errors=0
 GENERATOR_ACTIVE_VAR="OCTON_PROPOSAL_REGISTRY_GENERATOR_ACTIVE"
 SKIP_SUBTYPE_VALIDATION_VAR="OCTON_PROPOSAL_REGISTRY_SKIP_SUBTYPE_VALIDATION"
+SUPERSEDED_ARCHIVE_EVIDENCE_MODE_VAR="OCTON_PROPOSAL_SUPERSEDED_ARCHIVE_EVIDENCE_MODE"
 
 fail() {
   echo "[ERROR] $1"
@@ -153,7 +154,10 @@ validate_package() {
     pass "legacy-unknown design import excluded from main registry projection: $proposal_rel"
     return 0
   fi
-  if ! env "$GENERATOR_ACTIVE_VAR=1" bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check; then
+  if ! env \
+    "$GENERATOR_ACTIVE_VAR=1" \
+    "$SUPERSEDED_ARCHIVE_EVIDENCE_MODE_VAR=projection-warning" \
+    bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check; then
     fail "proposal packet validates without registry recursion: $proposal_rel"
     return 1
   fi

@@ -1,0 +1,99 @@
+[OK] proposal registry schema exists
+[OK] proposal registry schema parses as JSON
+[OK] proposal manifest discovery uses filesystem fallback
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' octon-internal targets stay under .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' avoids mixed target families
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' promotion target avoids proposal-path backreferences: .octon/README.md
+Validation summary: errors=0 warnings=0
+[OK] proposal packet validates without registry recursion: .octon/inputs/exploratory/proposals/architecture/fixture-proposal
+[OK] base proposal manifest exists
+[OK] architecture proposal manifest exists
+[OK] README exists
+[OK] artifact catalog exists
+[OK] source-of-truth map exists
+[OK] target architecture exists
+[OK] acceptance criteria exists
+[OK] implementation plan exists
+Validation summary: errors=0
+[OK] subtype validator passes for .octon/inputs/exploratory/proposals/architecture/fixture-proposal
+[OK] generated proposal registry parses as YAML
+[OK] proposal registry matches generated projection
+Registry generation summary: errors=0
+PASS: proposal registry generator reproduces a valid committed projection
+[OK] proposal registry schema exists
+[OK] proposal registry schema parses as JSON
+[OK] proposal manifest discovery uses filesystem fallback
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' octon-internal targets stay under .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' avoids mixed target families
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/fixture-proposal' assurance test fixture target may include proposal-path examples: .octon/framework/assurance/runtime/_ops/tests/
+Validation summary: errors=0 warnings=0
+[OK] proposal packet validates without registry recursion: .octon/inputs/exploratory/proposals/architecture/fixture-proposal
+[OK] base proposal manifest exists
+[OK] architecture proposal manifest exists
+[OK] README exists
+[OK] artifact catalog exists
+[OK] source-of-truth map exists
+[OK] target architecture exists
+[OK] acceptance criteria exists
+[OK] implementation plan exists
+Validation summary: errors=0
+[OK] subtype validator passes for .octon/inputs/exploratory/proposals/architecture/fixture-proposal
+[OK] generated proposal registry parses as YAML
+[OK] proposal registry written from manifest projection
+Registry generation summary: errors=0
+PASS: proposal registry generator allows proposal-path examples inside assurance test fixtures
+PASS: proposal registry generator rejects orphaned manual entries
+PASS: proposal registry generator rejects duplicate proposal keys
+PASS: proposal registry generator rejects invalid archive lineage
+PASS: proposal registry generator rejects archive path and status mismatches
+PASS: proposal registry generator excludes legacy-unknown design imports from the main projection
+PASS: proposal registry generator projects archived designs without subtype validation
+PASS: proposal registry generator still validates active packets with legacy metadata
+PASS: proposal registry generator still validates active subtype contracts by default
+PASS: proposal registry projection recovery skips unrelated active subtype validation
+PASS: proposal registry generator keeps stale historical supersession evidence from controlling projection refresh
+
+Passed: 12
+Failed: 0
