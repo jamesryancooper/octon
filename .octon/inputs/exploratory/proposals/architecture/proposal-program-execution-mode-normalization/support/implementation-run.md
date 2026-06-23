@@ -51,6 +51,15 @@ child-owned `proposal-closeout` receipt already recorded
 re-entry with a named `worktree-hygiene-blocked` plan blocker while preserving
 the program controller's legal stale-live-pass recovery path.
 
+During terminal closeout, the direct packet workflow exposed a related
+route-binding blocker: `proposal-packet-terminal-closeout` required
+`target_outcome` from run inputs even when the fresh child-owned
+`proposal-closeout` receipt already recorded schema-valid
+`target_outcome: archive-ready`. The branch now binds that route input from the
+fresh proposal-closeout receipt for direct packet lifecycle dispatch, while
+refusing to bind `archive-ready` from a blocked or internally inconsistent
+closeout receipt.
+
 ## Evidence Refs
 
 - `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T163644Z/cargo-test-program-execution-mode-alias.log`
@@ -63,6 +72,7 @@ the program controller's legal stale-live-pass recovery path.
 - `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/cargo-test-blocked-hygiene-closeout-route-reentry.log`
 - `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/cargo-test-stale-hygiene-live-pass-recovery.log`
 - `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/live-child-plan-blocked-no-route.log`
+- `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log`
 
 ## Scope Guard
 

@@ -1,6 +1,6 @@
 schema_version: closeout-packet-validation-summary-v1
 verdict: pass
-validated_at: 2026-06-23T17:52:59Z
+validated_at: 2026-06-23T18:02:13Z
 proposal_id: proposal-program-execution-mode-normalization
 proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
 closeout_receipt: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
@@ -13,10 +13,10 @@ worktree_hygiene:
   foreign_fingerprint: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 terminal_freshness:
   verdict: pass
-  evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/validate-terminal-freshness.log
+  evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/validate-terminal-freshness-after-terminal-binding-fix.log
 canonical_generators:
-  - evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/generate-child-artifacts.log
-  - evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/generate-parent-artifacts.log
+  - evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/generate-child-artifacts-after-terminal-binding-fix.log
+  - evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/generate-parent-artifacts-after-terminal-binding-fix.log
 validation_logs:
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-standard.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-architecture-proposal.log
@@ -25,6 +25,7 @@ validation_logs:
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-implementation-conformance.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-post-implementation-drift.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-live-parent-program-structure.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log
 authority_boundaries:
   parent_summary_not_child_closeout_receipt: true
   closeout_route_archived_packet: false

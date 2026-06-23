@@ -1,0 +1,5 @@
+schema_version: octon-lifecycle-input-binding-blocked-v1
+run_id: lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623T191800Z
+route_id: proposal-packet-terminal-closeout
+missing_required_inputs:
+  - target_outcome

@@ -63,6 +63,7 @@ promotion_evidence:
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-program-execution-mode.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-gated-parallel.log
   - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-lifecycle-loop-fixes-exact.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log
   - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml
 
 validation_summary:
@@ -92,6 +93,12 @@ cleared_blockers:
       recovery condition. Focused regression coverage is retained in the clean
       branch validation evidence.
     evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-lifecycle-loop-fixes-exact.log
+  - class: terminal-target-outcome-input-binding
+    detail: >-
+      The direct packet terminal closeout route now binds target_outcome from a
+      fresh, schema-valid child-owned proposal-closeout receipt and refuses to
+      reuse a blocked closeout as archive-ready terminal evidence.
+    evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log
 
 ## Closeout Decision
 
@@ -114,6 +121,7 @@ closeout-worktree exclusion is required for this fresh closeout.
 - `validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization`: pass.
 - `validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening`: pass.
 - Focused cargo regressions for execution-mode normalization, scheduler dependency preservation, route binding, run-id compaction, and stale closeout loop suppression: pass.
+- Focused cargo regressions for direct packet terminal `target_outcome` binding from child-owned closeout evidence and stale blocked closeout suppression: pass.
 - `validate-proposal-lifecycle-terminal-freshness.sh --proposal .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --targeted`: pass after canonical artifact refresh.
 
 ## Archive Decision

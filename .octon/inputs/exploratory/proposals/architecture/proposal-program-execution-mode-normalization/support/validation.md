@@ -39,6 +39,10 @@ Additional hygiene route loop-breaker evidence:
 
 `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/`
 
+Additional terminal target-outcome binding evidence:
+
+`.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/`
+
 Clean branch delivery validation evidence:
 
 `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/`
@@ -80,3 +84,8 @@ The clean branch validation evidence re-ran the focused cargo tests, proposal
 validators, parent program structure validator, implementation conformance
 gate, and post-implementation drift/churn gate from an isolated worktree based
 on the landed `origin/main` archive state.
+
+The terminal target-outcome binding regression proves direct packet terminal
+closeout dispatch derives `target_outcome` from fresh, schema-valid
+child-owned proposal-closeout evidence and does not reuse a blocked closeout as
+an archive-ready terminal target.

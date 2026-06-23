@@ -1,0 +1,195 @@
+schema_version: octon-lifecycle-plan-v1
+lifecycle_id: proposal-packet
+owner_extension: octon-proposal-lifecycle
+execution_strategy: route-progression
+contract_path: .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycle.contract.yml
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+target_exists: true
+manifest_status: implemented
+receipt_states:
+  implementation-conformance:
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+    exists: true
+    verdict: pass
+    fields:
+      reviewed_at: 2026-06-23T16:36:44Z
+      reviewer: codex-lifecycle-engineer
+      unresolved_items_count: '0'
+      verdict: pass
+    missing_required_fields: []
+    stale: null
+    stored_digest: null
+    current_digest: null
+  implementation-grade-completeness:
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-grade-completeness-review.md
+    exists: true
+    verdict: pass
+    fields:
+      clarification_required: no
+      reviewed_at: 2026-06-20T00:00:00Z
+      reviewer: Octon lifecycle child-packet architect
+      unresolved_questions_count: '0'
+      verdict: pass
+    missing_required_fields: []
+    stale: null
+    stored_digest: null
+    current_digest: null
+  implementation-run:
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+    exists: true
+    verdict: pass
+    fields:
+      child_authority_preserved: yes
+      generated_outputs_edited_by_hand: no
+      implementation_branch: chore/proposal-program-execution-mode-normalization
+      implemented_at: 2026-06-23T16:36:44Z
+      parent_summary_substituted_for_child_evidence: no
+      promotion_evidence_count: '10'
+      verdict: pass
+    missing_required_fields: []
+    stale: null
+    stored_digest: null
+    current_digest: null
+  post-implementation-drift:
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+    exists: true
+    verdict: pass
+    fields:
+      reviewed_at: 2026-06-23T16:36:44Z
+      reviewer: codex-lifecycle-engineer
+      unresolved_items_count: '0'
+      verdict: pass
+    missing_required_fields: []
+    stale: null
+    stored_digest: null
+    current_digest: null
+  proposal-closeout:
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+    exists: true
+    verdict: pass
+    fields:
+      architecture_proposal: pass
+      archive_authorized: yes
+      archive_disposition: implemented
+      archive_mutation_performed: 'false'
+      blockers: '[]'
+      branch_cleanup_performed: 'false'
+      change_profile: atomic
+      child_closeout_authority_preserved: 'true'
+      cleared_blockers: 'class: worktree-hygiene-blocked'
+      closed_at: 2026-06-23T17:52:59Z
+      commit_performed: 'false'
+      detail: '>-'
+      evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-lifecycle-loop-fixes-exact.log
+      generated_artifact_refresh_refs: .octon/generated/proposals/artifacts/architecture/proposal-program-execution-mode-normalization/proposal-artifact-index.yml,.octon/generated/proposals/artifacts/architecture/proposal-program-execution-mode-normalization/proposal-program-spine.yml,.octon/generated/proposals/artifacts/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal-artifact-index.yml,.octon/generated/proposals/artifacts/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-spine.yml
+      generated_output_mutation_performed: canonical-proposal-artifact-refresh-only
+      governed_mechanism_integration_verdict: not_required
+      implementation_conformance: pass
+      implementation_conformance_verdict: pass
+      implementation_readiness: pass
+      implementation_readiness_verdict: pass
+      lifecycle_outcome: archive-ready
+      next_route_condition: archive-proposal
+      no_cleaned_claim: 'true'
+      no_direct_material_actions_by_closeout_route: 'true'
+      parent_evidence_replaces_child_evidence: 'false'
+      parent_program_structure: pass
+      parent_summary_not_child_closeout_receipt: 'true'
+      post_implementation_drift_churn: pass
+      post_implementation_drift_verdict: pass
+      program_child_id: proposal-program-execution-mode-normalization
+      program_run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
+      promotion_evidence: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-standard.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-architecture-proposal.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-implementation-readiness.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-review-gate.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-implementation-conformance.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-post-implementation-drift.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-live-parent-program-structure.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-program-execution-mode.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-gated-parallel.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-lifecycle-loop-fixes-exact.log,.octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml
+      prompt_set_id: octon-proposal-lifecycle-closeout-packet
+      proposal_id: proposal-program-execution-mode-normalization
+      proposal_review_gate: pass
+      proposal_review_gate_verdict: pass
+      proposal_standard_target: pass_with_warning
+      publication_performed: 'false'
+      push_performed: 'false'
+      release_state: pre-1.0
+      repo_hygiene_cleanup_performed: 'false'
+      run_id: lifecycle-packet-proposal-program-execution-mode-normalization-clean-closeout-20260623T190800Z
+      selected_git_route: no-git-mutation-from-closeout-route
+      staging_performed: 'false'
+      target_outcome: archive-ready
+      terminal_freshness: pass
+      terminal_freshness_verdict: pass
+      validation_blocker_class: none
+      validation_blocker_count: '0'
+      validation_evidence: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/validation-summary.yml
+      validation_summary: ''
+      verdict: pass
+      worktree_cleanup_performed: 'false'
+      worktree_hygiene: pass
+      worktree_hygiene_blocker_class: none
+      worktree_hygiene_evidence: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml
+      worktree_hygiene_evidence_sha256: sha256:32a458719e659083a3165732a30fe85adac1274c0d47dadd79c76d12a96adc3f
+      worktree_hygiene_foreign_fingerprint: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      worktree_hygiene_foreign_path_count: '0'
+      worktree_hygiene_in_scope_path_count: '0'
+      worktree_hygiene_owned_path_count: '3'
+      worktree_hygiene_retained_fixture_path_count: '0'
+      worktree_hygiene_verdict: pass
+    missing_required_fields: []
+    stale: null
+    stored_digest: null
+    current_digest: null
+  proposal-creation:
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-creation.md
+    exists: false
+    verdict: null
+    fields: {}
+    missing_required_fields:
+    - creation_id
+    - created_at
+    - creator
+    - source_context_bound
+    - packet_path
+    - verdict
+    stale: null
+    stored_digest: null
+    current_digest: null
+  proposal-review:
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-review.md
+    exists: true
+    verdict: accepted
+    fields:
+      implementation_prompt_authorized: yes
+      open_blocking_findings_count: '0'
+      review_id: proposal-program-execution-mode-normalization-review-20260623T165744Z
+      reviewed_at: 2026-06-23T16:57:44Z
+      reviewed_packet_digest: sha256:47e68a51f5df598ee6e90c749d8e546f2d5925613c31e2d0839a4cca56dcbea4
+      reviewer: codex-review-packet-route
+      verdict: accepted
+    missing_required_fields: []
+    stale: false
+    stored_digest: sha256:47e68a51f5df598ee6e90c749d8e546f2d5925613c31e2d0839a4cca56dcbea4
+    current_digest: sha256:47e68a51f5df598ee6e90c749d8e546f2d5925613c31e2d0839a4cca56dcbea4
+  proposal-terminal-closeout:
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml
+    exists: false
+    verdict: null
+    fields: {}
+    missing_required_fields:
+    - terminal_verdict
+    - terminalized_at
+    - target_outcome
+    - archive_ready
+    - next_canonical_route
+    stale: null
+    stored_digest: null
+    current_digest: null
+terminal_outcome: null
+next_route:
+  route_id: proposal-packet-terminal-closeout
+  route_type: workflow
+  command_id: null
+  skill_id: null
+  prompt_set_id: null
+gate_results: []
+blocked_by_gate: null
+checkpoint_drift: null
+phase_loop_model: phase-loop-v1
+current_phase: packet-terminal-closeout
+final_verdict: route-ready

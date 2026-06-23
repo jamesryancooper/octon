@@ -29,6 +29,7 @@ const FRAMEWORK_ASSURANCE_SCRIPT_PREFIX: &str = ".octon/framework/assurance/runt
 const WORKFLOW_EVIDENCE_ROOT_REL: &str = "state/evidence/runs/workflows";
 const RUN_CONTROL_ROOT_REL: &str = "state/control/execution/runs";
 const ROUTE_ID_CLOSEOUT_PACKET: &str = "closeout-packet";
+const ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT: &str = "proposal-packet-terminal-closeout";
 const ROUTE_PROGRESSION_STRATEGY: &str = "route-progression";
 const ORCHESTRATED_REPLAN_LOOP_STRATEGY: &str = "orchestrated-replan-loop";
 const LIFECYCLE_EVENT_SCHEMA_VERSION: &str = "octon-lifecycle-run-event-v1";
@@ -3743,6 +3744,13 @@ fn lifecycle_execution_request_for_route(
         &route.route_id,
         &mut bound_inputs,
     )?;
+    bind_terminal_closeout_target_outcome_from_proposal_closeout(
+        &repo_root,
+        &target,
+        &loaded.contract,
+        &route.route_id,
+        &mut bound_inputs,
+    )?;
     let expected_receipts = route_spec
         .completion
         .as_ref()
@@ -3998,6 +4006,71 @@ fn bind_promote_proposal_promotion_evidence_from_implementation_run(
             "superseded-non-controlling".to_string(),
         );
     }
+    Ok(())
+}
+
+fn bind_terminal_closeout_target_outcome_from_proposal_closeout(
+    repo_root: &Path,
+    target: &Path,
+    contract: &LifecycleContract,
+    route_id: &str,
+    bound_inputs: &mut BTreeMap<String, String>,
+) -> Result<()> {
+    if route_id != ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT
+        || bound_inputs.contains_key("target_outcome")
+    {
+        return Ok(());
+    }
+    let Some(receipt) = contract
+        .receipts
+        .iter()
+        .find(|receipt| receipt.receipt_id == "proposal-closeout")
+    else {
+        return Ok(());
+    };
+    let path = resolve_target_local_path(
+        target,
+        &receipt.path,
+        "proposal-packet-terminal-closeout target_outcome binding",
+    )?;
+    if !path.is_file() {
+        return Ok(());
+    }
+
+    let fields = parse_receipt_fields(&path)?;
+    let Some(target_outcome) = fields.get("target_outcome").map(String::as_str) else {
+        return Ok(());
+    };
+    if !matches!(target_outcome, "archive-ready" | "blocked") {
+        return Ok(());
+    }
+    if target_outcome == "archive-ready" {
+        for (field, expected) in [
+            ("verdict", "pass"),
+            ("archive_authorized", "yes"),
+            ("lifecycle_outcome", "archive-ready"),
+        ] {
+            if fields.get(field).map(String::as_str) != Some(expected) {
+                return Ok(());
+            }
+        }
+        if fields
+            .get("blockers")
+            .is_some_and(|value| !matches!(value.as_str(), "[]" | "none" | "0"))
+        {
+            return Ok(());
+        }
+    }
+
+    bound_inputs.insert("target_outcome".to_string(), target_outcome.to_string());
+    bound_inputs.insert(
+        "terminal_target_outcome_binding".to_string(),
+        "proposal-closeout-receipt".to_string(),
+    );
+    bound_inputs.insert(
+        "terminal_target_outcome_source_ref".to_string(),
+        rel_display(repo_root, &path),
+    );
     Ok(())
 }
 
@@ -4829,6 +4902,35 @@ packs:
         projection_source_path: "{projection_source_path}"
 "#
                 ),
+            );
+        }
+
+        fn write_terminal_closeout_child_contract(&self) {
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented", "archived"] }
+input_bindings:
+  proposal_path:
+    source: "lifecycle.target"
+  target_outcome:
+    source: "run.input.target_outcome"
+states: [{ state_id: "closeout" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "archive_authorized", "target_outcome"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "proposal-packet-terminal-closeout"
+    route_type: "workflow"
+    required_inputs: ["target_outcome"]
+"#,
             );
         }
     }
@@ -6099,6 +6201,129 @@ routes:
                 .map(String::as_str),
             Some(".octon/framework/product/features/catalog.yml")
         );
+    }
+
+    #[test]
+    fn terminal_closeout_request_binds_target_outcome_from_fresh_proposal_closeout() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("direct-terminal-target-outcome-binding");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write_terminal_closeout_child_contract();
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: pass\nclosed_at: 2026-06-23T00:00:00Z\narchive_authorized: yes\ntarget_outcome: archive-ready\nlifecycle_outcome: archive-ready\nblockers: []\n",
+        );
+        let route = RoutePlanState {
+            route_id: ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT.to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("target_outcome")
+                .map(String::as_str),
+            Some("archive-ready")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("terminal_target_outcome_binding")
+                .map(String::as_str),
+            Some("proposal-closeout-receipt")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("terminal_target_outcome_source_ref")
+                .map(String::as_str),
+            Some("packet/support/proposal-closeout.md")
+        );
+    }
+
+    #[test]
+    fn terminal_closeout_request_does_not_bind_archive_ready_from_blocked_closeout() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("direct-terminal-target-outcome-blocked");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write_terminal_closeout_child_contract();
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: blocked\nclosed_at: 2026-06-23T00:00:00Z\narchive_authorized: no\ntarget_outcome: archive-ready\nlifecycle_outcome: closeout-blocked\nblockers:\n  - stale-blocker\n",
+        );
+        let route = RoutePlanState {
+            route_id: ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT.to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert!(!request.bound_inputs.contains_key("target_outcome"));
+        assert!(!request
+            .bound_inputs
+            .contains_key("terminal_target_outcome_binding"));
     }
 
     #[test]
