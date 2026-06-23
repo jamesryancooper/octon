@@ -310,8 +310,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 10107,
-      "estimated_tokens": 2527,
+      "byte_size": 10631,
+      "estimated_tokens": 2658,
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/lifecycle-residue-cleanup.md",
@@ -322,7 +322,7 @@
         "validator-dispute"
       ],
       "role": "lifecycle-residue-cleanup",
-      "sha256": "sha256:e22b370299c5a5b6696eeb9f7d75f4cfe574e8d1a88d0b7d516a90837b5dd58d",
+      "sha256": "sha256:687a8a8ea5412c870672b8d410277d662b141301e77e2a4919dcf4d0839db32a",
       "stage_relevance": [
         "support-review"
       ],
@@ -563,18 +563,18 @@
       "source_field": "proposal.yml#related_proposals"
     },
     {
-      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver/proposal.yml",
-      "manifest_sha256": "sha256:188b0537fc18b9b0d8fbef9b05f4e1802f13c2f9cc4dbc9836a7a85fd3ef8e86",
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/proposal.yml",
+      "manifest_sha256": "sha256:67f999f9ca7aadf8d2f82811fbc8d6b025ab4893b1b575a385568679ad6fff08",
       "proposal_id": "lifecycle-validator-runtime-resolver",
       "proposal_kind": "architecture",
-      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/lifecycle-validator-runtime-resolver",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver",
       "ref_type": "related_proposal",
       "required": true,
       "source_field": "proposal.yml#related_proposals"
     },
     {
       "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization/proposal.yml",
-      "manifest_sha256": "sha256:5ce1faf4e45e7dfe411278cfe2b51af0da3aec8a2015edfdfa9f62187993b075",
+      "manifest_sha256": "sha256:d9a69c91b12c624cb76b0a80f5998854338b220b75fe3db5e293025df5643a94",
       "proposal_id": "proposal-program-execution-mode-normalization",
       "proposal_kind": "architecture",
       "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization",

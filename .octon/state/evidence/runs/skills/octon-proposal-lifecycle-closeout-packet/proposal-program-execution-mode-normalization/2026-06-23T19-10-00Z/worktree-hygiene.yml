@@ -1,0 +1,63 @@
+schema_version: "octon-proposal-worktree-hygiene-v1"
+target: ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization"
+lifecycle: "proposal-packet"
+run_id: "lifecycle-packet-proposal-program-execution-mode-normalization-clean-closeout-20260623T190800Z"
+worktree_hygiene_verdict: "pass"
+worktree_hygiene_blocker_class: ""
+worktree_hygiene_owned_path_count: 3
+worktree_hygiene_in_scope_path_count: 0
+worktree_hygiene_retained_fixture_path_count: 0
+worktree_hygiene_foreign_path_count: 0
+worktree_hygiene_publishable_change_path_count: 0
+worktree_hygiene_publishable_closeout_evidence_path_count: 0
+worktree_hygiene_cleanup_safe_path_count: 0
+worktree_hygiene_protected_retained_evidence_path_count: 1
+worktree_hygiene_protected_active_control_path_count: 2
+worktree_hygiene_manual_review_path_count: 0
+worktree_hygiene_foreign_fingerprint: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"
+worktree_hygiene_partition_authority: "classification-only; does not authorize deletion, cleanup, publication, promotion, archive, closeout, or cleaned claims"
+worktree_hygiene_handoff_required: "false"
+worktree_hygiene_handoff_route: ""
+worktree_hygiene_required_return_evidence: "closeout-worktree-report-v1"
+parent_summary_not_child_closeout_receipt: "true"
+child_closeout_authority_preserved: "true"
+next_route_condition: "continue proposal closeout validation and archive authorization checks"
+worktree_hygiene_partitions:
+  publishable_changes:
+    []
+  publishable_closeout_evidence:
+    []
+  cleanup_safe_local_residue:
+    []
+  protected_retained_evidence:
+    - source_bucket: "owned_by_this_lifecycle_run"
+      status: "??"
+      path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml"
+      reason: "same-scope lifecycle evidence; retained evidence is not child authority and is protected from cleanup"
+  protected_active_control_state:
+    - source_bucket: "owned_by_this_lifecycle_run"
+      status: "??"
+      path: ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-clean-closeout-20260623T190800Z/lifecycle-checkpoint.yml"
+      reason: "same-scope lifecycle control or continuity state; protected from cleanup"
+    - source_bucket: "owned_by_this_lifecycle_run"
+      status: "??"
+      path: ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-clean-closeout-20260623T190800Z/lifecycle-events.ndjson"
+      reason: "same-scope lifecycle control or continuity state; protected from cleanup"
+  manual_review_foreign_ambiguous_unsafe_or_user_owned:
+    []
+owned_by_this_lifecycle_run:
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-clean-closeout-20260623T190800Z/lifecycle-checkpoint.yml"
+  - status: "??"
+    path: ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-clean-closeout-20260623T190800Z/lifecycle-events.ndjson"
+  - status: "??"
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml"
+declared_in_scope_change:
+  []
+retained_by_fixture_retention:
+  []
+fixture_retention_receipts:
+  []
+foreign_or_ambiguous:
+  []
