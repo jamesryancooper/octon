@@ -1,0 +1,30 @@
+PASS: hosted no-PR static alignment passes
+PASS: valid hosted no-PR example passes
+PASS: invalid pushed-only example fails
+PASS: valid hosted no-PR receipt passes
+PASS: pushed-only branch cannot claim hosted landing
+PASS: missing hosted landing evidence fails
+PASS: mismatched landed ref fails
+PASS: hosted no-PR receipt missing one route-neutral check fails
+PASS: hosted no-PR check ref not bound to source SHA fails
+PASS: authorized empty-check-set hosted no-PR receipt passes
+PASS: unauthorized empty-check-set hosted no-PR receipt fails
+PASS: empty-check-set receipt and authorization mismatch fails
+PASS: empty-check-set authorization missing rationale fails
+PASS: hosted no-PR receipt missing pushed source branch evidence fails
+PASS: hosted no-PR receipt missing landing authorization fails
+PASS: hosted no-PR receipt denied landing authorization fails
+PASS: hosted no-PR receipt stale landing authorization fails
+PASS: PR metadata fails for branch-no-pr hosted landing
+PASS: live origin/main descendant still fails strict live equality
+PASS: live origin/main descendant mode passes after evidence retention
+PASS: current PR-required ruleset passes current expectation
+PASS: route-neutral ruleset passes target expectation
+PASS: PR rule fails target route-neutral expectation
+PASS: missing linear history rule fails target route-neutral expectation
+PASS: missing deletion rule fails target route-neutral expectation
+PASS: missing non-fast-forward rule fails target route-neutral expectation
+PASS: PR-only universal check fails target route-neutral expectation
+
+Passed: 27
+Failed: 0

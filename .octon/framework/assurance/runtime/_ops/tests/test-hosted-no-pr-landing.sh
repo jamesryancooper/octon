@@ -422,6 +422,109 @@ JSON
   ! run_hosted_validator "$receipt"
 }
 
+write_live_descendant_receipt() {
+  local receipt landed_ref current_ref pre_ref
+  current_ref="$(git -C "$ROOT_DIR" rev-parse origin/main)"
+  landed_ref="$(git -C "$ROOT_DIR" rev-parse origin/main^)"
+  pre_ref="$(git -C "$ROOT_DIR" rev-parse origin/main^^)"
+  git -C "$ROOT_DIR" merge-base --is-ancestor "$landed_ref" origin/main
+  [[ "$current_ref" != "$landed_ref" ]]
+
+  receipt="$(write_file <<JSON
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "live-descendant-post-evidence",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "landed",
+  "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-landing",
+  "intent": "validate historical landing after closeout evidence retention",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/post-evidence",
+  "target_branch_ref": "origin/main@${landed_ref}",
+  "remote_branch_ref": "origin/feature/post-evidence@${landed_ref}",
+  "landed_ref": "${landed_ref}",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "feature/post-evidence",
+    "source_ref": "${landed_ref}",
+    "target_pre_ref": "${pre_ref}",
+    "target_post_ref": "${landed_ref}",
+    "validated_ref": "${landed_ref}",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@${landed_ref}",
+      "branch_naming_validation@${landed_ref}",
+      "route_aware_autonomy_validation@${landed_ref}",
+      "exact_source_sha_validation@${landed_ref}"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "${landed_ref}:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "${landed_ref}",
+    "target_ref": "origin/main@${landed_ref}",
+    "evidence_refs": ["origin/main equaled ${landed_ref} before later evidence-retention commit ${current_ref}"]
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "feature/post-evidence",
+    "source_ref": "${landed_ref}",
+    "landed_ref": "${landed_ref}",
+    "origin_main_ref": "${landed_ref}",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": ["origin/main contains feature/post-evidence at ${landed_ref}"]
+  },
+  "main_alignment": {
+    "local_main_ref": "${landed_ref}",
+    "origin_main_ref": "${landed_ref}",
+    "landed_ref": "${landed_ref}",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin after hosted landing",
+    "local_main_sync_evidence_ref": "git switch main && git merge --ff-only origin/main",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": ["cleanup deferred while validating historical landing receipt"],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "feature/post-evidence",
+    "remote_branch": "origin/feature/post-evidence",
+    "blocker_reason": "cleanup deferred while validating historical landing receipt",
+    "evidence_refs": ["cleanup deferred while validating historical landing receipt"]
+  },
+  "validation_evidence_refs": ["route-neutral checks passed at ${landed_ref}"],
+  "review_waiver_refs": ["solo maintainer no-PR route"],
+  "durable_history": {"kind": "commit", "ref": "${landed_ref}", "branch": "feature/post-evidence"},
+  "rollback_handle": {"kind": "revert-commit", "ref": "${landed_ref}"},
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-23T00:00:00Z"
+}
+JSON
+)"
+  attach_valid_landing_authorization "$receipt" >/dev/null
+  printf '%s\n' "$receipt"
+}
+
+case_live_origin_main_descendant_requires_explicit_mode() {
+  local receipt
+  receipt="$(write_live_descendant_receipt)"
+  ! bash "$VALIDATOR" --receipt "$receipt" --require-live-remote >/dev/null
+}
+
+case_live_origin_main_descendant_mode_passes() {
+  local receipt
+  receipt="$(write_live_descendant_receipt)"
+  bash "$VALIDATOR" --receipt "$receipt" --require-live-remote --allow-live-origin-main-descendant >/dev/null
+}
+
 case_current_pr_required_ruleset_passes_current_expectation() {
   local rules
   rules="$(write_file <<'JSON'
@@ -522,6 +625,8 @@ main() {
   assert_success "hosted no-PR receipt denied landing authorization fails" case_denied_landing_authorization_fails
   assert_success "hosted no-PR receipt stale landing authorization fails" case_stale_landing_authorization_fails
   assert_success "PR metadata fails for branch-no-pr hosted landing" case_pr_metadata_fails
+  assert_success "live origin/main descendant still fails strict live equality" case_live_origin_main_descendant_requires_explicit_mode
+  assert_success "live origin/main descendant mode passes after evidence retention" case_live_origin_main_descendant_mode_passes
   assert_success "current PR-required ruleset passes current expectation" case_current_pr_required_ruleset_passes_current_expectation
   assert_success "route-neutral ruleset passes target expectation" case_route_neutral_ruleset_passes_target_expectation
   assert_success "PR rule fails target route-neutral expectation" case_pr_rule_fails_target_expectation
