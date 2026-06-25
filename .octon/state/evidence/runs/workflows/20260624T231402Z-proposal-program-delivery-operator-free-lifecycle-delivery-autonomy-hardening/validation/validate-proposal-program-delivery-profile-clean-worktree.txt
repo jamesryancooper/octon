@@ -1,0 +1,53 @@
+== Proposal Program Delivery Profile Validation ==
+[OK] profile schema exists
+[OK] profile schema JSON parses
+[OK] schema token present: "proposal-program-delivery-profile-v1"
+[OK] schema token present: "target_outcome"
+[OK] schema token present: "cleaned"
+[OK] schema token present: "pr_policy"
+[OK] schema token present: "stash_policy"
+[OK] schema token present: "non_authority_boundaries"
+[OK] schema token present: "final_sync_requirements"
+[OK] profile file exists: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/delivery-profile.yml
+[OK] profile YAML parses
+[OK] profile schema_version correct
+[OK] profile_id declared
+[OK] created_at declared
+[OK] target_program_path declared
+[OK] target_outcome declared
+[OK] target_outcome allowed
+[OK] target_program_path under proposal inputs
+[OK] work unit route is branch-no-pr
+[OK] landing route is branch-no-pr
+[OK] route PR creation allowed false
+[OK] PR policy mode is forbid-pr
+[OK] PR creation false
+[OK] PR fallback false
+[OK] stash policy mode is forbidden
+[OK] preserve unrelated work true
+[OK] replan after material changes true
+[OK] target-owned receipts required true
+[OK] parent summary satisfies child receipts false
+[OK] required_proposal_validators non-empty
+[OK] required_implementation_validators non-empty
+[OK] owning publishers only true
+[OK] generated outputs non-authority true
+[OK] publication freshness validator declared
+[OK] direct generated output edits allowed false
+[OK] mechanism integration required when applicable true
+[OK] mechanism integration receipt required true
+[OK] packet closeout required true
+[OK] archive lifecycle required true
+[OK] Change closeout required true
+[OK] delegate Git mutation to Change closeout true
+[OK] cleanup authorization required true
+[OK] classification alone authorizes deletion false
+[OK] terminal current-state proof required true
+[OK] worktree hygiene required true
+[OK] main/origin/landed ref equality required true
+[OK] proposal-local files authority is non-authority
+[OK] generated prompts authority is non-authority
+[OK] generated outputs authority is derived-only-non-authority
+[OK] dashboards authority is non-authority
+[OK] chat/model memory authority is non-authority
+Validation summary: errors=0

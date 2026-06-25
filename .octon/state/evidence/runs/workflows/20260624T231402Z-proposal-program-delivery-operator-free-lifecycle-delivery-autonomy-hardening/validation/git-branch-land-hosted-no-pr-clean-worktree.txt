@@ -1,0 +1,26 @@
+[OK] Git mutation preflight passed.
+[OK] Repo: /private/tmp/octon-operator-free-delivery-clean
+[OK] git ref write probe passed.
+[OK] Live provider ruleset allows route-neutral hosted no-PR landing.
+[OK] Source ref is current with origin/main.
+[OK] Empty check set explicitly allowed.
+[OK] Exact-SHA required checks satisfied for e1579065aeb639998de5fec9b60f4b083330a881.
+[OK] Hosted no-PR landing preflight passed.
+[OK] Route guard: branch-no-pr.
+[OK] Source branch: chore/operator-free-lifecycle-delivery-clean
+[OK] Source ref: e1579065aeb639998de5fec9b60f4b083330a881
+[OK] Target branch: main
+[OK] Target remote ref: afb8cd572907ba309347dde1adfce5be2ad427aa
+[OK] Landing authorization receipt validates.
+To github.com:jamesryancooper/octon.git
+   afb8cd5729..e1579065ae  e1579065aeb639998de5fec9b60f4b083330a881 -> main
+[OK] Route guard: branch-no-pr.
+[OK] Hosted no-PR fast-forward landing complete.
+[OK] Source branch: chore/operator-free-lifecycle-delivery-clean
+[OK] Source ref: e1579065aeb639998de5fec9b60f4b083330a881
+[OK] Target branch: main
+[OK] Target pre-ref: afb8cd572907ba309347dde1adfce5be2ad427aa
+[OK] Target post-ref: e1579065aeb639998de5fec9b60f4b083330a881
+[OK] Landed ref: e1579065aeb639998de5fec9b60f4b083330a881
+[OK] origin/main equals landed_ref after push when target is main.
+[OK] Integration method: fast-forward

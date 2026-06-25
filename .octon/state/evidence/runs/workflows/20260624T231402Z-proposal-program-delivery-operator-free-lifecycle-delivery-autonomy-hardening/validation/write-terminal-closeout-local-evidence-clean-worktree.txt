@@ -1,0 +1,8 @@
+terminal_closeout_local_evidence:
+  sink_path: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z
+  manifest_ref: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/manifest.json
+  terminal_current_state_proof_ref: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/terminal-current-state-proof.yml
+  terminal_current_state_proof_digest: sha256:18bbcf8feba168fb47a5a00542a714f82da38136cde72665a18ea98ce24f8103
+  change_receipt_ref: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/change-receipt.json
+  change_receipt_digest: sha256:8da4d72b447a2ed7b6ecb030dc3e43113631f87696937c402d328494438f6c77
+  non_authority_classification: retained-evidence-only

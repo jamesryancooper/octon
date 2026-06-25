@@ -1,0 +1,24 @@
+[OK] Git mutation preflight passed.
+[OK] Repo: /private/tmp/octon-operator-free-delivery-clean
+[OK] git ref write probe passed.
+[OK] landed ref is contained in origin/main.
+[OK] local branch chore/operator-free-lifecycle-delivery-clean is contained in origin/main.
+[OK] remote branch origin/chore/operator-free-lifecycle-delivery-clean is contained in origin/main.
+[OK] No open PR exists for chore/operator-free-lifecycle-delivery-clean.
+[OK] Branch cleanup authorization receipt validates.
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+Deleted branch chore/operator-free-lifecycle-delivery-clean (was e1579065ae).
+To github.com:jamesryancooper/octon.git
+ - [deleted]               chore/operator-free-lifecycle-delivery-clean
+Already up to date.
+[OK] Local main is synced to origin/main: e1579065aeb639998de5fec9b60f4b083330a881
+[OK] Route guard: branch-no-pr or branch-pr.
+[OK] Cleanup target: chore/operator-free-lifecycle-delivery-clean
+[OK] Protected branch check: passed
+[OK] origin/main containment: verified for landed ref and branch refs present
+[OK] origin/main containment: verified when remote/base is origin/main
+[OK] Retained rollback/evidence posture: origin/main@afb8cd572907ba309347dde1adfce5be2ad427aa
+[OK] Branch cleanup authorization: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-cleanup-authorization.json
+[OK] Remote deletion requested: 1
+[OK] Cleanup evidence: local/remote branch cleanup completed or safely skipped because branch was absent.

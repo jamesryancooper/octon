@@ -1,0 +1,23 @@
+error[E0425]: cannot find function `resolve_lifecycle_executor` in crate `octon_lifecycle_executor`
+    --> kernel/src/lifecycle_program.rs:4431:55
+     |
+4431 |     let resolved_executor = octon_lifecycle_executor::resolve_lifecycle_executor(executor)
+     |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in `octon_lifecycle_executor`
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/pipeline.rs:1870:38
+     |
+1870 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+     |
+     = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/workflow.rs:9415:38
+     |
+9415 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+
+For more information about this error, try `rustc --explain E0425`.
+error: could not compile `octon_kernel` (bin "octon") due to 1 previous error; 2 warnings emitted
+unable to resolve octon kernel binary for publication wrapper

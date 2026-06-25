@@ -1,0 +1,33 @@
+{
+  "schema_version": "git-mutation-preflight-v1",
+  "emitted_at": "2026-06-25T03:14:44Z",
+  "repo_root": "/private/tmp/octon-operator-free-delivery-clean",
+  "git_common_dir": "/Users/jamesryancooper/Projects/octon/.git",
+  "status": "passed",
+  "blocker_class": null,
+  "current_branch": "chore/operator-free-lifecycle-delivery-publication-refresh",
+  "head_ref": "e1579065aeb639998de5fec9b60f4b083330a881",
+  "rollback_safe": true,
+  "non_authorizing": true,
+  "authority_effects": {
+    "delivery": false,
+    "landing": false,
+    "sync": false,
+    "cleanup": false,
+    "branch_deletion": false
+  },
+  "checks": {
+    "index": {
+      "requested": true,
+      "status": "passed",
+      "blocker_class": null,
+      "detail": "created and removed index lock probe"
+    },
+    "ref": {
+      "requested": true,
+      "status": "passed",
+      "blocker_class": null,
+      "detail": "created and deleted temporary ref refs/octon/preflight/20260625T031444Z-24899"
+    }
+  }
+}

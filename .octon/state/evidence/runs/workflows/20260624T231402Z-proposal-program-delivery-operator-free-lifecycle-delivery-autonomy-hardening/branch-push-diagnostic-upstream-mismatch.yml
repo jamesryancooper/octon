@@ -1,0 +1,27 @@
+schema_version: git-mutation-diagnostic-v1
+emitted_at: "2026-06-25T00:00:00Z"
+operation_class: branch-publish
+target:
+  branch: chore/operator-free-lifecycle-delivery-clean
+  source_ref: e1579065aeb639998de5fec9b60f4b083330a881
+  intended_remote_ref: origin/chore/operator-free-lifecycle-delivery-clean
+owning_route:
+  command: proposal-program-delivery
+  closeout_route: branch-no-pr
+  helper: .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh
+observed_failure:
+  class: branch-upstream-mismatch
+  detail: current branch had upstream origin/main, causing plain git push to refuse same-name branch publication
+  evidence_ref: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/validation/git-branch-push-clean-worktree.txt
+rerun_path:
+  action: clear mismatched local upstream and rerun the same governed push helper
+  authority_effects:
+    creates_pr: false
+    lands_main: false
+    deletes_branch: false
+    authorizes_cleanup: false
+claims:
+  pushed: false
+  landed: false
+  synced: false
+  cleaned: false

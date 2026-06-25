@@ -1,0 +1,68 @@
+schema_version: proposal-program-delivery-partitioning-classification-v1
+emitted_at: "2026-06-25T00:00:00Z"
+target:
+  kind: parent_program
+  id: operator-free-lifecycle-delivery-autonomy-hardening
+  archived_path: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening
+selected_route: branch-no-pr
+clean_worktree:
+  path: /private/tmp/octon-operator-free-delivery-clean
+  branch: chore/operator-free-lifecycle-delivery-clean
+  base_ref: origin/main
+  base_commit: afb8cd572907ba309347dde1adfce5be2ad427aa
+classification:
+  broad_stage_all_authorized: false
+  method: explicit include paths reconstructed into a clean worktree from origin/main
+  included_groups:
+    - id: archived-parent-packet
+      authority: parent program archive posture and selected proposal-program-delivery target
+      disposition: include
+    - id: archived-child-packets
+      authority: parent child-packet index and child terminal archive evidence
+      disposition: include
+      expected_child_count: 12
+    - id: active-parent-and-child-path-deletions
+      authority: archive moves from active proposal paths into archived packet paths
+      disposition: include as archive-move deletions only
+      expected_deleted_active_directory_count: 13
+    - id: child-declared-promotion-targets
+      authority: archived child proposal promotion_targets and promotion_evidence receipts
+      disposition: include
+    - id: validator-compatibility-fix
+      authority: readiness projection blocker fix required for parent delivery gates
+      disposition: include only where current origin/main lacks the fix
+    - id: delivery-route-evidence-bundle
+      authority: proposal-program-delivery run evidence bundle for this parent route
+      disposition: include target-owned retained evidence only
+    - id: git-mutation-preflight-helper-and-integrations
+      authority: branch-no-pr-bounded-authorization-envelope child promotion evidence
+      disposition: include
+      paths:
+        - .octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh
+        - .octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh
+        - .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh
+        - .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh
+        - .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh
+  excluded_groups:
+    - id: unrelated-state-control
+      disposition: exclude unless independently declared by target-owned delivery evidence
+    - id: unrelated-state-evidence
+      disposition: exclude unless under the selected workflow evidence bundle or declared child evidence
+    - id: generated-projection-residue
+      disposition: exclude unless regenerated and validated by the selected route
+    - id: prior-branch-worktree-residue
+      disposition: exclude unless route-owned retained evidence proves ownership
+reconstruction_summary:
+  include_prefix_count: 57
+  copied_file_count_before_git-helper-restoration: 258
+  active_packet_directory_delete_count: 13
+validation_refs:
+  readiness_projection: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/validation/validate-proposal-program-readiness-projection-delivery-clean-worktree.txt
+  child_readiness: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/validation/validate-proposal-program-child-readiness-delivery-clean-worktree.txt
+claims:
+  committed: false
+  pushed: false
+  landed: false
+  synced: false
+  cleaned: false
+  branch_deleted: false

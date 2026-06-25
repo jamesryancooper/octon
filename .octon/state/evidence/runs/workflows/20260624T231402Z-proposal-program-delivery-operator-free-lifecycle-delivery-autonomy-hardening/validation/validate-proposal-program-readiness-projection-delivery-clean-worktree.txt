@@ -1,0 +1,212 @@
+[WARN] no materialized projection file supplied; validating live sources only
+[OK] parent manifest exists
+[OK] child registry exists
+[OK] parent status supports readiness projection: archived
+[OK] parent proposal review gate
+[OK] child registry includes children
+[OK] child complete-program-blocker-vector-planner-output resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output
+[OK] child complete-program-blocker-vector-planner-output status visible: archived
+[OK] child complete-program-blocker-vector-planner-output proposal standard gate
+[OK] child complete-program-blocker-vector-planner-output review gate
+[OK] child complete-program-blocker-vector-planner-output implementation-readiness receipt exists
+[OK] child complete-program-blocker-vector-planner-output implementation-readiness verdict passes
+[OK] child complete-program-blocker-vector-planner-output implementation-readiness unresolved questions are zero
+[OK] child complete-program-blocker-vector-planner-output implementation-readiness clarification not required
+[OK] child complete-program-blocker-vector-planner-output review digest preserved from pre-archive packet
+[OK] child complete-program-blocker-vector-planner-output implementation receipt passes
+[OK] child complete-program-blocker-vector-planner-output conformance receipt passes
+[OK] child complete-program-blocker-vector-planner-output drift receipt passes
+[OK] child complete-program-blocker-vector-planner-output archive metadata implemented
+[OK] child complete-program-blocker-vector-planner-output validation receipt passes
+[OK] child complete-program-blocker-vector-planner-output terminal closeout receipt terminal_verdict=archive-ready
+[OK] child complete-program-blocker-vector-planner-output terminal closeout receipt archive_ready=yes
+[OK] child complete-program-blocker-vector-planner-output archive packet retains terminal receipts without registry evidence index refs
+[OK] child lifecycle-validator-runtime-resolver resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver
+[OK] child lifecycle-validator-runtime-resolver status visible: archived
+[OK] child lifecycle-validator-runtime-resolver proposal standard gate
+[OK] child lifecycle-validator-runtime-resolver review gate
+[OK] child lifecycle-validator-runtime-resolver implementation-readiness receipt exists
+[OK] child lifecycle-validator-runtime-resolver implementation-readiness verdict passes
+[OK] child lifecycle-validator-runtime-resolver implementation-readiness unresolved questions are zero
+[OK] child lifecycle-validator-runtime-resolver implementation-readiness clarification not required
+[OK] child lifecycle-validator-runtime-resolver review digest preserved from pre-archive packet
+[OK] child lifecycle-validator-runtime-resolver implementation receipt passes
+[OK] child lifecycle-validator-runtime-resolver conformance receipt passes
+[OK] child lifecycle-validator-runtime-resolver drift receipt passes
+[OK] child lifecycle-validator-runtime-resolver archive metadata implemented
+[OK] child lifecycle-validator-runtime-resolver validation receipt passes
+[OK] child lifecycle-validator-runtime-resolver terminal closeout receipt terminal_verdict=archive-ready
+[OK] child lifecycle-validator-runtime-resolver terminal closeout receipt archive_ready=yes
+[OK] child lifecycle-validator-runtime-resolver archive packet retains terminal receipts without registry evidence index refs
+[OK] child proposal-program-execution-mode-normalization resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization
+[OK] child proposal-program-execution-mode-normalization status visible: archived
+[OK] child proposal-program-execution-mode-normalization proposal standard gate
+[OK] child proposal-program-execution-mode-normalization review gate
+[OK] child proposal-program-execution-mode-normalization implementation-readiness receipt exists
+[OK] child proposal-program-execution-mode-normalization implementation-readiness verdict passes
+[OK] child proposal-program-execution-mode-normalization implementation-readiness unresolved questions are zero
+[OK] child proposal-program-execution-mode-normalization implementation-readiness clarification not required
+[OK] child proposal-program-execution-mode-normalization review digest preserved from pre-archive packet
+[OK] child proposal-program-execution-mode-normalization implementation receipt passes
+[OK] child proposal-program-execution-mode-normalization conformance receipt passes
+[OK] child proposal-program-execution-mode-normalization drift receipt passes
+[OK] child proposal-program-execution-mode-normalization archive metadata implemented
+[OK] child proposal-program-execution-mode-normalization validation receipt passes
+[OK] child proposal-program-execution-mode-normalization terminal closeout receipt terminal_verdict=archive-ready
+[OK] child proposal-program-execution-mode-normalization terminal closeout receipt archive_ready=yes
+[OK] child proposal-program-execution-mode-normalization archive packet retains terminal receipts without registry evidence index refs
+[OK] child normalized-child-terminal-evidence-summary resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary
+[OK] child normalized-child-terminal-evidence-summary status visible: archived
+[OK] child normalized-child-terminal-evidence-summary proposal standard gate
+[OK] child normalized-child-terminal-evidence-summary review gate
+[OK] child normalized-child-terminal-evidence-summary implementation-readiness receipt exists
+[OK] child normalized-child-terminal-evidence-summary implementation-readiness verdict passes
+[OK] child normalized-child-terminal-evidence-summary implementation-readiness unresolved questions are zero
+[OK] child normalized-child-terminal-evidence-summary implementation-readiness clarification not required
+[OK] child normalized-child-terminal-evidence-summary review digest preserved from pre-archive packet
+[OK] child normalized-child-terminal-evidence-summary implementation receipt passes
+[OK] child normalized-child-terminal-evidence-summary conformance receipt passes
+[OK] child normalized-child-terminal-evidence-summary drift receipt passes
+[OK] child normalized-child-terminal-evidence-summary archive metadata implemented
+[OK] child normalized-child-terminal-evidence-summary validation receipt passes
+[OK] child normalized-child-terminal-evidence-summary terminal closeout receipt terminal_verdict=archive-ready
+[OK] child normalized-child-terminal-evidence-summary terminal closeout receipt archive_ready=yes
+[OK] child normalized-child-terminal-evidence-summary archive packet retains terminal receipts without registry evidence index refs
+[OK] child completed-plan-nonblocking-diagnostics resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics
+[OK] child completed-plan-nonblocking-diagnostics status visible: archived
+[OK] child completed-plan-nonblocking-diagnostics proposal standard gate
+[OK] child completed-plan-nonblocking-diagnostics review gate
+[OK] child completed-plan-nonblocking-diagnostics implementation-readiness receipt exists
+[OK] child completed-plan-nonblocking-diagnostics implementation-readiness verdict passes
+[OK] child completed-plan-nonblocking-diagnostics implementation-readiness unresolved questions are zero
+[OK] child completed-plan-nonblocking-diagnostics implementation-readiness clarification not required
+[OK] child completed-plan-nonblocking-diagnostics review digest preserved from pre-archive packet
+[OK] child completed-plan-nonblocking-diagnostics implementation receipt passes
+[OK] child completed-plan-nonblocking-diagnostics conformance receipt passes
+[OK] child completed-plan-nonblocking-diagnostics drift receipt passes
+[OK] child completed-plan-nonblocking-diagnostics archive metadata implemented
+[OK] child completed-plan-nonblocking-diagnostics validation receipt passes
+[OK] child completed-plan-nonblocking-diagnostics terminal closeout receipt terminal_verdict=archive-ready
+[OK] child completed-plan-nonblocking-diagnostics terminal closeout receipt archive_ready=yes
+[OK] child completed-plan-nonblocking-diagnostics archive packet retains terminal receipts without registry evidence index refs
+[OK] child targeted-proposal-freshness-checks resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks
+[OK] child targeted-proposal-freshness-checks status visible: archived
+[OK] child targeted-proposal-freshness-checks proposal standard gate
+[OK] child targeted-proposal-freshness-checks review gate
+[OK] child targeted-proposal-freshness-checks implementation-readiness receipt exists
+[OK] child targeted-proposal-freshness-checks implementation-readiness verdict passes
+[OK] child targeted-proposal-freshness-checks implementation-readiness unresolved questions are zero
+[OK] child targeted-proposal-freshness-checks implementation-readiness clarification not required
+[OK] child targeted-proposal-freshness-checks review digest preserved from pre-archive packet
+[OK] child targeted-proposal-freshness-checks implementation receipt passes
+[OK] child targeted-proposal-freshness-checks conformance receipt passes
+[OK] child targeted-proposal-freshness-checks drift receipt passes
+[OK] child targeted-proposal-freshness-checks archive metadata implemented
+[OK] child targeted-proposal-freshness-checks validation receipt passes
+[OK] child targeted-proposal-freshness-checks terminal closeout receipt terminal_verdict=archive-ready
+[OK] child targeted-proposal-freshness-checks terminal closeout receipt archive_ready=yes
+[OK] child targeted-proposal-freshness-checks archive packet retains terminal receipts without registry evidence index refs
+[OK] child batched-review-and-architecture-digest-refresh resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh
+[OK] child batched-review-and-architecture-digest-refresh status visible: archived
+[OK] child batched-review-and-architecture-digest-refresh proposal standard gate
+[OK] child batched-review-and-architecture-digest-refresh review gate
+[OK] child batched-review-and-architecture-digest-refresh implementation-readiness receipt exists
+[OK] child batched-review-and-architecture-digest-refresh implementation-readiness verdict passes
+[OK] child batched-review-and-architecture-digest-refresh implementation-readiness unresolved questions are zero
+[OK] child batched-review-and-architecture-digest-refresh implementation-readiness clarification not required
+[OK] child batched-review-and-architecture-digest-refresh review digest preserved from pre-archive packet
+[OK] child batched-review-and-architecture-digest-refresh implementation receipt passes
+[OK] child batched-review-and-architecture-digest-refresh conformance receipt passes
+[OK] child batched-review-and-architecture-digest-refresh drift receipt passes
+[OK] child batched-review-and-architecture-digest-refresh archive metadata implemented
+[OK] child batched-review-and-architecture-digest-refresh validation receipt passes
+[OK] child batched-review-and-architecture-digest-refresh terminal closeout receipt terminal_verdict=archive-ready
+[OK] child batched-review-and-architecture-digest-refresh terminal closeout receipt archive_ready=yes
+[OK] child batched-review-and-architecture-digest-refresh archive packet retains terminal receipts without registry evidence index refs
+[OK] child autonomous-proposal-program-recovery-envelope resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope
+[OK] child autonomous-proposal-program-recovery-envelope status visible: archived
+[OK] child autonomous-proposal-program-recovery-envelope proposal standard gate
+[OK] child autonomous-proposal-program-recovery-envelope review gate
+[OK] child autonomous-proposal-program-recovery-envelope implementation-readiness receipt exists
+[OK] child autonomous-proposal-program-recovery-envelope implementation-readiness verdict passes
+[OK] child autonomous-proposal-program-recovery-envelope implementation-readiness unresolved questions are zero
+[OK] child autonomous-proposal-program-recovery-envelope implementation-readiness clarification not required
+[OK] child autonomous-proposal-program-recovery-envelope review digest preserved from pre-archive packet
+[OK] child autonomous-proposal-program-recovery-envelope implementation receipt passes
+[OK] child autonomous-proposal-program-recovery-envelope conformance receipt passes
+[OK] child autonomous-proposal-program-recovery-envelope drift receipt passes
+[OK] child autonomous-proposal-program-recovery-envelope archive metadata implemented
+[OK] child autonomous-proposal-program-recovery-envelope validation receipt passes
+[OK] child autonomous-proposal-program-recovery-envelope terminal closeout receipt terminal_verdict=archive-ready
+[OK] child autonomous-proposal-program-recovery-envelope terminal closeout receipt archive_ready=yes
+[OK] child autonomous-proposal-program-recovery-envelope archive packet retains terminal receipts without registry evidence index refs
+[OK] child delivery-retained-evidence-index resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index
+[OK] child delivery-retained-evidence-index status visible: archived
+[OK] child delivery-retained-evidence-index proposal standard gate
+[OK] child delivery-retained-evidence-index review gate
+[OK] child delivery-retained-evidence-index implementation-readiness receipt exists
+[OK] child delivery-retained-evidence-index implementation-readiness verdict passes
+[OK] child delivery-retained-evidence-index implementation-readiness unresolved questions are zero
+[OK] child delivery-retained-evidence-index implementation-readiness clarification not required
+[OK] child delivery-retained-evidence-index review digest preserved from pre-archive packet
+[OK] child delivery-retained-evidence-index implementation receipt passes
+[OK] child delivery-retained-evidence-index conformance receipt passes
+[OK] child delivery-retained-evidence-index drift receipt passes
+[OK] child delivery-retained-evidence-index archive metadata implemented
+[OK] child delivery-retained-evidence-index validation receipt passes
+[OK] child delivery-retained-evidence-index terminal closeout receipt terminal_verdict=archive-ready
+[OK] child delivery-retained-evidence-index terminal closeout receipt archive_ready=yes
+[OK] child delivery-retained-evidence-index archive packet retains terminal receipts without registry evidence index refs
+[OK] child proposal-program-delivery-postmortem-evaluation-profile resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile
+[OK] child proposal-program-delivery-postmortem-evaluation-profile status visible: archived
+[OK] child proposal-program-delivery-postmortem-evaluation-profile proposal standard gate
+[OK] child proposal-program-delivery-postmortem-evaluation-profile review gate
+[OK] child proposal-program-delivery-postmortem-evaluation-profile implementation-readiness receipt exists
+[OK] child proposal-program-delivery-postmortem-evaluation-profile implementation-readiness verdict passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile implementation-readiness unresolved questions are zero
+[OK] child proposal-program-delivery-postmortem-evaluation-profile implementation-readiness clarification not required
+[OK] child proposal-program-delivery-postmortem-evaluation-profile review digest preserved from pre-archive packet
+[OK] child proposal-program-delivery-postmortem-evaluation-profile implementation receipt passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile conformance receipt passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile drift receipt passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archive metadata implemented
+[OK] child proposal-program-delivery-postmortem-evaluation-profile validation receipt passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile terminal closeout receipt terminal_verdict=archive-ready
+[OK] child proposal-program-delivery-postmortem-evaluation-profile terminal closeout receipt archive_ready=yes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archive packet retains terminal receipts without registry evidence index refs
+[OK] child branch-no-pr-delivery-receipt-builder resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder
+[OK] child branch-no-pr-delivery-receipt-builder status visible: archived
+[OK] child branch-no-pr-delivery-receipt-builder proposal standard gate
+[OK] child branch-no-pr-delivery-receipt-builder review gate
+[OK] child branch-no-pr-delivery-receipt-builder implementation-readiness receipt exists
+[OK] child branch-no-pr-delivery-receipt-builder implementation-readiness verdict passes
+[OK] child branch-no-pr-delivery-receipt-builder implementation-readiness unresolved questions are zero
+[OK] child branch-no-pr-delivery-receipt-builder implementation-readiness clarification not required
+[OK] child branch-no-pr-delivery-receipt-builder review digest preserved from pre-archive packet
+[OK] child branch-no-pr-delivery-receipt-builder implementation receipt passes
+[OK] child branch-no-pr-delivery-receipt-builder conformance receipt passes
+[OK] child branch-no-pr-delivery-receipt-builder drift receipt passes
+[OK] child branch-no-pr-delivery-receipt-builder archive metadata implemented
+[OK] child branch-no-pr-delivery-receipt-builder validation receipt passes
+[OK] child branch-no-pr-delivery-receipt-builder terminal closeout receipt terminal_verdict=archive-ready
+[OK] child branch-no-pr-delivery-receipt-builder terminal closeout receipt archive_ready=yes
+[OK] child branch-no-pr-delivery-receipt-builder archive packet retains terminal receipts without registry evidence index refs
+[OK] child branch-no-pr-bounded-authorization-envelope resolved archived packet path: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope
+[OK] child branch-no-pr-bounded-authorization-envelope status visible: archived
+[OK] child branch-no-pr-bounded-authorization-envelope proposal standard gate
+[OK] child branch-no-pr-bounded-authorization-envelope review gate
+[OK] child branch-no-pr-bounded-authorization-envelope implementation-readiness receipt exists
+[OK] child branch-no-pr-bounded-authorization-envelope implementation-readiness verdict passes
+[OK] child branch-no-pr-bounded-authorization-envelope implementation-readiness unresolved questions are zero
+[OK] child branch-no-pr-bounded-authorization-envelope implementation-readiness clarification not required
+[OK] child branch-no-pr-bounded-authorization-envelope review digest preserved from pre-archive packet
+[OK] child branch-no-pr-bounded-authorization-envelope implementation receipt passes
+[OK] child branch-no-pr-bounded-authorization-envelope conformance receipt passes
+[OK] child branch-no-pr-bounded-authorization-envelope drift receipt passes
+[OK] child branch-no-pr-bounded-authorization-envelope archive metadata implemented
+[OK] child branch-no-pr-bounded-authorization-envelope validation receipt passes
+[OK] child branch-no-pr-bounded-authorization-envelope terminal closeout receipt terminal_verdict=archive-ready
+[OK] child branch-no-pr-bounded-authorization-envelope terminal closeout receipt archive_ready=yes
+[OK] child branch-no-pr-bounded-authorization-envelope archive packet retains terminal receipts without registry evidence index refs
+[WARN] no publication freshness refs declared; terminal evidence not required
+Validation summary: errors=0 warnings=2

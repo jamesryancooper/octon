@@ -1,0 +1,832 @@
+{
+  "schema_version": "proposal-program-delivery-evidence-index-v1",
+  "index_id": "20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening-proposal-program-delivery-evidence-index",
+  "generated_at": "2026-06-25T02:31:40Z",
+  "producer": "generate-proposal-program-delivery-evidence-index.sh",
+  "source_receipt": {
+    "ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-receipt.yml",
+    "sha256": "sha256:58a961b20e33ada9a80f6c96d66a40e19e87001bfa9ab99be179101562c05df0",
+    "schema_version": "proposal-program-delivery-receipt-v1"
+  },
+  "target_program": {
+    "path": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening",
+    "status": "archived"
+  },
+  "target_outcome": "cleaned",
+  "actual_outcome": "cleaned",
+  "route": {
+    "change_closeout_route": "branch-no-pr",
+    "change_closeout_verdict": "pass",
+    "landing_performed": true,
+    "branch_cleanup_performed": true,
+    "branch_deleted": true,
+    "final_sync_claimed": true
+  },
+  "outcome_authority": {
+    "index_replaces_delivery_receipt": false,
+    "archive_evidence_claims_delivery": false,
+    "child_delivery_required_for_sibling_progression": false,
+    "child_delivery_claimed_by_archive_only": false
+  },
+  "evidence_policy": {
+    "purpose": "compact-retained-delivery-evidence-index",
+    "disclosure": "refs-digests-and-classification-only",
+    "raw_evidence_retained": true,
+    "authorizes_execution": false,
+    "authorizes_archive": false,
+    "authorizes_delivery": false,
+    "authorizes_landing": false,
+    "authorizes_cleanup": false,
+    "satisfies_child_receipts": false,
+    "generated_outputs_are_authority": false
+  },
+  "validator_results": [
+    {
+      "validator": "validate-proposal-program-delivery-receipt.sh",
+      "target_ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-receipt.yml",
+      "verdict": "pass",
+      "evidence_ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-receipt.yml"
+    },
+    {
+      "validator": "generate-proposal-program-delivery-evidence-index.sh",
+      "target_ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-evidence-index.yml",
+      "verdict": "pass",
+      "evidence_ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-evidence-index.yml"
+    }
+  ],
+  "non_authority_classification": {
+    "proposal_local_files": "non-authority",
+    "generated_prompts": "non-authority",
+    "generated_outputs": "derived-only-non-authority",
+    "dashboards": "non-authority",
+    "chat_or_model_memory": "non-authority"
+  },
+  "target_owned_evidence_policy": {
+    "target_owned_receipts_required": true,
+    "aggregate_receipt_replaces_target_owned_receipts": false
+  },
+  "indexed_evidence_refs": [
+    {
+      "ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-receipt.yml",
+      "role": "program-delivery-receipt",
+      "source_field": ".source_receipt",
+      "sha256": "sha256:58a961b20e33ada9a80f6c96d66a40e19e87001bfa9ab99be179101562c05df0",
+      "disclosure_tier": "retained-evidence",
+      "authority_use": "source-delivery-receipt",
+      "required": true
+    },
+    {
+      "ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/delivery-profile.yml",
+      "role": "delivery-profile",
+      "source_field": ".profile.profile_ref",
+      "sha256": "sha256:6f6ea07ea760aadb663c27e405c22cbe7dd709c0cfb12a963c134c7068ea4410",
+      "disclosure_tier": "retained-evidence",
+      "authority_use": "retained-evidence-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-closeout.md",
+      "role": "parent-program-lifecycle-receipt",
+      "source_field": ".parent_program_lifecycle.receipt_ref",
+      "sha256": "sha256:a63e99e5b4d70f7702a636e399561e6668b065b7307a39cd5bce93fb724ab298",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "workflow-evidence-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:433a88cf09100479cf65cf69b3d1f2fde8167b6e063c2034138868f35464a6c6",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:d69350f809d9407a0be4f4d632b6b7924659be918f93df1ff8c5d4bcfcd575de",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:6fe9941316986d7fc128d94d5db7fc13433095354088efdf542c81de568beb1b",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:ab07fa92df83c39a0dbf8f0392c85ae85e9ec62b5695b47f48d954a8553526c7",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:1b02fef813c67894c6a9d0611c5afe42fb8b67de2cbcd01c5fff10c08897b8e3",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:9123cd6f64b6c58a55bf1dad385e64a97314eda0fa6d350ce85523c8289a969f",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:12f0c7aed7559329d3334aef0a96b701e78442a8bf0a926cc710963ef8f54501",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:c54293de2cba1117a3def2b9e2b6c9f13adf21432a168a89c35b6be1a09356c4",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:c83b0c2e8d2f874278ecb0ff6bd1c8f1c377f2540abdcb20549389bca2aa9573",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:7de95d01c3b9015b0bb8d8b74441d3b6542d20277f69cf08680877dda90fe2b9",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:4caa12c5681738781f8eb3750a455cc8181d2c9fdbd7fdba29d1e6d2687dc091",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-run.md",
+      "role": "child-implementation-run",
+      "source_field": ".child_receipts.implementation_run",
+      "sha256": "sha256:ca5c12d54403e8805b9ec4a0dba0be95b5497c02661c1592d906f3995176569c",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:bc9174f583bc44e257ce12c0a8feb80f989c6c91e2a964351f2d69cfda38c1c7",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:217729b4bfb18b99677507f44c90323f46e70e84d50854b7ef8410bd2d3116dc",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:d561e63ea44f33e1c67bb83ce4cd5f7ac2f09b5acbf24f5a83a9d163de46f121",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:80789a430eeae43c3e42e4b590e74b156d00de1eb378e976b482fca4a4e0d68c",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:1dc68563e6b369bcfdd4fd1e2db12674f91383b3bdf69eb1071fdad36648fc58",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:6999bd04f7c893c899f89bb7ed65844a1ed091ee57b6c8b8792b7b3db5cd118d",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:348250914f259117146258bf478bfa8b5508b8a77f4db18c27b15b4e4e9c826c",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:437f7b475538ced907985928db005d22818e58a938ef41de9be4880fbbcc8298",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:a34059d7bd385b6ea4ac7f352eeb059715697affa10908f625e59b64faaf0af5",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:ab26720b8ca24ce3388099b13b7117aec5c4221ccc3a8f6094c4e36806dda2f7",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:5e731a1c36fe421a03c2cb93050e9e2994f6e51674ead617f796e6bba90580a3",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-conformance-review.md",
+      "role": "child-implementation-conformance",
+      "source_field": ".child_receipts.implementation_conformance",
+      "sha256": "sha256:31904b66330d2b74d3fc83a485669dbafcd90cc95517aeb18b33b0505d22a3ab",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:bfd9005cf31da75580765d942d0d4e7a95e0c6b92b713344f76ff4e2b8ce3082",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:f157e0d9b1b37a1e06b3807abf287ca8a9dbe4e5e8c93271583cf1b44948d156",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:94e9063a9c72e87b75178932b6d95d8bfd07a8aac19f50b0b5b914c50fe7f6a5",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:916858775fe38c3fbebcb604034576322e82f60a0b96429980716405a9dfb48a",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:44a1c4d0fb68b11c4c82d1496f8d08bdfb493160946ce39f463ec660eac65511",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:877963658ce66b591c850bce9284cc80577c639166bb2f5282125c4713b7b1ef",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:296ccb302c3e5af4d8208c25bd31a35c9c193aa59e7528187a33cf38d7ac96ce",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:76931052b4142fb1e24ef8ca6630b3202ca7a90270a7e1127a1969156ad9c592",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:c71795f130586bf0b4d1e3fc3a21ad11bd54a23d0aac3ce600c30060adda4ee9",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:efa584782d5024bebec7745157376a1ebeb2eb808794b6312dce299c9998d440",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:0174dad352b6d1f89a0f4a23fd10a1551b025da2e4aa18dc63550b41a742676a",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/post-implementation-drift-churn-review.md",
+      "role": "child-post-implementation-drift-churn",
+      "source_field": ".child_receipts.post_implementation_drift_churn",
+      "sha256": "sha256:31bca704a10283823098ccbcadafaf07b4e75862ff3425910482cf2d08fe2523",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:4fe10b54470d1e99d12055ade637b985da7e00394f90502c3107266d866d10e9",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:2831f43313e4d0ec930d8835c65152dfdadbeb7a0b4d8fcab1b7b8ff86859216",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:655343689e636f28d949fda341fa4b4a8d40d53ac94e8dd59d6c741c10e62982",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:eb756dc6a42fd956cdf288f159ad7c130906bd4aa186b740ad1240a7aec714ae",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:eb75529ba574f4cad0f1b8204c2145b5d676de91acfa07ead513dcedf55844aa",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:b4b17d4da12d6ce1d190596799a128c29e82f0fb2b878c2eaf2170954ddd07ef",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:2f90dca5ba0ca5905179548c3781e7f79e7a169d1ec35184a718c7e9668f8d31",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:39ae7d8181f201a00cc42ac32f9799ecd3292570219452816b760b6dd4e52eb8",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:47244fb9a864c51884063c10d4ef643b97701c6a1c0965577cce87567b9b1a72",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:73e5eeec5e73cdbfac0ff5b493eb0221339f99a43cee438e289211278705e7f5",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:34c4aa0cfbd0b66e3248c8005eae3f9e36f95e6fbdf3fa1384685338e75f805e",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-closeout.md",
+      "role": "child-packet-closeout",
+      "source_field": ".child_receipts.packet_closeout",
+      "sha256": "sha256:b6304cea8942988f7dac3eb63062c50fcf9a3bf71bca2bed1bb866784e9e0c32",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:4098d5dc330f19da9f808ffed6b98bef437e446928d715a1c6f23a98c6eb2436",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:cdc63ca8ca2f60052570a3fbd4609a90f0187cf8813d033416eb83f3c81305a0",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:e646403f41fc5a864b6433fdc8f7de953f6ec12e9d6a3bc6840de3ad4020a570",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:606e5dde4cb5a0e7772c874cfa02dba2197cc1c41c5de80af52e1a95bd3902b3",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:267f8c2c8e3e35491ba7e24848fc71f45b28ea09c599ca18cad7647223cb2a40",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:3591f3e41ff0e20335fbbe74261d3a7e9143fce2d97ec2e9fe7b580098caba74",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:61eb64a801fe7353f9507bf86a6f882ac29a5d240000a3ca6ecb5e9317e8385e",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:625ea2d03f0ea388b1a34b880e19ee6f2eb0882e2c8e19ed634d036c7b360eeb",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:226f839e5994ccacc3342f8df1bd095b9861aa64989159cecafdfb12fea19144",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:566d8ec2c9b1bdfb13ab9f94807202dd139286b081ece3835babceaac3ecb1f3",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:2828210117fc6d9b81a38189c7df693755ce67b53aa5b3c10391ec72c6b0f25d",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-terminal-closeout.yml",
+      "role": "child-archive",
+      "source_field": ".child_receipts.archive",
+      "sha256": "sha256:1e87fe735c5cd7604be3fe8f1c598045d6aeb7f5cb4032a4288c1d36c2670bf6",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:e3f529666747ac34153fe110e1e971511667e144f81185bbd1bfa6b654fd25ff",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:5254cdbc0e2efd419a7d1c37256b539ef81deee5e7203192c5c01e41e7d196da",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:0ba1f42fc58deb865afb3cb0df146d16fa9c80ed79fc964bcff9acf8ce75904a",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:8f380790ad1402ad10b0f1fcf59b355d3c5673c93636d3a8bbfeef8d3ff9e2b4",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:eb23921f057d3e4f2419a3bb98e5506faacc9702d1752c3b35c5b0446324c7b2",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:e94f34900b79451e2027c4d5188cbeb87cbf4c3608e10778487a007f8f3bb3fc",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:098ea257d4536f4cb44b294eb40e2a1e031d22ea2b9091319de2e0313879c2b2",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:ce25194675d3c48c3983c56c51f800f263f70c0f1b81a3a247bf35a296a655c7",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:17650aa69686691bfaf336480077b04f8a786f24f69b7e445fbaddcc7bf89279",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:a6b2738a547f57ebbcb4cfe478adfb2ae6d512926d4e8a70635dc4daeb9eeda3",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:b264b92f396fbec5259381f6652b21c41e60773a3e10818c5cfad9ed18ff4ae9",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/validation.md",
+      "role": "child-change-closeout",
+      "source_field": ".child_receipts.change_closeout",
+      "sha256": "sha256:e07e0e8fa856a9c4e4ebf03dbb219544b294081ef0280b2e718b2e6e52f56b65",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "target-owned-child-receipt-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-conformance-review.md",
+      "role": "program-implementation-conformance",
+      "source_field": ".implementation_conformance.receipt_ref",
+      "sha256": "sha256:7490d172182a8acfe8e428ad7942174f487d8cac298930bed7b72d21c2da0cf4",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "proposal-local-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "role": "program-post-implementation-drift-churn",
+      "source_field": ".post_implementation_drift_churn.receipt_ref",
+      "sha256": "sha256:c234e252567e8cdbc64db2a6f508c91467008aa183ef597227412df2619e167c",
+      "disclosure_tier": "proposal-local",
+      "authority_use": "proposal-local-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh",
+      "role": "publication-publisher",
+      "source_field": ".generated_publication.publisher_refs",
+      "sha256": "sha256:81dc9b75b64a39edd33692eb9406b975eeb27a5d44bd2a57577e8903262acb35",
+      "disclosure_tier": "framework-source",
+      "authority_use": "publisher-source-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh",
+      "role": "publication-publisher",
+      "source_field": ".generated_publication.publisher_refs",
+      "sha256": "sha256:2b4581bd7495a1f45e8265b154c3d8d566b422027e2335c3970c1e342446d830",
+      "disclosure_tier": "framework-source",
+      "authority_use": "publisher-source-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/change-receipt.json",
+      "role": "change-closeout-receipt",
+      "source_field": ".change_closeout.receipt_ref",
+      "sha256": "sha256:8da4d72b447a2ed7b6ecb030dc3e43113631f87696937c402d328494438f6c77",
+      "disclosure_tier": "local-private-index-only",
+      "authority_use": "local-private-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-landing-authorization.json",
+      "role": "landing-authorization",
+      "source_field": ".branch_authorization.landing_authorization_ref",
+      "sha256": "sha256:6bc39194bd2a9ee3029afd12889b906f2fa6365664b396368dbe4f650db62813",
+      "disclosure_tier": "retained-evidence",
+      "authority_use": "retained-evidence-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-cleanup-authorization.json",
+      "role": "branch-cleanup-authorization",
+      "source_field": ".branch_authorization.cleanup_authorization_ref",
+      "sha256": "sha256:2aa466b5e6c8accd8ff44d74141478b3f45cb5c88fafd0429c246c89a5fc9087",
+      "disclosure_tier": "retained-evidence",
+      "authority_use": "retained-evidence-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/terminal-current-state-proof.yml",
+      "role": "terminal-current-state-proof",
+      "source_field": ".terminal_current_state_proof.evidence_ref",
+      "sha256": "sha256:18bbcf8feba168fb47a5a00542a714f82da38136cde72665a18ea98ce24f8103",
+      "disclosure_tier": "local-private-index-only",
+      "authority_use": "local-private-ref",
+      "required": true
+    },
+    {
+      "ref": ".octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/status.txt",
+      "role": "worktree-hygiene-proof",
+      "source_field": ".worktree_hygiene.evidence_ref",
+      "sha256": "sha256:5fbcb2990ad25e368c12219bf3ddca36e464d044e7acac16696fa8cd54159185",
+      "disclosure_tier": "local-private-index-only",
+      "authority_use": "local-private-ref",
+      "required": true
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-receipt-validation-failure",
+    "fail-closed-on-indexed-ref-missing",
+    "fail-closed-on-indexed-ref-digest-mismatch",
+    "fail-closed-on-authority-boundary-conflict"
+  ]
+}

@@ -1,0 +1,13 @@
+[OK] Git mutation preflight passed.
+[OK] Repo: /private/tmp/octon-operator-free-delivery-clean
+[OK] git ref write probe passed.
+remote: 
+remote: Create a pull request for 'chore/operator-free-lifecycle-delivery-clean' on GitHub by visiting:        
+remote:      https://github.com/jamesryancooper/octon/pull/new/chore/operator-free-lifecycle-delivery-clean        
+remote: 
+To github.com:jamesryancooper/octon.git
+ * [new branch]            chore/operator-free-lifecycle-delivery-clean -> chore/operator-free-lifecycle-delivery-clean
+branch 'chore/operator-free-lifecycle-delivery-clean' set up to track 'origin/chore/operator-free-lifecycle-delivery-clean'.
+[OK] Branch pushed without PR mutation. Route guard: branch-no-pr or branch-pr.
+[OK] Remote branch ref: origin/chore/operator-free-lifecycle-delivery-clean
+[OK] Source ref: e1579065aeb639998de5fec9b60f4b083330a881

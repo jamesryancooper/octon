@@ -1,0 +1,6 @@
+From github.com:jamesryancooper/octon
+ * branch                  main       -> FETCH_HEAD
+branch 'main' set up to track 'origin/main'.
+local_main_ref=e1579065aeb639998de5fec9b60f4b083330a881
+origin_main_ref=e1579065aeb639998de5fec9b60f4b083330a881
+landed_ref=e1579065aeb639998de5fec9b60f4b083330a881

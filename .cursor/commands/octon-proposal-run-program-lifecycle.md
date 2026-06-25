@@ -46,6 +46,18 @@ Executor boundary:
 - Durable implementation, promotion, closeout, and archival routes execute only after
   proof-gated delegation succeeds. `--invocation-authority unattended` authorizes
   delegated execution, but missing or invalid proof fails closed.
+- Program recovery runs inside the bounded autonomous recovery envelope declared
+  by the proposal-program contract. The runner may refresh generated
+  projections, materialize diagnostics or evidence indexes, classify
+  lifecycle residue, and rebaseline current-run evidence when route evidence
+  proves those actions are low-risk and post-validated. It stops before archive,
+  push, landing, cleanup deletion, branch deletion, PR creation or merge,
+  external publication, and any `cleaned` claim.
+- `cleanup-lifecycle-residue` is non-mutating recovery unless a separate
+  retained route authority explicitly authorizes deletion. Its output can bind
+  retained residue disposition evidence only; it cannot replace child receipts,
+  child validation, archive authorization, delivery authorization, landing
+  authorization, branch cleanup authorization, or child lifecycle outcomes.
 - Program child human-boundary blocks include structured typed-exception guidance. Use
   `octon lifecycle program approve --run-id <program-run> --child <child>
   --route <route> --reason <reason>`, followed by `octon lifecycle program

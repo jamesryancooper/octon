@@ -1,0 +1,1604 @@
+[OK] lifecycle contract parses: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+[OK] lifecycle schema version valid: octon-proposal-lifecycle -> octon-extension-lifecycle-contract-v1
+[OK] owner_extension matches pack id: octon-proposal-lifecycle
+[OK] lifecycle_id valid: proposal-program
+[OK] lifecycle version valid: proposal-program
+[OK] lifecycle execution strategy valid: proposal-program -> orchestrated-replan-loop
+[OK] program lifecycle execution strategy compatible: proposal-program
+[OK] program child registry path valid: proposal-program
+[OK] program child lifecycle default valid: proposal-program -> proposal-packet
+[OK] program supported execution modes declared: proposal-program
+[OK] program supported execution mode valid: proposal-program -> sequential
+[OK] program supported execution mode valid: proposal-program -> parallel-independent
+[OK] program supported execution mode valid: proposal-program -> gated-parallel
+[OK] program supported execution mode valid: proposal-program -> approval-gated
+[OK] program supported execution mode valid: proposal-program -> program-atomic
+[OK] program atomic policy explicit opt-in: proposal-program
+[OK] program recovery attempt limit valid: proposal-program
+[OK] program write-scope conflict policy valid: proposal-program
+[OK] program blocker taxonomy schema version valid: proposal-program
+[OK] program blocker taxonomy guard true: proposal-program -> child_receipts_remain_child_owned
+[OK] program blocker taxonomy guard true: proposal-program -> hard_blockers_fail_closed
+[OK] program blocker taxonomy guard false: proposal-program -> parent_summary_satisfies_child_receipt
+[OK] program blocker taxonomy guard false: proposal-program -> proposal_inputs_authorize_recovery
+[OK] program blocker taxonomy guard false: proposal-program -> generated_outputs_authorize_recovery
+[OK] program blocker taxonomy classes sequence valid: proposal-program
+[OK] program blocker taxonomy declares three unique classes: proposal-program
+[OK] program blocker taxonomy required class declared: proposal-program -> routine-autonomous
+[OK] program blocker taxonomy required class declared: proposal-program -> soft-blocker
+[OK] program blocker taxonomy required class declared: proposal-program -> hard-blocker
+[OK] program blocker taxonomy class id valid: proposal-program -> routine-autonomous
+[OK] non-hard blocker taxonomy avoids escalation: proposal-program -> routine-autonomous
+[OK] program blocker taxonomy examples declared: proposal-program -> routine-autonomous
+[OK] program blocker taxonomy example class valid: proposal-program routine-autonomous -> stale-receipt
+[OK] program blocker taxonomy example recovery declared: proposal-program routine-autonomous -> stale-receipt
+[OK] program blocker taxonomy example class valid: proposal-program routine-autonomous -> missing-evidence
+[OK] program blocker taxonomy example recovery declared: proposal-program routine-autonomous -> missing-evidence
+[OK] program blocker taxonomy example class valid: proposal-program routine-autonomous -> executor-failed
+[OK] program blocker taxonomy example recovery declared: proposal-program routine-autonomous -> executor-failed
+[OK] program blocker taxonomy example class valid: proposal-program routine-autonomous -> executor-timed-out
+[OK] program blocker taxonomy example recovery declared: proposal-program routine-autonomous -> executor-timed-out
+[OK] program blocker taxonomy example class valid: proposal-program routine-autonomous -> validation-failed
+[OK] program blocker taxonomy example recovery declared: proposal-program routine-autonomous -> validation-failed
+[OK] program blocker taxonomy example class valid: proposal-program routine-autonomous -> invalid-child-registry
+[OK] program blocker taxonomy example recovery declared: proposal-program routine-autonomous -> invalid-child-registry
+[OK] program blocker taxonomy class id valid: proposal-program -> soft-blocker
+[OK] non-hard blocker taxonomy avoids escalation: proposal-program -> soft-blocker
+[OK] program blocker taxonomy examples declared: proposal-program -> soft-blocker
+[OK] program blocker taxonomy example class valid: proposal-program soft-blocker -> publication-drift
+[OK] program blocker taxonomy example recovery declared: proposal-program soft-blocker -> publication-drift
+[OK] program blocker taxonomy example class valid: proposal-program soft-blocker -> target-drift-explained
+[OK] program blocker taxonomy example recovery declared: proposal-program soft-blocker -> target-drift-explained
+[OK] program blocker taxonomy example class valid: proposal-program soft-blocker -> noncritical-artifact-cleanup
+[OK] program blocker taxonomy example recovery declared: proposal-program soft-blocker -> noncritical-artifact-cleanup
+[OK] program blocker taxonomy example class valid: proposal-program soft-blocker -> lifecycle-residue-cleanup-needed
+[OK] program blocker taxonomy example recovery declared: proposal-program soft-blocker -> lifecycle-residue-cleanup-needed
+[OK] program blocker taxonomy example class valid: proposal-program soft-blocker -> executor-preflight-blocked
+[OK] program blocker taxonomy example recovery declared: proposal-program soft-blocker -> executor-preflight-blocked
+[OK] program blocker taxonomy example class valid: proposal-program soft-blocker -> step-budget-exhausted-continuable
+[OK] program blocker taxonomy example recovery declared: proposal-program soft-blocker -> step-budget-exhausted-continuable
+[OK] program blocker taxonomy example class valid: proposal-program soft-blocker -> recovery-budget-override-required
+[OK] program blocker taxonomy example recovery declared: proposal-program soft-blocker -> recovery-budget-override-required
+[OK] program blocker taxonomy example class valid: proposal-program soft-blocker -> recovery-integrity-risk
+[OK] program blocker taxonomy example recovery declared: proposal-program soft-blocker -> recovery-integrity-risk
+[OK] program blocker taxonomy class id valid: proposal-program -> hard-blocker
+[OK] hard-blocker taxonomy requires escalation: proposal-program
+[OK] hard-blocker taxonomy is default for unknown blockers: proposal-program
+[OK] program blocker taxonomy examples declared: proposal-program -> hard-blocker
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> authority-ambiguity
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> authority-ambiguity
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> authority-boundary-ambiguous
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> authority-boundary-ambiguous
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> unsafe-resume
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> unsafe-resume
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> scope-expansion
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> scope-expansion
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> authority-zone-ambiguous
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> authority-zone-ambiguous
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> self-authorization-attempt
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> self-authorization-attempt
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> unsupported-mode-authority
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> unsupported-mode-authority
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> atomic-write-scope-conflict
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> atomic-write-scope-conflict
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> critical-artifact-cleanup-required
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> critical-artifact-cleanup-required
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> artifact-ownership-unclear
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> artifact-ownership-unclear
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> worktree-hygiene-blocked
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> worktree-hygiene-blocked
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> parent-worktree-disposition-required
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> parent-worktree-disposition-required
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> worktree-handoff-evidence-changed
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> worktree-handoff-evidence-changed
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> stale-closeout-worktree-return
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> stale-closeout-worktree-return
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> aggregate-closeout-readiness-missing
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> aggregate-closeout-readiness-missing
+[OK] program blocker taxonomy example class valid: proposal-program hard-blocker -> protected-artifact-authority-ambiguity
+[OK] program blocker taxonomy example recovery declared: proposal-program hard-blocker -> protected-artifact-authority-ambiguity
+[OK] hard-blocker taxonomy required example declared: proposal-program -> authority-ambiguity
+[OK] hard-blocker taxonomy required example declared: proposal-program -> authority-boundary-ambiguous
+[OK] hard-blocker taxonomy required example declared: proposal-program -> unsafe-resume
+[OK] hard-blocker taxonomy required example declared: proposal-program -> scope-expansion
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> aggregate-closeout-readiness-missing
+[OK] hard-blocker taxonomy forbids automatic recovery route/action: proposal-program -> artifact-ownership-unclear
+[OK] hard-blocker taxonomy recipe fails closed: proposal-program -> artifact-ownership-unclear
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> atomic-write-scope-conflict
+[OK] hard-blocker taxonomy forbids automatic recovery route/action: proposal-program -> authority-ambiguity
+[OK] hard-blocker taxonomy recipe fails closed: proposal-program -> authority-ambiguity
+[OK] hard-blocker taxonomy forbids automatic recovery route/action: proposal-program -> authority-boundary-ambiguous
+[OK] hard-blocker taxonomy recipe fails closed: proposal-program -> authority-boundary-ambiguous
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> authority-zone-ambiguous
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> critical-artifact-cleanup-required
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> parent-worktree-disposition-required
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> protected-artifact-authority-ambiguity
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> scope-expansion
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> self-authorization-attempt
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> stale-closeout-worktree-return
+[OK] hard-blocker taxonomy forbids automatic recovery route/action: proposal-program -> unsafe-resume
+[OK] hard-blocker taxonomy recipe fails closed: proposal-program -> unsafe-resume
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> unsupported-mode-authority
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> worktree-handoff-evidence-changed
+[OK] hard-blocker taxonomy has no automatic recovery recipe: proposal-program -> worktree-hygiene-blocked
+[OK] program recovery handler blocker valid: proposal-program -> stale-receipt
+[OK] program recovery field allowed: proposal-program handler stale-receipt -> max_attempts
+[OK] program recovery field allowed: proposal-program handler stale-receipt -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> stale-receipt
+[OK] program recovery handler replan flag valid: proposal-program -> stale-receipt
+[OK] program recovery handler dispatchability modeled: proposal-program -> stale-receipt
+[OK] program recovery handler blocker valid: proposal-program -> target-drift-explained
+[OK] program recovery field allowed: proposal-program handler target-drift-explained -> max_attempts
+[OK] program recovery field allowed: proposal-program handler target-drift-explained -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> target-drift-explained
+[OK] program recovery handler replan flag valid: proposal-program -> target-drift-explained
+[OK] program recovery handler dispatchability modeled: proposal-program -> target-drift-explained
+[OK] program recovery handler blocker valid: proposal-program -> recovery-integrity-risk
+[OK] program recovery field allowed: proposal-program handler recovery-integrity-risk -> max_attempts
+[OK] program recovery field allowed: proposal-program handler recovery-integrity-risk -> replan_after_attempt
+[OK] program recovery field allowed: proposal-program handler recovery-integrity-risk -> human_required
+[OK] program recovery handler attempts valid: proposal-program -> recovery-integrity-risk
+[OK] program recovery handler replan flag valid: proposal-program -> recovery-integrity-risk
+[OK] program recovery handler approval flag valid: proposal-program -> recovery-integrity-risk
+[OK] program recovery handler dispatchability modeled: proposal-program -> recovery-integrity-risk
+[OK] program recovery handler blocker valid: proposal-program -> validation-failed
+[OK] program recovery field allowed: proposal-program handler validation-failed -> recovery_route_id
+[OK] program recovery field allowed: proposal-program handler validation-failed -> max_attempts
+[OK] program recovery field allowed: proposal-program handler validation-failed -> replan_after_attempt
+[OK] program recovery field allowed: proposal-program handler validation-failed -> human_required
+[OK] program recovery handler route id valid: proposal-program validation-failed -> generate-program-correction-prompt
+[OK] program recovery handler attempts valid: proposal-program -> validation-failed
+[OK] program recovery handler replan flag valid: proposal-program -> validation-failed
+[OK] program recovery handler approval flag valid: proposal-program -> validation-failed
+[OK] program recovery handler dispatchability modeled: proposal-program -> validation-failed
+[OK] program recovery handler blocker valid: proposal-program -> invalid-child-registry
+[OK] program recovery field allowed: proposal-program handler invalid-child-registry -> recovery_route_id
+[OK] program recovery field allowed: proposal-program handler invalid-child-registry -> max_attempts
+[OK] program recovery field allowed: proposal-program handler invalid-child-registry -> replan_after_attempt
+[OK] program recovery field allowed: proposal-program handler invalid-child-registry -> human_required
+[OK] program recovery handler route id valid: proposal-program invalid-child-registry -> generate-program-correction-prompt
+[OK] program recovery handler attempts valid: proposal-program -> invalid-child-registry
+[OK] program recovery handler replan flag valid: proposal-program -> invalid-child-registry
+[OK] program recovery handler approval flag valid: proposal-program -> invalid-child-registry
+[OK] program recovery handler dispatchability modeled: proposal-program -> invalid-child-registry
+[OK] program recovery handler blocker valid: proposal-program -> publication-drift
+[OK] program recovery field allowed: proposal-program handler publication-drift -> max_attempts
+[OK] program recovery field allowed: proposal-program handler publication-drift -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> publication-drift
+[OK] program recovery handler replan flag valid: proposal-program -> publication-drift
+[OK] program recovery handler dispatchability modeled: proposal-program -> publication-drift
+[OK] program recovery handler blocker valid: proposal-program -> missing-evidence
+[OK] program recovery field allowed: proposal-program handler missing-evidence -> max_attempts
+[OK] program recovery field allowed: proposal-program handler missing-evidence -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> missing-evidence
+[OK] program recovery handler replan flag valid: proposal-program -> missing-evidence
+[OK] program recovery handler dispatchability modeled: proposal-program -> missing-evidence
+[OK] program recovery handler blocker valid: proposal-program -> executor-failed
+[OK] program recovery field allowed: proposal-program handler executor-failed -> max_attempts
+[OK] program recovery field allowed: proposal-program handler executor-failed -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> executor-failed
+[OK] program recovery handler replan flag valid: proposal-program -> executor-failed
+[OK] program recovery handler dispatchability modeled: proposal-program -> executor-failed
+[OK] program recovery handler blocker valid: proposal-program -> executor-timed-out
+[OK] program recovery field allowed: proposal-program handler executor-timed-out -> max_attempts
+[OK] program recovery field allowed: proposal-program handler executor-timed-out -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> executor-timed-out
+[OK] program recovery handler replan flag valid: proposal-program -> executor-timed-out
+[OK] program recovery handler dispatchability modeled: proposal-program -> executor-timed-out
+[OK] program recovery handler blocker valid: proposal-program -> executor-preflight-blocked
+[OK] program recovery field allowed: proposal-program handler executor-preflight-blocked -> max_attempts
+[OK] program recovery field allowed: proposal-program handler executor-preflight-blocked -> replan_after_attempt
+[OK] program recovery field allowed: proposal-program handler executor-preflight-blocked -> human_required
+[OK] program recovery handler attempts valid: proposal-program -> executor-preflight-blocked
+[OK] program recovery handler replan flag valid: proposal-program -> executor-preflight-blocked
+[OK] program recovery handler approval flag valid: proposal-program -> executor-preflight-blocked
+[OK] program recovery handler dispatchability modeled: proposal-program -> executor-preflight-blocked
+[OK] program recovery handler blocker valid: proposal-program -> unsupported-mode-config
+[OK] program recovery field allowed: proposal-program handler unsupported-mode-config -> max_attempts
+[OK] program recovery field allowed: proposal-program handler unsupported-mode-config -> human_required
+[OK] program recovery handler attempts valid: proposal-program -> unsupported-mode-config
+[OK] program recovery handler approval flag valid: proposal-program -> unsupported-mode-config
+[OK] program recovery handler dispatchability modeled: proposal-program -> unsupported-mode-config
+[OK] program recovery handler blocker valid: proposal-program -> noncritical-artifact-cleanup
+[OK] program recovery field allowed: proposal-program handler noncritical-artifact-cleanup -> max_attempts
+[OK] program recovery field allowed: proposal-program handler noncritical-artifact-cleanup -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> noncritical-artifact-cleanup
+[OK] program recovery handler replan flag valid: proposal-program -> noncritical-artifact-cleanup
+[OK] program recovery handler dispatchability modeled: proposal-program -> noncritical-artifact-cleanup
+[OK] program recovery handler blocker valid: proposal-program -> lifecycle-residue-cleanup-needed
+[OK] program recovery field allowed: proposal-program handler lifecycle-residue-cleanup-needed -> recovery_route_id
+[OK] program recovery field allowed: proposal-program handler lifecycle-residue-cleanup-needed -> max_attempts
+[OK] program recovery field allowed: proposal-program handler lifecycle-residue-cleanup-needed -> replan_after_attempt
+[OK] program recovery field allowed: proposal-program handler lifecycle-residue-cleanup-needed -> human_required
+[OK] program recovery handler route id valid: proposal-program lifecycle-residue-cleanup-needed -> cleanup-lifecycle-residue
+[OK] program recovery handler attempts valid: proposal-program -> lifecycle-residue-cleanup-needed
+[OK] program recovery handler replan flag valid: proposal-program -> lifecycle-residue-cleanup-needed
+[OK] program recovery handler approval flag valid: proposal-program -> lifecycle-residue-cleanup-needed
+[OK] program recovery handler dispatchability modeled: proposal-program -> lifecycle-residue-cleanup-needed
+[OK] program recovery handler blocker valid: proposal-program -> authority-ambiguity
+[OK] program recovery field allowed: proposal-program handler authority-ambiguity -> max_attempts
+[OK] program recovery field allowed: proposal-program handler authority-ambiguity -> human_required
+[OK] program recovery handler attempts valid: proposal-program -> authority-ambiguity
+[OK] program recovery handler approval flag valid: proposal-program -> authority-ambiguity
+[OK] program recovery handler dispatchability modeled: proposal-program -> authority-ambiguity
+[OK] program recovery handler blocker valid: proposal-program -> artifact-ownership-unclear
+[OK] program recovery field allowed: proposal-program handler artifact-ownership-unclear -> max_attempts
+[OK] program recovery field allowed: proposal-program handler artifact-ownership-unclear -> human_required
+[OK] program recovery field allowed: proposal-program handler artifact-ownership-unclear -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> artifact-ownership-unclear
+[OK] program recovery handler replan flag valid: proposal-program -> artifact-ownership-unclear
+[OK] program recovery handler approval flag valid: proposal-program -> artifact-ownership-unclear
+[OK] program recovery handler dispatchability modeled: proposal-program -> artifact-ownership-unclear
+[OK] program recovery handler blocker valid: proposal-program -> worktree-hygiene-blocked
+[OK] program recovery field allowed: proposal-program handler worktree-hygiene-blocked -> max_attempts
+[OK] program recovery field allowed: proposal-program handler worktree-hygiene-blocked -> human_required
+[OK] program recovery field allowed: proposal-program handler worktree-hygiene-blocked -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> worktree-hygiene-blocked
+[OK] program recovery handler replan flag valid: proposal-program -> worktree-hygiene-blocked
+[OK] program recovery handler approval flag valid: proposal-program -> worktree-hygiene-blocked
+[OK] program recovery handler dispatchability modeled: proposal-program -> worktree-hygiene-blocked
+[OK] program recovery handler blocker valid: proposal-program -> parent-worktree-disposition-required
+[OK] program recovery field allowed: proposal-program handler parent-worktree-disposition-required -> max_attempts
+[OK] program recovery field allowed: proposal-program handler parent-worktree-disposition-required -> human_required
+[OK] program recovery field allowed: proposal-program handler parent-worktree-disposition-required -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> parent-worktree-disposition-required
+[OK] program recovery handler replan flag valid: proposal-program -> parent-worktree-disposition-required
+[OK] program recovery handler approval flag valid: proposal-program -> parent-worktree-disposition-required
+[OK] program recovery handler dispatchability modeled: proposal-program -> parent-worktree-disposition-required
+[OK] program recovery handler blocker valid: proposal-program -> worktree-handoff-evidence-changed
+[OK] program recovery field allowed: proposal-program handler worktree-handoff-evidence-changed -> max_attempts
+[OK] program recovery field allowed: proposal-program handler worktree-handoff-evidence-changed -> human_required
+[OK] program recovery field allowed: proposal-program handler worktree-handoff-evidence-changed -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> worktree-handoff-evidence-changed
+[OK] program recovery handler replan flag valid: proposal-program -> worktree-handoff-evidence-changed
+[OK] program recovery handler approval flag valid: proposal-program -> worktree-handoff-evidence-changed
+[OK] program recovery handler dispatchability modeled: proposal-program -> worktree-handoff-evidence-changed
+[OK] program recovery handler blocker valid: proposal-program -> stale-closeout-worktree-return
+[OK] program recovery field allowed: proposal-program handler stale-closeout-worktree-return -> max_attempts
+[OK] program recovery field allowed: proposal-program handler stale-closeout-worktree-return -> human_required
+[OK] program recovery field allowed: proposal-program handler stale-closeout-worktree-return -> replan_after_attempt
+[OK] program recovery handler attempts valid: proposal-program -> stale-closeout-worktree-return
+[OK] program recovery handler replan flag valid: proposal-program -> stale-closeout-worktree-return
+[OK] program recovery handler approval flag valid: proposal-program -> stale-closeout-worktree-return
+[OK] program recovery handler dispatchability modeled: proposal-program -> stale-closeout-worktree-return
+[OK] program recovery recipes sequence valid: proposal-program
+[OK] program recovery recipe is map: proposal-program recipe[0]
+[OK] program recovery field allowed: proposal-program recipe[0] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[0] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[0] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[0] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[0] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[0] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[0] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[0] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[0] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[0] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[0] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[0] -> requires_declared_write_scope
+[OK] program recovery field allowed: proposal-program recipe[0] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[0] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[0] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[0] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[0] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[0] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[0] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[0] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[0] -> stale-receipt
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[0]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[0]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[0]
+[OK] program recovery recipe precondition valid: proposal-program recipe[0] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[0] -> selected-route-present
+[OK] program recovery recipe precondition valid: proposal-program recipe[0] -> receipt-stale
+[OK] program recovery recipe precondition valid: proposal-program recipe[0] -> hygiene-receipt-stale-after-live-pass
+[OK] program recovery recipe idempotency valid: proposal-program recipe[0] -> idempotent-rerun
+[OK] program recovery recipe approval flag valid: proposal-program recipe[0]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[0]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[0] -> workspace-declared
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[0]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[0] -> workspace-source
+[OK] program recovery recipe operation class valid: proposal-program recipe[0] -> retry-child-route
+[OK] program recovery recipe authority flag valid: proposal-program recipe[0] -> requires_declared_write_scope
+[OK] program recovery recipe authority flag valid: proposal-program recipe[0] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[0]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[0]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[0]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[0] -> 2
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[0] -> pause-dependent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[0]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[0]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[0] -> replan-live-state
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[0] -> receipt-freshness
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[0] -> after-attempt
+[OK] runtime child route recovery recipe requires selected route: proposal-program recipe[0]
+[OK] program recovery recipe is map: proposal-program recipe[1]
+[OK] program recovery field allowed: proposal-program recipe[1] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[1] -> recovery_action_id
+[OK] program recovery field allowed: proposal-program recipe[1] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[1] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[1] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[1] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[1] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[1] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[1] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[1] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[1] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[1] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[1] -> requires_run_binding
+[OK] program recovery field allowed: proposal-program recipe[1] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[1] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[1] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[1] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[1] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[1] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[1] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[1] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[1] -> target-drift-explained
+[OK] program recovery recipe action id valid: proposal-program recipe[1] -> rebaseline-checkpoint
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[1]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[1]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[1]
+[OK] program recovery recipe precondition valid: proposal-program recipe[1] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[1] -> target-path-unchanged
+[OK] program recovery recipe precondition valid: proposal-program recipe[1] -> write-scope-unchanged
+[OK] program recovery recipe precondition valid: proposal-program recipe[1] -> current-run-child-owned-drift-evidence
+[OK] program recovery recipe precondition valid: proposal-program recipe[1] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[1] -> run-bound-current
+[OK] program recovery recipe idempotency valid: proposal-program recipe[1] -> inspect-only
+[OK] program recovery recipe approval flag valid: proposal-program recipe[1]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[1]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[1] -> octon-run-bound
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[1]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[1] -> run-control
+[OK] program recovery recipe artifact class valid: proposal-program recipe[1] -> run-evidence
+[OK] program recovery recipe operation class valid: proposal-program recipe[1] -> program-recovery-action
+[OK] program recovery recipe authority flag valid: proposal-program recipe[1] -> requires_run_binding
+[OK] program recovery recipe authority flag valid: proposal-program recipe[1] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[1]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[1]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[1]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[1] -> 1
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[1] -> pause-dependent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[1]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[1]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[1] -> replan-live-state
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[1] -> authority-boundary-check
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[1] -> replay-verify
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[1] -> after-attempt
+[OK] recoverable recovery recipe dispatchability modeled: proposal-program recipe[1]
+[OK] program recovery recipe is map: proposal-program recipe[2]
+[OK] program recovery field allowed: proposal-program recipe[2] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[2] -> recovery_action_id
+[OK] program recovery field allowed: proposal-program recipe[2] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[2] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[2] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[2] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[2] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[2] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[2] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[2] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[2] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[2] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[2] -> requires_run_binding
+[OK] program recovery field allowed: proposal-program recipe[2] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[2] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[2] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[2] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[2] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[2] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[2] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[2] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[2] -> recovery-integrity-risk
+[OK] program recovery recipe action id valid: proposal-program recipe[2] -> rebaseline-checkpoint
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[2]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[2]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[2]
+[OK] program recovery recipe precondition valid: proposal-program recipe[2] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[2] -> selected-route-present
+[OK] program recovery recipe precondition valid: proposal-program recipe[2] -> current-run-child-owned-drift-evidence
+[OK] program recovery recipe precondition valid: proposal-program recipe[2] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[2] -> run-bound-current
+[OK] program recovery recipe idempotency valid: proposal-program recipe[2] -> inspect-only
+[OK] program recovery recipe approval flag valid: proposal-program recipe[2]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[2]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[2] -> octon-run-bound
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[2]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[2] -> run-control
+[OK] program recovery recipe artifact class valid: proposal-program recipe[2] -> run-evidence
+[OK] program recovery recipe operation class valid: proposal-program recipe[2] -> program-recovery-action
+[OK] program recovery recipe authority flag valid: proposal-program recipe[2] -> requires_run_binding
+[OK] program recovery recipe authority flag valid: proposal-program recipe[2] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[2]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[2]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[2]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[2] -> 1
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[2] -> pause-dependent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[2]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[2]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[2] -> replan-live-state
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[2] -> authority-boundary-check
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[2] -> replay-verify
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[2] -> after-attempt
+[OK] unsafe repair recipe idempotency is safe-unattended: proposal-program recipe[2] -> inspect-only
+[OK] unsafe repair recipe declares post-attempt validation: proposal-program recipe[2]
+[OK] program recovery recipe is map: proposal-program recipe[3]
+[OK] program recovery field allowed: proposal-program recipe[3] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[3] -> recovery_action_id
+[OK] program recovery field allowed: proposal-program recipe[3] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[3] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[3] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[3] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[3] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[3] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[3] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[3] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[3] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[3] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[3] -> requires_run_binding
+[OK] program recovery field allowed: proposal-program recipe[3] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[3] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[3] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[3] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[3] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[3] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[3] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[3] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[3] -> recovery-budget-override-required
+[OK] program recovery recipe action id valid: proposal-program recipe[3] -> rebaseline-checkpoint
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[3]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[3]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[3]
+[OK] program recovery recipe precondition valid: proposal-program recipe[3] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[3] -> selected-route-present
+[OK] program recovery recipe precondition valid: proposal-program recipe[3] -> current-run-child-owned-drift-evidence
+[OK] program recovery recipe precondition valid: proposal-program recipe[3] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[3] -> run-bound-current
+[OK] program recovery recipe idempotency valid: proposal-program recipe[3] -> inspect-only
+[OK] program recovery recipe approval flag valid: proposal-program recipe[3]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[3]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[3] -> octon-run-bound
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[3]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[3] -> run-control
+[OK] program recovery recipe artifact class valid: proposal-program recipe[3] -> run-evidence
+[OK] program recovery recipe operation class valid: proposal-program recipe[3] -> program-recovery-action
+[OK] program recovery recipe authority flag valid: proposal-program recipe[3] -> requires_run_binding
+[OK] program recovery recipe authority flag valid: proposal-program recipe[3] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[3]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[3]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[3]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[3] -> 1
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[3] -> pause-dependent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[3]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[3]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[3] -> replan-live-state
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[3] -> authority-boundary-check
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[3] -> replay-verify
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[3] -> after-attempt
+[OK] recoverable recovery recipe dispatchability modeled: proposal-program recipe[3]
+[OK] program recovery recipe is map: proposal-program recipe[4]
+[OK] program recovery field allowed: proposal-program recipe[4] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[4] -> recovery_route_id
+[OK] program recovery field allowed: proposal-program recipe[4] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[4] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[4] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[4] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[4] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[4] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[4] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[4] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[4] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[4] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[4] -> requires_declared_write_scope
+[OK] program recovery field allowed: proposal-program recipe[4] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[4] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[4] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[4] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[4] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[4] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[4] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[4] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[4] -> validation-failed
+[OK] program recovery recipe route id valid: proposal-program recipe[4] -> generate-program-correction-prompt
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[4]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[4]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[4]
+[OK] program recovery recipe precondition valid: proposal-program recipe[4] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[4] -> declared-write-scope-contained
+[OK] program recovery recipe idempotency valid: proposal-program recipe[4] -> approval-gated-mutation
+[OK] program recovery recipe approval flag valid: proposal-program recipe[4]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[4]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[4] -> workspace-declared
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[4]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[4] -> workspace-source
+[OK] program recovery recipe operation class valid: proposal-program recipe[4] -> program-recovery-action
+[OK] program recovery recipe authority flag valid: proposal-program recipe[4] -> requires_declared_write_scope
+[OK] program recovery recipe authority flag valid: proposal-program recipe[4] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[4]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[4]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[4]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[4] -> 1
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[4] -> continue-independent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[4]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[4]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[4] -> replan-live-state
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[4] -> after-attempt
+[OK] recoverable recovery recipe dispatchability modeled: proposal-program recipe[4]
+[OK] program recovery recipe is map: proposal-program recipe[5]
+[OK] program recovery field allowed: proposal-program recipe[5] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[5] -> recovery_action_id
+[OK] program recovery field allowed: proposal-program recipe[5] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[5] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[5] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[5] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[5] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[5] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[5] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[5] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[5] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[5] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[5] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[5] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[5] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[5] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[5] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[5] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[5] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[5] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[5] -> publication-drift
+[OK] program recovery recipe action id valid: proposal-program recipe[5] -> refresh-publication-projections
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[5]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[5]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[5]
+[OK] program recovery recipe precondition valid: proposal-program recipe[5] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[5] -> generated-non-authority
+[OK] program recovery recipe idempotency valid: proposal-program recipe[5] -> idempotent-rerun
+[OK] program recovery recipe approval flag valid: proposal-program recipe[5]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[5]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[5] -> octon-generated-derived
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[5]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[5] -> generated-derived
+[ERROR] program recovery recipe artifact class invalid: proposal-program recipe[5] -> host-projection
+[OK] program recovery recipe operation class valid: proposal-program recipe[5] -> refresh-generated-projection
+[OK] program recovery recipe authority flag valid: proposal-program recipe[5] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[5]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[5]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[5]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[5] -> 1
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[5] -> pause-dependent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[5]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[5]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[5] -> replan-live-state
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[5] -> publication-freshness-cleared
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[5] -> replay-verify
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[5] -> after-attempt
+[OK] recoverable recovery recipe dispatchability modeled: proposal-program recipe[5]
+[OK] program recovery recipe is map: proposal-program recipe[6]
+[OK] program recovery field allowed: proposal-program recipe[6] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[6] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[6] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[6] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[6] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[6] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[6] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[6] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[6] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[6] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[6] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[6] -> requires_declared_write_scope
+[OK] program recovery field allowed: proposal-program recipe[6] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[6] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[6] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[6] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[6] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[6] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[6] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[6] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[6] -> missing-evidence
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[6]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[6]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[6]
+[OK] program recovery recipe precondition valid: proposal-program recipe[6] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[6] -> selected-route-present
+[OK] program recovery recipe precondition valid: proposal-program recipe[6] -> missing-evidence
+[OK] program recovery recipe precondition valid: proposal-program recipe[6] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[6] -> declared-write-scope-contained
+[OK] program recovery recipe idempotency valid: proposal-program recipe[6] -> idempotent-rerun
+[OK] program recovery recipe approval flag valid: proposal-program recipe[6]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[6]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[6] -> workspace-declared
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[6]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[6] -> workspace-source
+[OK] program recovery recipe operation class valid: proposal-program recipe[6] -> retry-child-route
+[OK] program recovery recipe authority flag valid: proposal-program recipe[6] -> requires_declared_write_scope
+[OK] program recovery recipe authority flag valid: proposal-program recipe[6] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[6]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[6]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[6]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[6] -> 2
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[6] -> pause-dependent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[6]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[6]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[6] -> replan-live-state
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[6] -> after-attempt
+[OK] runtime child route recovery recipe requires selected route: proposal-program recipe[6]
+[OK] program recovery recipe is map: proposal-program recipe[7]
+[OK] program recovery field allowed: proposal-program recipe[7] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[7] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[7] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[7] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[7] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[7] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[7] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[7] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[7] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[7] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[7] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[7] -> requires_declared_write_scope
+[OK] program recovery field allowed: proposal-program recipe[7] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[7] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[7] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[7] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[7] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[7] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[7] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[7] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[7] -> executor-failed
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[7]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[7]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[7]
+[OK] program recovery recipe precondition valid: proposal-program recipe[7] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[7] -> selected-route-present
+[OK] program recovery recipe precondition valid: proposal-program recipe[7] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[7] -> declared-write-scope-contained
+[OK] program recovery recipe idempotency valid: proposal-program recipe[7] -> bounded-retry
+[OK] program recovery recipe approval flag valid: proposal-program recipe[7]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[7]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[7] -> workspace-declared
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[7]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[7] -> workspace-source
+[OK] program recovery recipe operation class valid: proposal-program recipe[7] -> retry-child-route
+[OK] program recovery recipe authority flag valid: proposal-program recipe[7] -> requires_declared_write_scope
+[OK] program recovery recipe authority flag valid: proposal-program recipe[7] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[7]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[7]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[7]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[7] -> 2
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[7] -> continue-independent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[7]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[7]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[7] -> replan-live-state
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[7] -> after-attempt
+[OK] runtime child route recovery recipe requires selected route: proposal-program recipe[7]
+[OK] program recovery recipe is map: proposal-program recipe[8]
+[OK] program recovery field allowed: proposal-program recipe[8] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[8] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[8] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[8] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[8] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[8] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[8] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[8] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[8] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[8] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[8] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[8] -> requires_declared_write_scope
+[OK] program recovery field allowed: proposal-program recipe[8] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[8] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[8] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[8] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[8] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[8] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[8] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[8] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[8] -> executor-timed-out
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[8]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[8]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[8]
+[OK] program recovery recipe precondition valid: proposal-program recipe[8] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[8] -> selected-route-present
+[OK] program recovery recipe precondition valid: proposal-program recipe[8] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[8] -> declared-write-scope-contained
+[OK] program recovery recipe idempotency valid: proposal-program recipe[8] -> bounded-retry
+[OK] program recovery recipe approval flag valid: proposal-program recipe[8]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[8]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[8] -> workspace-declared
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[8]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[8] -> workspace-source
+[OK] program recovery recipe operation class valid: proposal-program recipe[8] -> retry-child-route
+[OK] program recovery recipe authority flag valid: proposal-program recipe[8] -> requires_declared_write_scope
+[OK] program recovery recipe authority flag valid: proposal-program recipe[8] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[8]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[8]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[8]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[8] -> 2
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[8] -> continue-independent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[8]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[8]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[8] -> replan-live-state
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[8] -> after-attempt
+[OK] runtime child route recovery recipe requires selected route: proposal-program recipe[8]
+[OK] program recovery recipe is map: proposal-program recipe[9]
+[OK] program recovery field allowed: proposal-program recipe[9] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[9] -> recovery_action_id
+[OK] program recovery field allowed: proposal-program recipe[9] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[9] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[9] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[9] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[9] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[9] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[9] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[9] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[9] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[9] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[9] -> requires_run_binding
+[OK] program recovery field allowed: proposal-program recipe[9] -> requires_declared_write_scope
+[OK] program recovery field allowed: proposal-program recipe[9] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[9] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[9] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[9] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[9] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[9] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[9] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[9] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[9] -> noncritical-artifact-cleanup
+[OK] program recovery recipe action id valid: proposal-program recipe[9] -> cleanup-current-run-artifacts
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[9]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[9]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[9]
+[OK] program recovery recipe precondition valid: proposal-program recipe[9] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[9] -> current-run-child-owned-drift-evidence
+[OK] program recovery recipe precondition valid: proposal-program recipe[9] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[9] -> artifact-ownership-known
+[OK] program recovery recipe precondition valid: proposal-program recipe[9] -> run-bound-current
+[OK] program recovery recipe idempotency valid: proposal-program recipe[9] -> idempotent
+[OK] program recovery recipe approval flag valid: proposal-program recipe[9]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[9]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[9] -> current-run-agent-artifact
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[9]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[9] -> current-run-generated
+[OK] program recovery recipe operation class valid: proposal-program recipe[9] -> cleanup-current-run-artifact
+[OK] program recovery recipe authority flag valid: proposal-program recipe[9] -> requires_run_binding
+[OK] program recovery recipe authority flag valid: proposal-program recipe[9] -> requires_declared_write_scope
+[OK] program recovery recipe authority flag valid: proposal-program recipe[9] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[9]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[9]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[9]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[9] -> 1
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[9] -> continue-independent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[9]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[9]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[9] -> replan-live-state
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[9] -> authority-boundary-check
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[9] -> after-attempt
+[OK] recoverable recovery recipe dispatchability modeled: proposal-program recipe[9]
+[OK] program recovery recipe is map: proposal-program recipe[10]
+[OK] program recovery field allowed: proposal-program recipe[10] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[10] -> recovery_route_id
+[OK] program recovery field allowed: proposal-program recipe[10] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[10] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[10] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[10] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[10] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[10] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[10] -> replan_behavior
+[OK] program recovery field allowed: proposal-program recipe[10] -> allowed_authority_zones
+[OK] program recovery field allowed: proposal-program recipe[10] -> allowed_artifact_classes
+[OK] program recovery field allowed: proposal-program recipe[10] -> operation_class
+[OK] program recovery field allowed: proposal-program recipe[10] -> requires_run_binding
+[OK] program recovery field allowed: proposal-program recipe[10] -> requires_zone_evidence
+[OK] program recovery recipe field declared: proposal-program recipe[10] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[10] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[10] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[10] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[10] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[10] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[10] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[10] -> lifecycle-residue-cleanup-needed
+[OK] program recovery recipe route id valid: proposal-program recipe[10] -> cleanup-lifecycle-residue
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[10]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[10]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[10]
+[OK] program recovery recipe precondition valid: proposal-program recipe[10] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[10] -> authority-zone-allowed
+[OK] program recovery recipe precondition valid: proposal-program recipe[10] -> run-bound-current
+[OK] program recovery recipe idempotency valid: proposal-program recipe[10] -> idempotent-rerun
+[OK] program recovery recipe approval flag valid: proposal-program recipe[10]
+[OK] program recovery recipe authority zones sequence valid: proposal-program recipe[10]
+[OK] program recovery recipe authority zone valid: proposal-program recipe[10] -> workspace-declared
+[OK] program recovery recipe authority zone valid: proposal-program recipe[10] -> octon-run-bound
+[OK] program recovery recipe authority zone valid: proposal-program recipe[10] -> current-run-agent-artifact
+[OK] program recovery recipe artifact classes sequence valid: proposal-program recipe[10]
+[OK] program recovery recipe artifact class valid: proposal-program recipe[10] -> workspace-source
+[OK] program recovery recipe artifact class valid: proposal-program recipe[10] -> run-control
+[OK] program recovery recipe artifact class valid: proposal-program recipe[10] -> run-evidence
+[OK] program recovery recipe artifact class valid: proposal-program recipe[10] -> current-run-generated
+[OK] program recovery recipe operation class valid: proposal-program recipe[10] -> program-recovery-action
+[OK] program recovery recipe authority flag valid: proposal-program recipe[10] -> requires_run_binding
+[OK] program recovery recipe authority flag valid: proposal-program recipe[10] -> requires_zone_evidence
+[OK] approval-free recovery recipe declares authority zones: proposal-program recipe[10]
+[OK] approval-free recovery recipe declares artifact classes: proposal-program recipe[10]
+[OK] approval-free recovery recipe declares operation class: proposal-program recipe[10]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[10] -> 1
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[10] -> continue-independent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[10]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[10]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[10] -> replan-live-state
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[10] -> authority-boundary-check
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[10] -> after-attempt
+[OK] recoverable recovery recipe dispatchability modeled: proposal-program recipe[10]
+[OK] program recovery recipe is map: proposal-program recipe[11]
+[OK] program recovery field allowed: proposal-program recipe[11] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[11] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[11] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[11] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[11] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[11] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[11] -> replan_behavior
+[OK] program recovery recipe field declared: proposal-program recipe[11] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[11] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[11] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[11] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[11] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[11] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[11] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[11] -> authority-ambiguity
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[11]
+[OK] program recovery recipe idempotency valid: proposal-program recipe[11] -> approval-gated-mutation
+[OK] program recovery recipe approval flag valid: proposal-program recipe[11]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[11] -> 0
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[11] -> pause-phase
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[11]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[11]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[11] -> replay-verify
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[11] -> none
+[OK] human-required recovery recipe retry budget is zero: proposal-program recipe[11]
+[OK] human-required recovery recipe has no recovery route: proposal-program recipe[11]
+[OK] human-required recovery recipe has no recovery action: proposal-program recipe[11]
+[OK] human-required recovery recipe dispatchability is fail-closed: proposal-program recipe[11]
+[OK] program recovery recipe is map: proposal-program recipe[12]
+[OK] program recovery field allowed: proposal-program recipe[12] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[12] -> preconditions
+[OK] program recovery field allowed: proposal-program recipe[12] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[12] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[12] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[12] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[12] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[12] -> replan_behavior
+[OK] program recovery recipe field declared: proposal-program recipe[12] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[12] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[12] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[12] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[12] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[12] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[12] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[12] -> artifact-ownership-unclear
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[12]
+[OK] program recovery recipe preconditions sequence valid: proposal-program recipe[12]
+[OK] program recovery recipe preconditions unique: proposal-program recipe[12]
+[OK] program recovery recipe precondition valid: proposal-program recipe[12] -> live-state-readable
+[OK] program recovery recipe precondition valid: proposal-program recipe[12] -> selected-route-present
+[OK] program recovery recipe idempotency valid: proposal-program recipe[12] -> inspect-only
+[OK] program recovery recipe approval flag valid: proposal-program recipe[12]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[12] -> 0
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[12] -> pause-dependent
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[12]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[12]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[12] -> authority-boundary-check
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[12] -> none
+[OK] human-required recovery recipe retry budget is zero: proposal-program recipe[12]
+[OK] human-required recovery recipe has no recovery route: proposal-program recipe[12]
+[OK] human-required recovery recipe has no recovery action: proposal-program recipe[12]
+[OK] human-required recovery recipe dispatchability is fail-closed: proposal-program recipe[12]
+[OK] program recovery recipe is map: proposal-program recipe[13]
+[OK] program recovery field allowed: proposal-program recipe[13] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[13] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[13] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[13] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[13] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[13] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[13] -> replan_behavior
+[OK] program recovery recipe field declared: proposal-program recipe[13] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[13] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[13] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[13] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[13] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[13] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[13] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[13] -> unsafe-resume
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[13]
+[OK] program recovery recipe idempotency valid: proposal-program recipe[13] -> non-recoverable
+[OK] program recovery recipe approval flag valid: proposal-program recipe[13]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[13] -> 0
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[13] -> fail-closed
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[13]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[13]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[13] -> replay-verify
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[13] -> none
+[OK] non-recoverable recipe declares non-recoverable idempotency: proposal-program recipe[13]
+[OK] non-recoverable recipe retry budget is zero: proposal-program recipe[13]
+[OK] non-recoverable recipe dependent handling fail-closed: proposal-program recipe[13]
+[OK] non-recoverable recipe has no recovery route: proposal-program recipe[13]
+[OK] non-recoverable recipe has no recovery action: proposal-program recipe[13]
+[OK] program recovery recipe is map: proposal-program recipe[14]
+[OK] program recovery field allowed: proposal-program recipe[14] -> blocker_class
+[OK] program recovery field allowed: proposal-program recipe[14] -> idempotency_class
+[OK] program recovery field allowed: proposal-program recipe[14] -> human_required
+[OK] program recovery field allowed: proposal-program recipe[14] -> retry_budget
+[OK] program recovery field allowed: proposal-program recipe[14] -> dependent_handling
+[OK] program recovery field allowed: proposal-program recipe[14] -> post_attempt_validation
+[OK] program recovery field allowed: proposal-program recipe[14] -> replan_behavior
+[OK] program recovery recipe field declared: proposal-program recipe[14] -> blocker_class
+[OK] program recovery recipe field declared: proposal-program recipe[14] -> idempotency_class
+[OK] program recovery recipe field declared: proposal-program recipe[14] -> human_required
+[OK] program recovery recipe field declared: proposal-program recipe[14] -> retry_budget
+[OK] program recovery recipe field declared: proposal-program recipe[14] -> dependent_handling
+[OK] program recovery recipe field declared: proposal-program recipe[14] -> post_attempt_validation
+[OK] program recovery recipe field declared: proposal-program recipe[14] -> replan_behavior
+[OK] program recovery recipe blocker valid: proposal-program recipe[14] -> authority-boundary-ambiguous
+[OK] program recovery recipe route/action exclusivity valid: proposal-program recipe[14]
+[OK] program recovery recipe idempotency valid: proposal-program recipe[14] -> non-recoverable
+[OK] program recovery recipe approval flag valid: proposal-program recipe[14]
+[OK] program recovery recipe retry budget valid: proposal-program recipe[14] -> 0
+[OK] program recovery recipe dependent handling valid: proposal-program recipe[14] -> fail-closed
+[OK] program recovery recipe post-attempt validation sequence valid: proposal-program recipe[14]
+[OK] program recovery recipe post-attempt validations unique: proposal-program recipe[14]
+[OK] program recovery recipe post-attempt validation valid: proposal-program recipe[14] -> authority-boundary-check
+[OK] program recovery recipe replan behavior valid: proposal-program recipe[14] -> none
+[OK] non-recoverable recipe declares non-recoverable idempotency: proposal-program recipe[14]
+[OK] non-recoverable recipe retry budget is zero: proposal-program recipe[14]
+[OK] non-recoverable recipe dependent handling fail-closed: proposal-program recipe[14]
+[OK] non-recoverable recipe has no recovery route: proposal-program recipe[14]
+[OK] non-recoverable recipe has no recovery action: proposal-program recipe[14]
+[OK] program closeout terminal child receipt requirements sequence valid: proposal-program
+[OK] program closeout terminal outcome requirement id valid: proposal-program -> archived
+[OK] program closeout required child receipts declared: proposal-program -> archived
+[OK] program closeout child receipt id valid: proposal-program archived -> implementation-run
+[OK] program closeout child receipt id valid: proposal-program archived -> implementation-conformance
+[OK] program closeout child receipt id valid: proposal-program archived -> post-implementation-drift
+[OK] program closeout child receipt id valid: proposal-program archived -> proposal-closeout
+[OK] program closeout child receipt field checks sequence valid: proposal-program -> archived
+[OK] program closeout child receipt field check receipt valid: proposal-program archived -> implementation-run
+[OK] program closeout child receipt field check field valid: proposal-program archived -> verdict
+[OK] program closeout child receipt field check value declared: proposal-program archived -> implementation-run.verdict
+[OK] program closeout child receipt field check receipt valid: proposal-program archived -> implementation-conformance
+[OK] program closeout child receipt field check field valid: proposal-program archived -> verdict
+[OK] program closeout child receipt field check value declared: proposal-program archived -> implementation-conformance.verdict
+[OK] program closeout child receipt field check receipt valid: proposal-program archived -> post-implementation-drift
+[OK] program closeout child receipt field check field valid: proposal-program archived -> verdict
+[OK] program closeout child receipt field check value declared: proposal-program archived -> post-implementation-drift.verdict
+[OK] program closeout child receipt field check receipt valid: proposal-program archived -> proposal-closeout
+[OK] program closeout child receipt field check field valid: proposal-program archived -> verdict
+[OK] program closeout child receipt field check value declared: proposal-program archived -> proposal-closeout.verdict
+[OK] program closeout child receipt field check receipt valid: proposal-program archived -> proposal-closeout
+[OK] program closeout child receipt field check field valid: proposal-program archived -> archive_authorized
+[OK] program closeout child receipt field check value declared: proposal-program archived -> proposal-closeout.archive_authorized
+[OK] program closeout terminal outcome requirement id valid: proposal-program -> rejected
+[OK] program closeout required child receipts declared: proposal-program -> rejected
+[OK] program closeout child receipt id valid: proposal-program rejected -> proposal-review
+[OK] program closeout child receipt field checks sequence valid: proposal-program -> rejected
+[OK] program closeout child receipt field check receipt valid: proposal-program rejected -> proposal-review
+[OK] program closeout child receipt field check field valid: proposal-program rejected -> verdict
+[OK] program closeout child receipt field check value declared: proposal-program rejected -> proposal-review.verdict
+[OK] program authority boundary declared: proposal-program -> parent_coordinates_only
+[OK] program authority boundary declared: proposal-program -> child_receipts_remain_child_owned
+[OK] program authority boundary declared: proposal-program -> child_promotion_targets_remain_child_owned
+[OK] lifecycle interaction metadata is map: proposal-program
+[OK] lifecycle interaction profile list valid: proposal-program -> emitted_profiles
+[OK] lifecycle interaction profile id valid: proposal-program emitted_profiles[0] -> program-child-batch-handoff
+[OK] lifecycle interaction kind valid: proposal-program emitted_profiles[0] -> follow_on_work_required
+[OK] lifecycle interaction receipt schema valid: proposal-program emitted_profiles[0] -> lifecycle-interaction-request-v1
+[OK] lifecycle interaction non-authorizing flag asserted: proposal-program emitted_profiles[0]
+[OK] lifecycle interaction capability valid: proposal-program emitted_profiles[0] -> change-closeout
+[OK] lifecycle interaction capability valid: proposal-program emitted_profiles[0] -> closeout-worktree
+[OK] lifecycle interaction evidence class valid: proposal-program emitted_profiles[0] -> advisory-context
+[OK] lifecycle interaction evidence class valid: proposal-program emitted_profiles[0] -> validation-evidence
+[OK] lifecycle interaction evidence class valid: proposal-program emitted_profiles[0] -> review-evidence
+[OK] lifecycle interaction evidence class valid: proposal-program emitted_profiles[0] -> rollback-context
+[OK] lifecycle interaction evidence class valid: proposal-program emitted_profiles[0] -> non-authority-only
+[OK] lifecycle interaction forbids transfer: proposal-program emitted_profiles[0] -> git-ref-mutation
+[OK] lifecycle interaction forbids transfer: proposal-program emitted_profiles[0] -> hosted-provider-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program emitted_profiles[0] -> branch-cleanup-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program emitted_profiles[0] -> worktree-cleanup-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program emitted_profiles[0] -> repo-hygiene-deletion
+[OK] lifecycle interaction forbids transfer: proposal-program emitted_profiles[0] -> archive-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program emitted_profiles[0] -> promotion-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program emitted_profiles[0] -> scope-expansion
+[OK] lifecycle interaction forbidden transfer valid: proposal-program emitted_profiles[0] -> git-ref-mutation
+[OK] lifecycle interaction forbidden transfer valid: proposal-program emitted_profiles[0] -> hosted-provider-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program emitted_profiles[0] -> branch-cleanup-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program emitted_profiles[0] -> worktree-cleanup-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program emitted_profiles[0] -> repo-hygiene-deletion
+[OK] lifecycle interaction forbidden transfer valid: proposal-program emitted_profiles[0] -> archive-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program emitted_profiles[0] -> promotion-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program emitted_profiles[0] -> scope-expansion
+[OK] lifecycle interaction return schema valid: proposal-program emitted_profiles[0]
+[OK] lifecycle interaction target gate policy valid: proposal-program emitted_profiles[0]
+[OK] lifecycle interaction profile list valid: proposal-program -> accepted_profiles
+[OK] lifecycle interaction profile id valid: proposal-program accepted_profiles[0] -> program-handoff-return
+[OK] lifecycle interaction kind valid: proposal-program accepted_profiles[0] -> follow_on_work_required
+[OK] lifecycle interaction receipt schema valid: proposal-program accepted_profiles[0] -> lifecycle-interaction-return-v1
+[OK] lifecycle interaction non-authorizing flag asserted: proposal-program accepted_profiles[0]
+[OK] lifecycle interaction evidence class valid: proposal-program accepted_profiles[0] -> validation-evidence
+[OK] lifecycle interaction evidence class valid: proposal-program accepted_profiles[0] -> review-evidence
+[OK] lifecycle interaction evidence class valid: proposal-program accepted_profiles[0] -> rollback-context
+[OK] lifecycle interaction evidence class valid: proposal-program accepted_profiles[0] -> non-authority-only
+[OK] lifecycle interaction forbids transfer: proposal-program accepted_profiles[0] -> git-ref-mutation
+[OK] lifecycle interaction forbids transfer: proposal-program accepted_profiles[0] -> hosted-provider-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program accepted_profiles[0] -> branch-cleanup-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program accepted_profiles[0] -> worktree-cleanup-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program accepted_profiles[0] -> repo-hygiene-deletion
+[OK] lifecycle interaction forbids transfer: proposal-program accepted_profiles[0] -> archive-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program accepted_profiles[0] -> promotion-authorization
+[OK] lifecycle interaction forbids transfer: proposal-program accepted_profiles[0] -> scope-expansion
+[OK] lifecycle interaction forbidden transfer valid: proposal-program accepted_profiles[0] -> git-ref-mutation
+[OK] lifecycle interaction forbidden transfer valid: proposal-program accepted_profiles[0] -> hosted-provider-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program accepted_profiles[0] -> branch-cleanup-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program accepted_profiles[0] -> worktree-cleanup-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program accepted_profiles[0] -> repo-hygiene-deletion
+[OK] lifecycle interaction forbidden transfer valid: proposal-program accepted_profiles[0] -> archive-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program accepted_profiles[0] -> promotion-authorization
+[OK] lifecycle interaction forbidden transfer valid: proposal-program accepted_profiles[0] -> scope-expansion
+[OK] lifecycle interaction target gate policy valid: proposal-program accepted_profiles[0]
+[OK] target manifest path is relative: proposal-program
+[OK] target allowed statuses declared: proposal-program
+[OK] states declared: proposal-program
+[OK] routes declared: proposal-program
+[OK] receipts declared: proposal-program
+[OK] input binding source valid: lifecycle.target
+[OK] input binding source valid: lifecycle.target
+[OK] input binding source valid: run.input.child_packet_paths
+[OK] input binding source valid: run.input.execution_mode
+[OK] input binding source valid: run.input.closeout_scope
+[OK] input binding source valid: run.input.worktree_baseline_lease
+[OK] input binding source valid: run.input.worktree_baseline_lease_paths
+[OK] input binding source valid: run.input.finding_id
+[OK] input binding source valid: receipt.proposal-closeout.archive_disposition
+[OK] input binding source valid: receipt.proposal-closeout.promotion_evidence
+[OK] state ids unique
+[OK] route ids unique
+[OK] receipt ids unique
+[OK] validator ids unique
+[OK] validator argv declared: proposal-standard
+[OK] validator script exists: proposal-standard
+[OK] validator argv declared: program-child-proposal-readiness
+[OK] validator script exists: program-child-proposal-readiness
+[OK] validator argv declared: program-structure
+[OK] validator script exists: program-structure
+[OK] validator argv declared: proposal-review-baseline
+[OK] validator script exists: proposal-review-baseline
+[OK] validator argv declared: proposal-review-strict
+[OK] validator script exists: proposal-review-strict
+[OK] program recovery handler route exists: proposal-program validation-failed -> generate-program-correction-prompt
+[OK] program recovery handler route exists: proposal-program invalid-child-registry -> generate-program-correction-prompt
+[OK] program recovery handler route exists: proposal-program lifecycle-residue-cleanup-needed -> cleanup-lifecycle-residue
+[OK] program recovery recipe route exists: proposal-program validation-failed -> generate-program-correction-prompt
+[OK] program recovery recipe route exists: proposal-program lifecycle-residue-cleanup-needed -> cleanup-lifecycle-residue
+[OK] condition keys supported: terminal archived when
+[OK] condition keys supported: terminal rejected when
+[OK] condition receipt exists: terminal rejected when receipt_fresh -> proposal-review
+[OK] condition receipt exists: terminal rejected when receipt_complete -> proposal-review
+[OK] condition receipt exists: terminal rejected when receipt_verdict -> proposal-review
+[OK] extension route exists: create-program
+[OK] route command exists: create-program -> octon-proposal-create-program
+[OK] route skill exists: create-program -> octon-proposal-lifecycle-create-program
+[OK] route prompt set exists: create-program -> octon-proposal-lifecycle-create-program
+[OK] condition keys supported: route create-program enter_when
+[OK] condition path valid: route create-program enter_when file_absent -> proposal.yml
+[OK] condition path valid: route create-program enter_when file_absent -> resources/child-packet-index.yml
+[OK] route required input binding exists: create-program -> child_packet_paths
+[OK] route completion expected receipt exists: create-program -> program-creation
+[OK] route completion expected path is relative: create-program -> proposal.yml
+[OK] route completion expected path is relative: create-program -> README.md
+[OK] route completion expected path is relative: create-program -> resources/child-packet-index.yml
+[OK] route completion expected path is relative: create-program -> resources/child-packet-index.md
+[OK] route completion expected path is relative: create-program -> architecture/packet-sequence.md
+[OK] route completion expected manifest status allowed: create-program -> draft
+[OK] route legacy approval primitive absent: create-program
+[OK] route legacy idempotency primitive absent: create-program
+[OK] route delegation contract declared: create-program
+[OK] route delegation contract field declared: create-program -> decision_class
+[OK] route delegation contract field declared: create-program -> safe_delegation
+[OK] route delegation contract field declared: create-program -> authority_zones_allowed
+[OK] route delegation contract field declared: create-program -> declared_write_scope_source
+[OK] route delegation contract field declared: create-program -> required_evidence_gates
+[OK] route delegation contract field declared: create-program -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: create-program -> required_receipts_before_completion
+[OK] route delegation contract field declared: create-program -> replay_class
+[OK] route delegation contract field declared: create-program -> automated_recovery_policy
+[OK] route delegation contract field declared: create-program -> human_only_boundaries
+[OK] route delegation decision class valid: create-program -> delegated-execution
+[OK] route delegation safe flag valid: create-program
+[OK] route delegation write scope source valid: create-program -> route-completion-and-target
+[OK] route delegation replay class valid: create-program -> idempotent
+[OK] route delegation automated recovery policy declared: create-program
+[OK] route delegation authority zones declared: create-program
+[OK] route delegation authority zone valid: create-program -> workspace-declared
+[OK] route delegation completion receipt exists: create-program -> program-creation
+[OK] route delegation human-only boundaries declared: create-program
+[OK] route delegation human-only boundary valid: create-program -> scope-expansion
+[OK] route delegation human-only boundary valid: create-program -> policy-override
+[OK] route delegation human-only boundary valid: create-program -> governance-mutation
+[OK] route delegation human-only boundary valid: create-program -> external-irreversible-effect
+[OK] extension route exists: review-program
+[OK] route command exists: review-program -> octon-proposal-review-program
+[OK] route skill exists: review-program -> octon-proposal-lifecycle-review-program
+[OK] route prompt set exists: review-program -> octon-proposal-lifecycle-review-program
+[OK] condition keys supported: route review-program enter_when
+[OK] condition receipt exists: route review-program enter_when receipt_absent -> proposal-review
+[OK] condition receipt exists: route review-program enter_when receipt_stale -> proposal-review
+[OK] route completion expected receipt exists: review-program -> proposal-review
+[OK] route legacy approval primitive absent: review-program
+[OK] route legacy idempotency primitive absent: review-program
+[OK] route delegation contract declared: review-program
+[OK] route delegation contract field declared: review-program -> decision_class
+[OK] route delegation contract field declared: review-program -> safe_delegation
+[OK] route delegation contract field declared: review-program -> authority_zones_allowed
+[OK] route delegation contract field declared: review-program -> declared_write_scope_source
+[OK] route delegation contract field declared: review-program -> required_evidence_gates
+[OK] route delegation contract field declared: review-program -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: review-program -> required_receipts_before_completion
+[OK] route delegation contract field declared: review-program -> replay_class
+[OK] route delegation contract field declared: review-program -> automated_recovery_policy
+[OK] route delegation contract field declared: review-program -> human_only_boundaries
+[OK] route delegation decision class valid: review-program -> delegated-execution
+[OK] route delegation safe flag valid: review-program
+[OK] route delegation write scope source valid: review-program -> route-completion-and-target
+[OK] route delegation replay class valid: review-program -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: review-program
+[OK] route delegation authority zones declared: review-program
+[OK] route delegation authority zone valid: review-program -> workspace-declared
+[OK] route delegation completion receipt exists: review-program -> proposal-review
+[OK] route delegation human-only boundaries declared: review-program
+[OK] route delegation human-only boundary valid: review-program -> scope-expansion
+[OK] route delegation human-only boundary valid: review-program -> policy-override
+[OK] route delegation human-only boundary valid: review-program -> unresolved-risk-acceptance
+[OK] route delegation human-only boundary valid: review-program -> contradictory-evidence-resolution
+[OK] route delegation human-only boundary valid: review-program -> stale-evidence-acceptance
+[OK] extension route exists: revise-program
+[OK] route command exists: revise-program -> octon-proposal-revise-program
+[OK] route skill exists: revise-program -> octon-proposal-lifecycle-revise-program
+[OK] route prompt set exists: revise-program -> octon-proposal-lifecycle-revise-program
+[OK] condition keys supported: route revise-program enter_when
+[OK] condition receipt exists: route revise-program enter_when receipt_complete -> proposal-review
+[OK] condition receipt exists: route revise-program enter_when receipt_verdict -> proposal-review
+[OK] route completion expected path is relative: revise-program -> support/revisions
+[OK] route legacy approval primitive absent: revise-program
+[OK] route legacy idempotency primitive absent: revise-program
+[OK] route delegation contract declared: revise-program
+[OK] route delegation contract field declared: revise-program -> decision_class
+[OK] route delegation contract field declared: revise-program -> safe_delegation
+[OK] route delegation contract field declared: revise-program -> authority_zones_allowed
+[OK] route delegation contract field declared: revise-program -> declared_write_scope_source
+[OK] route delegation contract field declared: revise-program -> required_evidence_gates
+[OK] route delegation contract field declared: revise-program -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: revise-program -> required_receipts_before_completion
+[OK] route delegation contract field declared: revise-program -> replay_class
+[OK] route delegation contract field declared: revise-program -> automated_recovery_policy
+[OK] route delegation contract field declared: revise-program -> human_only_boundaries
+[OK] route delegation decision class valid: revise-program -> delegated-execution
+[OK] route delegation safe flag valid: revise-program
+[OK] route delegation write scope source valid: revise-program -> route-completion-and-target
+[OK] route delegation replay class valid: revise-program -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: revise-program
+[OK] route delegation authority zones declared: revise-program
+[OK] route delegation authority zone valid: revise-program -> workspace-declared
+[OK] route delegation dispatch receipt exists: revise-program -> proposal-review
+[OK] route delegation human-only boundaries declared: revise-program
+[OK] route delegation human-only boundary valid: revise-program -> scope-expansion
+[OK] route delegation human-only boundary valid: revise-program -> policy-override
+[OK] route delegation human-only boundary valid: revise-program -> unresolved-risk-acceptance
+[OK] extension route exists: generate-program-implementation-orchestration-prompt
+[OK] route command exists: generate-program-implementation-orchestration-prompt -> octon-proposal-generate-program-orchestration-prompt
+[OK] route skill exists: generate-program-implementation-orchestration-prompt -> octon-proposal-lifecycle-generate-program-orchestration-prompt
+[OK] route prompt set exists: generate-program-implementation-orchestration-prompt -> octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt
+[OK] condition keys supported: route generate-program-implementation-orchestration-prompt enter_when
+[OK] condition receipt exists: route generate-program-implementation-orchestration-prompt enter_when receipt_absent -> program-implementation-orchestration-prompt
+[OK] condition receipt exists: route generate-program-implementation-orchestration-prompt enter_when receipt_fresh -> proposal-review
+[OK] condition receipt exists: route generate-program-implementation-orchestration-prompt enter_when receipt_complete -> proposal-review
+[OK] condition receipt exists: route generate-program-implementation-orchestration-prompt enter_when receipt_verdict -> proposal-review
+[OK] condition path valid: route generate-program-implementation-orchestration-prompt enter_when file_present -> resources/child-packet-index.yml
+[OK] route completion expected receipt exists: generate-program-implementation-orchestration-prompt -> program-implementation-orchestration-prompt
+[OK] route completion expected path is relative: generate-program-implementation-orchestration-prompt -> support/program-implementation-orchestration-prompt.md
+[OK] route legacy approval primitive absent: generate-program-implementation-orchestration-prompt
+[OK] route legacy idempotency primitive absent: generate-program-implementation-orchestration-prompt
+[OK] route delegation contract declared: generate-program-implementation-orchestration-prompt
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> decision_class
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> safe_delegation
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> authority_zones_allowed
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> declared_write_scope_source
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> required_evidence_gates
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> required_receipts_before_completion
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> replay_class
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> automated_recovery_policy
+[OK] route delegation contract field declared: generate-program-implementation-orchestration-prompt -> human_only_boundaries
+[OK] route delegation decision class valid: generate-program-implementation-orchestration-prompt -> delegated-execution
+[OK] route delegation safe flag valid: generate-program-implementation-orchestration-prompt
+[OK] route delegation write scope source valid: generate-program-implementation-orchestration-prompt -> route-completion-and-target
+[OK] route delegation replay class valid: generate-program-implementation-orchestration-prompt -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: generate-program-implementation-orchestration-prompt
+[OK] route delegation authority zones declared: generate-program-implementation-orchestration-prompt
+[OK] route delegation authority zone valid: generate-program-implementation-orchestration-prompt -> workspace-declared
+[OK] route delegation evidence gate exists: generate-program-implementation-orchestration-prompt -> program-review-authorization
+[OK] route delegation evidence gate exists: generate-program-implementation-orchestration-prompt -> program-child-proposal-readiness
+[OK] route delegation evidence gate exists: generate-program-implementation-orchestration-prompt -> program-structure
+[OK] route delegation dispatch receipt exists: generate-program-implementation-orchestration-prompt -> proposal-review
+[OK] route delegation completion receipt exists: generate-program-implementation-orchestration-prompt -> program-implementation-orchestration-prompt
+[OK] route delegation human-only boundaries declared: generate-program-implementation-orchestration-prompt
+[OK] route delegation human-only boundary valid: generate-program-implementation-orchestration-prompt -> scope-expansion
+[OK] route delegation human-only boundary valid: generate-program-implementation-orchestration-prompt -> policy-override
+[OK] route delegation human-only boundary valid: generate-program-implementation-orchestration-prompt -> stale-evidence-acceptance
+[OK] workflow route exists: promote-proposal
+[OK] condition keys supported: route promote-proposal enter_when
+[OK] condition receipt exists: route promote-proposal enter_when receipt_fresh -> proposal-review
+[OK] condition receipt exists: route promote-proposal enter_when receipt_complete -> proposal-review
+[OK] condition receipt exists: route promote-proposal enter_when receipt_complete -> program-implementation-orchestration-prompt
+[OK] condition receipt exists: route promote-proposal enter_when receipt_complete -> program-implementation-orchestration-run
+[OK] condition receipt exists: route promote-proposal enter_when receipt_verdict -> proposal-review
+[OK] condition receipt exists: route promote-proposal enter_when receipt_field_equals -> program-implementation-orchestration-run
+[OK] condition receipt exists: route promote-proposal enter_when receipt_field_equals -> program-implementation-orchestration-run
+[OK] condition path valid: route promote-proposal enter_when file_present -> support/program-implementation-orchestration-prompt.md
+[OK] route completion expected manifest status allowed: promote-proposal -> implemented
+[OK] route legacy approval primitive absent: promote-proposal
+[OK] route legacy idempotency primitive absent: promote-proposal
+[OK] route delegation contract declared: promote-proposal
+[OK] route delegation contract field declared: promote-proposal -> decision_class
+[OK] route delegation contract field declared: promote-proposal -> safe_delegation
+[OK] route delegation contract field declared: promote-proposal -> authority_zones_allowed
+[OK] route delegation contract field declared: promote-proposal -> declared_write_scope_source
+[OK] route delegation contract field declared: promote-proposal -> required_evidence_gates
+[OK] route delegation contract field declared: promote-proposal -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: promote-proposal -> required_receipts_before_completion
+[OK] route delegation contract field declared: promote-proposal -> replay_class
+[OK] route delegation contract field declared: promote-proposal -> automated_recovery_policy
+[OK] route delegation contract field declared: promote-proposal -> human_only_boundaries
+[OK] route delegation decision class valid: promote-proposal -> delegated-execution
+[OK] route delegation safe flag valid: promote-proposal
+[OK] route delegation write scope source valid: promote-proposal -> workflow-scope
+[OK] route delegation replay class valid: promote-proposal -> no-op-safe
+[OK] route delegation automated recovery policy declared: promote-proposal
+[OK] route delegation authority zones declared: promote-proposal
+[OK] route delegation authority zone valid: promote-proposal -> workspace-declared
+[OK] route delegation authority zone valid: promote-proposal -> octon-generated-derived
+[OK] route delegation authority zone valid: promote-proposal -> octon-run-bound
+[OK] route delegation evidence gate exists: promote-proposal -> program-review-authorization
+[OK] route delegation evidence gate exists: promote-proposal -> program-structure
+[OK] route delegation dispatch receipt exists: promote-proposal -> proposal-review
+[OK] route delegation dispatch receipt exists: promote-proposal -> program-implementation-orchestration-prompt
+[OK] route delegation dispatch receipt exists: promote-proposal -> program-implementation-orchestration-run
+[OK] route delegation human-only boundaries declared: promote-proposal
+[OK] route delegation human-only boundary valid: promote-proposal -> scope-expansion
+[OK] route delegation human-only boundary valid: promote-proposal -> policy-override
+[OK] route delegation human-only boundary valid: promote-proposal -> unresolved-risk-acceptance
+[OK] route delegation human-only boundary valid: promote-proposal -> governance-mutation
+[OK] route delegation human-only boundary valid: promote-proposal -> contradictory-evidence-resolution
+[OK] route delegation human-only boundary valid: promote-proposal -> stale-evidence-acceptance
+[OK] route delegation human-only boundary valid: promote-proposal -> authority-ambiguity
+[OK] route delegation human-only boundary valid: promote-proposal -> external-irreversible-effect
+[OK] extension route exists: generate-program-verification-prompt
+[OK] route command exists: generate-program-verification-prompt -> octon-proposal-generate-program-verification-prompt
+[OK] route skill exists: generate-program-verification-prompt -> octon-proposal-lifecycle-generate-program-verification-prompt
+[OK] route prompt set exists: generate-program-verification-prompt -> octon-proposal-lifecycle-generate-program-verification-prompt
+[OK] condition keys supported: route generate-program-verification-prompt enter_when
+[OK] condition receipt exists: route generate-program-verification-prompt enter_when receipt_absent -> program-verification-prompt
+[OK] condition path valid: route generate-program-verification-prompt enter_when file_present -> resources/child-packet-index.yml
+[OK] route completion expected receipt exists: generate-program-verification-prompt -> program-verification-prompt
+[OK] route completion expected path is relative: generate-program-verification-prompt -> support/follow-up-program-verification-prompt.md
+[OK] route legacy approval primitive absent: generate-program-verification-prompt
+[OK] route legacy idempotency primitive absent: generate-program-verification-prompt
+[OK] route delegation contract declared: generate-program-verification-prompt
+[OK] route delegation contract field declared: generate-program-verification-prompt -> decision_class
+[OK] route delegation contract field declared: generate-program-verification-prompt -> safe_delegation
+[OK] route delegation contract field declared: generate-program-verification-prompt -> authority_zones_allowed
+[OK] route delegation contract field declared: generate-program-verification-prompt -> declared_write_scope_source
+[OK] route delegation contract field declared: generate-program-verification-prompt -> required_evidence_gates
+[OK] route delegation contract field declared: generate-program-verification-prompt -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: generate-program-verification-prompt -> required_receipts_before_completion
+[OK] route delegation contract field declared: generate-program-verification-prompt -> replay_class
+[OK] route delegation contract field declared: generate-program-verification-prompt -> automated_recovery_policy
+[OK] route delegation contract field declared: generate-program-verification-prompt -> human_only_boundaries
+[OK] route delegation decision class valid: generate-program-verification-prompt -> delegated-execution
+[OK] route delegation safe flag valid: generate-program-verification-prompt
+[OK] route delegation write scope source valid: generate-program-verification-prompt -> route-completion-and-target
+[OK] route delegation replay class valid: generate-program-verification-prompt -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: generate-program-verification-prompt
+[OK] route delegation authority zones declared: generate-program-verification-prompt
+[OK] route delegation authority zone valid: generate-program-verification-prompt -> workspace-declared
+[OK] route delegation evidence gate exists: generate-program-verification-prompt -> program-structure
+[OK] route delegation completion receipt exists: generate-program-verification-prompt -> program-verification-prompt
+[OK] route delegation human-only boundaries declared: generate-program-verification-prompt
+[OK] route delegation human-only boundary valid: generate-program-verification-prompt -> scope-expansion
+[OK] route delegation human-only boundary valid: generate-program-verification-prompt -> policy-override
+[OK] route delegation human-only boundary valid: generate-program-verification-prompt -> authority-ambiguity
+[OK] extension route exists: run-program-verification-and-correction-loop
+[OK] route command exists: run-program-verification-and-correction-loop -> octon-proposal-run-program-verification-and-correction-loop
+[OK] route skill exists: run-program-verification-and-correction-loop -> octon-proposal-lifecycle-run-program-verification-and-correction-loop
+[OK] route prompt set exists: run-program-verification-and-correction-loop -> octon-proposal-lifecycle-run-program-verification-and-correction-loop
+[OK] condition keys supported: route run-program-verification-and-correction-loop enter_when
+[OK] condition receipt exists: route run-program-verification-and-correction-loop enter_when receipt_absent -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route run-program-verification-and-correction-loop enter_when receipt_absent -> program-post-implementation-orchestration-drift
+[OK] condition receipt exists: route run-program-verification-and-correction-loop enter_when receipt_complete -> program-verification-prompt
+[OK] route completion expected receipt exists: run-program-verification-and-correction-loop -> program-implementation-orchestration-conformance
+[OK] route completion expected receipt exists: run-program-verification-and-correction-loop -> program-post-implementation-orchestration-drift
+[OK] route legacy approval primitive absent: run-program-verification-and-correction-loop
+[OK] route legacy idempotency primitive absent: run-program-verification-and-correction-loop
+[OK] route delegation contract declared: run-program-verification-and-correction-loop
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> decision_class
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> safe_delegation
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> authority_zones_allowed
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> declared_write_scope_source
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> required_evidence_gates
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> required_receipts_before_completion
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> replay_class
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> automated_recovery_policy
+[OK] route delegation contract field declared: run-program-verification-and-correction-loop -> human_only_boundaries
+[OK] route delegation decision class valid: run-program-verification-and-correction-loop -> delegated-execution
+[OK] route delegation safe flag valid: run-program-verification-and-correction-loop
+[OK] route delegation write scope source valid: run-program-verification-and-correction-loop -> route-completion-and-target
+[OK] route delegation replay class valid: run-program-verification-and-correction-loop -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: run-program-verification-and-correction-loop
+[OK] route delegation authority zones declared: run-program-verification-and-correction-loop
+[OK] route delegation authority zone valid: run-program-verification-and-correction-loop -> workspace-declared
+[OK] route delegation authority zone valid: run-program-verification-and-correction-loop -> octon-run-bound
+[OK] route delegation dispatch receipt exists: run-program-verification-and-correction-loop -> program-verification-prompt
+[OK] route delegation completion receipt exists: run-program-verification-and-correction-loop -> program-implementation-orchestration-conformance
+[OK] route delegation completion receipt exists: run-program-verification-and-correction-loop -> program-post-implementation-orchestration-drift
+[OK] route delegation human-only boundaries declared: run-program-verification-and-correction-loop
+[OK] route delegation human-only boundary valid: run-program-verification-and-correction-loop -> scope-expansion
+[OK] route delegation human-only boundary valid: run-program-verification-and-correction-loop -> policy-override
+[OK] route delegation human-only boundary valid: run-program-verification-and-correction-loop -> unresolved-risk-acceptance
+[OK] route delegation human-only boundary valid: run-program-verification-and-correction-loop -> stale-evidence-acceptance
+[OK] extension route exists: generate-program-correction-prompt
+[OK] route command exists: generate-program-correction-prompt -> octon-proposal-generate-program-correction-prompt
+[OK] route skill exists: generate-program-correction-prompt -> octon-proposal-lifecycle-generate-program-correction-prompt
+[OK] route prompt set exists: generate-program-correction-prompt -> octon-proposal-lifecycle-generate-program-correction-prompt
+[OK] condition keys supported: route generate-program-correction-prompt enter_when
+[OK] condition receipt exists: route generate-program-correction-prompt enter_when receipt_complete -> program-verification-prompt
+[OK] condition blocker_present valid: route generate-program-correction-prompt enter_when -> validation-failed
+[OK] condition blocker_present valid: route generate-program-correction-prompt enter_when -> invalid-child-registry
+[OK] condition blocker_present valid: route generate-program-correction-prompt enter_when -> stale-receipt
+[OK] condition blocker_present valid: route generate-program-correction-prompt enter_when -> missing-evidence
+[OK] route required input binding exists: generate-program-correction-prompt -> finding_id
+[OK] route completion expected path is relative: generate-program-correction-prompt -> support/program-correction-prompts
+[OK] route legacy approval primitive absent: generate-program-correction-prompt
+[OK] route legacy idempotency primitive absent: generate-program-correction-prompt
+[OK] route delegation contract declared: generate-program-correction-prompt
+[OK] route delegation contract field declared: generate-program-correction-prompt -> decision_class
+[OK] route delegation contract field declared: generate-program-correction-prompt -> safe_delegation
+[OK] route delegation contract field declared: generate-program-correction-prompt -> authority_zones_allowed
+[OK] route delegation contract field declared: generate-program-correction-prompt -> declared_write_scope_source
+[OK] route delegation contract field declared: generate-program-correction-prompt -> required_evidence_gates
+[OK] route delegation contract field declared: generate-program-correction-prompt -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: generate-program-correction-prompt -> required_receipts_before_completion
+[OK] route delegation contract field declared: generate-program-correction-prompt -> replay_class
+[OK] route delegation contract field declared: generate-program-correction-prompt -> automated_recovery_policy
+[OK] route delegation contract field declared: generate-program-correction-prompt -> human_only_boundaries
+[OK] route delegation decision class valid: generate-program-correction-prompt -> delegated-execution
+[OK] route delegation safe flag valid: generate-program-correction-prompt
+[OK] route delegation write scope source valid: generate-program-correction-prompt -> route-completion-and-target
+[OK] route delegation replay class valid: generate-program-correction-prompt -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: generate-program-correction-prompt
+[OK] route delegation authority zones declared: generate-program-correction-prompt
+[OK] route delegation authority zone valid: generate-program-correction-prompt -> workspace-declared
+[OK] route delegation dispatch receipt exists: generate-program-correction-prompt -> program-verification-prompt
+[OK] route delegation human-only boundaries declared: generate-program-correction-prompt
+[OK] route delegation human-only boundary valid: generate-program-correction-prompt -> scope-expansion
+[OK] route delegation human-only boundary valid: generate-program-correction-prompt -> policy-override
+[OK] route delegation human-only boundary valid: generate-program-correction-prompt -> unresolved-risk-acceptance
+[OK] extension route exists: cleanup-lifecycle-residue
+[OK] route command exists: cleanup-lifecycle-residue -> octon-proposal-cleanup-lifecycle-residue
+[OK] route skill exists: cleanup-lifecycle-residue -> octon-proposal-lifecycle-cleanup-lifecycle-residue
+[OK] route prompt set exists: cleanup-lifecycle-residue -> octon-proposal-lifecycle-cleanup-lifecycle-residue
+[OK] condition keys supported: route cleanup-lifecycle-residue enter_when
+[OK] condition receipt exists: route cleanup-lifecycle-residue enter_when receipt_absent -> lifecycle-residue-cleanup
+[OK] condition receipt exists: route cleanup-lifecycle-residue enter_when receipt_stale -> lifecycle-residue-cleanup
+[OK] condition receipt exists: route cleanup-lifecycle-residue enter_when receipt_field_equals -> lifecycle-residue-cleanup
+[OK] condition blocker_present valid: route cleanup-lifecycle-residue enter_when -> lifecycle-residue-cleanup-needed
+[OK] condition blocker_present valid: route cleanup-lifecycle-residue enter_when -> lifecycle-residue-cleanup-needed
+[OK] condition boolean valid: route cleanup-lifecycle-residue enter_when cleanup_candidates_present
+[OK] condition boolean valid: route cleanup-lifecycle-residue enter_when cleanup_candidates_present
+[OK] condition boolean valid: route cleanup-lifecycle-residue enter_when hygiene_preflight_required
+[OK] route completion expected receipt exists: cleanup-lifecycle-residue -> lifecycle-residue-cleanup
+[OK] route completion expected path is relative: cleanup-lifecycle-residue -> support/lifecycle-residue-cleanup.md
+[OK] route legacy approval primitive absent: cleanup-lifecycle-residue
+[OK] route legacy idempotency primitive absent: cleanup-lifecycle-residue
+[OK] route delegation contract declared: cleanup-lifecycle-residue
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> decision_class
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> safe_delegation
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> authority_zones_allowed
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> declared_write_scope_source
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> required_evidence_gates
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> required_receipts_before_completion
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> replay_class
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> automated_recovery_policy
+[OK] route delegation contract field declared: cleanup-lifecycle-residue -> human_only_boundaries
+[OK] route delegation decision class valid: cleanup-lifecycle-residue -> delegated-execution
+[OK] route delegation safe flag valid: cleanup-lifecycle-residue
+[OK] route delegation write scope source valid: cleanup-lifecycle-residue -> route-completion-and-target
+[OK] route delegation replay class valid: cleanup-lifecycle-residue -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: cleanup-lifecycle-residue
+[OK] route delegation authority zones declared: cleanup-lifecycle-residue
+[OK] route delegation authority zone valid: cleanup-lifecycle-residue -> workspace-declared
+[OK] route delegation authority zone valid: cleanup-lifecycle-residue -> octon-run-bound
+[OK] route delegation authority zone valid: cleanup-lifecycle-residue -> current-run-agent-artifact
+[OK] route delegation completion receipt exists: cleanup-lifecycle-residue -> lifecycle-residue-cleanup
+[OK] route delegation human-only boundaries declared: cleanup-lifecycle-residue
+[OK] route delegation human-only boundary valid: cleanup-lifecycle-residue -> scope-expansion
+[OK] route delegation human-only boundary valid: cleanup-lifecycle-residue -> policy-override
+[OK] route delegation human-only boundary valid: cleanup-lifecycle-residue -> unresolved-risk-acceptance
+[OK] route delegation human-only boundary valid: cleanup-lifecycle-residue -> stale-evidence-acceptance
+[OK] route delegation human-only boundary valid: cleanup-lifecycle-residue -> authority-ambiguity
+[OK] extension route exists: generate-program-closeout-prompt
+[OK] route command exists: generate-program-closeout-prompt -> octon-proposal-generate-program-closeout-prompt
+[OK] route skill exists: generate-program-closeout-prompt -> octon-proposal-lifecycle-generate-program-closeout-prompt
+[OK] route prompt set exists: generate-program-closeout-prompt -> octon-proposal-lifecycle-generate-program-closeout-prompt
+[OK] condition keys supported: route generate-program-closeout-prompt enter_when
+[OK] condition receipt exists: route generate-program-closeout-prompt enter_when receipt_absent -> program-closeout-prompt
+[OK] condition receipt exists: route generate-program-closeout-prompt enter_when receipt_complete -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route generate-program-closeout-prompt enter_when receipt_complete -> program-post-implementation-orchestration-drift
+[OK] condition receipt exists: route generate-program-closeout-prompt enter_when receipt_field_equals -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route generate-program-closeout-prompt enter_when receipt_field_equals -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route generate-program-closeout-prompt enter_when receipt_field_equals -> program-post-implementation-orchestration-drift
+[OK] condition receipt exists: route generate-program-closeout-prompt enter_when receipt_field_equals -> program-post-implementation-orchestration-drift
+[OK] condition path valid: route generate-program-closeout-prompt enter_when file_present -> resources/child-packet-index.yml
+[OK] route completion expected receipt exists: generate-program-closeout-prompt -> program-closeout-prompt
+[OK] route completion expected path is relative: generate-program-closeout-prompt -> support/custom-program-closeout-prompt.md
+[OK] route legacy approval primitive absent: generate-program-closeout-prompt
+[OK] route legacy idempotency primitive absent: generate-program-closeout-prompt
+[OK] route delegation contract declared: generate-program-closeout-prompt
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> decision_class
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> safe_delegation
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> authority_zones_allowed
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> declared_write_scope_source
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> required_evidence_gates
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> required_receipts_before_completion
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> replay_class
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> automated_recovery_policy
+[OK] route delegation contract field declared: generate-program-closeout-prompt -> human_only_boundaries
+[OK] route delegation decision class valid: generate-program-closeout-prompt -> delegated-execution
+[OK] route delegation safe flag valid: generate-program-closeout-prompt
+[OK] route delegation write scope source valid: generate-program-closeout-prompt -> route-completion-and-target
+[OK] route delegation replay class valid: generate-program-closeout-prompt -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: generate-program-closeout-prompt
+[OK] route delegation authority zones declared: generate-program-closeout-prompt
+[OK] route delegation authority zone valid: generate-program-closeout-prompt -> workspace-declared
+[OK] route delegation evidence gate exists: generate-program-closeout-prompt -> program-structure
+[OK] route delegation dispatch receipt exists: generate-program-closeout-prompt -> program-implementation-orchestration-conformance
+[OK] route delegation dispatch receipt exists: generate-program-closeout-prompt -> program-post-implementation-orchestration-drift
+[OK] route delegation completion receipt exists: generate-program-closeout-prompt -> program-closeout-prompt
+[OK] route delegation human-only boundaries declared: generate-program-closeout-prompt
+[OK] route delegation human-only boundary valid: generate-program-closeout-prompt -> scope-expansion
+[OK] route delegation human-only boundary valid: generate-program-closeout-prompt -> policy-override
+[OK] route delegation human-only boundary valid: generate-program-closeout-prompt -> unresolved-risk-acceptance
+[OK] route delegation human-only boundary valid: generate-program-closeout-prompt -> stale-evidence-acceptance
+[OK] extension route exists: closeout-program
+[OK] route command exists: closeout-program -> octon-proposal-closeout-program
+[OK] route skill exists: closeout-program -> octon-proposal-lifecycle-closeout-program
+[OK] route prompt set exists: closeout-program -> octon-proposal-lifecycle-closeout-program
+[OK] condition keys supported: route closeout-program enter_when
+[OK] condition receipt exists: route closeout-program enter_when receipt_absent -> proposal-closeout
+[OK] condition receipt exists: route closeout-program enter_when receipt_complete -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route closeout-program enter_when receipt_complete -> program-post-implementation-orchestration-drift
+[OK] condition receipt exists: route closeout-program enter_when receipt_complete -> program-closeout-prompt
+[OK] condition receipt exists: route closeout-program enter_when receipt_field_equals -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route closeout-program enter_when receipt_field_equals -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route closeout-program enter_when receipt_field_equals -> program-post-implementation-orchestration-drift
+[OK] condition receipt exists: route closeout-program enter_when receipt_field_equals -> program-post-implementation-orchestration-drift
+[OK] route completion expected receipt exists: closeout-program -> proposal-closeout
+[OK] route completion expected manifest status allowed: closeout-program -> implemented
+[OK] route legacy approval primitive absent: closeout-program
+[OK] route legacy idempotency primitive absent: closeout-program
+[OK] route delegation contract declared: closeout-program
+[OK] route delegation contract field declared: closeout-program -> decision_class
+[OK] route delegation contract field declared: closeout-program -> safe_delegation
+[OK] route delegation contract field declared: closeout-program -> authority_zones_allowed
+[OK] route delegation contract field declared: closeout-program -> declared_write_scope_source
+[OK] route delegation contract field declared: closeout-program -> required_evidence_gates
+[OK] route delegation contract field declared: closeout-program -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: closeout-program -> required_receipts_before_completion
+[OK] route delegation contract field declared: closeout-program -> replay_class
+[OK] route delegation contract field declared: closeout-program -> automated_recovery_policy
+[OK] route delegation contract field declared: closeout-program -> human_only_boundaries
+[OK] route delegation decision class valid: closeout-program -> delegated-execution
+[OK] route delegation safe flag valid: closeout-program
+[OK] route delegation write scope source valid: closeout-program -> route-completion-and-target
+[OK] route delegation replay class valid: closeout-program -> idempotent-rerun
+[OK] route delegation automated recovery policy declared: closeout-program
+[OK] route delegation authority zones declared: closeout-program
+[OK] route delegation authority zone valid: closeout-program -> workspace-declared
+[OK] route delegation authority zone valid: closeout-program -> octon-run-bound
+[OK] route delegation evidence gate exists: closeout-program -> program-structure
+[OK] route delegation dispatch receipt exists: closeout-program -> program-implementation-orchestration-conformance
+[OK] route delegation dispatch receipt exists: closeout-program -> program-post-implementation-orchestration-drift
+[OK] route delegation dispatch receipt exists: closeout-program -> program-closeout-prompt
+[OK] route delegation completion receipt exists: closeout-program -> proposal-closeout
+[OK] route delegation human-only boundaries declared: closeout-program
+[OK] route delegation human-only boundary valid: closeout-program -> scope-expansion
+[OK] route delegation human-only boundary valid: closeout-program -> policy-override
+[OK] route delegation human-only boundary valid: closeout-program -> unresolved-risk-acceptance
+[OK] route delegation human-only boundary valid: closeout-program -> stale-evidence-acceptance
+[OK] route delegation human-only boundary valid: closeout-program -> authority-ambiguity
+[OK] workflow route exists: archive-proposal
+[OK] condition keys supported: route archive-proposal enter_when
+[OK] condition receipt exists: route archive-proposal enter_when receipt_complete -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route archive-proposal enter_when receipt_complete -> program-post-implementation-orchestration-drift
+[OK] condition receipt exists: route archive-proposal enter_when receipt_complete -> proposal-closeout
+[OK] condition receipt exists: route archive-proposal enter_when receipt_field_equals -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route archive-proposal enter_when receipt_field_equals -> program-implementation-orchestration-conformance
+[OK] condition receipt exists: route archive-proposal enter_when receipt_field_equals -> program-post-implementation-orchestration-drift
+[OK] condition receipt exists: route archive-proposal enter_when receipt_field_equals -> program-post-implementation-orchestration-drift
+[OK] condition receipt exists: route archive-proposal enter_when receipt_field_equals -> proposal-closeout
+[OK] condition receipt exists: route archive-proposal enter_when receipt_field_equals -> proposal-closeout
+[OK] condition receipt exists: route archive-proposal enter_when receipt_field_equals -> proposal-closeout
+[OK] route completion expected manifest status allowed: archive-proposal -> archived
+[OK] route legacy approval primitive absent: archive-proposal
+[OK] route legacy idempotency primitive absent: archive-proposal
+[OK] route delegation contract declared: archive-proposal
+[OK] route delegation contract field declared: archive-proposal -> decision_class
+[OK] route delegation contract field declared: archive-proposal -> safe_delegation
+[OK] route delegation contract field declared: archive-proposal -> authority_zones_allowed
+[OK] route delegation contract field declared: archive-proposal -> declared_write_scope_source
+[OK] route delegation contract field declared: archive-proposal -> required_evidence_gates
+[OK] route delegation contract field declared: archive-proposal -> required_receipts_before_dispatch
+[OK] route delegation contract field declared: archive-proposal -> required_receipts_before_completion
+[OK] route delegation contract field declared: archive-proposal -> replay_class
+[OK] route delegation contract field declared: archive-proposal -> automated_recovery_policy
+[OK] route delegation contract field declared: archive-proposal -> human_only_boundaries
+[OK] route delegation decision class valid: archive-proposal -> delegated-execution
+[OK] route delegation safe flag valid: archive-proposal
+[OK] route delegation write scope source valid: archive-proposal -> workflow-scope
+[OK] route delegation replay class valid: archive-proposal -> no-op-safe
+[OK] route delegation automated recovery policy declared: archive-proposal
+[OK] route delegation authority zones declared: archive-proposal
+[OK] route delegation authority zone valid: archive-proposal -> workspace-declared
+[OK] route delegation authority zone valid: archive-proposal -> octon-generated-derived
+[OK] route delegation authority zone valid: archive-proposal -> octon-run-bound
+[OK] route delegation evidence gate exists: archive-proposal -> program-structure
+[OK] route delegation dispatch receipt exists: archive-proposal -> program-implementation-orchestration-conformance
+[OK] route delegation dispatch receipt exists: archive-proposal -> program-post-implementation-orchestration-drift
+[OK] route delegation dispatch receipt exists: archive-proposal -> proposal-closeout
+[OK] route delegation human-only boundaries declared: archive-proposal
+[OK] route delegation human-only boundary valid: archive-proposal -> scope-expansion
+[OK] route delegation human-only boundary valid: archive-proposal -> policy-override
+[OK] route delegation human-only boundary valid: archive-proposal -> unresolved-risk-acceptance
+[OK] route delegation human-only boundary valid: archive-proposal -> contradictory-evidence-resolution
+[OK] route delegation human-only boundary valid: archive-proposal -> stale-evidence-acceptance
+[OK] route delegation human-only boundary valid: archive-proposal -> authority-ambiguity
+[OK] gate validator exists: proposal-review-strict
+[OK] gate required route exists: generate-program-implementation-orchestration-prompt
+[OK] gate required route exists: promote-proposal
+[OK] gate fallback route exists: review-program
+[OK] gate validator exists: program-child-proposal-readiness
+[OK] gate required route exists: generate-program-implementation-orchestration-prompt
+[OK] gate validator exists: program-structure
+[OK] gate required route exists: generate-program-implementation-orchestration-prompt
+[OK] gate required route exists: promote-proposal
+[OK] gate required route exists: generate-program-verification-prompt
+[OK] gate required route exists: generate-program-closeout-prompt
+[OK] gate required route exists: closeout-program
+[OK] gate required route exists: archive-proposal
+[OK] receipt path valid: program-creation
+[OK] receipt path valid: proposal-review
+[OK] receipt freshness digest command declared: proposal-review
+[OK] receipt freshness digest script exists: proposal-review
+[OK] receipt freshness digest field declared: proposal-review
+[OK] receipt path valid: program-implementation-orchestration-prompt
+[OK] receipt path valid: program-implementation-orchestration-run
+[OK] receipt path valid: program-verification-prompt
+[OK] receipt path valid: program-correction-prompt
+[OK] receipt path valid: program-implementation-orchestration-conformance
+[OK] receipt path valid: program-post-implementation-orchestration-drift
+[OK] receipt path valid: program-closeout-prompt
+[OK] receipt path valid: proposal-closeout
+[OK] receipt path valid: lifecycle-residue-cleanup
+[OK] receipt freshness digest command declared: lifecycle-residue-cleanup
+[OK] receipt freshness digest script exists: lifecycle-residue-cleanup
+[OK] receipt freshness digest field declared: lifecycle-residue-cleanup
+[OK] loop receipt exists: program-review-revision
+[OK] loop repeat route exists: program-review-revision
+[OK] loop max_iterations bounded: program-review-revision
+[OK] v1 phase_loop absent: proposal-program
+Validation summary: errors=1 warnings=0

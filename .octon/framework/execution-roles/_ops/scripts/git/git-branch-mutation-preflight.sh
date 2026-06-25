@@ -45,6 +45,16 @@ git_common_dir() {
   esac
 }
 
+git_path() {
+  local root="$1" pathspec="$2" raw
+  raw="$(git -C "$root" rev-parse --git-path "$pathspec" 2>/dev/null || true)"
+  [[ -n "$raw" ]] || return 1
+  case "$raw" in
+    /*) printf '%s\n' "$raw" ;;
+    *) printf '%s/%s\n' "$root" "$raw" ;;
+  esac
+}
+
 emit_evidence() {
   local status="$1" blocker_class="$2" index_status="$3" index_blocker="$4" index_detail="$5" ref_status="$6" ref_blocker="$7" ref_detail="$8"
   [[ -n "$EVIDENCE_PATH" ]] || return 0
@@ -109,7 +119,14 @@ need_tool() {
 }
 
 check_index_write() {
-  local lock_path="$GIT_COMMON_DIR/index.lock"
+  local lock_path
+  lock_path="$(git_path "$REPO_ROOT" "index.lock")" || {
+    INDEX_STATUS="blocked"
+    INDEX_BLOCKER="git-index-write-denied"
+    INDEX_DETAIL="cannot resolve git index lock path"
+    return 1
+  }
+
   if [[ -e "$lock_path" ]]; then
     INDEX_STATUS="blocked"
     INDEX_BLOCKER="git-index-lock-present"

@@ -55,6 +55,18 @@ Executor behavior:
 - Durable implementation, promotion, closeout, and archival routes execute only after
   proof-gated delegation succeeds. `--invocation-authority unattended` authorizes
   delegated execution, but missing or invalid proof fails closed.
+- Program recovery is bounded by the proposal-program autonomous recovery
+  envelope. Low-risk generated refresh, diagnostics, evidence-index
+  materialization, lifecycle-residue classification, and current-run
+  rebaseline actions may run only with retained route evidence and
+  post-attempt validation. The runner must stop before archive, push, landing,
+  cleanup deletion, branch deletion, PR creation or merge, external
+  publication, and any `cleaned` claim.
+- `cleanup-lifecycle-residue` recovery is non-mutating unless a separate
+  retained authority route explicitly authorizes deletion. Its evidence can
+  preserve or exclude residue for matching gates, but cannot transfer archive,
+  cleanup, delivery, landing, branch cleanup, child validation, child receipt,
+  or child lifecycle outcome authority.
 - Before a long unattended run with the `codex` executor, preflight nested
   executor runtime access. If the sandbox cannot write the Codex runtime state
   database, app-server socket, or required local executor state, rerun through

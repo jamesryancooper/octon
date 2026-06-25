@@ -1,0 +1,208 @@
+[OK] program child registry parses
+[OK] program child registry declares children
+[OK] child id valid: complete-program-blocker-vector-planner-output
+[OK] child id unique: complete-program-blocker-vector-planner-output
+[OK] child complete-program-blocker-vector-planner-output path is repo-relative
+[OK] child id valid: lifecycle-validator-runtime-resolver
+[OK] child id unique: lifecycle-validator-runtime-resolver
+[OK] child lifecycle-validator-runtime-resolver path is repo-relative
+[OK] child id valid: proposal-program-execution-mode-normalization
+[OK] child id unique: proposal-program-execution-mode-normalization
+[OK] child proposal-program-execution-mode-normalization path is repo-relative
+[OK] child id valid: normalized-child-terminal-evidence-summary
+[OK] child id unique: normalized-child-terminal-evidence-summary
+[OK] child normalized-child-terminal-evidence-summary path is repo-relative
+[OK] child id valid: completed-plan-nonblocking-diagnostics
+[OK] child id unique: completed-plan-nonblocking-diagnostics
+[OK] child completed-plan-nonblocking-diagnostics path is repo-relative
+[OK] child id valid: targeted-proposal-freshness-checks
+[OK] child id unique: targeted-proposal-freshness-checks
+[OK] child targeted-proposal-freshness-checks path is repo-relative
+[OK] child id valid: batched-review-and-architecture-digest-refresh
+[OK] child id unique: batched-review-and-architecture-digest-refresh
+[OK] child batched-review-and-architecture-digest-refresh path is repo-relative
+[OK] child id valid: autonomous-proposal-program-recovery-envelope
+[OK] child id unique: autonomous-proposal-program-recovery-envelope
+[OK] child autonomous-proposal-program-recovery-envelope path is repo-relative
+[OK] child id valid: delivery-retained-evidence-index
+[OK] child id unique: delivery-retained-evidence-index
+[OK] child delivery-retained-evidence-index path is repo-relative
+[OK] child id valid: proposal-program-delivery-postmortem-evaluation-profile
+[OK] child id unique: proposal-program-delivery-postmortem-evaluation-profile
+[OK] child proposal-program-delivery-postmortem-evaluation-profile path is repo-relative
+[OK] child id valid: branch-no-pr-delivery-receipt-builder
+[OK] child id unique: branch-no-pr-delivery-receipt-builder
+[OK] child branch-no-pr-delivery-receipt-builder path is repo-relative
+[OK] child id valid: branch-no-pr-bounded-authorization-envelope
+[OK] child id unique: branch-no-pr-bounded-authorization-envelope
+[OK] child branch-no-pr-bounded-authorization-envelope path is repo-relative
+[OK] child complete-program-blocker-vector-planner-output proposal standard passes
+[OK] child complete-program-blocker-vector-planner-output declares change_profile
+[OK] child complete-program-blocker-vector-planner-output implementation-grade completeness review passes
+[OK] child complete-program-blocker-vector-planner-output archive metadata records implemented disposition
+[OK] child complete-program-blocker-vector-planner-output archive metadata records promotion evidence
+[OK] child complete-program-blocker-vector-planner-output archived implementation-run receipt passes
+[OK] child complete-program-blocker-vector-planner-output archived implementation conformance receipt passes
+[OK] child complete-program-blocker-vector-planner-output archived post-implementation drift receipt passes
+[OK] child complete-program-blocker-vector-planner-output archived closeout receipt passes
+[OK] child complete-program-blocker-vector-planner-output archived closeout authorizes archive
+[OK] child complete-program-blocker-vector-planner-output archived terminal closeout records archive-ready verdict
+[OK] child complete-program-blocker-vector-planner-output archived terminal closeout records archive_ready
+[OK] child complete-program-blocker-vector-planner-output archived validation receipt passes
+[WARN] child complete-program-blocker-vector-planner-output archived terminal evidence has no registry evidence_index_refs
+[OK] child lifecycle-validator-runtime-resolver proposal standard passes
+[OK] child lifecycle-validator-runtime-resolver declares change_profile
+[OK] child lifecycle-validator-runtime-resolver implementation-grade completeness review passes
+[OK] child lifecycle-validator-runtime-resolver archive metadata records implemented disposition
+[OK] child lifecycle-validator-runtime-resolver archive metadata records promotion evidence
+[OK] child lifecycle-validator-runtime-resolver archived implementation-run receipt passes
+[OK] child lifecycle-validator-runtime-resolver archived implementation conformance receipt passes
+[OK] child lifecycle-validator-runtime-resolver archived post-implementation drift receipt passes
+[OK] child lifecycle-validator-runtime-resolver archived closeout receipt passes
+[OK] child lifecycle-validator-runtime-resolver archived closeout authorizes archive
+[OK] child lifecycle-validator-runtime-resolver archived terminal closeout records archive-ready verdict
+[OK] child lifecycle-validator-runtime-resolver archived terminal closeout records archive_ready
+[OK] child lifecycle-validator-runtime-resolver archived validation receipt passes
+[WARN] child lifecycle-validator-runtime-resolver archived terminal evidence has no registry evidence_index_refs
+[OK] child proposal-program-execution-mode-normalization proposal standard passes
+[OK] child proposal-program-execution-mode-normalization declares change_profile
+[OK] child proposal-program-execution-mode-normalization implementation-grade completeness review passes
+[OK] child proposal-program-execution-mode-normalization archive metadata records implemented disposition
+[OK] child proposal-program-execution-mode-normalization archive metadata records promotion evidence
+[OK] child proposal-program-execution-mode-normalization archived implementation-run receipt passes
+[OK] child proposal-program-execution-mode-normalization archived implementation conformance receipt passes
+[OK] child proposal-program-execution-mode-normalization archived post-implementation drift receipt passes
+[OK] child proposal-program-execution-mode-normalization archived closeout receipt passes
+[OK] child proposal-program-execution-mode-normalization archived closeout authorizes archive
+[OK] child proposal-program-execution-mode-normalization archived terminal closeout records archive-ready verdict
+[OK] child proposal-program-execution-mode-normalization archived terminal closeout records archive_ready
+[OK] child proposal-program-execution-mode-normalization archived validation receipt passes
+[WARN] child proposal-program-execution-mode-normalization archived terminal evidence has no registry evidence_index_refs
+[OK] child normalized-child-terminal-evidence-summary proposal standard passes
+[OK] child normalized-child-terminal-evidence-summary declares change_profile
+[OK] child normalized-child-terminal-evidence-summary implementation-grade completeness review passes
+[OK] child normalized-child-terminal-evidence-summary archive metadata records implemented disposition
+[OK] child normalized-child-terminal-evidence-summary archive metadata records promotion evidence
+[OK] child normalized-child-terminal-evidence-summary archived implementation-run receipt passes
+[OK] child normalized-child-terminal-evidence-summary archived implementation conformance receipt passes
+[OK] child normalized-child-terminal-evidence-summary archived post-implementation drift receipt passes
+[OK] child normalized-child-terminal-evidence-summary archived closeout receipt passes
+[OK] child normalized-child-terminal-evidence-summary archived closeout authorizes archive
+[OK] child normalized-child-terminal-evidence-summary archived terminal closeout records archive-ready verdict
+[OK] child normalized-child-terminal-evidence-summary archived terminal closeout records archive_ready
+[OK] child normalized-child-terminal-evidence-summary archived validation receipt passes
+[WARN] child normalized-child-terminal-evidence-summary archived terminal evidence has no registry evidence_index_refs
+[OK] child completed-plan-nonblocking-diagnostics proposal standard passes
+[OK] child completed-plan-nonblocking-diagnostics declares change_profile
+[OK] child completed-plan-nonblocking-diagnostics implementation-grade completeness review passes
+[OK] child completed-plan-nonblocking-diagnostics archive metadata records implemented disposition
+[OK] child completed-plan-nonblocking-diagnostics archive metadata records promotion evidence
+[OK] child completed-plan-nonblocking-diagnostics archived implementation-run receipt passes
+[OK] child completed-plan-nonblocking-diagnostics archived implementation conformance receipt passes
+[OK] child completed-plan-nonblocking-diagnostics archived post-implementation drift receipt passes
+[OK] child completed-plan-nonblocking-diagnostics archived closeout receipt passes
+[OK] child completed-plan-nonblocking-diagnostics archived closeout authorizes archive
+[OK] child completed-plan-nonblocking-diagnostics archived terminal closeout records archive-ready verdict
+[OK] child completed-plan-nonblocking-diagnostics archived terminal closeout records archive_ready
+[OK] child completed-plan-nonblocking-diagnostics archived validation receipt passes
+[WARN] child completed-plan-nonblocking-diagnostics archived terminal evidence has no registry evidence_index_refs
+[OK] child targeted-proposal-freshness-checks proposal standard passes
+[OK] child targeted-proposal-freshness-checks declares change_profile
+[OK] child targeted-proposal-freshness-checks implementation-grade completeness review passes
+[OK] child targeted-proposal-freshness-checks archive metadata records implemented disposition
+[OK] child targeted-proposal-freshness-checks archive metadata records promotion evidence
+[OK] child targeted-proposal-freshness-checks archived implementation-run receipt passes
+[OK] child targeted-proposal-freshness-checks archived implementation conformance receipt passes
+[OK] child targeted-proposal-freshness-checks archived post-implementation drift receipt passes
+[OK] child targeted-proposal-freshness-checks archived closeout receipt passes
+[OK] child targeted-proposal-freshness-checks archived closeout authorizes archive
+[OK] child targeted-proposal-freshness-checks archived terminal closeout records archive-ready verdict
+[OK] child targeted-proposal-freshness-checks archived terminal closeout records archive_ready
+[OK] child targeted-proposal-freshness-checks archived validation receipt passes
+[WARN] child targeted-proposal-freshness-checks archived terminal evidence has no registry evidence_index_refs
+[OK] child batched-review-and-architecture-digest-refresh proposal standard passes
+[OK] child batched-review-and-architecture-digest-refresh declares change_profile
+[OK] child batched-review-and-architecture-digest-refresh implementation-grade completeness review passes
+[OK] child batched-review-and-architecture-digest-refresh archive metadata records implemented disposition
+[OK] child batched-review-and-architecture-digest-refresh archive metadata records promotion evidence
+[OK] child batched-review-and-architecture-digest-refresh archived implementation-run receipt passes
+[OK] child batched-review-and-architecture-digest-refresh archived implementation conformance receipt passes
+[OK] child batched-review-and-architecture-digest-refresh archived post-implementation drift receipt passes
+[OK] child batched-review-and-architecture-digest-refresh archived closeout receipt passes
+[OK] child batched-review-and-architecture-digest-refresh archived closeout authorizes archive
+[OK] child batched-review-and-architecture-digest-refresh archived terminal closeout records archive-ready verdict
+[OK] child batched-review-and-architecture-digest-refresh archived terminal closeout records archive_ready
+[OK] child batched-review-and-architecture-digest-refresh archived validation receipt passes
+[WARN] child batched-review-and-architecture-digest-refresh archived terminal evidence has no registry evidence_index_refs
+[OK] child autonomous-proposal-program-recovery-envelope proposal standard passes
+[OK] child autonomous-proposal-program-recovery-envelope declares change_profile
+[OK] child autonomous-proposal-program-recovery-envelope implementation-grade completeness review passes
+[OK] child autonomous-proposal-program-recovery-envelope archive metadata records implemented disposition
+[OK] child autonomous-proposal-program-recovery-envelope archive metadata records promotion evidence
+[OK] child autonomous-proposal-program-recovery-envelope archived implementation-run receipt passes
+[OK] child autonomous-proposal-program-recovery-envelope archived implementation conformance receipt passes
+[OK] child autonomous-proposal-program-recovery-envelope archived post-implementation drift receipt passes
+[OK] child autonomous-proposal-program-recovery-envelope archived closeout receipt passes
+[OK] child autonomous-proposal-program-recovery-envelope archived closeout authorizes archive
+[OK] child autonomous-proposal-program-recovery-envelope archived terminal closeout records archive-ready verdict
+[OK] child autonomous-proposal-program-recovery-envelope archived terminal closeout records archive_ready
+[OK] child autonomous-proposal-program-recovery-envelope archived validation receipt passes
+[WARN] child autonomous-proposal-program-recovery-envelope archived terminal evidence has no registry evidence_index_refs
+[OK] child delivery-retained-evidence-index proposal standard passes
+[OK] child delivery-retained-evidence-index declares change_profile
+[OK] child delivery-retained-evidence-index implementation-grade completeness review passes
+[OK] child delivery-retained-evidence-index archive metadata records implemented disposition
+[OK] child delivery-retained-evidence-index archive metadata records promotion evidence
+[OK] child delivery-retained-evidence-index archived implementation-run receipt passes
+[OK] child delivery-retained-evidence-index archived implementation conformance receipt passes
+[OK] child delivery-retained-evidence-index archived post-implementation drift receipt passes
+[OK] child delivery-retained-evidence-index archived closeout receipt passes
+[OK] child delivery-retained-evidence-index archived closeout authorizes archive
+[OK] child delivery-retained-evidence-index archived terminal closeout records archive-ready verdict
+[OK] child delivery-retained-evidence-index archived terminal closeout records archive_ready
+[OK] child delivery-retained-evidence-index archived validation receipt passes
+[WARN] child delivery-retained-evidence-index archived terminal evidence has no registry evidence_index_refs
+[OK] child proposal-program-delivery-postmortem-evaluation-profile proposal standard passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile declares change_profile
+[OK] child proposal-program-delivery-postmortem-evaluation-profile implementation-grade completeness review passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archive metadata records implemented disposition
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archive metadata records promotion evidence
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archived implementation-run receipt passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archived implementation conformance receipt passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archived post-implementation drift receipt passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archived closeout receipt passes
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archived closeout authorizes archive
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archived terminal closeout records archive-ready verdict
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archived terminal closeout records archive_ready
+[OK] child proposal-program-delivery-postmortem-evaluation-profile archived validation receipt passes
+[WARN] child proposal-program-delivery-postmortem-evaluation-profile archived terminal evidence has no registry evidence_index_refs
+[OK] child branch-no-pr-delivery-receipt-builder proposal standard passes
+[OK] child branch-no-pr-delivery-receipt-builder declares change_profile
+[OK] child branch-no-pr-delivery-receipt-builder implementation-grade completeness review passes
+[OK] child branch-no-pr-delivery-receipt-builder archive metadata records implemented disposition
+[OK] child branch-no-pr-delivery-receipt-builder archive metadata records promotion evidence
+[OK] child branch-no-pr-delivery-receipt-builder archived implementation-run receipt passes
+[OK] child branch-no-pr-delivery-receipt-builder archived implementation conformance receipt passes
+[OK] child branch-no-pr-delivery-receipt-builder archived post-implementation drift receipt passes
+[OK] child branch-no-pr-delivery-receipt-builder archived closeout receipt passes
+[OK] child branch-no-pr-delivery-receipt-builder archived closeout authorizes archive
+[OK] child branch-no-pr-delivery-receipt-builder archived terminal closeout records archive-ready verdict
+[OK] child branch-no-pr-delivery-receipt-builder archived terminal closeout records archive_ready
+[OK] child branch-no-pr-delivery-receipt-builder archived validation receipt passes
+[WARN] child branch-no-pr-delivery-receipt-builder archived terminal evidence has no registry evidence_index_refs
+[OK] child branch-no-pr-bounded-authorization-envelope proposal standard passes
+[OK] child branch-no-pr-bounded-authorization-envelope declares change_profile
+[OK] child branch-no-pr-bounded-authorization-envelope implementation-grade completeness review passes
+[OK] child branch-no-pr-bounded-authorization-envelope archive metadata records implemented disposition
+[OK] child branch-no-pr-bounded-authorization-envelope archive metadata records promotion evidence
+[OK] child branch-no-pr-bounded-authorization-envelope archived implementation-run receipt passes
+[OK] child branch-no-pr-bounded-authorization-envelope archived implementation conformance receipt passes
+[OK] child branch-no-pr-bounded-authorization-envelope archived post-implementation drift receipt passes
+[OK] child branch-no-pr-bounded-authorization-envelope archived closeout receipt passes
+[OK] child branch-no-pr-bounded-authorization-envelope archived closeout authorizes archive
+[OK] child branch-no-pr-bounded-authorization-envelope archived terminal closeout records archive-ready verdict
+[OK] child branch-no-pr-bounded-authorization-envelope archived terminal closeout records archive_ready
+[OK] child branch-no-pr-bounded-authorization-envelope archived validation receipt passes
+[WARN] child branch-no-pr-bounded-authorization-envelope archived terminal evidence has no registry evidence_index_refs
+[OK] proposal readiness check does not require implementation receipts
+Validation summary: errors=0 warnings=12

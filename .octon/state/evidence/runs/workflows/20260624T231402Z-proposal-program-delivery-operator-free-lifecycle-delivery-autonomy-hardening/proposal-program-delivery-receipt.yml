@@ -1,0 +1,341 @@
+{
+  "schema_version": "proposal-program-delivery-receipt-v1",
+  "receipt_id": "operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z",
+  "emitted_at": "2026-06-25T02:31:11Z",
+  "profile": {
+    "profile_id": "operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z",
+    "profile_ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/delivery-profile.yml",
+    "validated_at": "2026-06-25T02:31:11Z",
+    "verdict": "pass"
+  },
+  "target_program": {
+    "path": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening",
+    "status": "archived",
+    "accepted_review_digest": "sha256:2ad2859a76f513b1449d8e3dc1233560c3932c5c6863941389bba9ebe5f654fb"
+  },
+  "target_outcome": "cleaned",
+  "actual_outcome": "cleaned",
+  "parent_program_lifecycle": {
+    "workflow_ref": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+    "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-closeout.md",
+    "verdict": "pass",
+    "replanned_after_material_changes": true
+  },
+  "child_packet_coverage": {
+    "parent_summary_satisfies_child_receipts": false,
+    "children": [
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      },
+      {
+        "path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope",
+        "status": "archived",
+        "required_receipts": [
+          "support/implementation-run.md",
+          "support/implementation-conformance-review.md",
+          "support/post-implementation-drift-churn-review.md",
+          "support/proposal-closeout.md",
+          "support/proposal-terminal-closeout.yml",
+          "support/validation.md"
+        ],
+        "fresh": true
+      }
+    ]
+  },
+  "child_receipts": {
+    "implementation_run": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-run.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-run.md"
+    ],
+    "implementation_conformance": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-conformance-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-conformance-review.md"
+    ],
+    "post_implementation_drift_churn": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/post-implementation-drift-churn-review.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/post-implementation-drift-churn-review.md"
+    ],
+    "packet_closeout": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-closeout.md"
+    ],
+    "archive": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-terminal-closeout.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-terminal-closeout.yml"
+    ],
+    "change_closeout": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/validation.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/validation.md"
+    ]
+  },
+  "implementation_conformance": {
+    "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-conformance-review.md",
+    "fresh": true,
+    "verdict": "pass"
+  },
+  "post_implementation_drift_churn": {
+    "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-post-implementation-orchestration-drift-churn-review.md",
+    "fresh": true,
+    "verdict": "pass"
+  },
+  "generated_publication": {
+    "validator": "validate-publication-freshness-gates.sh",
+    "publisher_refs": [
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+    ],
+    "fresh": true,
+    "direct_generated_output_edit_used": false
+  },
+  "governed_mechanism_integration": {
+    "required": false,
+    "verdict": "not-applicable",
+    "receipt_refs": [],
+    "not_applicable_rationale": "No child packet in this parent program declares an applicable governed mechanism integration receipt requirement."
+  },
+  "lifecycle_residue_cleanup": {
+    "cleanup_performed": false,
+    "cleanup_authorization_refs": [],
+    "unauthorized_deletion_performed": false
+  },
+  "change_closeout": {
+    "route": "branch-no-pr",
+    "receipt_ref": ".octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/change-receipt.json",
+    "verdict": "pass"
+  },
+  "branch_authorization": {
+    "landing_performed": true,
+    "landing_authorization_ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-landing-authorization.json",
+    "branch_cleanup_performed": true,
+    "cleanup_authorization_ref": ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-cleanup-authorization.json",
+    "branch_deleted": true
+  },
+  "final_sync": {
+    "landed_ref": "e1579065aeb639998de5fec9b60f4b083330a881",
+    "local_main_ref": "e1579065aeb639998de5fec9b60f4b083330a881",
+    "origin_main_ref": "e1579065aeb639998de5fec9b60f4b083330a881",
+    "main_origin_landed_ref_equal": true
+  },
+  "terminal_current_state_proof": {
+    "evidence_ref": ".octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/terminal-current-state-proof.yml",
+    "fresh_after_last_mutation": true,
+    "verdict": "pass"
+  },
+  "worktree_hygiene": {
+    "evidence_ref": ".octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/status.txt",
+    "dirty_worktree": false,
+    "verdict": "pass"
+  },
+  "blockers": [],
+  "non_authority_classification": {
+    "proposal_local_files": "non-authority",
+    "generated_prompts": "non-authority",
+    "generated_outputs": "derived-only-non-authority",
+    "dashboards": "non-authority",
+    "chat_or_model_memory": "non-authority"
+  },
+  "target_owned_evidence_policy": {
+    "target_owned_receipts_required": true,
+    "aggregate_receipt_replaces_target_owned_receipts": false
+  }
+}

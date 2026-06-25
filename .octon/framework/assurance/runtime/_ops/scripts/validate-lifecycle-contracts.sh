@@ -589,7 +589,7 @@ valid_authority_zone() {
 
 valid_authority_artifact_class() {
   case "$1" in
-    run-control|run-evidence|generated-derived|authored-governance|workspace-source|current-run-generated|protected-human-or-external|unknown)
+    run-control|run-evidence|generated-derived|host-projection|authored-governance|workspace-source|current-run-generated|protected-human-or-external|unknown)
       return 0
       ;;
     *)

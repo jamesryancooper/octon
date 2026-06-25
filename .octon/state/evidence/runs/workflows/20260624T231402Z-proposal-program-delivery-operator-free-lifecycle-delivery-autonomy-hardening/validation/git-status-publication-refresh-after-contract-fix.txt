@@ -1,0 +1,135 @@
+## chore/operator-free-lifecycle-delivery-publication-refresh
+ M .claude/commands/octon-proposal-run-program-lifecycle.md
+ M .claude/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+ M .codex/commands/octon-proposal-run-program-lifecycle.md
+ M .codex/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+ M .cursor/commands/octon-proposal-run-program-lifecycle.md
+ M .cursor/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs
+ M .octon/generated/effective/capabilities/artifact-map.yml
+ M .octon/generated/effective/capabilities/generation.lock.yml
+ M .octon/generated/effective/capabilities/routing.effective.yml
+ M .octon/generated/effective/extensions/artifact-map.yml
+ M .octon/generated/effective/extensions/catalog.effective.yml
+ M .octon/generated/effective/extensions/generation.lock.yml
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/commands/octon-proposal-run-program-lifecycle.md
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycle.contract.yml
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycles/proposal-program.contract.yml
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/patterns/proposal-program.md
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+ M .octon/generated/effective/runtime/route-bundle.lock.yml
+ M .octon/generated/effective/runtime/route-bundle.yml
+ M .octon/generated/proposals/registry.yml
+ M .octon/state/control/extensions/active.yml
+ M .octon/state/control/extensions/quarantine.yml
+ M .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+?? .octon/state/continuity/runs/publish-1782355114112-40360/
+?? .octon/state/continuity/runs/publish-1782355296232-87638/
+?? .octon/state/continuity/runs/publish-1782355321889-94929/
+?? .octon/state/continuity/runs/publish-1782355470883-35690/
+?? .octon/state/continuity/runs/publish-1782355980373-22741/
+?? .octon/state/continuity/runs/publish-1782356187394-82609/
+?? .octon/state/continuity/runs/publish-1782356214606-91985/
+?? .octon/state/continuity/runs/publish-1782356273489-3993/
+?? .octon/state/control/execution/runs/publish-1782355114112-40360/
+?? .octon/state/control/execution/runs/publish-1782355296232-87638/
+?? .octon/state/control/execution/runs/publish-1782355321889-94929/
+?? .octon/state/control/execution/runs/publish-1782355470883-35690/
+?? .octon/state/control/execution/runs/publish-1782355980373-22741/
+?? .octon/state/control/execution/runs/publish-1782356187394-82609/
+?? .octon/state/control/execution/runs/publish-1782356214606-91985/
+?? .octon/state/control/execution/runs/publish-1782356273489-3993/
+?? .octon/state/evidence/control/execution/authority-decision-publish-1782355114112-40360.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1782355296232-87638.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1782355321889-94929.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1782355470883-35690.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1782355980373-22741.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1782356187394-82609.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1782356214606-91985.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1782356273489-3993.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1782355114112-40360.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1782355296232-87638.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1782355321889-94929.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1782355470883-35690.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1782355980373-22741.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1782356187394-82609.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1782356214606-91985.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1782356273489-3993.yml
+?? .octon/state/evidence/external-index/runs/publish-1782355114112-40360.yml
+?? .octon/state/evidence/external-index/runs/publish-1782355296232-87638.yml
+?? .octon/state/evidence/external-index/runs/publish-1782355321889-94929.yml
+?? .octon/state/evidence/external-index/runs/publish-1782355470883-35690.yml
+?? .octon/state/evidence/external-index/runs/publish-1782355980373-22741.yml
+?? .octon/state/evidence/external-index/runs/publish-1782356187394-82609.yml
+?? .octon/state/evidence/external-index/runs/publish-1782356214606-91985.yml
+?? .octon/state/evidence/external-index/runs/publish-1782356273489-3993.yml
+?? .octon/state/evidence/validation/compatibility/extensions/2026-06-25T02-38-44Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/compatibility/extensions/2026-06-25T02-53-03Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-38-44Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-cleanup-lifecycle-residue.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-53-03Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-06-25T02-41-50Z-capabilities-b2792b15f414.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-06-25T02-56-44Z-capabilities-5bb44f7ef9c5.yml
+?? .octon/state/evidence/validation/publication/extensions/2026-06-25T02-38-44Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/publication/extensions/2026-06-25T02-53-03Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-06-25T02-44-33Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-06-25T02-57-55Z-runtime-route-bundle-d832aab6f332.yml

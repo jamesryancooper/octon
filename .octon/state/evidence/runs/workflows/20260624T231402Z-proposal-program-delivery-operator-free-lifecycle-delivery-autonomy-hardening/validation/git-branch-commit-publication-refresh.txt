@@ -1,0 +1,3 @@
+[ERROR] Git mutation preflight blocked: git-index-write-denied
+[ERROR] index blocker: git-index-write-denied - cannot create git index lock probe: /Users/jamesryancooper/Projects/octon/.git/index.lock
+[ERROR] Git mutation preflight failed before branch-local commit.

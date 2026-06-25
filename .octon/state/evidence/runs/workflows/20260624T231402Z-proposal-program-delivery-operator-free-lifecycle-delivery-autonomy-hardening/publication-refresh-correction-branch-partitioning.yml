@@ -1,0 +1,60 @@
+schema_version: "octon-route-owned-partitioning-classification-v1"
+classification_id: "publication-refresh-correction-branch-partitioning-operator-free-lifecycle-delivery-20260624T231402Z"
+classified_at: "2026-06-25T03:18:00Z"
+target: ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening"
+source_branch: "chore/operator-free-lifecycle-delivery-publication-refresh"
+base_ref: "main after primary parent delivery landing"
+owning_route: "proposal-program-delivery correction via closeout-change"
+reason: "Post-primary publication freshness validation exposed stale generated/effective state and a lifecycle-contract validator compatibility gap."
+include_groups:
+  - group: "framework runtime build fix"
+    authority: "required for owning publisher scripts to execute"
+    paths:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs"
+  - group: "lifecycle contract validator compatibility"
+    authority: "required to accept the source proposal-program lifecycle recovery artifact class used by publication-drift recovery"
+    paths:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+  - group: "generated publication outputs"
+    authority: "owning publication scripts refreshed derived state"
+    paths:
+      - ".octon/generated/effective/extensions/**"
+      - ".octon/generated/effective/capabilities/**"
+      - ".octon/generated/effective/runtime/route-bundle.yml"
+      - ".octon/generated/effective/runtime/route-bundle.lock.yml"
+      - ".claude/**"
+      - ".codex/**"
+      - ".cursor/**"
+      - ".octon/generated/proposals/registry.yml"
+      - ".octon/state/control/extensions/active.yml"
+      - ".octon/state/control/extensions/quarantine.yml"
+  - group: "publication route evidence"
+    authority: "publication wrappers emitted retained receipts and prompt-alignment refs used by generated effective catalog/locks"
+    paths:
+      - ".octon/state/evidence/validation/publication/**/2026-06-25T02-*.yml"
+      - ".octon/state/evidence/validation/compatibility/extensions/2026-06-25T02-*.yml"
+      - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-25T02-*.yml"
+      - ".octon/state/evidence/control/execution/*publish-1782355*.yml"
+      - ".octon/state/evidence/external-index/runs/publish-1782355*.yml"
+      - ".octon/state/control/execution/runs/publish-1782355*/**"
+      - ".octon/state/continuity/runs/publish-1782355*/**"
+      - ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+  - group: "delivery workflow validation evidence"
+    authority: "ignored-by-default retained workflow evidence force-added for the parent delivery proof chain"
+    paths:
+      - ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/**"
+exclude_groups:
+  - group: "unrelated historical archive metadata"
+    reason: "Exact full-registry validation failures are classified separately and are not repaired by the parent delivery route."
+    paths:
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/extensions-sidecar-pack-system/proposal.yml"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture/proposal.yml"
+  - group: "unrelated local residue"
+    reason: "No paths outside the include groups are authorized for staging."
+assertions:
+  child_lifecycle_work_rerun: false
+  archived_child_receipts_edited: false
+  pr_creation_authorized: false
+  generated_outputs_hand_edited: false
+  broad_stage_all_authorized: false

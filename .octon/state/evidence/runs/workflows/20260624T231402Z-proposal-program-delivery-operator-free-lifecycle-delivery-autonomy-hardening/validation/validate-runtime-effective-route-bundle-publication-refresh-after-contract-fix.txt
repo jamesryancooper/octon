@@ -1,0 +1,31 @@
+== Runtime Effective Route Bundle Validation ==
+[OK] runtime route bundle present
+[OK] runtime route bundle lock present
+[OK] runtime route bundle schema current
+[OK] runtime route bundle lock schema current
+[OK] route bundle generation ids aligned
+[OK] runtime-effective handle contract present
+[OK] selector bundle ref current
+[OK] selector lock ref current
+[OK] route bundle digest current
+[OK] selector digest current
+[OK] root manifest digest current
+[OK] runtime route bundle freshness mode current
+[OK] runtime route bundle invalidation conditions declared
+[OK] runtime route bundle non-authority classification valid
+[OK] runtime route bundle allows runtime_resolver
+[OK] runtime route bundle forbids raw runtime reads
+[OK] publication receipt present
+[OK] publication receipt generation id matches
+[OK] publication receipt digest current
+[OK] publication receipt status matches
+[OK] bundle covers every declared support tuple
+[OK] support target matrix digest current
+[OK] pack routes effective digest current
+[OK] pack routes lock digest current
+[OK] extensions catalog digest current
+[OK] extensions generation lock digest current
+[OK] bundle routes declare claim effect and route
+[OK] bundle reports published extension state
+[OK] bundle reports zero quarantined extensions
+Validation summary: errors=0

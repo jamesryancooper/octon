@@ -34,7 +34,7 @@ input_bindings:
   promotion_evidence:
     source: "receipt.proposal-closeout.promotion_evidence"
   target_outcome:
-    source: "run.input.target_outcome"
+    source: "receipt.proposal-closeout.target_outcome"
   terminal_run_id:
     source: "run.input.terminal_run_id"
   lifecycle_interaction_return_refs:
@@ -987,6 +987,11 @@ routes:
             receipt_id: "proposal-review"
             value: "accepted"
         - file_absent: "support/executable-implementation-prompt.md"
+        - any:
+            - receipt_absent: "implementation-run"
+            - receipt_verdict:
+                receipt_id: "implementation-run"
+                value: "blocked"
   - route_id: "run-packet-implementation"
     route_type: "extension"
     delegation_contract:
@@ -1102,7 +1107,6 @@ routes:
         - receipt_verdict:
             receipt_id: "proposal-review"
             value: "accepted"
-        - file_present: "support/executable-implementation-prompt.md"
         - receipt_complete: "implementation-run"
         - receipt_field_equals:
             receipt_id: "implementation-run"
@@ -1224,12 +1228,7 @@ routes:
             receipt_id: "post-implementation-drift"
             field: "verdict"
             value: "pass"
-        - any:
-            - receipt_absent: "proposal-closeout"
-            - receipt_field_equals:
-                receipt_id: "proposal-closeout"
-                field: "verdict"
-                value: "blocked"
+        - receipt_absent: "proposal-closeout"
   - route_id: "proposal-packet-terminal-closeout"
     route_type: "workflow"
     required_inputs:

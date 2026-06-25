@@ -1,0 +1,29 @@
+schema_version: proposal-program-delivery-blocker-v1
+emitted_at: "2026-06-25T03:12:00Z"
+target: ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening"
+program_id: "operator-free-lifecycle-delivery-autonomy-hardening"
+blocker_class: "git-index-write-denied"
+owning_route: "proposal-program-delivery -> closeout-change -> git-branch-commit"
+route_phase: "branch-local-commit-preflight"
+repeated: true
+authority_effects:
+  committed: false
+  pushed: false
+  landed: false
+  synced: false
+  cleaned: false
+  branch_deleted: false
+durable_fix_or_route_attempted:
+  - "continued from clean linked worktree /private/tmp/octon-operator-free-delivery-clean"
+  - "retained correction branch chore/operator-free-lifecycle-delivery-publication-refresh"
+  - "resolved linked-worktree preflight path using git rev-parse --git-path index.lock"
+  - "reran git mutation preflight after the helper fix"
+validation_run:
+  command: "env PATH=\"/Users/jamesryancooper/.homebrew/bin:$PATH\" bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh --repo /private/tmp/octon-operator-free-delivery-clean --check-index --check-ref --evidence .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/git-mutation-preflight-publication-refresh-after-worktree-fix.yml"
+  exit_code: 1
+primary_evidence_file: ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/git-mutation-preflight-publication-refresh-after-worktree-fix.yml"
+supporting_evidence:
+  - ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/validation/git-branch-commit-publication-refresh.txt"
+blocker_detail: "cannot create git index lock probe: /Users/jamesryancooper/Projects/octon/.git/worktrees/octon-operator-free-delivery-clean/index.lock"
+classification: "environment-or-sandbox git metadata write denial; delivery is blocked before Git mutation"
+next_required_action: "rerun parent/program delivery in a runtime that can write the linked worktree git index path, or make /Users/jamesryancooper/Projects/octon/.git/worktrees/octon-operator-free-delivery-clean/index.lock writable to the runtime."

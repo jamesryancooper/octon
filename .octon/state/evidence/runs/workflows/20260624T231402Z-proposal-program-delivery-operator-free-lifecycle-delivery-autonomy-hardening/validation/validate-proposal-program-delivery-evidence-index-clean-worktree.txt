@@ -1,0 +1,377 @@
+== Proposal Program Delivery Evidence Index Validation ==
+[OK] evidence index schema exists
+[OK] evidence index schema JSON parses
+[OK] evidence index exists
+[OK] schema_version
+[OK] producer
+[OK] index_id present
+[OK] generated_at present
+[OK] source receipt ref present
+[OK] source receipt schema_version declared
+[OK] source receipt digest matches
+[OK] source delivery receipt validates
+[OK] target_outcome is schema-valid
+[OK] actual_outcome is schema-valid
+[OK] target_outcome matches source receipt
+[OK] actual_outcome matches source receipt
+[OK] target_program path matches source receipt
+[OK] route change_closeout_route present
+[OK] route landing_performed explicit
+[OK] route branch_cleanup_performed explicit
+[OK] route branch_deleted explicit
+[OK] route final_sync_claimed explicit
+[OK] outcome authority child_delivery_claimed_by_archive_only
+[OK] outcome authority archive_evidence_claims_delivery
+[OK] outcome authority index_replaces_delivery_receipt
+[OK] outcome authority child_delivery_required_for_sibling_progression
+[OK] evidence policy purpose
+[OK] evidence policy disclosure
+[OK] raw evidence retained
+[OK] evidence policy authorizes_landing
+[OK] evidence policy authorizes_delivery
+[OK] evidence policy satisfies_child_receipts
+[OK] evidence policy authorizes_cleanup
+[OK] evidence policy authorizes_archive
+[OK] evidence policy authorizes_execution
+[OK] evidence policy generated_outputs_are_authority
+[OK] non-authority classification proposal_local_files
+[OK] non-authority classification generated_prompts
+[OK] non-authority classification generated_outputs
+[OK] non-authority classification dashboards
+[OK] non-authority classification chat_or_model_memory
+[OK] target-owned receipts required
+[OK] aggregate receipt replaces target-owned receipts
+[OK] validator results present
+[OK] receipt validator pass result recorded
+[OK] indexed evidence refs present
+[OK] disclosure tier valid: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-receipt.yml
+[OK] authority use valid: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-receipt.yml
+[OK] indexed ref digest matches: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-delivery-receipt.yml
+[OK] disclosure tier valid: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/delivery-profile.yml
+[OK] authority use valid: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/delivery-profile.yml
+[OK] indexed ref digest matches: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/delivery-profile.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-run.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-run.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-run.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-run.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-conformance-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/implementation-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/post-implementation-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/post-implementation-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/post-implementation-drift-churn-review.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/post-implementation-drift-churn-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-closeout.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-closeout.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-closeout.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-closeout.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-terminal-closeout.yml
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-terminal-closeout.yml
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-terminal-closeout.yml
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/proposal-terminal-closeout.yml
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/complete-program-blocker-vector-planner-output/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/normalized-child-terminal-evidence-summary/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/completed-plan-nonblocking-diagnostics/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/targeted-proposal-freshness-checks/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/batched-review-and-architecture-digest-refresh/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/autonomous-proposal-program-recovery-envelope/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/delivery-retained-evidence-index/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-postmortem-evaluation-profile/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-delivery-receipt-builder/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/validation.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/validation.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/validation.md
+[OK] child receipt remains target-owned: .octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-bounded-authorization-envelope/support/validation.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-conformance-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-conformance-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-implementation-orchestration-conformance-review.md
+[OK] disclosure tier valid: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-post-implementation-orchestration-drift-churn-review.md
+[OK] authority use valid: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-post-implementation-orchestration-drift-churn-review.md
+[OK] indexed ref digest matches: .octon/inputs/exploratory/proposals/.archive/architecture/operator-free-lifecycle-delivery-autonomy-hardening/support/program-post-implementation-orchestration-drift-churn-review.md
+[OK] disclosure tier valid: .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+[OK] authority use valid: .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+[OK] indexed ref digest matches: .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+[OK] disclosure tier valid: .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+[OK] authority use valid: .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+[OK] indexed ref digest matches: .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+[OK] disclosure tier valid: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/change-receipt.json
+[OK] authority use valid: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/change-receipt.json
+[OK] indexed ref digest matches: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/change-receipt.json
+[OK] disclosure tier valid: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-landing-authorization.json
+[OK] authority use valid: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-landing-authorization.json
+[OK] indexed ref digest matches: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-landing-authorization.json
+[OK] disclosure tier valid: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-cleanup-authorization.json
+[OK] authority use valid: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-cleanup-authorization.json
+[OK] indexed ref digest matches: .octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/branch-cleanup-authorization.json
+[OK] disclosure tier valid: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/terminal-current-state-proof.yml
+[OK] authority use valid: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/terminal-current-state-proof.yml
+[OK] indexed ref digest matches: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/terminal-current-state-proof.yml
+[OK] disclosure tier valid: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/status.txt
+[OK] authority use valid: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/status.txt
+[OK] indexed ref digest matches: .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/status.txt
+[OK] source receipt is included in indexed refs
+[OK] all required child receipt families are indexed
+[OK] failure behavior includes fail-closed-on-authority-boundary-conflict
+[OK] failure behavior includes fail-closed-on-source-receipt-validation-failure
+[OK] failure behavior includes fail-closed-on-indexed-ref-missing
+[OK] failure behavior includes fail-closed-on-indexed-ref-digest-mismatch
+Validation summary: errors=0

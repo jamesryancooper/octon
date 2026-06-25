@@ -1,0 +1,29 @@
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/pipeline.rs:1870:38
+     |
+1870 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+     |
+     = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/workflow.rs:9415:38
+     |
+9415 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/pipeline.rs:1870:38
+     |
+1870 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+     |
+     = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/workflow.rs:9415:38
+     |
+9415 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+
+[OK] published host capability projections
