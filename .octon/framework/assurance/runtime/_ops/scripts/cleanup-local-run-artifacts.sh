@@ -181,6 +181,7 @@ REFERENCE_SCAN_PATHS="$TMP_DIR/reference-scan-paths.txt"
 REFERENCED_PATHS="$TMP_DIR/referenced-paths.txt"
 EXCLUDED_PATHS="$TMP_DIR/excluded-paths.txt"
 STATUS_ROWS="$TMP_DIR/status-rows.txt"
+CLASSIFICATION_INPUT_ROWS="$TMP_DIR/classification-input-rows.tsv"
 CLASSIFICATION_ROWS="$TMP_DIR/classification-rows.tsv"
 CLEANUP_PATHS="$TMP_DIR/cleanup-paths.txt"
 PROTECTED_PATHS="$TMP_DIR/protected-paths.txt"
@@ -396,6 +397,22 @@ else
   : >"$REFERENCED_PATHS"
 fi
 
+write_classification_input_rows() {
+  awk '
+    NR == FNR {
+      if ($0 != "") {
+        referenced[$0] = 1
+      }
+      next
+    }
+    $0 != "" {
+      print (($0 in referenced) ? "1" : "0") "\t" $0
+    }
+  ' "$REFERENCED_PATHS" "$UNTRACKED_PATHS" >"$CLASSIFICATION_INPUT_ROWS"
+}
+
+write_classification_input_rows
+
 {
   git -C "$ROOT_DIR" status --porcelain=v1 -uall -- \
     .octon/state \
@@ -407,7 +424,7 @@ fi
 
 is_referenced_by_protected_file() {
   local rel="$1"
-  grep -Fxq -- "$rel" "$REFERENCED_PATHS"
+  [[ "${CURRENT_CLASSIFY_PATH:-}" == "$rel" && "${CURRENT_CLASSIFY_REFERENCED:-0}" == "1" ]]
 }
 
 set_classification() {
@@ -800,7 +817,8 @@ classify_path() {
   esac
 }
 
-while IFS= read -r rel; do
+while IFS=$'\t' read -r CURRENT_CLASSIFY_REFERENCED CURRENT_CLASSIFY_PATH; do
+  rel="$CURRENT_CLASSIFY_PATH"
   [[ -n "$rel" ]] || continue
   CLASS_KIND=""
   CLASS_DISPOSITION=""
@@ -825,7 +843,7 @@ while IFS= read -r rel; do
       [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'manual_review\t%s\t%s\tunrecognized disposition %s\n' "$CLASS_KIND" "$rel" "$CLASS_DISPOSITION"
       ;;
   esac
-done <"$UNTRACKED_PATHS"
+done <"$CLASSIFICATION_INPUT_ROWS"
 
 sort -u "$CLASSIFICATION_ROWS" -o "$CLASSIFICATION_ROWS"
 sort -u "$CLEANUP_PATHS" -o "$CLEANUP_PATHS"

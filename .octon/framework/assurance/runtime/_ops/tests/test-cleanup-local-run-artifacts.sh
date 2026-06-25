@@ -504,4 +504,49 @@ assert_output_contains "$bounded_scan_output" "bounded reference scan did not re
 assert_output_contains "$bounded_scan_output" "bounded reference scan did not over-protect cleanup-safe local residue" "protected_referenced:"
 assert_output_not_contains "$bounded_scan_output" "bounded reference scan treated retained publication residue as cleanup candidate" "cleanup_candidate" ".octon/state/evidence/validation/publication/capabilities/stale.yml"
 
+root="$(make_fixture)"
+python3 - "$root" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+publication_dir = root / ".octon/state/evidence/validation/publication/extensions"
+publication_dir.mkdir(parents=True, exist_ok=True)
+for index in range(3000):
+    (publication_dir / f"large-bounded-{index:04d}.yml").write_text(
+        f"receipt: large-bounded-{index:04d}\n",
+        encoding="utf-8",
+    )
+PY
+large_bounded_scan_output="$(HELPER="$HELPER" ROOT="$root" python3 - <<'PY'
+import os
+import subprocess
+
+env = os.environ.copy()
+env["OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT"] = "1"
+completed = subprocess.run(
+    ["bash", os.environ["HELPER"], "--root", os.environ["ROOT"], "--summary-only"],
+    check=True,
+    capture_output=True,
+    env=env,
+    text=True,
+    timeout=20,
+)
+print(completed.stdout, end="")
+PY
+)"
+assert_output_contains "$large_bounded_scan_output" "large bounded reference scan did not report fail-safe status" "reference_scan_status: bounded-overprotect"
+assert_output_contains "$large_bounded_scan_output" "large bounded reference scan did not retain manual-review residue" "manual_review:"
+python3 - "$large_bounded_scan_output" <<'PY'
+import re
+import sys
+
+output = sys.argv[1]
+match = re.search(r"protected_referenced:\s*([0-9]+)", output)
+if not match:
+    raise SystemExit("missing protected_referenced summary")
+if int(match.group(1)) < 3000:
+    raise SystemExit(f"large bounded reference scan protected too few paths: {match.group(1)}")
+PY
+
 echo "[OK] cleanup-local-run-artifacts helper preserves referenced evidence and requires validating cleanup authorization receipts"

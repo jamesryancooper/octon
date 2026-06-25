@@ -1,0 +1,2 @@
+# test-cleanup-local-run-artifacts.sh
+[OK] cleanup-local-run-artifacts helper preserves referenced evidence and requires validating cleanup authorization receipts

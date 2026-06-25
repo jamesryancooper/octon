@@ -1,0 +1,44 @@
+schema_version: closeout-candidate-boundary-v1
+candidate_id: repo-hygiene-classifier-performance
+created_at_utc: 2026-06-25T19:16:00Z
+source_primary_worktree: /Users/jamesryancooper/Projects/octon
+route_owned_worktree: /private/tmp/octon-repo-hygiene-classifier-performance-20260625T190335Z
+route_branch: chore/repo-hygiene-classifier-performance-20260625T190335Z
+base_ref: origin/main
+selected_route: closeout-change
+selected_change_route: branch-no-pr
+target_lifecycle_outcome: cleaned
+blocker_being_repaired:
+  blocker_class: repo-hygiene-classifier-timeout
+  owning_route: closeout-worktree -> repo-hygiene-cleanup
+  prior_report_ref: /private/tmp/octon-worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T183404Z/.octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T183404Z/closeout-worktree-report.yml
+include_paths:
+  - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+  - .octon/state/evidence/validation/analysis/repo-hygiene-classifier-performance-20260625T190335Z/
+exclude_paths:
+  - .octon/state/control/
+  - .octon/state/evidence/local/
+  - .octon/generated/
+  - .octon/inputs/
+  - primary_worktree_dirty_residue
+authority_summary:
+  durable_change: >-
+    Performance-compatible classifier logic for the repo-hygiene helper is a
+    framework assurance runtime change.
+  validation_evidence: >-
+    Focused helper tests, repo-hygiene governance validation, bash syntax, and
+    read-only primary-tree summary classification are retained as route-owned
+    validation evidence.
+  primary_mutation: false
+  deletion_authorization: false
+  pr_creation_authorized: false
+validation_refs:
+  - .octon/state/evidence/validation/analysis/repo-hygiene-classifier-performance-20260625T190335Z/bash-syntax.txt
+  - .octon/state/evidence/validation/analysis/repo-hygiene-classifier-performance-20260625T190335Z/test-cleanup-local-run-artifacts.txt
+  - .octon/state/evidence/validation/analysis/repo-hygiene-classifier-performance-20260625T190335Z/validate-repo-hygiene-governance.txt
+  - .octon/state/evidence/validation/analysis/repo-hygiene-classifier-performance-20260625T190335Z/cleanup-local-run-artifacts-primary-summary.txt
+notes:
+  - The primary worktree remains read-only for this candidate.
+  - The helper summary found zero cleanup candidates and did not authorize deletion.
+  - Remaining primary residue must be handled by later closeout-worktree candidates.

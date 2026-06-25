@@ -1,0 +1,20 @@
+# cleanup-local-run-artifacts.sh --summary-only --root /Users/jamesryancooper/Projects/octon
+started_at_utc: 2026-06-25T19:11:16Z
+summary:
+  mode: dry-run
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 17338
+  manual_review: 963
+  git_status_digest: sha256:16a77b2a6f2fc189332a8838bacd3a95ca6de18099f71661a42158fb61c66d16
+  classification_digest: sha256:6b48a6983b143424f03fdcf8c9bd079bd0e6fd47db0cc3b40c20a81c26dd9d1a
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:4decd2c6af2a29aecfe1e0dce972dbab9788aa68bef93f0423bac454f6c209c2
+  manual_review_paths_digest: sha256:77b4545d39191cdd28053cd7b0d1c276fec2eff0c16cfb193626d79c5beed058
+  reference_scan_status: bounded-overprotect
+  reference_scan_pattern_count: 17338
+  reference_scan_pattern_limit: 2000
+[OK] dry-run complete; rerun with --confirm or --authorization <receipt.json> to remove cleanup candidates only
+exit_code: 0
+duration_seconds: 48
+ended_at_utc: 2026-06-25T19:12:04Z

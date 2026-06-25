@@ -1,0 +1,2 @@
+# bash -n cleanup-local-run-artifacts.sh
+# bash -n test-cleanup-local-run-artifacts.sh
