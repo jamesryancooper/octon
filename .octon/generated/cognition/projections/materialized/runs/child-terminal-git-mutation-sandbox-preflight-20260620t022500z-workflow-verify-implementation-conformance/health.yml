@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance",
-  "generated_at": "2026-06-23T18:30:12Z",
+  "generated_at": "2026-06-25T16:21:45Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:7436e4cd6e7ca2dbc1a65be75a80883b29cfdfdc39b1bb0722d9ba0b893602e0",
-    "checked_at": "2026-06-23T18:30:12Z",
+    "combined_source_digest": "sha256:457cb1c9eb5aeb8185dd1751b33c94f02510e4cc3fd41dcd377ae64e4a4e61c0",
+    "checked_at": "2026-06-25T16:21:45Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/child-terminal-git-mutation-sandbox-preflight-20260620t022500z-workflow-verify-implementation-conformance/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:238b02272e5d449235b046eef84f6a540e986ed48f65b8d98f6a4e7bcdcf0546",
+      "digest": "sha256:e1835be8933131f51ea4337866fba23e80a141876653ac1499569a5fc9035c90",
       "status": "present"
     },
     "pack_routes": {

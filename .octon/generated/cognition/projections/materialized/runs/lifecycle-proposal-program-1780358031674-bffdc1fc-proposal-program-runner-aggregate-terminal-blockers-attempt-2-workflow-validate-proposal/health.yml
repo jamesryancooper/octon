@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-2-workflow-validate-proposal",
-  "generated_at": "2026-06-23T18:30:12Z",
+  "generated_at": "2026-06-25T16:21:45Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:80fb86614dbd1fc5738f3329d28d4432847dbe3316e471e25131c38131dffe8f",
-    "checked_at": "2026-06-23T18:30:12Z",
+    "combined_source_digest": "sha256:47a2608e4475f77d8f0bb9f99d78808fe5aef108bf68f964ae02966c3f891f3a",
+    "checked_at": "2026-06-25T16:21:45Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-2-workflow-validate-proposal/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:238b02272e5d449235b046eef84f6a540e986ed48f65b8d98f6a4e7bcdcf0546",
+      "digest": "sha256:e1835be8933131f51ea4337866fba23e80a141876653ac1499569a5fc9035c90",
       "status": "present"
     },
     "pack_routes": {

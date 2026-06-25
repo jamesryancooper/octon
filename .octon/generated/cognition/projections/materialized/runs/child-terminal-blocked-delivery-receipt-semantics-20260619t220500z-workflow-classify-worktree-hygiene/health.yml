@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-classify-worktree-hygiene",
-  "generated_at": "2026-06-23T18:30:12Z",
+  "generated_at": "2026-06-25T16:21:45Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:94bddce31fb64092bbefca87bdab9ffdbe9e9085b46c9a4406d7f9f5e7f701b0",
-    "checked_at": "2026-06-23T18:30:12Z",
+    "combined_source_digest": "sha256:100a671dc761c349696e970b107eeacf9e0ba5d991a394aa43d0c22f01398c3f",
+    "checked_at": "2026-06-25T16:21:45Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t220500z-workflow-classify-worktree-hygiene/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:238b02272e5d449235b046eef84f6a540e986ed48f65b8d98f6a4e7bcdcf0546",
+      "digest": "sha256:e1835be8933131f51ea4337866fba23e80a141876653ac1499569a5fc9035c90",
       "status": "present"
     },
     "pack_routes": {

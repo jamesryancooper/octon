@@ -1,0 +1,4 @@
+Reconstructed from scratch publication generator worktree into clean closeout worktree.
+Included: generated effective outputs, host projections, publication/compatibility receipts, prompt alignment receipts, route classification evidence.
+Excluded: scratch .octon/state/control, .octon/state/continuity, .octon/state/evidence/control, .octon/state/evidence/external-index, ACP decision append, and generated health files for scratch publish runs.
+Run-health read models are regenerated in this clean closeout worktree after reconstruction.

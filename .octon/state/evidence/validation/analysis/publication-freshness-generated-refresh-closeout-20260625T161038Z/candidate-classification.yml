@@ -1,0 +1,63 @@
+schema_version: closeout-worktree-candidate-classification-v1
+classification_id: publication-freshness-generated-refresh-20260625T161038Z
+target_worktree: /Users/jamesryancooper/Projects/octon
+route_worktree: /private/tmp/octon-publication-freshness-refresh
+route_branch: chore/publication-freshness-generated-refresh
+base_ref: cae0e788d7c1ebf562420895f30c09762b27bd26
+candidate_id: publication-freshness-generated-refresh
+owning_route: closeout-worktree -> generated-publication-refresh -> closeout-change
+source_authority:
+  primary_dirty_worktree_read_only: true
+  generated_outputs_authority: owning_generator_only
+  source_implementation_authority: none
+selected_because:
+  - validate-publication-freshness-gates failed after the landed implementation-framework leftover closeout.
+  - Failures are generated/publication freshness surfaces, not additional source implementation paths.
+  - Owning publication generators exist for capability routing, extension state, host projections, and run-health read models.
+allowed_generator_commands:
+  - env PATH="/Users/jamesryancooper/.homebrew/bin:$PATH" bash .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh
+  - env PATH="/Users/jamesryancooper/.homebrew/bin:$PATH" bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh
+  - env PATH="/Users/jamesryancooper/.homebrew/bin:$PATH" bash .octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh
+  - env PATH="/Users/jamesryancooper/.homebrew/bin:$PATH" bash .octon/framework/capabilities/_ops/scripts/publish-host-projections.sh
+  - env PATH="/Users/jamesryancooper/.homebrew/bin:$PATH" bash .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh --all-runs
+allowed_output_families:
+  - .octon/generated/effective/extensions
+  - .octon/generated/effective/capabilities
+  - .octon/generated/effective/runtime
+  - .claude/commands
+  - .claude/skills
+  - .codex/commands
+  - .codex/skills
+  - .cursor/commands
+  - .cursor/skills
+  - .octon/generated/cognition/projections/materialized/runs
+  - .octon/state/evidence/validation/publication
+  - .octon/state/evidence/validation/compatibility
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/publication
+  - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health
+  - .octon/state/control/extensions/active.yml
+  - .octon/state/control/extensions/quarantine.yml
+explicit_exclusions:
+  - /Users/jamesryancooper/Projects/octon direct mutation
+  - .octon/state/control/execution
+  - .octon/state/continuity
+  - .octon/state/evidence/control
+  - .octon/state/evidence/external-index
+  - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+  - unrelated retained evidence
+  - proposal inputs
+  - raw manual deletion of generated run-health projections
+  - child lifecycle or parent delivery reruns
+classification_verdict: authorized_for_generator_refresh_only
+control_state_exception:
+  classification: tracked_extension_publication_state
+  paths:
+    - .octon/state/control/extensions/active.yml
+    - .octon/state/control/extensions/quarantine.yml
+  owning_generator: .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh
+  validator_requirement: .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+  rationale:
+    - These tracked files bind the generated extension catalog and generation lock to the retained publication and compatibility receipts.
+    - The final reconstruction still excludes raw execution run control and untracked publication-wrapper residue.
+  reconstruction_note:
+    - Values were bound to the publication and compatibility receipt refs and hashes emitted by publish-extension-state and retained in the generated extension catalog and generation lock.

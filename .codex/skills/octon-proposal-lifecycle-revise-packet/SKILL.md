@@ -22,9 +22,3 @@ files, addressed finding ids, remaining blocking count, post-revision digest,
 validators rerun, and catalog/checksum/registry refresh confirmation. Keep or
 return `proposal.yml#status` to `in-review`; acceptance requires a later
 `review-packet` pass.
-
-Do not use revision authority to repair or require stale terminal closeout
-evidence while the packet is `in-review`. Record earlier
-`support/proposal-terminal-closeout.yml` evidence as nonblocking route context,
-use the exact `post_revision_digest` field with a computed digest, and fail
-closed instead of writing `pending` placeholders for validators or refreshes.

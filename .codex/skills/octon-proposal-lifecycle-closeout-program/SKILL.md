@@ -40,23 +40,9 @@ classifier:
 ```
 
 Pass `--run-id <run-id>` when the lifecycle run id is available. If the
-classifier reports any `foreign-or-ambiguous` paths, first look for a
-schema-valid `closeout-worktree-report-v1` return for the same program run that
-is bound to the current lifecycle-residue cleanup receipt, classifier
-ref/digest or foreign fingerprint, and exact path set. A valid parent
-closeout-worktree return may provide only non-authorizing preserved/exclusion
-evidence for parent closeout hygiene; it does not grant archive, cleanup,
-delivery, landing, branch cleanup, child receipt replacement, child validation
-replacement, or child lifecycle outcome authority. When that return is present,
-the parent-local `support/proposal-closeout.md` may record archive readiness
-with `worktree_hygiene_verdict: retained-disposition`,
-`worktree_hygiene_blocker_class: none`, `archive_authorized: yes`, and
-`child_authority_preserved: yes`.
-
-If no current validated parent closeout-worktree return covers the residue,
-write or refresh the parent-local `support/proposal-closeout.md` with
-`verdict: blocked`, `archive_authorized: no`,
-`selected_git_route: stage-only-escalate`,
+classifier reports any `foreign-or-ambiguous` paths, write or refresh the
+parent-local `support/proposal-closeout.md` with `verdict: blocked`,
+`archive_authorized: no`, `selected_git_route: stage-only-escalate`,
 `worktree_hygiene_verdict: blocked`,
 `worktree_hygiene_blocker_class: worktree-hygiene-blocked`, the three hygiene
 path counts, a `worktree_hygiene_evidence` reference to the classifier output,

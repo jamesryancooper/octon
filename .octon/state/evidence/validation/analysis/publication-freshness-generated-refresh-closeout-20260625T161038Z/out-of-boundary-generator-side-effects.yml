@@ -1,0 +1,21 @@
+schema_version: closeout-worktree-generator-side-effect-classification-v1
+classification_id: publication-freshness-generated-refresh-side-effects-20260625T161038Z
+candidate_id: publication-freshness-generated-refresh
+route_worktree: /private/tmp/octon-publication-freshness-refresh
+owning_route: closeout-worktree -> generated-publication-refresh
+side_effect_paths:
+  - path: .octon/state/control/extensions/active.yml
+    classification: tracked_extension_publication_state
+    disposition: included_in_final_reconstruction_by_generator_ownership
+  - path: .octon/state/control/extensions/quarantine.yml
+    classification: tracked_extension_publication_state
+    disposition: included_in_final_reconstruction_by_generator_ownership
+  - path: .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+    classification: unrelated_decision_log_append
+    disposition: excluded_from_publishable_candidate
+reason:
+  - Candidate authorization allowed generated publication outputs and validation receipts.
+  - The extension active and quarantine files are tracked extension publication state owned by publish-extension-state.sh, not raw execution run/control residue.
+  - validate-extension-publication-state.sh requires the tracked extension active state to bind the current generated catalog, generation lock, publication receipt, and compatibility receipt.
+  - Raw execution run/control state, external index residue, continuity residue, and the ACP decision-log append remain excluded.
+planned_action: include only the tracked extension publication state files in the final reconstruction and exclude the unrelated ACP append plus raw run/control residue.

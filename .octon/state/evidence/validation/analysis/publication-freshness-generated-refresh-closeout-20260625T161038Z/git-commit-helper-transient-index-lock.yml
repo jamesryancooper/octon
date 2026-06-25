@@ -1,0 +1,22 @@
+schema_version: closeout-worktree-transient-blocker-v1
+blocker_class: git-helper-transient-index-lock
+owning_route: closeout-change -> git-branch-commit
+target_worktree: /private/tmp/octon-publication-freshness-refresh-closeout
+primary_dirty_worktree_mutated: false
+observed_during: branch-local commit helper preflight
+detail:
+  - The commit helper was invoked with a PATH that resolved bash but did not include /bin, so the mutation preflight trap could not find rm.
+  - The preflight left an empty route-owned worktree index.lock at .git/worktrees/octon-publication-freshness-refresh-closeout/index.lock.
+  - The subsequent git add refused to proceed while the stale lock existed.
+process_check:
+  no_repo_git_process_observed: true
+  observed_git_processes:
+    - Cursor background git worker processes unrelated to this route-owned helper.
+route_action:
+  - Remove only the stale route-owned index.lock.
+  - Re-run the canonical commit helper with an explicit full system PATH.
+forbidden_actions_not_used:
+  - git reset --hard
+  - git clean
+  - broad stage-all
+  - primary dirty worktree mutation

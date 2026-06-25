@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-post-implementation-drift",
-  "generated_at": "2026-06-23T18:30:12Z",
+  "generated_at": "2026-06-25T16:21:45Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:a9c03a3aa6857ab6690d08b87f2109595b0a0e623e272d45e8274e7ce195f63d",
-    "checked_at": "2026-06-23T18:30:12Z",
+    "combined_source_digest": "sha256:d7d0cdc5a6a77e9d1100e5b9ae81a57c63a8d37a88c348759cd97ccc02d25b6f",
+    "checked_at": "2026-06-25T16:21:45Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-post-implementation-drift/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:238b02272e5d449235b046eef84f6a540e986ed48f65b8d98f6a4e7bcdcf0546",
+      "digest": "sha256:e1835be8933131f51ea4337866fba23e80a141876653ac1499569a5fc9035c90",
       "status": "present"
     },
     "pack_routes": {
