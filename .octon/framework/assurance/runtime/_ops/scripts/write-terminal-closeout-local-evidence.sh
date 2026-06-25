@@ -6,6 +6,9 @@ ROOT_DIR="$(cd -- "$SCRIPT_DIR/../../../../../.." && pwd)"
 PROOF_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-terminal-current-state-proof.sh"
 MANIFEST_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-terminal-closeout-local-evidence.sh"
 CLASSIFIER="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh"
+CHANGE_RECEIPT_STATE_MACHINE_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh"
+HOSTED_NO_PR_LANDING_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
+CHANGE_CLOSEOUT_ALIGNMENT_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
 
 CHANGE_ID=""
 PROOF=""
@@ -406,6 +409,112 @@ with open(sys.argv[1], "w", encoding="utf-8") as handle:
     json.dump(receipt, handle, indent=2, sort_keys=True)
     handle.write("\\n")
 PY
+  if [[ "$SELECTED_ROUTE" == "branch-no-pr" ]]; then
+    receipt_tmp="$RECEIPT.tmp.$$"
+    jq \
+      --slurpfile landing "$LANDING_AUTHORIZATION" \
+      --slurpfile cleanup "$CLEANUP_AUTHORIZATION" \
+      --arg selected_route "$SELECTED_ROUTE" \
+      --arg target_lifecycle_outcome "$TARGET_LIFECYCLE_OUTCOME" \
+      --arg lifecycle_outcome "$LIFECYCLE_OUTCOME" \
+      --arg source_branch "$SOURCE_BRANCH" \
+      --arg landed_ref "$LANDED_REF" \
+      --arg head_ref "$HEAD_REF" \
+      --arg main_ref "$MAIN_REF" \
+      --arg origin_main_ref "$ORIGIN_MAIN_REF" \
+      --arg landing_authorization_ref "$landing_authorization_ref" \
+      --arg cleanup_authorization_ref "$cleanup_authorization_ref" \
+      --arg final_refs_evidence "terminal-closeout-final-refs@$LANDED_REF" \
+      --arg origin_fetch_evidence "git-fetch-origin-main@$LANDED_REF" \
+      --arg local_sync_evidence "git-fast-forward-local-main@$LANDED_REF" \
+      --arg rollback_handle "$ROLLBACK_HANDLE" '
+        def assert_condition($condition; $message):
+          if $condition then . else error($message) end;
+
+        ($landing[0]) as $landing_receipt
+        | ($cleanup[0]) as $cleanup_receipt
+        | assert_condition($landing_receipt.schema_version == "branch-landing-authorization-v1"; "landing authorization must use branch-landing-authorization-v1")
+        | assert_condition($landing_receipt.authorization_result == "approved"; "landing authorization must be approved")
+        | assert_condition($landing_receipt.selected_route == "branch-no-pr"; "landing authorization route must be branch-no-pr")
+        | assert_condition(($landing_receipt.target_lifecycle_outcome == "landed") or ($landing_receipt.target_lifecycle_outcome == "cleaned"); "landing authorization target must be landed or cleaned")
+        | assert_condition($landing_receipt.remote | type == "string" and length > 0; "landing authorization requires remote")
+        | assert_condition($landing_receipt.target_branch | type == "string" and length > 0; "landing authorization requires target_branch")
+        | assert_condition($landing_receipt.source_branch == $source_branch; "landing authorization source_branch must match --source-branch")
+        | assert_condition($landing_receipt.source_ref == $landed_ref; "landing authorization source_ref must equal landed ref")
+        | assert_condition($landing_receipt.remote_source_ref == $landed_ref; "landing authorization remote_source_ref must equal landed ref")
+        | assert_condition($landing_receipt.target_pre_ref | type == "string" and length > 0; "landing authorization requires target_pre_ref")
+        | assert_condition($landing_receipt.provider_ruleset_ref | type == "string" and length > 0; "landing authorization requires provider_ruleset_ref")
+        | assert_condition($landing_receipt.no_pr_required == true; "landing authorization must prove no PR required")
+        | assert_condition($landing_receipt.preflight_status == "passed"; "landing authorization preflight_status must be passed")
+        | assert_condition($landing_receipt.required_check_refs | type == "array" and length > 0; "landing authorization requires non-empty required_check_refs")
+        | assert_condition((($landing_receipt.allow_empty_check_set // false) == false) or (($landing_receipt.empty_check_set_rationale // "") | length > 0); "empty check-set authorization requires retained rationale")
+        | assert_condition($landing_receipt.rollback_handle | type == "string" and length > 0; "landing authorization requires rollback_handle")
+        | assert_condition($landing_receipt.host_controls_not_bypassed == true; "landing authorization must preserve host controls")
+        | assert_condition($cleanup_receipt.schema_version == "branch-cleanup-authorization-v1"; "cleanup authorization must use branch-cleanup-authorization-v1")
+        | assert_condition($cleanup_receipt.authorization_result == "approved"; "cleanup authorization must be approved")
+        | assert_condition($cleanup_receipt.selected_route == $selected_route; "cleanup authorization route must match receipt route")
+        | assert_condition($cleanup_receipt.target_lifecycle_outcome == "cleaned"; "cleanup authorization target must be cleaned")
+        | assert_condition($cleanup_receipt.remote == $landing_receipt.remote; "cleanup authorization remote must match landing authorization")
+        | assert_condition($cleanup_receipt.base_branch == $landing_receipt.target_branch; "cleanup authorization base branch must match landing target branch")
+        | assert_condition($cleanup_receipt.source_branch == $source_branch; "cleanup authorization source_branch must match --source-branch")
+        | assert_condition($cleanup_receipt.landed_ref == $landed_ref; "cleanup authorization landed_ref must equal landed ref")
+        | assert_condition($cleanup_receipt.origin_main_ref == $origin_main_ref; "cleanup authorization origin_main_ref must match current origin/main")
+        | assert_condition($cleanup_receipt.local_main_ref == $main_ref; "cleanup authorization local_main_ref must match current main")
+        | assert_condition($cleanup_receipt.local_main_synced_to_origin_main == true; "cleanup authorization must prove local main sync")
+        | assert_condition($cleanup_receipt.origin_main_contains_landed_ref == true; "cleanup authorization must prove origin/main containment")
+        | assert_condition($cleanup_receipt.local_main_contains_landed_ref == true; "cleanup authorization must prove local main containment")
+        | assert_condition($cleanup_receipt.source_branch_contained_in_origin_main == true; "cleanup authorization must prove source branch containment")
+        | assert_condition($cleanup_receipt.source_branch_protected == false; "cleanup authorization must prove source branch is not protected")
+        | assert_condition($cleanup_receipt.open_pr_count == 0; "cleanup authorization must prove no open PR")
+        | assert_condition($cleanup_receipt.cleanup_policy_allowed == true; "cleanup authorization must prove cleanup policy allowed")
+        | assert_condition($cleanup_receipt.host_controls_not_bypassed == true; "cleanup authorization must preserve host controls")
+        | assert_condition($cleanup_receipt.rollback_handle == $rollback_handle; "cleanup authorization rollback_handle must match --rollback-handle")
+        | .target_branch_ref = (($landing_receipt.remote) + "/" + ($landing_receipt.target_branch) + "@" + $landed_ref)
+        | .remote_branch_ref = (($landing_receipt.remote) + "/" + $source_branch + "@" + $landed_ref)
+        | .hosted_landing = {
+            remote: $landing_receipt.remote,
+            target_branch: $landing_receipt.target_branch,
+            source_branch: $source_branch,
+            source_ref: $landed_ref,
+            target_pre_ref: $landing_receipt.target_pre_ref,
+            target_post_ref: $landed_ref,
+            validated_ref: $landed_ref,
+            required_check_refs: $landing_receipt.required_check_refs,
+            provider_ruleset_ref: $landing_receipt.provider_ruleset_ref,
+            push_refspec: ($landed_ref + ":refs/heads/" + $landing_receipt.target_branch),
+            fast_forward_only: true
+          }
+        | .landing_evaluation = {
+            status: "succeeded",
+            provider_ruleset_ref: $landing_receipt.provider_ruleset_ref,
+            source_ref: $landed_ref,
+            target_ref: (($landing_receipt.remote) + "/" + ($landing_receipt.target_branch) + "@" + $landed_ref),
+            evidence_refs: [$landing_authorization_ref, $final_refs_evidence]
+          }
+        | .source_branch_integration = {
+            source_branch_ref: $source_branch,
+            source_ref: $landed_ref,
+            landed_ref: $landed_ref,
+            origin_main_ref: $origin_main_ref,
+            integrated: true,
+            method: "fast-forward",
+            evidence_refs: [$landing_authorization_ref, $cleanup_authorization_ref, $final_refs_evidence]
+          }
+        | .main_alignment.origin_fetch_evidence_ref = $origin_fetch_evidence
+        | .main_alignment.local_main_sync_evidence_ref = $local_sync_evidence
+        | .main_alignment.verification_ref = $final_refs_evidence
+        | .cleanup_evidence_refs = [$cleanup_authorization_ref, $final_refs_evidence]
+        | .source_branch_cleanup = {
+            status: "completed",
+            local_branch: $source_branch,
+            remote_branch: (($landing_receipt.remote) + "/" + $source_branch),
+            evidence_refs: [$cleanup_authorization_ref, $final_refs_evidence]
+          }
+        | .rollback_handle.ref = $rollback_handle
+        | .stateful_closeout.phase_exit_refs = [$final_refs_evidence]
+      ' "$RECEIPT" >"$receipt_tmp"
+    mv -- "$receipt_tmp" "$RECEIPT"
+  fi
 fi
 
 "$PROOF_VALIDATOR" --proof "$PROOF" --require-cleaned >/dev/null
@@ -606,6 +715,12 @@ PY
 mv -- "$MANIFEST_TMP" "$MANIFEST"
 
 "$MANIFEST_VALIDATOR" --manifest "$MANIFEST" --change-id "$CHANGE_ID" --landed-ref "$LANDED_REF" >/dev/null
+
+if [[ "$SNAPSHOT_MODE" -eq 0 && "$SELECTED_ROUTE" == "branch-no-pr" ]]; then
+  "$CHANGE_RECEIPT_STATE_MACHINE_VALIDATOR" --receipt "$RECEIPT_COPY" >/dev/null
+  "$HOSTED_NO_PR_LANDING_VALIDATOR" --receipt "$RECEIPT_COPY" --skip-live-remote >/dev/null
+  "$CHANGE_CLOSEOUT_ALIGNMENT_VALIDATOR" --receipt "$RECEIPT_COPY" >/dev/null
+fi
 
 cat <<EOF
 terminal_closeout_local_evidence:

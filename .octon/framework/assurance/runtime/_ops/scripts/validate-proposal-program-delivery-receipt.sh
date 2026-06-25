@@ -218,6 +218,24 @@ if [[ -n "$RECEIPT_PATH" ]]; then
       || fail "branch cleanup requires cleanup authorization ref"
   fi
 
+  open_blocker_count="$(yq -r '[.blockers[]? | select(.status == "open")] | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
+  if [[ "$(scalar '.actual_outcome')" == "blocked" ]]; then
+    if [[ "$open_blocker_count" -gt 0 ]]; then
+      pass "blocked outcome has open blocker evidence"
+    else
+      fail "blocked outcome requires at least one open blocker"
+    fi
+    require_value '.change_closeout.verdict' 'blocked' "blocked delivery Change closeout verdict"
+    require_bool '.branch_authorization.landing_performed' 'false' "blocked delivery landing performed"
+    require_bool '.branch_authorization.branch_cleanup_performed' 'false' "blocked delivery branch cleanup performed"
+    require_bool '.branch_authorization.branch_deleted' 'false' "blocked delivery branch deleted"
+    if yq -e '.blockers[]? | select(.status == "open") | select(.class == "git-index-write-denied" or .class == "git-ref-write-denied")' "$RECEIPT_PATH" >/dev/null 2>&1; then
+      pass "blocked delivery records typed git mutation blocker"
+      require_bool '.final_sync.main_origin_landed_ref_equal' 'false' "blocked delivery final sync equality"
+      require_value '.terminal_current_state_proof.verdict' 'not-run' "blocked delivery terminal proof verdict"
+    fi
+  fi
+
   if [[ "$(scalar '.actual_outcome')" == "synced" || "$(scalar '.actual_outcome')" == "cleaned" ]]; then
     require_scalar '.final_sync.landed_ref' "final sync landed_ref"
     require_scalar '.final_sync.local_main_ref' "final sync local_main_ref"
@@ -234,7 +252,6 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     require_value '.worktree_hygiene.verdict' 'pass' "worktree hygiene verdict"
   fi
 
-  open_blocker_count="$(yq -r '[.blockers[]? | select(.status == "open")] | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
   if [[ "$(scalar '.actual_outcome')" != "blocked" && "$open_blocker_count" -gt 0 ]]; then
     fail "non-blocked outcomes must not retain open blockers"
   else

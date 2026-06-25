@@ -50,15 +50,19 @@ The matching command surface is:
 - Validate implementation conformance, post-implementation drift/churn, generated publication freshness, and governed mechanism integration coverage.
 - Route packet closeout and archive through their owning lifecycles.
 - Route Git mutation, branch-no-pr landing, final sync, branch cleanup, and Change closeout through `closeout-change` or `closeout-worktree`.
+- Require git mutation preflight before branch-local commit, push, hosted no-PR landing, sync, cleanup, or branch deletion; retain typed blocked evidence such as `git-index-write-denied` or `git-ref-write-denied` instead of retrying blindly.
 - Route residue deletion only through `repo-hygiene-cleanup` with cleanup authorization.
 - Validate terminal current-state proof and worktree hygiene after the final mutation.
 - Validate the aggregate receipt with `validate-proposal-program-delivery-receipt.sh`.
+- Generate the compact retained delivery evidence index with `generate-proposal-program-delivery-evidence-index.sh`.
+- Validate the compact retained delivery evidence index with `validate-proposal-program-delivery-evidence-index.sh`.
 
 ## Outputs
 
 Output paths are defined in `.octon/framework/capabilities/runtime/skills/registry.yml`.
 The primary durable outputs are the workflow evidence bundle, the delivery
-summary, and the aggregate `proposal-program-delivery-receipt-v1` receipt.
+summary, the aggregate `proposal-program-delivery-receipt-v1` receipt, and the
+compact `proposal-program-delivery-evidence-index-v1` retained index.
 
 ## Boundaries
 
@@ -67,5 +71,6 @@ summary, and the aggregate `proposal-program-delivery-receipt-v1` receipt.
 - Do not mutate Git, hosted branches, or PR state outside Change closeout.
 - Do not delete repo hygiene residue or worktree residue without the owning cleanup authorization.
 - Do not edit generated/effective outputs by hand.
+- Do not treat the delivery evidence index as delivery authorization, archive authorization, landing authorization, cleanup authorization, child validation, child receipt replacement, or child lifecycle outcome evidence.
 - Do not treat proposal-local support files, generated prompts, generated outputs, dashboards, host/tool/chat state, or model memory as authority.
 - Report `blocked` with the next owning lifecycle when any delivery prerequisite is missing, stale, contradictory, or outside local authority.

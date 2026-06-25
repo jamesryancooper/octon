@@ -154,6 +154,19 @@ refs. These locators make retained evidence findable; they do not satisfy child
 receipts, replace direct source evidence, close lifecycle state, or turn parent
 summaries, generated outputs, or proposal-local packets into authority.
 
+Proposal-program lifecycle postmortems include the optional
+`proposal-program-delivery-evaluation` profile under
+`evidence-map.yml#proposal_program_delivery_profile`. The profile is retained
+evaluation evidence for blocker taxonomy, autonomy gaps, efficiency gaps,
+delivery proof-chain audit, recommendation backlog, regression test planning,
+and proposed next governed routes. It may bind parent, child, planner, archive,
+delivery, git, hygiene, validator, and retained-run evidence refs when present.
+It must degrade branch-no-PR, landing, sync, cleanup, and cleaned-claim audit
+records to evidence-backed `not_applicable` records when delivery evidence is
+absent. It never replaces child-owned receipts or authorizes lifecycle
+transition, closeout, archive, delivery, git mutation, cleanup, generated
+publication, or cleaned claims.
+
 ## Promotion And Archive Workflows
 
 Parent program promotion uses the existing `promote-proposal` workflow id. It

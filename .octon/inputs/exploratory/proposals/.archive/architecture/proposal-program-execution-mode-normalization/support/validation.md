@@ -39,18 +39,6 @@ Additional hygiene route loop-breaker evidence:
 
 `.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/`
 
-Additional terminal target-outcome binding evidence:
-
-`.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/`
-
-Additional terminal publication refresh and review freshness evidence:
-
-`.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/`
-
-Clean branch delivery validation evidence:
-
-`.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/`
-
 ## Command Adaptations
 
 The child packet listed `cargo test -p kernel ...`; the current Rust package
@@ -83,20 +71,3 @@ child-owned closeout recovery when a live hygiene preflight proves the retained
 blocked closeout receipt is stale. The live child plan check records
 `selected_route: null` and `final_verdict: blocked-no-route` for the current
 worktree hygiene blocker.
-
-The clean branch validation evidence re-ran the focused cargo tests, proposal
-validators, parent program structure validator, implementation conformance
-gate, and post-implementation drift/churn gate from an isolated worktree based
-on the landed `origin/main` archive state.
-
-The terminal target-outcome binding regression proves direct packet terminal
-closeout dispatch derives `target_outcome` from fresh, schema-valid
-child-owned proposal-closeout evidence and does not reuse a blocked closeout as
-an archive-ready terminal target.
-
-The publication refresh evidence proves the stale extension publication
-digests from terminal closeout were repaired through canonical extension and
-capability publishers, all terminal publication/non-authority validators pass,
-targeted proposal lifecycle freshness passes after canonical artifact refresh,
-and historical terminal closeout receipts no longer stale accepted review
-authorization.

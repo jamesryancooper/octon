@@ -50,6 +50,37 @@ delivery_modes:
       repo_hygiene_owner: "repo-hygiene-cleanup"
       generated_publication_owner: "owning-publisher-scripts"
 
+postmortem_profiles:
+  - profile_id: "proposal-program-delivery-evaluation"
+    emitted_by: "octon lifecycle postmortem --run-id <completed-proposal-program-run-id>"
+    evidence_map_field: "proposal_program_delivery_profile"
+    profile_schema_version: "lifecycle-postmortem-proposal-program-delivery-profile-v1"
+    applies_to_lifecycle_kind: "proposal-program"
+    authority_boundary:
+      profile_output_authority: false
+      child_receipts_remain_child_owned: true
+      parent_summary_satisfies_child_receipts: false
+      generated_outputs_authority: "derived-only"
+      authorizes_lifecycle_transition: false
+      authorizes_child_receipt_replacement: false
+      authorizes_closeout: false
+      authorizes_archive: false
+      authorizes_delivery: false
+      authorizes_git_mutation: false
+      authorizes_cleanup: false
+      authorizes_cleaned_claim: false
+    required_sections:
+      - "evidence_binding"
+      - "blocker_taxonomy"
+      - "autonomy_analysis"
+      - "efficiency_diagnostics"
+      - "delivery_proof_chain_audit"
+      - "recommendation_backlog"
+      - "regression_test_plan"
+      - "proposed_next_governed_routes"
+    delivery_absence_behavior: "emit evidence-backed not_applicable audit records; never fabricate delivery proof"
+    validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+
 program:
   child_registry_path: "resources/child-packet-index.yml"
   child_lifecycle_id_default: "proposal-packet"
@@ -103,6 +134,14 @@ program:
         - "stale_cause"
         - "recovery_class"
         - "minimal_repair_hint"
+        - "last_mutation_class"
+        - "owning_refresh_route"
+        - "stable_digest_boundary"
+      completed_plan_nonblocking_diagnostic_fields:
+        - "path"
+        - "stored_digest"
+        - "current_digest"
+        - "ignored_reason"
       direct_child_receipt_refs: "path-plus-digest; never parent prose"
       retry_summary_posture: "bounded deltas before raw receipt/archive history"
     action_slices:
@@ -274,18 +313,62 @@ program:
               recovery: "operator escalation before destructive or authority-sensitive cleanup"
             - blocker_class: "artifact-ownership-unclear"
               recovery: "emit a non-authorizing closeout-worktree lifecycle interaction request with classifier evidence before any cleanup, mutation, archive, or child closeout authority is claimed"
+            - blocker_class: "worktree-hygiene-blocked"
+              recovery: "emit a non-authorizing closeout-worktree lifecycle interaction request bound to the current child route, classifier/report digest, foreign fingerprint or exact path set, and forbidden-transfer boundary"
             - blocker_class: "parent-worktree-disposition-required"
               recovery: "await closeout-worktree-report-v1 parent disposition evidence bound only to stable cleanup, classifier, residue, path-set, and non-mutating authority fields"
             - blocker_class: "worktree-handoff-evidence-changed"
-              recovery: "fail closed until a fresh closeout-worktree return is produced for the changed child classifier fingerprint"
+              recovery: "emit or await one fresh non-authorizing closeout-worktree lifecycle interaction return bound to the changed child classifier fingerprint"
             - blocker_class: "stale-closeout-worktree-return"
-              recovery: "fail closed until a closeout-worktree return matching the current child route and classifier evidence is produced"
+              recovery: "emit or await one fresh non-authorizing closeout-worktree lifecycle interaction return matching the current child route and classifier evidence"
             - blocker_class: "aggregate-closeout-readiness-missing"
               recovery: "operator escalation when parent evidence would substitute for missing child-owned receipts"
             - blocker_class: "protected-artifact-authority-ambiguity"
               recovery: "operator escalation before protected artifact mutation"
     max_recovery_attempts: 2
     serialize_write_scope_conflicts: true
+    autonomous_recovery_envelope:
+      envelope_id: "autonomous-proposal-program-recovery-envelope"
+      posture: "bounded-low-risk-until-material-side-effect"
+      allowed_route_families:
+        - "generated-projection-refresh"
+        - "review-refresh"
+        - "lifecycle-residue-classification"
+        - "evidence-index-materialization"
+        - "diagnostics"
+        - "current-run-rebaseline"
+      allowed_recovery_actions:
+        - "refresh-publication-projections"
+        - "cleanup-current-run-artifacts"
+        - "rebaseline-checkpoint"
+      material_side_effect_stop_points:
+        - "archive"
+        - "push"
+        - "landing"
+        - "cleanup-deletion"
+        - "branch-deletion"
+        - "pr-creation-or-merge"
+        - "external-publication"
+        - "cleaned-claim"
+      route_selection_rule: >-
+        Recovery recipes may run unattended only when their route/action remains
+        inside the low-risk envelope and carries authority-zone evidence plus
+        post-attempt validation for the failed gate and surrounding gate set.
+        Recipes that point at material side-effect routes are typed blockers,
+        not autonomous dispatch authority.
+      cleanup_residue_rule: >-
+        cleanup-lifecycle-residue is autonomous only for non-mutating
+        classification, evidence materialization, and retained disposition
+        binding. Deletion, cleaned claims, branch cleanup, archive, push,
+        staging, commit, merge, or external publication require a separate
+        route with retained authority.
+      non_transfer_boundaries:
+        - "parent summaries cannot replace child-owned receipts"
+        - "generated outputs remain derived-only"
+        - "closeout-worktree returns cannot transfer archive authorization"
+        - "closeout-worktree returns cannot transfer cleanup authorization"
+        - "closeout-worktree returns cannot transfer child validation"
+        - "closeout-worktree returns cannot transfer delivery, landing, branch cleanup, or lifecycle outcome authority"
     handlers:
       stale-receipt:
         max_attempts: 2
@@ -338,21 +421,25 @@ program:
         max_attempts: 0
         human_required: true
       artifact-ownership-unclear:
-        max_attempts: 0
-        human_required: true
-        replan_after_attempt: false
+        max_attempts: 1
+        human_required: false
+        replan_after_attempt: true
+      worktree-hygiene-blocked:
+        max_attempts: 1
+        human_required: false
+        replan_after_attempt: true
       parent-worktree-disposition-required:
         max_attempts: 0
         human_required: true
         replan_after_attempt: false
       worktree-handoff-evidence-changed:
-        max_attempts: 0
-        human_required: true
-        replan_after_attempt: false
+        max_attempts: 1
+        human_required: false
+        replan_after_attempt: true
       stale-closeout-worktree-return:
-        max_attempts: 0
-        human_required: true
-        replan_after_attempt: false
+        max_attempts: 1
+        human_required: false
+        replan_after_attempt: true
     recipes:
       - blocker_class: "stale-receipt"
         preconditions:
@@ -488,6 +575,7 @@ program:
           - "octon-generated-derived"
         allowed_artifact_classes:
           - "generated-derived"
+          - "host-projection"
         operation_class: "refresh-generated-projection"
         requires_zone_evidence: true
       - blocker_class: "missing-evidence"
@@ -782,6 +870,10 @@ input_bindings:
     source: "run.input.worktree_baseline_lease_paths"
   finding_id:
     source: "run.input.finding_id"
+  disposition:
+    source: "receipt.proposal-closeout.archive_disposition"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
 
 states:
   - state_id: "create-program"

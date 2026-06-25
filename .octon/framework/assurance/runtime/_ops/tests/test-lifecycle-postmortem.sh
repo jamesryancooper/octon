@@ -60,11 +60,13 @@ positive_passes() {
 make_evidence_map_fixture() {
   local fixture_root="$1"
   local mode="${2:-direct}"
+  local delivery_mode="${3:-without-delivery}"
   mkdir -p \
     "$fixture_root/.octon/state/control/execution/runs/test-run" \
     "$fixture_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem" \
     "$fixture_root/.octon/state/evidence/runs/test-run/validation" \
     "$fixture_root/.octon/state/evidence/runs/test-run/rollback" \
+    "$fixture_root/.octon/state/evidence/runs/skills/closeout-change" \
     "$fixture_root/.octon/state/evidence/runs/workflows/test-run" \
     "$fixture_root/.octon/state/evidence/runs/workflows/child-run" \
     "$fixture_root/.octon/generated/effective/runtime" \
@@ -78,8 +80,11 @@ make_evidence_map_fixture() {
   printf 'child validation: pass\n' >"$fixture_root/.octon/state/evidence/runs/workflows/child-run/validation.yml"
   printf 'generated: read model\n' >"$fixture_root/.octon/generated/effective/runtime/read-model.yml"
   printf 'proposal: context only\n' >"$fixture_root/.octon/inputs/exploratory/proposals/architecture/test-proposal/proposal.yml"
+  if [[ "$delivery_mode" == "with-delivery" ]]; then
+    printf 'run_id: test-run\ndelivery: branch-no-pr\nlanded: true\nsynced: true\ncleaned: true\n' >"$fixture_root/.octon/state/evidence/runs/skills/closeout-change/test-run-delivery.yml"
+  fi
 
-  python3 - "$fixture_root" "$mode" <<'PY'
+  python3 - "$fixture_root" "$mode" "$delivery_mode" <<'PY'
 import hashlib
 import json
 import pathlib
@@ -87,6 +92,7 @@ import sys
 
 root = pathlib.Path(sys.argv[1]).resolve()
 mode = sys.argv[2]
+delivery_mode = sys.argv[3]
 
 def rel(path):
     return str(path.resolve().relative_to(root))
@@ -105,6 +111,15 @@ def record(path, role, ref_class, authority_use, **extra):
     result.update(extra)
     return result
 
+def named(path, ref_name, ref_class, authority_role):
+    return {
+        "ref_name": ref_name,
+        "path": rel(path),
+        "ref_class": ref_class,
+        "authority_role": authority_role,
+        "exists": True,
+    }
+
 control = root / ".octon/state/control/execution/runs/test-run/runtime-state.yml"
 index = root / ".octon/state/evidence/runs/test-run/retained-run-evidence-index.yml"
 validation = root / ".octon/state/evidence/runs/test-run/validation/result.yml"
@@ -113,6 +128,7 @@ substitute = root / ".octon/state/evidence/runs/workflows/test-run/program-event
 child_validation = root / ".octon/state/evidence/runs/workflows/child-run/validation.yml"
 generated = root / ".octon/generated/effective/runtime/read-model.yml"
 proposal = root / ".octon/inputs/exploratory/proposals/architecture/test-proposal/proposal.yml"
+delivery = root / ".octon/state/evidence/runs/skills/closeout-change/test-run-delivery.yml"
 
 direct_refs = [record(control, "runtime-state", "control", "control-truth")] if mode == "direct" else []
 substitute_refs = [] if mode == "direct" else [record(
@@ -123,6 +139,120 @@ substitute_refs = [] if mode == "direct" else [record(
     substitutes_for=rel(control),
     exists=True,
 )]
+delivery_refs = [named(delivery, "associated-delivery-receipt-1", "associated-closeout-receipt", "retained-evidence-associated")] if delivery.exists() else []
+delivery_status = "evidence_present" if delivery_refs else "not_applicable_no_delivery_evidence"
+proof_status = "evidence_present" if delivery_refs else "not_applicable"
+proof_evidence = [rel(delivery)] if delivery_refs else ["unavailable:no-retained-profile-evidence-ref"]
+parent_status_refs = [
+    named(validation, "program-summary", "retained-terminal-state", "retained-evidence"),
+    named(substitute, "program-events", "control-event-log", "mutable-control-truth"),
+]
+planner_refs = [named(substitute, "program-events", "control-event-log", "mutable-control-truth")]
+validator_refs = [named(validation, "validation-result", "retained-terminal-state", "retained-evidence")]
+child_refs = [
+    record(
+        child_validation,
+        "child-validation-ref-index",
+        "retained-child-evidence-dereference",
+        "evidence-only-non-substitutive",
+    )
+]
+
+def profile_records(prefix, scopes, evidence_refs):
+    return [
+        {
+            "record_id": f"{prefix}-{idx}",
+            "owning_scope": scope,
+            "summary": f"{scope} evidence-only profile fixture record",
+            "evidence_refs": evidence_refs,
+            "authority_status": "evidence-only",
+        }
+        for idx, scope in enumerate(scopes, start=1)
+    ]
+
+def recommendations(prefix, evidence_refs):
+    return [
+        {
+            "recommendation_id": f"{prefix}-1",
+            "problem": "fixture problem",
+            "proposed_change": "fixture proposed governed follow-up",
+            "owning_scope": "lifecycle-tooling-or-contract",
+            "expected_autonomy_or_efficiency_gain": "fixture gain",
+            "safety_rationale": "fixture remains evidence-only",
+            "risks": "fixture risk",
+            "acceptance_criteria": "fixture acceptance criteria",
+            "suggested_validators": ["validate-lifecycle-postmortem.sh"],
+            "required_governed_route": "future-governed-route",
+            "evidence_refs": evidence_refs,
+            "authority_status": "proposed-evidence-only",
+        }
+    ]
+
+profile = {
+    "schema_version": "lifecycle-postmortem-proposal-program-delivery-profile-v1",
+    "profile_id": "proposal-program-delivery-evaluation",
+    "applies_to_lifecycle_kind": "proposal-program",
+    "evidence_binding": {
+        "parent_status_refs": parent_status_refs,
+        "child_terminal_status_refs": child_refs,
+        "retained_run_evidence_index_refs": [record(index, "retained-run-evidence-index", "retained-evidence", "evidence-only")],
+        "planner_refs": planner_refs,
+        "closeout_archive_refs": [],
+        "delivery_refs": delivery_refs,
+        "validator_generated_hygiene_refs": validator_refs,
+        "git_delivery_proof_refs": delivery_refs,
+        "delivery_evidence_status": delivery_status,
+    },
+    "blocker_taxonomy": profile_records(
+        "blocker",
+        [
+            "parent-program",
+            "child-packet",
+            "generated-artifact",
+            "lifecycle-tooling-or-contract",
+            "worktree-hygiene-or-residue",
+            "git-delivery-state",
+            "external-permission-boundary",
+        ],
+        [rel(validation)],
+    ),
+    "autonomy_analysis": profile_records("autonomy", ["deterministic-governed-recovery"], [rel(validation)]),
+    "efficiency_diagnostics": profile_records("efficiency", ["registry-and-freshness-churn"], [rel(validation)]),
+    "delivery_proof_chain_audit": [
+        {
+            "proof_id": proof_id,
+            "proof_scope": proof_id,
+            "status": proof_status,
+            "evidence_refs": proof_evidence,
+            "not_applicable_reason": "" if delivery_refs else "No retained delivery evidence in fixture.",
+            "authority_status": "evidence-only",
+        }
+        for proof_id in [
+            "archive",
+            "push",
+            "branch-no-pr-landing",
+            "sync",
+            "cleanup-authorization",
+            "branch-cleanup",
+            "cleaned-claim",
+        ]
+    ],
+    "recommendation_backlog": recommendations("backlog", [rel(validation)]),
+    "regression_test_plan": profile_records("regression", ["with-delivery-evidence", "without-delivery-evidence", "non-authority-negative"], [rel(validation)]),
+    "proposed_next_governed_routes": recommendations("route", [rel(validation)]),
+    "authority_boundary": {
+        "profile_output_authority": False,
+        "authorizes_lifecycle_transition": False,
+        "authorizes_child_receipt_replacement": False,
+        "authorizes_closeout": False,
+        "authorizes_archive": False,
+        "authorizes_delivery": False,
+        "authorizes_git_mutation": False,
+        "authorizes_cleanup": False,
+        "generated_outputs_authority": False,
+        "statement": "Fixture proposal-program delivery profile is evidence-only.",
+    },
+}
 
 evidence_map = {
     "schema_version": "lifecycle-postmortem-evidence-map-v2",
@@ -138,16 +268,10 @@ evidence_map = {
         "validation": [record(validation, "validation-result", "retained-evidence", "evidence-only")],
         "rollback": [record(rollback, "rollback-posture", "retained-evidence", "evidence-only")],
     },
-    "child_evidence_ref_index": [
-        record(
-            child_validation,
-            "child-validation-ref-index",
-            "retained-child-evidence-dereference",
-            "evidence-only-non-substitutive",
-        )
-    ],
+    "child_evidence_ref_index": child_refs,
     "generated_refs": [record(generated, "generated-read-model", "generated", "derived-only")],
     "proposal_local_refs": [record(proposal, "proposal-context", "proposal-local", "non-authoritative")],
+    "proposal_program_delivery_profile": profile,
     "authority_boundary": {
         "generated_outputs_authority": False,
         "proposal_inputs_authority": False,
@@ -202,6 +326,24 @@ data = json.loads(path.read_text())
 exec(expression, {"data": data})
 path.write_text(json.dumps(data, indent=2) + "\n")
 PY
+}
+
+mutate_profile_authorizes_delivery() {
+  mutate_json_file \
+    "$1/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" \
+    "data['proposal_program_delivery_profile']['authority_boundary']['authorizes_delivery'] = True"
+}
+
+mutate_profile_replaces_child_receipts() {
+  mutate_json_file \
+    "$1/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" \
+    "data['proposal_program_delivery_profile']['authority_boundary']['authorizes_child_receipt_replacement'] = True"
+}
+
+mutate_profile_generated_authority() {
+  mutate_json_file \
+    "$1/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" \
+    "data['proposal_program_delivery_profile']['authority_boundary']['generated_outputs_authority'] = True"
 }
 
 validate_evidence_map_fixture() {
@@ -364,6 +506,29 @@ main() {
   local substitute_map_root="$TMP_DIR/substitute-map"
   make_evidence_map_fixture "$substitute_map_root" substitute
   assert_success "substitute-only lifecycle postmortem evidence map passes" validate_evidence_map_fixture "$substitute_map_root"
+
+  local delivery_profile_root="$TMP_DIR/delivery-profile-map"
+  make_evidence_map_fixture "$delivery_profile_root" direct with-delivery
+  assert_success "proposal-program delivery postmortem profile with delivery evidence passes" validate_evidence_map_fixture "$delivery_profile_root"
+
+  local no_delivery_profile_root="$TMP_DIR/no-delivery-profile-map"
+  make_evidence_map_fixture "$no_delivery_profile_root" direct without-delivery
+  assert_success "proposal-program delivery postmortem profile without delivery evidence passes" validate_evidence_map_fixture "$no_delivery_profile_root"
+
+  local profile_delivery_authority_root="$TMP_DIR/profile-delivery-authority-map"
+  make_evidence_map_fixture "$profile_delivery_authority_root" direct with-delivery
+  mutate_profile_authorizes_delivery "$profile_delivery_authority_root"
+  assert_failure "proposal-program postmortem profile authorizing delivery fails" validate_evidence_map_fixture "$profile_delivery_authority_root"
+
+  local profile_child_receipt_authority_root="$TMP_DIR/profile-child-receipt-authority-map"
+  make_evidence_map_fixture "$profile_child_receipt_authority_root" direct with-delivery
+  mutate_profile_replaces_child_receipts "$profile_child_receipt_authority_root"
+  assert_failure "proposal-program postmortem profile replacing child receipts fails" validate_evidence_map_fixture "$profile_child_receipt_authority_root"
+
+  local profile_generated_authority_root="$TMP_DIR/profile-generated-authority-map"
+  make_evidence_map_fixture "$profile_generated_authority_root" direct with-delivery
+  mutate_profile_generated_authority "$profile_generated_authority_root"
+  assert_failure "proposal-program postmortem profile generated authority fails" validate_evidence_map_fixture "$profile_generated_authority_root"
 
   local stale_map_root="$TMP_DIR/stale-map"
   make_evidence_map_fixture "$stale_map_root" direct

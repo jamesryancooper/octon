@@ -61,6 +61,14 @@ run_cmd() {
   fi
 }
 
+run_git_mutation_preflight() {
+  [[ "$DRY_RUN" -eq 1 ]] && return 0
+  "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh" \
+    --repo "$REPO_ROOT" \
+    --check-ref ||
+    error "Git mutation preflight failed before hosted no-PR landing."
+}
+
 json_value() {
   local path="$1"
   local expr="$2"
@@ -182,6 +190,7 @@ if git -C "$REPO_ROOT" rev-parse --verify "$REMOTE/$TARGET_BRANCH^{commit}" >/de
 else
   TARGET_PRE_REF="$(git -C "$REPO_ROOT" rev-parse "$TARGET_BRANCH")"
 fi
+run_git_mutation_preflight
 
 PREFLIGHT_ARGS=("--target" "$TARGET_BRANCH" "--remote" "$REMOTE")
 [[ -n "$RECEIPT_PATH" ]] && PREFLIGHT_ARGS+=("--receipt" "$RECEIPT_PATH")

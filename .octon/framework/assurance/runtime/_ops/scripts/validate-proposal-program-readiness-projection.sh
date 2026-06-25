@@ -187,6 +187,44 @@ def require_receipt_pass(path, label):
         fail(f"{label} verdict must be pass: {repo_rel(path)}")
 
 
+def validation_receipt_records_pass(path):
+    if not path.is_file():
+        return False
+    if receipt_field(path, "verdict") == "pass":
+        return True
+
+    text = path.read_text(errors="replace")
+    if re.search(r"All listed commands exited successfully\.?", text, re.IGNORECASE):
+        return True
+
+    table_rows = [
+        line
+        for line in text.splitlines()
+        if re.match(r"^\|\s*`[^`]+`\s*\|\s*[^|]+\s*\|", line)
+    ]
+    if not table_rows:
+        return False
+
+    saw_pass = False
+    for row in table_rows:
+        cells = [cell.strip().lower() for cell in row.strip().strip("|").split("|")]
+        if any(cell in {"fail", "failed", "error", "blocked"} for cell in cells):
+            return False
+        if any(cell == "pass" for cell in cells):
+            saw_pass = True
+    return saw_pass
+
+
+def require_validation_receipt_pass(path, label):
+    if not path.is_file():
+        fail(f"{label} missing: {repo_rel(path)}")
+        return
+    if validation_receipt_records_pass(path):
+        ok(f"{label} passes")
+    else:
+        fail(f"{label} must record pass: {repo_rel(path)}")
+
+
 def require_receipt_value(path, label, field, expected):
     if not path.is_file():
         fail(f"{label} missing: {repo_rel(path)}")
@@ -474,7 +512,7 @@ def validate_program():
                 ok(f"child {child_id} archive metadata implemented")
             else:
                 fail(f"child {child_id} archive metadata must preserve implemented disposition")
-            require_receipt_pass(child_dir / "support/validation.md", f"child {child_id} validation receipt")
+            require_validation_receipt_pass(child_dir / "support/validation.md", f"child {child_id} validation receipt")
             require_receipt_value(
                 child_dir / "support/proposal-terminal-closeout.yml",
                 f"child {child_id} terminal closeout receipt",

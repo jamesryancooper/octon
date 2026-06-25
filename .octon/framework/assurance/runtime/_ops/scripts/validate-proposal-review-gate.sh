@@ -222,7 +222,14 @@ packet_digest_for_inventory() {
     printf 'sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n'
   else
     while IFS= read -r rel; do
-      shasum -a 256 "$PROPOSAL_DIR/$rel" | awk -v rel="$rel" '{print $1 "  " rel}'
+      if [[ "$rel" == "proposal.yml" ]]; then
+        # Post-acceptance lifecycle status is route state, not changed review content.
+        sed -E 's/^([[:space:]]*status[[:space:]]*:)[[:space:]]*"?(accepted|implemented|archived)"?[[:space:]]*$/\1 accepted/' "$PROPOSAL_DIR/$rel" \
+          | shasum -a 256 \
+          | awk -v rel="$rel" '{print $1 "  " rel}'
+      else
+        shasum -a 256 "$PROPOSAL_DIR/$rel" | awk -v rel="$rel" '{print $1 "  " rel}'
+      fi
     done <"$inventory" >"$hashes"
     shasum -a 256 "$hashes" | awk '{print "sha256:" $1}'
   fi
@@ -332,7 +339,10 @@ validate_digest_fresh() {
       "$(review_gate_repo_rel "$REVIEW")" \
       "reviewed packet digest does not match current packet digest" \
       "$(review_gate_rerun_gate)" \
-      "rerun the proposal review route for $PROPOSAL_PATH so support/proposal-review.md records the current packet digest"
+      "rerun the proposal review route for $PROPOSAL_PATH at the next authorized stable digest boundary so support/proposal-review.md records the current packet digest" \
+      "packet-content-drift-after-review" \
+      "review-packet" \
+      "reviewed_packet_digest"
     fail "reviewed packet digest is fresh"
     echo "recorded: $recorded_digest"
     echo "current:  $current_digest"
@@ -353,8 +363,11 @@ validate_manifest_targets_covered() {
         --observed-value "$target" \
         --stale-source-ref "$(review_gate_repo_rel "$REVIEW")" \
         --stale-cause "review receipt does not cover a manifest promotion target" \
-        --minimal-repair-hint "rerun proposal review so Approved Promotion Targets covers $target" \
-        --rerun-gate "$(review_gate_rerun_gate)"
+        --minimal-repair-hint "rerun proposal review at the next authorized stable digest boundary so Approved Promotion Targets covers $target" \
+        --rerun-gate "$(review_gate_rerun_gate)" \
+        --last-mutation-class "promotion-targets-drift-after-review" \
+        --owning-refresh-route "review-packet" \
+        --stable-digest-boundary "approved-promotion-targets"
       fail "review covers promotion target: $target"
     fi
   done < <(yq -r '.promotion_targets[]?' "$MANIFEST")

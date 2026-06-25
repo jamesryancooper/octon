@@ -40,6 +40,14 @@ run_cmd() {
   "$@"
 }
 
+run_git_mutation_preflight() {
+  [[ "$DRY_RUN" -eq 1 ]] && return 0
+  "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh" \
+    --repo "$REPO_ROOT" \
+    --check-index ||
+    error "Git mutation preflight failed before branch-local commit."
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --message)
@@ -77,6 +85,7 @@ REPO_ROOT="$(repo_root)"
 CURRENT_BRANCH="$(git -C "$REPO_ROOT" rev-parse --abbrev-ref HEAD)"
 [[ "$CURRENT_BRANCH" != "HEAD" ]] || error "Detached HEAD is not supported."
 [[ "$CURRENT_BRANCH" != "main" ]] || error "Refusing branch-local commit from main."
+run_git_mutation_preflight
 
 if [[ "$STAGE_ALL" -eq 1 && "${#INCLUDE_PATHS[@]}" -gt 0 ]]; then
   error "Use either --stage-all or --include, not both."

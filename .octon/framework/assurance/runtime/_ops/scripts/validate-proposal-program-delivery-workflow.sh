@@ -51,9 +51,13 @@ require_file "$WORKFLOW_PATH" "workflow contract"
 require_file "$README_PATH" "workflow README"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json" "profile schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json" "receipt schema"
+require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json" "delivery evidence index schema"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh" "profile validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh" "receipt validator"
+require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-program-delivery-evidence-index.sh" "delivery evidence index generator"
+require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh" "delivery evidence index validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh" "validator test"
+require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh" "delivery evidence index test"
 
 if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
   pass "workflow YAML parses"
@@ -62,6 +66,8 @@ if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.aggregate_receipt_only' 'true' "aggregate receipt only authority"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.child_receipts_remain_target_owned' 'true' "child receipts remain target-owned"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.git_mutation_owner' 'closeout-change' "Git mutation owner"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.outputs[] | select(.name == "delivery_evidence_index") | .schema_ref' '.octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json' "delivery evidence index output schema"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.validators.evidence_index' '.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh' "delivery evidence index validator"
   stage_count="$(yq -r '(.workflow.stages // []) | length' "$WORKFLOW_PATH" 2>/dev/null || echo 0)"
   [[ "$stage_count" -ge 8 ]] && pass "workflow has at least eight stages" || fail "workflow must have at least eight stages"
   for stage_id in \
@@ -87,8 +93,10 @@ done
 
 for token in \
   "proposal-program-delivery-receipt" \
+  "proposal-program-delivery-evidence-index" \
   "validate-proposal-program-delivery-profile.sh" \
   "validate-proposal-program-delivery-receipt.sh" \
+  "validate-proposal-program-delivery-evidence-index.sh" \
   "closeout-change" \
   "closeout-worktree" \
   "repo-hygiene-cleanup" \

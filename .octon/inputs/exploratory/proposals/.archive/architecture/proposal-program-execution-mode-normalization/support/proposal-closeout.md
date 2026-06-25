@@ -1,155 +1,85 @@
-# Proposal Closeout Receipt
-
 verdict: pass
-closed_at: 2026-06-23T17:52:59Z
-proposal_id: proposal-program-execution-mode-normalization
+closed_at: 2026-06-23T22:55:43Z
 archive_authorized: yes
-archive_disposition: implemented
 target_outcome: archive-ready
 lifecycle_outcome: archive-ready
-run_id: lifecycle-packet-proposal-program-execution-mode-normalization-clean-closeout-20260623T190800Z
-program_run_id: lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z
-program_child_id: proposal-program-execution-mode-normalization
-prompt_set_id: octon-proposal-lifecycle-closeout-packet
-release_state: pre-1.0
-change_profile: atomic
-selected_git_route: no-git-mutation-from-closeout-route
-validation_blocker_class: none
-validation_blocker_count: 0
-implementation_readiness_verdict: pass
-implementation_conformance_verdict: pass
-post_implementation_drift_verdict: pass
-governed_mechanism_integration_verdict: not_required
-proposal_review_gate_verdict: pass
-terminal_freshness_verdict: pass
+archive_disposition: implemented
+selected_git_route: no-git-mutation
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
 worktree_hygiene_verdict: pass
-worktree_hygiene_blocker_class: none
-worktree_hygiene_owned_path_count: 3
-worktree_hygiene_in_scope_path_count: 0
-worktree_hygiene_retained_fixture_path_count: 0
-worktree_hygiene_foreign_path_count: 0
-worktree_hygiene_foreign_fingerprint: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-worktree_hygiene_evidence: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml
-worktree_hygiene_evidence_sha256: sha256:32a458719e659083a3165732a30fe85adac1274c0d47dadd79c76d12a96adc3f
-parent_summary_not_child_closeout_receipt: true
-child_closeout_authority_preserved: true
-parent_evidence_replaces_child_evidence: false
-no_direct_material_actions_by_closeout_route: true
-no_cleaned_claim: true
-archive_mutation_performed: false
-staging_performed: false
-commit_performed: false
-push_performed: false
-publication_performed: false
-post_closeout_publication_refresh_performed: true
-post_closeout_publication_refresh_evidence: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/publish-extension-state.log,.octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/publish-capability-routing.log
-branch_cleanup_performed: false
-repo_hygiene_cleanup_performed: false
-worktree_cleanup_performed: false
-generated_output_mutation_performed: canonical-proposal-artifact-refresh-only
-generated_artifact_refresh_refs:
-  - .octon/generated/proposals/artifacts/architecture/proposal-program-execution-mode-normalization/proposal-artifact-index.yml
-  - .octon/generated/proposals/artifacts/architecture/proposal-program-execution-mode-normalization/proposal-program-spine.yml
-  - .octon/generated/proposals/artifacts/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal-artifact-index.yml
-  - .octon/generated/proposals/artifacts/architecture/operator-free-lifecycle-delivery-autonomy-hardening/proposal-program-spine.yml
-validation_evidence: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/validation-summary.yml
-next_route_condition: archive-proposal
+worktree_hygiene_blocker_class: foreign-preserved-by-validated-program-child-return
+worktree_hygiene_classifier_verdict: blocked
+worktree_hygiene_owned_path_count: 1272
+worktree_hygiene_in_scope_path_count: 660
+worktree_hygiene_foreign_path_count: 4035
+worktree_hygiene_foreign_fingerprint: sha256:2847fa1f60043a2726c285ded44fcaefb559a27e424b132ab88a00587b042976
+worktree_hygiene_evidence: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/proposal-program-execution-mode-normalization/worktree-hygiene-preflight-690a6d1f3f3eb88bc910c450dec6e4d328a50ac0c94b5c667d79762c9ef4d68f.stdout.yml
+program_child_closeout_worktree_report_ref: .octon/state/evidence/validation/analysis/20260623T214801Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-proposal-program-execution-mode-normalization-closeout-packet.yml
+lifecycle_interaction_return_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/proposal-program-execution-mode-normalization-closeout-packet-closeout-worktree-return-20260623T214801Z.json
+terminal_freshness_status: pending-post-closeout-refresh
 promotion_evidence:
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-standard.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-architecture-proposal.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-implementation-readiness.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-review-gate.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-implementation-conformance.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-proposal-post-implementation-drift.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/validate-live-parent-program-structure.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-program-execution-mode.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-gated-parallel.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-lifecycle-loop-fixes-exact.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-extension-publication-state.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-capability-publication-state.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/test-validate-proposal-review-gate.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-current-child-review-gate-after-summary-update.log
-  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-proposal-lifecycle-terminal-freshness-after-summary-update.log
-  - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T163644Z/cargo-test-program-execution-mode-alias.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T163644Z/cargo-test-program-execution-mode-disagreement.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T163644Z/test-validate-proposal-program-structure.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T163644Z/validate-live-parent-program-structure.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-promote-binding-fix/cargo-test-promote-proposal-request.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-promote-binding-fix/cargo-test-archive-list-binding.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-promote-binding-fix/cargo-test-in-process-workflow-run-id.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/cargo-test-blocked-hygiene-closeout-route-reentry.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/cargo-test-stale-hygiene-live-pass-recovery.log
+  - .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-hygiene-route-loop-fix/live-child-plan-blocked-no-route.log
 
-validation_summary:
-  proposal_standard_target: pass_with_warning
-  architecture_proposal: pass
-  proposal_review_gate: pass
-  implementation_readiness: pass
-  implementation_conformance: pass
-  post_implementation_drift_churn: pass
-  parent_program_structure: pass
-  terminal_freshness: pass
-  worktree_hygiene: pass
-blockers: []
-cleared_blockers:
-  - class: worktree-hygiene-blocked
-    detail: >-
-      The previous blocker came from a dirty shared workspace. The child was
-      isolated onto a clean branch based on the landed
-      lifecycle-validator-runtime-resolver archive state, implementation and
-      validation evidence were committed, and the fresh classifier now reports
-      zero foreign-or-ambiguous paths.
-    evidence_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-execution-mode-normalization/2026-06-23T19-10-00Z/worktree-hygiene.yml
-  - class: stale-closeout-route-reentry
-    detail: >-
-      The direct packet planner no longer re-enters closeout-packet after a
-      fresh child-owned hygiene-blocked closeout receipt without a stale-live
-      recovery condition. Focused regression coverage is retained in the clean
-      branch validation evidence.
-    evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T185500Z/cargo-test-lifecycle-loop-fixes-exact.log
-  - class: terminal-target-outcome-input-binding
-    detail: >-
-      The direct packet terminal closeout route now binds target_outcome from a
-      fresh, schema-valid child-owned proposal-closeout receipt and refuses to
-      reuse a blocked closeout as archive-ready terminal evidence.
-    evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-terminal-target-binding-fix/cargo-test-direct-terminal-target-binding.log
-  - class: publication-freshness-blocked
-    detail: >-
-      Terminal closeout exposed stale generated extension publication digests
-      for this child's changed proposal lifecycle validation tests. Extension
-      and capability publication were refreshed through canonical publishers,
-      and the terminal publication validator set now passes.
-    evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/validate-extension-publication-state.log
-  - class: review-stale-terminal-receipt-reentry
-    detail: >-
-      Historical proposal-terminal-closeout receipts are now excluded from the
-      proposal review digest alongside other post-review operational receipts,
-      preventing an implemented packet from returning to review solely because
-      terminal closeout evidence was retained.
-    evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-execution-mode-normalization/20260623T-extension-publication-refresh/test-validate-proposal-review-gate.log
+# Proposal Closeout
 
-## Closeout Decision
+## Decision
 
-Closeout passes for this child packet. The packet is implemented, accepted
-review evidence is preserved, implementation readiness/conformance pass, and
-post-implementation drift/churn passes with no unresolved items.
+This child packet is archive-ready. Child-owned implementation, review,
+implementation-readiness, conformance, and post-implementation drift/churn
+gates pass with no unresolved items. The separate `archive-proposal` lifecycle
+route remains responsible for any archive movement.
 
-The current closeout branch worktree is clean after the implementation commit
-except for route-local closeout evidence and control state. The read-only
-worktree hygiene classifier reports zero foreign-or-ambiguous paths, so no
-closeout-worktree exclusion is required for this fresh closeout.
+## Program-Child Worktree Hygiene
 
-## Passing Gates
+The program-child hygiene classifier still reports foreign or ambiguous
+worktree residue, but that residue is excluded from this child closeout by the
+validated closeout-worktree return and report bound to this route.
 
-- `validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --skip-registry-check`: pass with one nonblocking inventory warning.
-- `validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization`: pass.
-- `validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization`: pass.
-- `validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --require-implementation-authorization`: pass.
-- `validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization`: pass.
-- `validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization`: pass.
-- `validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/operator-free-lifecycle-delivery-autonomy-hardening`: pass.
-- Focused cargo regressions for execution-mode normalization, scheduler dependency preservation, route binding, run-id compaction, and stale closeout loop suppression: pass.
-- Focused cargo regressions for direct packet terminal `target_outcome` binding from child-owned closeout evidence and stale blocked closeout suppression: pass.
-- Canonical extension and capability publication refresh plus terminal publication/non-authority validators: pass.
-- Review-gate regression proving retained terminal closeout receipts do not stale accepted review authorization: pass.
-- `validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --require-implementation-authorization`: pass after retaining the blocked terminal receipt.
-- `validate-proposal-lifecycle-terminal-freshness.sh --proposal .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --targeted`: pass after canonical artifact refresh and support receipt updates.
+- Bound classifier evidence:
+  `.octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/children/proposal-program-execution-mode-normalization/worktree-hygiene-preflight-690a6d1f3f3eb88bc910c450dec6e4d328a50ac0c94b5c667d79762c9ef4d68f.stdout.yml`
+- Bound foreign fingerprint:
+  `sha256:2847fa1f60043a2726c285ded44fcaefb559a27e424b132ab88a00587b042976`
+- Fresh route-local classifier rerun:
+  `bash .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh --target .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --lifecycle proposal-program --run-id lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z --format yaml`
+  confirmed the same foreign fingerprint.
+- Return receipt validator:
+  `bash .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh --return .octon/state/evidence/runs/workflows/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/lifecycle-interactions/proposal-program-execution-mode-normalization-closeout-packet-closeout-worktree-return-20260623T214801Z.json`
+  passed.
+- Closeout-worktree report validator:
+  `.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report .octon/state/evidence/validation/analysis/20260623T214801Z-closeout-worktree-lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z-proposal-program-execution-mode-normalization-closeout-packet.yml`
+  passed.
 
-## Archive Decision
+The accepted closeout-worktree report is preserve-only. It does not authorize
+staging, commit, push, cleanup, deletion, branch cleanup, PR fallback, direct
+archive mutation, or a cleaned-worktree claim.
 
-Archive is authorized only for the separate `archive-proposal` lifecycle route.
-This receipt is the child-owned archive-readiness evidence for that route; it
-does not relocate or archive the packet directly.
+## Validation Summary
+
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization --skip-registry-check` passed with one catalog-inventory warning.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization` passed.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization` passed.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization` passed.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization` passed.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization` passed.
+
+Terminal freshness is pending the required post-closeout derived artifact
+refresh and targeted freshness validation. If that post-write validation fails,
+this receipt must be rewritten as blocked with the exact stale artifact or
+generator blocker.
+
+## Authority Boundaries
+
+Proposal inputs, generated outputs, parent summaries, compact indexes, chat,
+host state, and worktree classifier output remain non-authoritative. This
+receipt is child-owned closeout evidence only and does not perform or authorize
+archive relocation, publication, Git mutation, or cleanup.

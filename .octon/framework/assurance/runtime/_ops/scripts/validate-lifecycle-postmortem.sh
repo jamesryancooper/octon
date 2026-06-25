@@ -808,6 +808,52 @@ validate_child_evidence_ref_array() {
   done
 }
 
+validate_named_postmortem_ref_record() {
+  local file="$1"
+  local expr="$2"
+  local label="$3"
+  local path ref_class authority_role resolved
+  path="$(yq_scalar "$expr.path" "$file")"
+  ref_class="$(yq_scalar "$expr.ref_class" "$file")"
+  authority_role="$(yq_scalar "$expr.authority_role" "$file")"
+
+  non_empty "$path" && pass "$label path present" || { fail "$label path required"; return; }
+  case "$path" in
+    .octon/state/control/*|.octon/state/evidence/*)
+      resolved="$(repo_path "$path")"
+      [[ -e "$resolved" ]] && pass "$label path resolves" || fail "$label path missing: $path"
+      ;;
+    .octon/generated/*|.octon/inputs/*)
+      fail "$label must not bind generated outputs or proposal inputs as retained profile evidence: $path"
+      return
+      ;;
+    *)
+      fail "$label path must stay inside .octon state/control or state/evidence: $path"
+      return
+      ;;
+  esac
+  non_empty "$ref_class" && pass "$label ref_class present" || fail "$label ref_class required"
+  case "$authority_role" in
+    retained-evidence|retained-evidence-diagnostic|retained-evidence-associated|retained-evidence-substitute|mutable-control-truth)
+      pass "$label authority role is explicit"
+      ;;
+    *)
+      fail "$label has invalid authority_role: $authority_role"
+      ;;
+  esac
+}
+
+validate_named_ref_array() {
+  local file="$1"
+  local expr="$2"
+  local label="$3"
+  local count index
+  count="$(yq_len "$expr" "$file")"
+  for ((index=0; index<count; index++)); do
+    validate_named_postmortem_ref_record "$file" "$expr[$index]" "$label[$index]"
+  done
+}
+
 validate_substitute_ref_array() {
   local file="$1"
   local expr="$2"
@@ -838,6 +884,88 @@ validate_substitute_ref_array() {
       && pass "$label[$index] substitute is evidence-only" \
       || fail "$label[$index] substitute must be evidence-only"
   done
+}
+
+validate_proposal_program_delivery_profile() {
+  local file="$1"
+  local prefix="$2"
+  local label="$3"
+  local proof_count record_count index proof_id status authority scope
+
+  require_yq_true "$file" "$prefix.schema_version == \"lifecycle-postmortem-proposal-program-delivery-profile-v1\"" "$label schema_version valid"
+  require_yq_true "$file" "$prefix.profile_id == \"proposal-program-delivery-evaluation\"" "$label profile_id valid"
+  require_yq_true "$file" "$prefix.applies_to_lifecycle_kind == \"proposal-program\"" "$label lifecycle kind binding valid"
+
+  require_yq_true "$file" "$prefix.evidence_binding.delivery_evidence_status == \"evidence_present\" or $prefix.evidence_binding.delivery_evidence_status == \"not_applicable_no_delivery_evidence\"" "$label delivery evidence status valid"
+  validate_named_ref_array "$file" "$prefix.evidence_binding.parent_status_refs" "$label parent status ref"
+  validate_child_evidence_ref_array "$file" "$prefix.evidence_binding.child_terminal_status_refs" "$label child terminal status ref"
+  validate_ref_array "$file" "$prefix.evidence_binding.retained_run_evidence_index_refs" "$label retained run evidence index ref"
+  validate_named_ref_array "$file" "$prefix.evidence_binding.planner_refs" "$label planner ref"
+  validate_named_ref_array "$file" "$prefix.evidence_binding.closeout_archive_refs" "$label closeout/archive ref"
+  validate_named_ref_array "$file" "$prefix.evidence_binding.delivery_refs" "$label delivery ref"
+  validate_named_ref_array "$file" "$prefix.evidence_binding.validator_generated_hygiene_refs" "$label validator/generated/hygiene ref"
+  validate_named_ref_array "$file" "$prefix.evidence_binding.git_delivery_proof_refs" "$label git delivery proof ref"
+
+  for scope in parent-program child-packet generated-artifact lifecycle-tooling-or-contract worktree-hygiene-or-residue git-delivery-state external-permission-boundary; do
+    yq -e "$prefix.blocker_taxonomy[] | select(.owning_scope == \"$scope\" and .authority_status == \"evidence-only\")" "$file" >/dev/null 2>&1 \
+      && pass "$label blocker taxonomy includes $scope" \
+      || fail "$label blocker taxonomy missing $scope"
+  done
+
+  for expr in "$prefix.autonomy_analysis" "$prefix.efficiency_diagnostics" "$prefix.regression_test_plan"; do
+    record_count="$(yq_len "$expr" "$file")"
+    [[ "$record_count" -gt 0 ]] && pass "$label records present: $expr" || fail "$label records required: $expr"
+    for ((index=0; index<record_count; index++)); do
+      authority="$(yq_scalar "$expr[$index].authority_status" "$file")"
+      [[ "$authority" == "evidence-only" ]] \
+        && pass "$label record authority is evidence-only" \
+        || fail "$label record authority must be evidence-only"
+      require_yq_true "$file" "$expr[$index].evidence_refs | length > 0" "$label record evidence refs present"
+    done
+  done
+
+  proof_count="$(yq_len "$prefix.delivery_proof_chain_audit" "$file")"
+  [[ "$proof_count" -ge 7 ]] && pass "$label delivery proof chain audit covers expected scopes" || fail "$label delivery proof chain audit requires at least seven records"
+  for proof_id in archive push branch-no-pr-landing sync cleanup-authorization branch-cleanup cleaned-claim; do
+    yq -e "$prefix.delivery_proof_chain_audit[] | select(.proof_id == \"$proof_id\")" "$file" >/dev/null 2>&1 \
+      && pass "$label delivery proof scope present: $proof_id" \
+      || fail "$label delivery proof scope missing: $proof_id"
+  done
+  for ((index=0; index<proof_count; index++)); do
+    status="$(yq_scalar "$prefix.delivery_proof_chain_audit[$index].status" "$file")"
+    authority="$(yq_scalar "$prefix.delivery_proof_chain_audit[$index].authority_status" "$file")"
+    case "$status" in
+      evidence_present|not_applicable|evidence_gap) pass "$label delivery proof status valid: $status" ;;
+      *) fail "$label invalid delivery proof status: $status" ;;
+    esac
+    [[ "$authority" == "evidence-only" ]] \
+      && pass "$label delivery proof authority is evidence-only" \
+      || fail "$label delivery proof authority must be evidence-only"
+    require_yq_true "$file" "$prefix.delivery_proof_chain_audit[$index].evidence_refs | length > 0" "$label delivery proof evidence refs present"
+  done
+
+  for expr in "$prefix.recommendation_backlog" "$prefix.proposed_next_governed_routes"; do
+    record_count="$(yq_len "$expr" "$file")"
+    [[ "$record_count" -gt 0 ]] && pass "$label recommendations present: $expr" || fail "$label recommendations required: $expr"
+    for ((index=0; index<record_count; index++)); do
+      authority="$(yq_scalar "$expr[$index].authority_status" "$file")"
+      [[ "$authority" == "proposed-evidence-only" ]] \
+        && pass "$label recommendation is proposed evidence only" \
+        || fail "$label recommendation must be proposed-evidence-only"
+      require_yq_true "$file" "$expr[$index].required_governed_route != null and $expr[$index].required_governed_route != \"\"" "$label recommendation governed route present"
+      require_yq_true "$file" "$expr[$index].suggested_validators | length > 0" "$label recommendation validators present"
+    done
+  done
+
+  require_yq_true "$file" "$prefix.authority_boundary.profile_output_authority == false" "$label profile output is non-authority"
+  require_yq_true "$file" "$prefix.authority_boundary.authorizes_lifecycle_transition == false" "$label does not authorize lifecycle transition"
+  require_yq_true "$file" "$prefix.authority_boundary.authorizes_child_receipt_replacement == false" "$label does not replace child receipts"
+  require_yq_true "$file" "$prefix.authority_boundary.authorizes_closeout == false" "$label does not authorize closeout"
+  require_yq_true "$file" "$prefix.authority_boundary.authorizes_archive == false" "$label does not authorize archive"
+  require_yq_true "$file" "$prefix.authority_boundary.authorizes_delivery == false" "$label does not authorize delivery"
+  require_yq_true "$file" "$prefix.authority_boundary.authorizes_git_mutation == false" "$label does not authorize git mutation"
+  require_yq_true "$file" "$prefix.authority_boundary.authorizes_cleanup == false" "$label does not authorize cleanup"
+  require_yq_true "$file" "$prefix.authority_boundary.generated_outputs_authority == false" "$label generated outputs remain non-authority"
 }
 
 validate_evidence_map() {
@@ -882,8 +1010,15 @@ validate_evidence_map() {
   [[ "$rollback_count" -gt 0 ]] && pass "evidence map includes rollback terminal evidence" || fail "evidence map missing rollback terminal evidence"
   if [[ "$lifecycle_kind" == "proposal-program" ]]; then
     [[ "$child_ref_count" -gt 0 ]] && pass "proposal-program evidence map includes child evidence dereference refs" || fail "proposal-program evidence map missing child evidence dereference refs"
+    require_yq_true "$file" 'has("proposal_program_delivery_profile")' "proposal-program evidence map includes delivery evaluation profile"
+    validate_proposal_program_delivery_profile "$file" ".proposal_program_delivery_profile" "proposal-program delivery profile"
   else
     pass "child evidence dereference refs optional for lifecycle kind: ${lifecycle_kind:-unknown}"
+    if yq -e 'has("proposal_program_delivery_profile")' "$file" >/dev/null 2>&1; then
+      fail "non-proposal-program evidence map must not include proposal_program_delivery_profile"
+    else
+      pass "non-proposal-program evidence map omits proposal_program_delivery_profile"
+    fi
   fi
 
   validate_ref_array "$file" '.retained_run_evidence_indexes' "retained-run evidence index"

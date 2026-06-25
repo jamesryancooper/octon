@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd -- "$SCRIPT_DIR/../../../../../.." && pwd)"
+source "$SCRIPT_DIR/validator-recovery-diagnostics.sh"
 
 RECEIPT=""
 PACKAGE=""
@@ -19,6 +20,32 @@ EOF
 
 pass() { printf '[OK] %s\n' "$1"; }
 fail() { printf '[ERROR] %s\n' "$1" >&2; errors=$((errors + 1)); }
+
+repo_rel() {
+  local path="$1"
+  case "$path" in
+    "$ROOT_DIR"/*)
+      printf '%s\n' "${path#$ROOT_DIR/}"
+      ;;
+    *)
+      printf '%s\n' "$path"
+      ;;
+  esac
+}
+
+architectural_review_rerun_gate() {
+  local gate="validate-architectural-review-receipts.sh --receipt $(repo_rel "$RECEIPT")"
+  if [[ -n "$PACKAGE" ]]; then
+    gate="$gate --package $PACKAGE"
+  fi
+  if [[ -n "$MODE" ]]; then
+    gate="$gate --mode $MODE"
+  fi
+  if [[ "$REQUIRE_PASS" -eq 1 ]]; then
+    gate="$gate --require-pass"
+  fi
+  printf '%s\n' "$gate"
+}
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -114,6 +141,17 @@ if [[ -n "$PACKAGE" ]]; then
   if [[ -d "$PACKAGE_ABS" ]]; then
     current_digest="$(bash "$SCRIPT_DIR/validate-proposal-review-gate.sh" --package "$PACKAGE_ABS" --print-digest)"
     [[ "$packet_digest" == "$current_digest" ]] && pass "packet_digest is fresh for package" || {
+      emit_stale_evidence_recovery_diagnostic \
+        "$(repo_rel "$RECEIPT")#packet_digest" \
+        "$packet_digest" \
+        "$current_digest" \
+        "$(repo_rel "$RECEIPT")" \
+        "architectural review receipt packet_digest does not match current packet digest" \
+        "$(architectural_review_rerun_gate)" \
+        "rerun the $review_mode route at the next authorized stable digest boundary so the receipt records the current packet digest" \
+        "packet-content-drift-after-architecture-review" \
+        "$review_mode" \
+        "packet_digest"
       fail "packet_digest is fresh for package"
       printf 'recorded: %s\ncurrent:  %s\n' "$packet_digest" "$current_digest" >&2
     }

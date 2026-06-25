@@ -173,6 +173,16 @@ Lifecycle postmortem prepares retained post-run assurance evidence only. It
 does not authorize lifecycle transition, closeout, promotion, support widening,
 generated-output publication, redesign, or invariant amendment.
 
+For proposal-program lifecycle runs, `octon lifecycle postmortem --run-id <run-id>`
+also emits an evidence-map `proposal_program_delivery_profile` with profile id
+`proposal-program-delivery-evaluation`. The profile binds retained program,
+child, planner, blocker, archive, delivery, git, hygiene, and validator refs
+when present, and marks branch-no-PR, sync, cleanup, and cleaned-claim proof
+items `not_applicable` when no delivery evidence exists. This profile is a
+post-run evaluation aid only: it cannot replace child-owned evidence or
+authorize closeout, archive, delivery, git mutation, cleanup, generated
+publication, lifecycle transition, or cleaned claims.
+
 Engagement compiler commands prepare control and evidence artifacts only.
 Per-engagement Objective Brief candidates live under
 `state/control/engagements/<engagement-id>/objective/`. First run-contract

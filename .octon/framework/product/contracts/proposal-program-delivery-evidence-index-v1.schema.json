@@ -1,0 +1,360 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/proposal-program-delivery-evidence-index-v1.schema.json",
+  "title": "Proposal Program Delivery Evidence Index v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "index_id",
+    "generated_at",
+    "producer",
+    "source_receipt",
+    "target_program",
+    "target_outcome",
+    "actual_outcome",
+    "route",
+    "outcome_authority",
+    "evidence_policy",
+    "validator_results",
+    "non_authority_classification",
+    "target_owned_evidence_policy",
+    "indexed_evidence_refs",
+    "failure_behavior"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proposal-program-delivery-evidence-index-v1"
+    },
+    "index_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "producer": {
+      "const": "generate-proposal-program-delivery-evidence-index.sh"
+    },
+    "source_receipt": {
+      "$ref": "#/$defs/source_receipt"
+    },
+    "target_program": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "status"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "target_outcome": {
+      "$ref": "#/$defs/delivery_outcome"
+    },
+    "actual_outcome": {
+      "$ref": "#/$defs/delivery_outcome"
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "change_closeout_route",
+        "change_closeout_verdict",
+        "landing_performed",
+        "branch_cleanup_performed",
+        "branch_deleted",
+        "final_sync_claimed"
+      ],
+      "properties": {
+        "change_closeout_route": {
+          "type": "string",
+          "minLength": 1
+        },
+        "change_closeout_verdict": {
+          "type": "string",
+          "minLength": 1
+        },
+        "landing_performed": {
+          "type": "boolean"
+        },
+        "branch_cleanup_performed": {
+          "type": "boolean"
+        },
+        "branch_deleted": {
+          "type": "boolean"
+        },
+        "final_sync_claimed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "outcome_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index_replaces_delivery_receipt",
+        "archive_evidence_claims_delivery",
+        "child_delivery_required_for_sibling_progression",
+        "child_delivery_claimed_by_archive_only"
+      ],
+      "properties": {
+        "index_replaces_delivery_receipt": {
+          "const": false
+        },
+        "archive_evidence_claims_delivery": {
+          "const": false
+        },
+        "child_delivery_required_for_sibling_progression": {
+          "const": false
+        },
+        "child_delivery_claimed_by_archive_only": {
+          "const": false
+        }
+      }
+    },
+    "evidence_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "disclosure",
+        "raw_evidence_retained",
+        "authorizes_execution",
+        "authorizes_archive",
+        "authorizes_delivery",
+        "authorizes_landing",
+        "authorizes_cleanup",
+        "satisfies_child_receipts",
+        "generated_outputs_are_authority"
+      ],
+      "properties": {
+        "purpose": {
+          "const": "compact-retained-delivery-evidence-index"
+        },
+        "disclosure": {
+          "const": "refs-digests-and-classification-only"
+        },
+        "raw_evidence_retained": {
+          "const": true
+        },
+        "authorizes_execution": {
+          "const": false
+        },
+        "authorizes_archive": {
+          "const": false
+        },
+        "authorizes_delivery": {
+          "const": false
+        },
+        "authorizes_landing": {
+          "const": false
+        },
+        "authorizes_cleanup": {
+          "const": false
+        },
+        "satisfies_child_receipts": {
+          "const": false
+        },
+        "generated_outputs_are_authority": {
+          "const": false
+        }
+      }
+    },
+    "validator_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "validator",
+          "target_ref",
+          "verdict"
+        ],
+        "properties": {
+          "validator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verdict": {
+            "enum": [
+              "pass",
+              "fail",
+              "blocked"
+            ]
+          },
+          "evidence_ref": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "non_authority_classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_local_files",
+        "generated_prompts",
+        "generated_outputs",
+        "dashboards",
+        "chat_or_model_memory"
+      ],
+      "properties": {
+        "proposal_local_files": {
+          "const": "non-authority"
+        },
+        "generated_prompts": {
+          "const": "non-authority"
+        },
+        "generated_outputs": {
+          "const": "derived-only-non-authority"
+        },
+        "dashboards": {
+          "const": "non-authority"
+        },
+        "chat_or_model_memory": {
+          "const": "non-authority"
+        }
+      }
+    },
+    "target_owned_evidence_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_owned_receipts_required",
+        "aggregate_receipt_replaces_target_owned_receipts"
+      ],
+      "properties": {
+        "target_owned_receipts_required": {
+          "const": true
+        },
+        "aggregate_receipt_replaces_target_owned_receipts": {
+          "const": false
+        }
+      }
+    },
+    "indexed_evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/indexed_evidence_ref"
+      }
+    },
+    "failure_behavior": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "delivery_outcome": {
+      "enum": [
+        "blocked",
+        "implemented",
+        "archive-ready",
+        "landed",
+        "synced",
+        "cleaned"
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "sha256",
+        "schema_version"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": "proposal-program-delivery-receipt-v1"
+        }
+      }
+    },
+    "indexed_evidence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "role",
+        "source_field",
+        "sha256",
+        "disclosure_tier",
+        "authority_use",
+        "required"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "disclosure_tier": {
+          "enum": [
+            "retained-evidence",
+            "local-private-index-only",
+            "proposal-local",
+            "derived-generated",
+            "framework-source",
+            "repo-local"
+          ]
+        },
+        "authority_use": {
+          "enum": [
+            "source-delivery-receipt",
+            "target-owned-child-receipt-ref",
+            "retained-evidence-ref",
+            "workflow-evidence-ref",
+            "validator-evidence-ref",
+            "publisher-source-ref",
+            "local-private-ref",
+            "framework-source-ref",
+            "derived-only-ref",
+            "proposal-local-ref"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

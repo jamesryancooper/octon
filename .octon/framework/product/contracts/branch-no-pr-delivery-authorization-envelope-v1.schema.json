@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/branch-no-pr-delivery-authorization-envelope-v1.schema.json",
+  "title": "Branch No PR Delivery Authorization Envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "envelope_id",
+    "selected_route",
+    "target_lifecycle_outcome",
+    "source_branch",
+    "target_branch",
+    "remote",
+    "allowed_effects",
+    "forbidden_effects",
+    "rollback_handle",
+    "required_validators",
+    "staged_proof_locks",
+    "git_mutation_preflight",
+    "authority_boundaries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "branch-no-pr-delivery-authorization-envelope-v1"
+    },
+    "envelope_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selected_route": {
+      "const": "branch-no-pr"
+    },
+    "target_lifecycle_outcome": {
+      "enum": ["landed", "synced", "cleaned"]
+    },
+    "source_branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowed_effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch_commit", "branch_push", "hosted_no_pr_landing", "sync", "branch_cleanup"],
+      "properties": {
+        "branch_commit": { "type": "boolean" },
+        "branch_push": { "type": "boolean" },
+        "hosted_no_pr_landing": { "type": "boolean" },
+        "sync": { "type": "boolean" },
+        "branch_cleanup": { "type": "boolean" }
+      }
+    },
+    "forbidden_effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pr_creation", "pr_update", "pr_merge", "force_push", "unapproved_cleanup"],
+      "properties": {
+        "pr_creation": { "const": true },
+        "pr_update": { "const": true },
+        "pr_merge": { "const": true },
+        "force_push": { "const": true },
+        "unapproved_cleanup": { "const": true }
+      }
+    },
+    "rollback_handle": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_validators": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "staged_proof_locks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit_before_push", "push_before_landing", "landing_before_sync", "sync_before_cleanup", "cleanup_before_cleaned"],
+      "properties": {
+        "commit_before_push": { "$ref": "#/$defs/proof_lock" },
+        "push_before_landing": { "$ref": "#/$defs/proof_lock" },
+        "landing_before_sync": { "$ref": "#/$defs/proof_lock" },
+        "sync_before_cleanup": { "$ref": "#/$defs/proof_lock" },
+        "cleanup_before_cleaned": { "$ref": "#/$defs/proof_lock" }
+      }
+    },
+    "git_mutation_preflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "script_ref", "blocked_classes", "non_authorizing"],
+      "properties": {
+        "required": { "const": true },
+        "script_ref": {
+          "const": ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh"
+        },
+        "blocked_classes": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "enum": ["git-index-write-denied", "git-ref-write-denied", "git-index-lock-present", "git-ref-rollback-failed"]
+          }
+        },
+        "non_authorizing": { "const": true }
+      }
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parent_summary_replaces_child_evidence",
+        "archive_authorizes_delivery",
+        "preflight_authorizes_side_effects",
+        "generated_outputs_authority"
+      ],
+      "properties": {
+        "parent_summary_replaces_child_evidence": { "const": false },
+        "archive_authorizes_delivery": { "const": false },
+        "preflight_authorizes_side_effects": { "const": false },
+        "generated_outputs_authority": { "const": "derived-only" }
+      }
+    }
+  },
+  "$defs": {
+    "proof_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "evidence_ref_field"],
+      "properties": {
+        "required": { "const": true },
+        "evidence_ref_field": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

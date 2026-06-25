@@ -29,7 +29,6 @@ const FRAMEWORK_ASSURANCE_SCRIPT_PREFIX: &str = ".octon/framework/assurance/runt
 const WORKFLOW_EVIDENCE_ROOT_REL: &str = "state/evidence/runs/workflows";
 const RUN_CONTROL_ROOT_REL: &str = "state/control/execution/runs";
 const ROUTE_ID_CLOSEOUT_PACKET: &str = "closeout-packet";
-const ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT: &str = "proposal-packet-terminal-closeout";
 const ROUTE_PROGRESSION_STRATEGY: &str = "route-progression";
 const ORCHESTRATED_REPLAN_LOOP_STRATEGY: &str = "orchestrated-replan-loop";
 const LIFECYCLE_EVENT_SCHEMA_VERSION: &str = "octon-lifecycle-run-event-v1";
@@ -752,7 +751,73 @@ struct LifecyclePostmortemEvidenceMap {
     generated_refs: Vec<LifecyclePostmortemCanonicalRef>,
     proposal_local_refs: Vec<LifecyclePostmortemCanonicalRef>,
     reconstruction_order: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    proposal_program_delivery_profile: Option<LifecyclePostmortemProposalProgramDeliveryProfile>,
     authority_boundary: LifecyclePostmortemAuthorityBoundary,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemProposalProgramDeliveryProfile {
+    schema_version: &'static str,
+    profile_id: &'static str,
+    applies_to_lifecycle_kind: &'static str,
+    evidence_binding: LifecyclePostmortemProposalProgramEvidenceBinding,
+    blocker_taxonomy: Vec<LifecyclePostmortemProfileRecord>,
+    autonomy_analysis: Vec<LifecyclePostmortemProfileRecord>,
+    efficiency_diagnostics: Vec<LifecyclePostmortemProfileRecord>,
+    delivery_proof_chain_audit: Vec<LifecyclePostmortemDeliveryProofRecord>,
+    recommendation_backlog: Vec<LifecyclePostmortemRecommendationRecord>,
+    regression_test_plan: Vec<LifecyclePostmortemProfileRecord>,
+    proposed_next_governed_routes: Vec<LifecyclePostmortemRecommendationRecord>,
+    authority_boundary: LifecyclePostmortemProposalProgramProfileAuthorityBoundary,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemProposalProgramEvidenceBinding {
+    parent_status_refs: Vec<LifecyclePostmortemRef>,
+    child_terminal_status_refs: Vec<LifecyclePostmortemCanonicalRef>,
+    retained_run_evidence_index_refs: Vec<LifecyclePostmortemCanonicalRef>,
+    planner_refs: Vec<LifecyclePostmortemRef>,
+    closeout_archive_refs: Vec<LifecyclePostmortemRef>,
+    delivery_refs: Vec<LifecyclePostmortemRef>,
+    validator_generated_hygiene_refs: Vec<LifecyclePostmortemRef>,
+    git_delivery_proof_refs: Vec<LifecyclePostmortemRef>,
+    delivery_evidence_status: String,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemProfileRecord {
+    record_id: String,
+    owning_scope: String,
+    summary: String,
+    evidence_refs: Vec<String>,
+    authority_status: &'static str,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemDeliveryProofRecord {
+    proof_id: String,
+    proof_scope: String,
+    status: String,
+    evidence_refs: Vec<String>,
+    not_applicable_reason: String,
+    authority_status: &'static str,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemRecommendationRecord {
+    recommendation_id: String,
+    problem: String,
+    proposed_change: String,
+    owning_scope: String,
+    expected_autonomy_or_efficiency_gain: String,
+    safety_rationale: String,
+    risks: String,
+    acceptance_criteria: String,
+    suggested_validators: Vec<String>,
+    required_governed_route: String,
+    evidence_refs: Vec<String>,
+    authority_status: &'static str,
 }
 
 #[derive(Serialize)]
@@ -853,6 +918,20 @@ struct LifecyclePostmortemAuthorityBoundary {
 #[derive(Serialize)]
 struct LifecyclePostmortemKnownLimitsAuthorityBoundary {
     locator_replaces_source_evidence: bool,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemProposalProgramProfileAuthorityBoundary {
+    profile_output_authority: bool,
+    authorizes_lifecycle_transition: bool,
+    authorizes_child_receipt_replacement: bool,
+    authorizes_closeout: bool,
+    authorizes_archive: bool,
+    authorizes_delivery: bool,
+    authorizes_git_mutation: bool,
+    authorizes_cleanup: bool,
+    generated_outputs_authority: bool,
+    statement: String,
 }
 
 pub(crate) fn lifecycle_cancellation_token_path(control_root: &Path) -> PathBuf {
@@ -1205,6 +1284,7 @@ fn run_lifecycle_postmortem_from_octon_dir(
         direct_evidence_exists,
         workflow_evidence_exists,
     );
+    let lifecycle_kind = lifecycle_kind_for_run_id(&sanitized_run_id);
     let terminal_state_ref_index =
         lifecycle_postmortem_terminal_state_refs(&repo_root, &workflow_evidence_root);
     let terminal_state_refs = LifecyclePostmortemTerminalStateRefs {
@@ -1264,13 +1344,40 @@ fn run_lifecycle_postmortem_from_octon_dir(
     let known_limits_path = postmortem_root.join("known-limits.yml");
     let evaluator_input_path = postmortem_root.join("evaluator-input.md");
     let status_path = postmortem_root.join("status.yml");
+    let retained_run_evidence_indexes = lifecycle_postmortem_retained_index_refs(
+        &repo_root,
+        &direct_evidence_root,
+        &workflow_evidence_root,
+    );
+    let direct_control_refs = candidate_refs
+        .iter()
+        .filter(|item| item.exists && item.authority_role == "mutable-control-truth")
+        .filter_map(|item| {
+            lifecycle_postmortem_canonical_ref_from_repo_ref(
+                &repo_root,
+                &item.path,
+                &item.ref_name,
+                "control",
+                "control-truth",
+            )
+        })
+        .collect::<Vec<_>>();
+    let proposal_program_delivery_profile = (lifecycle_kind == "proposal-program").then(|| {
+        lifecycle_postmortem_proposal_program_delivery_profile(
+            &retained_run_evidence_indexes,
+            &terminal_state_ref_index,
+            &child_evidence_ref_index,
+            &diagnostic_refs,
+            &associated_refs,
+        )
+    });
 
     let evidence_map = LifecyclePostmortemEvidenceMap {
         schema_version: "lifecycle-postmortem-evidence-map-v2",
         run_id: sanitized_run_id.clone(),
         subject: LifecyclePostmortemSubject {
             run_id: sanitized_run_id.clone(),
-            lifecycle_kind: lifecycle_kind_for_run_id(&sanitized_run_id),
+            lifecycle_kind: lifecycle_kind.clone(),
         },
         recorded_at: recorded_at.clone(),
         status: status.clone(),
@@ -1286,24 +1393,8 @@ fn run_lifecycle_postmortem_from_octon_dir(
             rel_display(&repo_root, &workflow_evidence_root),
         ],
         postmortem_root: rel_display(&repo_root, &postmortem_root),
-        retained_run_evidence_indexes: lifecycle_postmortem_retained_index_refs(
-            &repo_root,
-            &direct_evidence_root,
-            &workflow_evidence_root,
-        ),
-        direct_control_refs: candidate_refs
-            .iter()
-            .filter(|item| item.exists && item.authority_role == "mutable-control-truth")
-            .filter_map(|item| {
-                lifecycle_postmortem_canonical_ref_from_repo_ref(
-                    &repo_root,
-                    &item.path,
-                    &item.ref_name,
-                    "control",
-                    "control-truth",
-                )
-            })
-            .collect(),
+        retained_run_evidence_indexes,
+        direct_control_refs,
         retained_refs: retained_refs.clone(),
         missing_refs: missing_refs.clone(),
         substitute_refs: substitute_refs.clone(),
@@ -1315,6 +1406,7 @@ fn run_lifecycle_postmortem_from_octon_dir(
         generated_refs: Vec::new(),
         proposal_local_refs: Vec::new(),
         reconstruction_order: reconstruction_order.clone(),
+        proposal_program_delivery_profile,
         authority_boundary: authority_boundary.clone(),
     };
     fs::write(&evidence_map_path, serde_yaml::to_string(&evidence_map)?)?;
@@ -1352,6 +1444,7 @@ fn run_lifecycle_postmortem_from_octon_dir(
             &evidence_map_path,
             &known_limits_path,
             &repo_root,
+            &lifecycle_kind,
         ),
     )?;
 
@@ -1380,6 +1473,274 @@ fn run_lifecycle_postmortem_from_octon_dir(
         missing_refs_count: missing_refs.len(),
         authority_boundary: authority_boundary.statement,
     })
+}
+
+fn lifecycle_postmortem_proposal_program_delivery_profile(
+    retained_run_evidence_indexes: &[LifecyclePostmortemCanonicalRef],
+    terminal_state_ref_index: &[LifecyclePostmortemRef],
+    child_evidence_ref_index: &[LifecyclePostmortemCanonicalRef],
+    diagnostic_refs: &[LifecyclePostmortemRef],
+    associated_refs: &[LifecyclePostmortemRef],
+) -> LifecyclePostmortemProposalProgramDeliveryProfile {
+    let parent_status_refs = terminal_state_ref_index
+        .iter()
+        .filter(|item| {
+            matches!(
+                item.ref_name.as_str(),
+                "program-summary"
+                    | "aggregate-terminal-blockers"
+                    | "blocker-ledger"
+                    | "route-decision-receipt"
+                    | "publication-freshness-preflight-summary"
+            )
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+    let planner_refs = terminal_state_ref_index
+        .iter()
+        .filter(|item| {
+            matches!(
+                item.ref_name.as_str(),
+                "program-plan"
+                    | "scheduler-decision"
+                    | "planner-state"
+                    | "program-context-capsule"
+                    | "route-decision-receipt"
+                    | "recovery-delta-summary"
+                    | "blocker-ledger"
+            )
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+    let closeout_archive_refs = lifecycle_postmortem_associated_refs_matching(
+        associated_refs,
+        &["closeout", "archive", "terminal"],
+    );
+    let delivery_refs = lifecycle_postmortem_associated_refs_matching(
+        associated_refs,
+        &["delivery", "branch-no-pr", "landing", "synced", "cleaned"],
+    );
+    let git_delivery_proof_refs = lifecycle_postmortem_associated_refs_matching(
+        associated_refs,
+        &[
+            "git", "push", "branch", "landing", "sync", "cleanup", "cleaned",
+        ],
+    );
+    let mut validator_generated_hygiene_refs = diagnostic_refs.to_vec();
+    validator_generated_hygiene_refs.extend(
+        terminal_state_ref_index
+            .iter()
+            .filter(|item| {
+                matches!(
+                    item.ref_name.as_str(),
+                    "publication-freshness-preflight-summary"
+                        | "aggregate-terminal-blockers"
+                        | "blocker-ledger"
+                        | "recovery-delta-summary"
+                )
+            })
+            .cloned(),
+    );
+    lifecycle_postmortem_dedupe_refs(&mut validator_generated_hygiene_refs);
+
+    let mut parent_or_planner = parent_status_refs.clone();
+    parent_or_planner.extend(planner_refs.clone());
+    let parent_or_planner_refs = lifecycle_postmortem_ref_paths(&parent_or_planner);
+    let child_refs = lifecycle_postmortem_canonical_ref_paths(child_evidence_ref_index);
+    let delivery_evidence_refs = lifecycle_postmortem_ref_paths(&delivery_refs);
+    let delivery_evidence_status = if delivery_refs.is_empty() {
+        "not_applicable_no_delivery_evidence"
+    } else {
+        "evidence_present"
+    }
+    .to_string();
+
+    LifecyclePostmortemProposalProgramDeliveryProfile {
+        schema_version: "lifecycle-postmortem-proposal-program-delivery-profile-v1",
+        profile_id: "proposal-program-delivery-evaluation",
+        applies_to_lifecycle_kind: "proposal-program",
+        evidence_binding: LifecyclePostmortemProposalProgramEvidenceBinding {
+            parent_status_refs,
+            child_terminal_status_refs: child_evidence_ref_index.to_vec(),
+            retained_run_evidence_index_refs: retained_run_evidence_indexes.to_vec(),
+            planner_refs,
+            closeout_archive_refs,
+            delivery_refs: delivery_refs.clone(),
+            validator_generated_hygiene_refs,
+            git_delivery_proof_refs,
+            delivery_evidence_status,
+        },
+        blocker_taxonomy: lifecycle_postmortem_profile_records(
+            "blocker",
+            &[
+                ("parent-program", "Parent program blockers and closeout readiness are reconstructed from terminal program state refs."),
+                ("child-packet", "Child packet blockers are discovered through child terminal evidence dereference refs and never replaced by parent summaries."),
+                ("generated-artifact", "Generated artifact and publication drift is evaluated from freshness and diagnostic refs as derived evidence only."),
+                ("lifecycle-tooling-or-contract", "Lifecycle tooling, controller, validator, and contract blockers are grouped as implementation-process evidence."),
+                ("worktree-hygiene-or-residue", "Worktree hygiene and residue blockers are preserved as evidence-bound operational blockers."),
+                ("git-delivery-state", "Git, branch-no-pr, landing, sync, and cleanup blockers are audited only when delivery proof refs exist."),
+                ("external-permission-boundary", "External permission and credential blockers remain human-gated and cannot be resolved by postmortem output."),
+            ],
+            &parent_or_planner_refs,
+        ),
+        autonomy_analysis: lifecycle_postmortem_profile_records(
+            "autonomy",
+            &[
+                ("deterministic-governed-recovery", "Low-risk governed recovery is limited to routes with retained authorization and validators."),
+                ("human-gated-side-effects", "Push, landing, cleanup, archive, and other material side effects remain outside postmortem authority."),
+            ],
+            &parent_or_planner_refs,
+        ),
+        efficiency_diagnostics: lifecycle_postmortem_profile_records(
+            "efficiency",
+            &[
+                ("registry-and-freshness-churn", "Repeated registry, publication, and freshness churn should be measured from event and blocker refs."),
+                ("single-blocker-discovery", "Planner loops that discover one blocker at a time are retained as efficiency evidence, not authority."),
+                ("executor-runtime-failures", "Runtime or local executor failures are separated from child implementation evidence."),
+            ],
+            &parent_or_planner_refs,
+        ),
+        delivery_proof_chain_audit: lifecycle_postmortem_delivery_proof_chain_audit(
+            &delivery_evidence_refs,
+        ),
+        recommendation_backlog: vec![LifecyclePostmortemRecommendationRecord {
+            recommendation_id: "proposal-program-delivery-evaluation-backlog-1".to_string(),
+            problem: "Completed proposal-program runs need a reusable evidence-only delivery evaluation backlog.".to_string(),
+            proposed_change: "Convert evidence-backed postmortem findings into future governed proposal packets or route fixes.".to_string(),
+            owning_scope: "lifecycle-tooling-or-contract".to_string(),
+            expected_autonomy_or_efficiency_gain: "Improves repeated blocker diagnosis without authorizing changes from the postmortem itself.".to_string(),
+            safety_rationale: "Recommendations are proposed evidence only and require their own governed route.".to_string(),
+            risks: "Operators could overread postmortem output as approval if the authority boundary is removed.".to_string(),
+            acceptance_criteria: "Every follow-up references retained evidence and names a required governed route.".to_string(),
+            suggested_validators: vec!["validate-lifecycle-postmortem.sh".to_string()],
+            required_governed_route: "future-proposal-or-change-closeout-route".to_string(),
+            evidence_refs: lifecycle_postmortem_non_empty_refs(&parent_or_planner_refs),
+            authority_status: "proposed-evidence-only",
+        }],
+        regression_test_plan: lifecycle_postmortem_profile_records(
+            "regression",
+            &[
+                ("with-delivery-evidence", "A completed proposal-program postmortem with delivery refs must audit archive, branch-no-pr, sync, cleanup, and cleaned-claim evidence."),
+                ("without-delivery-evidence", "A completed proposal-program postmortem without delivery refs must mark delivery proof-chain items not_applicable instead of failing or fabricating proof."),
+                ("non-authority-negative", "Profile output must fail validation if it claims closeout, archive, delivery, git mutation, cleanup, or generated-output authority."),
+            ],
+            &lifecycle_postmortem_non_empty_refs(&child_refs),
+        ),
+        proposed_next_governed_routes: vec![LifecyclePostmortemRecommendationRecord {
+            recommendation_id: "proposal-program-delivery-evaluation-route-1".to_string(),
+            problem: "Postmortem findings may need follow-up implementation after review.".to_string(),
+            proposed_change: "Route each accepted recommendation through its own proposal packet or Change closeout.".to_string(),
+            owning_scope: "parent-program".to_string(),
+            expected_autonomy_or_efficiency_gain: "Keeps postmortem discovery reusable while preserving child-owned authority.".to_string(),
+            safety_rationale: "No delivery, cleanup, or lifecycle transition is authorized by this profile.".to_string(),
+            risks: "Skipping route review would bypass evidence ownership.".to_string(),
+            acceptance_criteria: "A follow-up route cites the postmortem profile as evidence only and supplies its own validation and closeout evidence.".to_string(),
+            suggested_validators: vec!["validate-lifecycle-postmortem.sh".to_string()],
+            required_governed_route: "proposal-packet-or-closeout-change".to_string(),
+            evidence_refs: lifecycle_postmortem_non_empty_refs(&parent_or_planner_refs),
+            authority_status: "proposed-evidence-only",
+        }],
+        authority_boundary: LifecyclePostmortemProposalProgramProfileAuthorityBoundary {
+            profile_output_authority: false,
+            authorizes_lifecycle_transition: false,
+            authorizes_child_receipt_replacement: false,
+            authorizes_closeout: false,
+            authorizes_archive: false,
+            authorizes_delivery: false,
+            authorizes_git_mutation: false,
+            authorizes_cleanup: false,
+            generated_outputs_authority: false,
+            statement: "Proposal-program delivery postmortem profile output is retained evidence only. It does not authorize lifecycle transition, child receipt replacement, closeout, archive, delivery, git mutation, cleanup, generated publication, or cleaned claims.".to_string(),
+        },
+    }
+}
+
+fn lifecycle_postmortem_associated_refs_matching(
+    refs: &[LifecyclePostmortemRef],
+    needles: &[&str],
+) -> Vec<LifecyclePostmortemRef> {
+    refs.iter()
+        .filter(|item| {
+            let haystack = format!("{} {}", item.ref_name, item.path).to_ascii_lowercase();
+            needles.iter().any(|needle| haystack.contains(needle))
+        })
+        .cloned()
+        .collect()
+}
+
+fn lifecycle_postmortem_profile_records(
+    prefix: &str,
+    items: &[(&str, &str)],
+    evidence_refs: &[String],
+) -> Vec<LifecyclePostmortemProfileRecord> {
+    let evidence_refs = lifecycle_postmortem_non_empty_refs(evidence_refs);
+    items
+        .iter()
+        .enumerate()
+        .map(
+            |(index, (owning_scope, summary))| LifecyclePostmortemProfileRecord {
+                record_id: format!("{prefix}-{}", index + 1),
+                owning_scope: (*owning_scope).to_string(),
+                summary: (*summary).to_string(),
+                evidence_refs: evidence_refs.clone(),
+                authority_status: "evidence-only",
+            },
+        )
+        .collect()
+}
+
+fn lifecycle_postmortem_delivery_proof_chain_audit(
+    delivery_evidence_refs: &[String],
+) -> Vec<LifecyclePostmortemDeliveryProofRecord> {
+    [
+        ("archive", "archive"),
+        ("push", "push"),
+        ("branch-no-pr-landing", "branch-no-pr landing"),
+        ("sync", "sync"),
+        ("cleanup-authorization", "cleanup authorization"),
+        ("branch-cleanup", "branch cleanup"),
+        ("cleaned-claim", "cleaned claim"),
+    ]
+    .iter()
+    .map(|(proof_id, proof_scope)| {
+        let status = if delivery_evidence_refs.is_empty() {
+            "not_applicable"
+        } else {
+            "evidence_present"
+        };
+        LifecyclePostmortemDeliveryProofRecord {
+            proof_id: (*proof_id).to_string(),
+            proof_scope: (*proof_scope).to_string(),
+            status: status.to_string(),
+            evidence_refs: lifecycle_postmortem_non_empty_refs(delivery_evidence_refs),
+            not_applicable_reason: if delivery_evidence_refs.is_empty() {
+                "No retained program delivery evidence was detected for this completed run."
+                    .to_string()
+            } else {
+                String::new()
+            },
+            authority_status: "evidence-only",
+        }
+    })
+    .collect()
+}
+
+fn lifecycle_postmortem_ref_paths(refs: &[LifecyclePostmortemRef]) -> Vec<String> {
+    refs.iter().map(|item| item.path.clone()).collect()
+}
+
+fn lifecycle_postmortem_canonical_ref_paths(
+    refs: &[LifecyclePostmortemCanonicalRef],
+) -> Vec<String> {
+    refs.iter().map(|item| item.ref_path.clone()).collect()
+}
+
+fn lifecycle_postmortem_non_empty_refs(refs: &[String]) -> Vec<String> {
+    if refs.is_empty() {
+        vec!["unavailable:no-retained-profile-evidence-ref".to_string()]
+    } else {
+        refs.to_vec()
+    }
 }
 
 fn lifecycle_postmortem_direct_refs(
@@ -1928,6 +2289,7 @@ fn lifecycle_postmortem_evaluator_input(
     evidence_map_path: &Path,
     known_limits_path: &Path,
     repo_root: &Path,
+    lifecycle_kind: &str,
 ) -> String {
     let mut body = format!(
         "# Lifecycle Postmortem Evaluator Input\n\nrun_id: {run_id}\nprepared_at: {recorded_at}\ntemplate_ref: .octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md\nstructured_schema_ref: .octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v2.schema.json\nevidence_map_ref: {}\nknown_limits_ref: {}\n\n## Retained Refs\n\n",
@@ -2001,6 +2363,11 @@ fn lifecycle_postmortem_evaluator_input(
             body.push_str(&format!("- missing `{}`: `{}`\n", item.ref_name, item.path));
         }
         body.push_str("- missing direct control refs are evidence gaps; use listed substitute refs before escalating, and do not infer missing facts from generated outputs, raw inputs, chat history, host state, dashboards, or model memory.\n");
+    }
+    if lifecycle_kind == "proposal-program" {
+        body.push_str(
+            "\n## Proposal Program Delivery Evaluation Profile\n\nprofile_id: proposal-program-delivery-evaluation\nprofile_source: evidence_map.proposal_program_delivery_profile\nprofile_authority: evidence-only\n\nThe evaluator may use this profile to assess blocker taxonomy, autonomy gaps, efficiency gaps, delivery proof-chain evidence, recommendation backlog, regression test plan, and next governed routes for completed proposal-program runs. Missing delivery refs must be recorded as not_applicable or evidence gaps; the profile cannot authorize lifecycle transition, child receipt replacement, closeout, archive, delivery, git mutation, cleanup, generated publication, or cleaned claims.\n",
+        );
     }
     body.push_str(
         "\n## Required Evaluator Boundary\n\nThe evaluator must reconstruct facts only from retained evidence refs and must treat unresolved missing refs as evidence gaps. Generated outputs, raw inputs, chat history, host state, dashboards, and postmortem reports are not authority. The report must preserve the full eighteen-section lifecycle postmortem contract from the template and structured output must use lifecycle-postmortem-evaluation-v2. Invariant compliance findings and invariant validity/evolution recommendations are evidence only and cannot approve lifecycle transition, closeout, promotion, support widening, generated-output publication, redesign, or invariant amendment.\n",
@@ -2301,7 +2668,6 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
     }
     let target_abs = resolve_lifecycle_target_path(&repo_root, target)?;
     let target_state = build_target_state(&repo_root, &loaded.contract, &target_abs)?;
-    let effective_target_abs = target_state.target_abs.clone();
     let terminal_outcome = select_terminal_outcome(&loaded.contract, &target_state)?;
     let mut selected_route = if terminal_outcome.is_some() {
         None
@@ -2319,12 +2685,8 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
     let mut gate_results = Vec::new();
     let mut blocked_by_gate = None;
     if let Some(route) = selected_route.as_ref() {
-        let results = run_required_gates(
-            &repo_root,
-            &loaded.contract,
-            &effective_target_abs,
-            &route.route_id,
-        )?;
+        let results =
+            run_required_gates(&repo_root, &loaded.contract, &target_abs, &route.route_id)?;
         if let Some(failed) = results.iter().find(|result| !result.passed) {
             blocked_by_gate = Some(failed.gate_id.clone());
             if let Some(fallback) = fallback_route_for_gate(&loaded.contract, &failed.gate_id) {
@@ -2366,7 +2728,7 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
         owner_extension: loaded.contract.owner_extension.clone(),
         execution_strategy: execution_strategy.as_str().to_string(),
         contract_path: rel_display(&repo_root, &loaded.path),
-        target: rel_display(&repo_root, &effective_target_abs),
+        target: rel_display(&repo_root, &target_abs),
         target_exists: target_state.target_exists,
         manifest_status: target_state.manifest_status.clone(),
         receipt_states,
@@ -3039,19 +3401,12 @@ fn build_target_state(
     contract: &LifecycleContract,
     target_abs: &Path,
 ) -> Result<TargetState> {
-    let effective_target_abs = if !target_abs.exists() && contract.lifecycle_id == "proposal-packet"
-    {
-        resolve_archived_proposal_target_by_original_path(repo_root, target_abs)?
-            .unwrap_or_else(|| target_abs.to_path_buf())
-    } else {
-        target_abs.to_path_buf()
-    };
-    let target_exists = effective_target_abs.exists();
-    let manifest_status = read_manifest_status(&effective_target_abs, contract)?;
+    let target_exists = target_abs.exists();
+    let manifest_status = read_manifest_status(target_abs, contract)?;
     let mut receipts = BTreeMap::new();
     for receipt in &contract.receipts {
         let path_abs = resolve_target_local_path(
-            &effective_target_abs,
+            target_abs,
             &receipt.path,
             &format!("receipt path {}", receipt.receipt_id),
         )?;
@@ -3081,7 +3436,7 @@ fn build_target_state(
                 current_digest = run_digest_command(
                     repo_root,
                     &contract.owner_extension,
-                    &effective_target_abs,
+                    target_abs,
                     &freshness.digest_command,
                 )
                 .with_context(|| format!("failed freshness digest for {}", receipt.receipt_id))?;
@@ -3102,66 +3457,11 @@ fn build_target_state(
         );
     }
     Ok(TargetState {
-        target_abs: effective_target_abs,
+        target_abs: target_abs.to_path_buf(),
         target_exists,
         manifest_status,
         receipts,
     })
-}
-
-fn resolve_archived_proposal_target_by_original_path(
-    repo_root: &Path,
-    target_abs: &Path,
-) -> Result<Option<PathBuf>> {
-    let target_rel = rel_display(repo_root, target_abs);
-    let normalized_target = target_rel.trim_end_matches('/');
-    let archive_root = repo_root.join(".octon/inputs/exploratory/proposals/.archive");
-    if !archive_root.is_dir() {
-        return Ok(None);
-    }
-
-    let mut matches = Vec::new();
-    for kind_entry in fs::read_dir(&archive_root)
-        .with_context(|| format!("failed to read {}", archive_root.display()))?
-    {
-        let kind_entry = kind_entry?;
-        if !kind_entry.file_type()?.is_dir() {
-            continue;
-        }
-        for proposal_entry in fs::read_dir(kind_entry.path())? {
-            let proposal_entry = proposal_entry?;
-            if !proposal_entry.file_type()?.is_dir() {
-                continue;
-            }
-            let proposal_dir = proposal_entry.path();
-            let manifest_path = proposal_dir.join("proposal.yml");
-            if !manifest_path.is_file() {
-                continue;
-            }
-            let manifest: Value = serde_yaml::from_slice(&fs::read(&manifest_path)?)
-                .with_context(|| format!("failed to parse {}", manifest_path.display()))?;
-            if manifest.get("status").and_then(Value::as_str) != Some("archived") {
-                continue;
-            }
-            let original_path = manifest
-                .get("archive")
-                .and_then(|archive| archive.get("original_path"))
-                .and_then(Value::as_str)
-                .unwrap_or("")
-                .trim_end_matches('/');
-            if original_path == normalized_target {
-                matches.push(proposal_dir);
-            }
-        }
-    }
-
-    match matches.len() {
-        0 => Ok(None),
-        1 => Ok(matches.pop()),
-        _ => bail!(
-            "multiple archived proposal packets claim archive.original_path={normalized_target}"
-        ),
-    }
 }
 
 fn read_manifest_status(target_abs: &Path, contract: &LifecycleContract) -> Result<Option<String>> {
@@ -3809,13 +4109,7 @@ fn lifecycle_execution_request_for_route(
         &target,
         &loaded.contract,
         &route.route_id,
-        &mut bound_inputs,
-    )?;
-    bind_terminal_closeout_target_outcome_from_proposal_closeout(
-        &repo_root,
-        &target,
-        &loaded.contract,
-        &route.route_id,
+        run_inputs,
         &mut bound_inputs,
     )?;
     let expected_receipts = route_spec
@@ -3958,10 +4252,21 @@ fn normalize_archive_proposal_disposition_binding(
     if route_id != "archive-proposal" {
         return;
     }
-    if bound_inputs.get("disposition").map(String::as_str) != Some("archive-ready") {
-        return;
-    }
+    let source_field =
+        if bound_inputs.get("disposition").map(String::as_str) == Some("archive-ready") {
+            "archive_disposition"
+        } else if !bound_inputs.contains_key("disposition")
+            && bound_inputs.get("target_outcome").map(String::as_str) == Some("archive-ready")
+        {
+            "target_outcome"
+        } else {
+            return;
+        };
     bound_inputs.insert("disposition".to_string(), "implemented".to_string());
+    bound_inputs.insert(
+        "archive_disposition_source_field".to_string(),
+        source_field.to_string(),
+    );
     bound_inputs.insert(
         "archive_disposition_source_outcome".to_string(),
         "archive-ready".to_string(),
@@ -4026,6 +4331,7 @@ fn bind_promote_proposal_promotion_evidence_from_implementation_run(
     target: &Path,
     contract: &LifecycleContract,
     route_id: &str,
+    run_inputs: &BTreeMap<String, String>,
     bound_inputs: &mut BTreeMap<String, String>,
 ) -> Result<()> {
     if route_id != "promote-proposal" {
@@ -4035,13 +4341,19 @@ fn bind_promote_proposal_promotion_evidence_from_implementation_run(
         .receipts
         .iter()
         .find(|receipt| receipt.receipt_id == "implementation-run")
+        .or_else(|| {
+            contract
+                .receipts
+                .iter()
+                .find(|receipt| receipt.receipt_id == "program-implementation-orchestration-run")
+        })
     else {
         return Ok(());
     };
     let path = resolve_target_local_path(
         target,
         &receipt.path,
-        "promote-proposal implementation-run promotion evidence binding",
+        "promote-proposal implementation promotion evidence binding",
     )?;
     if !path.is_file() {
         return Ok(());
@@ -4050,6 +4362,22 @@ fn bind_promote_proposal_promotion_evidence_from_implementation_run(
     let content = fs::read_to_string(&path)?;
     let refs = implementation_run_promotion_evidence_refs(repo_root, &content);
     if refs.is_empty() {
+        if let Some(run_input) = run_inputs
+            .get("promotion_evidence")
+            .map(String::as_str)
+            .filter(|value| !value.trim().is_empty())
+        {
+            bound_inputs.insert("promotion_evidence".to_string(), run_input.to_string());
+            bound_inputs.insert(
+                "promote_promotion_evidence_binding".to_string(),
+                "implementation-run-evidence-missing-run-input-preserved".to_string(),
+            );
+            bound_inputs.insert(
+                "promote_promotion_evidence_prior_binding".to_string(),
+                "route-scoped-run-input-preserved".to_string(),
+            );
+            return Ok(());
+        }
         bound_inputs.remove("promotion_evidence");
         bound_inputs.insert(
             "promote_promotion_evidence_binding".to_string(),
@@ -4064,6 +4392,10 @@ fn bind_promote_proposal_promotion_evidence_from_implementation_run(
         "implementation-run-evidence-refs".to_string(),
     );
     bound_inputs.insert(
+        "promote_promotion_evidence_source_receipt".to_string(),
+        receipt.receipt_id.clone(),
+    );
+    bound_inputs.insert(
         "promote_promotion_evidence_source_ref_count".to_string(),
         refs.len().to_string(),
     );
@@ -4073,71 +4405,6 @@ fn bind_promote_proposal_promotion_evidence_from_implementation_run(
             "superseded-non-controlling".to_string(),
         );
     }
-    Ok(())
-}
-
-fn bind_terminal_closeout_target_outcome_from_proposal_closeout(
-    repo_root: &Path,
-    target: &Path,
-    contract: &LifecycleContract,
-    route_id: &str,
-    bound_inputs: &mut BTreeMap<String, String>,
-) -> Result<()> {
-    if route_id != ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT
-        || bound_inputs.contains_key("target_outcome")
-    {
-        return Ok(());
-    }
-    let Some(receipt) = contract
-        .receipts
-        .iter()
-        .find(|receipt| receipt.receipt_id == "proposal-closeout")
-    else {
-        return Ok(());
-    };
-    let path = resolve_target_local_path(
-        target,
-        &receipt.path,
-        "proposal-packet-terminal-closeout target_outcome binding",
-    )?;
-    if !path.is_file() {
-        return Ok(());
-    }
-
-    let fields = parse_receipt_fields(&path)?;
-    let Some(target_outcome) = fields.get("target_outcome").map(String::as_str) else {
-        return Ok(());
-    };
-    if !matches!(target_outcome, "archive-ready" | "blocked") {
-        return Ok(());
-    }
-    if target_outcome == "archive-ready" {
-        for (field, expected) in [
-            ("verdict", "pass"),
-            ("archive_authorized", "yes"),
-            ("lifecycle_outcome", "archive-ready"),
-        ] {
-            if fields.get(field).map(String::as_str) != Some(expected) {
-                return Ok(());
-            }
-        }
-        if fields
-            .get("blockers")
-            .is_some_and(|value| !matches!(value.as_str(), "[]" | "none" | "0"))
-        {
-            return Ok(());
-        }
-    }
-
-    bound_inputs.insert("target_outcome".to_string(), target_outcome.to_string());
-    bound_inputs.insert(
-        "terminal_target_outcome_binding".to_string(),
-        "proposal-closeout-receipt".to_string(),
-    );
-    bound_inputs.insert(
-        "terminal_target_outcome_source_ref".to_string(),
-        rel_display(repo_root, &path),
-    );
     Ok(())
 }
 
@@ -4152,7 +4419,7 @@ fn implementation_run_promotion_evidence_refs(repo_root: &Path, content: &str) -
     }
     if raw_refs
         .iter()
-        .any(|reference| !is_safe_repo_relative(reference) || !repo_root.join(reference).is_file())
+        .any(|reference| !is_safe_repo_relative(reference) || !repo_root.join(reference).exists())
     {
         return Vec::new();
     }
@@ -4971,35 +5238,6 @@ packs:
                 ),
             );
         }
-
-        fn write_terminal_closeout_child_contract(&self) {
-            self.write(
-                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
-                r#"
-schema_version: "octon-extension-lifecycle-contract-v1"
-lifecycle_id: "proposal-packet"
-owner_extension: "test-extension"
-version: "1.0.0"
-target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented", "archived"] }
-input_bindings:
-  proposal_path:
-    source: "lifecycle.target"
-  target_outcome:
-    source: "run.input.target_outcome"
-states: [{ state_id: "closeout" }]
-terminal_outcomes: []
-receipts:
-  - receipt_id: "proposal-closeout"
-    path: "support/proposal-closeout.md"
-    required_fields: ["verdict", "archive_authorized", "target_outcome"]
-    verdict_field: "verdict"
-routes:
-  - route_id: "proposal-packet-terminal-closeout"
-    route_type: "workflow"
-    required_inputs: ["target_outcome"]
-"#,
-            );
-        }
     }
 
     #[test]
@@ -5159,64 +5397,6 @@ routes:
             .as_deref()
             .unwrap_or_default()
             .contains("operator scope resolution"));
-    }
-
-    #[test]
-    fn proposal_packet_planner_resolves_archived_original_path_before_create_packet() {
-        let _guard = crate::acquire_kernel_test_lock();
-        let fixture = FixtureRepo::new("archived-original-path-recovery");
-        fixture.write_catalog(
-            "proposal-packet",
-            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
-        );
-        fixture.write(
-            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
-            r#"
-schema_version: "octon-extension-lifecycle-contract-v1"
-lifecycle_id: "proposal-packet"
-owner_extension: "test-extension"
-version: "1.0.0"
-target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "archived"] }
-states: [{ state_id: "packet-creation" }, { state_id: "archival" }]
-terminal_outcomes:
-  - outcome_id: "archived"
-    when: { manifest_status: "archived" }
-receipts: []
-routes:
-  - route_id: "create-packet"
-    route_type: "extension"
-    required_inputs: ["source"]
-    enter_when: { target_missing: true }
-"#,
-        );
-        fixture.write(
-            ".octon/inputs/exploratory/proposals/.archive/architecture/a/proposal.yml",
-            r#"
-schema_version: "proposal-v1"
-proposal_id: "a"
-proposal_kind: "architecture"
-status: "archived"
-archive:
-  original_path: ".octon/inputs/exploratory/proposals/architecture/a"
-"#,
-        );
-
-        let plan = plan_lifecycle_from_octon_dir(
-            &fixture.octon_dir,
-            "proposal-packet",
-            Path::new(".octon/inputs/exploratory/proposals/architecture/a"),
-        )
-        .unwrap();
-
-        assert_eq!(
-            plan.target,
-            ".octon/inputs/exploratory/proposals/.archive/architecture/a"
-        );
-        assert!(plan.target_exists);
-        assert_eq!(plan.manifest_status.as_deref(), Some("archived"));
-        assert_eq!(plan.terminal_outcome.as_deref(), Some("archived"));
-        assert!(plan.next_route.is_none());
-        assert_eq!(plan.final_verdict, "completed");
     }
 
     #[test]
@@ -5443,6 +5623,74 @@ routes:
     }
 
     #[test]
+    fn lifecycle_postmortem_emits_proposal_program_delivery_profile() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("postmortem-proposal-program-profile");
+        let run_id = "lifecycle-proposal-program-postmortem-profile";
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/summary.md"),
+            "# summary\nfinal_verdict: completed\n",
+        );
+        fixture.write(
+            &format!(
+                ".octon/state/evidence/runs/workflows/{run_id}/aggregate-terminal-blockers.yml"
+            ),
+            "schema_version: octon-program-aggregate-terminal-blockers-v1\nblocked_required_child_count: 0\nblocked_required_children: []\n",
+        );
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/blocker-ledger.yml"),
+            "schema_version: octon-program-blocker-ledger-v1\nblocker_count: 0\nblockers: []\n",
+        );
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/program-plan.yml"),
+            "schema_version: octon-program-plan-v1\n",
+        );
+
+        run_lifecycle_postmortem_from_octon_dir(&fixture.octon_dir, run_id).unwrap();
+        let evidence_map: serde_yaml::Value = serde_yaml::from_slice(
+            &fs::read(fixture.octon_dir.join(format!(
+                "state/evidence/runs/{run_id}/assurance/lifecycle-postmortem/evidence-map.yml"
+            )))
+            .unwrap(),
+        )
+        .unwrap();
+        let profile = evidence_map
+            .get("proposal_program_delivery_profile")
+            .expect("proposal-program postmortem should emit delivery evaluation profile");
+        assert_eq!(
+            profile
+                .get("profile_id")
+                .and_then(serde_yaml::Value::as_str),
+            Some("proposal-program-delivery-evaluation")
+        );
+        assert_eq!(
+            profile
+                .get("authority_boundary")
+                .and_then(|value| value.get("authorizes_delivery"))
+                .and_then(serde_yaml::Value::as_bool),
+            Some(false)
+        );
+        let proof_scopes = profile
+            .get("delivery_proof_chain_audit")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.get("proof_id"))
+            .filter_map(serde_yaml::Value::as_str)
+            .collect::<BTreeSet<_>>();
+        assert!(proof_scopes.contains("archive"));
+        assert!(proof_scopes.contains("branch-no-pr-landing"));
+        assert!(proof_scopes.contains("cleaned-claim"));
+        let evaluator_input = fs::read_to_string(fixture.octon_dir.join(format!(
+            "state/evidence/runs/{run_id}/assurance/lifecycle-postmortem/evaluator-input.md"
+        )))
+        .unwrap();
+        assert!(evaluator_input.contains("Proposal Program Delivery Evaluation Profile"));
+        assert!(evaluator_input.contains("profile_id: proposal-program-delivery-evaluation"));
+        assert!(evaluator_input.contains("cannot authorize lifecycle transition"));
+    }
+
+    #[test]
     fn lifecycle_postmortem_classifies_failing_slices_as_diagnostic() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = FixtureRepo::new("postmortem-diagnostics");
@@ -5661,6 +5909,91 @@ routes:
     }
 
     #[test]
+    fn terminal_closeout_request_binds_target_outcome_from_child_closeout_receipt() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("terminal-target-outcome-direct-binding");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  target_outcome:
+    source: "receipt.proposal-closeout.target_outcome"
+states: [{ state_id: "terminal-closeout" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "archive_authorized", "target_outcome"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "proposal-packet-terminal-closeout"
+    route_type: "workflow"
+    required_inputs: ["target_outcome"]
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: pass\narchive_authorized: yes\ntarget_outcome: archive-ready\nlifecycle_outcome: archive-ready\nblockers: []\n",
+        );
+        let route = RoutePlanState {
+            route_id: "proposal-packet-terminal-closeout".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            Some("packet-terminal-closeout"),
+            &route,
+            ExecutorKind::Auto,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("target_outcome")
+                .map(String::as_str),
+            Some("archive-ready")
+        );
+        assert!(request
+            .route
+            .required_inputs
+            .contains(&"target_outcome".to_string()));
+    }
+
+    #[test]
     fn archive_proposal_request_maps_archive_ready_outcome_to_implemented_disposition() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = FixtureRepo::new("archive-ready-disposition-binding");
@@ -5743,6 +6076,109 @@ routes:
                 .get("archive_disposition_source_outcome")
                 .map(String::as_str),
             Some("archive-ready")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("archive_disposition_mapping")
+                .map(String::as_str),
+            Some("archive-ready->implemented")
+        );
+    }
+
+    #[test]
+    fn archive_proposal_request_derives_disposition_from_target_outcome_when_archive_disposition_missing(
+    ) {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("archive-target-outcome-disposition-binding");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  disposition:
+    source: "receipt.proposal-closeout.archive_disposition"
+  target_outcome:
+    source: "receipt.proposal-closeout.target_outcome"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "archive" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized", "target_outcome"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "archive-proposal"
+    route_type: "workflow"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: pass\nclosed_at: 2026-06-24T00:00:00Z\narchive_authorized: yes\ntarget_outcome: archive-ready\npromotion_evidence: .octon/state/evidence/example.md\n",
+        );
+        let route = RoutePlanState {
+            route_id: "archive-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request.bound_inputs.get("disposition").map(String::as_str),
+            Some("implemented")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("target_outcome")
+                .map(String::as_str),
+            Some("archive-ready")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("archive_disposition_source_field")
+                .map(String::as_str),
+            Some("target_outcome")
         );
         assert_eq!(
             request
@@ -6138,6 +6574,108 @@ routes:
     }
 
     #[test]
+    fn promote_proposal_request_binds_program_promotion_evidence_from_orchestration_run() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("promote-program-orchestration-evidence-binding");
+        fixture.write_catalog(
+            "proposal-program",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "program_packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+states: [{ state_id: "promote" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "program-implementation-orchestration-run"
+    path: "support/program-implementation-orchestration-run.md"
+    required_fields: ["verdict", "implemented_at", "promotion_evidence_count", "child_authority_preserved"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "promote-proposal"
+    route_type: "workflow"
+    required_inputs: ["promotion_evidence"]
+"#,
+        );
+        fixture.write("program/proposal.yml", "status: accepted\n");
+        fixture.write(
+            ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+            "// promotion target evidence\n",
+        );
+        fixture.write(
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh",
+            "#!/usr/bin/env bash\nexit 0\n",
+        );
+        fs::create_dir_all(
+            fixture
+                .root
+                .join(".octon/framework/assurance/runtime/_ops/tests"),
+        )
+        .unwrap();
+        fixture.write(
+            "program/support/program-implementation-orchestration-run.md",
+            "verdict: pass\nimplemented_at: 2026-06-24T00:00:00Z\npromotion_evidence_count: 3\nchild_authority_preserved: yes\n\n## Promotion Evidence Refs\n\n- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs\n- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh\n- .octon/framework/assurance/runtime/_ops/tests/\n",
+        );
+        let route = RoutePlanState {
+            route_id: "promote-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-program",
+            "program",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promotion_evidence")
+                .map(String::as_str),
+            Some(
+                ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs,.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh,.octon/framework/assurance/runtime/_ops/tests"
+            )
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promote_promotion_evidence_source_receipt")
+                .map(String::as_str),
+            Some("program-implementation-orchestration-run")
+        );
+    }
+
+    #[test]
     fn promote_proposal_request_supersedes_stale_closeout_promotion_evidence() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = FixtureRepo::new("promote-supersedes-closeout-evidence");
@@ -6239,6 +6777,200 @@ routes:
     }
 
     #[test]
+    fn promote_proposal_preserves_route_scoped_promotion_evidence_when_receipt_refs_are_local() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("promote-preserves-route-input-evidence");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "promote" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields: ["verdict", "implemented_at", "promotion_evidence_count"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "promote-proposal"
+    route_type: "workflow"
+    required_inputs: ["promotion_evidence"]
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: accepted\n");
+        fixture.write(
+            "packet/support/implementation-run.md",
+            "verdict: pass\nimplemented_at: 2026-06-23T00:00:00Z\npromotion_evidence_count: 3\n\n# Implementation Run\n\n## Evidence Refs\n\n- support/executable-implementation-prompt.md\n- support/validation.md\n",
+        );
+        let route = RoutePlanState {
+            route_id: "promote-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(
+            "promotion_evidence".to_string(),
+            ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs,.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml".to_string(),
+        );
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &run_inputs,
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promotion_evidence")
+                .map(String::as_str),
+            run_inputs.get("promotion_evidence").map(String::as_str)
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promote_promotion_evidence_binding")
+                .map(String::as_str),
+            Some("implementation-run-evidence-missing-run-input-preserved")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promote_promotion_evidence_prior_binding")
+                .map(String::as_str),
+            Some("route-scoped-run-input-preserved")
+        );
+    }
+
+    #[test]
+    fn promote_proposal_suppresses_stale_receipt_promotion_evidence_without_route_input() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("promote-suppresses-stale-receipt-without-route-input");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "promote" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields: ["verdict", "implemented_at", "promotion_evidence_count"]
+    verdict_field: "verdict"
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "promote-proposal"
+    route_type: "workflow"
+    required_inputs: ["promotion_evidence"]
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: accepted\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: blocked\nclosed_at: 2026-06-22T00:00:00Z\narchive_authorized: no\npromotion_evidence: .octon/state/evidence/stale-closeout.yml\n",
+        );
+        fixture.write(
+            "packet/support/implementation-run.md",
+            "verdict: pass\nimplemented_at: 2026-06-23T00:00:00Z\npromotion_evidence_count: 1\n\n# Implementation Run\n\n## Evidence Refs\n\n- support/validation.md\n",
+        );
+        let route = RoutePlanState {
+            route_id: "promote-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            &[],
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert!(!request.bound_inputs.contains_key("promotion_evidence"));
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promote_promotion_evidence_binding")
+                .map(String::as_str),
+            Some("implementation-run-evidence-missing")
+        );
+    }
+
+    #[test]
     fn workflow_lifecycle_request_binds_missing_required_workflow_inputs_from_run_inputs() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = FixtureRepo::new("workflow-run-input-fallback");
@@ -6326,129 +7058,6 @@ routes:
                 .map(String::as_str),
             Some(".octon/framework/product/features/catalog.yml")
         );
-    }
-
-    #[test]
-    fn terminal_closeout_request_binds_target_outcome_from_fresh_proposal_closeout() {
-        let _guard = crate::acquire_kernel_test_lock();
-        let fixture = FixtureRepo::new("direct-terminal-target-outcome-binding");
-        fixture.write_catalog(
-            "proposal-packet",
-            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
-        );
-        fixture.write_terminal_closeout_child_contract();
-        fixture.write("packet/proposal.yml", "status: implemented\n");
-        fixture.write(
-            "packet/support/proposal-closeout.md",
-            "verdict: pass\nclosed_at: 2026-06-23T00:00:00Z\narchive_authorized: yes\ntarget_outcome: archive-ready\nlifecycle_outcome: archive-ready\nblockers: []\n",
-        );
-        let route = RoutePlanState {
-            route_id: ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT.to_string(),
-            route_type: "workflow".to_string(),
-            command_id: None,
-            skill_id: None,
-            prompt_set_id: None,
-        };
-
-        let request = lifecycle_execution_request_for_route(
-            &fixture.octon_dir,
-            "run-1",
-            "proposal-packet",
-            "packet",
-            None,
-            &route,
-            ExecutorKind::Codex,
-            60,
-            "unattended",
-            0,
-            &BTreeMap::new(),
-            &[],
-            fixture
-                .root
-                .join(".octon/state/evidence/runs/workflows/run-1"),
-            fixture
-                .root
-                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
-            None,
-            None,
-        )
-        .unwrap()
-        .unwrap();
-
-        assert_eq!(
-            request
-                .bound_inputs
-                .get("target_outcome")
-                .map(String::as_str),
-            Some("archive-ready")
-        );
-        assert_eq!(
-            request
-                .bound_inputs
-                .get("terminal_target_outcome_binding")
-                .map(String::as_str),
-            Some("proposal-closeout-receipt")
-        );
-        assert_eq!(
-            request
-                .bound_inputs
-                .get("terminal_target_outcome_source_ref")
-                .map(String::as_str),
-            Some("packet/support/proposal-closeout.md")
-        );
-    }
-
-    #[test]
-    fn terminal_closeout_request_does_not_bind_archive_ready_from_blocked_closeout() {
-        let _guard = crate::acquire_kernel_test_lock();
-        let fixture = FixtureRepo::new("direct-terminal-target-outcome-blocked");
-        fixture.write_catalog(
-            "proposal-packet",
-            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
-        );
-        fixture.write_terminal_closeout_child_contract();
-        fixture.write("packet/proposal.yml", "status: implemented\n");
-        fixture.write(
-            "packet/support/proposal-closeout.md",
-            "verdict: blocked\nclosed_at: 2026-06-23T00:00:00Z\narchive_authorized: no\ntarget_outcome: archive-ready\nlifecycle_outcome: closeout-blocked\nblockers:\n  - stale-blocker\n",
-        );
-        let route = RoutePlanState {
-            route_id: ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT.to_string(),
-            route_type: "workflow".to_string(),
-            command_id: None,
-            skill_id: None,
-            prompt_set_id: None,
-        };
-
-        let request = lifecycle_execution_request_for_route(
-            &fixture.octon_dir,
-            "run-1",
-            "proposal-packet",
-            "packet",
-            None,
-            &route,
-            ExecutorKind::Codex,
-            60,
-            "unattended",
-            0,
-            &BTreeMap::new(),
-            &[],
-            fixture
-                .root
-                .join(".octon/state/evidence/runs/workflows/run-1"),
-            fixture
-                .root
-                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
-            None,
-            None,
-        )
-        .unwrap()
-        .unwrap();
-
-        assert!(!request.bound_inputs.contains_key("target_outcome"));
-        assert!(!request
-            .bound_inputs
-            .contains_key("terminal_target_outcome_binding"));
     }
 
     #[test]

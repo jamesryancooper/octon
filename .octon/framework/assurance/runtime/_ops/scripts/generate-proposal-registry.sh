@@ -15,7 +15,7 @@ MODE=""
 errors=0
 GENERATOR_ACTIVE_VAR="OCTON_PROPOSAL_REGISTRY_GENERATOR_ACTIVE"
 SKIP_SUBTYPE_VALIDATION_VAR="OCTON_PROPOSAL_REGISTRY_SKIP_SUBTYPE_VALIDATION"
-SUPERSEDED_ARCHIVE_EVIDENCE_MODE_VAR="OCTON_PROPOSAL_SUPERSEDED_ARCHIVE_EVIDENCE_MODE"
+PROJECTION_ONLY_VAR="OCTON_PROPOSAL_REGISTRY_PROJECTION_ONLY"
 
 fail() {
   echo "[ERROR] $1"
@@ -31,6 +31,14 @@ usage() {
 usage:
   generate-proposal-registry.sh --write
   generate-proposal-registry.sh --check
+
+environment:
+  OCTON_PROPOSAL_REGISTRY_PROJECTION_ONLY=1
+    Regenerate the derived registry from proposal manifests without running
+    full per-packet validators for every historical proposal. This mode still
+    parses manifests, enforces registry-critical identity/path/status/archive
+    fields, detects duplicate proposal keys, renders the canonical registry,
+    and validates generated YAML.
 EOF
 }
 
@@ -83,6 +91,167 @@ import json
 import sys
 print(json.dumps(sys.argv[1]))
 PY
+}
+
+python3_with_yaml() {
+  local override="${OCTON_PYTHON3_WITH_YAML:-}"
+  local candidate
+  if [[ -n "$override" ]]; then
+    if "$override" - <<'PY' >/dev/null 2>&1
+import yaml  # noqa: F401
+PY
+    then
+      printf '%s\n' "$override"
+      return 0
+    fi
+  fi
+
+  while IFS= read -r candidate; do
+    [[ -n "$candidate" ]] || continue
+    if "$candidate" - <<'PY' >/dev/null 2>&1
+import yaml  # noqa: F401
+PY
+    then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done < <(type -P -a python3 2>/dev/null || true)
+  return 1
+}
+
+value_in() {
+  local value="$1"
+  shift
+  local allowed
+  for allowed in "$@"; do
+    [[ "$value" == "$allowed" ]] && return 0
+  done
+  return 1
+}
+
+validate_projection_manifest() {
+  local manifest="$1"
+  local proposal_rel="$2"
+  local proposal_id kind scope status path_mode target_count archived_from_status disposition local_errors=0
+
+  if ! yq -e '.' "$manifest" >/dev/null 2>&1; then
+    fail "projection-only proposal '$proposal_rel' manifest parses as YAML"
+    return 1
+  fi
+  pass "projection-only proposal '$proposal_rel' manifest parses as YAML"
+
+  proposal_id="$(yaml_string "$manifest" '.proposal_id')"
+  kind="$(yaml_string "$manifest" '.proposal_kind')"
+  scope="$(yaml_string "$manifest" '.promotion_scope')"
+  status="$(yaml_string "$manifest" '.status')"
+  path_mode="invalid"
+
+  if [[ "$proposal_id" =~ ^[a-z][a-z0-9-]*$ ]]; then
+    pass "projection-only proposal '$proposal_rel' proposal_id matches format"
+  else
+    fail "projection-only proposal '$proposal_rel' proposal_id matches format"
+    local_errors=$((local_errors + 1))
+  fi
+  if value_in "$kind" design migration policy architecture; then
+    pass "projection-only proposal '$proposal_rel' kind valid"
+  else
+    fail "projection-only proposal '$proposal_rel' kind valid"
+    local_errors=$((local_errors + 1))
+  fi
+  if value_in "$scope" octon-internal repo-local; then
+    pass "projection-only proposal '$proposal_rel' scope valid"
+  else
+    fail "projection-only proposal '$proposal_rel' scope valid"
+    local_errors=$((local_errors + 1))
+  fi
+  if value_in "$status" draft in-review accepted implemented rejected archived; then
+    pass "projection-only proposal '$proposal_rel' status valid"
+  else
+    fail "projection-only proposal '$proposal_rel' status valid"
+    local_errors=$((local_errors + 1))
+  fi
+
+  case "$proposal_rel" in
+    .octon/inputs/exploratory/proposals/.archive/$kind/$proposal_id)
+      pass "projection-only proposal '$proposal_rel' archived path matches kind/id"
+      path_mode="archived"
+      ;;
+    .octon/inputs/exploratory/proposals/$kind/$proposal_id)
+      pass "projection-only proposal '$proposal_rel' active path matches kind/id"
+      path_mode="active"
+      ;;
+    *)
+      fail "projection-only proposal '$proposal_rel' lives in a valid proposal path"
+      local_errors=$((local_errors + 1))
+      ;;
+  esac
+
+  target_count="$(yq -r '.promotion_targets | length' "$manifest")" || target_count=0
+  if [[ "$target_count" =~ ^[1-9][0-9]*$ ]]; then
+    pass "projection-only proposal '$proposal_rel' promotion_targets present"
+  else
+    fail "projection-only proposal '$proposal_rel' promotion_targets present"
+    local_errors=$((local_errors + 1))
+  fi
+
+  if [[ "$status" == "archived" ]]; then
+    if [[ "$path_mode" == "archived" ]]; then
+      pass "projection-only proposal '$proposal_rel' archived proposals stay in archive paths"
+    else
+      fail "projection-only proposal '$proposal_rel' archived proposals stay in archive paths"
+      local_errors=$((local_errors + 1))
+    fi
+    if [[ -n "$(yaml_string "$manifest" '.archive.archived_at')" ]]; then
+      pass "projection-only proposal '$proposal_rel' archive metadata present"
+    else
+      fail "projection-only proposal '$proposal_rel' archive metadata present"
+      local_errors=$((local_errors + 1))
+    fi
+    archived_from_status="$(yaml_string "$manifest" '.archive.archived_from_status')"
+    if value_in "$archived_from_status" draft in-review accepted implemented rejected legacy-unknown; then
+      pass "projection-only proposal '$proposal_rel' archived_from_status valid"
+    else
+      fail "projection-only proposal '$proposal_rel' archived_from_status valid"
+      local_errors=$((local_errors + 1))
+    fi
+    disposition="$(yaml_string "$manifest" '.archive.disposition')"
+    if value_in "$disposition" implemented rejected historical superseded; then
+      pass "projection-only proposal '$proposal_rel' archive disposition valid"
+    else
+      fail "projection-only proposal '$proposal_rel' archive disposition valid"
+      local_errors=$((local_errors + 1))
+    fi
+    if [[ -n "$(yaml_string "$manifest" '.archive.original_path')" ]]; then
+      pass "projection-only proposal '$proposal_rel' archive original_path present"
+    else
+      fail "projection-only proposal '$proposal_rel' archive original_path present"
+      local_errors=$((local_errors + 1))
+    fi
+    if [[ "$disposition" == "implemented" || "$disposition" == "superseded" ]]; then
+      target_count="$(yq -r '.archive.promotion_evidence | length' "$manifest")" || target_count=0
+      if [[ "$target_count" =~ ^[1-9][0-9]*$ ]]; then
+        pass "projection-only proposal '$proposal_rel' $disposition archive keeps promotion evidence"
+      else
+        fail "projection-only proposal '$proposal_rel' $disposition archive keeps promotion evidence"
+        local_errors=$((local_errors + 1))
+      fi
+    fi
+  else
+    if [[ "$path_mode" == "active" ]]; then
+      pass "projection-only proposal '$proposal_rel' active proposals stay in active paths"
+    else
+      fail "projection-only proposal '$proposal_rel' active proposals stay in active paths"
+      local_errors=$((local_errors + 1))
+    fi
+    if yq -e 'has("archive")' "$manifest" >/dev/null 2>&1; then
+      fail "projection-only proposal '$proposal_rel' non-archived proposal must not contain archive block"
+      local_errors=$((local_errors + 1))
+    else
+      pass "projection-only proposal '$proposal_rel' non-archived proposal omits archive block"
+    fi
+  fi
+
+  [[ "$local_errors" -eq 0 ]]
 }
 
 subtype_validator_for_kind() {
@@ -154,21 +323,25 @@ validate_package() {
     pass "legacy-unknown design import excluded from main registry projection: $proposal_rel"
     return 0
   fi
-  if ! env \
-    "$GENERATOR_ACTIVE_VAR=1" \
-    "$SUPERSEDED_ARCHIVE_EVIDENCE_MODE_VAR=projection-warning" \
-    bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check; then
-    fail "proposal packet validates without registry recursion: $proposal_rel"
-    return 1
+  if [[ "${!PROJECTION_ONLY_VAR:-}" == "1" ]]; then
+    if ! validate_projection_manifest "$manifest" "$proposal_rel"; then
+      return 1
+    fi
+    pass "proposal packet full validation skipped for projection-only registry recovery: $proposal_rel"
+  else
+    if ! env "$GENERATOR_ACTIVE_VAR=1" bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check; then
+      fail "proposal packet validates without registry recursion: $proposal_rel"
+      return 1
+    fi
+    pass "proposal packet validates without registry recursion: $proposal_rel"
   fi
-  pass "proposal packet validates without registry recursion: $proposal_rel"
 
   if [[ "$status" == "archived" ]]; then
     pass "archived proposal subtype validation skipped for registry projection: $proposal_rel"
     return 0
   fi
 
-  if [[ "${!SKIP_SUBTYPE_VALIDATION_VAR:-}" == "1" ]]; then
+  if [[ "${!SKIP_SUBTYPE_VALIDATION_VAR:-}" == "1" || "${!PROJECTION_ONLY_VAR:-}" == "1" ]]; then
     pass "active proposal subtype validation skipped for projection-only registry recovery: $proposal_rel"
     return 0
   fi
@@ -219,8 +392,401 @@ render_registry() {
   } >"$output_file"
 }
 
+run_projection_only_fast_path() {
+  local python_with_yaml
+  python_with_yaml="$(python3_with_yaml || true)"
+  if [[ -z "$python_with_yaml" ]]; then
+    fail "python yaml module is required for proposal registry projection recovery"
+    echo "Registry generation summary: errors=$errors"
+    return 1
+  fi
+
+  "$python_with_yaml" - "$MODE" "$ROOT_DIR" "$REGISTRY_PATH" "$SCHEMA_PATH" <<'PY'
+import difflib
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+import yaml
+
+mode, root_arg, registry_arg, schema_arg = sys.argv[1:5]
+root = Path(root_arg)
+registry_path = Path(registry_arg)
+schema_path = Path(schema_arg)
+errors = 0
+
+
+class ProjectionLoader(yaml.SafeLoader):
+    pass
+
+
+for resolver_key, resolvers in list(ProjectionLoader.yaml_implicit_resolvers.items()):
+    ProjectionLoader.yaml_implicit_resolvers[resolver_key] = [
+        resolver
+        for resolver in resolvers
+        if resolver[0] != "tag:yaml.org,2002:timestamp"
+    ]
+
+
+def fail(message: str) -> None:
+    global errors
+    print(f"[ERROR] {message}")
+    errors += 1
+
+
+def ok(message: str) -> None:
+    print(f"[OK] {message}")
+
+
+def rel(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def scalar(data, dotted: str) -> str:
+    value = data
+    for part in dotted.split("."):
+        if not isinstance(value, dict) or part not in value:
+            return ""
+        value = value[part]
+    if value is None:
+        return ""
+    if isinstance(value, (dict, list)):
+        return ""
+    return str(value)
+
+
+def sequence(data, dotted: str) -> list[str]:
+    value = data
+    for part in dotted.split("."):
+        if not isinstance(value, dict) or part not in value:
+            return []
+        value = value[part]
+    if isinstance(value, list):
+        return [str(item) for item in value if item is not None and str(item) != ""]
+    return []
+
+
+def quoted(value: str) -> str:
+    return json.dumps(value)
+
+
+def discover_manifests() -> list[Path]:
+    git_check = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--is-inside-work-tree"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        text=True,
+    )
+    if git_check.returncode == 0:
+        listing = subprocess.run(
+            [
+                "git",
+                "-C",
+                str(root),
+                "ls-files",
+                "--cached",
+                "--others",
+                "--exclude-standard",
+                "--",
+                ".octon/inputs/exploratory/proposals",
+            ],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        manifests = [
+            root / line
+            for line in listing.stdout.splitlines()
+            if line.endswith("/proposal.yml") and (root / line).is_file()
+        ]
+        ok("proposal manifest discovery uses git-visible corpus")
+    else:
+        proposals_root = root / ".octon/inputs/exploratory/proposals"
+        manifests = sorted(proposals_root.rglob("proposal.yml")) if proposals_root.is_dir() else []
+        ok("proposal manifest discovery uses filesystem fallback")
+    return sorted(manifests)
+
+
+def validate_manifest(data, proposal_rel: str) -> bool:
+    local_errors = 0
+    proposal_id = scalar(data, "proposal_id")
+    kind = scalar(data, "proposal_kind")
+    scope = scalar(data, "promotion_scope")
+    status = scalar(data, "status")
+    path_mode = "invalid"
+
+    def local_fail(message: str) -> None:
+        nonlocal local_errors
+        fail(message)
+        local_errors += 1
+
+    if re.match(r"^[a-z][a-z0-9-]*$", proposal_id):
+        ok(f"projection-only proposal '{proposal_rel}' proposal_id matches format")
+    else:
+        local_fail(f"projection-only proposal '{proposal_rel}' proposal_id matches format")
+
+    if kind in {"design", "migration", "policy", "architecture"}:
+        ok(f"projection-only proposal '{proposal_rel}' kind valid")
+    else:
+        local_fail(f"projection-only proposal '{proposal_rel}' kind valid")
+
+    if scope in {"octon-internal", "repo-local"}:
+        ok(f"projection-only proposal '{proposal_rel}' scope valid")
+    else:
+        local_fail(f"projection-only proposal '{proposal_rel}' scope valid")
+
+    if status in {"draft", "in-review", "accepted", "implemented", "rejected", "archived"}:
+        ok(f"projection-only proposal '{proposal_rel}' status valid")
+    else:
+        local_fail(f"projection-only proposal '{proposal_rel}' status valid")
+
+    archived_path = f".octon/inputs/exploratory/proposals/.archive/{kind}/{proposal_id}"
+    active_path = f".octon/inputs/exploratory/proposals/{kind}/{proposal_id}"
+    if proposal_rel == archived_path:
+        ok(f"projection-only proposal '{proposal_rel}' archived path matches kind/id")
+        path_mode = "archived"
+    elif proposal_rel == active_path:
+        ok(f"projection-only proposal '{proposal_rel}' active path matches kind/id")
+        path_mode = "active"
+    else:
+        local_fail(f"projection-only proposal '{proposal_rel}' lives in a valid proposal path")
+
+    if sequence(data, "promotion_targets"):
+        ok(f"projection-only proposal '{proposal_rel}' promotion_targets present")
+    else:
+        local_fail(f"projection-only proposal '{proposal_rel}' promotion_targets present")
+
+    if status == "archived":
+        if path_mode == "archived":
+            ok(f"projection-only proposal '{proposal_rel}' archived proposals stay in archive paths")
+        else:
+            local_fail(f"projection-only proposal '{proposal_rel}' archived proposals stay in archive paths")
+        if scalar(data, "archive.archived_at"):
+            ok(f"projection-only proposal '{proposal_rel}' archive metadata present")
+        else:
+            local_fail(f"projection-only proposal '{proposal_rel}' archive metadata present")
+        archived_from_status = scalar(data, "archive.archived_from_status")
+        if archived_from_status in {
+            "draft",
+            "in-review",
+            "accepted",
+            "implemented",
+            "rejected",
+            "legacy-unknown",
+        }:
+            ok(f"projection-only proposal '{proposal_rel}' archived_from_status valid")
+        else:
+            local_fail(f"projection-only proposal '{proposal_rel}' archived_from_status valid")
+        disposition = scalar(data, "archive.disposition")
+        if disposition in {"implemented", "rejected", "historical", "superseded"}:
+            ok(f"projection-only proposal '{proposal_rel}' archive disposition valid")
+        else:
+            local_fail(f"projection-only proposal '{proposal_rel}' archive disposition valid")
+        if scalar(data, "archive.original_path"):
+            ok(f"projection-only proposal '{proposal_rel}' archive original_path present")
+        else:
+            local_fail(f"projection-only proposal '{proposal_rel}' archive original_path present")
+        if disposition in {"implemented", "superseded"}:
+            if sequence(data, "archive.promotion_evidence"):
+                ok(f"projection-only proposal '{proposal_rel}' {disposition} archive keeps promotion evidence")
+            else:
+                local_fail(f"projection-only proposal '{proposal_rel}' {disposition} archive keeps promotion evidence")
+    else:
+        if path_mode == "active":
+            ok(f"projection-only proposal '{proposal_rel}' active proposals stay in active paths")
+        else:
+            local_fail(f"projection-only proposal '{proposal_rel}' active proposals stay in active paths")
+        if isinstance(data, dict) and "archive" in data:
+            local_fail(f"projection-only proposal '{proposal_rel}' non-archived proposal must not contain archive block")
+        else:
+            ok(f"projection-only proposal '{proposal_rel}' non-archived proposal omits archive block")
+
+    return local_errors == 0
+
+
+ok("projection-only proposal registry fast path used")
+if schema_path.is_file():
+    ok("proposal registry schema exists")
+    try:
+        yaml.load(schema_path.read_text(), Loader=ProjectionLoader)
+        ok("proposal registry schema parses as JSON")
+    except Exception:
+        fail("proposal registry schema parses as JSON")
+else:
+    fail("proposal registry schema exists")
+
+active: list[dict[str, object]] = []
+archived: list[dict[str, object]] = []
+seen: dict[str, str] = {}
+
+for manifest in discover_manifests():
+    proposal_rel = rel(manifest.parent)
+    try:
+        data = yaml.load(manifest.read_text(), Loader=ProjectionLoader) or {}
+        if not isinstance(data, dict):
+            raise TypeError("manifest root is not a mapping")
+        ok(f"projection-only proposal '{proposal_rel}' manifest parses as YAML")
+    except Exception:
+        fail(f"projection-only proposal '{proposal_rel}' manifest parses as YAML")
+        continue
+
+    if not validate_manifest(data, proposal_rel):
+        continue
+    ok(f"proposal packet full validation skipped for projection-only registry recovery: {proposal_rel}")
+
+    kind = scalar(data, "proposal_kind")
+    proposal_id = scalar(data, "proposal_id")
+    status = scalar(data, "status")
+    archived_from_status = scalar(data, "archive.archived_from_status")
+
+    if (
+        kind == "design"
+        and status == "archived"
+        and proposal_rel.startswith(".octon/inputs/exploratory/proposals/.archive/design/")
+        and archived_from_status == "legacy-unknown"
+    ):
+        ok(f"legacy-unknown design import excluded from main registry projection: {proposal_rel}")
+        continue
+
+    ok(
+        "archived proposal subtype validation skipped for registry projection: "
+        + proposal_rel
+        if status == "archived"
+        else "active proposal subtype validation skipped for projection-only registry recovery: "
+        + proposal_rel
+    )
+
+    key = f"{kind}:{proposal_id}"
+    if key in seen:
+        fail(f"duplicate proposal key '{key}' across {seen[key]} and {proposal_rel}")
+        continue
+    seen[key] = proposal_rel
+
+    common = {
+        "id": proposal_id,
+        "kind": kind,
+        "scope": scalar(data, "promotion_scope"),
+        "path": proposal_rel,
+        "title": scalar(data, "title"),
+        "status": status,
+        "promotion_targets": sequence(data, "promotion_targets"),
+    }
+    if status == "archived":
+        common.update(
+            {
+                "status": "archived",
+                "disposition": scalar(data, "archive.disposition"),
+                "archived_at": scalar(data, "archive.archived_at"),
+                "archived_from_status": archived_from_status,
+                "original_path": scalar(data, "archive.original_path"),
+            }
+        )
+        archived.append(common)
+    else:
+        active.append(common)
+
+
+def render_item(item: dict[str, object], archived_item: bool) -> list[str]:
+    lines = [
+        f"  - id: {quoted(item['id'])}",
+        f"    kind: {quoted(item['kind'])}",
+        f"    scope: {quoted(item['scope'])}",
+        f"    path: {quoted(item['path'])}",
+        f"    title: {quoted(item['title'])}",
+    ]
+    if archived_item:
+        lines.extend(
+            [
+                '    status: "archived"',
+                f"    disposition: {quoted(item['disposition'])}",
+                f"    archived_at: {quoted(item['archived_at'])}",
+                f"    archived_from_status: {quoted(item['archived_from_status'])}",
+                f"    original_path: {quoted(item['original_path'])}",
+            ]
+        )
+    else:
+        lines.append(f"    status: {quoted(item['status'])}")
+    lines.append("    promotion_targets:")
+    lines.extend(f"      - {quoted(target)}" for target in item["promotion_targets"])
+    return lines
+
+
+def fragment_sort_key(item: dict[str, object]) -> str:
+    return f"{item['kind']}__{item['id']}.yml"
+
+
+lines = ['schema_version: "proposal-registry-v1"', ""]
+if active:
+    lines.append("active:")
+    for item in sorted(active, key=fragment_sort_key):
+        lines.extend(render_item(item, False))
+else:
+    lines.append("active: []")
+if archived:
+    lines.append("archived:")
+    for item in sorted(archived, key=fragment_sort_key):
+        lines.extend(render_item(item, True))
+else:
+    lines.append("archived: []")
+generated = "\n".join(lines) + "\n"
+
+try:
+    yaml.load(generated, Loader=ProjectionLoader)
+    ok("generated proposal registry parses as YAML")
+except Exception:
+    fail("generated proposal registry parses as YAML")
+
+if errors:
+    print(f"Registry generation summary: errors={errors}")
+    sys.exit(1)
+
+if mode == "check":
+    if not registry_path.is_file():
+        fail("proposal registry exists at .octon/generated/proposals/registry.yml")
+    else:
+        current = registry_path.read_text()
+        if current == generated:
+            ok("proposal registry matches generated projection")
+        else:
+            fail("proposal registry matches generated projection")
+            sys.stdout.writelines(
+                difflib.unified_diff(
+                    current.splitlines(keepends=True),
+                    generated.splitlines(keepends=True),
+                    fromfile=str(registry_path),
+                    tofile="generated-registry.yml",
+                )
+            )
+else:
+    registry_path.parent.mkdir(parents=True, exist_ok=True)
+    if registry_path.is_file() and registry_path.read_text() == generated:
+        ok("proposal registry already matches generated projection")
+    else:
+        tmp = registry_path.with_suffix(registry_path.suffix + ".tmp")
+        tmp.write_text(generated)
+        shutil.move(str(tmp), str(registry_path))
+        ok("proposal registry written from manifest projection")
+
+print(f"Registry generation summary: errors={errors}")
+sys.exit(0 if errors == 0 else 1)
+PY
+}
+
 main() {
   local tmp_dir generated_registry seen_file manifest_list
+
+  if [[ "${!PROJECTION_ONLY_VAR:-}" == "1" ]]; then
+    run_projection_only_fast_path
+    return $?
+  fi
 
   if [[ -f "$SCHEMA_PATH" ]]; then
     pass "proposal registry schema exists"

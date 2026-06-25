@@ -75,6 +75,14 @@ run_cmd() {
   fi
 }
 
+run_git_mutation_preflight() {
+  [[ "$DRY_RUN" -eq 1 ]] && return 0
+  "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh" \
+    --repo "$REPO_ROOT" \
+    --check-ref ||
+    error "Git mutation preflight failed before branch cleanup."
+}
+
 branch_worktree_paths() {
   local branch="$1"
   git -C "$REPO_ROOT" worktree list --porcelain | awk -v ref="refs/heads/${branch}" '
@@ -329,6 +337,7 @@ fi
 if [[ "$DRY_RUN" -eq 0 && -z "$AUTHORIZATION_PATH" ]]; then
   error "Mutating branch cleanup requires --authorization <branch-cleanup-authorization-v1 receipt>."
 fi
+run_git_mutation_preflight
 
 run_cmd git -C "$REPO_ROOT" fetch --prune "$REMOTE"
 

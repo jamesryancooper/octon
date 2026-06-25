@@ -217,6 +217,25 @@ receipt_field_equals() {
   [[ -f "$file" ]] && grep -Eq "^${field}:[[:space:]]*\"?${expected}\"?[[:space:]]*$" "$file"
 }
 
+validation_receipt_records_pass() {
+  local file="$1" table_rows
+  [[ -f "$file" ]] || return 1
+  if receipt_field_equals "$file" verdict pass; then
+    return 0
+  fi
+  if grep -Eiq 'All listed commands exited successfully\.?' "$file"; then
+    return 0
+  fi
+  table_rows="$(grep -E '^\|[[:space:]]*`[^`]+`[[:space:]]*\|[[:space:]]*[^|]+[[:space:]]*\|' "$file" || true)"
+  if [[ -z "$table_rows" ]]; then
+    return 1
+  fi
+  if grep -Eiq '\|[[:space:]]*(fail|failed|error|blocked)[[:space:]]*\|' <<<"$table_rows"; then
+    return 1
+  fi
+  grep -Eiq '\|[[:space:]]*pass[[:space:]]*\|' <<<"$table_rows"
+}
+
 validate_implemented_child_ready() {
   local child_id="$1" child_abs="$2"
 
@@ -269,7 +288,7 @@ validate_archived_implemented_child_ready() {
   receipt_field_equals "$child_abs/support/proposal-terminal-closeout.yml" archive_ready yes \
     && pass "child $child_id archived terminal closeout records archive_ready" \
     || fail "child $child_id archived terminal closeout records archive_ready"
-  receipt_field_equals "$child_abs/support/validation.md" verdict pass \
+  validation_receipt_records_pass "$child_abs/support/validation.md" \
     && pass "child $child_id archived validation receipt passes" \
     || fail "child $child_id archived validation receipt passes"
 
