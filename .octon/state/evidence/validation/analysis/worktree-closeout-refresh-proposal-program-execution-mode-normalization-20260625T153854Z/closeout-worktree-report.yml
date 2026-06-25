@@ -1,0 +1,359 @@
+---
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z
+observed_change_set_count: 10
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/git-status-porcelain.txt"
+residue_classification_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-change-closeout-residue.yml"
+final_inventory_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/git-status-porcelain.txt"
+selected_candidate_id: publication-freshness-implementation-leftovers
+candidates:
+  - candidate_id: publication-freshness-implementation-leftovers
+    disposition: selected
+    residue_routing_class: publishable_change
+    ownership: "implementation-surface classifier authorized this exact narrowed publication freshness and generated-non-authority boundary"
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "branch-no-pr with rollback by reverting the landed commit if closeout reaches hosted landing"
+    boundaries:
+      include_paths:
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-generated-non-authority.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh"
+        - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+      exclude_paths:
+        - ".octon/state"
+        - ".octon/generated"
+        - ".octon/inputs"
+        - ".gitignore"
+        - ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-review-gate.sh"
+        - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh"
+  - candidate_id: already-integrated-primary-residue
+    disposition: ambiguous
+    residue_routing_class: ambiguous
+    ownership: "dirty primary files whose content now matches origin/main; primary worktree cleanup still requires a separate route because the primary tree is read-only"
+    route_hint: closeout-worktree-or-primary-worktree-restoration-after-user-authorization
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "preserve primary branch state; no reset, restore, or deletion performed"
+    boundaries:
+      include_paths:
+        - ".claude/commands/octon-proposal-run-program-lifecycle.md"
+        - ".claude/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md"
+        - ".claude/skills/octon-proposal-lifecycle-closeout-program/SKILL.md"
+        - ".claude/skills/octon-proposal-lifecycle-review-packet/SKILL.md"
+        - ".claude/skills/octon-proposal-lifecycle-revise-packet/SKILL.md"
+        - ".claude/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
+        - ".codex/commands/octon-proposal-run-program-lifecycle.md"
+        - ".codex/skills/closeout-worktree/SKILL.md"
+        - ".codex/skills/closeout-worktree/references/io-contract.md"
+        - ".codex/skills/closeout-worktree/references/validation.md"
+        - ".codex/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md"
+        - ".codex/skills/octon-proposal-lifecycle-closeout-program/SKILL.md"
+        - ".codex/skills/octon-proposal-lifecycle-review-packet/SKILL.md"
+        - ".codex/skills/octon-proposal-lifecycle-revise-packet/SKILL.md"
+        - ".codex/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
+        - ".cursor/commands/octon-proposal-run-program-lifecycle.md"
+        - ".cursor/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md"
+        - ".cursor/skills/octon-proposal-lifecycle-closeout-program/SKILL.md"
+        - ".cursor/skills/octon-proposal-lifecycle-review-packet/SKILL.md"
+        - ".cursor/skills/octon-proposal-lifecycle-revise-packet/SKILL.md"
+        - ".cursor/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
+        - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-program-delivery-evidence-index.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-branch-no-pr-delivery-authorization-envelope.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-architectural-review-validators.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-batched-review-digest-refresh.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-branch-no-pr-bounded-authorization-envelope.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-branch-no-pr-delivery-receipt-builder.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-extension-compatibility-cache.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-residue-fingerprint.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-proposal-program-readiness-projection.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-publication-runtime-boundary-delegation.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-run-health-read-model.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-extension-publication-state.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-host-projections.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-child-readiness.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh"
+        - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+        - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md"
+        - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+        - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md"
+        - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md"
+        - ".octon/framework/engine/runtime/README.md"
+        - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+        - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs"
+        - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+        - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+        - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs"
+        - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
+        - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh"
+        - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
+        - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh"
+        - ".octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh"
+        - ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/README.md"
+        - ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/stages/02-promote-proposal.md"
+        - ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/workflow.yml"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-route-change-closeout.md"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/07-validate-cleanup-sync-proof.md"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/08-emit-delivery-receipt.md"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml"
+        - ".octon/framework/product/contracts/branch-no-pr-delivery-authorization-envelope-v1.schema.json"
+        - ".octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json"
+        - ".octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json"
+      exclude_paths:
+        - ".octon/state"
+        - ".octon/generated"
+        - ".octon/inputs"
+  - candidate_id: stale-implementation-leftovers
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: "implementation-surface classifier found conflicts or superseded changes against current origin/main"
+    route_hint: closeout-change-after-human-or-route-owned-conflict-resolution
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: "preserve; do not copy stale conflicting source paths"
+    boundaries:
+      include_paths:
+        - ".gitignore"
+        - ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-review-gate.sh"
+      exclude_paths:
+        - ".octon/state"
+        - ".octon/generated"
+        - ".octon/inputs"
+  - candidate_id: deletion-required-implementation-leftovers
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: "implementation-surface classifier found source deletions that require explicit deletion authority before publication"
+    route_hint: deletion-proof-or-ablation-route-before-closeout-change
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: "preserve; do not delete files from clean base"
+    boundaries:
+      include_paths:
+        - ".octon/framework/assurance/runtime/_ops/scripts/classify-implementation-surface-closeout.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-classify-implementation-surface-closeout.sh"
+      exclude_paths:
+        - ".octon/state"
+        - ".octon/generated"
+        - ".octon/inputs"
+  - candidate_id: tracked-untracked-overlap-leftover
+    disposition: blocked
+    residue_routing_class: ambiguous
+    ownership: "primary has an untracked file that is tracked on current origin/main with different content"
+    route_hint: closeout-change-after-overlap-ownership-proof
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: "preserve; do not copy untracked-overlap content"
+    boundaries:
+      include_paths:
+        - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh"
+      exclude_paths:
+        - ".octon/state"
+        - ".octon/generated"
+        - ".octon/inputs"
+  - candidate_id: proposal-archive-move-candidates
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "proposal input/archive residue requires proposal hygiene/archive classifier authority per packet"
+    route_hint: proposal-hygiene-classifier-or-proposal-lifecycle-route
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: "preserve proposal input residue; do not treat inputs as authority"
+    boundaries:
+      include_paths:
+        - ".octon/inputs/exploratory/proposals/architecture"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture"
+      exclude_paths:
+        - ".octon/state"
+        - ".octon/generated"
+  - candidate_id: generated-projection-residue
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "generated projections and effective outputs require owning generator/freshness proof"
+    route_hint: owning-generator-or-publication-freshness-route
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: "preserve generated residue; no deletion or publication from detection"
+    boundaries:
+      include_paths:
+        - ".octon/generated"
+      exclude_paths: []
+  - candidate_id: state-control-run-residue
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "raw active/historical control state; not publishable by closeout-worktree"
+    route_hint: repo-hygiene-cleanup-or-owner-specific-control-route
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "retain active control truth until owner route classifies it"
+    boundaries:
+      include_paths:
+        - ".octon/state/control"
+      exclude_paths:
+        - ".octon/state/evidence"
+  - candidate_id: retained-evidence-and-validation-residue
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "mixed retained evidence and validation residue with publishable, protected, and local-private classes"
+    route_hint: repo-hygiene-cleanup-or-evidence-retention-route
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "retain evidence; do not delete retained evidence to force cleanliness"
+    boundaries:
+      include_paths:
+        - ".octon/state/evidence"
+      exclude_paths:
+        - ".octon/state/evidence/local"
+  - candidate_id: local-private-terminal-evidence
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: "local-private terminal/evidence sink retained outside branch content"
+    route_hint: retain-local-private-evidence
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "retain; not mutation, landing, cleanup, publication, or policy authority"
+    boundaries:
+      include_paths:
+        - ".octon/state/evidence/local"
+      exclude_paths: []
+  - candidate_id: ignored-local-foreign-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: "ignored local/manual residue outside this closeout route"
+    route_hint: preserve-or-separate-user-owned-cleanup
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "preserve ignored local residue unless a separate cleanup route proves deletion safety"
+    boundaries:
+      include_paths:
+        - ".DS_Store"
+        - ".envrc"
+        - ".github"
+        - ".prompts"
+        - ".vscode"
+      exclude_paths:
+        - ".octon"
+iterations: []
+final_candidate_dispositions:
+  publication-freshness-implementation-leftovers:
+    state: deferred
+  already-integrated-primary-residue:
+    state: blocked
+  stale-implementation-leftovers:
+    state: blocked
+  deletion-required-implementation-leftovers:
+    state: blocked
+  tracked-untracked-overlap-leftover:
+    state: blocked
+  proposal-archive-move-candidates:
+    state: blocked
+  generated-projection-residue:
+    state: blocked
+  state-control-run-residue:
+    state: blocked
+  retained-evidence-and-validation-residue:
+    state: blocked
+  local-private-terminal-evidence:
+    state: retained
+  ignored-local-foreign-residue:
+    state: foreign
+retained_residue:
+  - candidate_id: local-private-terminal-evidence
+    path: ".octon/state/evidence/local"
+    disposition: "local-private retained evidence; not branch content or cleanup authority"
+  - candidate_id: ignored-local-foreign-residue
+    path: ".DS_Store"
+    disposition: "ignored local/manual residue retained without deletion"
+  - candidate_id: ignored-local-foreign-residue
+    path: ".envrc"
+    disposition: "ignored local/manual residue retained without deletion"
+  - candidate_id: ignored-local-foreign-residue
+    path: ".github"
+    disposition: "ignored local/manual residue retained without deletion"
+  - candidate_id: ignored-local-foreign-residue
+    path: ".prompts"
+    disposition: "ignored local/manual residue retained without deletion"
+  - candidate_id: ignored-local-foreign-residue
+    path: ".vscode"
+    disposition: "ignored local/manual residue retained without deletion"
+blockers:
+  - candidate_id: publication-freshness-implementation-leftovers
+    blocker: selected-for-singular-closeout
+    reason: "Exact implementation-surface classifier authorized the six-path candidate; reconstruction and closeout-change are deferred to the next singular route step after this inventory report."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate.yml"
+  - candidate_id: already-integrated-primary-residue
+    blocker: read-only-primary-already-integrated-residue
+    reason: "The implementation classifier found 89 dirty primary paths whose content already matches current origin/main. Cleaning that residue requires a later primary-worktree restoration/cleanup route; this run must not mutate the primary tree."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-implementation-surface-closeout.yml"
+  - candidate_id: stale-implementation-leftovers
+    blocker: stale-or-superseded-implementation-conflict
+    reason: "The implementation classifier found four conflicting or superseded paths; they are excluded from this closeout."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-implementation-surface-closeout.yml"
+  - candidate_id: deletion-required-implementation-leftovers
+    blocker: deletion-authority-required
+    reason: "The implementation classifier found two source deletions; deletion requires explicit proof and was not authorized in this candidate."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-implementation-surface-closeout.yml"
+  - candidate_id: tracked-untracked-overlap-leftover
+    blocker: untracked-file-tracked-on-current-base
+    reason: "The primary tree has an untracked file tracked on origin/main with different content. Ownership and freshness are not proven."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-implementation-surface-closeout.yml"
+  - candidate_id: proposal-archive-move-candidates
+    blocker: proposal-archive-authority-required
+    reason: "Proposal input/archive moves require proposal-owned classifier or lifecycle authority before publication or cleanup."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-change-closeout-residue.yml"
+  - candidate_id: generated-projection-residue
+    blocker: generated-output-freshness-authority-required
+    reason: "Generated projections require owning generator/freshness proof; detection does not authorize deletion or publication."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-change-closeout-residue.yml"
+  - candidate_id: state-control-run-residue
+    blocker: raw-active-control-state-unsafe
+    reason: "Raw .octon/state/control paths are active or historical control truth and cannot be committed or deleted by the wrapper."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-change-closeout-residue.yml"
+  - candidate_id: retained-evidence-and-validation-residue
+    blocker: mixed-evidence-authority-classes
+    reason: "Evidence paths are mixed across retained, publishable, protected, and local-private classes and need an owning evidence or hygiene route."
+    evidence_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-change-closeout-residue.yml"
+repo_hygiene_classification_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-change-closeout-residue.yml"
+repo_hygiene_cleanup_outcome: classification-only
+repo_hygiene_next_route_condition: "run repo-hygiene-cleanup only after separating active control state, retained evidence, and publishable closeout evidence"
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 1077
+  untracked: 5968
+  ignored: 11118
+  generated_effective_output: 25
+  host_projection: 14
+  retained_evidence: 3867
+  state_control: 12999
+  release_version: 0
+  input_surface: 417
+worktree_terminal_state: nonterminal
+next_route_condition: "delegate selected publication-freshness-implementation-leftovers through closeout-change from the route-owned worktree; keep primary read-only"

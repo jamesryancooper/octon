@@ -1,0 +1,60 @@
+schema_version: "worktree-closeout-selected-candidate-boundary-v1"
+candidate_id: "publication-freshness-implementation-leftovers"
+classification_kind: "supplemental-route-owned-boundary"
+primary_dirty_tree:
+  path: "/Users/jamesryancooper/Projects/octon"
+  mutation_policy: "read-only"
+route_owned_worktree:
+  path: "/private/tmp/octon-worktree-closeout-next-candidate"
+  branch: "chore/worktree-closeout-next-candidate"
+base_ref:
+  ref: "origin/main"
+  commit: "0fa0a88ab1495756d3de52e140903e7bb50b5bf1"
+selected_boundary:
+  classifier_authorized_primary_paths:
+    classifier_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate-final.yml"
+    classifier_verdict: "pass"
+    candidate_authorized: true
+    paths:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-generated-non-authority.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh"
+      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+  route_owned_validation_repairs:
+    rationale: >-
+      Focused validation showed the selected publication-freshness candidate
+      needs a narrow classifier compatibility repair and a matching
+      generated-non-authority scan receipt update on the current delivery base.
+      These edits were applied in the route-owned worktree, not copied from the
+      stale primary branch.
+    paths:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+        authority: "route-owned validator compatibility repair against current origin/main"
+        reason: "classify target proposal manifests and current-run recovery publication artifacts without sweeping unrelated state/control/evidence residue"
+      - path: ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml"
+        authority: "retained validation receipt alignment"
+        reason: "allow lifecycle recovery implementation file already covered by focused generated-non-authority negative controls"
+  route_owned_evidence_paths:
+    - ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/"
+explicit_exclusions:
+  - ".gitignore"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-review-gate.sh"
+  - ".octon/state/control"
+  - ".octon/generated"
+  - ".octon/inputs"
+  - "unrelated .octon/state/evidence residue"
+validation:
+  focused_validation_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/focused-validation-publication-freshness-leftovers-rerun.txt"
+  closeout_worktree_report_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/closeout-worktree-report.yml"
+  closeout_worktree_report_validation_ref: ".octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/validate-closeout-worktree-report.txt"
+assertions:
+  primary_dirty_tree_mutated: false
+  broad_stage_all_authorized: false
+  generated_projections_used_as_authority: false
+  raw_state_control_committed: false
+  unrelated_state_evidence_committed: false
+  proposal_child_lifecycle_rerun: false

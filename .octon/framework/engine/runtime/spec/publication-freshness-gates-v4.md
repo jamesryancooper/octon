@@ -74,3 +74,4 @@ At minimum, v4 applies to:
 - `/.octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh`
 - `/.octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh`
 - `/.octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh`
+- `/.octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh`

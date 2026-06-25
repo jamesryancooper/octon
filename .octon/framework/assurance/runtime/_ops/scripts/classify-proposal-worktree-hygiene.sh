@@ -101,7 +101,8 @@ CLEANUP_SAFE_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-cleanup-safe-rows.XXX
 PROTECTED_RETAINED_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-protected-retained-rows.XXXXXX")"
 PROTECTED_CONTROL_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-protected-control-rows.XXXXXX")"
 MANUAL_REVIEW_ROWS="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-manual-review-rows.XXXXXX")"
-trap 'rm -f "$OWNED_PREFIXES" "$SCOPE_PREFIXES" "$OWNED_ROWS" "$SCOPE_ROWS" "$RETAINED_FIXTURE_ROWS" "$RETAINED_FIXTURE_RECEIPTS" "$RETAINED_FIXTURE_SOURCE_ROWS" "$FOREIGN_ROWS" "$PUBLISHABLE_CHANGE_ROWS" "$PUBLISHABLE_CLOSEOUT_ROWS" "$CLEANUP_SAFE_ROWS" "$PROTECTED_RETAINED_ROWS" "$PROTECTED_CONTROL_ROWS" "$MANUAL_REVIEW_ROWS"' EXIT
+PUBLISH_RUN_SCOPE_CACHE="$(mktemp "${TMPDIR:-/tmp}/octon-hygiene-publish-run-cache.XXXXXX")"
+trap 'rm -f "$OWNED_PREFIXES" "$SCOPE_PREFIXES" "$OWNED_ROWS" "$SCOPE_ROWS" "$RETAINED_FIXTURE_ROWS" "$RETAINED_FIXTURE_RECEIPTS" "$RETAINED_FIXTURE_SOURCE_ROWS" "$FOREIGN_ROWS" "$PUBLISHABLE_CHANGE_ROWS" "$PUBLISHABLE_CLOSEOUT_ROWS" "$CLEANUP_SAFE_ROWS" "$PROTECTED_RETAINED_ROWS" "$PROTECTED_CONTROL_ROWS" "$MANUAL_REVIEW_ROWS" "$PUBLISH_RUN_SCOPE_CACHE"' EXIT
 
 add_prefix() {
   local file="$1"
@@ -242,6 +243,25 @@ matches_prefix_file() {
     fi
   done <"$file"
   return 1
+}
+
+cache_bool_get() {
+  local file="$1"
+  local key="$2"
+  local cached_key value
+  while IFS=$'\t' read -r cached_key value; do
+    [[ "$cached_key" == "$key" ]] || continue
+    [[ "$value" == "true" ]]
+    return $?
+  done <"$file"
+  return 2
+}
+
+cache_bool_put() {
+  local file="$1"
+  local key="$2"
+  local value="$3"
+  printf '%s\t%s\n' "$key" "$value" >>"$file"
 }
 
 ARCHIVE_MOVE_CANDIDATE_AUTHORIZED="false"
@@ -392,6 +412,99 @@ same_scope_lifecycle_run_artifact() {
   if [[ "$target" == "$TARGET_REL" ]] || matches_prefix_file "$target" "$SCOPE_PREFIXES"; then
     return 0
   fi
+  return 1
+}
+
+publish_run_id_for_artifact_path() {
+  local path="$1"
+  case "$path" in
+    ".octon/state/control/execution/runs/"*)
+      path="${path#".octon/state/control/execution/runs/"}"
+      printf '%s\n' "${path%%/*}"
+      return 0
+      ;;
+    ".octon/state/continuity/runs/"*)
+      path="${path#".octon/state/continuity/runs/"}"
+      printf '%s\n' "${path%%/*}"
+      return 0
+      ;;
+    ".octon/state/evidence/external-index/runs/"*)
+      path="${path#".octon/state/evidence/external-index/runs/"}"
+      path="${path%%/*}"
+      printf '%s\n' "${path%.yml}"
+      return 0
+      ;;
+    ".octon/state/evidence/control/execution/"*)
+      path="${path#".octon/state/evidence/control/execution/"}"
+      path="${path%%/*}"
+      path="${path%.yml}"
+      case "$path" in
+        authority-decision-*) printf '%s\n' "${path#"authority-decision-"}"; return 0 ;;
+        authority-grant-bundle-*) printf '%s\n' "${path#"authority-grant-bundle-"}"; return 0 ;;
+      esac
+      ;;
+  esac
+  return 1
+}
+
+publication_command_for_manifest() {
+  local manifest="$1"
+  local action_type target_id target_slug
+  [[ -f "$manifest" ]] || return 1
+  command -v yq >/dev/null 2>&1 || return 1
+  action_type="$(yq -r '.action_type // ""' "$manifest" 2>/dev/null || true)"
+  target_id="$(yq -r '.target_id // ""' "$manifest" 2>/dev/null || true)"
+  [[ "$action_type" == "publish_generated_effective" ]] || return 1
+  case "$target_id" in
+    publication:*) ;;
+    *) return 1 ;;
+  esac
+  target_slug="${target_id#publication:}"
+  [[ -n "$target_slug" && "$target_slug" != "null" ]] || return 1
+  printf 'publish-%s\n' "$target_slug"
+}
+
+completed_current_recovery_command() {
+  local command_id="$1"
+  local recovery_root result status exit_code actual_command
+  [[ -n "$RUN_ID" ]] || return 1
+  [[ -n "$command_id" ]] || return 1
+  command -v yq >/dev/null 2>&1 || return 1
+  recovery_root="$ROOT_DIR/.octon/state/evidence/runs/workflows/$RUN_ID/program-recovery-actions"
+  [[ -d "$recovery_root" ]] || return 1
+  while IFS= read -r result; do
+    [[ -f "$result" ]] || continue
+    actual_command="$(yq -r '.command_id // ""' "$result" 2>/dev/null || true)"
+    status="$(yq -r '.status // ""' "$result" 2>/dev/null || true)"
+    exit_code="$(yq -r '.exit_code // ""' "$result" 2>/dev/null || true)"
+    if [[ "$actual_command" == "$command_id" && "$status" == "completed" && "$exit_code" == "0" ]]; then
+      return 0
+    fi
+  done < <(find "$recovery_root" -type f -name '*command.result.yml' 2>/dev/null | LC_ALL=C sort)
+  return 1
+}
+
+same_scope_program_recovery_publish_artifact() {
+  local path="$1"
+  local run_id manifest command_id cache_key
+  [[ "$LIFECYCLE" == "proposal-program" ]] || return 1
+  run_id="$(publish_run_id_for_artifact_path "$path" 2>/dev/null || true)"
+  [[ -n "$run_id" ]] || return 1
+  cache_key="publish-run:$run_id"
+  if cache_bool_get "$PUBLISH_RUN_SCOPE_CACHE" "$cache_key"; then
+    return 0
+  else
+    case "$?" in
+      1) return 1 ;;
+    esac
+  fi
+  manifest="$ROOT_DIR/.octon/state/control/execution/runs/$run_id/run-manifest.yml"
+  command_id="$(publication_command_for_manifest "$manifest" 2>/dev/null || true)"
+  if [[ -n "$command_id" ]] && completed_current_recovery_command "$command_id"; then
+    cache_bool_put "$PUBLISH_RUN_SCOPE_CACHE" "$cache_key" "true"
+    return 0
+  fi
+  cache_bool_put "$PUBLISH_RUN_SCOPE_CACHE" "$cache_key" "false"
   return 1
 }
 
@@ -660,6 +773,11 @@ target_proposal_input_path() {
   [[ "$path" == "$TARGET_REL" || "$path" == "$TARGET_REL/"* ]]
 }
 
+target_packet_manifest_path() {
+  local path="$1"
+  [[ "$path" == "$TARGET_REL/proposal.yml" ]]
+}
+
 protected_retained_path() {
   local path="$1"
   case "$path" in
@@ -712,6 +830,8 @@ classify_partition_row() {
         add_partition_row "$PUBLISHABLE_CLOSEOUT_ROWS" "$source_bucket" "$status" "$path" "archive-move packet boundary authorized by archived manifest status, archive.original_path, absent active original path, and exact target/original path scope"
       elif target_support_evidence_path "$path"; then
         add_partition_row "$PUBLISHABLE_CLOSEOUT_ROWS" "$source_bucket" "$status" "$path" "child-owned support evidence for this target packet; proposal-local evidence is not runtime or policy authority"
+      elif target_packet_manifest_path "$path"; then
+        add_partition_row "$PUBLISHABLE_CLOSEOUT_ROWS" "$source_bucket" "$status" "$path" "child-owned target packet manifest state; proposal-local evidence is not runtime or policy authority"
       elif target_proposal_input_path "$path"; then
         add_partition_row "$MANUAL_REVIEW_ROWS" "$source_bucket" "$status" "$path" "target proposal input surface is in child scope but is not cleanup, support, runtime, policy, or closeout authority"
       elif generated_or_input_protected_path "$path"; then
@@ -803,6 +923,7 @@ while IFS= read -r line; do
     matches_current_run_artifact "$path" ||
     matches_target_closeout_skill_artifact "$path" ||
     same_scope_lifecycle_run_artifact "$path" ||
+    same_scope_program_recovery_publish_artifact "$path" ||
     same_scope_repo_hygiene_cleanup_receipt "$path" ||
     matches_current_run_acp_decision_log "$path" ||
     nonblocking_local_metadata "$path"; then

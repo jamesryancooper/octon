@@ -1,0 +1,153 @@
+# focused validation rerun
+2026-06-25T15:55:05Z
+## test-classify-implementation-surface-closeout.sh
+PASS: authorizes clean replayable implementation change
+PASS: reports already-integrated no-op candidate
+PASS: blocks untracked files tracked on current base when content differs
+PASS: blocks deletions without explicit proof
+PASS: blocks stale conflicting changes
+PASS: excludes state generated and inputs from implementation candidate
+PASS: supports explicit refined-boundary foreign scan skip
+7 passed, 0 failed
+## test-classify-proposal-worktree-hygiene.sh
+PASS: owned current-run control and evidence paths do not block
+PASS: target support and promotion targets are in scope
+PASS: target packet manifest state does not block hygiene
+PASS: unrelated tracked dirty file blocks
+PASS: unrelated untracked file blocks
+PASS: mixed paths produce accurate bucket counts
+PASS: program child write scopes and promotion targets are in scope
+PASS: program archived child promotion targets are in scope
+PASS: program checkpoint scope applies to child target
+PASS: program checkpoint scope applies to archived child target
+PASS: program checkpoint scope applies to packet child target
+PASS: current program run-derived artifacts do not block
+PASS: current program run closeout-packet evidence does not block
+PASS: current program run lifecycle closeout-packet evidence does not block
+PASS: target lifecycle closeout-packet evidence does not block
+PASS: other lifecycle closeout-packet evidence still blocks
+PASS: current program run repo-hygiene cleanup evidence does not block
+PASS: same-scope repo-hygiene cleanup receipts without checkpoint do not block
+PASS: same-scope repo-hygiene cleanup receipts with parent run checkpoint do not block
+PASS: same-scope repo-hygiene cleanup receipts with retained workflow checkpoint do not block
+PASS: same-scope lifecycle run artifacts do not block
+PASS: same-scope lifecycle evidence artifacts do not block
+PASS: current-run ACP decision log append does not block
+PASS: other-run ACP decision log append still blocks
+PASS: same program lifecycle artifacts do not block packet child target
+PASS: program recovery-bound publish run artifacts do not block
+PASS: many program recovery-bound publish run artifacts do not block
+PASS: unbound publish run artifacts still block
+PASS: mismatched recovery command publish run artifacts still block
+PASS: program generated projections do not block
+PASS: program generated projection scope applies to packet child target
+PASS: program retained evidence does not block
+PASS: program host projection mirrors do not block
+PASS: program host projection drift still blocks
+PASS: local OS metadata does not block
+PASS: untracked raw input files still block
+PASS: archived packet archive-move boundary is authorized
+PASS: unrelated archived packet remains excluded from archive move
+PASS: generated control and evidence residue are not swept into archive move
+PASS: archived packet missing archive metadata fails closed
+PASS: archived packet with active original path still present fails closed
+
+test-classify-proposal-worktree-hygiene.sh: passed=41 failed=0
+## test-generated-as-authority-denial.sh
+== Generated Non-Authority Validation ==
+[OK] yq available
+[OK] generated non-authority receipt present
+[OK] generated non-authority receipt schema is current
+[OK] scan root is authority-safe: .octon/framework/engine/runtime/crates
+[OK] scan root is authority-safe: .octon/instance/governance/policies
+[OK] proposal-packet delivery workflow declares: generated_freshness_scope_detection
+[OK] proposal-packet delivery workflow declares: generated_freshness_not_in_scope
+[OK] proposal-packet delivery workflow declares: generated_input_scope_detected_and_owner_routed
+[OK] proposal-packet delivery workflow declares: generated_refresh_needed_but_not_authorized
+[OK] proposal-packet delivery workflow declares: generated_output_present_but_stale
+[OK] proposal-packet delivery workflow declares: generated_output_fresh_but_non_authoritative
+[OK] proposal-packet delivery workflow declares: proposal_local_or_parent_evidence_satisfies_generated_freshness: false
+[OK] proposal-packet delivery workflow declares: generated_output_authorizes_closeout_or_archive: false
+[OK] rule reference present: .octon/framework/constitution/obligations/fail-closed.yml
+[OK] .octon/framework/constitution/obligations/fail-closed.yml contains: A generated artifact is treated as source-of-truth or as a second control plane.
+[OK] rule reference present: .octon/framework/cognition/_meta/architecture/specification.md
+[OK] .octon/framework/cognition/_meta/architecture/specification.md contains: `generated/**` is rebuildable and never mints authority.
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/hierarchical-planning.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+Validation summary: errors=0
+== Generated Effective Freshness Validation ==
+[OK] freshness receipt schema current
+[OK] publication freshness contract present
+[OK] output present: .octon/generated/effective/runtime/route-bundle.yml
+[OK] evidence present: .octon/state/evidence/validation/publication/runtime/2026-04-22T20-19-51Z-runtime-route-bundle-d832aab6f332.yml
+[OK] output present: .octon/generated/effective/capabilities/pack-routes.effective.yml
+[OK] evidence present: .octon/state/evidence/validation/publication/capabilities/2026-04-22T19-02-10Z-pack-routes-f66aed7b3fdd.yml
+[OK] output present: .octon/generated/effective/capabilities/routing.effective.yml
+[OK] evidence present: .octon/state/evidence/validation/publication/capabilities/2026-04-22T19-06-00Z-capabilities-b3576bf05533.yml
+[OK] output present: .octon/generated/effective/governance/support-target-matrix.yml
+[OK] evidence present: .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proof-refresh.yml
+[OK] output present: .octon/generated/effective/extensions/catalog.effective.yml
+[OK] evidence present: .octon/state/evidence/validation/publication/extensions/2026-04-22T19-03-58Z-extensions-090beb843d30.yml
+[OK] output present: .octon/generated/cognition/projections/materialized/architecture-map.md
+[OK] evidence present: .octon/state/evidence/validation/architecture/10of10-target-transition/manifest.yml
+[OK] output present: .octon/generated/cognition/projections/materialized/runtime-route-map.md
+[OK] evidence present: .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml
+[OK] output present: .octon/generated/cognition/projections/materialized/support-pack-route-map.md
+[OK] evidence present: .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml
+[OK] freshness artifact present: .octon/generated/effective/runtime/route-bundle.lock.yml
+[OK] .octon/generated/effective/runtime/route-bundle.lock.yml freshness mode valid
+[OK] .octon/generated/effective/runtime/route-bundle.lock.yml invalidation conditions declared
+[OK] .octon/generated/effective/runtime/route-bundle.lock.yml publication receipt present
+[OK] .octon/generated/effective/runtime/route-bundle.lock.yml publication receipt digest current
+[OK] freshness artifact present: .octon/generated/effective/capabilities/pack-routes.lock.yml
+[OK] .octon/generated/effective/capabilities/pack-routes.lock.yml freshness mode valid
+[OK] .octon/generated/effective/capabilities/pack-routes.lock.yml invalidation conditions declared
+[OK] .octon/generated/effective/capabilities/pack-routes.lock.yml publication receipt present
+[OK] .octon/generated/effective/capabilities/pack-routes.lock.yml publication receipt digest current
+[OK] freshness artifact present: .octon/generated/effective/capabilities/generation.lock.yml
+[OK] .octon/generated/effective/capabilities/generation.lock.yml publication receipt present
+[OK] .octon/generated/effective/capabilities/generation.lock.yml publication receipt digest current
+[OK] freshness artifact present: .octon/generated/effective/capabilities/artifact-map.yml
+[OK] freshness artifact present: .octon/generated/effective/governance/support-target-matrix.yml
+[OK] freshness artifact present: .octon/generated/effective/extensions/generation.lock.yml
+[OK] .octon/generated/effective/extensions/generation.lock.yml publication receipt present
+[OK] .octon/generated/effective/extensions/generation.lock.yml publication receipt digest current
+[OK] freshness artifact present: .octon/generated/effective/extensions/artifact-map.yml
+[OK] freshness artifact present: .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml
+[OK] freshness artifact present: .octon/generated/effective/runtime/route-bundle.lock.yml
+[OK] .octon/generated/effective/runtime/route-bundle.lock.yml freshness mode valid
+[OK] .octon/generated/effective/runtime/route-bundle.lock.yml invalidation conditions declared
+[OK] .octon/generated/effective/runtime/route-bundle.lock.yml publication receipt present
+[OK] .octon/generated/effective/runtime/route-bundle.lock.yml publication receipt digest current
+[OK] freshness artifact present: .octon/generated/effective/capabilities/pack-routes.lock.yml
+[OK] .octon/generated/effective/capabilities/pack-routes.lock.yml freshness mode valid
+[OK] .octon/generated/effective/capabilities/pack-routes.lock.yml invalidation conditions declared
+[OK] .octon/generated/effective/capabilities/pack-routes.lock.yml publication receipt present
+[OK] .octon/generated/effective/capabilities/pack-routes.lock.yml publication receipt digest current
+Validation summary: errors=0
+PASS: allowed lifecycle recovery generated reference passes
+PASS: unlisted runtime generated reference fails
+PASS: generated output allowlist fails closed
+
+test-validate-generated-non-authority.sh: passed=3 failed=0
+## test-validate-generated-non-authority.sh
+PASS: allowed lifecycle recovery generated reference passes
+PASS: unlisted runtime generated reference fails
+PASS: generated output allowlist fails closed
+
+test-validate-generated-non-authority.sh: passed=3 failed=0
+## test-validate-publication-freshness-gates.sh
+## git diff --check

@@ -5,6 +5,7 @@ scan_roots:
 scan_patterns:
   - .octon/generated/cognition/
 allowed_reference_files:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
   - .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
   - .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
   - .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs

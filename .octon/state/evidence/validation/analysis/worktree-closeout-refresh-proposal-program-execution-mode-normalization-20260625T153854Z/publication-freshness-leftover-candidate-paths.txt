@@ -1,0 +1,6 @@
+.octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+.octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh
+.octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh
+.octon/framework/assurance/runtime/_ops/tests/test-validate-generated-non-authority.sh
+.octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh
+.octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md

@@ -1,0 +1,11 @@
+run_id: worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z
+generated_at: 2026-06-25T15:38:54Z
+primary_root: /Users/jamesryancooper/Projects/octon
+route_worktree: /private/tmp/octon-worktree-closeout-next-candidate
+base_ref: origin/main
+origin_main_ref: 0fa0a88ab1495756d3de52e140903e7bb50b5bf1
+primary_branch: chore/proposal-program-execution-mode-normalization
+primary_head: f8bd472f92d4021f7a97357683b60743743aff00
+primary_ahead: 0
+primary_behind: 14
+read_only_primary: true

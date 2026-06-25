@@ -39,17 +39,20 @@ validator_result_add_runtime_test \
   ".octon/framework/assurance/runtime/_ops/tests/test-runtime-effective-freshness-hard-gate.sh" \
   ".octon/framework/assurance/runtime/_ops/tests/test-stale-digest-bound-route-bundle-denial.sh" \
   ".octon/framework/assurance/runtime/_ops/tests/test-validate-host-projections.sh" \
-  ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-terminal-freshness.sh"
+  ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-terminal-freshness.sh" \
+  ".octon/framework/assurance/runtime/_ops/tests/test-run-health-read-model.sh"
 validator_result_add_recognized_negative_control \
   "missing-publication-receipt-denies" \
   "stale-runtime-route-bundle-denies" \
   "stale-host-projection-denies" \
   "stale-proposal-registry-denies" \
   "stale-proposal-artifact-denies" \
+  "stale-run-health-read-model-denies" \
   "invalid-freshness-mode-denies"
 validator_result_add_schema_version \
   "generated-effective-freshness-receipt-v1" \
-  "generated-effective-freshness-receipt-v2"
+  "generated-effective-freshness-receipt-v2" \
+  "run-health-read-model-v1"
 [[ -n "${CONTRACT:-}" ]] && validator_result_add_contract "${CONTRACT#$ROOT_DIR/}"
 
 main() {
@@ -95,6 +98,7 @@ main() {
   run_validator "validate-capability-publication-state.sh"
   run_validator "validate-extension-publication-state.sh"
   run_validator "validate-runtime-effective-route-bundle.sh"
+  run_validator "validate-run-health-read-model.sh"
   run_validator "validate-host-projections.sh"
 
   echo "Validation summary: errors=$errors"

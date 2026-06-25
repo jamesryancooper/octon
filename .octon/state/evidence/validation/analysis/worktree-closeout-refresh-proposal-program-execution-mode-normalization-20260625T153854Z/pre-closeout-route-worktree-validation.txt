@@ -1,0 +1,101 @@
+# route-worktree pre-closeout validation
+2026-06-25T15:57:48Z
+## validate-closeout-worktree-wrapper
+== Closeout Worktree Wrapper Validation ==
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] found .octon/framework/product/contracts/change-closeout-state-machine.yml
+[OK] found .octon/framework/product/contracts/default-work-unit.yml
+[OK] found .octon/framework/capabilities/runtime/skills/manifest.yml
+[OK] found .octon/framework/capabilities/runtime/skills/registry.yml
+[OK] found .octon/generated/effective/capabilities/routing.effective.yml
+[OK] found .codex/skills/closeout-worktree/SKILL.md
+[OK] default work unit declares closeout-worktree wrapper
+[OK] wrapper does not replace default work unit
+[OK] state machine binds closeout-worktree wrapper skill
+[OK] skill manifest exposes invocable closeout-worktree
+[OK] skill registry exposes /closeout-worktree command
+[OK] skill registry projects closeout-worktree to Codex
+[OK] skill registry exposes include path boundaries
+[OK] skill registry exposes exclude path boundaries
+[OK] effective routing projects closeout-worktree to Codex
+[OK] wrapper describes multi-change decomposition
+[OK] wrapper delegates to singular closeout-change runs
+[OK] wrapper forbids Closeout Changes model
+[OK] wrapper documents report schema version
+[OK] wrapper records that repo-hygiene cleanup actions are not performed by the wrapper
+[OK] wrapper documents repo-hygiene next route condition
+[OK] wrapper documents delegated repo-hygiene cleanup evidence
+[OK] wrapper documents delegated fixture retention route
+[OK] I/O contract documents fixture retention receipt refs
+[OK] I/O contract documents fixture retention receipt contract
+[OK] wrapper documents worktree terminal state
+[OK] wrapper documents delegated terminal current-state proof refs
+[OK] wrapper documents delegated correction aggregate refs
+[OK] wrapper documents residue routing classes
+[OK] wrapper documents autonomous unambiguous partitioning
+[OK] wrapper documents detached worktree cleanup safety routing
+[OK] closeout-change limits cleaned to route-bound cleanup evidence
+[OK] I/O contract documents wrapper report schema
+[OK] I/O contract documents final candidate dispositions
+[OK] I/O contract documents proposal-program handoff authorization
+[OK] validation documents proposal-program handoff authorization checks
+[OK] I/O contract documents orchestration iterations
+[OK] I/O contract documents cleaned default target
+[OK] I/O contract documents Git-clean terminal state
+[OK] I/O contract documents terminal local evidence sink
+[OK] I/O contract documents terminal local evidence manifest
+[OK] I/O contract documents residue routing classes
+[OK] wrapper validation requires explicit boundaries
+[OK] wrapper validation requires orchestration evidence
+[OK] wrapper validation requires completed closeout-change receipts for closed candidates
+[OK] wrapper validation rejects continued handoff receipts as closed candidates
+[OK] wrapper validation rejects direct repo-hygiene cleanup action claims
+[OK] wrapper validation documents terminal state checks
+[OK] wrapper validation documents terminal local evidence manifest checks
+[OK] wrapper validation documents residue routing-class checks
+[OK] Codex host projection documents residue routing classes
+[OK] Codex host projection exposes closeout-worktree
+[OK] closeout-worktree report validates
+[OK] report evidence contract passed
+
+Validation summary: errors=0
+## git status --short --branch --untracked-files=all
+## chore/worktree-closeout-next-candidate...origin/main
+ M .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh
+ M .octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md
+ M .octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml
+?? .octon/framework/assurance/runtime/_ops/tests/test-validate-generated-non-authority.sh
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-change-closeout-residue.yml
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-implementation-surface-closeout.exit-code
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-implementation-surface-closeout.stderr.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-implementation-surface-closeout.yml
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate-final.exit-code
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate-final.stderr.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate-final.yml
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate.exit-code
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate.stderr.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate.yml
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/focused-validation-publication-freshness-leftovers-rerun.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/focused-validation-publication-freshness-leftovers.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/git-ls-files-others.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/git-status-porcelain-ignored.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/git-status-porcelain.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/git-status-short-branch-all.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/inventory-context.yml
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/pre-closeout-route-worktree-validation.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/primary-branch-diff-name-status-origin-main-ellipsis.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/primary-worktree-diff-name-status-origin-main.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/publication-freshness-leftover-candidate-final-classifier-paths.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/publication-freshness-leftover-candidate-paths.txt
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/publication-freshness-leftover-final-boundary-classification.yml
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/publication-freshness-reconstruction-receipt.yml
+?? .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/validate-closeout-worktree-report.txt
+## git diff --check

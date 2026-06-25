@@ -1,0 +1,90 @@
+== test-classify-implementation-surface-closeout ==
+PASS: authorizes clean replayable implementation change
+PASS: reports already-integrated no-op candidate
+PASS: blocks untracked files tracked on current base when content differs
+PASS: blocks deletions without explicit proof
+PASS: blocks stale conflicting changes
+PASS: excludes state generated and inputs from implementation candidate
+PASS: supports explicit refined-boundary foreign scan skip
+7 passed, 0 failed
+== test-classify-proposal-worktree-hygiene ==
+PASS: owned current-run control and evidence paths do not block
+PASS: target support and promotion targets are in scope
+FAIL: target packet manifest state does not block hygiene
+PASS: unrelated tracked dirty file blocks
+PASS: unrelated untracked file blocks
+PASS: mixed paths produce accurate bucket counts
+PASS: program child write scopes and promotion targets are in scope
+PASS: program archived child promotion targets are in scope
+PASS: program checkpoint scope applies to child target
+PASS: program checkpoint scope applies to archived child target
+PASS: program checkpoint scope applies to packet child target
+PASS: current program run-derived artifacts do not block
+PASS: current program run closeout-packet evidence does not block
+PASS: current program run lifecycle closeout-packet evidence does not block
+PASS: target lifecycle closeout-packet evidence does not block
+PASS: other lifecycle closeout-packet evidence still blocks
+PASS: current program run repo-hygiene cleanup evidence does not block
+PASS: same-scope repo-hygiene cleanup receipts without checkpoint do not block
+PASS: same-scope repo-hygiene cleanup receipts with parent run checkpoint do not block
+PASS: same-scope repo-hygiene cleanup receipts with retained workflow checkpoint do not block
+PASS: same-scope lifecycle run artifacts do not block
+PASS: same-scope lifecycle evidence artifacts do not block
+PASS: current-run ACP decision log append does not block
+PASS: other-run ACP decision log append still blocks
+PASS: same program lifecycle artifacts do not block packet child target
+FAIL: program recovery-bound publish run artifacts do not block
+FAIL: many program recovery-bound publish run artifacts do not block
+PASS: unbound publish run artifacts still block
+PASS: publish run artifacts with mismatched recovery command still block
+PASS: program generated projections do not block
+PASS: program generated projection scope applies to packet child target
+PASS: program retained evidence does not block
+PASS: program host projection mirrors do not block
+PASS: program host projection drift still blocks
+PASS: local OS metadata does not block
+PASS: untracked raw input files still block
+
+test-classify-proposal-worktree-hygiene.sh: passed=33 failed=3
+== test-generated-as-authority-denial ==
+== Generated Non-Authority Validation ==
+[OK] yq available
+[OK] generated non-authority receipt present
+[OK] generated non-authority receipt schema is current
+[OK] scan root is authority-safe: .octon/framework/engine/runtime/crates
+[OK] scan root is authority-safe: .octon/instance/governance/policies
+[OK] proposal-packet delivery workflow declares: generated_freshness_scope_detection
+[OK] proposal-packet delivery workflow declares: generated_freshness_not_in_scope
+[OK] proposal-packet delivery workflow declares: generated_input_scope_detected_and_owner_routed
+[OK] proposal-packet delivery workflow declares: generated_refresh_needed_but_not_authorized
+[OK] proposal-packet delivery workflow declares: generated_output_present_but_stale
+[OK] proposal-packet delivery workflow declares: generated_output_fresh_but_non_authoritative
+[OK] proposal-packet delivery workflow declares: proposal_local_or_parent_evidence_satisfies_generated_freshness: false
+[OK] proposal-packet delivery workflow declares: generated_output_authorizes_closeout_or_archive: false
+[OK] rule reference present: .octon/framework/constitution/obligations/fail-closed.yml
+[OK] .octon/framework/constitution/obligations/fail-closed.yml contains: A generated artifact is treated as source-of-truth or as a second control plane.
+[OK] rule reference present: .octon/framework/cognition/_meta/architecture/specification.md
+[OK] .octon/framework/cognition/_meta/architecture/specification.md contains: `generated/**` is rebuildable and never mints authority.
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs
+[ERROR] forbidden generated read-model dependency: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[ERROR] forbidden generated read-model dependency: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[ERROR] forbidden generated read-model dependency: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[ERROR] forbidden generated read-model dependency: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/hierarchical-planning.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+[OK] allowed generated read-model reference: .octon/instance/governance/policies/preflight-evidence-lane.yml
+Validation summary: errors=4
+== test-validate-generated-non-authority ==
+PASS: allowed lifecycle recovery generated reference passes
+PASS: unlisted runtime generated reference fails
+PASS: generated output allowlist fails closed
+
+test-validate-generated-non-authority.sh: passed=3 failed=0
+== test-validate-publication-freshness-gates ==

@@ -1,0 +1,65 @@
+schema_version: "implementation-surface-closeout-classification-v1"
+read_only: true
+detection_is_deletion_authority: false
+source_root: "/Users/jamesryancooper/Projects/octon"
+source_head: "f8bd472f92d4021f7a97357683b60743743aff00"
+base_ref: "origin/main"
+base_ref_commit: "0fa0a88ab1495756d3de52e140903e7bb50b5bf1"
+merge_base: "f8bd472f92d4021f7a97357683b60743743aff00"
+foreign_scan: "none"
+candidate_verdict: "pass"
+candidate_authorized: true
+candidate_noop: false
+include_paths:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-generated-non-authority.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh"
+  - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+exclude_paths:
+  - ".octon/state"
+  - ".octon/generated"
+  - ".octon/inputs"
+partitions:
+  target_owned_implementation_changes:
+    count: 6
+    paths:     
+    - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+      reason: "tracked source change merges cleanly from source merge-base onto current base ref"
+    - path: ".octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh"
+      reason: "tracked source change merges cleanly from source merge-base onto current base ref"
+    - path: ".octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh"
+      reason: "tracked source change merges cleanly from source merge-base onto current base ref"
+    - path: ".octon/framework/assurance/runtime/_ops/tests/test-validate-generated-non-authority.sh"
+      reason: "new untracked implementation file inside include boundary and absent from current base ref"
+    - path: ".octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh"
+      reason: "tracked source change merges cleanly from source merge-base onto current base ref"
+    - path: ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+      reason: "tracked source change merges cleanly from source merge-base onto current base ref"
+  already_integrated_changes:
+    count: 0
+    paths:     []
+  stale_or_superseded_changes:
+    count: 0
+    paths:     []
+  deletion_candidates_requiring_explicit_proof:
+    count: 0
+    paths:     []
+  untracked_files_tracked_on_current_base:
+    count: 0
+    paths:     []
+  foreign_or_unrelated_residue:
+    count: 0
+    sample_limit: 50
+    note: "foreign scan skipped for refined exact-boundary proof; use a paired broad classifier output for full foreign-residue partitioning"
+    sample_paths:     []
+summary:
+  candidate_path_count: 6
+  blocked_path_count: 0
+  target_owned_path_count: 6
+  already_integrated_path_count: 0
+  stale_or_superseded_path_count: 0
+  deletion_candidate_path_count: 0
+  untracked_tracked_on_current_base_path_count: 0
+  foreign_or_unrelated_residue_path_count: 0

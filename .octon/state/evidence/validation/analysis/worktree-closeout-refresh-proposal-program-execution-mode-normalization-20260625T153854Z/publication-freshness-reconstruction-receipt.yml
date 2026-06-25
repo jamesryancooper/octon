@@ -1,0 +1,17 @@
+schema_version: reconstruction-receipt-v1
+candidate_id: publication-freshness-implementation-leftovers
+source_root: /Users/jamesryancooper/Projects/octon
+target_root: /private/tmp/octon-worktree-closeout-next-candidate
+classifier_ref: .octon/state/evidence/validation/analysis/worktree-closeout-refresh-proposal-program-execution-mode-normalization-20260625T153854Z/classify-publication-freshness-leftover-candidate.yml
+copied_paths:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-generated-non-authority.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh"
+  - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+excluded_paths:
+  - .octon/state
+  - .octon/generated
+  - .octon/inputs
+primary_mutated: false
