@@ -244,6 +244,44 @@ matches_prefix_file() {
   return 1
 }
 
+ARCHIVE_MOVE_CANDIDATE_AUTHORIZED="false"
+ARCHIVE_MOVE_ORIGINAL_REL=""
+
+detect_archive_move_candidate() {
+  local status original_path normalized_original
+  [[ -f "$MANIFEST" ]] || return 0
+  command -v yq >/dev/null 2>&1 || return 0
+  case "$TARGET_REL" in
+    .octon/inputs/exploratory/proposals/.archive/*/*) ;;
+    *) return 0 ;;
+  esac
+  status="$(yq -r '.status // ""' "$MANIFEST" 2>/dev/null || true)"
+  original_path="$(yq -r '.archive.original_path // ""' "$MANIFEST" 2>/dev/null || true)"
+  [[ "$status" == "archived" ]] || return 0
+  [[ -n "$original_path" && "$original_path" != "null" ]] || return 0
+  normalized_original="$(normalize_path "$original_path")"
+  [[ -n "$normalized_original" ]] || return 0
+  [[ -d "$TARGET_DIR" ]] || return 0
+  [[ ! -e "$ROOT_DIR/$normalized_original" ]] || return 0
+
+  ARCHIVE_MOVE_CANDIDATE_AUTHORIZED="true"
+  ARCHIVE_MOVE_ORIGINAL_REL="$normalized_original"
+}
+
+archive_move_candidate_path() {
+  local status="$1"
+  local path="$2"
+  [[ "$ARCHIVE_MOVE_CANDIDATE_AUTHORIZED" == "true" ]] || return 1
+  if [[ "$path" == "$TARGET_REL" || "$path" == "$TARGET_REL/"* ]]; then
+    return 0
+  fi
+  if [[ -n "$ARCHIVE_MOVE_ORIGINAL_REL" && "$status" == *D* ]] &&
+    [[ "$path" == "$ARCHIVE_MOVE_ORIGINAL_REL" || "$path" == "$ARCHIVE_MOVE_ORIGINAL_REL/"* ]]; then
+    return 0
+  fi
+  return 1
+}
+
 matches_current_run_artifact() {
   local path="$1"
   [[ -n "$RUN_ID" ]] || return 1
@@ -670,7 +708,9 @@ classify_partition_row() {
       fi
       ;;
     declared_in_scope_change)
-      if target_support_evidence_path "$path"; then
+      if archive_move_candidate_path "$status" "$path"; then
+        add_partition_row "$PUBLISHABLE_CLOSEOUT_ROWS" "$source_bucket" "$status" "$path" "archive-move packet boundary authorized by archived manifest status, archive.original_path, absent active original path, and exact target/original path scope"
+      elif target_support_evidence_path "$path"; then
         add_partition_row "$PUBLISHABLE_CLOSEOUT_ROWS" "$source_bucket" "$status" "$path" "child-owned support evidence for this target packet; proposal-local evidence is not runtime or policy authority"
       elif target_proposal_input_path "$path"; then
         add_partition_row "$MANUAL_REVIEW_ROWS" "$source_bucket" "$status" "$path" "target proposal input surface is in child scope but is not cleanup, support, runtime, policy, or closeout authority"
@@ -722,6 +762,10 @@ rows_sha256() {
 
 add_prefix "$SCOPE_PREFIXES" "$TARGET_REL"
 add_in_scope_from_manifest "$MANIFEST"
+detect_archive_move_candidate
+if [[ "$ARCHIVE_MOVE_CANDIDATE_AUTHORIZED" == "true" ]]; then
+  add_prefix "$SCOPE_PREFIXES" "$ARCHIVE_MOVE_ORIGINAL_REL"
+fi
 
 PROPOSAL_ID=""
 if command -v yq >/dev/null 2>&1; then
@@ -818,6 +862,10 @@ yaml_quote "$LIFECYCLE"
 printf '\n'
 printf 'run_id: '
 yaml_quote "$RUN_ID"
+printf '\n'
+printf 'archive_move_candidate_authorized: "%s"\n' "$ARCHIVE_MOVE_CANDIDATE_AUTHORIZED"
+printf 'archive_move_original_path: '
+yaml_quote "$ARCHIVE_MOVE_ORIGINAL_REL"
 printf '\n'
 printf 'worktree_hygiene_verdict: "%s"\n' "$VERDICT"
 printf 'worktree_hygiene_blocker_class: "%s"\n' "$BLOCKER_CLASS"

@@ -1,0 +1,29 @@
+schema_version: octon-worktree-closeout-candidate-boundary-v1
+target_worktree: /Users/jamesryancooper/Projects/octon
+route_worktree: /private/tmp/octon-proposal-program-execution-mode-normalization-archive-closeout
+candidate: proposal-program-execution-mode-normalization archive move
+owning_route: closeout-worktree
+classifier_rule: archive-move packet boundary authorized by archived manifest status, archive.original_path, absent active original path, and exact target/original path scope
+classifier_output: /private/tmp/octon-proposal-program-execution-mode-normalization-archive-closeout/.octon/state/evidence/validation/analysis/proposal-program-execution-mode-normalization-archive-closeout-after-classifier-fix-20260625T125052Z/classify-proposal-worktree-hygiene.yml
+classifier_exit_code: /private/tmp/octon-proposal-program-execution-mode-normalization-archive-closeout/.octon/state/evidence/validation/analysis/proposal-program-execution-mode-normalization-archive-closeout-after-classifier-fix-20260625T125052Z/classify-proposal-worktree-hygiene.exit-code.txt
+archive_move_candidate_authorized: true
+archived_packet_path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization
+active_original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+include_paths:
+  - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh
+  - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization
+  - .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-mode-normalization
+  - .octon/state/evidence/validation/analysis/proposal-program-execution-mode-normalization-archive-closeout-after-classifier-fix-20260625T125052Z
+exclude_paths:
+  - .octon/generated
+  - .octon/state/control
+  - .octon/state/evidence not listed in include_paths
+  - unrelated proposal packets
+  - unrelated archive moves
+  - primary dirty worktree residue
+authority_notes:
+  - The classifier output is route-owned classification evidence only.
+  - The active-path deletion is included only because the archived manifest proves archive.original_path and that active path is absent in the dirty source tree.
+  - Generated projections, raw control state, unrelated evidence, and foreign residue remain excluded.
+reconstruction_authorized: true

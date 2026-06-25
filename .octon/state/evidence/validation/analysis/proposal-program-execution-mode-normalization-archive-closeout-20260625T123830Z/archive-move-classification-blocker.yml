@@ -1,0 +1,33 @@
+schema_version: octon-worktree-closeout-blocker-v1
+target_worktree: /Users/jamesryancooper/Projects/octon
+route_worktree: /private/tmp/octon-proposal-program-execution-mode-normalization-archive-closeout
+candidate: proposal-program-execution-mode-normalization archive move
+target_path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization
+blocker_class: proposal-archive-move-boundary-unclassified
+owning_route: closeout-worktree
+whether_repeated: true
+repeated_from:
+  - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/analysis/worktree-closeout-proposal-program-execution-mode-normalization-20260625T122054Z/closeout-worktree-report.yml
+durable_fix_or_route_attempted:
+  - Created a clean route-owned worktree from current origin/main.
+  - Proved the primary active packet path is absent and the archived packet path exists.
+  - Ran the canonical proposal worktree hygiene classifier against the archived packet without mutating the primary worktree.
+classification_evidence:
+  path_posture: /private/tmp/octon-proposal-program-execution-mode-normalization-archive-closeout/.octon/state/evidence/validation/analysis/proposal-program-execution-mode-normalization-archive-closeout-20260625T123830Z/path-posture.yml
+  classifier_output: /private/tmp/octon-proposal-program-execution-mode-normalization-archive-closeout/.octon/state/evidence/validation/analysis/proposal-program-execution-mode-normalization-archive-closeout-20260625T123830Z/classify-proposal-worktree-hygiene.yml
+  classifier_stderr: /private/tmp/octon-proposal-program-execution-mode-normalization-archive-closeout/.octon/state/evidence/validation/analysis/proposal-program-execution-mode-normalization-archive-closeout-20260625T123830Z/classify-proposal-worktree-hygiene.stderr.txt
+  classifier_exit_code: /private/tmp/octon-proposal-program-execution-mode-normalization-archive-closeout/.octon/state/evidence/validation/analysis/proposal-program-execution-mode-normalization-archive-closeout-20260625T123830Z/classify-proposal-worktree-hygiene.exit-code.txt
+classification_result:
+  classifier_exit_code: 0
+  classifier_verdict: blocked
+  publishable_change_path_count: 4
+  publishable_closeout_evidence_path_count: 11
+  manual_review_path_count: 19590
+  reason: The classifier does not authorize the exact archived packet directory as a singular archive-move candidate. It classifies the packet manifest and support receipts as publishable closeout evidence, but leaves README, architecture, navigation, resources, and validation-plan packet files under manual review.
+mutation_performed:
+  primary_worktree_mutated: false
+  candidate_reconstructed: false
+  staged: false
+  committed: false
+  pushed: false
+next_required_action: Extend or run an owning proposal archive authorization route that can classify the full archived packet input surface for this proposal, then rerun the singular candidate closeout from a clean route-owned worktree.

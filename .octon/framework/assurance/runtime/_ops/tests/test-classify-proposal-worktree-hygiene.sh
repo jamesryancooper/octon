@@ -63,6 +63,12 @@ assert_contains() {
   grep -Fq -- "$pattern" "$file"
 }
 
+assert_not_contains() {
+  local file="$1"
+  local pattern="$2"
+  ! grep -Fq -- "$pattern" "$file"
+}
+
 new_fixture_repo() {
   local root target
   root="$(mktemp -d "${TMPDIR:-/tmp}/proposal-worktree-hygiene.XXXXXX")"
@@ -186,6 +192,56 @@ run_classifier() {
     "$2" \
     "$3" \
     ".octon/inputs/exploratory/proposals/architecture/fixture-packet"
+}
+
+write_complete_archived_fixture_packet() {
+  local archive_dir="$1"
+  local original_path="$2"
+  mkdir -p \
+    "$archive_dir/architecture" \
+    "$archive_dir/navigation" \
+    "$archive_dir/resources" \
+    "$archive_dir/support"
+  cat >"$archive_dir/proposal.yml" <<YAML
+schema_version: "proposal-v1"
+proposal_id: "fixture-packet"
+title: "Fixture packet"
+summary: "Fixture packet."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/example.md"
+status: "archived"
+archive:
+  archived_at: "2026-06-25"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: "$original_path"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/fixture-packet/validation.log"
+related_proposals: []
+YAML
+  printf '# Fixture packet\n' >"$archive_dir/README.md"
+  printf 'architecture\n' >"$archive_dir/architecture-proposal.yml"
+  printf 'criteria\n' >"$archive_dir/architecture/acceptance-criteria.md"
+  printf 'plan\n' >"$archive_dir/architecture/implementation-plan.md"
+  printf 'target\n' >"$archive_dir/architecture/target-architecture.md"
+  printf 'catalog\n' >"$archive_dir/navigation/artifact-catalog.md"
+  printf 'map\n' >"$archive_dir/navigation/source-of-truth-map.md"
+  printf 'lineage\n' >"$archive_dir/resources/source-lineage.md"
+  printf 'review\n' >"$archive_dir/support/proposal-review.md"
+  printf 'closeout\n' >"$archive_dir/support/proposal-closeout.md"
+  printf 'validation\n' >"$archive_dir/support/validation.md"
+  printf 'validation plan\n' >"$archive_dir/validation-plan.md"
+}
+
+prepare_archived_fixture_move() {
+  local root="$1"
+  local active=".octon/inputs/exploratory/proposals/architecture/fixture-packet"
+  local archive_dir="$root/.octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet"
+  git -C "$root" rm -qr "$active"
+  [[ -d "$root/$active" ]] && rm -r -- "$root/$active"
+  write_complete_archived_fixture_packet "$archive_dir" "$active"
 }
 
 case_owned_run_paths_do_not_block() {
@@ -756,6 +812,126 @@ case_untracked_raw_input_file_still_blocks() {
     assert_contains "$output" 'path: ".octon/inputs/exploratory/proposals/scratch.md"'
 }
 
+case_archived_packet_archive_move_boundary_is_authorized() {
+  local root output
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  prepare_archived_fixture_move "$root"
+  run_classifier_for_target \
+    "$root" \
+    proposal-packet \
+    "$output" \
+    ".octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet"
+  assert_contains "$output" 'archive_move_candidate_authorized: "true"' &&
+    assert_contains "$output" 'archive_move_original_path: ".octon/inputs/exploratory/proposals/architecture/fixture-packet"' &&
+    assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0" &&
+    assert_contains "$output" "worktree_hygiene_manual_review_path_count: 0" &&
+    assert_contains "$output" 'path: ".octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet/README.md"' &&
+    assert_contains "$output" 'path: ".octon/inputs/exploratory/proposals/architecture/fixture-packet/proposal.yml"' &&
+    assert_contains "$output" "archive-move packet boundary authorized by archived manifest status"
+}
+
+case_unrelated_archived_packet_remains_excluded_from_archive_move() {
+  local root output other_archive_dir
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  prepare_archived_fixture_move "$root"
+  other_archive_dir="$root/.octon/inputs/exploratory/proposals/.archive/architecture/other-packet"
+  mkdir -p "$other_archive_dir"
+  cat >"$other_archive_dir/proposal.yml" <<'YAML'
+schema_version: "proposal-v1"
+proposal_id: "other-packet"
+title: "Other packet"
+summary: "Other packet."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+status: "archived"
+archive:
+  original_path: ".octon/inputs/exploratory/proposals/architecture/other-packet"
+related_proposals: []
+YAML
+  run_classifier_for_target \
+    "$root" \
+    proposal-packet \
+    "$output" \
+    ".octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet"
+  assert_contains "$output" 'archive_move_candidate_authorized: "true"' &&
+    assert_contains "$output" 'worktree_hygiene_verdict: "blocked"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 1" &&
+    assert_contains "$output" 'path: ".octon/inputs/exploratory/proposals/.archive/architecture/other-packet/proposal.yml"'
+}
+
+case_generated_control_and_evidence_residue_not_swept_into_archive_move() {
+  local root output
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  prepare_archived_fixture_move "$root"
+  mkdir -p \
+    "$root/.octon/generated/proposals" \
+    "$root/.octon/state/control/execution/runs/foreign-run" \
+    "$root/.octon/state/evidence/validation/proposals/other-packet"
+  printf 'registry\n' >"$root/.octon/generated/proposals/registry.yml"
+  printf 'checkpoint\n' >"$root/.octon/state/control/execution/runs/foreign-run/lifecycle-checkpoint.yml"
+  printf 'evidence\n' >"$root/.octon/state/evidence/validation/proposals/other-packet/validation.log"
+  run_classifier_for_target \
+    "$root" \
+    proposal-packet \
+    "$output" \
+    ".octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet"
+  assert_contains "$output" 'archive_move_candidate_authorized: "true"' &&
+    assert_contains "$output" 'worktree_hygiene_verdict: "blocked"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 3" &&
+    assert_contains "$output" 'path: ".octon/generated/proposals/registry.yml"' &&
+    assert_contains "$output" 'path: ".octon/state/control/execution/runs/foreign-run/lifecycle-checkpoint.yml"' &&
+    assert_contains "$output" 'path: ".octon/state/evidence/validation/proposals/other-packet/validation.log"'
+}
+
+case_archived_packet_missing_archive_metadata_fails_closed() {
+  local root output active archive_dir
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  active=".octon/inputs/exploratory/proposals/architecture/fixture-packet"
+  archive_dir="$root/.octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet"
+  git -C "$root" rm -qr "$active"
+  mkdir -p "$archive_dir"
+  cat >"$archive_dir/proposal.yml" <<'YAML'
+schema_version: "proposal-v1"
+proposal_id: "fixture-packet"
+title: "Fixture packet"
+summary: "Fixture packet."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+status: "archived"
+related_proposals: []
+YAML
+  run_classifier_for_target \
+    "$root" \
+    proposal-packet \
+    "$output" \
+    ".octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet"
+  assert_contains "$output" 'archive_move_candidate_authorized: "false"' &&
+    assert_contains "$output" 'worktree_hygiene_verdict: "blocked"' &&
+    assert_not_contains "$output" "archive-move packet boundary authorized by archived manifest status"
+}
+
+case_archived_packet_active_original_path_still_present_fails_closed() {
+  local root output archive_dir active
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  active=".octon/inputs/exploratory/proposals/architecture/fixture-packet"
+  archive_dir="$root/.octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet"
+  write_complete_archived_fixture_packet "$archive_dir" "$active"
+  run_classifier_for_target \
+    "$root" \
+    proposal-packet \
+    "$output" \
+    ".octon/inputs/exploratory/proposals/.archive/architecture/fixture-packet"
+  assert_contains "$output" 'archive_move_candidate_authorized: "false"' &&
+    assert_contains "$output" "target proposal input surface is in child scope but is not cleanup, support, runtime, policy, or closeout authority" &&
+    assert_not_contains "$output" "archive-move packet boundary authorized by archived manifest status"
+}
+
 main() {
   assert_success "owned current-run control and evidence paths do not block" case_owned_run_paths_do_not_block
   assert_success "target support and promotion targets are in scope" case_declared_in_scope_paths_do_not_block
@@ -788,6 +964,11 @@ main() {
   assert_success "program host projection drift still blocks" case_program_host_projection_drift_blocks
   assert_success "local OS metadata does not block" case_local_os_metadata_does_not_block
   assert_success "untracked raw input files still block" case_untracked_raw_input_file_still_blocks
+  assert_success "archived packet archive-move boundary is authorized" case_archived_packet_archive_move_boundary_is_authorized
+  assert_success "unrelated archived packet remains excluded from archive move" case_unrelated_archived_packet_remains_excluded_from_archive_move
+  assert_success "generated control and evidence residue are not swept into archive move" case_generated_control_and_evidence_residue_not_swept_into_archive_move
+  assert_success "archived packet missing archive metadata fails closed" case_archived_packet_missing_archive_metadata_fails_closed
+  assert_success "archived packet with active original path still present fails closed" case_archived_packet_active_original_path_still_present_fails_closed
 
   echo
   echo "$TEST_NAME: passed=$pass_count failed=$fail_count"
