@@ -1,0 +1,28 @@
+schema_version: hosted-landing-provider-blocker-v1
+created_at_utc: 2026-06-25T19:28:00Z
+operation_class: hosted-no-pr-landing
+owning_route: closeout-change
+selected_change_route: branch-no-pr
+worktree: /private/tmp/octon-repo-hygiene-classifier-performance-20260625T190335Z
+rejected_branch: chore/repo-hygiene-classifier-performance-20260625T190335Z
+corrected_branch: chore/repo-hygiene-classifier-performance-fix
+rejected_source_ref: 1b0c75e554ace7bc75dd6fc789cc98573f097e17
+target_branch: main
+target_pre_ref: c2cb4e33c4d42f11443308e7c11ca22d5122776e
+provider_rejection:
+  blocker_class: provider-required-check-failed
+  provider_error: GH013
+  required_check: branch_naming_validation
+  detail: >-
+    Hosted no-PR landing authorization validated, but GitHub rejected the
+    origin/main update because the required branch naming check failed for the
+    source branch. The branch slug contained uppercase timestamp letters that
+    violate the repository branch pattern.
+durable_fix:
+  action: route_branch_renamed_to_standards_compliant_slug
+  branch_pattern: <type>/<ticket-id>-<short-description>
+  corrected_slug: repo-hygiene-classifier-performance-fix
+  pr_created: false
+notes:
+  - The primary dirty worktree remained untouched.
+  - The old pushed branch must be cleaned only after the landed ref is proven contained, or otherwise reported as retained remote residue.
