@@ -1,0 +1,66 @@
+schema_version: historical-registry-evidence-repair-v1
+repair_id: historical-registry-evidence-repair-20260625T034225Z
+recorded_at: "2026-06-25T03:42:25Z"
+release_state: pre-1.0
+change_profile: atomic
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-18-octon-frontier-governance-target-state/plan.md"
+scope:
+  summary: "Repair stale superseded archive evidence references that block exact proposal registry generation."
+  target_validator: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check"
+  target_packets:
+    - ".octon/inputs/exploratory/proposals/.archive/architecture/extensions-sidecar-pack-system"
+    - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture"
+  exclusions:
+    - "No parent/program delivery rerun."
+    - "No child implementation, closeout, or archive rerun."
+    - "No fabricated missing evidence files."
+    - "No edits to operator-free-lifecycle-delivery-autonomy-hardening archived child packets."
+authority_boundary:
+  classification: retained-validation-evidence
+  generated_registry_authority: derived-only
+  proposal_inputs_authority: non-authoritative-lineage
+  terminal_delivery_evidence_policy: "Post-cleanup delivery evidence remains local retained evidence only and is not committed back into the completed delivery branch."
+repairs:
+  - packet: ".octon/inputs/exploratory/proposals/.archive/architecture/extensions-sidecar-pack-system"
+    field: "archive.promotion_evidence[0]"
+    stale_ref: ".octon/inputs/exploratory/proposals/.archive/architecture/inputs-additive-extensions/proposal.yml"
+    replacement_ref: ".octon/state/evidence/migration/2026-03-20-inputs-additive-extensions-cutover/evidence.md"
+    replacement_exists: true
+    rationale: "The stale packet path is absent, while the retained migration evidence records the inputs-additive-extensions cutover and explicitly identifies the sidecar-pack proposal as archived historical input."
+  - packet: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture"
+    field: "archive.promotion_evidence[2]"
+    stale_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781073115145-fe49ec37/parent/aggregate-child-outcomes-20260610T133510Z.yml"
+    replacement_ref: ".octon/state/evidence/validation/proposals/delegated-governance-cutover-closeout/2026-06-10T11-33-42Z/parent-program-closeout-evidence-summary.md"
+    replacement_exists: true
+    rationale: "The stale workflow bundle path is absent, while the retained parent closeout summary records the delegated-governance program closeout evidence boundary and points to child-owned receipts without replacing them."
+validation_plan:
+  - "Validate both repaired proposal packets with validate-proposal-standard.sh --package."
+  - "Run exact generate-proposal-registry.sh --check."
+  - "Run git diff --check and confirm terminal local closeout evidence remains valid."
+validation_results:
+  - command: "env PATH=\"/Users/jamesryancooper/.homebrew/bin:$PATH\" bash .octon/framework/assurance/runtime/_ops/scripts/validate-terminal-closeout-local-evidence.sh --manifest .octon/state/evidence/local/terminal-closeout/operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z/manifest.json --change-id operator-free-lifecycle-delivery-autonomy-hardening-delivery-20260624T231402Z --landed-ref e8d63b37750089f596e309fada18e381f31397a4"
+    verdict: pass
+    evidence_log: ".octon/state/evidence/validation/proposals/historical-registry-evidence-repair/20260625T034225Z/validate-terminal-closeout-local-evidence.log"
+  - command: "env PATH=\"/Users/jamesryancooper/.homebrew/bin:$PATH\" bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write"
+    verdict: pass
+    evidence_log: ".octon/state/evidence/validation/proposals/historical-registry-evidence-repair/20260625T034225Z/generate-proposal-registry-write.log"
+    generated_registry_delta: "none; existing generated registry already matched the repaired manifest projection"
+  - command: "env PATH=\"/Users/jamesryancooper/.homebrew/bin:$PATH\" bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/extensions-sidecar-pack-system"
+    verdict: pass
+    evidence_log: ".octon/state/evidence/validation/proposals/historical-registry-evidence-repair/20260625T034225Z/validate-proposal-standard-extensions-sidecar-pack-system.log"
+  - command: "env PATH=\"/Users/jamesryancooper/.homebrew/bin:$PATH\" bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-architecture"
+    verdict: pass
+    evidence_log: ".octon/state/evidence/validation/proposals/historical-registry-evidence-repair/20260625T034225Z/validate-proposal-standard-octon-wide-delegated-governance-architecture.log"
+  - command: "env PATH=\"/Users/jamesryancooper/.homebrew/bin:$PATH\" bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check"
+    verdict: pass
+    evidence_log: ".octon/state/evidence/validation/proposals/historical-registry-evidence-repair/20260625T034225Z/generate-proposal-registry-check.log"
+  - command: "git diff --check"
+    verdict: pass
+    evidence_log: ".octon/state/evidence/validation/proposals/historical-registry-evidence-repair/20260625T034225Z/git-diff-check.log"
+cleanup_receipt:
+  dependency_changes: none
+  generated_outputs_changed: none
+  deleted_or_simplified_artifacts: none
+  unrelated_worktree_changes_included: none
+  no_pr_created_for_completed_parent_delivery: true
+unrepaired_missing_evidence: []

@@ -1,0 +1,10 @@
+[OK] terminal local evidence schema exists
+[OK] terminal local evidence schema parses as JSON
+[OK] terminal local evidence manifest exists
+[OK] terminal local evidence manifest parses as JSON
+[OK] terminal local evidence manifest fields and digests are valid
+Python validation summary: errors=0
+[OK] terminal local proof validates as cleaned current-state proof
+[OK] terminal local proof change_id matches
+[OK] terminal local proof landed_ref matches
+Validation summary: errors=0

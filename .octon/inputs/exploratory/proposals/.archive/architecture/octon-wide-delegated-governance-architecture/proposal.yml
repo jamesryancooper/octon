@@ -30,7 +30,7 @@ archive:
   promotion_evidence:
     - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration/proposal.yml"
     - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-wide-delegated-governance-migration/support/proposal-closeout.md"
-    - ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1781073115145-fe49ec37/parent/aggregate-child-outcomes-20260610T133510Z.yml"
+    - ".octon/state/evidence/validation/proposals/delegated-governance-cutover-closeout/2026-06-10T11-33-42Z/parent-program-closeout-evidence-summary.md"
 lifecycle:
   temporary: true
   exit_expectation: >-
