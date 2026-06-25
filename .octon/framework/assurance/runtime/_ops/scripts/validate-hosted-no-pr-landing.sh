@@ -20,24 +20,17 @@ GITHUB_CONTROL_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standard
 RECEIPT_PATH=""
 SKIP_LIVE_REMOTE=0
 REQUIRE_LIVE_REMOTE=0
-ALLOW_LIVE_ORIGIN_MAIN_DESCENDANT=0
 errors=0
 
 usage() {
   cat <<'USAGE'
 usage:
-  validate-hosted-no-pr-landing.sh [--receipt <path>] [--skip-live-remote] [--require-live-remote] [--allow-live-origin-main-descendant]
+  validate-hosted-no-pr-landing.sh [--receipt <path>] [--skip-live-remote] [--require-live-remote]
 
 Without --receipt, validates static hosted no-PR landing policy/helper alignment.
 With --receipt, validates that branch-no-pr landed/cleaned claims have hosted
 landing evidence and cannot be local checkpoints, branch-local commits, or
 pushed-only branches.
-
---require-live-remote keeps the default immediate landing gate strict:
-origin/main must equal the recorded landed ref. Use
---allow-live-origin-main-descendant only when validating a retained historical
-landing receipt after a later closeout evidence-retention commit has advanced
-origin/main while still containing the landed ref.
 USAGE
 }
 
@@ -368,13 +361,7 @@ validate_receipt() {
     if git -C "$ROOT_DIR" rev-parse --verify "origin/main^{commit}" >/dev/null 2>&1; then
       local origin_main_ref
       origin_main_ref="$(git -C "$ROOT_DIR" rev-parse origin/main)"
-      if [[ "$origin_main_ref" == "$landed_ref" ]]; then
-        pass "origin/main equals recorded landed ref"
-      elif [[ "$ALLOW_LIVE_ORIGIN_MAIN_DESCENDANT" -eq 1 ]] && git -C "$ROOT_DIR" merge-base --is-ancestor "$landed_ref" origin/main; then
-        pass "origin/main contains recorded landed ref after later evidence-retention commit"
-      else
-        fail "origin/main does not equal recorded landed ref"
-      fi
+      [[ "$origin_main_ref" == "$landed_ref" ]] && pass "origin/main equals recorded landed ref" || fail "origin/main does not equal recorded landed ref"
     elif [[ "$REQUIRE_LIVE_REMOTE" -eq 1 ]]; then
       fail "origin/main live ref is required but unavailable"
     else
@@ -397,9 +384,6 @@ while [[ $# -gt 0 ]]; do
       ;;
     --require-live-remote)
       REQUIRE_LIVE_REMOTE=1
-      ;;
-    --allow-live-origin-main-descendant)
-      ALLOW_LIVE_ORIGIN_MAIN_DESCENDANT=1
       ;;
     -h|--help)
       usage

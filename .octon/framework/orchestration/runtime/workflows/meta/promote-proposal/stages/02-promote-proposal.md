@@ -25,7 +25,10 @@ description: Rewrite the proposal to implemented state after proving that promot
    generated projection freshness, manifest/schema validity, projection
    boundary review, target-family review, churn review, validators run,
    exclusions, and closeout recommendation.
-7. Rewrite `proposal.yml` from `status: accepted` to `status: implemented`.
+7. Rewrite only the top-level `proposal.yml` `status:` scalar from `accepted`
+   to `implemented`. Preserve the rest of the manifest text byte-for-byte;
+   do not reserialize, reorder, reformat, quote-normalize, or otherwise churn
+   reviewed manifest content.
 8. Regenerate `generated/proposals/registry.yml` from manifests instead of editing it manually.
 9. Run `validate-proposal-implementation-conformance.sh --package <proposal_path>`.
 10. Run `validate-proposal-post-implementation-drift.sh --package <proposal_path>`.

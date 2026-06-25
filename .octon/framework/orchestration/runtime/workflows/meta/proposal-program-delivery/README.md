@@ -69,6 +69,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `delivery_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-proposal-program-delivery.md`: Top-level proposal program delivery summary.
 - `delivery_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/`: Workflow bundle containing delivery profile, state evidence, inventory, and receipt.
 - `delivery_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-receipt.yml`: Aggregate proposal-program-delivery-receipt output validated by validate-proposal-program-delivery-receipt.sh.
+- `delivery_evidence_index` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-evidence-index.yml`: Compact retained delivery evidence index validated by validate-proposal-program-delivery-evidence-index.sh; evidence-only and non-authorizing.
 
 ## Steps
 
@@ -91,6 +92,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] repo-hygiene-cleanup owns any local residue deletion
 - [ ] terminal current-state proof shows local main, origin/main, and landed ref equality
 - [ ] delivery receipt validates with validate-proposal-program-delivery-receipt.sh
+- [ ] delivery evidence index validates with validate-proposal-program-delivery-evidence-index.sh and remains evidence-only
 
 ## References
 

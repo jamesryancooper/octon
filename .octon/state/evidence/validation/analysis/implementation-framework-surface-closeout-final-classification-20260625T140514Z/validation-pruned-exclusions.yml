@@ -1,0 +1,23 @@
+schema_version: implementation-surface-validation-pruned-exclusions-v1
+target_worktree: /Users/jamesryancooper/Projects/octon
+route_worktree: /private/tmp/octon-implementation-framework-surface-closeout
+candidate_id: implementation-framework-surface
+owning_route: closeout-worktree -> closeout-change
+primary_worktree_mutated: false
+pruned_after_validation: true
+excluded_paths:
+  - path: .octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh
+    reason: "test changes require paired classify-proposal-worktree-hygiene.sh behavior, but that script was blocked by stale conflict in the broad classifier output"
+  - path: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    reason: "reconstructed change failed generated non-authority validation by adding forbidden generated read-model dependency"
+  - path: .octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh
+    reason: "publication freshness change requires run-health freshness/generator state not included in this singular candidate"
+  - path: .octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh
+    reason: "paired with excluded publication freshness validator change"
+  - path: .octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md
+    reason: "paired with excluded publication freshness validator change"
+  - path: .octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh
+    reason: "test hardening invokes generated non-authority negative controls that current origin/main lifecycle_program.rs does not satisfy; route separately with code remediation"
+  - path: .octon/framework/assurance/runtime/_ops/tests/test-validate-generated-non-authority.sh
+    reason: "paired with excluded generated non-authority hardening test"
+next_required_action: "Handle these paths as separate blocked/validation-dependent implementation candidates after route-owned ownership and freshness proof exists."

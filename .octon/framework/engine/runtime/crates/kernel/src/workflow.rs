@@ -2735,18 +2735,14 @@ pub fn run_promote_proposal_from_octon_dir(
             other
         ),
     };
-    ensure!(
-        promotion_mode != "idempotent-no-op"
-            || proposal_registry_active_status_matches(
-                &repo_root,
-                &proposal_rel,
-                &manifest.proposal_kind,
-                &manifest.proposal_id,
-                "implemented",
-            )?,
-        "promote-proposal replay requires registry status=implemented for {}",
-        proposal_rel
-    );
+    if promotion_mode == "idempotent-no-op" {
+        recover_promote_proposal_replay_registry(
+            &repo_root,
+            &proposal_rel,
+            &manifest.proposal_kind,
+            &manifest.proposal_id,
+        )?;
+    }
 
     let stage_validate = authorize_workflow_stage(
         &runtime_cfg,
@@ -2876,11 +2872,11 @@ pub fn run_promote_proposal_from_octon_dir(
         if promotion_mode == "idempotent-no-op" {
             return Ok(vec![".octon/generated/proposals/registry.yml".to_string()]);
         }
-        let original_manifest = manifest.clone();
+        let original_manifest_raw = read_proposal_manifest_raw(&proposal_root)?;
         manifest.status = "implemented".to_string();
-        write_proposal_manifest(&proposal_root, &manifest)?;
+        write_proposal_manifest_status_preserving_text(&proposal_root, "implemented")?;
         if let Err(error) = regenerate_proposal_registry(&repo_root, true) {
-            write_proposal_manifest(&proposal_root, &original_manifest)?;
+            write_proposal_manifest_raw(&proposal_root, &original_manifest_raw)?;
             return Err(error);
         }
         ensure!(
@@ -3940,6 +3936,8 @@ struct TerminalCloseoutWorktreeReport {
     #[serde(default)]
     schema_version: String,
     #[serde(default)]
+    run_id: Option<String>,
+    #[serde(default)]
     read_only_classification: Option<bool>,
     #[serde(default)]
     detection_is_deletion_authority: Option<bool>,
@@ -4724,6 +4722,7 @@ fn classify_terminal_worktree(
             .trim()
             .to_string();
         if terminal_path_in_scope(&path, proposal_rel, manifest, program_run_id)
+            || terminal_closeout_route_retained_evidence_path(&path)
             || terminal_current_run_acp_decision_log_append(
                 repo_root,
                 &path,
@@ -4918,7 +4917,9 @@ fn add_terminal_closeout_return_coverage(
         return Ok(());
     }
     for evidence in receipt.return_evidence_refs {
-        if evidence.schema_version != "closeout-worktree-report-v1" {
+        if !evidence.schema_version.trim().is_empty()
+            && evidence.schema_version != "closeout-worktree-report-v1"
+        {
             coverage.rejected_refs.push(format!(
                 "{} (unsupported return evidence schema)",
                 evidence.ref_path
@@ -5006,6 +5007,14 @@ fn add_terminal_closeout_report_coverage(
         };
         accepted_any = true;
         coverage.report_refs.insert(report_ref.to_string());
+        coverage
+            .by_path
+            .entry(report_ref.to_string())
+            .or_insert_with(|| TerminalCloseoutWorktreeCoverageEntry {
+                report_ref: report_ref.to_string(),
+                candidate_id: candidate.candidate_id.clone(),
+                coverage_kind: "validated-closeout-worktree-report".to_string(),
+            });
         for path in &candidate.boundaries.include_paths {
             if !terminal_is_safe_repo_relative(path) {
                 continue;
@@ -5018,6 +5027,16 @@ fn add_terminal_closeout_report_coverage(
                 }
             });
         }
+        for path in terminal_closeout_worktree_report_run_log_refs(&report) {
+            coverage
+                .by_path
+                .entry(path)
+                .or_insert_with(|| TerminalCloseoutWorktreeCoverageEntry {
+                    report_ref: report_ref.to_string(),
+                    candidate_id: candidate.candidate_id.clone(),
+                    coverage_kind: "validated-closeout-worktree-run-log".to_string(),
+                });
+        }
     }
     if !accepted_any {
         coverage.rejected_refs.push(format!(
@@ -5025,6 +5044,33 @@ fn add_terminal_closeout_report_coverage(
         ));
     }
     Ok(())
+}
+
+fn terminal_closeout_worktree_report_run_log_refs(
+    report: &TerminalCloseoutWorktreeReport,
+) -> Vec<String> {
+    let Some(run_id) = report.run_id.as_deref().map(str::trim) else {
+        return Vec::new();
+    };
+    if run_id.is_empty()
+        || !run_id
+            .chars()
+            .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.'))
+    {
+        return Vec::new();
+    }
+    let mut refs = Vec::new();
+    refs.push(format!(
+        ".octon/state/evidence/runs/skills/closeout-worktree/{run_id}.md"
+    ));
+    if let Some((prefix, suffix)) = run_id.rsplit_once("-closeout-worktree-") {
+        refs.push(format!(
+            ".octon/state/evidence/runs/skills/closeout-worktree/{prefix}-{suffix}.md"
+        ));
+    }
+    refs.sort();
+    refs.dedup();
+    refs
 }
 
 fn terminal_closeout_report_top_level_allows_coverage(
@@ -5052,7 +5098,10 @@ fn terminal_child_closeout_candidate_allows_coverage(
         .get(&candidate.candidate_id)
         .map(|disposition| disposition.state.as_str());
     if auth.child_id != child_id
-        || auth.route_id != "closeout-packet"
+        || !matches!(
+            auth.route_id.as_str(),
+            "closeout-packet" | "proposal-packet-terminal-closeout"
+        )
         || auth.disposition != "preserve-and-exclude-from-child-closeout-blocking"
         || auth.non_mutating != Some(true)
         || auth.preserve_and_exclude_from_child_closeout_blocking != Some(true)
@@ -5158,11 +5207,56 @@ fn terminal_classifier_digest_and_fingerprint_match(
         return Ok(false);
     }
     let classifier_path = repo_root.join(classifier_output_ref);
-    let value: serde_yaml::Value = serde_yaml::from_slice(&fs::read(classifier_path)?)?;
-    Ok(value
-        .get("worktree_hygiene_foreign_fingerprint")
-        .and_then(|value| value.as_str())
-        == Some(authorized_foreign_fingerprint))
+    let classifier_bytes = fs::read(&classifier_path)?;
+    if let Ok(value) = serde_yaml::from_slice::<serde_yaml::Value>(&classifier_bytes) {
+        if value
+            .get("worktree_hygiene_foreign_fingerprint")
+            .and_then(|value| value.as_str())
+            == Some(authorized_foreign_fingerprint)
+        {
+            return Ok(true);
+        }
+    }
+    let classifier_body = String::from_utf8_lossy(&classifier_bytes);
+    Ok(
+        terminal_markdown_foreign_fingerprint(&classifier_body).as_deref()
+            == Some(authorized_foreign_fingerprint),
+    )
+}
+
+fn terminal_markdown_foreign_fingerprint(body: &str) -> Option<String> {
+    let mut in_foreign_section = false;
+    let mut rows = Vec::new();
+    for line in body.lines() {
+        if line.trim() == "## Foreign Or Ambiguous" {
+            in_foreign_section = true;
+            continue;
+        }
+        if in_foreign_section && line.starts_with("## ") {
+            break;
+        }
+        if !in_foreign_section {
+            continue;
+        }
+        let Some(path) = line
+            .trim()
+            .strip_prefix("- `")
+            .and_then(|value| value.strip_suffix("`"))
+        else {
+            continue;
+        };
+        if terminal_is_safe_repo_relative(path) {
+            rows.push(path.to_string());
+        }
+    }
+    if rows.is_empty() {
+        return None;
+    }
+    rows.sort();
+    Some(format!(
+        "sha256:{}",
+        hex::encode(Sha256::digest(rows.join("\n").as_bytes()))
+    ))
 }
 
 fn terminal_digest_matches(repo_root: &Path, rel: &str, expected_digest: &str) -> Result<bool> {
@@ -5290,6 +5384,8 @@ fn terminal_path_in_scope(
         || path.starts_with(".octon/state/control/execution/runs/")
         || path.starts_with(".octon/state/continuity/runs/")
         || path.starts_with(".octon/state/evidence/external-index/runs/")
+        || terminal_generated_projection_path_in_scope(path)
+        || terminal_publication_validation_evidence_path_in_scope(path)
         || path.starts_with(&proposal_validation_prefix)
         || run_cleanup_evidence_prefix
             .as_deref()
@@ -5302,6 +5398,41 @@ fn terminal_path_in_scope(
         || manifest.promotion_targets.iter().any(|target| {
             path == target || path.starts_with(&format!("{}/", target.trim_end_matches('/')))
         })
+}
+
+fn terminal_generated_projection_path_in_scope(path: &str) -> bool {
+    let generated_cognition_run_prefix = [
+        ".octon/generated",
+        "cognition",
+        "projections",
+        "materialized",
+        "runs",
+        "",
+    ]
+    .join("/");
+    (path.starts_with(&generated_cognition_run_prefix) && path.ends_with("/health.yml"))
+        || path.starts_with(".octon/generated/effective/")
+}
+
+fn terminal_publication_validation_evidence_path_in_scope(path: &str) -> bool {
+    path.starts_with(".octon/state/evidence/validation/publication/")
+        || path.starts_with(".octon/state/evidence/validation/extensions/prompt-alignment/")
+        || path
+            == ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+}
+
+fn terminal_closeout_route_retained_evidence_path(path: &str) -> bool {
+    if !terminal_is_safe_repo_relative(path)
+        || !path.starts_with(".octon/state/evidence/validation/analysis/")
+        || !path.ends_with(".md")
+    {
+        return false;
+    }
+    Path::new(path)
+        .file_name()
+        .and_then(|name| name.to_str())
+        .map(|name| name.contains("proposal-packet-terminal-closeout"))
+        .unwrap_or(false)
 }
 
 fn terminal_current_run_acp_decision_log_append(
@@ -8708,6 +8839,7 @@ fn regenerate_proposal_registry(repo_root: &Path, write: bool) -> Result<()> {
     let output = Command::new("bash")
         .arg(&generator)
         .arg(mode)
+        .env("OCTON_PROPOSAL_REGISTRY_PROJECTION_ONLY", "1")
         .env("OCTON_PROPOSAL_REGISTRY_SKIP_SUBTYPE_VALIDATION", "1")
         .current_dir(repo_root)
         .output()
@@ -8748,6 +8880,43 @@ fn proposal_registry_active_status_matches(
             && entry.id == proposal_id
             && entry.status == expected_status
     }))
+}
+
+fn recover_promote_proposal_replay_registry(
+    repo_root: &Path,
+    proposal_rel: &str,
+    proposal_kind: &str,
+    proposal_id: &str,
+) -> Result<bool> {
+    let registry_path = repo_root.join(".octon/generated/proposals/registry.yml");
+    let registry_current = if registry_path.is_file() {
+        proposal_registry_active_status_matches(
+            repo_root,
+            proposal_rel,
+            proposal_kind,
+            proposal_id,
+            "implemented",
+        )?
+    } else {
+        false
+    };
+    if registry_current {
+        return Ok(false);
+    }
+
+    regenerate_proposal_registry(repo_root, true)?;
+    ensure!(
+        proposal_registry_active_status_matches(
+            repo_root,
+            proposal_rel,
+            proposal_kind,
+            proposal_id,
+            "implemented",
+        )?,
+        "promote-proposal replay registry recovery did not publish implemented status for {}",
+        proposal_rel
+    );
+    Ok(true)
 }
 
 fn write_create_stage_input(
@@ -9200,10 +9369,59 @@ fn load_proposal_manifest(proposal_root: &Path) -> Result<ProposalManifest> {
     serde_yaml::from_str(&raw).with_context(|| format!("parse {}", manifest_path.display()))
 }
 
+fn read_proposal_manifest_raw(proposal_root: &Path) -> Result<String> {
+    let manifest_path = proposal_root.join("proposal.yml");
+    fs::read_to_string(&manifest_path).with_context(|| format!("read {}", manifest_path.display()))
+}
+
+fn write_proposal_manifest_raw(proposal_root: &Path, raw: &str) -> Result<()> {
+    let manifest_path = proposal_root.join("proposal.yml");
+    fs::write(&manifest_path, raw).with_context(|| format!("write {}", manifest_path.display()))
+}
+
 fn write_proposal_manifest(proposal_root: &Path, manifest: &ProposalManifest) -> Result<()> {
     let manifest_path = proposal_root.join("proposal.yml");
     fs::write(&manifest_path, serde_yaml::to_string(manifest)?)
         .with_context(|| format!("write {}", manifest_path.display()))
+}
+
+fn write_proposal_manifest_status_preserving_text(
+    proposal_root: &Path,
+    status: &str,
+) -> Result<()> {
+    let raw = read_proposal_manifest_raw(proposal_root)?;
+    let mut next = String::with_capacity(raw.len() + status.len() + 10);
+    let mut saw_status = false;
+
+    for line in raw.split_inclusive('\n') {
+        let (content, ending) = if let Some(content) = line.strip_suffix("\r\n") {
+            (content, "\r\n")
+        } else if let Some(content) = line.strip_suffix('\n') {
+            (content, "\n")
+        } else {
+            (line, "")
+        };
+
+        if content.starts_with("status:") {
+            next.push_str("status: ");
+            next.push_str(status);
+            next.push_str(ending);
+            saw_status = true;
+        } else {
+            next.push_str(line);
+        }
+    }
+
+    if !saw_status {
+        if !next.is_empty() && !next.ends_with('\n') {
+            next.push('\n');
+        }
+        next.push_str("status: ");
+        next.push_str(status);
+        next.push('\n');
+    }
+
+    write_proposal_manifest_raw(proposal_root, &next)
 }
 
 fn validate_repo_relative_paths(repo_root: &Path, paths: &[String], label: &str) -> Result<()> {
@@ -9748,6 +9966,88 @@ mod tests {
     }
 
     #[test]
+    fn terminal_path_scope_includes_validated_publication_artifacts_only() {
+        let manifest = terminal_test_manifest();
+        let proposal_rel = ".octon/inputs/exploratory/proposals/architecture/child-proposal";
+        let generated_cognition_run_health = [
+            ".octon/generated",
+            "cognition",
+            "projections",
+            "materialized",
+            "runs",
+            "run-id",
+            "health.yml",
+        ]
+        .join("/");
+        let generated_cognition_run_summary = [
+            ".octon/generated",
+            "cognition",
+            "projections",
+            "materialized",
+            "runs",
+            "run-id",
+            "summary.yml",
+        ]
+        .join("/");
+
+        assert!(terminal_path_in_scope(
+            &generated_cognition_run_health,
+            proposal_rel,
+            &manifest,
+            "program-run",
+        ));
+        assert!(terminal_path_in_scope(
+            ".octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-review-packet/SKILL.md",
+            proposal_rel,
+            &manifest,
+            "program-run",
+        ));
+        assert!(terminal_path_in_scope(
+            ".octon/state/evidence/validation/publication/runtime/2026-06-23T12-02-14Z-runtime-route-bundle.yml",
+            proposal_rel,
+            &manifest,
+            "program-run",
+        ));
+        assert!(terminal_path_in_scope(
+            ".octon/state/evidence/validation/extensions/prompt-alignment/2026-06-23T11-59-07Z-octon-proposal-lifecycle.yml",
+            proposal_rel,
+            &manifest,
+            "program-run",
+        ));
+        assert!(terminal_path_in_scope(
+            ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml",
+            proposal_rel,
+            &manifest,
+            "program-run",
+        ));
+
+        assert!(!terminal_path_in_scope(
+            &generated_cognition_run_summary,
+            proposal_rel,
+            &manifest,
+            "program-run",
+        ));
+        assert!(!terminal_path_in_scope(
+            ".octon/state/evidence/validation/analysis/foreign-closeout-worktree-report.yml",
+            proposal_rel,
+            &manifest,
+            "program-run",
+        ));
+        assert!(terminal_closeout_route_retained_evidence_path(
+            ".octon/state/evidence/validation/analysis/2026-06-23-proposal-packet-terminal-closeout-14.md"
+        ));
+        assert!(!terminal_closeout_route_retained_evidence_path(
+            ".octon/state/evidence/validation/analysis/foreign-closeout-worktree-report.yml"
+        ));
+        assert!(!terminal_path_in_scope(
+            ".octon/state/evidence/validation/compatibility/foreign.yml",
+            proposal_rel,
+            &manifest,
+            "program-run",
+        ));
+    }
+
+    #[test]
     fn terminal_acp_diff_accepts_only_current_run_appends() {
         let run_id = "proposal-packet-terminal-closeout-123-456";
         let accepted = r#"diff --git a/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl b/.octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
@@ -9882,6 +10182,13 @@ final_candidate_dispositions:
         .unwrap();
 
         assert!(coverage.by_path.contains_key("foreign/manual.md"));
+        assert_eq!(
+            coverage
+                .by_path
+                .get(report_ref)
+                .map(|entry| entry.coverage_kind.as_str()),
+            Some("validated-closeout-worktree-report")
+        );
         assert!(coverage.report_refs.contains(report_ref));
         assert!(coverage.rejected_refs.is_empty());
     }
@@ -9976,6 +10283,8 @@ final_candidate_dispositions:
         let classifier_ref =
             ".octon/state/evidence/runs/workflows/program-run/children/child-id/worktree.yml";
         let report_ref = ".octon/state/evidence/validation/analysis/child-report.yml";
+        let return_ref =
+            ".octon/state/evidence/runs/workflows/program-run/lifecycle-interactions/child-return.json";
         write_file(
             &root.join(classifier_ref),
             "worktree_hygiene_foreign_fingerprint: sha256:child\n",
@@ -10031,6 +10340,216 @@ final_candidate_dispositions:
                 classifier_digest = terminal_file_digest(&root.join(classifier_ref)).unwrap()
             ),
         );
+        let report_digest = terminal_file_digest(&root.join(report_ref)).unwrap();
+        write_file(
+            &root.join(return_ref),
+            &format!(
+                r#"{{
+  "schema_version": "lifecycle-interaction-return-v1",
+  "consumer": {{"lifecycle_id": "closeout-worktree"}},
+  "outcome": {{"completed": true, "non_mutating": true, "cleaned_claim": false}},
+  "return_evidence_refs": [
+    {{"ref": "{report_ref}", "digest": "{report_digest}"}}
+  ]
+}}
+"#
+            ),
+        );
+
+        let mut coverage = empty_terminal_closeout_coverage();
+        add_terminal_closeout_return_coverage(
+            &root,
+            return_ref,
+            "program-run",
+            "child-id",
+            &mut coverage,
+        )
+        .unwrap();
+
+        let entry = coverage.by_path.get("foreign/child.md").unwrap();
+        assert_eq!(entry.coverage_kind, "child-closeout-worktree");
+        assert_eq!(
+            coverage
+                .by_path
+                .get(report_ref)
+                .map(|entry| entry.coverage_kind.as_str()),
+            Some("validated-closeout-worktree-report")
+        );
+        assert!(coverage.report_refs.contains(report_ref));
+    }
+
+    #[test]
+    fn terminal_closeout_consumes_terminal_route_handoff_with_markdown_classifier() {
+        let root = make_temp_root("terminal-route-worktree-handoff");
+        let classifier_ref =
+            ".octon/state/evidence/runs/workflows/program-run/children/child-id/worktree.md";
+        let report_ref = ".octon/state/evidence/validation/analysis/terminal-report.yml";
+        let return_ref =
+            ".octon/state/evidence/runs/workflows/program-run/lifecycle-interactions/terminal-return.json";
+        write_file(
+            &root.join(classifier_ref),
+            "# Worktree Hygiene Classification\n\n## Foreign Or Ambiguous\n\n- `foreign/terminal.md`\n",
+        );
+        let fingerprint = terminal_markdown_foreign_fingerprint(
+            &fs::read_to_string(root.join(classifier_ref)).unwrap(),
+        )
+        .unwrap();
+        write_file(
+            &root.join(report_ref),
+            &format!(
+                r#"schema_version: closeout-worktree-report-v1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+candidates:
+  - candidate_id: terminal-foreign
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    boundaries:
+      include_paths:
+        - foreign/terminal.md
+    proposal_program_handoff_authorization:
+      child_id: child-id
+      route_id: proposal-packet-terminal-closeout
+      classifier_output_ref: {classifier_ref}
+      classifier_output_digest: "{classifier_digest}"
+      authorized_foreign_fingerprint: "{fingerprint}"
+      foreign_fingerprint: "{fingerprint}"
+      authorized_paths:
+        - foreign/terminal.md
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+final_candidate_dispositions:
+  terminal-foreign:
+    state: foreign
+"#,
+                classifier_digest = terminal_file_digest(&root.join(classifier_ref)).unwrap(),
+            ),
+        );
+        let report_digest = terminal_file_digest(&root.join(report_ref)).unwrap();
+        write_file(
+            &root.join(return_ref),
+            &format!(
+                r#"{{
+  "schema_version": "lifecycle-interaction-return-v1",
+  "consumer": {{"lifecycle_id": "closeout-worktree"}},
+  "outcome": {{"completed": true, "non_mutating": true, "cleaned_claim": false}},
+  "return_evidence_refs": [
+    {{"ref": "{report_ref}", "digest": "{report_digest}", "schema_version": "closeout-worktree-report-v1"}}
+  ]
+}}
+"#
+            ),
+        );
+
+        let mut coverage = empty_terminal_closeout_coverage();
+        add_terminal_closeout_return_coverage(
+            &root,
+            return_ref,
+            "program-run",
+            "child-id",
+            &mut coverage,
+        )
+        .unwrap();
+
+        let entry = coverage.by_path.get("foreign/terminal.md").unwrap();
+        assert_eq!(entry.coverage_kind, "child-closeout-worktree");
+        assert_eq!(
+            coverage
+                .by_path
+                .get(report_ref)
+                .map(|entry| entry.coverage_kind.as_str()),
+            Some("validated-closeout-worktree-report")
+        );
+        assert!(coverage.report_refs.contains(report_ref));
+        assert!(coverage.rejected_refs.is_empty());
+    }
+
+    #[test]
+    fn terminal_closeout_covers_accepted_handoff_run_log_without_authority_transfer() {
+        let root = make_temp_root("terminal-route-worktree-run-log");
+        let classifier_ref =
+            ".octon/state/evidence/runs/workflows/program-run/children/child-id/worktree.md";
+        let report_ref = ".octon/state/evidence/validation/analysis/terminal-report.yml";
+        let run_id =
+            "program-run-child-id-proposal-packet-terminal-closeout-closeout-worktree-20260624T112200Z";
+        write_file(
+            &root.join(classifier_ref),
+            "# Worktree Hygiene Classification\n\n## Foreign Or Ambiguous\n\n- `foreign/terminal.md`\n",
+        );
+        let fingerprint = terminal_markdown_foreign_fingerprint(
+            &fs::read_to_string(root.join(classifier_ref)).unwrap(),
+        )
+        .unwrap();
+        write_file(
+            &root.join(report_ref),
+            &format!(
+                r#"schema_version: closeout-worktree-report-v1
+run_id: {run_id}
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+candidates:
+  - candidate_id: terminal-foreign
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    boundaries:
+      include_paths:
+        - foreign/terminal.md
+    proposal_program_handoff_authorization:
+      child_id: child-id
+      route_id: proposal-packet-terminal-closeout
+      classifier_output_ref: {classifier_ref}
+      classifier_output_digest: "{classifier_digest}"
+      authorized_foreign_fingerprint: "{fingerprint}"
+      foreign_fingerprint: "{fingerprint}"
+      authorized_paths:
+        - foreign/terminal.md
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+final_candidate_dispositions:
+  terminal-foreign:
+    state: foreign
+"#,
+                classifier_digest = terminal_file_digest(&root.join(classifier_ref)).unwrap(),
+            ),
+        );
 
         let mut coverage = empty_terminal_closeout_coverage();
         add_terminal_closeout_report_coverage(
@@ -10043,9 +10562,15 @@ final_candidate_dispositions:
         )
         .unwrap();
 
-        let entry = coverage.by_path.get("foreign/child.md").unwrap();
-        assert_eq!(entry.coverage_kind, "child-closeout-worktree");
-        assert!(coverage.report_refs.contains(report_ref));
+        let expected_log_ref =
+            ".octon/state/evidence/runs/skills/closeout-worktree/program-run-child-id-proposal-packet-terminal-closeout-20260624T112200Z.md";
+        let entry = coverage.by_path.get(expected_log_ref).unwrap();
+        assert_eq!(entry.coverage_kind, "validated-closeout-worktree-run-log");
+        assert_eq!(entry.report_ref, report_ref);
+        assert!(coverage.by_path.contains_key("foreign/terminal.md"));
+        assert!(!coverage
+            .by_path
+            .contains_key(".octon/state/evidence/runs/skills/closeout-worktree/unrelated.md"));
     }
 
     #[test]
@@ -10087,6 +10612,39 @@ rollback_summary: Patch reversal.
         assert!(raw.contains("change_profile: atomic"));
         assert!(raw.contains("source_lineage:"));
         assert!(raw.contains("rollback_summary: Patch reversal."));
+    }
+
+    #[test]
+    fn proposal_manifest_status_update_preserves_reviewed_yaml_text() {
+        let root = make_temp_root("manifest-status-text");
+        let proposal_root = root.join("proposal");
+        let original = r#"schema_version: proposal-v1
+proposal_id: status-text-proposal
+title: Status Text Proposal
+summary: Preserve manifest text while changing lifecycle status.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/example.md"
+status: accepted
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Keep reviewed manifest representation stable.
+related_proposals:
+  - parent-proposal
+selected_implementation_target: Preserve status-only mutation.
+scope_statement: Status mutation must not reorder reviewed fields.
+"#;
+        write_file(&proposal_root.join("proposal.yml"), original);
+
+        write_proposal_manifest_status_preserving_text(&proposal_root, "implemented").unwrap();
+
+        let raw = fs::read_to_string(proposal_root.join("proposal.yml")).unwrap();
+        let expected = original.replacen("status: accepted", "status: implemented", 1);
+        assert_eq!(raw, expected);
+        assert!(raw.contains("  - \".octon/framework/example.md\""));
+        assert!(raw.contains("selected_implementation_target: Preserve status-only mutation."));
     }
 
     fn seed_pipeline_fixture(root: &Path) -> (PathBuf, PathBuf) {
@@ -11145,6 +11703,58 @@ rollback_summary: Patch reversal.
             .active
             .iter()
             .any(|entry| entry.kind == "policy" && entry.id == "shared-id"));
+
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn promote_proposal_replay_recovers_stale_registry_after_partial_manifest_transition() {
+        let (_guard, root) = make_locked_temp_root("promote-replay-registry");
+        let octon_dir = seed_create_design_package_fixture(&root);
+        let repo_root = octon_dir.parent().expect("octon dir has repo root");
+        let proposal_rel = ".octon/inputs/exploratory/proposals/architecture/replay-partial";
+        let proposal_root = repo_root.join(proposal_rel);
+        fs::create_dir_all(&proposal_root).expect("proposal root should be created");
+        write_file(
+            &proposal_root.join("proposal.yml"),
+            r#"schema_version: "proposal-v1"
+proposal_id: "replay-partial"
+title: "Replay Partial"
+summary: "Partial promotion replay fixture."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/runtime/example.md"
+status: "implemented"
+lifecycle:
+  temporary: true
+  exit_expectation: "Replay repair only."
+related_proposals: []
+"#,
+        );
+        fs::create_dir_all(repo_root.join(".octon/generated/proposals"))
+            .expect("generated proposal dir should exist");
+        write_file(
+            &repo_root.join(".octon/generated/proposals/registry.yml"),
+            "schema_version: \"proposal-registry-v1\"\n\nactive: []\narchived: []\n",
+        );
+
+        let manifest =
+            load_proposal_manifest(&proposal_root).expect("proposal manifest should load");
+        let recovered = recover_promote_proposal_replay_registry(
+            repo_root,
+            proposal_rel,
+            &manifest.proposal_kind,
+            &manifest.proposal_id,
+        )
+        .expect("stale registry should be recovered");
+
+        let registry =
+            fs::read_to_string(repo_root.join(".octon/generated/proposals/registry.yml"))
+                .expect("registry should exist");
+        assert!(recovered);
+        assert!(registry.contains("replay-partial"));
+        assert!(registry.contains("status: \"implemented\""));
 
         fs::remove_dir_all(root).ok();
     }

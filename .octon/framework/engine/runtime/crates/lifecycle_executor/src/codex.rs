@@ -706,7 +706,7 @@ mod tests {
     }
 
     #[test]
-    fn codex_command_applies_service_tier_override_and_preserves_executor_flags() {
+    fn codex_command_applies_fast_service_tier_override_and_preserves_executor_flags() {
         let executor_bin = PathBuf::from("/usr/local/bin/codex");
         let repo_root = std::env::temp_dir().join("octon lifecycle executor repo");
 

@@ -381,7 +381,12 @@ archive_fixture() {
   write_file "$root/.octon/framework/child-one.md" "child fixture target"
   mv "$root/$active_child" "$root/$archived_child"
   yq -i '.status = "archived" | .archive = {"archived_at": "2026-06-11", "archived_from_status": "implemented", "disposition": "implemented", "original_path": ".octon/inputs/exploratory/proposals/architecture/child-one", "promotion_evidence": [".octon/framework/child-one.md"]}' "$root/$archived_child/proposal.yml"
-  write_file "$root/$archived_child/support/validation.md" "verdict: pass"
+  write_file "$root/$archived_child/support/validation.md" \
+    "# Validation" \
+    "" \
+    "| Command | Result |" \
+    "| --- | --- |" \
+    "| \`bash validate-child.sh\` | pass |"
   write_file "$root/$archived_child/support/proposal-terminal-closeout.yml" \
     "terminal_verdict: archive-ready" \
     "archive_ready: yes"
@@ -405,6 +410,42 @@ main() {
   archive_fixture "$archived_root"
   assert_success "archived readiness projection resolves archived child paths" \
     bash "$VALIDATOR" --root "$archived_root" --package .octon/inputs/exploratory/proposals/.archive/architecture/program-fixture --projection projection.yml --require-terminal-evidence
+
+  local archived_validation_fail="$tmp/archived-validation-fail"
+  make_fixture "$archived_validation_fail"
+  archive_fixture "$archived_validation_fail"
+  write_file "$archived_validation_fail/.octon/inputs/exploratory/proposals/.archive/architecture/child-one/support/validation.md" \
+    "# Validation" \
+    "" \
+    "| Command | Result |" \
+    "| --- | --- |" \
+    "| \`bash validate-child.sh\` | fail |"
+  assert_failure "archived validation receipt fail row is rejected" \
+    bash "$VALIDATOR" --root "$archived_validation_fail" --package .octon/inputs/exploratory/proposals/.archive/architecture/program-fixture --projection projection.yml --require-terminal-evidence
+
+  local archived_validation_error="$tmp/archived-validation-error"
+  make_fixture "$archived_validation_error"
+  archive_fixture "$archived_validation_error"
+  write_file "$archived_validation_error/.octon/inputs/exploratory/proposals/.archive/architecture/child-one/support/validation.md" \
+    "# Validation" \
+    "" \
+    "| Command | Result |" \
+    "| --- | --- |" \
+    "| \`bash validate-child.sh\` | error |"
+  assert_failure "archived validation receipt error row is rejected" \
+    bash "$VALIDATOR" --root "$archived_validation_error" --package .octon/inputs/exploratory/proposals/.archive/architecture/program-fixture --projection projection.yml --require-terminal-evidence
+
+  local archived_validation_blocked="$tmp/archived-validation-blocked"
+  make_fixture "$archived_validation_blocked"
+  archive_fixture "$archived_validation_blocked"
+  write_file "$archived_validation_blocked/.octon/inputs/exploratory/proposals/.archive/architecture/child-one/support/validation.md" \
+    "# Validation" \
+    "" \
+    "| Command | Result |" \
+    "| --- | --- |" \
+    "| \`bash validate-child.sh\` | blocked |"
+  assert_failure "archived validation receipt blocked row is rejected" \
+    bash "$VALIDATOR" --root "$archived_validation_blocked" --package .octon/inputs/exploratory/proposals/.archive/architecture/program-fixture --projection projection.yml --require-terminal-evidence
 
   local stale_review="$tmp/stale-review"
   make_fixture "$stale_review"

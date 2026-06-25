@@ -899,12 +899,6 @@ main() {
     yq -i '.program.recovery_policy.recipes = [{"blocker_class": "unsafe-resume", "recovery_route_id": "test-route", "idempotency_class": "non-recoverable", "human_required": true, "retry_budget": 0, "dependent_handling": "fail-closed", "post_attempt_validation": ["replay-verify"], "replan_behavior": "none"}]' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycles/proposal-program.contract.yml"
     assert_failure_contract "non-recoverable recovery route fails" "$root" ".octon/inputs/additive/extensions/test-extension/context/lifecycles/proposal-program.contract.yml"
 
-    root="$(new_fixture_repo valid-recovery-recipe-host-projection)"
-    write_fixture_support "$root"
-    write_valid_atomic_program_contract "$root"
-    yq -i '.program.recovery_policy.recipes = [{"blocker_class": "publication-drift", "recovery_action_id": "refresh-publication-projections", "idempotency_class": "idempotent-rerun", "human_required": false, "retry_budget": 1, "dependent_handling": "pause-dependent", "post_attempt_validation": ["replan-live-state"], "replan_behavior": "after-attempt", "allowed_authority_zones": ["octon-generated-derived"], "allowed_artifact_classes": ["generated-derived", "host-projection"], "operation_class": "refresh-generated-projection"}]' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycles/proposal-program.contract.yml"
-    assert_success_contract "host-projection recovery artifact class passes" "$root" ".octon/inputs/additive/extensions/test-extension/context/lifecycles/proposal-program.contract.yml"
-
     root="$(new_fixture_repo invalid-recovery-recipe-zone)"
     write_fixture_support "$root"
     write_valid_atomic_program_contract "$root"

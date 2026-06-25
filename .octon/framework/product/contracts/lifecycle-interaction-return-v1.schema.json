@@ -17,7 +17,7 @@
     "schema_version": { "const": "lifecycle-interaction-return-v1" },
     "interaction_id": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[A-Za-z][A-Za-z0-9-]*$"
     },
     "consumer": {
       "type": "object",
@@ -41,7 +41,9 @@
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$"
         },
-        "blocker": { "type": ["string", "null"] }
+        "blocker": { "type": ["string", "null"] },
+        "non_mutating": { "type": "boolean" },
+        "cleaned_claim": { "type": "boolean" }
       }
     },
     "return_evidence_refs": {
@@ -52,7 +54,11 @@
         "required": ["ref", "digest"],
         "properties": {
           "ref": { "$ref": "#/$defs/repoRelativePath" },
-          "digest": { "$ref": "#/$defs/sha256" }
+          "digest": { "$ref": "#/$defs/sha256" },
+          "schema_version": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$"
+          }
         }
       }
     },

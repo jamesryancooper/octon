@@ -75,10 +75,13 @@ summary_only() {
 summary_for_active_run() {
   OCTON_ROOT_DIR="$tmp_root" bash "$tmp_root/.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh" \
     --summary-only \
-    --active-run-id lifecycle-proposal-program-1 \
+    --active-run-id "$active_run_id" \
     --root "$tmp_root" \
     --octon-dir "$tmp_root/.octon"
 }
+
+active_run_id="lifecycle-proposal-program-fixture-20260620T132759Z"
+active_attempt_run_id="lifecycle-proposal-program-fixture-20260620t1327-attempt-6-workflow-66808b729c300e05"
 
 baseline="$(run_fingerprint)"
 assert_sha256 "$baseline"
@@ -91,17 +94,21 @@ grep -F "manual_review: 1" <<<"$manual_summary" >/dev/null || fail "manual-only 
 manual_only="$(run_fingerprint)"
 assert_equals "$manual_only" "$baseline" "manual-review residue must not stale cleanup fingerprint"
 
-mkdir -p "$tmp_root/.octon/state/control/execution/runs/lifecycle-proposal-program-1"
-cat >"$tmp_root/.octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml" <<YAML
-run_id: lifecycle-proposal-program-1
+mkdir -p "$tmp_root/.octon/state/control/execution/runs/$active_run_id"
+cat >"$tmp_root/.octon/state/control/execution/runs/$active_run_id/program-lifecycle-checkpoint.yml" <<YAML
+run_id: $active_run_id
 target: $target
 YAML
-mkdir -p "$tmp_root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow"
-printf 'run: active\n' >"$tmp_root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/state.yml"
+mkdir -p "$tmp_root/.octon/state/continuity/runs/$active_run_id-workflow"
+printf 'run: active\n' >"$tmp_root/.octon/state/continuity/runs/$active_run_id-workflow/state.yml"
+mkdir -p "$tmp_root/.octon/state/control/execution/runs/$active_attempt_run_id/context"
+printf 'status: current-attempt\n' >"$tmp_root/.octon/state/control/execution/runs/$active_attempt_run_id/context/status.yml"
+mkdir -p "$tmp_root/.octon/state/continuity/runs/$active_attempt_run_id-bind-profile"
+printf 'handoff: current-attempt\n' >"$tmp_root/.octon/state/continuity/runs/$active_attempt_run_id-bind-profile/handoff.yml"
 active_run_summary="$(summary_for_active_run)"
 grep -F "cleanup_candidates: 0" <<<"$active_run_summary" >/dev/null || fail "active run residue created cleanup candidates"
 active_run_only="$(run_fingerprint)"
-assert_equals "$active_run_only" "$baseline" "active program run residue must not stale cleanup fingerprint"
+assert_equals "$active_run_only" "$baseline" "active program run and derived attempt residue must not stale cleanup fingerprint"
 
 mkdir -p "$tmp_root/.octon/state/control/execution/runs/publish-1"
 printf 'run: publish\n' >"$tmp_root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"

@@ -28,3 +28,17 @@ packet is already `implemented`; for an already implemented packet, preserve
 recovery. Set status to `rejected` only for a rejected verdict, and leave it
 `in-review` for `revision-required`. Do not implement or promote durable
 targets.
+
+Accepted review completion is receipt-atomic. If the route changes or observes
+`proposal.yml#status: accepted` for an accepted verdict, it must refresh
+`support/proposal-review.md` to the accepted-state packet digest, and refresh
+the strict pre-integration architecture receipt to that same digest when it is
+present or required, before reporting completion. A status-only accepted
+mutation is incomplete route work.
+
+While the packet is `in-review`, treat any earlier
+`support/proposal-terminal-closeout.yml` as child-owned historical route
+evidence, not as an open review blocker. Terminal freshness and archive-ready
+evidence are required only by closeout, terminal closeout, archive, delivery, or
+cleaned-claim routes that are legally selectable in the current lifecycle
+posture.

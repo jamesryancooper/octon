@@ -31,6 +31,31 @@ assert_success() {
   fi
 }
 
+python3_with_yaml_for_test() {
+  local candidate
+  while IFS= read -r candidate; do
+    [[ -n "$candidate" ]] || continue
+    if "$candidate" - <<'PY' >/dev/null 2>&1
+import yaml  # noqa: F401
+PY
+    then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done < <(type -P -a python3 2>/dev/null || true)
+  return 1
+}
+
+write_fake_python3_without_yaml() {
+  local path="$1"
+  cat >"$path" <<'EOF'
+#!/usr/bin/env bash
+printf 'fake python without yaml\n' >&2
+exit 1
+EOF
+  chmod +x "$path"
+}
+
 create_fixture() {
   mktemp -d "${TMPDIR:-/tmp}/host-projections.XXXXXX"
 }
@@ -43,6 +68,7 @@ write_fixture() {
     "$root/.octon/generated/effective/extensions/published/demo-ext/bundled-first-party/commands" \
     "$root/.octon/generated/effective/extensions/published/demo-ext/bundled-first-party/skills/demo-ext-skill" \
     "$root/.octon/framework/assurance/runtime/_ops/scripts" \
+    "$root/.octon/framework/orchestration/runtime/_ops/scripts" \
     "$root/.octon/framework/capabilities/runtime/commands" \
     "$root/.octon/framework/capabilities/runtime/skills/demo" \
     "$root/.octon/inputs/additive/extensions/demo-ext/commands" \
@@ -59,6 +85,44 @@ set -euo pipefail
 
 enter_publication_runtime_boundary() {
   return 0
+}
+EOF
+
+  cat >"$root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+ext_python3_with_yaml() {
+  if [[ -n "${OCTON_PYTHON3_WITH_YAML:-}" ]]; then
+    if "$OCTON_PYTHON3_WITH_YAML" - <<'PY' >/dev/null 2>&1
+import yaml  # noqa: F401
+PY
+    then
+      printf '%s\n' "$OCTON_PYTHON3_WITH_YAML"
+      return 0
+    fi
+  fi
+  local candidate
+  local seen=""
+  while IFS= read -r candidate; do
+    [[ -n "$candidate" ]] || continue
+    case "$seen" in
+      *"
+$candidate
+"*) continue ;;
+    esac
+    seen="$seen
+$candidate
+"
+    if "$candidate" - <<'PY' >/dev/null 2>&1
+import yaml  # noqa: F401
+PY
+    then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done < <(type -P -a python3 2>/dev/null || true)
+  return 1
 }
 EOF
 
@@ -448,6 +512,64 @@ case_stale_projection_is_pruned() {
   [[ ! -e "$fixture/.cursor/commands/stale.md" && ! -e "$fixture/.cursor/skills/stale-skill" ]]
 }
 
+case_active_command_projection_overwrites_existing_file() {
+  local fixture command rc
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  mkdir -p "$fixture/.cursor/commands"
+  for command in demo-command process-incoming-intake demo-ext-command; do
+    printf '# Stale %s\n' "$command" >"$fixture/.cursor/commands/$command.md"
+  done
+  run_publish "$fixture"
+  rc=$?
+  [[ "$rc" -eq 0 ]] || return "$rc"
+  cmp -s \
+    "$fixture/.octon/framework/capabilities/runtime/commands/demo-command.md" \
+    "$fixture/.cursor/commands/demo-command.md"
+}
+
+case_read_only_host_projection_is_non_controlling() {
+  local fixture rc
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  mkdir -p "$fixture/.codex/commands" "$fixture/.codex/skills"
+  printf '# Stale Demo Command\n' >"$fixture/.codex/commands/demo-command.md"
+  chmod 555 "$fixture/.codex/commands" "$fixture/.codex/skills"
+  run_publish "$fixture"
+  rc=$?
+  if [[ "$rc" -ne 0 ]]; then
+    chmod 755 "$fixture/.codex/commands" "$fixture/.codex/skills"
+    return "$rc"
+  fi
+  grep -F '# Stale Demo Command' "$fixture/.codex/commands/demo-command.md" >/dev/null
+  run_validator "$fixture"
+  rc=$?
+  chmod 755 "$fixture/.codex/commands" "$fixture/.codex/skills"
+  return "$rc"
+}
+
+case_validator_selects_yaml_python_from_non_root_runtime_context() {
+  local fixture good_python bad_dir good_dir runtime_cwd
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  run_publish "$fixture"
+  good_python="$(python3_with_yaml_for_test)"
+  bad_dir="$fixture/path-bad"
+  good_dir="$fixture/path-good"
+  runtime_cwd="$fixture/.octon/framework/engine/runtime/crates"
+  mkdir -p "$bad_dir" "$good_dir" "$runtime_cwd"
+  write_fake_python3_without_yaml "$bad_dir/python3"
+  ln -s "$good_python" "$good_dir/python3"
+  (
+    cd "$runtime_cwd"
+    PATH="$bad_dir:$good_dir:$PATH" OCTON_DIR_OVERRIDE="$fixture/.octon" OCTON_ROOT_DIR="$fixture" \
+      bash "$HOST_VALIDATOR" >/dev/null
+  )
+}
+
 case_symlink_replaced_by_materialized_copy() {
   local fixture
   fixture="$(create_fixture)"
@@ -461,6 +583,9 @@ case_symlink_replaced_by_materialized_copy() {
 main() {
   assert_success "host projections publish and validate for native and extension capabilities" case_publish_and_validate_passes
   assert_success "stale host projections are pruned on republish" case_stale_projection_is_pruned
+  assert_success "active command projections overwrite existing files" case_active_command_projection_overwrites_existing_file
+  assert_success "read-only host projections are retained but non-controlling" case_read_only_host_projection_is_non_controlling
+  assert_success "host validator selects PyYAML-capable python from non-root runtime context" case_validator_selects_yaml_python_from_non_root_runtime_context
   assert_success "legacy symlink projections are replaced with materialized copies" case_symlink_replaced_by_materialized_copy
 
   echo

@@ -24,6 +24,41 @@ extensions_common_init() {
   ext_reset_resolution_state
 }
 
+ext_python3_with_yaml() {
+  if [[ -n "${OCTON_PYTHON3_WITH_YAML:-}" ]]; then
+    if "$OCTON_PYTHON3_WITH_YAML" - <<'PY' >/dev/null 2>&1
+import yaml  # noqa: F401
+PY
+    then
+      printf '%s\n' "$OCTON_PYTHON3_WITH_YAML"
+      return 0
+    fi
+  fi
+
+  local candidate
+  local seen=""
+  while IFS= read -r candidate; do
+    [[ -n "$candidate" ]] || continue
+    case "$seen" in
+      *"
+$candidate
+"*) continue ;;
+    esac
+    seen="$seen
+$candidate
+"
+    if "$candidate" - <<'PY' >/dev/null 2>&1
+import yaml  # noqa: F401
+PY
+    then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done < <(type -P -a python3 2>/dev/null || true)
+
+  return 1
+}
+
 ext_reset_resolution_state() {
   declare -gA EXT_PUBLISHED_VERSION=()
   declare -gA EXT_PUBLISHED_ORIGIN_CLASS=()
@@ -2035,17 +2070,19 @@ ext_collect_selected_compatibility_results() {
     pack_root="$(ext_pack_root_abs "$pack_id")"
     ext_clear_validated_compatibility_state
 
-    if ! ext_validate_pack_core_contract "$pack_id"; then
-      EXT_VALIDATED_COMPATIBILITY_STATUS="incompatible"
-      EXT_VALIDATED_COMPATIBILITY_PROFILE_REL=".octon/inputs/additive/extensions/${pack_id}/validation/compatibility.yml"
-      [[ -f "$pack_root/validation/compatibility.yml" ]] && EXT_VALIDATED_COMPATIBILITY_PROFILE_SHA="$(ext_hash_file "$pack_root/validation/compatibility.yml")"
-      EXT_VALIDATED_COMPATIBILITY_REQUIRED_INPUTS=".octon/inputs/additive/extensions/${pack_id}/pack.yml"$'\n'".octon/inputs/additive/extensions/${pack_id}/validation/compatibility.yml"
-      EXT_VALIDATED_COMPATIBILITY_BLOCKING_REASONS="$EXT_LAST_ERROR_REASON"
-    else
-      ext_evaluate_pack_host_compatibility "$pack_id" "$source_id" "$manifest" "$pack_root" || true
+    if [[ -z "${EXT_COMPAT_RESULT_STATUS["$key"]:-}" ]]; then
+      if ! ext_validate_pack_core_contract "$pack_id"; then
+        EXT_VALIDATED_COMPATIBILITY_STATUS="incompatible"
+        EXT_VALIDATED_COMPATIBILITY_PROFILE_REL=".octon/inputs/additive/extensions/${pack_id}/validation/compatibility.yml"
+        [[ -f "$pack_root/validation/compatibility.yml" ]] && EXT_VALIDATED_COMPATIBILITY_PROFILE_SHA="$(ext_hash_file "$pack_root/validation/compatibility.yml")"
+        EXT_VALIDATED_COMPATIBILITY_REQUIRED_INPUTS=".octon/inputs/additive/extensions/${pack_id}/pack.yml"$'\n'".octon/inputs/additive/extensions/${pack_id}/validation/compatibility.yml"
+        EXT_VALIDATED_COMPATIBILITY_BLOCKING_REASONS="$EXT_LAST_ERROR_REASON"
+      else
+        ext_evaluate_pack_host_compatibility "$pack_id" "$source_id" "$manifest" "$pack_root" || true
+      fi
+      ext_capture_pack_compatibility_result "$key"
     fi
 
-    ext_capture_pack_compatibility_result "$key"
     profile_status="${EXT_COMPAT_RESULT_STATUS["$key"]:-compatible}"
     if [[ "$profile_status" == "incompatible" ]]; then
       incompatible=1
@@ -2163,6 +2200,7 @@ ext_resolve_candidate_pack() {
     EXT_LAST_ERROR_REASON="compatibility-incompatible"
     return 1
   fi
+  ext_capture_pack_compatibility_result "$key"
 
   while IFS=$'\t' read -r dep_pack_id dep_range; do
     [[ -z "$dep_pack_id" ]] && continue

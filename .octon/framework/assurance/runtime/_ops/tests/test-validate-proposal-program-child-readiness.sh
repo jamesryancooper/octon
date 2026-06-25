@@ -436,6 +436,70 @@ EOF
   run_validator "$root"
 }
 
+case_archived_implemented_child_with_legacy_validation_receipt_passes() {
+  local root active archive
+  root="$(create_fixture_repo)"
+  write_valid_fixture "$root"
+  yq -i '.status = "implemented"' "$(packet_dir "$root" "base-child")/proposal.yml"
+  write_implementation_receipts "$root" "base-child"
+  cat >"$(packet_dir "$root" "base-child")/support/proposal-closeout.md" <<'EOF'
+verdict: pass
+archive_authorized: yes
+EOF
+  active="$(packet_dir "$root" "base-child")"
+  archive="$(archive_packet_dir "$root" "base-child")"
+  mkdir -p "$(dirname "$archive")"
+  mv "$active" "$archive"
+  yq -i '.status = "archived" | .archive.archived_at = "2026-05-12" | .archive.archived_from_status = "implemented" | .archive.disposition = "implemented" | .archive.original_path = ".octon/inputs/exploratory/proposals/architecture/base-child" | .archive.promotion_evidence = [".octon/framework/base-child.md"]' "$archive/proposal.yml"
+  cat >"$archive/support/proposal-terminal-closeout.yml" <<'EOF'
+terminal_verdict: archive-ready
+archive_ready: yes
+EOF
+  cat >"$archive/support/validation.md" <<'EOF'
+# Validation Evidence
+
+## Commands
+
+- `bash validate.sh`
+
+## Result
+
+All listed commands exited successfully.
+EOF
+  run_validator "$root"
+}
+
+case_archived_implemented_child_without_validation_pass_fails() {
+  local root active archive
+  root="$(create_fixture_repo)"
+  write_valid_fixture "$root"
+  yq -i '.status = "implemented"' "$(packet_dir "$root" "base-child")/proposal.yml"
+  write_implementation_receipts "$root" "base-child"
+  cat >"$(packet_dir "$root" "base-child")/support/proposal-closeout.md" <<'EOF'
+verdict: pass
+archive_authorized: yes
+EOF
+  active="$(packet_dir "$root" "base-child")"
+  archive="$(archive_packet_dir "$root" "base-child")"
+  mkdir -p "$(dirname "$archive")"
+  mv "$active" "$archive"
+  yq -i '.status = "archived" | .archive.archived_at = "2026-05-12" | .archive.archived_from_status = "implemented" | .archive.disposition = "implemented" | .archive.original_path = ".octon/inputs/exploratory/proposals/architecture/base-child" | .archive.promotion_evidence = [".octon/framework/base-child.md"]' "$archive/proposal.yml"
+  cat >"$archive/support/proposal-terminal-closeout.yml" <<'EOF'
+terminal_verdict: archive-ready
+archive_ready: yes
+EOF
+  cat >"$archive/support/validation.md" <<'EOF'
+# Validation Evidence
+
+## Commands
+
+| Command | Result |
+| --- | --- |
+| `bash validate.sh` | blocked |
+EOF
+  run_validator "$root"
+}
+
 case_missing_packet_specific_requirement_fails() {
   local root
   root="$(create_fixture_repo)"
@@ -460,6 +524,8 @@ assert_failure_contains "stale accepted proposal-review digest fails" "reviewed 
 assert_failure_contains "stale child gate emits readiness gate diagnostic" '"recovery_class":"child_readiness_gate_failed"' case_stale_proposal_review_fails
 assert_success "implemented child with receipts remains child-ready" case_implemented_child_with_receipts_passes
 assert_success "archived implemented child with receipts remains child-ready" case_archived_implemented_child_with_receipts_passes
+assert_success "archived implemented child with legacy validation receipt remains child-ready" case_archived_implemented_child_with_legacy_validation_receipt_passes
+assert_failure_contains "archived implemented child without validation pass fails" "child base-child archived validation receipt passes" case_archived_implemented_child_without_validation_pass_fails
 assert_failure_contains "missing packet-specific completeness requirement fails" "child base-child readiness evidence mentions: connector operation fields" case_missing_packet_specific_requirement_fails
 assert_failure_contains "premature cutover retirement fails" "child cutover-child cutover constraints declare predecessor evidence" case_premature_cutover_fails
 

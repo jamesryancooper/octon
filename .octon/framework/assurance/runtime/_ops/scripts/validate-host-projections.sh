@@ -23,6 +23,237 @@ pass() {
   echo "[OK] $1"
 }
 
+if [[ "${OCTON_HOST_PROJECTIONS_LEGACY:-0}" != "1" ]]; then
+  PYTHON_WITH_YAML="$(ext_python3_with_yaml || true)"
+  if [[ -z "$PYTHON_WITH_YAML" ]]; then
+    echo "[ERROR] python yaml module is required for host projection validation"
+    exit 1
+  fi
+  set +e
+  "$PYTHON_WITH_YAML" - "$ROOT_DIR" "$ROUTING_FILE" "$ARTIFACT_MAP_FILE" "$EXTENSIONS_CATALOG" <<'PY'
+import hashlib
+import os
+import sys
+from pathlib import Path
+
+import yaml
+
+ROOT_DIR = Path(sys.argv[1])
+ROUTING_FILE = Path(sys.argv[2])
+ARTIFACT_MAP_FILE = Path(sys.argv[3])
+EXTENSIONS_CATALOG = Path(sys.argv[4])
+HOSTS = ("claude", "cursor", "codex")
+EXTENSION_PUBLISHED_PREFIX = ".octon/generated/effective/extensions/published/"
+
+
+def load_yaml(path):
+    with path.open("r", encoding="utf-8") as handle:
+        return yaml.safe_load(handle) or {}
+
+
+def rel(path):
+    try:
+        return str(path.relative_to(ROOT_DIR))
+    except ValueError:
+        return str(path)
+
+
+def file_sha256(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def command_title(path):
+    with path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            if line.startswith("# "):
+                return line[2:].strip()
+    return ""
+
+
+def operator_family(pack_id):
+    return "octon-proposal" if pack_id == "octon-proposal-lifecycle" else pack_id
+
+
+def is_extension_root_or_composite_command(artifact, capability_id):
+    if artifact.get("source_kind") != "extension-export":
+        return False
+    pack_id = artifact.get("extension_pack_id") or ""
+    return capability_id in {pack_id, operator_family(pack_id)}
+
+
+def source_path_for(artifact, kind, capability_id, catalog):
+    source_kind = artifact.get("source_kind")
+    source_path = artifact.get("source_path") or ""
+    if source_kind == "extension-export":
+        pack_id = artifact.get("extension_pack_id")
+        source_id = artifact.get("extension_source_id")
+        for pack in catalog.get("packs") or []:
+            if pack.get("pack_id") != pack_id or pack.get("source_id") != source_id:
+                continue
+            exports = ((pack.get("routing_exports") or {}).get(f"{kind}s") or [])
+            for export in exports:
+                if export.get("capability_id") == capability_id:
+                    projected = export.get("projection_source_path") or ""
+                    if not projected.startswith(EXTENSION_PUBLISHED_PREFIX):
+                        return "", f"extension projection source must resolve to compiled publication output for {artifact.get('effective_id')}"
+                    return projected, None
+        return "", f"missing projection source path for {artifact.get('effective_id')}"
+    if kind == "skill":
+        return str(Path(source_path).parent), None
+    return source_path, None
+
+
+def file_list(root):
+    return sorted(
+        str(path.relative_to(root))
+        for path in root.rglob("*")
+        if path.is_file() and not path.is_symlink()
+    )
+
+
+def tree_has_symlink(root):
+    return any(path.is_symlink() for path in root.rglob("*"))
+
+
+def host_projection_read_only(host):
+    host_root = ROOT_DIR / f".{host}"
+    for kind in ("commands", "skills"):
+        projection_dir = host_root / kind
+        if projection_dir.exists() and not os.access(projection_dir, os.W_OK):
+            return True
+        if not projection_dir.exists() and host_root.exists() and not os.access(host_root, os.W_OK):
+            return True
+    return False
+
+
+def validate():
+    routing = load_yaml(ROUTING_FILE)
+    artifact_map = load_yaml(ARTIFACT_MAP_FILE)
+    catalog = load_yaml(EXTENSIONS_CATALOG)
+    artifacts = {
+        artifact.get("effective_id"): artifact
+        for artifact in artifact_map.get("artifacts") or []
+        if artifact.get("effective_id")
+    }
+    errors = []
+    passes = []
+
+    for host in HOSTS:
+        if host_projection_read_only(host):
+            passes.append(f"read-only host projection skipped as non-controlling: .{host}")
+            continue
+        for kind in ("command", "skill"):
+            projection_dir = ROOT_DIR / f".{host}" / f"{kind}s"
+            expected_names = []
+            if projection_dir.is_dir():
+                passes.append(f"host projection directory exists: {rel(projection_dir)}")
+            else:
+                errors.append(f"missing host projection directory: {rel(projection_dir)}")
+                continue
+            if tree_has_symlink(projection_dir):
+                errors.append(f"host projection directory must not contain symlinks: {rel(projection_dir)}")
+            else:
+                passes.append(f"host projection directory contains no symlinks: {rel(projection_dir)}")
+
+            rows = []
+            for candidate in routing.get("routing_candidates") or []:
+                if candidate.get("status") != "active":
+                    continue
+                if candidate.get("capability_kind") != kind:
+                    continue
+                if host not in (candidate.get("host_adapters") or []):
+                    continue
+                rows.append((candidate.get("effective_id") or "", candidate.get("capability_id") or ""))
+
+            for effective_id, capability_id in sorted(rows):
+                if not effective_id or not capability_id:
+                    continue
+                artifact = artifacts.get(effective_id)
+                if artifact is None:
+                    errors.append(f"missing artifact map entry for {effective_id}")
+                    continue
+                source_rel, source_error = source_path_for(artifact, kind, capability_id, catalog)
+                if source_error:
+                    errors.append(source_error)
+                    continue
+                if not source_rel:
+                    errors.append(f"missing projection source path for {effective_id}")
+                    continue
+                source_abs = ROOT_DIR / source_rel
+                if kind == "command":
+                    expected_names.append(f"{capability_id}.md")
+                    projected_path = projection_dir / f"{capability_id}.md"
+                    if not projected_path.is_file():
+                        errors.append(f"missing projected command: {rel(projected_path)}")
+                        continue
+                    passes.append(f"projected command exists: {rel(projected_path)}")
+                    if not source_abs.is_file():
+                        errors.append(f"projection source command missing: {source_rel}")
+                        continue
+                    if file_sha256(projected_path) == file_sha256(source_abs):
+                        passes.append(f"projected command hash matches source: {rel(projected_path)}")
+                    else:
+                        errors.append(f"projected command hash differs from source: {rel(projected_path)}")
+                    title = command_title(projected_path)
+                    if title and len(title) <= 64:
+                        passes.append(f"projected command title is concise: {rel(projected_path)}")
+                    else:
+                        errors.append(f"projected command title must be present and <=64 characters: {rel(projected_path)}")
+                    if title.startswith("Octon ") and not is_extension_root_or_composite_command(artifact, capability_id):
+                        errors.append(f"projected command title repeats redundant Octon namespace: {rel(projected_path)}")
+                    else:
+                        passes.append(f"projected command title namespace usage is allowed: {rel(projected_path)}")
+                else:
+                    expected_names.append(capability_id)
+                    projected_path = projection_dir / capability_id
+                    if not projected_path.is_dir():
+                        errors.append(f"missing projected skill directory: {rel(projected_path)}")
+                        continue
+                    passes.append(f"projected skill directory exists: {rel(projected_path)}")
+                    if (projected_path / "SKILL.md").is_file():
+                        passes.append(f"projected skill includes SKILL.md: {rel(projected_path / 'SKILL.md')}")
+                    else:
+                        errors.append(f"projected skill missing SKILL.md: {rel(projected_path / 'SKILL.md')}")
+                    if not source_abs.is_dir():
+                        errors.append(f"projection source skill directory missing: {source_rel}")
+                        continue
+                    projected_files = file_list(projected_path)
+                    source_files = file_list(source_abs)
+                    if projected_files == source_files:
+                        passes.append(f"projected skill file list matches source: {rel(projected_path)}")
+                    else:
+                        errors.append(f"projected skill file list differs from source: {rel(projected_path)}")
+                    for item in source_files:
+                        if item in projected_files and file_sha256(projected_path / item) == file_sha256(source_abs / item):
+                            passes.append(f"projected skill file hash matches source: {rel(projected_path)}/{item}")
+                        else:
+                            errors.append(f"projected skill file hash differs from source: {rel(projected_path)}/{item}")
+
+            existing_names = sorted(path.name for path in projection_dir.iterdir())
+            if existing_names == sorted(expected_names):
+                passes.append(f"host projection set matches routing for {rel(projection_dir)}")
+            else:
+                errors.append(f"host projection set differs from routing for {rel(projection_dir)}")
+
+    for message in passes:
+        print(f"[OK] {message}")
+    for message in errors:
+        print(f"[ERROR] {message}")
+    print(f"Validation summary: errors={len(errors)}")
+    return 0 if not errors else 1
+
+
+sys.exit(validate())
+PY
+  rc=$?
+  set -e
+  exit "$rc"
+fi
+
 hash_file() {
   local file="$1"
   if command -v shasum >/dev/null 2>&1; then

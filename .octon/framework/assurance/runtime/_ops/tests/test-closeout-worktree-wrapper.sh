@@ -280,6 +280,227 @@ retained_manual_review_paths: []
 JSON
 }
 
+write_parent_handoff_report_fixture() {
+  local report="$1"
+  local include_helper_digest_echoes="$2"
+  local cleanup_ref=".octon/state/evidence/runs/workflows/fixture-parent/support/lifecycle-residue-cleanup.md"
+  local classifier_ref=".octon/state/evidence/runs/workflows/fixture-parent/parent/worktree-hygiene-classification.yml"
+  local fingerprint="sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  local cleanup_digest classifier_digest
+  ensure_fixture_root
+  mkdir -p "$(dirname "$fixture_root/$cleanup_ref")" "$(dirname "$fixture_root/$classifier_ref")"
+  cat >"$fixture_root/$cleanup_ref" <<YAML
+schema_version: lifecycle-residue-cleanup-v1
+verdict: blocked-retained
+cleanup_candidates: 0
+implementation_blocking: false
+cleaned_at: "2026-06-22T00:00:00Z"
+worktree_hygiene_foreign_fingerprint: $fingerprint
+repo_hygiene_cleanup_digest: sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+repo_hygiene_cleanup_authorization_digest: sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+post_cleanup_summary_digest: sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+residue_fingerprint: sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+YAML
+  cat >"$fixture_root/$classifier_ref" <<YAML
+schema_version: octon-proposal-worktree-hygiene-v1
+worktree_hygiene_verdict: blocked
+worktree_hygiene_foreign_fingerprint: $fingerprint
+YAML
+  cleanup_digest="$(digest_file "$fixture_root/$cleanup_ref")"
+  classifier_digest="$(digest_file "$fixture_root/$classifier_ref")"
+  cat >"$report" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-parent-handoff
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: $classifier_ref
+residue_classification_ref: $classifier_ref
+final_inventory_ref: $classifier_ref
+selected_candidate_id: parent-foreign-residue
+candidates:
+  - candidate_id: parent-foreign-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: parent foreign/manual residue explicitly authorized for non-mutating preserve/exclude
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no mutation performed
+    boundaries:
+      include_paths:
+        - .octon/state/control/execution/runs/fixture-parent/runtime-state.yml
+      exclude_paths:
+        - child closeout receipts
+    proposal_program_parent_handoff_authorization:
+      authorization_grant: test-parent-residue-preserve-exclude
+      program_run_id: fixture-parent-program-run
+      parent_route_id: cleanup-lifecycle-residue
+      cleanup_receipt_ref: $cleanup_ref
+      cleanup_receipt_digest: $cleanup_digest
+YAML
+  if [[ "$include_helper_digest_echoes" == "yes" ]]; then
+    cat >>"$report" <<'YAML'
+      repo_hygiene_cleanup_receipt_digest: sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      cleanup_authorization_digest: sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+      post_cleanup_summary_digest: sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+YAML
+  fi
+  cat >>"$report" <<YAML
+      residue_fingerprint: sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+      classifier_output_ref: $classifier_ref
+      classifier_output_digest: $classifier_digest
+      authorized_foreign_fingerprint: $fingerprint
+      foreign_fingerprint: $fingerprint
+      authorized_paths:
+        - .octon/state/control/execution/runs/fixture-parent/runtime-state.yml
+      disposition: preserve-and-exclude-from-lifecycle-closeout-blocking
+      outside_child_owned_closeout_authority: true
+      separately_partitioned_for_later_legal_closeout: true
+      non_mutating: true
+      preserve_and_exclude_from_lifecycle_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+iterations: []
+final_candidate_dispositions:
+  parent-foreign-residue:
+    state: foreign
+retained_residue:
+  - candidate_id: parent-foreign-residue
+    path: .octon/state/control/execution/runs/fixture-parent/runtime-state.yml
+    disposition: foreign manual parent residue preserved and excluded from lifecycle closeout blocking
+blockers: []
+final_residue_classes:
+  ignored: 0
+next_route_condition: return to proposal-program lifecycle closeout with child authority preserved
+YAML
+}
+
+write_large_child_handoff_report_fixture() {
+  local report="$1"
+  local classifier_ref=".octon/state/evidence/runs/workflows/fixture-program/children/fixture-child/worktree-hygiene-preflight.stdout.yml"
+  local fingerprint="sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  local classifier_digest count i path
+  ensure_fixture_root
+  mkdir -p "$(dirname "$fixture_root/$classifier_ref")"
+  cat >"$fixture_root/$classifier_ref" <<YAML
+schema_version: octon-proposal-worktree-hygiene-v1
+worktree_hygiene_verdict: blocked
+worktree_hygiene_foreign_path_count: 1500
+worktree_hygiene_foreign_fingerprint: $fingerprint
+YAML
+  classifier_digest="$(digest_file "$fixture_root/$classifier_ref")"
+  cat >"$report" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-large-child-handoff
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: $classifier_ref
+residue_classification_ref: $classifier_ref
+final_inventory_ref: $classifier_ref
+selected_candidate_id: child-foreign-residue
+candidates:
+  - candidate_id: child-foreign-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: child foreign/manual residue explicitly authorized for non-mutating preserve/exclude
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no mutation performed
+    boundaries:
+      include_paths:
+YAML
+  count=1500
+  i=1
+  while [[ "$i" -le "$count" ]]; do
+    printf -v path '.octon/state/control/execution/runs/fixture-child-%04d/runtime-state.yml' "$i"
+    printf '        - %s\n' "$path" >>"$report"
+    i=$((i + 1))
+  done
+  cat >>"$report" <<YAML
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/fixture-child
+    proposal_program_handoff_authorization:
+      authorization_grant: test-large-child-residue-preserve-exclude
+      child_id: fixture-child
+      route_id: closeout-packet
+      interaction_request_ref: .octon/inputs/exploratory/proposals/architecture/fixture-child/support/proposal-closeout.md
+      classifier_output_ref: $classifier_ref
+      classifier_output_digest: $classifier_digest
+      authorized_foreign_fingerprint: $fingerprint
+      foreign_fingerprint: $fingerprint
+      authorized_paths:
+YAML
+  i=1
+  while [[ "$i" -le "$count" ]]; do
+    printf -v path '.octon/state/control/execution/runs/fixture-child-%04d/runtime-state.yml' "$i"
+    printf '        - %s\n' "$path" >>"$report"
+    i=$((i + 1))
+  done
+  cat >>"$report" <<'YAML'
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+iterations: []
+final_candidate_dispositions:
+  child-foreign-residue:
+    state: foreign
+retained_residue:
+YAML
+  i=1
+  while [[ "$i" -le "$count" ]]; do
+    printf -v path '.octon/state/control/execution/runs/fixture-child-%04d/runtime-state.yml' "$i"
+    cat >>"$report" <<YAML
+  - candidate_id: child-foreign-residue
+    path: $path
+    disposition: foreign manual child residue preserved and excluded from child closeout blocking
+YAML
+    i=$((i + 1))
+  done
+  cat >>"$report" <<'YAML'
+blockers: []
+final_residue_classes:
+  ignored: 0
+next_route_condition: return to proposal-program closeout-packet hygiene preflight with child authority preserved
+YAML
+}
+
 write_terminal_local_evidence_fixture() {
   local change_id="$1"
   local mode="${2:-valid}"
@@ -3672,6 +3893,141 @@ case_fixture_retention_without_receipt_fails() {
   ! run_validator_with_fixtures "$report" >/dev/null
 }
 
+case_parent_handoff_with_cleanup_helper_digest_echoes_passes() {
+  local report
+  report="$(new_report)"
+  write_parent_handoff_report_fixture "$report" yes
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_parent_handoff_missing_cleanup_helper_digest_echoes_fails() {
+  local report
+  report="$(new_report)"
+  write_parent_handoff_report_fixture "$report" no
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_large_child_handoff_report_passes() {
+  local report
+  report="$(new_report)"
+  write_large_child_handoff_report_fixture "$report"
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+write_terminal_markdown_child_handoff_report_fixture() {
+  local report="$1"
+  local mode="${2:-matching}"
+  local classifier_ref=".octon/state/evidence/runs/workflows/terminal-markdown-child-handoff/worktree-hygiene-classification.md"
+  local request_ref=".octon/state/evidence/runs/workflows/terminal-markdown-child-handoff/lifecycle-interactions/request.json"
+  local path_a=".octon/generated/proposals/registry.yml"
+  local path_b=".octon/state/evidence/validation/architecture/terminal-markdown-handoff.yml"
+  local fingerprint classifier_digest include_paths authorized_paths retained_residue
+
+  ensure_fixture_root
+  mkdir -p "$fixture_root/$(dirname "$classifier_ref")" "$fixture_root/$(dirname "$request_ref")"
+  cat >"$fixture_root/$classifier_ref" <<MD
+# Worktree Hygiene Classification
+
+- foreign_or_ambiguous_count: \`2\`
+
+## Foreign Or Ambiguous
+
+- \`$path_a\`
+- \`$path_b\`
+MD
+  printf '{"schema_version":"lifecycle-interaction-request-v1"}\n' >"$fixture_root/$request_ref"
+  classifier_digest="$(digest_file "$fixture_root/$classifier_ref")"
+  fingerprint="$(printf '%s' "$path_a"$'\n'"$path_b" | shasum -a 256 | awk '{print "sha256:" $1}')"
+  include_paths="        - $path_a"$'\n'"        - $path_b"
+  retained_residue="  - candidate_id: terminal-markdown-foreign"$'\n'"    path: $path_a"$'\n'"    disposition: foreign manual review retained by terminal markdown handoff"$'\n'"  - candidate_id: terminal-markdown-foreign"$'\n'"    path: $path_b"$'\n'"    disposition: foreign manual review retained by terminal markdown handoff"
+  if [[ "$mode" == "mismatched-path-set" ]]; then
+    authorized_paths="        - $path_a"
+  else
+    authorized_paths="$include_paths"
+  fi
+
+  cat >"$report" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-terminal-markdown-child-handoff
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: $classifier_ref
+residue_classification_ref: $classifier_ref
+final_inventory_ref: $classifier_ref
+selected_candidate_id: terminal-markdown-foreign
+candidates:
+  - candidate_id: terminal-markdown-foreign
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: terminal markdown classifier foreign/manual residue preserved without mutation
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no mutation performed
+    boundaries:
+      include_paths:
+$include_paths
+      exclude_paths: []
+    proposal_program_handoff_authorization:
+      child_id: normalized-child-terminal-evidence-summary
+      route_id: proposal-packet-terminal-closeout
+      interaction_request_ref: $request_ref
+      classifier_output_ref: $classifier_ref
+      classifier_output_digest: "$classifier_digest"
+      authorized_foreign_fingerprint: "$fingerprint"
+      foreign_fingerprint: "$fingerprint"
+      authorized_paths:
+$authorized_paths
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+iterations: []
+final_candidate_dispositions:
+  terminal-markdown-foreign:
+    state: foreign
+retained_residue:
+$retained_residue
+blockers: []
+final_residue_classes:
+  ignored: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program terminal closeout with child authority preserved
+YAML
+}
+
+case_terminal_markdown_child_handoff_report_passes() {
+  local report
+  report="$(new_report)"
+  write_terminal_markdown_child_handoff_report_fixture "$report" matching
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_terminal_markdown_child_handoff_path_mismatch_fails() {
+  local report
+  report="$(new_report)"
+  write_terminal_markdown_child_handoff_report_fixture "$report" mismatched-path-set
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
 main() {
   assert_success "static closeout-worktree registration and projection pass" case_static_validator_passes
   assert_success "valid multi-candidate wrapper orchestration report passes" case_valid_multi_candidate_report_passes
@@ -3679,6 +4035,11 @@ main() {
   assert_success "lifecycle publishable candidate without authority fails" case_lifecycle_publishable_change_without_authority_fails
   assert_success "fixture retained residue with receipt passes" case_fixture_retention_with_receipt_passes
   assert_success "fixture retained residue without receipt fails" case_fixture_retention_without_receipt_fails
+  assert_success "parent handoff with cleanup helper digest echoes passes" case_parent_handoff_with_cleanup_helper_digest_echoes_passes
+  assert_success "parent handoff missing cleanup helper digest echoes fails" case_parent_handoff_missing_cleanup_helper_digest_echoes_fails
+  assert_success "large child handoff report passes without environment overflow" case_large_child_handoff_report_passes
+  assert_success "terminal markdown child handoff report passes" case_terminal_markdown_child_handoff_report_passes
+  assert_success "terminal markdown child handoff path mismatch fails" case_terminal_markdown_child_handoff_path_mismatch_fails
   assert_success "repo-hygiene delegated cleanup report passes" case_repo_hygiene_delegated_cleanup_report_passes
   assert_success "git-clean terminal report after evidence-retention candidate passes" case_git_clean_terminal_after_evidence_retention_candidate_passes
   assert_success "git-clean terminal accepts validated terminal local sink residue" case_git_clean_terminal_with_valid_terminal_sink_passes

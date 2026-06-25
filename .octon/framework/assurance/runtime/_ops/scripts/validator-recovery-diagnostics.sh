@@ -47,6 +47,9 @@ emit_recovery_diagnostic() {
   local minimal_repair_hint=""
   local rerun_gate=""
   local hard_blocker_reason=""
+  local last_mutation_class=""
+  local owning_refresh_route=""
+  local stable_digest_boundary=""
   local -a fields=()
 
   while [[ $# -gt 0 ]]; do
@@ -91,6 +94,18 @@ emit_recovery_diagnostic() {
         hard_blocker_reason="${2:-}"
         shift 2
         ;;
+      --last-mutation-class)
+        last_mutation_class="${2:-}"
+        shift 2
+        ;;
+      --owning-refresh-route)
+        owning_refresh_route="${2:-}"
+        shift 2
+        ;;
+      --stable-digest-boundary)
+        stable_digest_boundary="${2:-}"
+        shift 2
+        ;;
       *)
         shift
         ;;
@@ -112,6 +127,9 @@ emit_recovery_diagnostic() {
   field="$(validator_recovery_field "minimal_repair_hint" "$minimal_repair_hint")" && fields+=("$field")
   field="$(validator_recovery_field "rerun_gate" "$rerun_gate")" && fields+=("$field")
   field="$(validator_recovery_field "hard_blocker_reason" "$hard_blocker_reason")" && fields+=("$field")
+  field="$(validator_recovery_field "last_mutation_class" "$last_mutation_class")" && fields+=("$field")
+  field="$(validator_recovery_field "owning_refresh_route" "$owning_refresh_route")" && fields+=("$field")
+  field="$(validator_recovery_field "stable_digest_boundary" "$stable_digest_boundary")" && fields+=("$field")
 
   local IFS=,
   printf '[RECOVERY_DIAGNOSTIC] {%s}\n' "${fields[*]}"
@@ -140,6 +158,9 @@ emit_stale_evidence_recovery_diagnostic() {
   local stale_cause="$5"
   local rerun_gate="$6"
   local minimal_repair_hint="$7"
+  local last_mutation_class="${8:-}"
+  local owning_refresh_route="${9:-}"
+  local stable_digest_boundary="${10:-}"
   emit_recovery_diagnostic \
     --recovery-class "stale_evidence" \
     --failing-path "$failing_path" \
@@ -148,7 +169,10 @@ emit_stale_evidence_recovery_diagnostic() {
     --stale-source-ref "$stale_source_ref" \
     --stale-cause "$stale_cause" \
     --minimal-repair-hint "$minimal_repair_hint" \
-    --rerun-gate "$rerun_gate"
+    --rerun-gate "$rerun_gate" \
+    --last-mutation-class "$last_mutation_class" \
+    --owning-refresh-route "$owning_refresh_route" \
+    --stable-digest-boundary "$stable_digest_boundary"
 }
 
 emit_generated_freshness_recovery_diagnostic() {

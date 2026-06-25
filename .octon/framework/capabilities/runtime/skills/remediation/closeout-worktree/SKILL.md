@@ -65,8 +65,9 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    `cleanup-lifecycle-residue` handoff has explicit operator authorization,
    the wrapper may instead record
    `proposal_program_parent_handoff_authorization` proving the cleanup receipt
-   digest, classifier digest, foreign fingerprint, exact authorized path set,
-   and non-mutating disposition
+   digest, any cleanup helper digests recorded by that cleanup receipt,
+   classifier digest, foreign fingerprint, exact authorized path set, and
+   non-mutating disposition
    `preserve-and-exclude-from-lifecycle-closeout-blocking`. These reports may
    preserve and exclude foreign paths from the named lifecycle blocker only;
    they must not stage, delete, reset, commit, publish, archive, branch-clean,
@@ -180,7 +181,8 @@ Raw/private Octon paths normally cannot be reported as
 `foreign_manual_review`. The only exception is a proposal-program handoff
 candidate with `proposal_program_handoff_authorization` or
 `proposal_program_parent_handoff_authorization` proving the exact classifier
-output ref and digest, foreign fingerprint, authorized path set, non-mutating
+output ref and digest, cleanup helper digest echoes when the parent cleanup
+receipt records them, foreign fingerprint, authorized path set, non-mutating
 preserved/excluded disposition, parent-summary non-substitution, child
 authority preservation, and no forbidden mutation, archive, publication,
 branch-cleanup, git-ref, or cleaned claim.

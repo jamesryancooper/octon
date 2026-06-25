@@ -10,7 +10,11 @@ FAKE_KERNEL="$TMPDIR_PUBLICATION/octon"
 
 cat >"$FAKE_KERNEL" <<'EOF'
 #!/usr/bin/env bash
-printf '%s\n' "$@" > "$OCTON_TEST_LOG"
+if [[ "${OCTON_TEST_LOG_ENV:-}" == "1" ]]; then
+  printf 'OCTON_KERNEL_BIN=%s\n' "${OCTON_KERNEL_BIN:-}" > "$OCTON_TEST_LOG"
+else
+  printf '%s\n' "$@" > "$OCTON_TEST_LOG"
+fi
 EOF
 chmod +x "$FAKE_KERNEL"
 
@@ -37,6 +41,22 @@ assert_runtime_env_without_manifest_fails() {
   fi
   printf 'PASS: %s\n' "$label"
 }
+
+assert_run_octon_kernel_exports_resolved_bin() {
+  local label="$1"
+  : >"$LOG_FILE"
+  unset OCTON_KERNEL_BIN
+  source "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+  resolve_octon_kernel_bin() {
+    printf '%s\n' "$FAKE_KERNEL"
+  }
+  OCTON_TEST_LOG="$LOG_FILE" OCTON_TEST_LOG_ENV=1 run_octon_kernel probe >/dev/null
+  grep -F "OCTON_KERNEL_BIN=$FAKE_KERNEL" "$LOG_FILE" >/dev/null
+  printf 'PASS: %s\n' "$label"
+}
+
+assert_run_octon_kernel_exports_resolved_bin \
+  "publication wrapper propagates resolved kernel binary to child processes"
 
 assert_kernel_args \
   "support-target matrix delegates to runtime boundary" \

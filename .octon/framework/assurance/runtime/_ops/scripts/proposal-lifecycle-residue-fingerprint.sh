@@ -94,6 +94,7 @@ cleanup_summary="$(
   python3 - "$active_run_id" "$cleanup_paths_file" <<'PY'
 import fnmatch
 import hashlib
+import re
 import sys
 from pathlib import Path
 
@@ -103,7 +104,7 @@ paths = sorted(path.strip() for path in Path(sys.argv[2]).read_text().splitlines
 def active_run_artifact(path: str) -> bool:
     if not active_run_id:
         return False
-    prefixes = (
+    prefixes = [
         f".octon/state/control/execution/runs/{active_run_id}/",
         f".octon/state/control/execution/runs/{active_run_id}-",
         f".octon/state/continuity/runs/{active_run_id}/",
@@ -120,14 +121,33 @@ def active_run_artifact(path: str) -> bool:
         f".octon/state/evidence/runs/skills/closeout-worktree/{active_run_id}-",
         f".octon/state/evidence/runs/skills/closeout-packet/{active_run_id}/",
         f".octon/state/evidence/runs/skills/closeout-packet/{active_run_id}-",
-    )
-    exact_prefixes = (
+    ]
+    exact_prefixes = [
         f".octon/state/control/execution/approvals/requests/{active_run_id}",
         f".octon/state/evidence/control/execution/authority-decision-{active_run_id}",
         f".octon/state/evidence/control/execution/authority-grant-bundle-{active_run_id}",
         f".octon/state/evidence/external-index/runs/{active_run_id}",
-    )
-    return path.startswith(prefixes) or any(path.startswith(prefix) for prefix in exact_prefixes)
+    ]
+    match = re.match(r"^(.+)-([0-9]{8})[Tt]([0-9]{2})([0-9]{2})([0-9]{2})[Zz]$", active_run_id)
+    if match:
+        attempt_prefix = f"{match.group(1)}-{match.group(2)}t{match.group(3)}{match.group(4)}"
+        prefixes.extend(
+            [
+                f".octon/state/control/execution/runs/{attempt_prefix}-attempt-",
+                f".octon/state/continuity/runs/{attempt_prefix}-attempt-",
+                f".octon/state/evidence/runs/{attempt_prefix}-attempt-",
+                f".octon/state/evidence/runs/workflows/{attempt_prefix}-attempt-",
+            ]
+        )
+        exact_prefixes.extend(
+            [
+                f".octon/state/control/execution/approvals/requests/{attempt_prefix}-attempt-",
+                f".octon/state/evidence/control/execution/authority-decision-{attempt_prefix}-attempt-",
+                f".octon/state/evidence/control/execution/authority-grant-bundle-{attempt_prefix}-attempt-",
+                f".octon/state/evidence/external-index/runs/{attempt_prefix}-attempt-",
+            ]
+        )
+    return path.startswith(tuple(prefixes)) or any(path.startswith(prefix) for prefix in exact_prefixes)
 
 def cleanup_candidate(path: str) -> bool:
     if active_run_artifact(path):

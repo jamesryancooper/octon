@@ -53,7 +53,9 @@ create_fixture_repo() {
   cleanup_dirs+=("$tmp")
   cp -R "$FIXTURE_ROOT" "$tmp/fixtures"
   mkdir -p "$tmp/.octon/framework/engine/runtime/spec"
+  mkdir -p "$tmp/.octon/framework/assurance/runtime/_ops/scripts"
   cp "$SCHEMA_PATH" "$tmp/.octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+  cp "$GENERATOR" "$tmp/.octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
   printf '%s\n' "$tmp"
 }
 

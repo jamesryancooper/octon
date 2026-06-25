@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 PROFILE_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh"
 RECEIPT_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+EVIDENCE_INDEX_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
 WORKFLOW_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
@@ -233,6 +234,7 @@ expect_pass "schema-only profile validator" "$PROFILE_VALIDATOR"
 expect_pass "valid profile" "$PROFILE_VALIDATOR" --profile "$TMP_DIR/valid-profile.yml"
 expect_pass "schema-only receipt validator" "$RECEIPT_VALIDATOR"
 expect_pass "valid receipt" "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/valid-receipt.yml"
+expect_pass "schema-only delivery evidence index validator" "$EVIDENCE_INDEX_VALIDATOR"
 expect_pass "workflow validator" "$WORKFLOW_VALIDATOR"
 
 mutate_profile_expect_fail "missing profile gate declarations" 'del(.publication_checks)'

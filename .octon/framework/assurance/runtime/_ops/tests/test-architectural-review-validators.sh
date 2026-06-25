@@ -60,6 +60,104 @@ expect_failure() {
   echo "[OK] negative control failed as expected: $label"
 }
 
+new_architectural_review_digest_package() {
+  local root package digest
+  root="$(mktemp -d "${TMPDIR:-/tmp}/architectural-review-digest.XXXXXX")"
+  CLEANUP_DIRS+=("$root")
+  package="$root/review-fixture"
+  mkdir -p "$package/support" "$package/navigation" "$package/architecture"
+
+  cat >"$package/proposal.yml" <<'EOF'
+schema_version: "proposal-v1"
+proposal_id: "architectural-review-digest-fixture"
+title: "Architectural Review Digest Fixture"
+summary: "Fixture for architecture receipt digest freshness."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/example.md"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promote and archive."
+related_proposals: []
+EOF
+  cat >"$package/architecture-proposal.yml" <<'EOF'
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+EOF
+  cat >"$package/README.md" <<'EOF'
+# Architectural Review Digest Fixture
+EOF
+  cat >"$package/navigation/artifact-catalog.md" <<'EOF'
+# Artifact Catalog
+EOF
+  cat >"$package/navigation/source-of-truth-map.md" <<'EOF'
+# Source Of Truth
+EOF
+  cat >"$package/architecture/target-architecture.md" <<'EOF'
+# Target Architecture
+EOF
+  cat >"$package/architecture/implementation-plan.md" <<'EOF'
+# Implementation Plan
+EOF
+  cat >"$package/architecture/acceptance-criteria.md" <<'EOF'
+# Acceptance Criteria
+EOF
+
+  digest="$(bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh" --package "$package" --print-digest)"
+  cat >"$package/support/pre-integration-architecture-review.yml" <<EOF
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "architectural-review-digest-fixture-001"
+proposal_path: "$package"
+packet_digest: "$digest"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - "$package/architecture/target-architecture.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+blockers: []
+mode_specific_coverage:
+  fixture: "covered"
+EOF
+  printf '%s\n' "$package"
+}
+
+case_architecture_stale_digest_diagnostic_fields() {
+  local package receipt output rc=0
+  package="$(new_architectural_review_digest_package)"
+  receipt="$package/support/pre-integration-architecture-review.yml"
+  printf '\nChanged after architecture review.\n' >>"$package/README.md"
+
+  output="$(bash "$RECEIPT_VALIDATOR" \
+    --receipt "$receipt" \
+    --package "$package" \
+    --mode pre-integration-architecture-review \
+    --require-pass 2>&1)" || rc=$?
+
+  if (( rc == 0 )); then
+    echo "$output" >&2
+    echo "[ERROR] stale architecture digest passed unexpectedly" >&2
+    exit 1
+  fi
+  for needle in \
+    '"stale_cause":"architectural review receipt packet_digest does not match current packet digest"' \
+    '"last_mutation_class":"packet-content-drift-after-architecture-review"' \
+    '"owning_refresh_route":"pre-integration-architecture-review"' \
+    '"stable_digest_boundary":"packet_digest"'; do
+    if ! grep -Fq "$needle" <<<"$output"; then
+      echo "$output" >&2
+      echo "[ERROR] stale architecture digest diagnostic missing: $needle" >&2
+      exit 1
+    fi
+  done
+  echo "[OK] stale architecture digest emits refresh diagnostics"
+}
+
 bash "$RECEIPT_VALIDATOR" \
   --receipt "$FIXTURE_DIR/valid-pre-integration-receipt.yml" \
   --mode pre-integration-architecture-review \
@@ -100,5 +198,7 @@ rm -f "$root/.octon/framework/capabilities/runtime/commands/audit-surface-archit
 expect_failure \
   "missing surface architecture command facade" \
   bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-skills-commands.sh" --root "$root"
+
+case_architecture_stale_digest_diagnostic_fields
 
 echo "[OK] architectural review validator fixtures passed"

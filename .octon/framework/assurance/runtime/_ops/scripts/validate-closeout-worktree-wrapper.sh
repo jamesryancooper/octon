@@ -220,9 +220,14 @@ validate_report() {
     return
   fi
 
+  local report_json_file
+  report_json_file="$(mktemp "${TMPDIR:-/tmp}/octon-closeout-worktree-report-json.XXXXXX")"
+  printf '%s' "$report_json" >"$report_json_file"
+
   set +e
-  REPORT_JSON="$report_json" ROOT_DIR="$ROOT_DIR" CLOSEOUT_WORKTREE_EVIDENCE_ROOT="${CLOSEOUT_WORKTREE_EVIDENCE_ROOT:-$ROOT_DIR}" python3 - <<'PY'
+  REPORT_JSON_FILE="$report_json_file" ROOT_DIR="$ROOT_DIR" CLOSEOUT_WORKTREE_EVIDENCE_ROOT="${CLOSEOUT_WORKTREE_EVIDENCE_ROOT:-$ROOT_DIR}" python3 - <<'PY'
 import json
+import bisect
 import os
 import subprocess
 import sys
@@ -814,6 +819,31 @@ def path_covers_boundary(evidence_path, boundary_path):
     return evidence == boundary or evidence in boundary.parents or boundary in evidence.parents
 
 
+def retained_evidence_uncovered_boundaries(evidence_items, include_paths):
+    evidence_paths = sorted(
+        {
+            path_text(item.get("path"))
+            for item in evidence_items
+            if isinstance(item, dict) and is_nonempty_string(item.get("path"))
+        }
+    )
+    evidence_path_set = set(evidence_paths)
+    uncovered = []
+    for include_path in include_paths:
+        include_text = path_text(include_path)
+        if include_text in evidence_path_set:
+            continue
+        boundary = PurePosixPath(include_text)
+        if any(str(parent) in evidence_path_set for parent in boundary.parents):
+            continue
+        prefix = f"{include_text.rstrip('/')}/"
+        index = bisect.bisect_left(evidence_paths, prefix)
+        if index < len(evidence_paths) and evidence_paths[index].startswith(prefix):
+            continue
+        uncovered.append(include_path)
+    return uncovered
+
+
 PUBLISHABLE_CLOSEOUT_EVIDENCE_PREFIXES = (
     ".octon/state/evidence/runs/skills/closeout-change/",
     ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/",
@@ -912,6 +942,97 @@ def sha256_digest(path):
         for chunk in iter(lambda: fh.read(1024 * 1024), b""):
             h.update(chunk)
     return f"sha256:{h.hexdigest()}"
+
+
+def sha256_text(value):
+    import hashlib
+
+    return f"sha256:{hashlib.sha256(value.encode('utf-8')).hexdigest()}"
+
+
+def terminal_markdown_path_is_safe(value):
+    text = path_text(value)
+    if not text or text.startswith("/") or text.startswith("~") or "\\" in text or "\0" in text:
+        return False
+    return ".." not in PurePosixPath(text).parts
+
+
+def terminal_markdown_foreign_paths(path):
+    try:
+        body = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        body = path.read_text(errors="replace")
+    in_foreign_section = False
+    rows = []
+    for raw_line in body.splitlines():
+        line = raw_line.strip()
+        if line == "## Foreign Or Ambiguous":
+            in_foreign_section = True
+            continue
+        if in_foreign_section and raw_line.startswith("## "):
+            break
+        if not in_foreign_section:
+            continue
+        if line.startswith("- `") and line.endswith("`"):
+            candidate = line.removeprefix("- `").removesuffix("`")
+            if terminal_markdown_path_is_safe(candidate):
+                rows.append(path_text(candidate))
+    return sorted(rows)
+
+
+def terminal_markdown_foreign_fingerprint(path):
+    rows = terminal_markdown_foreign_paths(path)
+    if not rows:
+        return None
+    return sha256_text("\n".join(rows))
+
+
+def classifier_fingerprint_matches_authorization(classifier_path, expected_fingerprint, authorized_paths, prefix):
+    markdown_paths = terminal_markdown_foreign_paths(classifier_path)
+    if markdown_paths:
+        markdown_fingerprint = sha256_text("\n".join(markdown_paths))
+        if markdown_fingerprint != expected_fingerprint:
+            fail(f"{prefix}.authorized_foreign_fingerprint must match terminal markdown classifier output")
+            return False
+        authorized_path_set = {path_text(path) for path in authorized_paths}
+        if set(markdown_paths) != authorized_path_set:
+            fail(f"{prefix}.authorized_paths must exactly match terminal markdown Foreign Or Ambiguous path set")
+            return False
+        return True
+
+    classifier = load_yaml_as_json(classifier_path, f"{prefix}.classifier_output_ref")
+    if isinstance(classifier, dict) and classifier.get("worktree_hygiene_foreign_fingerprint") == expected_fingerprint:
+        return True
+
+    fail(f"{prefix}.authorized_foreign_fingerprint must match classifier output")
+    return False
+
+
+def simple_receipt_field(path, fields):
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except UnicodeDecodeError:
+        lines = path.read_text(errors="replace").splitlines()
+    for raw_line in lines:
+        line = raw_line.strip()
+        for field in fields:
+            prefix = f"{field}:"
+            if line.startswith(prefix):
+                return line.removeprefix(prefix).strip().strip('"').strip("'")
+    return None
+
+
+def repo_or_evidence_path(value, field):
+    validate_repo_path(value, field)
+    if not is_nonempty_string(value):
+        return None
+    path = PurePosixPath(value)
+    if path.is_absolute() or ".." in path.parts:
+        return None
+    repo_candidate = ROOT_DIR / Path(*path.parts)
+    if repo_candidate.is_file():
+        return repo_candidate
+    return EVIDENCE_ROOT / Path(*path.parts)
 
 
 def terminal_sink_parts(value, field):
@@ -1090,8 +1211,15 @@ def proposal_program_handoff_authorizes_path(candidate, path):
     authorized_paths = auth.get("authorized_paths")
     if not isinstance(authorized_paths, list):
         return False
+    cache_key = "__proposal_program_handoff_authorized_path_set"
+    authorized_path_set = candidate.get(cache_key)
+    if not isinstance(authorized_path_set, set):
+        authorized_path_set = {
+            path_text(item) for item in authorized_paths if is_nonempty_string(item)
+        }
+        candidate[cache_key] = authorized_path_set
     return (
-        path_text(path) in {path_text(item) for item in authorized_paths if is_nonempty_string(item)}
+        path_text(path) in authorized_path_set
         and auth.get("non_mutating") is True
         and auth.get("preserve_and_exclude_from_child_closeout_blocking") is True
         and auth.get("parent_summary_not_child_closeout_receipt") is True
@@ -1109,8 +1237,15 @@ def proposal_program_parent_handoff_authorizes_path(candidate, path):
     authorized_paths = auth.get("authorized_paths")
     if not isinstance(authorized_paths, list):
         return False
+    cache_key = "__proposal_program_parent_handoff_authorized_path_set"
+    authorized_path_set = candidate.get(cache_key)
+    if not isinstance(authorized_path_set, set):
+        authorized_path_set = {
+            path_text(item) for item in authorized_paths if is_nonempty_string(item)
+        }
+        candidate[cache_key] = authorized_path_set
     return (
-        path_text(path) in {path_text(item) for item in authorized_paths if is_nonempty_string(item)}
+        path_text(path) in authorized_path_set
         and auth.get("non_mutating") is True
         and auth.get("preserve_and_exclude_from_lifecycle_closeout_blocking") is True
         and auth.get("parent_summary_not_child_closeout_receipt") is True
@@ -1180,15 +1315,18 @@ def validate_proposal_program_handoff_authorization(candidate, include_paths, pr
         )
 
     classifier_ref = auth.get("classifier_output_ref")
-    classifier_path = repo_path(classifier_ref, f"{prefix}.proposal_program_handoff_authorization.classifier_output_ref")
+    classifier_path = repo_or_evidence_path(classifier_ref, f"{prefix}.proposal_program_handoff_authorization.classifier_output_ref")
     if classifier_path is None or not classifier_path.is_file():
         fail(f"{prefix}.proposal_program_handoff_authorization.classifier_output_ref must resolve to retained classifier evidence")
     else:
         if sha256_digest(classifier_path) != auth.get("classifier_output_digest"):
             fail(f"{prefix}.proposal_program_handoff_authorization.classifier_output_digest must match classifier_output_ref")
-        classifier = load_yaml_as_json(classifier_path, f"{prefix}.proposal_program_handoff_authorization.classifier_output_ref")
-        if classifier.get("worktree_hygiene_foreign_fingerprint") != auth.get("authorized_foreign_fingerprint"):
-            fail(f"{prefix}.proposal_program_handoff_authorization.authorized_foreign_fingerprint must match classifier output")
+        classifier_fingerprint_matches_authorization(
+            classifier_path,
+            auth.get("authorized_foreign_fingerprint"),
+            authorized_paths,
+            f"{prefix}.proposal_program_handoff_authorization",
+        )
 
     return True
 
@@ -1277,22 +1415,50 @@ def validate_proposal_program_parent_handoff_authorization(candidate, include_pa
         )
 
     cleanup_ref = auth.get("cleanup_receipt_ref")
-    cleanup_path = repo_path(cleanup_ref, f"{prefix}.proposal_program_parent_handoff_authorization.cleanup_receipt_ref")
+    cleanup_path = repo_or_evidence_path(cleanup_ref, f"{prefix}.proposal_program_parent_handoff_authorization.cleanup_receipt_ref")
     if cleanup_path is None or not cleanup_path.is_file():
         fail(f"{prefix}.proposal_program_parent_handoff_authorization.cleanup_receipt_ref must resolve to retained cleanup receipt")
     elif sha256_digest(cleanup_path) != auth.get("cleanup_receipt_digest"):
         fail(f"{prefix}.proposal_program_parent_handoff_authorization.cleanup_receipt_digest must match cleanup_receipt_ref")
+    else:
+        for auth_field, cleanup_fields in (
+            (
+                "repo_hygiene_cleanup_receipt_digest",
+                ("repo_hygiene_cleanup_receipt_digest", "repo_hygiene_cleanup_digest"),
+            ),
+            (
+                "cleanup_authorization_digest",
+                ("cleanup_authorization_digest", "repo_hygiene_cleanup_authorization_digest"),
+            ),
+            (
+                "post_cleanup_summary_digest",
+                ("post_cleanup_summary_digest", "post_cleanup_digest"),
+            ),
+        ):
+            observed_digest = simple_receipt_field(cleanup_path, cleanup_fields)
+            if observed_digest:
+                require(
+                    looks_like_sha256(auth.get(auth_field)),
+                    f"{prefix}.proposal_program_parent_handoff_authorization.{auth_field} must be sha256 when cleanup receipt records {cleanup_fields[0]}",
+                )
+                require(
+                    auth.get(auth_field) == observed_digest,
+                    f"{prefix}.proposal_program_parent_handoff_authorization.{auth_field} must match cleanup receipt digest field",
+                )
 
     classifier_ref = auth.get("classifier_output_ref")
-    classifier_path = repo_path(classifier_ref, f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_ref")
+    classifier_path = repo_or_evidence_path(classifier_ref, f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_ref")
     if classifier_path is None or not classifier_path.is_file():
         fail(f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_ref must resolve to retained classifier evidence")
     else:
         if sha256_digest(classifier_path) != auth.get("classifier_output_digest"):
             fail(f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_digest must match classifier_output_ref")
-        classifier = load_yaml_as_json(classifier_path, f"{prefix}.proposal_program_parent_handoff_authorization.classifier_output_ref")
-        if classifier.get("worktree_hygiene_foreign_fingerprint") != auth.get("authorized_foreign_fingerprint"):
-            fail(f"{prefix}.proposal_program_parent_handoff_authorization.authorized_foreign_fingerprint must match classifier output")
+        classifier_fingerprint_matches_authorization(
+            classifier_path,
+            auth.get("authorized_foreign_fingerprint"),
+            authorized_paths,
+            f"{prefix}.proposal_program_parent_handoff_authorization",
+        )
 
     return True
 
@@ -1386,7 +1552,8 @@ def path_list(value, field, required=True):
 
 
 try:
-    data = json.loads(os.environ["REPORT_JSON"])
+    with open(os.environ["REPORT_JSON_FILE"], "r", encoding="utf-8") as fh:
+        data = json.load(fh)
 except Exception as exc:
     print(f"[ERROR] report parses as JSON after yq conversion: {exc}")
     sys.exit(1)
@@ -1647,9 +1814,8 @@ for candidate in unresolved_candidates:
                     f"{prefix}.retained_residue",
                     candidates_by_id.get(candidate_id),
                 )
-            for include_path in include_paths:
-                if not any(path_covers_boundary(item.get("path"), include_path) for item in evidence_items if is_nonempty_string(item.get("path"))):
-                    fail(f"{prefix} retained_residue evidence must cover boundary path {include_path}")
+            for include_path in retained_evidence_uncovered_boundaries(evidence_items, include_paths):
+                fail(f"{prefix} retained_residue evidence must cover boundary path {include_path}")
     if disposition in deferred_dispositions:
         ref = candidate.get("closeout_change_ref")
         if retained_by_candidate.get(candidate_id) or blockers_by_candidate.get(candidate_id):
@@ -2115,6 +2281,7 @@ if errors:
 print("[OK] closeout-worktree report validates")
 PY
   local status=$?
+  rm -f -- "$report_json_file"
   set -e
   if [[ "$status" -eq 0 ]]; then
     pass "report evidence contract passed"

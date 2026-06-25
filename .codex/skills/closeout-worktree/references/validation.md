@@ -40,7 +40,8 @@ Successful wrapper execution proves:
   `foreign_manual_review` include
   `proposal_program_handoff_authorization` or
   `proposal_program_parent_handoff_authorization` with exact classifier output
-  digest, matching foreign fingerprint, exact authorized path-set match,
+  digest, matching cleanup helper digest echoes when the parent cleanup receipt
+  records them, matching foreign fingerprint, exact authorized path-set match,
   non-mutating preserved/excluded disposition, child-authority preservation,
   parent-summary non-substitution, and every forbidden action set to `false`;
 - parent lifecycle-residue handoff candidates also prove the matching cleanup
@@ -187,8 +188,9 @@ Negative controls:
   `foreign_manual_review` without a matching
   `proposal_program_handoff_authorization` or
   `proposal_program_parent_handoff_authorization`, or with stale classifier
-  digest, stale cleanup receipt digest when parent-authorized, mismatched
-  foreign fingerprint, path-set drift, missing non-mutating flags,
+  digest, stale cleanup receipt digest when parent-authorized, missing or stale
+  cleanup helper digest echo when the parent cleanup receipt records one,
+  mismatched foreign fingerprint, path-set drift, missing non-mutating flags,
   child-authority substitution, parent-summary substitution,
   parent-evidence substitution, or any forbidden action marked true, fails.
 - A wrapper report that classifies lifecycle-owned proposal input/generated

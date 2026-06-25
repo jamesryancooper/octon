@@ -71,7 +71,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] promotion_evidence paths are repo-relative, existing, durable-target-bound, proposal-independent, and not parent-owned or wrong-child evidence
 - [ ] `support/implementation-conformance-review.md` passes after durable promotion
 - [ ] `support/post-implementation-drift-churn-review.md` passes after conformance
-- [ ] `proposal.yml` is rewritten to `status: implemented`
+- [ ] `proposal.yml` top-level `status:` is rewritten to `implemented` without reserializing, reordering, reformatting, or quote-normalizing reviewed manifest content
 - [ ] generated/proposals/registry.yml matches the deterministic manifest projection after promotion
 - [ ] final promotion verdict is explicit
 

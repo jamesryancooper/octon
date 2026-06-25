@@ -331,6 +331,23 @@ assert_exists "$root/.octon/state/evidence/control/execution/authority-decision-
 assert_missing "$root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
 
 root="$(make_fixture)"
+terminal_parent_run_id="lifecycle-proposal-program-fixture-20260620T132759Z"
+terminal_attempt_run_id="lifecycle-proposal-program-fixture-20260620t1327-attempt-6-workflow-66808b729c300e05"
+mkdir -p "$root/.octon/state/control/execution/runs/$terminal_attempt_run_id/context"
+printf 'status: current terminal attempt\n' >"$root/.octon/state/control/execution/runs/$terminal_attempt_run_id/context/status.yml"
+mkdir -p "$root/.octon/state/continuity/runs/$terminal_attempt_run_id-bind-profile"
+printf 'handoff: current terminal attempt\n' >"$root/.octon/state/continuity/runs/$terminal_attempt_run_id-bind-profile/handoff.yml"
+terminal_attempt_output="$(bash "$HELPER" --root "$root" --active-run-id "$terminal_parent_run_id")"
+assert_output_contains "$terminal_attempt_output" "derived terminal attempt context was not protected" "protected" "active_run_state" ".octon/state/control/execution/runs/$terminal_attempt_run_id/context/status.yml"
+assert_output_contains "$terminal_attempt_output" "derived terminal attempt continuity state was not protected" "protected" "active_run_state" ".octon/state/continuity/runs/$terminal_attempt_run_id-bind-profile/handoff.yml"
+assert_output_not_contains "$terminal_attempt_output" "derived terminal attempt context was treated as cleanup candidate" "cleanup_candidate" ".octon/state/control/execution/runs/$terminal_attempt_run_id/context/status.yml"
+terminal_attempt_receipt="$tmp_root/terminal-attempt-receipt-$fixture_index.json"
+bash "$HELPER" --root "$root" --active-run-id "$terminal_parent_run_id" --authorize "$terminal_attempt_receipt" >/dev/null
+bash "$HELPER" --root "$root" --active-run-id "$terminal_parent_run_id" --authorization "$terminal_attempt_receipt" >/dev/null
+assert_exists "$root/.octon/state/control/execution/runs/$terminal_attempt_run_id/context/status.yml"
+assert_exists "$root/.octon/state/continuity/runs/$terminal_attempt_run_id-bind-profile/handoff.yml"
+
+root="$(make_fixture)"
 active_workflow_output="$(bash "$HELPER" --root "$root" --active-run-id workflow-engine-closed-1)"
 assert_output_contains "$active_workflow_output" "active workflow runtime state was not protected" "protected" "active_run_state" ".octon/state/control/execution/runs/workflow-engine-closed-1/runtime-state.yml"
 assert_output_contains "$active_workflow_output" "active workflow continuity artifact was not protected" "protected" "active_run_state" ".octon/state/continuity/runs/workflow-engine-closed-1/handoff.yml"
@@ -480,5 +497,11 @@ root="$(make_fixture)"
 receipt="$(authorize_fixture "$root")"
 mutate_receipt "$receipt" proof_false "not_ignored_or_user_owned_residue"
 assert_fails "ignored or user-owned residue authorization proof" bash "$HELPER" --root "$root" --authorization "$receipt"
+
+root="$(make_fixture)"
+bounded_scan_output="$(OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT=1 bash "$HELPER" --root "$root" --summary-only)"
+assert_output_contains "$bounded_scan_output" "bounded reference scan did not report fail-safe status" "reference_scan_status: bounded-overprotect"
+assert_output_contains "$bounded_scan_output" "bounded reference scan did not over-protect cleanup-safe local residue" "protected_referenced:"
+assert_output_not_contains "$bounded_scan_output" "bounded reference scan treated retained publication residue as cleanup candidate" "cleanup_candidate" ".octon/state/evidence/validation/publication/capabilities/stale.yml"
 
 echo "[OK] cleanup-local-run-artifacts helper preserves referenced evidence and requires validating cleanup authorization receipts"

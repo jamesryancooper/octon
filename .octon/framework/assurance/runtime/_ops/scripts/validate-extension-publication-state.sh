@@ -563,28 +563,95 @@ main() {
     fi
   done < <(yq -r '.dependency_closure[]? | [.pack_id, .source_id] | @tsv' "$GENERATION_LOCK_FILE" 2>/dev/null || true)
 
-  local source_path sha pack_payload_sha computed_payload_sha
-  while IFS=$'\t' read -r source_path sha; do
-    [[ -z "$source_path" ]] && continue
-    if [[ ! -f "$ROOT_DIR/$source_path" ]]; then
-      fail "artifact path missing: $source_path"
-      continue
-    fi
-    [[ "$(ext_hash_file "$ROOT_DIR/$source_path")" == "$sha" ]] && pass "artifact digest current for $source_path" || fail "artifact digest stale for $source_path"
-  done < <(yq -r '.artifacts[]? | [.source_path, .sha256] | @tsv' "$ARTIFACT_MAP_FILE" 2>/dev/null || true)
+  local digest_status python_with_yaml
+  python_with_yaml="$(ext_python3_with_yaml || true)"
+  if [[ -z "$python_with_yaml" ]]; then
+    fail "python yaml module is required for extension artifact digest validation"
+    echo "Validation summary: errors=$errors"
+    exit 1
+  fi
+  set +e
+  digest_status="$(
+    "$python_with_yaml" - "$ROOT_DIR" "$ARTIFACT_MAP_FILE" "$GENERATION_LOCK_FILE" <<'PY'
+import hashlib
+import sys
+from pathlib import Path
 
-  local pack_id source_id payload_lines manifest_path version
-  while IFS=$'\t' read -r pack_id source_id manifest_path version pack_payload_sha; do
-    [[ -z "$pack_id" ]] && continue
-    payload_lines=""
-    while IFS=$'\t' read -r source_path sha; do
-      [[ -z "$source_path" ]] && continue
-      payload_lines+="${sha} ${source_path}"$'\n'
-    done < <(yq -r ".pack_payload_digests[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .files[]? | [.path, .sha256] | @tsv" "$GENERATION_LOCK_FILE")
-    computed_payload_sha="$(printf '%s' "$payload_lines" | ext_hash_text)"
-    [[ "$computed_payload_sha" == "$pack_payload_sha" ]] && pass "payload digest current for $pack_id" || fail "payload digest stale for $pack_id"
-    [[ -f "$ROOT_DIR/$manifest_path" ]] && pass "manifest path resolves for $pack_id" || fail "manifest path missing for $pack_id"
-  done < <(yq -r '.pack_payload_digests[]? | [.pack_id, .source_id, .manifest_path, .version, .payload_sha256] | @tsv' "$GENERATION_LOCK_FILE" 2>/dev/null || true)
+import yaml
+
+root = Path(sys.argv[1])
+artifact_map_path = Path(sys.argv[2])
+generation_lock_path = Path(sys.argv[3])
+
+
+def load_yaml(path):
+    with path.open("r", encoding="utf-8") as handle:
+        return yaml.safe_load(handle) or {}
+
+
+def file_sha256(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+artifact_map = load_yaml(artifact_map_path)
+generation_lock = load_yaml(generation_lock_path)
+errors = []
+checked_artifacts = 0
+
+for artifact in artifact_map.get("artifacts") or []:
+    source_path = artifact.get("source_path")
+    expected = artifact.get("sha256")
+    if not source_path:
+        continue
+    absolute = root / source_path
+    if not absolute.is_file():
+        errors.append(f"artifact path missing: {source_path}")
+        continue
+    checked_artifacts += 1
+    if file_sha256(absolute) != expected:
+        errors.append(f"artifact digest stale for {source_path}")
+
+checked_payloads = 0
+for payload in generation_lock.get("pack_payload_digests") or []:
+    pack_id = payload.get("pack_id") or "unknown"
+    manifest_path = payload.get("manifest_path")
+    if not manifest_path or not (root / manifest_path).is_file():
+        errors.append(f"manifest path missing for {pack_id}")
+    payload_lines = []
+    for item in payload.get("files") or []:
+        path = item.get("path")
+        sha = item.get("sha256")
+        if path and sha:
+            payload_lines.append(f"{sha} {path}\n")
+    computed = hashlib.sha256("".join(payload_lines).encode("utf-8")).hexdigest()
+    checked_payloads += 1
+    if computed != payload.get("payload_sha256"):
+        errors.append(f"payload digest stale for {pack_id}")
+
+for error in errors:
+    print(f"FAIL\t{error}")
+if not errors:
+    print(f"PASS\tartifact digests current for {checked_artifacts} artifacts")
+    print(f"PASS\tpayload digests current for {checked_payloads} packs")
+PY
+  )"
+  local digest_exit=$?
+  set -e
+  if [[ $digest_exit -ne 0 ]]; then
+    fail "extension artifact digest validation failed to execute"
+  fi
+  while IFS=$'\t' read -r status message; do
+    [[ -n "$status" ]] || continue
+    case "$status" in
+      PASS) pass "$message" ;;
+      FAIL) fail "$message" ;;
+      *) fail "unexpected extension artifact digest validator output: $status $message" ;;
+    esac
+  done <<<"$digest_status"
 
   echo "Validation summary: errors=$errors"
   if [[ $errors -gt 0 ]]; then

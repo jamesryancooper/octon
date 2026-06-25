@@ -33,7 +33,7 @@ resolve_octon_kernel_bin() {
 run_octon_kernel() {
   local kernel_bin
   kernel_bin="$(resolve_octon_kernel_bin)"
-  "$kernel_bin" "$@"
+  OCTON_KERNEL_BIN="$kernel_bin" "$kernel_bin" "$@"
 }
 
 run_publication_wrapper() {

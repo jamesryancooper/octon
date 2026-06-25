@@ -13,6 +13,9 @@ SUMMARY_ONLY=0
 AUTHORIZE_OUT=""
 AUTHORIZATION_RECEIPT=""
 REQUESTED_CLEANUP_PATH_ARGS=()
+REFERENCE_SCAN_PATTERN_LIMIT="${OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT:-2000}"
+REFERENCE_SCAN_STATUS="not-needed"
+REFERENCE_SCAN_PATTERN_COUNT=0
 
 POLICY_REF=".octon/instance/governance/policies/repo-hygiene.yml"
 HELPER_REF=".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
@@ -163,6 +166,11 @@ fi
 
 if [[ -n "$ACTIVE_RUN_ID" && ! "$ACTIVE_RUN_ID" =~ ^[A-Za-z0-9._:-]+$ ]]; then
   echo "[ERROR] --active-run-id contains unsupported characters: $ACTIVE_RUN_ID" >&2
+  exit 2
+fi
+
+if [[ ! "$REFERENCE_SCAN_PATTERN_LIMIT" =~ ^[0-9]+$ ]]; then
+  echo "[ERROR] OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT must be a non-negative integer" >&2
   exit 2
 fi
 
@@ -368,14 +376,23 @@ PY
 if [[ -s "$UNTRACKED_PATHS" ]]; then
   write_reference_scan_paths
   if [[ -s "$REFERENCE_SCAN_PATHS" ]]; then
-    {
-      git -C "$ROOT_DIR" grep -h -F -o -f "$REFERENCE_SCAN_PATHS" -- 2>/dev/null || true
-      collect_retained_evidence_references
-    } | sort -u >"$REFERENCED_PATHS"
+    REFERENCE_SCAN_PATTERN_COUNT="$(wc -l <"$REFERENCE_SCAN_PATHS" | tr -d ' ')"
+    if [[ "$REFERENCE_SCAN_PATTERN_COUNT" -gt "$REFERENCE_SCAN_PATTERN_LIMIT" ]]; then
+      REFERENCE_SCAN_STATUS="bounded-overprotect"
+      cp "$REFERENCE_SCAN_PATHS" "$REFERENCED_PATHS"
+    else
+      REFERENCE_SCAN_STATUS="complete"
+      {
+        git -C "$ROOT_DIR" grep -h -F -o -f "$REFERENCE_SCAN_PATHS" -- 2>/dev/null || true
+        collect_retained_evidence_references
+      } | sort -u >"$REFERENCED_PATHS"
+    fi
   else
+    REFERENCE_SCAN_STATUS="empty"
     : >"$REFERENCED_PATHS"
   fi
 else
+  REFERENCE_SCAN_STATUS="no-untracked-paths"
   : >"$REFERENCED_PATHS"
 fi
 
@@ -423,6 +440,10 @@ referenced_kind_for_path() {
 matches_active_run_artifact() {
   local rel="$1"
   [[ -n "$ACTIVE_RUN_ID" ]] || return 1
+  local active_attempt_prefix=""
+  if [[ "$ACTIVE_RUN_ID" =~ ^(.+)-([0-9]{8})[Tt]([0-9]{2})([0-9]{2})([0-9]{2})[Zz]$ ]]; then
+    active_attempt_prefix="${BASH_REMATCH[1]}-${BASH_REMATCH[2]}t${BASH_REMATCH[3]}${BASH_REMATCH[4]}"
+  fi
   case "$rel" in
     .octon/state/control/execution/runs/"$ACTIVE_RUN_ID"/*|\
     .octon/state/control/execution/runs/"$ACTIVE_RUN_ID"-*/*|\
@@ -447,6 +468,20 @@ matches_active_run_artifact() {
       return 0
       ;;
   esac
+  if [[ -n "$active_attempt_prefix" ]]; then
+    case "$rel" in
+      .octon/state/control/execution/runs/"$active_attempt_prefix"-attempt-*/*|\
+      .octon/state/continuity/runs/"$active_attempt_prefix"-attempt-*/*|\
+      .octon/state/evidence/runs/"$active_attempt_prefix"-attempt-*/*|\
+      .octon/state/evidence/runs/workflows/"$active_attempt_prefix"-attempt-*/*|\
+      .octon/state/control/execution/approvals/requests/"$active_attempt_prefix"-attempt-*.yml|\
+      .octon/state/evidence/control/execution/authority-decision-"$active_attempt_prefix"-attempt-*.yml|\
+      .octon/state/evidence/control/execution/authority-grant-bundle-"$active_attempt_prefix"-attempt-*.yml|\
+      .octon/state/evidence/external-index/runs/"$active_attempt_prefix"-attempt-*.yml)
+        return 0
+        ;;
+    esac
+  fi
   return 1
 }
 
@@ -1208,6 +1243,9 @@ echo "  classification_digest: $CLASSIFICATION_DIGEST"
 echo "  cleanup_path_set_digest: $CLEANUP_PATH_SET_DIGEST"
 echo "  protected_paths_digest: $PROTECTED_PATHS_DIGEST"
 echo "  manual_review_paths_digest: $MANUAL_REVIEW_PATHS_DIGEST"
+echo "  reference_scan_status: $REFERENCE_SCAN_STATUS"
+echo "  reference_scan_pattern_count: $REFERENCE_SCAN_PATTERN_COUNT"
+echo "  reference_scan_pattern_limit: $REFERENCE_SCAN_PATTERN_LIMIT"
 
 if [[ -n "$AUTHORIZE_OUT" ]]; then
   write_authorization_receipt "$AUTHORIZE_OUT"

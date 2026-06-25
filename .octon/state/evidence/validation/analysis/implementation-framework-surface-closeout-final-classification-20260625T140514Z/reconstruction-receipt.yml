@@ -1,0 +1,10 @@
+schema_version: implementation-surface-reconstruction-v1
+target_worktree: /Users/jamesryancooper/Projects/octon
+route_worktree: /private/tmp/octon-implementation-framework-surface-closeout
+source_classifier_ref: /private/tmp/octon-implementation-framework-surface-closeout/.octon/state/evidence/validation/analysis/implementation-framework-surface-closeout-final-classification-20260625T140514Z/classify-implementation-surface-closeout.yml
+refined_classifier_ref: /private/tmp/octon-implementation-framework-surface-closeout/.octon/state/evidence/validation/analysis/implementation-framework-surface-closeout-final-classification-20260625T140514Z/classify-implementation-surface-closeout-refined-target-owned.yml
+target_owned_path_list_ref: /private/tmp/octon-implementation-framework-surface-closeout/.octon/state/evidence/validation/analysis/implementation-framework-surface-closeout-final-classification-20260625T140514Z/target-owned-implementation-paths.txt
+path_count: 63
+reconstruction_method: rsync --files-from authorized target-owned path list
+primary_worktree_mutated: false
+excluded_blocked_paths_ref: /private/tmp/octon-implementation-framework-surface-closeout/.octon/state/evidence/validation/analysis/implementation-framework-surface-closeout-final-classification-20260625T140514Z/classify-implementation-surface-closeout.yml

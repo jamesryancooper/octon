@@ -449,17 +449,6 @@ case_superseded_archive_missing_successor_evidence_fails() {
   run_validator_in_fixture_skip_registry "$fixture_root" ".octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture"
 }
 
-case_superseded_archive_missing_successor_evidence_warns_in_projection_mode() {
-  local fixture_root
-  fixture_root="$(create_fixture_repo)"
-  write_archived_superseded_architecture_proposal "$fixture_root" ".octon/state/evidence/runs/workflows/missing-successor.yml"
-  (
-    cd "$fixture_root"
-    OCTON_PROPOSAL_SUPERSEDED_ARCHIVE_EVIDENCE_MODE=projection-warning \
-      bash "$VALIDATE_SCRIPT" --package ".octon/inputs/exploratory/proposals/.archive/architecture/superseded-fixture" --skip-registry-check
-  )
-}
-
 main() {
   assert_success \
     "proposal standard validator accepts the same proposal_id across different kinds" \
@@ -494,9 +483,6 @@ main() {
     "proposal standard validator rejects superseded archives with missing successor evidence" \
     "superseded archive evidence path must exist" \
     case_superseded_archive_missing_successor_evidence_fails
-  assert_success \
-    "proposal standard validator warns on missing historical supersession evidence only in projection mode" \
-    case_superseded_archive_missing_successor_evidence_warns_in_projection_mode
 
   echo
   echo "Passed: $pass_count"

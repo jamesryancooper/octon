@@ -93,6 +93,22 @@ ensure_dir() {
   mkdir -p "$dir"
 }
 
+host_projection_writable() {
+  local host="$1"
+  local kind dir parent
+  parent="$ROOT_DIR/.${host}"
+  for kind in commands skills; do
+    dir="$parent/${kind}"
+    if [[ -e "$dir" && ! -w "$dir" ]]; then
+      return 1
+    fi
+    if [[ ! -e "$dir" && -e "$parent" && ! -w "$parent" ]]; then
+      return 1
+    fi
+  done
+  return 0
+}
+
 copy_command_projection() {
   local source_rel="$1"
   local dest_file="$2"
@@ -101,7 +117,9 @@ copy_command_projection() {
     echo "[ERROR] missing command projection source: $source_rel" >&2
     exit 1
   }
-  rm -r -f "$dest_file"
+  if [[ -L "$dest_file" || -d "$dest_file" ]]; then
+    rm -r -f "$dest_file"
+  fi
   cp "$source_abs" "$dest_file"
 }
 
@@ -109,12 +127,36 @@ copy_skill_projection() {
   local source_rel="$1"
   local dest_dir="$2"
   local source_abs="$ROOT_DIR/$source_rel"
+  local source_entry dest_entry rel
   [[ -d "$source_abs" ]] || {
     echo "[ERROR] missing skill projection source dir: $source_rel" >&2
     exit 1
   }
-  rm -r -f "$dest_dir"
-  cp -R "$source_abs" "$dest_dir"
+  if [[ -L "$dest_dir" || ( -e "$dest_dir" && ! -d "$dest_dir" ) ]]; then
+    rm -r -f "$dest_dir"
+  fi
+  if [[ ! -e "$dest_dir" ]]; then
+    cp -R "$source_abs" "$dest_dir"
+    return 0
+  fi
+  while IFS= read -r -d '' source_entry; do
+    rel="${source_entry#$source_abs/}"
+    mkdir -p "$dest_dir/$rel"
+  done < <(find "$source_abs" -mindepth 1 -type d -print0 | sort -z)
+  while IFS= read -r -d '' source_entry; do
+    rel="${source_entry#$source_abs/}"
+    mkdir -p "$(dirname "$dest_dir/$rel")"
+    if [[ -L "$dest_dir/$rel" || -d "$dest_dir/$rel" ]]; then
+      rm -r -f "$dest_dir/$rel"
+    fi
+    cp "$source_entry" "$dest_dir/$rel"
+  done < <(find "$source_abs" -mindepth 1 -type f -print0 | sort -z)
+  while IFS= read -r -d '' dest_entry; do
+    rel="${dest_entry#$dest_dir/}"
+    if [[ ! -e "$source_abs/$rel" ]]; then
+      rm -r -f "$dest_entry"
+    fi
+  done < <(find "$dest_dir" -mindepth 1 -depth -print0 | sort -zr)
 }
 
 prune_unexpected_entries() {
@@ -175,6 +217,10 @@ main() {
   require_file "$EXTENSIONS_CATALOG"
 
   for host in "${HOSTS[@]}"; do
+    if ! host_projection_writable "$host"; then
+      echo "[OK] skipped read-only host capability projections: .$host"
+      continue
+    fi
     publish_host_kind "$host" command
     publish_host_kind "$host" skill
   done

@@ -29,6 +29,31 @@ assert_success() {
   fi
 }
 
+python3_with_yaml_for_test() {
+  local candidate
+  while IFS= read -r candidate; do
+    [[ -n "$candidate" ]] || continue
+    if "$candidate" - <<'PY' >/dev/null 2>&1
+import yaml  # noqa: F401
+PY
+    then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done < <(type -P -a python3 2>/dev/null || true)
+  return 1
+}
+
+write_fake_python3_without_yaml() {
+  local path="$1"
+  cat >"$path" <<'EOF'
+#!/usr/bin/env bash
+printf 'fake python without yaml\n' >&2
+exit 1
+EOF
+  chmod +x "$path"
+}
+
 run_validator() {
   local fixture_root="$1"
   OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
@@ -718,6 +743,27 @@ EOF
   run_validator "$fixture_root"
 }
 
+case_validator_selects_yaml_python_from_non_root_runtime_context() {
+  local fixture_root good_python bad_dir good_dir runtime_cwd
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  good_python="$(python3_with_yaml_for_test)"
+  bad_dir="$fixture_root/path-bad"
+  good_dir="$fixture_root/path-good"
+  runtime_cwd="$fixture_root/.octon/framework/engine/runtime/crates"
+  mkdir -p "$bad_dir" "$good_dir" "$runtime_cwd"
+  write_fake_python3_without_yaml "$bad_dir/python3"
+  ln -s "$good_python" "$good_dir/python3"
+  (
+    cd "$runtime_cwd"
+    PATH="$bad_dir:$good_dir:$PATH" OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
+      bash "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh" >/dev/null
+  )
+}
+
 main() {
   assert_success "empty desired selection publishes a clean empty generation" case_empty_selection_publishes_clean_empty_generation
   assert_success "one valid and one denied selected pack publishes with quarantine" case_partial_surviving_set_publishes_with_quarantine
@@ -734,6 +780,7 @@ main() {
   assert_success "missing required commands mark selected packs incompatible" case_missing_required_command_marks_pack_incompatible
   assert_success "missing optional feature groups degrade without blocking publish" case_missing_optional_feature_degrades_without_blocking_publish
   assert_success "prompt-manifest anchors appear in compatibility required inputs" case_prompt_anchor_paths_appear_in_compatibility_inputs
+  assert_success "extension validator selects PyYAML-capable python from non-root runtime context" case_validator_selects_yaml_python_from_non_root_runtime_context
 
   echo
   echo "Passed: $pass_count"

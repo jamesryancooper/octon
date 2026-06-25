@@ -206,6 +206,9 @@ blocking, a `foreign_manual_review` candidate may instead include
 - `authorization_grant`, `program_run_id`, and
   `parent_route_id: cleanup-lifecycle-residue`
 - `cleanup_receipt_ref` and matching `cleanup_receipt_digest`
+- `repo_hygiene_cleanup_receipt_digest`, `cleanup_authorization_digest`, and
+  `post_cleanup_summary_digest` when the cleanup receipt records the matching
+  helper digest fields
 - `classifier_output_ref` and matching `classifier_output_digest`
 - `authorized_foreign_fingerprint` matching the classifier output
 - `authorized_paths` exactly matching `boundaries.include_paths`

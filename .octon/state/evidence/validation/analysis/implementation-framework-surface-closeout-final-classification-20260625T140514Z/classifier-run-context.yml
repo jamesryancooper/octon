@@ -1,0 +1,10 @@
+run_id: implementation-framework-surface-closeout-final-classification-20260625T140514Z
+created_at_utc: 2026-06-25T14:05:14Z
+target_worktree: /Users/jamesryancooper/Projects/octon
+route_worktree: /private/tmp/octon-implementation-framework-surface-closeout
+route_branch: chore/implementation-framework-surface-classifier-closeout
+route_head: 1a3e825be74f32768201c9dc37ce8d8d08197005
+origin_main: 1a3e825be74f32768201c9dc37ce8d8d08197005
+primary_branch: chore/proposal-program-execution-mode-normalization
+primary_head: f8bd472f92d4021f7a97357683b60743743aff00
+primary_ahead_behind_origin_main: "0 ahead / 13 behind"

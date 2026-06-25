@@ -172,10 +172,20 @@ with tempfile.TemporaryDirectory(prefix="octon-lifecycle-interaction-") as tmp:
 
     returned = {
         "schema_version": "lifecycle-interaction-return-v1",
-        "interaction_id": "lifecycle-interaction-test",
-        "consumer": {"lifecycle_id": "change-closeout", "run_id": "run-2"},
-        "outcome": {"completed": True, "lifecycle_outcome": "cleaned", "blocker": None},
-        "return_evidence_refs": [{"ref": ".octon/state/evidence/example.txt", "digest": sha(evidence)}],
+        "interaction_id": "lifecycle-interaction-test-20260623T135523Z",
+        "consumer": {"lifecycle_id": "closeout-worktree", "run_id": "run-2"},
+        "outcome": {
+            "completed": True,
+            "lifecycle_outcome": "cleaned",
+            "non_mutating": True,
+            "cleaned_claim": False,
+            "blocker": None,
+        },
+        "return_evidence_refs": [{
+            "ref": ".octon/state/evidence/example.txt",
+            "digest": sha(evidence),
+            "schema_version": "closeout-worktree-report-v1",
+        }],
         "remaining_residue": [],
     }
     valid_return = root / "valid-return.json"
@@ -187,6 +197,12 @@ with tempfile.TemporaryDirectory(prefix="octon-lifecycle-interaction-") as tmp:
     missing_return_path = root / "missing-return-evidence.json"
     write(missing_return_path, missing_return)
     expect("return evidence is required for completed outcome", ["--root", str(root), "--return", str(missing_return_path)], False)
+
+    wrong_closeout_consumer = copy.deepcopy(returned)
+    wrong_closeout_consumer["consumer"]["lifecycle_id"] = "proposal-program"
+    wrong_closeout_consumer_path = root / "wrong-closeout-consumer-return.json"
+    write(wrong_closeout_consumer_path, wrong_closeout_consumer)
+    expect("closeout-worktree report returns require closeout-worktree consumer", ["--root", str(root), "--return", str(wrong_closeout_consumer_path)], False)
 PY
   exit 0
 fi
@@ -213,6 +229,7 @@ request_path = sys.argv[2]
 return_path = sys.argv[3]
 
 IDENTIFIER = re.compile(r"^[a-z][a-z0-9-]*$")
+INTERACTION_ID = re.compile(r"^[A-Za-z][A-Za-z0-9-]*$")
 SHA256 = re.compile(r"^sha256:[0-9a-f]{64}$")
 FORBIDDEN = {
     "git-ref-mutation",
@@ -413,7 +430,7 @@ def validate_return(path):
     require_keys(data, RETURN_KEYS, RETURN_KEYS, "return receipt")
     if data.get("schema_version") != "lifecycle-interaction-return-v1":
         fail("return schema_version must be lifecycle-interaction-return-v1")
-    if not isinstance(data.get("interaction_id"), str) or not IDENTIFIER.match(data.get("interaction_id", "")):
+    if not isinstance(data.get("interaction_id"), str) or not INTERACTION_ID.match(data.get("interaction_id", "")):
         fail("return interaction_id invalid")
     consumer = data.get("consumer", {})
     require_keys(consumer, {"lifecycle_id", "run_id"}, {"lifecycle_id", "run_id"}, "consumer")
@@ -422,25 +439,43 @@ def validate_return(path):
     if not isinstance(consumer.get("run_id"), str) or not consumer.get("run_id"):
         fail("consumer.run_id invalid")
     outcome = data.get("outcome", {})
-    require_keys(outcome, {"completed", "lifecycle_outcome", "blocker"}, {"completed", "lifecycle_outcome", "blocker"}, "outcome")
+    require_keys(
+        outcome,
+        {"completed", "lifecycle_outcome", "blocker"},
+        {"completed", "lifecycle_outcome", "blocker", "non_mutating", "cleaned_claim"},
+        "outcome",
+    )
     if not isinstance(outcome.get("completed"), bool):
         fail("outcome.completed must be boolean")
     if not isinstance(outcome.get("lifecycle_outcome"), str) or not IDENTIFIER.match(outcome.get("lifecycle_outcome", "")):
         fail("outcome.lifecycle_outcome invalid")
+    for key in ("non_mutating", "cleaned_claim"):
+        if key in outcome and not isinstance(outcome.get(key), bool):
+            fail(f"outcome.{key} must be boolean")
     refs = data.get("return_evidence_refs")
     if not isinstance(refs, list):
         fail("return_evidence_refs must be an array")
         refs = []
     if outcome.get("completed") is True and not refs:
         fail("completed return requires return_evidence_refs")
+    returns_closeout_worktree_report = False
     for index, item in enumerate(refs):
         if not isinstance(item, dict):
             fail(f"return_evidence_refs[{index}] must be an object")
             continue
-        require_keys(item, {"ref", "digest"}, {"ref", "digest"}, f"return_evidence_refs[{index}]")
+        require_keys(item, {"ref", "digest"}, {"ref", "digest", "schema_version"}, f"return_evidence_refs[{index}]")
+        if "schema_version" in item and (
+            not isinstance(item.get("schema_version"), str)
+            or not INTERACTION_ID.match(item.get("schema_version", ""))
+        ):
+            fail(f"return_evidence_refs[{index}].schema_version invalid")
+        if item.get("schema_version") == "closeout-worktree-report-v1":
+            returns_closeout_worktree_report = True
         absolute = existing_ref(item.get("ref"), f"return_evidence_refs[{index}].ref")
         if absolute is not None:
             check_digest(absolute, item.get("digest"), f"return_evidence_refs[{index}]")
+    if returns_closeout_worktree_report and consumer.get("lifecycle_id") != "closeout-worktree":
+        fail("closeout-worktree-report-v1 returns require consumer.lifecycle_id closeout-worktree")
     residue = data.get("remaining_residue")
     if not isinstance(residue, list):
         fail("remaining_residue must be an array")
