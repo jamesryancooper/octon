@@ -10,6 +10,7 @@
     "created_at",
     "target_program_path",
     "target_outcome",
+    "execution_order_policy",
     "route_preference",
     "pr_policy",
     "stash_policy",
@@ -48,6 +49,39 @@
         "synced",
         "cleaned"
       ]
+    },
+    "execution_order_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_order_required",
+        "canonical_order_ref",
+        "operator_requested_alternative_order",
+        "requested_order_ref",
+        "override_required_when_order_differs",
+        "override_receipt_ref"
+      ],
+      "properties": {
+        "canonical_order_required": {
+          "const": true
+        },
+        "canonical_order_ref": {
+          "const": "child-before-parent-delivery"
+        },
+        "operator_requested_alternative_order": {
+          "type": "boolean"
+        },
+        "requested_order_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "override_required_when_order_differs": {
+          "const": true
+        },
+        "override_receipt_ref": {
+          "type": "string"
+        }
+      }
     },
     "route_preference": {
       "type": "object",

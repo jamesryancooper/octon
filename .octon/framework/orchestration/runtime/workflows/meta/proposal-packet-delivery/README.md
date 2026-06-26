@@ -75,6 +75,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `delivery_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-proposal-packet-delivery.md`: Top-level proposal packet delivery summary.
 - `delivery_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{slug}}/`: Workflow bundle containing delivery profile, state evidence, inventory, and receipt.
 - `delivery_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{slug}}/proposal-packet-delivery-receipt.yml`: Aggregate proposal-packet-delivery-receipt output validated by validate-proposal-packet-delivery-receipt.sh.
+- `partition_clean_order_override_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{slug}}/proposal-packet-delivery-order-override-receipt.yml`: Optional partition-clean archive readiness order override validated by validate-proposal-packet-delivery-order-override-receipt.sh.
 
 ## Steps
 
@@ -99,6 +100,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] implementation conformance and post-implementation drift/churn pass before promotion
 - [ ] promote-proposal owns implemented status and promotion receipt evidence
 - [ ] closeout-packet owns proposal-closeout.md and archive authorization
+- [ ] partition-clean archive readiness requires a validating proposal-packet-delivery-order-override receipt, closeout-worktree report, and lifecycle-interaction-return
+- [ ] partition-clean archive readiness may unblock packet closeout, terminal closeout, and archive routing but does not authorize archive relocation, Git mutation, hosted landing, branch cleanup, repo hygiene cleanup, or cleaned claims
 - [ ] proposal-packet-terminal-closeout owns proposal-terminal-closeout.yml
 - [ ] archive-proposal owns archive relocation
 - [ ] pre-archive packet state routes through closeout-packet, proposal-packet-terminal-closeout, and archive-proposal

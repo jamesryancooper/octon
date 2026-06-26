@@ -65,3 +65,8 @@ control refs present or missing, substitute refs and their confidence effect,
 terminal validation refs, terminal rollback refs, known-limit posture, and the
 authority boundary. It is derived from `evidence-map.yml` and
 `known-limits.yml`; it never replaces either source artifact.
+
+For proposal-program delivery postmortems required by repeated blocker,
+recovery, or long-run thresholds, bind `evaluation.yml`, `report.md`,
+`readiness-summary.md`, `evidence-map.yml`, and digest-bound retained evidence
+refs in `proposal_program_delivery_profile.postmortem_requirement`.

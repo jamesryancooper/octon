@@ -428,11 +428,15 @@
         "verdict": {
           "enum": [
             "pass",
+            "partition-clean",
             "fail",
             "not-run"
           ]
         }
       }
+    },
+    "partition_clean_archive_readiness": {
+      "$ref": "#/$defs/partitionCleanArchiveReadiness"
     },
     "blockers": {
       "type": "array",
@@ -711,6 +715,54 @@
         },
         "verdict": {
           "const": "pass"
+        }
+      }
+    },
+    "partitionCleanArchiveReadiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "mode",
+        "order_override_receipt_ref",
+        "order_override_receipt_digest",
+        "closeout_worktree_report_ref",
+        "lifecycle_interaction_return_ref",
+        "does_not_authorize_archive",
+        "does_not_authorize_git_mutation",
+        "does_not_authorize_cleaned_claim"
+      ],
+      "properties": {
+        "enabled": {
+          "const": true
+        },
+        "mode": {
+          "const": "partition-clean-for-archive-readiness"
+        },
+        "order_override_receipt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "order_override_receipt_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "closeout_worktree_report_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lifecycle_interaction_return_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "does_not_authorize_archive": {
+          "const": true
+        },
+        "does_not_authorize_git_mutation": {
+          "const": true
+        },
+        "does_not_authorize_cleaned_claim": {
+          "const": true
         }
       }
     }

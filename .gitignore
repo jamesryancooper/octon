@@ -254,3 +254,5 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-validator-runtime-resolver/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-mode-normalization/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/**

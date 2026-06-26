@@ -1,4 +1,4 @@
-# Stage 05: Route Closeout And Archive
+# Stage 06: Route Closeout And Archive
 
 Route packet terminal closeout through the packet closeout lifecycle, then route implemented archive through the separate proposal archive lifecycle.
 

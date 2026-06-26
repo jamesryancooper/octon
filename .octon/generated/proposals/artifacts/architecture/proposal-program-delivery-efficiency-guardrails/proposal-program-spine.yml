@@ -1,0 +1,244 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession/proposal.yml",
+      "manifest_sha256": "sha256:1fb7f8a06b39b3d9cf9970dfec08c0c9f2568a2a582efb9eb4b5baeda46a1656",
+      "proposal_id": "proposal-program-execution-resilience-and-supersession",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/proposal.yml",
+      "manifest_sha256": "sha256:6ddba2b8efe21c736f764040d99df5909e4ad970ae2e37a08aeb82e878f85226",
+      "proposal_id": "proposal-program-loop-breaker",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/proposal.yml",
+      "manifest_sha256": "sha256:8856d5f7ac678d19bd79e92fb6c8aef6f69deebfc768b358c95f01af18426238",
+      "proposal_id": "proposal-program-ownership-baseline-and-leases",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/proposal.yml",
+      "manifest_sha256": "sha256:e6b5d7efd7992ff1cb9d247a1e9a49076653ac9a63e2e7c01fd39213a4e31ec5",
+      "proposal_id": "proposal-program-supersession-rescue-path",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/proposal.yml",
+      "manifest_sha256": "sha256:24ceef6002790a9b0df5435043a9c92cbed92b606422bdd06a98db0b650cbb41",
+      "proposal_id": "closeout-worktree-autonomous-partition-evidence",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:dcae1b83d2398cf66ccd057d0e6d7fd4f60f0e3ac56188477d280e3c7f47e6a4",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review, revise if needed, implement through the selected Change closeout route, validate the new gates with positive and negative controls, then archive this proposal only after retained evidence proves the policy, preflight, clean-worktree, shared-receipt, and postmortem requirements are durable.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-delivery-efficiency-guardrails/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh",
+    ".octon/framework/assurance/runtime/_ops/lib/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md",
+    ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/",
+    ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/",
+    ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+    ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "proposal_id": "proposal-program-delivery-efficiency-guardrails",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 1001,
+      "estimated_tokens": 251,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/creation-receipt.md",
+      "sha256": "sha256:f4c8c2d245502ff687a8462456bc71306ed9a5ca852fc12f165c0602e3368f73"
+    },
+    {
+      "byte_size": 16986,
+      "estimated_tokens": 4247,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/executable-implementation-prompt.md",
+      "sha256": "sha256:8e6a1bfd22d02adc1a4540c3b9dc56a5b386ed79a43d0e298d63aaa3f0588e39"
+    },
+    {
+      "byte_size": 2853,
+      "estimated_tokens": 714,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-conformance-review.md",
+      "sha256": "sha256:39a52d394eca19a17bea4376e17733d8d2845ded77f05ea7c7f6456062595a18"
+    },
+    {
+      "byte_size": 3050,
+      "estimated_tokens": 763,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:e9512e784ab3131c83347536080d95e7b9aed8fe7a97663530f7965b13b28152"
+    },
+    {
+      "byte_size": 2860,
+      "estimated_tokens": 715,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-run.md",
+      "sha256": "sha256:08d93c81d0798e3b9921a0246b2de1f168851e1fbb82e48866f0bb5cbafa77ab"
+    },
+    {
+      "byte_size": 2372,
+      "estimated_tokens": 593,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:c374ae8702c1ff4056249a3f3fea4b936cbad6c9d98d4e73d8d961f7864b5847"
+    },
+    {
+      "byte_size": 6405,
+      "estimated_tokens": 1602,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/proposal-closeout.md",
+      "sha256": "sha256:638683d69ac3e1245fc91f406c0cc54cc4b008c5ff2942fb75ae0e0f416a310d"
+    },
+    {
+      "byte_size": 6153,
+      "estimated_tokens": 1539,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/proposal-review.md",
+      "sha256": "sha256:bbcba0bd007b5d00f176c229ce08c2e9bd5d3be8e68180d15333157fae0b0e89"
+    },
+    {
+      "byte_size": 3455,
+      "estimated_tokens": 864,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/validation.md",
+      "sha256": "sha256:7b79618d919ef9d3c418ce8cd07488d44a7686f1356291a7eb0d806ccc3de9a2"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-execution-resilience-and-supersession",
+    "proposal-program-loop-breaker",
+    "proposal-program-ownership-baseline-and-leases",
+    "proposal-program-supersession-rescue-path",
+    "closeout-worktree-autonomous-partition-evidence"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/architecture-proposal.yml": "sha256:f96be86a8e8de66803fbc11bfe386989fa79240ed148cf139f2623be87f590cd",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/architecture/acceptance-criteria.md": "sha256:e74b10592b1ede1e73d17ddc956bc066130b740f9e71de493808ad9501f59cb9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/architecture/implementation-plan.md": "sha256:2bbdd1fd293f76b09a96dcd09dda23d52db24ce1e9c63a7e67b3dddf08f4ff7e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/navigation/artifact-catalog.md": "sha256:d7e08cecac417b6f33dffcc660867da3cc5c7f9a921362199c2f11effbb5c176",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/navigation/source-of-truth-map.md": "sha256:86472c1a59df47d19fd7c4ccef76029acc9dda3653fa9bf5d7635125e49fe402",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/proposal.yml": "sha256:dcce0d237695646b827534d2814c5e4ea7f7312c66d3fa1dd535d3ebe55f3445",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/executable-implementation-prompt.md": "sha256:8e6a1bfd22d02adc1a4540c3b9dc56a5b386ed79a43d0e298d63aaa3f0588e39",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-grade-completeness-review.md": "sha256:e9512e784ab3131c83347536080d95e7b9aed8fe7a97663530f7965b13b28152",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/proposal-review.md": "sha256:bbcba0bd007b5d00f176c229ce08c2e9bd5d3be8e68180d15333157fae0b0e89"
+  },
+  "source_lineage": [
+    "operator-free lifecycle delivery postmortem result captured in the creation prompt",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/01-bind-profile.md",
+    ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh",
+    ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+    ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/",
+    ".octon/state/evidence/runs/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/assurance/lifecycle-postmortem/"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-efficiency-guardrails/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

@@ -28,6 +28,8 @@ operating_model:
     - "branch-pr"
     - "stage-only-escalate"
   primary_integration_anchor: "one clean current main worktree or clone"
+  stale_or_dirty_source_default: "select a route-owned clean worktree from current origin/main before reconstruction, staging, commit, push, landing, sync, cleanup, or branch deletion"
+  include_path_classification_required_before_broad_stage_all: true
   branch_role: "isolation mechanism selected by Change route"
   pr_role: "optional publication and review output selected by Change route"
   github_authority: "projection-only"
@@ -49,6 +51,7 @@ operating_model:
     branch-no-pr:
       required:
         - "branch or worktree identity"
+        - "route-owned clean worktree and include-path classification when source posture is dirty or stale"
         - "explicit reason no PR is required"
         - "target lifecycle outcome"
         - "local validation or recorded blocker"
@@ -76,6 +79,7 @@ operating_model:
     branch-pr:
       required:
         - "branch identity"
+        - "route-owned clean worktree and include-path classification when source posture is dirty or stale"
         - "PR URL or number"
         - "PR body references Change intent, validation, risk, and rollback"
         - "hosted checks required by the selected lane"
@@ -174,9 +178,14 @@ helpers:
   git_branch_commit:
     route_guard: "branch-no-pr or branch-pr only"
     posture: "branch-local commit helper"
+    preflight:
+      - "git-branch-mutation-preflight.sh --require-clean-route-classification before commit when source posture may be dirty or stale"
+      - "include-path classification is required before reconstruction, broad stage-all, staging, or commit"
   git_branch_push:
     route_guard: "branch-no-pr or branch-pr only"
     posture: "branch publication or backup helper without opening a PR"
+    preflight:
+      - "git-branch-mutation-preflight.sh records Git write access, source posture, clean-worktree route selection, and include-path classification"
   git_required_checks_at_ref:
     route_guard: "branch-no-pr or branch-pr"
     posture: "exact-SHA hosted check evidence helper"
@@ -235,6 +244,8 @@ validation:
     - "landed branch closeout reported complete while branch cleanup is pending"
     - "post-landing closeout reported complete without local main synced to origin/main"
     - "branch cleanup deletes protected, active, unmerged, open-PR, or unretained-rollback branches"
+    - "dirty or stale source branch proceeds without route-owned clean worktree selection"
+    - "broad stage-all, reconstruction, staging, or commit occurs without include-path classification"
   scenario_lanes:
     - "direct-main"
     - "branch-no-pr"

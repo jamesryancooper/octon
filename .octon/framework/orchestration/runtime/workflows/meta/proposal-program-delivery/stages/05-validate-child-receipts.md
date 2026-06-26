@@ -1,4 +1,4 @@
-# Stage 04: Validate Child Receipts
+# Stage 05: Validate Child Receipts
 
 Validate child packet receipts directly.
 

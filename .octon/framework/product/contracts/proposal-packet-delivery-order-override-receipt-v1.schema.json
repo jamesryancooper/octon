@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/proposal-packet-delivery-order-override-receipt-v1.schema.json",
+  "title": "Proposal Packet Delivery Order Override Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "emitted_at",
+    "target_packet",
+    "run_binding",
+    "requested_order",
+    "partition_clean_archive_readiness",
+    "operator_authority",
+    "efficiency_risk_acknowledgement",
+    "revocation",
+    "non_authority_classification",
+    "authority_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proposal-packet-delivery-order-override-receipt-v1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "emitted_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "accepted_review_digest"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "accepted_review_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        }
+      }
+    },
+    "run_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "delivery_run_id",
+        "profile_id"
+      ],
+      "properties": {
+        "delivery_run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profile_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "requested_order": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_order_ref",
+        "requested_order_ref",
+        "operator_requested_alternative_order",
+        "rationale"
+      ],
+      "properties": {
+        "canonical_order_ref": {
+          "const": "archive-before-branch-no-pr-change-closeout"
+        },
+        "requested_order_ref": {
+          "const": "partition-clean-archive-readiness-before-branch-no-pr-change-closeout"
+        },
+        "operator_requested_alternative_order": {
+          "const": true
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "partition_clean_archive_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "closeout_worktree_report_ref",
+        "closeout_worktree_report_digest",
+        "lifecycle_interaction_return_ref",
+        "lifecycle_interaction_return_digest",
+        "source_worktree_hygiene_classifier_ref",
+        "source_worktree_hygiene_classifier_digest",
+        "authorized_foreign_fingerprint",
+        "delivery_change_candidate_id",
+        "packet_archive_candidate_id",
+        "retained_local_evidence_candidate_id",
+        "authorized_candidate_ids",
+        "allowed_residue_routing_classes",
+        "allowed_final_states",
+        "remaining_dirty_paths_exactly_partitioned",
+        "no_arbitrary_foreign_user_owned_or_unsafe_residue_masked",
+        "child_packet_closeout_authority_preserved",
+        "closeout_worktree_report_validated",
+        "lifecycle_interaction_return_validated",
+        "closeout_worktree_non_mutating",
+        "closeout_worktree_cleaned_claim",
+        "git_clean_claim",
+        "archive_authorization_claim",
+        "hosted_landing_claim",
+        "branch_cleanup_claim",
+        "repo_hygiene_cleanup_claim",
+        "cleaned_outcome_claim",
+        "branch_no_pr_change_closeout_remains_owner"
+      ],
+      "properties": {
+        "mode": {
+          "const": "partition-clean-for-archive-readiness"
+        },
+        "closeout_worktree_report_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "closeout_worktree_report_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "lifecycle_interaction_return_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "lifecycle_interaction_return_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "source_worktree_hygiene_classifier_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "source_worktree_hygiene_classifier_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "authorized_foreign_fingerprint": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "delivery_change_candidate_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "packet_archive_candidate_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "retained_local_evidence_candidate_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "protected_route_evidence_candidate_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "authorized_candidate_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "allowed_residue_routing_classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "publishable_change",
+              "publishable_closeout_evidence",
+              "foreign_manual_review",
+              "local_private_retained"
+            ]
+          }
+        },
+        "allowed_final_states": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "deferred",
+              "foreign",
+              "retained"
+            ]
+          }
+        },
+        "remaining_dirty_paths_exactly_partitioned": {
+          "const": true
+        },
+        "no_arbitrary_foreign_user_owned_or_unsafe_residue_masked": {
+          "const": true
+        },
+        "child_packet_closeout_authority_preserved": {
+          "const": true
+        },
+        "closeout_worktree_report_validated": {
+          "const": true
+        },
+        "lifecycle_interaction_return_validated": {
+          "const": true
+        },
+        "closeout_worktree_non_mutating": {
+          "const": true
+        },
+        "closeout_worktree_cleaned_claim": {
+          "const": false
+        },
+        "git_clean_claim": {
+          "const": false
+        },
+        "archive_authorization_claim": {
+          "const": false
+        },
+        "hosted_landing_claim": {
+          "const": false
+        },
+        "branch_cleanup_claim": {
+          "const": false
+        },
+        "repo_hygiene_cleanup_claim": {
+          "const": false
+        },
+        "cleaned_outcome_claim": {
+          "const": false
+        },
+        "branch_no_pr_change_closeout_remains_owner": {
+          "const": true
+        }
+      }
+    },
+    "operator_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "authority_source"
+      ],
+      "properties": {
+        "identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_source": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "efficiency_risk_acknowledgement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "acknowledged",
+        "acknowledged_by",
+        "acknowledged_at",
+        "risk_summary"
+      ],
+      "properties": {
+        "acknowledged": {
+          "const": true
+        },
+        "acknowledged_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "acknowledged_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "risk_summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revoked",
+        "stale_after",
+        "supersedes_receipt_ref"
+      ],
+      "properties": {
+        "revoked": {
+          "type": "boolean"
+        },
+        "stale_after": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supersedes_receipt_ref": {
+          "type": "string"
+        }
+      }
+    },
+    "non_authority_classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_local_files",
+        "generated_prompts",
+        "generated_outputs",
+        "dashboards",
+        "chat_or_model_memory"
+      ],
+      "properties": {
+        "proposal_local_files": {
+          "const": "non-authority"
+        },
+        "generated_prompts": {
+          "const": "non-authority"
+        },
+        "generated_outputs": {
+          "const": "derived-only-non-authority"
+        },
+        "dashboards": {
+          "const": "non-authority"
+        },
+        "chat_or_model_memory": {
+          "const": "non-authority"
+        }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retained_evidence_only",
+        "authorizes_delivery",
+        "authorizes_child_receipt_replacement",
+        "authorizes_archive",
+        "authorizes_git_mutation",
+        "authorizes_hosted_landing",
+        "authorizes_branch_cleanup",
+        "authorizes_repo_hygiene_cleanup",
+        "authorizes_cleaned_claim",
+        "authorizes_cleanup"
+      ],
+      "properties": {
+        "retained_evidence_only": {
+          "const": true
+        },
+        "authorizes_delivery": {
+          "const": false
+        },
+        "authorizes_child_receipt_replacement": {
+          "const": false
+        },
+        "authorizes_archive": {
+          "const": false
+        },
+        "authorizes_git_mutation": {
+          "const": false
+        },
+        "authorizes_hosted_landing": {
+          "const": false
+        },
+        "authorizes_branch_cleanup": {
+          "const": false
+        },
+        "authorizes_repo_hygiene_cleanup": {
+          "const": false
+        },
+        "authorizes_cleaned_claim": {
+          "const": false
+        },
+        "authorizes_cleanup": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.($|/)" },
+          { "pattern": "(^|/)\\.\\.($|/)" }
+        ]
+      }
+    },
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

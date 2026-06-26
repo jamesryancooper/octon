@@ -1,0 +1,118 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-delivery-efficiency-guardrails
+title: Proposal Program Delivery Efficiency Guardrails
+summary: >
+  Enforce efficient proposal-program delivery as a machine-checked route: canonical
+  child-before-parent order unless an explicit override receipt exists, one early
+  delivery readiness preflight, clean route-owned worktree defaulting for stale or
+  dirty sources, shared child validation receipt semantics, and formal postmortem
+  closeout requirements for long or recovered runs.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+  - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+  - ".octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/lib/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+  - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
+  - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+status: archived
+archive:
+  archived_at: 2026-06-26
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-packet-delivery-proposal-program-delivery-efficiency-guardrails-20260626T180953Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-06-26T17-25-00Z-closeout-worktree-proposal-program-delivery-efficiency-guardrails-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z/lifecycle-interaction-return.json
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review, revise if needed, implement through the selected Change closeout route, validate the new gates with positive and negative controls, then archive this proposal only after retained evidence proves the policy, preflight, clean-worktree, shared-receipt, and postmortem requirements are durable.
+related_proposals:
+  - "proposal-program-execution-resilience-and-supersession"
+  - "proposal-program-loop-breaker"
+  - "proposal-program-ownership-baseline-and-leases"
+  - "proposal-program-supersession-rescue-path"
+  - "closeout-worktree-autonomous-partition-evidence"
+acceptance_criteria_summary: >
+  Proposal-program delivery rejects inefficient order changes without explicit
+  override evidence, runs a consolidated readiness preflight before expensive
+  work, routes stale or dirty sources through classified clean worktrees, shares
+  child validation receipt pass semantics, and requires validated postmortem
+  artifacts for long, repeatedly blocked, or recovered program runs.
+selected_implementation_target: proposal-program delivery wrapper, validators, workflow stages, product contracts, and lifecycle postmortem gates
+scope_statement: >
+  Delivery-route governance only. This packet does not rerun any existing proposal
+  program, child implementation, child closeout, child archive, publication
+  refresh, branch landing, or cleanup. It defines durable route and validator
+  changes for future proposal-program delivery runs.
+explicit_runtime_non_implementation_statement: >
+  Creating this packet does not change runtime behavior. Durable behavior changes
+  require accepted proposal review, implementation, validation, conformance,
+  drift/churn review, closeout, and archive evidence.
+generated_input_authority_impact: >
+  Generated projections remain derived-only and non-authoritative. The delivery
+  readiness preflight may check generated publication freshness posture, but it
+  must not treat generated output as source authority.
+authority_class_impact:
+  framework: Adds or revises proposal-program delivery contracts, validators, workflow stages, command/skill instructions, shared validator helpers, Git preflight integration, and lifecycle postmortem requirements.
+  instance: No instance authority changes are proposed.
+  state_control: Future runs may emit order-override, delivery-preflight, clean-worktree-route, and postmortem-required control evidence through owning routes.
+  state_evidence: Future runs must retain preflight, override, route-selection, blocker, validation, closeout, and postmortem receipts before making terminal claims.
+  generated: Generated publication and registry outputs remain derived-only and must be refreshed only through owning generators.
+  inputs: This proposal packet is temporary planning input only and must not be cited as durable runtime authority after implementation.
+evidence_requirements:
+  - Delivery profile validation rejects non-canonical requested order when no explicit override receipt exists.
+  - Delivery profile validation accepts non-canonical requested order only when a retained override receipt is schema-valid and bound to the target run.
+  - Delivery wrapper emits a stage-01 warning and stops before execution when order differs from canonical and no override exists.
+  - Delivery readiness preflight proves Git metadata write access, source branch/worktree cleanliness or clean-worktree route selection, parent review freshness, child receipt compatibility, required shell/Python/YAML tooling, selected route legality, and generated publication freshness posture before lifecycle continuation.
+  - Stale or dirty source branch fixtures default to a clean route-owned worktree path and require include-path classification before commit.
+  - Readiness projection and child readiness validators share the same child validation receipt pass semantics through a reusable helper or library.
+  - Long, repeatedly blocked, or recovered proposal-program runs require validated lifecycle postmortem artifacts before the run can be considered learned-from.
+  - Negative controls prove prompt-level instruction alone cannot authorize alternative order, stale evidence, broad stage-all, stale generated projection publication, or missing postmortem closeout.
+validation_gates:
+  - "validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails --skip-registry-check"
+  - "validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails"
+  - "validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails"
+  - "validate-proposal-program-delivery-profile.sh positive and negative fixtures"
+  - "validate-proposal-program-delivery-workflow.sh"
+  - "validate-proposal-program-readiness-projection.sh fixture coverage for shared validation receipt semantics"
+  - "validate-proposal-program-child-readiness.sh fixture coverage for shared validation receipt semantics"
+  - "validate-lifecycle-postmortem.sh threshold and missing-artifact fixtures"
+  - "generate-proposal-registry.sh --check"
+rollback_summary: >
+  If review rejects this packet, remove or supersede only this proposal lineage.
+  If implementation starts and must be rolled back, revert the delivery-profile
+  schema, validators, workflow stages, command/skill text, shared helper changes,
+  and tests as one Change unless review splits the packet before implementation.
+owner:
+  role: Octon proposal-program delivery architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-26
+source_lineage:
+  - "operator-free lifecycle delivery postmortem result captured in the creation prompt"
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/01-bind-profile.md"
+  - ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+  - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  - ".octon/state/evidence/runs/workflows/20260624T231402Z-proposal-program-delivery-operator-free-lifecycle-delivery-autonomy-hardening/"
+  - ".octon/state/evidence/runs/lifecycle-proposal-program-operator-free-lifecycle-delivery-autonomy-hardening-20260620T132759Z/assurance/lifecycle-postmortem/"

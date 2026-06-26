@@ -10,6 +10,10 @@ Required checks:
 - Already-archived packets do not rerun archive relocation; missing or stale
   archive evidence blocks with `archive-proposal` as the next owning lifecycle.
 - `support/proposal-terminal-closeout.yml` reports a passing terminal verdict.
+- Archive-ready terminal closeout requires either strict worktree hygiene pass
+  or a validating partition-clean archive readiness order override; the latter
+  is limited to readiness for the next archive route and is not archive,
+  cleanup, Git, hosted landing, branch cleanup, or `cleaned` authority.
 - Terminal closeout does not move the packet to archive.
 - `archive-proposal` owns archive relocation and archive metadata.
 - Archive relocation is followed by generated proposal registry/artifact

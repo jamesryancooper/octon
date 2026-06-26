@@ -51,6 +51,7 @@ require_file "$WORKFLOW_PATH" "workflow contract"
 require_file "$README_PATH" "workflow README"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json" "profile schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json" "receipt schema"
+require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json" "order override receipt schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json" "delivery evidence index schema"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh" "profile validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh" "receipt validator"
@@ -69,9 +70,12 @@ if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
   require_yaml_value "$WORKFLOW_PATH" '.workflow.outputs[] | select(.name == "delivery_evidence_index") | .schema_ref' '.octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json' "delivery evidence index output schema"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.validators.evidence_index' '.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh' "delivery evidence index validator"
   stage_count="$(yq -r '(.workflow.stages // []) | length' "$WORKFLOW_PATH" 2>/dev/null || echo 0)"
-  [[ "$stage_count" -ge 8 ]] && pass "workflow has at least eight stages" || fail "workflow must have at least eight stages"
+  [[ "$stage_count" -ge 9 ]] && pass "workflow has at least nine stages" || fail "workflow must have at least nine stages"
+  require_yaml_value "$WORKFLOW_PATH" '.stages[1].id' 'delivery-readiness-preflight' "top-level delivery readiness preflight placement"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.stages[1].id' 'delivery-readiness-preflight' "workflow delivery readiness preflight placement"
   for stage_id in \
     bind-profile \
+    delivery-readiness-preflight \
     validate-program-state \
     run-or-resume-child-lifecycles \
     validate-child-receipts \
@@ -93,7 +97,11 @@ done
 
 for token in \
   "proposal-program-delivery-receipt" \
+  "proposal-program-delivery-order-override-receipt-v1" \
   "proposal-program-delivery-evidence-index" \
+  "execution_order_policy" \
+  "delivery-readiness-preflight" \
+  "order override receipt" \
   "validate-proposal-program-delivery-profile.sh" \
   "validate-proposal-program-delivery-receipt.sh" \
   "validate-proposal-program-delivery-evidence-index.sh" \
@@ -102,6 +110,10 @@ for token in \
   "repo-hygiene-cleanup" \
   "branch landing authorization" \
   "branch cleanup authorization" \
+  "route-owned clean worktree" \
+  "include-path classification" \
+  "retained readiness receipt" \
+  "lifecycle postmortem threshold" \
   "terminal current-state proof" \
   "parent summary" \
   "target-owned"; do

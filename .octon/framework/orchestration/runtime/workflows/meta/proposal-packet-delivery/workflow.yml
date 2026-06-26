@@ -197,6 +197,12 @@ artifacts:
     format: yaml
     determinism: unique
     description: Aggregate proposal-packet-delivery-receipt output validated by validate-proposal-packet-delivery-receipt.sh.
+  - name: partition_clean_order_override_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{slug}}/proposal-packet-delivery-order-override-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: optional
+    description: Optional partition-clean archive readiness order override validated by validate-proposal-packet-delivery-order-override-receipt.sh.
 done_gate:
   checks:
     - "/proposal-packet-delivery outcome=cleaned route=branch-no-pr is the outer orchestrator and PR fallback forbidden"
@@ -207,6 +213,8 @@ done_gate:
     - "implementation conformance and post-implementation drift/churn pass before promotion"
     - "promote-proposal owns implemented status and promotion receipt evidence"
     - "closeout-packet owns proposal-closeout.md and archive authorization"
+    - "partition-clean archive readiness requires a validating proposal-packet-delivery-order-override receipt, closeout-worktree report, and lifecycle-interaction-return"
+    - "partition-clean archive readiness may unblock packet closeout, terminal closeout, and archive routing but does not authorize archive relocation, Git mutation, hosted landing, branch cleanup, repo hygiene cleanup, or cleaned claims"
     - "proposal-packet-terminal-closeout owns proposal-terminal-closeout.yml"
     - "archive-proposal owns archive relocation"
     - "pre-archive packet state routes through closeout-packet, proposal-packet-terminal-closeout, and archive-proposal"
@@ -234,6 +242,8 @@ constraints:
   aggregate_receipt_only: true
   target_receipts_remain_target_owned: true
   generated_outputs_are_non_authority: true
+  partition_clean_archive_readiness_allowed: true
+  partition_clean_cleaned_claim_allowed: false
   terminal_proof_source_branch_commit_required_after_landing: false
   terminal_proof_mutates_landed_or_source_refs: false
   generated_freshness_classification_required_before_terminal: true
@@ -268,6 +278,7 @@ workflow:
     terminal_current_state_proof_owner: closeout-change
     terminal_evidence_sink_owner: closeout-change
     worktree_hygiene_owner: closeout-change
+    partition_clean_archive_readiness_owner: proposal-packet-delivery-order-override
     hygiene_cleanup_owner: repo-hygiene-cleanup
     generated_publication_owner: owning-publisher-scripts
     generated_freshness_owner: owning-generator-scripts
@@ -291,6 +302,7 @@ workflow:
   validators:
     profile: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh
     receipt: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
+    order_override: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-order-override-receipt.sh
     workflow: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
   packet_state_routes:
     pre-archive:
@@ -423,6 +435,7 @@ workflow:
         - packet_closeout_blocker
         - archive_authorization_missing
         - closeout_receipt_stale
+        - partition_clean_override_invalid
     - id: route-terminal-closeout-and-archive
       title: Route terminal closeout and archive handoff
       asset: stages/07-route-terminal-closeout-and-archive.md
@@ -431,6 +444,8 @@ workflow:
         - terminal_closeout_blocker
         - archive_blocker
         - fresh_unvalidated_archive_mutation
+        - partition_clean_override_invalid
+        - partition_clean_used_for_git_clean_or_cleaned_claim
         - generated_output_present_but_stale
         - generated_freshness_required_without_owner_validator
     - id: route-change-closeout
@@ -480,6 +495,8 @@ workflow:
         - closeout_packet_pass
         - archive_authorized_yes
         - terminal_closeout_pass
+        - worktree_hygiene_pass_or_partition_clean_order_override_pass
+        - partition_clean_does_not_authorize_archive_or_cleaned_claim
     landed:
       requires:
         - archive_proposal_pass
@@ -501,3 +518,4 @@ workflow:
         - terminal_proof_sink_distinct_from_landed_ref
         - terminal_proof_non_mutating_after_landing
         - worktree_hygiene_pass
+        - partition_clean_not_substituted_for_worktree_hygiene

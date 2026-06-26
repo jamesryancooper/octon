@@ -1,0 +1,261 @@
+{
+  "schema_version": "closeout-worktree-report-v1",
+  "wrapper_id": "closeout-worktree",
+  "default_work_unit": "Change",
+  "run_id": "closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z",
+  "target": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails",
+  "target_lifecycle_outcome": "cleaned",
+  "observed_change_set_count": 3,
+  "read_only_classification": true,
+  "detection_is_deletion_authority": false,
+  "direct_material_actions_performed": false,
+  "repo_hygiene_cleanup_actions_performed": false,
+  "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z/initial-inventory.txt",
+  "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z/proposal-worktree-hygiene.yml",
+  "final_inventory_ref": ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z/final-inventory.txt",
+  "selected_candidate_id": "proposal-program-delivery-implementation-change",
+  "candidates": [
+    {
+      "candidate_id": "proposal-program-delivery-implementation-change",
+      "disposition": "deferred",
+      "residue_routing_class": "publishable_change",
+      "ownership": "coherent framework implementation candidate for proposal-program-delivery efficiency guardrails",
+      "route_hint": "closeout-change branch-no-pr after packet archive route authorization",
+      "target_lifecycle_outcome": "cleaned",
+      "rollback_or_discard_posture": "preserve for later branch-no-pr closeout; do not stage, commit, push, or land from closeout-worktree",
+      "boundaries": {
+        "include_paths": [
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+          ".octon/framework/assurance/runtime/_ops/lib/validation-receipts.sh",
+          ".octon/framework/assurance/runtime/_ops/lib/validation_receipts.py",
+          ".octon/framework/assurance/runtime/_ops/tests/test-branch-no-pr-bounded-authorization-envelope.sh",
+          ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh",
+          ".octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh",
+          ".octon/framework/assurance/runtime/_ops/tests/test-proposal-program-readiness-projection.sh",
+          ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-child-readiness.sh",
+          ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery-profile.sh",
+          ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery-workflow.sh",
+          ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh",
+          ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-readiness-projection.sh",
+          ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md",
+          ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md",
+          ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh",
+          ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+          ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/README.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/01-bind-evidence.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/04-final-report.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/workflow.yml",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/01-bind-profile.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/02-delivery-readiness-preflight.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/02-validate-program-state.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/03-run-or-resume-child-lifecycles.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/03-validate-program-state.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/04-run-or-resume-child-lifecycles.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/04-validate-child-receipts.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/05-route-closeout-and-archive.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/05-validate-child-receipts.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-route-change-closeout.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/07-route-change-closeout.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/07-validate-cleanup-sync-proof.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/08-emit-delivery-receipt.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/08-validate-cleanup-sync-proof.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+          ".octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json",
+          ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json",
+          ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+        ],
+        "exclude_paths": [
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-proposal-program-delivery-guardrails.sh",
+          ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails",
+          ".octon/generated/proposals/registry.yml",
+          ".octon/generated/proposals/artifacts/architecture/proposal-program-delivery-efficiency-guardrails",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z",
+          ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z",
+          ".git",
+          ".octon/state/control",
+          ".octon/state/continuity"
+        ]
+      }
+    },
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "disposition": "foreign",
+      "residue_routing_class": "foreign_manual_review",
+      "ownership": "packet lifecycle, proposal input, generated proposal registry, and route evidence surfaces preserved under the closeout-packet handoff; not Change closeout material",
+      "route_hint": "closeout-worktree preserve-and-exclude return to closeout-packet",
+      "target_lifecycle_outcome": "preserved",
+      "rollback_or_discard_posture": "preserve-only; no mutation, cleanup, archive, publication, branch cleanup, or cleaned claim authorized",
+      "boundaries": {
+        "include_paths": [
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-proposal-program-delivery-guardrails.sh",
+          ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails",
+          ".octon/generated/proposals/registry.yml",
+          ".octon/generated/proposals/artifacts/architecture/proposal-program-delivery-efficiency-guardrails",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z",
+          ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z"
+        ],
+        "exclude_paths": [
+          ".git",
+          ".octon/state/control",
+          ".octon/state/continuity"
+        ]
+      },
+      "proposal_program_handoff_authorization": {
+        "authorization_grant": "lifecycle-interaction-request-v1 requested closeout-worktree return evidence for non-mutating preservation of worktree hygiene residue only",
+        "child_id": "proposal-program-delivery-efficiency-guardrails",
+        "route_id": "closeout-worktree",
+        "interaction_request_ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z/lifecycle-interaction-request.json",
+        "classifier_output_ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z/worktree-hygiene-classifier.yml",
+        "classifier_output_digest": "sha256:0da5d3b97a9666e9d1488fb4f8a5ada9e847bf59e6ea15e0a50be8dcd50a015e",
+        "authorized_foreign_fingerprint": "sha256:e6a544dd3ccf74bac6532c78188c500f3f55d883d9b7f08411a9679093ba3275",
+        "foreign_fingerprint": "sha256:e6a544dd3ccf74bac6532c78188c500f3f55d883d9b7f08411a9679093ba3275",
+        "authorized_paths": [
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+          ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-proposal-program-delivery-guardrails.sh",
+          ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails",
+          ".octon/generated/proposals/registry.yml",
+          ".octon/generated/proposals/artifacts/architecture/proposal-program-delivery-efficiency-guardrails",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z",
+          ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z"
+        ],
+        "disposition": "preserve-and-exclude-from-child-closeout-blocking",
+        "non_mutating": true,
+        "preserve_and_exclude_from_child_closeout_blocking": true,
+        "parent_summary_not_child_closeout_receipt": true,
+        "child_closeout_authority_preserved": true,
+        "forbidden_actions": {
+          "deletion": false,
+          "reset": false,
+          "staging": false,
+          "commit": false,
+          "push": false,
+          "publication": false,
+          "archive": false,
+          "branch_cleanup": false,
+          "git_ref_mutation": false,
+          "worktree_cleanup": false,
+          "repo_hygiene_deletion": false,
+          "promotion": false,
+          "hosted_provider_action": false,
+          "cleaned_claim": false,
+          "child_closeout_receipt_replacement": false,
+          "child_validation_replacement": false
+        }
+      }
+    },
+    {
+      "candidate_id": "ignored-local-residue-retained",
+      "disposition": "retained",
+      "residue_routing_class": "local_private_retained",
+      "ownership": "pre-existing ignored/local evidence and workstation residue retained outside this route authority",
+      "route_hint": "repo-hygiene-cleanup only for future eligible Octon residue with validating authorization",
+      "target_lifecycle_outcome": "retained",
+      "rollback_or_discard_posture": "retain; closeout-worktree performed no deletion or cleanup",
+      "boundaries": {
+        "include_paths": [
+          ".octon/state/evidence/local/"
+        ],
+        "exclude_paths": [
+          ".git"
+        ]
+      }
+    }
+  ],
+  "iterations": [],
+  "final_candidate_dispositions": {
+    "proposal-program-delivery-implementation-change": {
+      "state": "deferred"
+    },
+    "packet-lifecycle-surfaces-preserved": {
+      "state": "foreign"
+    },
+    "ignored-local-residue-retained": {
+      "state": "retained"
+    }
+  },
+  "retained_residue": [
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+      "disposition": "foreign/manual lifecycle residue preserved and excluded from child closeout blocking by validating closeout-worktree handoff; no mutation or cleaned claim authorized"
+    },
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+      "disposition": "foreign/manual lifecycle residue preserved and excluded from child closeout blocking by validating closeout-worktree handoff; no mutation or cleaned claim authorized"
+    },
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-proposal-program-delivery-guardrails.sh",
+      "disposition": "foreign/manual lifecycle residue preserved and excluded from child closeout blocking by validating closeout-worktree handoff; no mutation or cleaned claim authorized"
+    },
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails",
+      "disposition": "foreign/manual lifecycle residue preserved and excluded from child closeout blocking by validating closeout-worktree handoff; no mutation or cleaned claim authorized"
+    },
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "path": ".octon/generated/proposals/registry.yml",
+      "disposition": "foreign/manual lifecycle residue preserved and excluded from child closeout blocking by validating closeout-worktree handoff; no mutation or cleaned claim authorized"
+    },
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/proposal-program-delivery-efficiency-guardrails",
+      "disposition": "foreign/manual lifecycle residue preserved and excluded from child closeout blocking by validating closeout-worktree handoff; no mutation or cleaned claim authorized"
+    },
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z",
+      "disposition": "foreign/manual lifecycle residue preserved and excluded from child closeout blocking by validating closeout-worktree handoff; no mutation or cleaned claim authorized"
+    },
+    {
+      "candidate_id": "packet-lifecycle-surfaces-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z",
+      "disposition": "foreign/manual lifecycle residue preserved and excluded from child closeout blocking by validating closeout-worktree handoff; no mutation or cleaned claim authorized"
+    },
+    {
+      "candidate_id": "ignored-local-residue-retained",
+      "path": ".octon/state/evidence/local/",
+      "disposition": "ignored/local residue retained as non-authoritative local evidence; no cleanup performed by closeout-worktree"
+    }
+  ],
+  "blockers": [
+    {
+      "candidate_id": "proposal-program-delivery-implementation-change",
+      "blocker": "closeout-worktree cannot delegate the publishable implementation candidate to closeout-change before packet closeout and archive authorization without inverting the requested proposal-packet-delivery route order",
+      "reason": "The selected candidate is safely separable, but branch-no-pr Change closeout is ordered after closeout-packet, terminal closeout, and archive-proposal for this delivery. This wrapper preserved the review items and must return to the packet lifecycle with non-mutating evidence instead of staging, committing, pushing, landing, archiving, or cleaning.",
+      "evidence_refs": [
+        ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z/worktree-hygiene-classifier.yml",
+        ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z/lifecycle-interaction-request.json",
+        ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z/proposal-worktree-hygiene.yml"
+      ]
+    }
+  ],
+  "final_residue_classes": {
+    "staged": 0,
+    "unstaged_tracked": 35,
+    "untracked": 19,
+    "ignored": 11075,
+    "generated_effective_output": 0,
+    "host_projection": 0,
+    "retained_evidence": 13,
+    "state_control": 0,
+    "release_version": 0,
+    "input_surface": 24
+  },
+  "worktree_terminal_state": "nonterminal",
+  "next_route_condition": "return to proposal-packet-delivery closeout-packet with lifecycle-interaction-return evidence; do not run branch-no-pr Change closeout until archive route authorization exists or a route-owned order override is validated"
+}

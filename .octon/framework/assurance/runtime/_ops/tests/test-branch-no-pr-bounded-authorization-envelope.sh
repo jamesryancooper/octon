@@ -115,6 +115,29 @@ jq -e '.status == "blocked" and .blocker_class == "git-ref-write-denied" and .au
   fail "read-only ref blocker evidence must be typed and non-authorizing"
 require_text "git-ref-write-denied" "$TMP_ROOT/ref.err" "typed ref blocker stderr"
 
+printf 'unclassified dirty source\n' >"$REPO/untracked.txt"
+CLEAN_ROUTE_EVIDENCE="$TMP_ROOT/git-preflight-clean-route-blocked.json"
+if "$PREFLIGHT" --repo "$REPO" --require-clean-route-classification --check-index --evidence "$CLEAN_ROUTE_EVIDENCE" >"$TMP_ROOT/clean-route.out" 2>"$TMP_ROOT/clean-route.err"; then
+  fail "dirty source clean-route preflight unexpectedly passed without include-path classification"
+fi
+jq -e '.status == "blocked" and .blocker_class == "worktree-dirty-unclassified" and .clean_worktree_route.selected_route == "blocked" and .authority_effects.delivery == false' "$CLEAN_ROUTE_EVIDENCE" >/dev/null ||
+  fail "dirty source clean-route blocker evidence must be typed and non-authorizing"
+require_text "worktree-dirty-unclassified" "$TMP_ROOT/clean-route.err" "typed clean-route blocker stderr"
+
+CLASSIFICATION="$TMP_ROOT/include-path-classification.yml"
+cat >"$CLASSIFICATION" <<'YAML'
+schema_version: include-path-classification-v1
+selected_route: route-owned-clean-worktree
+included_paths:
+  - untracked.txt
+YAML
+CLASSIFIED_EVIDENCE="$TMP_ROOT/git-preflight-clean-route-classified.json"
+"$PREFLIGHT" --repo "$REPO" --require-clean-route-classification --include-path-classification "$CLASSIFICATION" --check-index --evidence "$CLASSIFIED_EVIDENCE"
+jq -e '.status == "passed" and .source_posture.dirty == true and .clean_worktree_route.selected_route == "route-owned-clean-worktree" and .clean_worktree_route.include_path_classification_present == true' "$CLASSIFIED_EVIDENCE" >/dev/null ||
+  fail "dirty source with include-path classification must select route-owned clean worktree"
+pass "dirty source with include-path classification selects route-owned clean worktree"
+rm "$REPO/untracked.txt"
+
 BLOCKED_RECEIPT="$TMP_ROOT/blocked-delivery-receipt.yml"
 cat >"$BLOCKED_RECEIPT" <<YAML
 schema_version: proposal-program-delivery-receipt-v1
@@ -131,6 +154,26 @@ target_program:
   accepted_review_digest: sha256:fixture
 target_outcome: cleaned
 actual_outcome: blocked
+order_policy:
+  canonical_order_ref: child-before-parent-delivery
+  requested_order_ref: child-before-parent-delivery
+  operator_requested_alternative_order: false
+  override_receipt_required: false
+  override_receipt_ref: not-applicable
+  override_receipt_status: not-required
+delivery_readiness_preflight:
+  receipt_ref: $INDEX_EVIDENCE
+  fresh: true
+  verdict: blocked
+  checked_git_write: true
+  checked_worktree_cleanliness: true
+  checked_review_freshness: true
+  checked_child_receipt_compatibility: true
+  checked_tooling: true
+  checked_route_legality: true
+  checked_generated_freshness: true
+  blockers:
+    - git-index-write-denied
 parent_program_lifecycle:
   workflow_ref: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
   receipt_ref: fixture-parent-terminal.yml
@@ -204,6 +247,23 @@ worktree_hygiene:
   evidence_ref: not-run
   dirty_worktree: true
   verdict: not-run
+clean_worktree_route:
+  source_dirty: false
+  source_stale: false
+  selected_route: current-clean-worktree
+  route_owned_worktree_ref: not-required
+  include_path_classification_ref: not-required
+  include_path_classification_valid: false
+  broad_stage_all_requested: false
+lifecycle_postmortem:
+  required: false
+  status: not-required
+  evaluation_ref: not-required
+  report_ref: not-required
+  readiness_summary_ref: not-required
+  evidence_map_ref: not-required
+  digest_bound_evidence_refs: []
+  verdict: not-required
 blockers:
   - class: git-index-write-denied
     evidence_ref: $INDEX_EVIDENCE

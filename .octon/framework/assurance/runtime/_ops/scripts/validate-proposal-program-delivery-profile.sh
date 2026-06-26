@@ -3,7 +3,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 FRAMEWORK_DIR="$(cd -- "$SCRIPT_DIR/../../../../" && pwd)"
+ROOT_DIR="$(cd -- "$FRAMEWORK_DIR/../.." && pwd)"
 SCHEMA_PATH="$FRAMEWORK_DIR/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+OVERRIDE_SCHEMA_PATH="$FRAMEWORK_DIR/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json"
 PROFILE_PATH=""
 errors=0
 
@@ -50,6 +52,11 @@ scalar() {
   yq -r "$1" "$PROFILE_PATH" 2>/dev/null || true
 }
 
+scalar_file() {
+  local file="$1" path="$2"
+  yq -r "$path" "$file" 2>/dev/null || true
+}
+
 require_scalar() {
   local path="$1" label="$2" value
   value="$(scalar "$path")"
@@ -84,6 +91,82 @@ require_value() {
   [[ "$value" == "$expected" ]] && pass "$label is $expected" || fail "$label must be $expected"
 }
 
+resolve_profile_ref() {
+  local ref="$1" profile_dir
+  profile_dir="$(cd -- "$(dirname -- "$PROFILE_PATH")" && pwd)"
+  case "$ref" in
+    /*)
+      printf '%s\n' "$ref"
+      ;;
+    *)
+      if [[ -f "$ROOT_DIR/$ref" ]]; then
+        printf '%s\n' "$ROOT_DIR/$ref"
+      else
+        printf '%s\n' "$profile_dir/$ref"
+      fi
+      ;;
+  esac
+}
+
+validate_override_receipt() {
+  local ref="$1" path target_path profile_id requested_order revoked
+  path="$(resolve_profile_ref "$ref")"
+  if [[ -f "$path" ]]; then
+    pass "order override receipt exists"
+  else
+    fail "order override receipt missing: $ref"
+    return
+  fi
+  if yq -e '.' "$path" >/dev/null 2>&1; then
+    pass "order override receipt YAML parses"
+  else
+    fail "order override receipt YAML does not parse"
+    return
+  fi
+
+  [[ "$(scalar_file "$path" '.schema_version')" == "proposal-program-delivery-order-override-receipt-v1" ]] \
+    && pass "order override schema_version correct" \
+    || fail "order override schema_version must be proposal-program-delivery-order-override-receipt-v1"
+  target_path="$(scalar_file "$path" '.target_program.path')"
+  profile_id="$(scalar_file "$path" '.run_binding.profile_id')"
+  requested_order="$(scalar_file "$path" '.requested_order.requested_order_ref')"
+  revoked="$(scalar_file "$path" '.revocation.revoked')"
+
+  [[ "$target_path" == "$(scalar '.target_program_path')" ]] \
+    && pass "order override target program matches profile" \
+    || fail "order override target program must match profile target_program_path"
+  [[ "$profile_id" == "$(scalar '.profile_id')" ]] \
+    && pass "order override profile binding matches" \
+    || fail "order override run binding profile_id must match profile_id"
+  [[ "$requested_order" == "$(scalar '.execution_order_policy.requested_order_ref')" ]] \
+    && pass "order override requested order matches profile" \
+    || fail "order override requested_order_ref must match profile requested_order_ref"
+  [[ "$(scalar_file "$path" '.requested_order.canonical_order_ref')" == "child-before-parent-delivery" ]] \
+    && pass "order override canonical order binding correct" \
+    || fail "order override canonical_order_ref must be child-before-parent-delivery"
+  [[ "$(scalar_file "$path" '.requested_order.operator_requested_alternative_order')" == "true" ]] \
+    && pass "order override records alternative order" \
+    || fail "order override must record operator_requested_alternative_order=true"
+  [[ "$(scalar_file "$path" '.efficiency_risk_acknowledgement.acknowledged')" == "true" ]] \
+    && pass "order override risk acknowledged" \
+    || fail "order override must acknowledge efficiency risk"
+  [[ "$revoked" == "false" ]] \
+    && pass "order override not revoked" \
+    || fail "order override must not be revoked"
+  [[ "$(scalar_file "$path" '.authority_boundary.retained_evidence_only')" == "true" ]] \
+    && pass "order override is retained evidence only" \
+    || fail "order override must be retained evidence only"
+  [[ "$(scalar_file "$path" '.authority_boundary.authorizes_delivery')" == "false" ]] \
+    && pass "order override does not authorize delivery" \
+    || fail "order override must not authorize delivery"
+  [[ "$(scalar_file "$path" '.authority_boundary.authorizes_git_mutation')" == "false" ]] \
+    && pass "order override does not authorize git mutation" \
+    || fail "order override must not authorize git mutation"
+  [[ "$(scalar_file "$path" '.non_authority_classification.generated_outputs')" == "derived-only-non-authority" ]] \
+    && pass "order override classifies generated outputs as non-authority" \
+    || fail "order override must classify generated outputs as derived-only-non-authority"
+}
+
 need_tool jq
 need_tool yq
 
@@ -95,14 +178,27 @@ else
   fail "profile schema missing: $SCHEMA_PATH"
 fi
 
+if [[ -f "$OVERRIDE_SCHEMA_PATH" ]]; then
+  pass "order override receipt schema exists"
+else
+  fail "order override receipt schema missing: $OVERRIDE_SCHEMA_PATH"
+fi
+
 if jq -e '.' "$SCHEMA_PATH" >/dev/null 2>&1; then
   pass "profile schema JSON parses"
 else
   fail "profile schema JSON does not parse"
 fi
 
+if jq -e '.' "$OVERRIDE_SCHEMA_PATH" >/dev/null 2>&1; then
+  pass "order override receipt schema JSON parses"
+else
+  fail "order override receipt schema JSON does not parse"
+fi
+
 for token in \
   '"proposal-program-delivery-profile-v1"' \
+  '"execution_order_policy"' \
   '"target_outcome"' \
   '"cleaned"' \
   '"pr_policy"' \
@@ -110,6 +206,16 @@ for token in \
   '"non_authority_boundaries"' \
   '"final_sync_requirements"'; do
   grep -Fq "$token" "$SCHEMA_PATH" && pass "schema token present: $token" || fail "schema token missing: $token"
+done
+
+for token in \
+  '"proposal-program-delivery-order-override-receipt-v1"' \
+  '"run_binding"' \
+  '"requested_order"' \
+  '"efficiency_risk_acknowledgement"' \
+  '"revocation"' \
+  '"retained_evidence_only"'; do
+  grep -Fq "$token" "$OVERRIDE_SCHEMA_PATH" && pass "override schema token present: $token" || fail "override schema token missing: $token"
 done
 
 if [[ -n "$PROFILE_PATH" ]]; then
@@ -147,6 +253,30 @@ if [[ -n "$PROFILE_PATH" ]]; then
   [[ "$(scalar '.target_program_path')" == .octon/inputs/exploratory/proposals/* ]] \
     && pass "target_program_path under proposal inputs" \
     || fail "target_program_path must be under .octon/inputs/exploratory/proposals/"
+
+  require_bool_true '.execution_order_policy.canonical_order_required' "canonical order required"
+  require_value '.execution_order_policy.canonical_order_ref' 'child-before-parent-delivery' "canonical order ref"
+  require_bool_true '.execution_order_policy.override_required_when_order_differs' "override required when order differs"
+  require_scalar '.execution_order_policy.requested_order_ref' "requested order ref"
+  requested_order="$(scalar '.execution_order_policy.requested_order_ref')"
+  alternative_order="$(scalar '.execution_order_policy.operator_requested_alternative_order')"
+  override_ref="$(scalar '.execution_order_policy.override_receipt_ref')"
+  if [[ "$requested_order" == "child-before-parent-delivery" && "$alternative_order" == "false" ]]; then
+    pass "requested delivery order is canonical"
+    [[ "$override_ref" == "not-applicable" || -z "$override_ref" || "$override_ref" == "null" ]] \
+      && pass "canonical delivery order does not bind override receipt" \
+      || fail "canonical delivery order must not bind an override receipt"
+  else
+    [[ "$alternative_order" == "true" ]] \
+      && pass "non-canonical delivery order is operator-requested" \
+      || fail "non-canonical delivery order must set operator_requested_alternative_order=true"
+    [[ -n "$override_ref" && "$override_ref" != "null" && "$override_ref" != "not-applicable" ]] \
+      && pass "non-canonical delivery order binds override receipt" \
+      || fail "non-canonical delivery order requires override_receipt_ref"
+    if [[ -n "$override_ref" && "$override_ref" != "null" && "$override_ref" != "not-applicable" ]]; then
+      validate_override_receipt "$override_ref"
+    fi
+  fi
 
   require_value '.route_preference.work_unit_route' 'branch-no-pr' "work unit route"
   require_value '.route_preference.landing_route' 'branch-no-pr' "landing route"

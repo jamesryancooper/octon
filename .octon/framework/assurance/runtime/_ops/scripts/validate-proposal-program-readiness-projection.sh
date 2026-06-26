@@ -64,6 +64,9 @@ import subprocess
 import sys
 
 root = pathlib.Path(sys.argv[1]).resolve()
+sys.path.insert(0, str(root / ".octon/framework/assurance/runtime/_ops/lib"))
+from validation_receipts import validation_receipt_records_pass
+
 program_arg = pathlib.Path(sys.argv[2])
 projection_arg = sys.argv[3]
 terminal_required = sys.argv[4] == "1"
@@ -185,34 +188,6 @@ def require_receipt_pass(path, label):
         ok(f"{label} passes")
     else:
         fail(f"{label} verdict must be pass: {repo_rel(path)}")
-
-
-def validation_receipt_records_pass(path):
-    if not path.is_file():
-        return False
-    if receipt_field(path, "verdict") == "pass":
-        return True
-
-    text = path.read_text(errors="replace")
-    if re.search(r"All listed commands exited successfully\.?", text, re.IGNORECASE):
-        return True
-
-    table_rows = [
-        line
-        for line in text.splitlines()
-        if re.match(r"^\|\s*`[^`]+`\s*\|\s*[^|]+\s*\|", line)
-    ]
-    if not table_rows:
-        return False
-
-    saw_pass = False
-    for row in table_rows:
-        cells = [cell.strip().lower() for cell in row.strip().strip("|").split("|")]
-        if any(cell in {"fail", "failed", "error", "blocked"} for cell in cells):
-            return False
-        if any(cell == "pass" for cell in cells):
-            saw_pass = True
-    return saw_pass
 
 
 def require_validation_receipt_pass(path, label):

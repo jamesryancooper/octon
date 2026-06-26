@@ -75,6 +75,13 @@ profile_id: test-proposal-program-delivery-profile
 created_at: "2026-06-14T00:00:00Z"
 target_program_path: .octon/inputs/exploratory/proposals/architecture/example-proposal-program-delivery
 target_outcome: cleaned
+execution_order_policy:
+  canonical_order_required: true
+  canonical_order_ref: child-before-parent-delivery
+  operator_requested_alternative_order: false
+  requested_order_ref: child-before-parent-delivery
+  override_required_when_order_differs: true
+  override_receipt_ref: not-applicable
 route_preference:
   work_unit_route: branch-no-pr
   landing_route: branch-no-pr
@@ -127,6 +134,48 @@ non_authority_boundaries:
   chat_or_model_memory: non-authority
 YAML
 
+cat >"$TMP_DIR/valid-order-override.yml" <<'YAML'
+schema_version: proposal-program-delivery-order-override-receipt-v1
+receipt_id: test-order-override
+emitted_at: "2026-06-14T00:00:00Z"
+target_program:
+  path: .octon/inputs/exploratory/proposals/architecture/example-proposal-program-delivery
+  accepted_review_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+run_binding:
+  delivery_run_id: test-run
+  profile_id: test-proposal-program-delivery-profile
+requested_order:
+  canonical_order_ref: child-before-parent-delivery
+  requested_order_ref: parent-delivery-before-child-archive
+  operator_requested_alternative_order: true
+  rationale: "Operator requested a bounded efficiency exception."
+operator_authority:
+  identity: test-operator
+  authority_source: test-fixture
+efficiency_risk_acknowledgement:
+  acknowledged: true
+  acknowledged_by: test-operator
+  acknowledged_at: "2026-06-14T00:00:00Z"
+  risk_summary: "Non-canonical execution can defer child-owned proof and is accepted only for this test run."
+revocation:
+  revoked: false
+  stale_after: "2026-06-15T00:00:00Z"
+  supersedes_receipt_ref: ""
+non_authority_classification:
+  proposal_local_files: non-authority
+  generated_prompts: non-authority
+  generated_outputs: derived-only-non-authority
+  dashboards: non-authority
+  chat_or_model_memory: non-authority
+authority_boundary:
+  retained_evidence_only: true
+  authorizes_delivery: false
+  authorizes_child_receipt_replacement: false
+  authorizes_archive: false
+  authorizes_git_mutation: false
+  authorizes_cleanup: false
+YAML
+
 cat >"$TMP_DIR/valid-receipt.yml" <<'YAML'
 schema_version: proposal-program-delivery-receipt-v1
 receipt_id: test-proposal-program-delivery-receipt
@@ -142,6 +191,25 @@ target_program:
   accepted_review_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
 target_outcome: cleaned
 actual_outcome: cleaned
+order_policy:
+  canonical_order_ref: child-before-parent-delivery
+  requested_order_ref: child-before-parent-delivery
+  operator_requested_alternative_order: false
+  override_receipt_required: false
+  override_receipt_ref: not-applicable
+  override_receipt_status: not-required
+delivery_readiness_preflight:
+  receipt_ref: .octon/state/evidence/runs/workflows/test/delivery-readiness-preflight.yml
+  fresh: true
+  verdict: pass
+  checked_git_write: true
+  checked_worktree_cleanliness: true
+  checked_review_freshness: true
+  checked_child_receipt_compatibility: true
+  checked_tooling: true
+  checked_route_legality: true
+  checked_generated_freshness: true
+  blockers: []
 parent_program_lifecycle:
   workflow_ref: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
   receipt_ref: .octon/state/evidence/runs/workflows/test/proposal-program-delivery-receipt.yml
@@ -218,6 +286,23 @@ worktree_hygiene:
   evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T000000Z/worktree-hygiene.log
   dirty_worktree: false
   verdict: pass
+clean_worktree_route:
+  source_dirty: false
+  source_stale: false
+  selected_route: current-clean-worktree
+  route_owned_worktree_ref: not-required
+  include_path_classification_ref: not-required
+  include_path_classification_valid: false
+  broad_stage_all_requested: false
+lifecycle_postmortem:
+  required: false
+  status: not-required
+  evaluation_ref: not-required
+  report_ref: not-required
+  readiness_summary_ref: not-required
+  evidence_map_ref: not-required
+  digest_bound_evidence_refs: []
+  verdict: not-required
 blockers: []
 non_authority_classification:
   proposal_local_files: non-authority
@@ -232,6 +317,9 @@ YAML
 
 expect_pass "schema-only profile validator" "$PROFILE_VALIDATOR"
 expect_pass "valid profile" "$PROFILE_VALIDATOR" --profile "$TMP_DIR/valid-profile.yml"
+cp "$TMP_DIR/valid-profile.yml" "$TMP_DIR/valid-profile-with-override.yml"
+yq -i '.execution_order_policy.operator_requested_alternative_order = true | .execution_order_policy.requested_order_ref = "parent-delivery-before-child-archive" | .execution_order_policy.override_receipt_ref = "valid-order-override.yml"' "$TMP_DIR/valid-profile-with-override.yml"
+expect_pass "valid non-canonical profile with override" "$PROFILE_VALIDATOR" --profile "$TMP_DIR/valid-profile-with-override.yml"
 expect_pass "schema-only receipt validator" "$RECEIPT_VALIDATOR"
 expect_pass "valid receipt" "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/valid-receipt.yml"
 expect_pass "schema-only delivery evidence index validator" "$EVIDENCE_INDEX_VALIDATOR"
@@ -241,8 +329,25 @@ mutate_profile_expect_fail "missing profile gate declarations" 'del(.publication
 mutate_profile_expect_fail "branch-no-pr PR fallback forbidden" '.pr_policy.fallback_to_pr = true'
 mutate_profile_expect_fail "stash policy cannot widen" '.stash_policy.mode = "allowed"'
 mutate_profile_expect_fail "stash policy required" 'del(.stash_policy)'
+cp "$TMP_DIR/valid-order-override.yml" "$TMP_DIR/revoked-order-override.yml"
+yq -i '.revocation.revoked = true' "$TMP_DIR/revoked-order-override.yml"
+cp "$TMP_DIR/valid-order-override.yml" "$TMP_DIR/target-mismatch-order-override.yml"
+yq -i '.target_program.path = ".octon/inputs/exploratory/proposals/architecture/other-program"' "$TMP_DIR/target-mismatch-order-override.yml"
+cp "$TMP_DIR/valid-order-override.yml" "$TMP_DIR/run-mismatch-order-override.yml"
+yq -i '.run_binding.profile_id = "other-profile"' "$TMP_DIR/run-mismatch-order-override.yml"
+cp "$TMP_DIR/valid-order-override.yml" "$TMP_DIR/risk-unacknowledged-order-override.yml"
+yq -i '.efficiency_risk_acknowledgement.acknowledged = false' "$TMP_DIR/risk-unacknowledged-order-override.yml"
+mutate_profile_expect_fail "non-canonical order without override fails" '.execution_order_policy.operator_requested_alternative_order = true | .execution_order_policy.requested_order_ref = "parent-delivery-before-child-archive" | .execution_order_policy.override_receipt_ref = "not-applicable"'
+mutate_profile_expect_fail "stale revoked override fails" '.execution_order_policy.operator_requested_alternative_order = true | .execution_order_policy.requested_order_ref = "parent-delivery-before-child-archive" | .execution_order_policy.override_receipt_ref = "revoked-order-override.yml"'
+mutate_profile_expect_fail "target-mismatched override fails" '.execution_order_policy.operator_requested_alternative_order = true | .execution_order_policy.requested_order_ref = "parent-delivery-before-child-archive" | .execution_order_policy.override_receipt_ref = "target-mismatch-order-override.yml"'
+mutate_profile_expect_fail "run-mismatched override fails" '.execution_order_policy.operator_requested_alternative_order = true | .execution_order_policy.requested_order_ref = "parent-delivery-before-child-archive" | .execution_order_policy.override_receipt_ref = "run-mismatch-order-override.yml"'
+mutate_profile_expect_fail "risk-unacknowledged override fails" '.execution_order_policy.operator_requested_alternative_order = true | .execution_order_policy.requested_order_ref = "parent-delivery-before-child-archive" | .execution_order_policy.override_receipt_ref = "risk-unacknowledged-order-override.yml"'
 
 mutate_receipt_expect_fail "parent summary substituted for child receipts" '.child_packet_coverage.parent_summary_satisfies_child_receipts = true'
+mutate_receipt_expect_fail "non-canonical order without override receipt fails" '.order_policy.requested_order_ref = "parent-delivery-before-child-archive" | .order_policy.operator_requested_alternative_order = true | .order_policy.override_receipt_required = false | .order_policy.override_receipt_status = "missing"'
+cp "$TMP_DIR/valid-receipt.yml" "$TMP_DIR/valid-noncanonical-receipt.yml"
+yq -i '.order_policy.requested_order_ref = "parent-delivery-before-child-archive" | .order_policy.operator_requested_alternative_order = true | .order_policy.override_receipt_required = true | .order_policy.override_receipt_ref = ".octon/state/evidence/runs/workflows/test/order-override.yml" | .order_policy.override_receipt_status = "valid"' "$TMP_DIR/valid-noncanonical-receipt.yml"
+expect_pass "valid non-canonical receipt with override status" "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/valid-noncanonical-receipt.yml"
 mutate_receipt_expect_fail "stale child receipts" '.child_packet_coverage.children[0].fresh = false'
 mutate_receipt_expect_fail "missing implementation conformance" 'del(.implementation_conformance.receipt_ref)'
 mutate_receipt_expect_fail "missing drift churn receipt" 'del(.post_implementation_drift_churn.receipt_ref)'
@@ -254,6 +359,11 @@ mutate_receipt_expect_fail "repo hygiene deletion without cleanup authorization"
 mutate_receipt_expect_fail "missing terminal current-state proof" 'del(.terminal_current_state_proof.evidence_ref)'
 mutate_receipt_expect_fail "dirty worktree cleaned overclaim" '.worktree_hygiene.dirty_worktree = true'
 mutate_receipt_expect_fail "main origin landed ref mismatch" '.final_sync.main_origin_landed_ref_equal = false'
+mutate_receipt_expect_fail "missing readiness preflight fails" 'del(.delivery_readiness_preflight)'
+mutate_receipt_expect_fail "readiness preflight blocker fails non-blocked receipt" '.delivery_readiness_preflight.blockers = ["git-index-write-denied"]'
+mutate_receipt_expect_fail "dirty source without include-path classification fails" '.clean_worktree_route.source_dirty = true | .clean_worktree_route.selected_route = "current-clean-worktree" | .clean_worktree_route.include_path_classification_ref = "not-required" | .clean_worktree_route.include_path_classification_valid = false'
+mutate_receipt_expect_fail "broad stage-all without include-path classification fails" '.clean_worktree_route.broad_stage_all_requested = true | .clean_worktree_route.include_path_classification_ref = "not-required" | .clean_worktree_route.include_path_classification_valid = false'
+mutate_receipt_expect_fail "required postmortem without artifacts fails" '.lifecycle_postmortem.required = true | .lifecycle_postmortem.status = "required-missing" | .lifecycle_postmortem.verdict = "fail"'
 mutate_receipt_expect_fail "generated prompt used as authority" '.non_authority_classification.generated_prompts = "authority"'
 mutate_receipt_expect_fail "proposal-local file used as authority" '.non_authority_classification.proposal_local_files = "authority"'
 mutate_receipt_expect_fail "aggregate receipt replacing target-owned receipts" '.target_owned_evidence_policy.aggregate_receipt_replaces_target_owned_receipts = true'

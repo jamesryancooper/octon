@@ -1,0 +1,31 @@
+{
+  "schema_version": "lifecycle-interaction-return-v1",
+  "interaction_id": "proposal-program-delivery-efficiency-guardrails-closeout-worktree-return-20260626t172500z",
+  "consumer": {
+    "lifecycle_id": "closeout-worktree",
+    "run_id": "closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z"
+  },
+  "outcome": {
+    "completed": true,
+    "lifecycle_outcome": "preserved",
+    "non_mutating": true,
+    "cleaned_claim": false,
+    "blocker": "publishable implementation candidate remains deferred until packet archive authorization or a route-owned order override; closeout-worktree performed no git, archive, cleanup, publication, or cleaned action"
+  },
+  "return_evidence_refs": [
+    {
+      "ref": ".octon/state/evidence/validation/analysis/2026-06-26T17-25-00Z-closeout-worktree-proposal-program-delivery-efficiency-guardrails-review-items.yml",
+      "digest": "sha256:1df32f88c324a6a47b609a23652f561880d4836909dcf46e23c2366503f71dfc",
+      "schema_version": "closeout-worktree-report-v1"
+    }
+  ],
+  "remaining_residue": [
+    ".octon/framework",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails",
+    ".octon/generated/proposals",
+    ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z",
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z",
+    ".octon/state/evidence/local"
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "schema_version": "lifecycle-interaction-request-v1",
+  "interaction_id": "proposal-program-delivery-efficiency-guardrails-closeout-worktree-handoff-20260626t170919z",
+  "created_at": "2026-06-26T17:09:19Z",
+  "source": {
+    "lifecycle_id": "proposal-packet",
+    "run_id": "manual-closeout-20260626T170919Z",
+    "atomic_unit_type": "proposal-packet",
+    "target_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails",
+    "phase_id": "closeout-packet"
+  },
+  "request": {
+    "interaction_profile": "handoff",
+    "interaction_kind": "follow_on_work_required",
+    "requested_capability": "closeout-worktree",
+    "requested_lifecycle_id": "closeout-worktree",
+    "requested_route_surface": "closeout-worktree",
+    "requested_atomic_unit_type": "worktree",
+    "requested_target_outcome": "preserved"
+  },
+  "scope": {
+    "include_paths": [
+      ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json",
+      ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+      ".octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh",
+      ".octon/framework/assurance/runtime/_ops/lib",
+      ".octon/framework/assurance/runtime/_ops/tests",
+      ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md",
+      ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery",
+      ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery",
+      ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem",
+      ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+      ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/generated/proposals/artifacts/architecture/proposal-program-delivery-efficiency-guardrails",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z"
+    ],
+    "exclude_paths": [
+      ".git",
+      ".octon/state/control",
+      ".octon/state/continuity"
+    ],
+    "boundary_digest": "sha256:bc787d72366c76760e45c794b768bebf9a7710975dcf1cf5d882d7c4ebcec626"
+  },
+  "evidence_offered": [
+    {
+      "ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z/worktree-hygiene-classifier.yml",
+      "digest": "sha256:0da5d3b97a9666e9d1488fb4f8a5ada9e847bf59e6ea15e0a50be8dcd50a015e",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/proposal-closeout.md",
+      "digest": "sha256:901b5265b2d469fd3d032c6a985fad6551687d0b2cfff7ffdddf777441a1ae6f",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-conformance-review.md",
+      "digest": "sha256:39a52d394eca19a17bea4376e17733d8d2845ded77f05ea7c7f6456062595a18",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/post-implementation-drift-churn-review.md",
+      "digest": "sha256:c374ae8702c1ff4056249a3f3fea4b936cbad6c9d98d4e73d8d961f7864b5847",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/validation.md",
+      "digest": "sha256:7b79618d919ef9d3c418ce8cd07488d44a7686f1356291a7eb0d806ccc3de9a2",
+      "acceptance_class": "validation-evidence"
+    }
+  ],
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "worktree-cleanup-authorization",
+      "repo-hygiene-deletion",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "stop_conditions": [
+    "Stop if the requested route would treat this request as authorization for git, hosted-provider, branch-cleanup, worktree-cleanup, repo-hygiene deletion, archive, promotion, or scope-expansion effects.",
+    "Stop if the requested route cannot preserve packet closeout authority and target-owned evidence boundaries.",
+    "Stop if fresh return evidence cannot cite classifier .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z/worktree-hygiene-classifier.yml, classifier digest sha256:0da5d3b97a9666e9d1488fb4f8a5ada9e847bf59e6ea15e0a50be8dcd50a015e, foreign fingerprint sha256:e6a544dd3ccf74bac6532c78188c500f3f55d883d9b7f08411a9679093ba3275, scoped paths, and independent validation result."
+  ],
+  "expected_return_evidence": [
+    "lifecycle-interaction-return-v1",
+    "closeout-worktree-report-v1"
+  ]
+}

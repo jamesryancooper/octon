@@ -106,6 +106,10 @@ for token in \
   '"proposal-program-delivery-receipt-v1"' \
   '"actual_outcome"' \
   '"cleaned"' \
+  '"order_policy"' \
+  '"delivery_readiness_preflight"' \
+  '"clean_worktree_route"' \
+  '"lifecycle_postmortem"' \
   '"child_packet_coverage"' \
   '"terminal_current_state_proof"' \
   '"target_owned_evidence_policy"'; do
@@ -151,6 +155,61 @@ if [[ -n "$RECEIPT_PATH" ]]; then
       fail "actual_outcome must be blocked, implemented, archive-ready, landed, synced, or cleaned"
       ;;
   esac
+
+  require_value '.order_policy.canonical_order_ref' 'child-before-parent-delivery' "order policy canonical ref"
+  require_scalar '.order_policy.requested_order_ref' "order policy requested order ref"
+  requested_order="$(scalar '.order_policy.requested_order_ref')"
+  alternative_order="$(scalar '.order_policy.operator_requested_alternative_order')"
+  override_required="$(scalar '.order_policy.override_receipt_required')"
+  override_status="$(scalar '.order_policy.override_receipt_status')"
+  if [[ "$requested_order" == "child-before-parent-delivery" && "$alternative_order" == "false" ]]; then
+    [[ "$override_required" == "false" ]] \
+      && pass "canonical order does not require override receipt" \
+      || fail "canonical order must set override_receipt_required=false"
+    require_value '.order_policy.override_receipt_status' 'not-required' "canonical order override status"
+  else
+    [[ "$alternative_order" == "true" ]] \
+      && pass "non-canonical order is operator-requested" \
+      || fail "non-canonical order must set operator_requested_alternative_order=true"
+    [[ "$override_required" == "true" ]] \
+      && pass "non-canonical order requires override receipt" \
+      || fail "non-canonical order must set override_receipt_required=true"
+    require_scalar '.order_policy.override_receipt_ref' "non-canonical order override receipt ref"
+    [[ "$override_status" == "valid" ]] \
+      && pass "non-canonical order override receipt valid" \
+      || fail "non-canonical order override_receipt_status must be valid"
+  fi
+
+  require_scalar '.delivery_readiness_preflight.receipt_ref' "delivery readiness preflight receipt_ref"
+  require_bool '.delivery_readiness_preflight.fresh' 'true' "delivery readiness preflight fresh"
+  if [[ "$(scalar '.actual_outcome')" == "blocked" ]]; then
+    case "$(scalar '.delivery_readiness_preflight.verdict')" in
+      pass|blocked|fail)
+        pass "blocked delivery readiness preflight verdict recorded"
+        ;;
+      *)
+        fail "blocked delivery readiness preflight verdict must be pass, blocked, or fail"
+        ;;
+    esac
+  else
+    require_value '.delivery_readiness_preflight.verdict' 'pass' "delivery readiness preflight verdict"
+  fi
+  for readiness_check in \
+    checked_git_write \
+    checked_worktree_cleanliness \
+    checked_review_freshness \
+    checked_child_receipt_compatibility \
+    checked_tooling \
+    checked_route_legality \
+    checked_generated_freshness; do
+    require_bool ".delivery_readiness_preflight.$readiness_check" 'true' "delivery readiness preflight $readiness_check"
+  done
+  if [[ "$(scalar '.actual_outcome')" != "blocked" ]]; then
+    readiness_blocker_count="$(yq -r '(.delivery_readiness_preflight.blockers // []) | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
+    [[ "$readiness_blocker_count" -eq 0 ]] \
+      && pass "non-blocked delivery readiness preflight has no blockers" \
+      || fail "non-blocked delivery readiness preflight blockers must be empty"
+  fi
 
   require_scalar '.parent_program_lifecycle.workflow_ref' "parent lifecycle workflow_ref"
   require_scalar '.parent_program_lifecycle.receipt_ref' "parent lifecycle receipt_ref"
@@ -250,6 +309,47 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     require_scalar '.worktree_hygiene.evidence_ref' "worktree hygiene evidence_ref"
     require_bool '.worktree_hygiene.dirty_worktree' 'false' "worktree dirty flag"
     require_value '.worktree_hygiene.verdict' 'pass' "worktree hygiene verdict"
+  fi
+
+  require_scalar '.clean_worktree_route.selected_route' "clean worktree selected route"
+  case "$(scalar '.clean_worktree_route.selected_route')" in
+    current-clean-worktree|route-owned-clean-worktree|blocked)
+      pass "clean worktree route allowed"
+      ;;
+    *)
+      fail "clean worktree selected_route must be current-clean-worktree, route-owned-clean-worktree, or blocked"
+      ;;
+  esac
+  source_dirty="$(scalar '.clean_worktree_route.source_dirty')"
+  source_stale="$(scalar '.clean_worktree_route.source_stale')"
+  broad_stage_all="$(scalar '.clean_worktree_route.broad_stage_all_requested')"
+  include_classification_valid="$(scalar '.clean_worktree_route.include_path_classification_valid')"
+  if [[ "$source_dirty" == "true" || "$source_stale" == "true" ]]; then
+    require_value '.clean_worktree_route.selected_route' 'route-owned-clean-worktree' "dirty/stale source clean worktree route"
+    require_scalar '.clean_worktree_route.route_owned_worktree_ref' "route-owned clean worktree ref"
+    require_scalar '.clean_worktree_route.include_path_classification_ref' "include-path classification ref"
+    require_bool '.clean_worktree_route.include_path_classification_valid' 'true' "include-path classification valid"
+  fi
+  if [[ "$broad_stage_all" == "true" ]]; then
+    require_scalar '.clean_worktree_route.include_path_classification_ref' "broad stage-all include-path classification ref"
+    [[ "$include_classification_valid" == "true" ]] \
+      && pass "broad stage-all include-path classification valid" \
+      || fail "broad stage-all requires valid include-path classification"
+  fi
+
+  require_scalar '.lifecycle_postmortem.status' "lifecycle postmortem status"
+  postmortem_required="$(scalar '.lifecycle_postmortem.required')"
+  if [[ "$postmortem_required" == "true" ]]; then
+    require_value '.lifecycle_postmortem.status' 'required-present' "required lifecycle postmortem status"
+    require_value '.lifecycle_postmortem.verdict' 'pass' "required lifecycle postmortem verdict"
+    require_scalar '.lifecycle_postmortem.evaluation_ref' "lifecycle postmortem evaluation ref"
+    require_scalar '.lifecycle_postmortem.report_ref' "lifecycle postmortem report ref"
+    require_scalar '.lifecycle_postmortem.readiness_summary_ref' "lifecycle postmortem readiness summary ref"
+    require_scalar '.lifecycle_postmortem.evidence_map_ref' "lifecycle postmortem evidence map ref"
+    require_array_nonempty '.lifecycle_postmortem.digest_bound_evidence_refs' "lifecycle postmortem digest-bound evidence refs"
+  else
+    require_value '.lifecycle_postmortem.status' 'not-required' "not-required lifecycle postmortem status"
+    require_value '.lifecycle_postmortem.verdict' 'not-required' "not-required lifecycle postmortem verdict"
   fi
 
   if [[ "$(scalar '.actual_outcome')" != "blocked" && "$open_blocker_count" -gt 0 ]]; then

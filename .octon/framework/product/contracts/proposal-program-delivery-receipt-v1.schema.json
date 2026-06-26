@@ -13,6 +13,8 @@
     "target_outcome",
     "actual_outcome",
     "parent_program_lifecycle",
+    "order_policy",
+    "delivery_readiness_preflight",
     "child_packet_coverage",
     "child_receipts",
     "implementation_conformance",
@@ -25,6 +27,8 @@
     "final_sync",
     "terminal_current_state_proof",
     "worktree_hygiene",
+    "clean_worktree_route",
+    "lifecycle_postmortem",
     "blockers",
     "non_authority_classification",
     "target_owned_evidence_policy"
@@ -140,6 +144,110 @@
         },
         "replanned_after_material_changes": {
           "type": "boolean"
+        }
+      }
+    },
+    "order_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_order_ref",
+        "requested_order_ref",
+        "operator_requested_alternative_order",
+        "override_receipt_required",
+        "override_receipt_ref",
+        "override_receipt_status"
+      ],
+      "properties": {
+        "canonical_order_ref": {
+          "const": "child-before-parent-delivery"
+        },
+        "requested_order_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operator_requested_alternative_order": {
+          "type": "boolean"
+        },
+        "override_receipt_required": {
+          "type": "boolean"
+        },
+        "override_receipt_ref": {
+          "type": "string"
+        },
+        "override_receipt_status": {
+          "enum": [
+            "not-required",
+            "valid",
+            "missing",
+            "invalid",
+            "stale",
+            "target-mismatch",
+            "run-mismatch",
+            "risk-unacknowledged"
+          ]
+        }
+      }
+    },
+    "delivery_readiness_preflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_ref",
+        "fresh",
+        "verdict",
+        "checked_git_write",
+        "checked_worktree_cleanliness",
+        "checked_review_freshness",
+        "checked_child_receipt_compatibility",
+        "checked_tooling",
+        "checked_route_legality",
+        "checked_generated_freshness",
+        "blockers"
+      ],
+      "properties": {
+        "receipt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fresh": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "blocked",
+            "not-run"
+          ]
+        },
+        "checked_git_write": {
+          "type": "boolean"
+        },
+        "checked_worktree_cleanliness": {
+          "type": "boolean"
+        },
+        "checked_review_freshness": {
+          "type": "boolean"
+        },
+        "checked_child_receipt_compatibility": {
+          "type": "boolean"
+        },
+        "checked_tooling": {
+          "type": "boolean"
+        },
+        "checked_route_legality": {
+          "type": "boolean"
+        },
+        "checked_generated_freshness": {
+          "type": "boolean"
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -443,6 +551,98 @@
             "pass",
             "fail",
             "not-run"
+          ]
+        }
+      }
+    },
+    "clean_worktree_route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_dirty",
+        "source_stale",
+        "selected_route",
+        "route_owned_worktree_ref",
+        "include_path_classification_ref",
+        "include_path_classification_valid",
+        "broad_stage_all_requested"
+      ],
+      "properties": {
+        "source_dirty": {
+          "type": "boolean"
+        },
+        "source_stale": {
+          "type": "boolean"
+        },
+        "selected_route": {
+          "enum": [
+            "current-clean-worktree",
+            "route-owned-clean-worktree",
+            "blocked"
+          ]
+        },
+        "route_owned_worktree_ref": {
+          "type": "string"
+        },
+        "include_path_classification_ref": {
+          "type": "string"
+        },
+        "include_path_classification_valid": {
+          "type": "boolean"
+        },
+        "broad_stage_all_requested": {
+          "type": "boolean"
+        }
+      }
+    },
+    "lifecycle_postmortem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "status",
+        "evaluation_ref",
+        "report_ref",
+        "readiness_summary_ref",
+        "evidence_map_ref",
+        "digest_bound_evidence_refs",
+        "verdict"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "not-required",
+            "required-present",
+            "required-missing"
+          ]
+        },
+        "evaluation_ref": {
+          "type": "string"
+        },
+        "report_ref": {
+          "type": "string"
+        },
+        "readiness_summary_ref": {
+          "type": "string"
+        },
+        "evidence_map_ref": {
+          "type": "string"
+        },
+        "digest_bound_evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "not-required"
           ]
         }
       }

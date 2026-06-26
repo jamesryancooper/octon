@@ -89,6 +89,25 @@ target_program:
   accepted_review_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
 target_outcome: cleaned
 actual_outcome: cleaned
+order_policy:
+  canonical_order_ref: child-before-parent-delivery
+  requested_order_ref: child-before-parent-delivery
+  operator_requested_alternative_order: false
+  override_receipt_required: false
+  override_receipt_ref: not-applicable
+  override_receipt_status: not-required
+delivery_readiness_preflight:
+  receipt_ref: .octon/state/evidence/runs/workflows/program-delivery/delivery-readiness-preflight.yml
+  fresh: true
+  verdict: pass
+  checked_git_write: true
+  checked_worktree_cleanliness: true
+  checked_review_freshness: true
+  checked_child_receipt_compatibility: true
+  checked_tooling: true
+  checked_route_legality: true
+  checked_generated_freshness: true
+  blockers: []
 parent_program_lifecycle:
   workflow_ref: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
   receipt_ref: .octon/state/evidence/runs/workflows/program-delivery/parent-lifecycle.yml
@@ -166,6 +185,23 @@ worktree_hygiene:
   evidence_ref: .octon/state/evidence/local/terminal-proof/program-delivery/worktree-hygiene.yml
   dirty_worktree: false
   verdict: pass
+clean_worktree_route:
+  source_dirty: false
+  source_stale: false
+  selected_route: current-clean-worktree
+  route_owned_worktree_ref: not-required
+  include_path_classification_ref: not-required
+  include_path_classification_valid: false
+  broad_stage_all_requested: false
+lifecycle_postmortem:
+  required: false
+  status: not-required
+  evaluation_ref: not-required
+  report_ref: not-required
+  readiness_summary_ref: not-required
+  evidence_map_ref: not-required
+  digest_bound_evidence_refs: []
+  verdict: not-required
 blockers: []
 non_authority_classification:
   proposal_local_files: non-authority
@@ -197,6 +233,12 @@ make_blocked_receipt() {
     .branch_authorization.branch_cleanup_performed = false |
     .branch_authorization.cleanup_authorization_ref = "not-applicable" |
     .branch_authorization.branch_deleted = false |
+    .delivery_readiness_preflight.verdict = "blocked" |
+    .delivery_readiness_preflight.blockers = ["git-index-write-denied"] |
+    .final_sync.landed_ref = "not-run" |
+    .final_sync.local_main_ref = "not-run" |
+    .final_sync.origin_main_ref = "not-run" |
+    .final_sync.main_origin_landed_ref_equal = false |
     .terminal_current_state_proof.evidence_ref = "not-run" |
     .terminal_current_state_proof.fresh_after_last_mutation = false |
     .terminal_current_state_proof.verdict = "not-run" |

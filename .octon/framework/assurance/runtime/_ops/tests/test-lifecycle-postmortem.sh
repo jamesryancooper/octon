@@ -129,6 +129,11 @@ child_validation = root / ".octon/state/evidence/runs/workflows/child-run/valida
 generated = root / ".octon/generated/effective/runtime/read-model.yml"
 proposal = root / ".octon/inputs/exploratory/proposals/architecture/test-proposal/proposal.yml"
 delivery = root / ".octon/state/evidence/runs/skills/closeout-change/test-run-delivery.yml"
+postmortem_dir = root / ".octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem"
+postmortem_evaluation = postmortem_dir / "evaluation.yml"
+postmortem_report = postmortem_dir / "report.md"
+postmortem_readiness = postmortem_dir / "readiness-summary.md"
+postmortem_evidence_map = postmortem_dir / "evidence-map.yml"
 
 direct_refs = [record(control, "runtime-state", "control", "control-truth")] if mode == "direct" else []
 substitute_refs = [] if mode == "direct" else [record(
@@ -202,6 +207,16 @@ profile = {
         "validator_generated_hygiene_refs": validator_refs,
         "git_delivery_proof_refs": delivery_refs,
         "delivery_evidence_status": delivery_status,
+    },
+    "postmortem_requirement": {
+        "required": True,
+        "verdict": "pass",
+        "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh",
+        "evaluation_ref": named(postmortem_evaluation, "postmortem-evaluation", "retained-postmortem-output", "retained-evidence"),
+        "report_ref": named(postmortem_report, "postmortem-report", "retained-postmortem-output", "retained-evidence"),
+        "readiness_summary_ref": named(postmortem_readiness, "postmortem-readiness-summary", "retained-postmortem-summary", "retained-evidence"),
+        "evidence_map_ref": named(postmortem_evidence_map, "postmortem-evidence-map", "retained-postmortem-map", "retained-evidence"),
+        "digest_bound_evidence_refs": [record(validation, "postmortem-validation-result", "retained-evidence", "evidence-only")],
     },
     "blocker_taxonomy": profile_records(
         "blocker",
@@ -296,6 +311,8 @@ PY
   local postmortem_dir="$fixture_root/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem"
   local evidence_map="$postmortem_dir/evidence-map.yml"
   local known_limits="$postmortem_dir/known-limits.yml"
+  printf 'verdict: pass\n' >"$postmortem_dir/evaluation.yml"
+  printf '# Lifecycle Postmortem Report\n\nValidated fixture report.\n' >"$postmortem_dir/report.md"
   {
     printf '# Lifecycle Postmortem Readiness Summary\n\n'
     printf 'This summary is a derived evidence-navigation aid only. It is generated from evidence-map.yml and known-limits.yml and does not replace either retained evidence artifact.\n\n'
@@ -344,6 +361,16 @@ mutate_profile_generated_authority() {
   mutate_json_file \
     "$1/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" \
     "data['proposal_program_delivery_profile']['authority_boundary']['generated_outputs_authority'] = True"
+}
+
+mutate_profile_missing_postmortem_report() {
+  rm "$1/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/report.md"
+}
+
+mutate_profile_postmortem_digest_mismatch() {
+  mutate_json_file \
+    "$1/.octon/state/evidence/runs/test-run/assurance/lifecycle-postmortem/evidence-map.yml" \
+    "data['proposal_program_delivery_profile']['postmortem_requirement']['digest_bound_evidence_refs'][0]['sha256'] = 'sha256:1111111111111111111111111111111111111111111111111111111111111111'"
 }
 
 validate_evidence_map_fixture() {
@@ -529,6 +556,16 @@ main() {
   make_evidence_map_fixture "$profile_generated_authority_root" direct with-delivery
   mutate_profile_generated_authority "$profile_generated_authority_root"
   assert_failure "proposal-program postmortem profile generated authority fails" validate_evidence_map_fixture "$profile_generated_authority_root"
+
+  local profile_missing_postmortem_root="$TMP_DIR/profile-missing-postmortem-map"
+  make_evidence_map_fixture "$profile_missing_postmortem_root" direct with-delivery
+  mutate_profile_missing_postmortem_report "$profile_missing_postmortem_root"
+  assert_failure "proposal-program postmortem profile missing report fails" validate_evidence_map_fixture "$profile_missing_postmortem_root"
+
+  local profile_postmortem_digest_root="$TMP_DIR/profile-postmortem-digest-map"
+  make_evidence_map_fixture "$profile_postmortem_digest_root" direct with-delivery
+  mutate_profile_postmortem_digest_mismatch "$profile_postmortem_digest_root"
+  assert_failure "proposal-program postmortem profile digest-bound ref mismatch fails" validate_evidence_map_fixture "$profile_postmortem_digest_root"
 
   local stale_map_root="$TMP_DIR/stale-map"
   make_evidence_map_fixture "$stale_map_root" direct

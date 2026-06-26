@@ -22,3 +22,8 @@ For v2 binder output, the final report must preserve the distinction between:
 The final report remains non-authority evidence. It cannot authorize lifecycle
 transition, closeout, promotion, support widening, redesign, generated-output
 publication, or invariant amendment.
+
+When a proposal-program delivery postmortem threshold applies, validation must
+fail closed unless `evaluation.yml`, `report.md`, `readiness-summary.md`,
+`evidence-map.yml`, and digest-bound retained evidence refs are present and
+validated by `validate-lifecycle-postmortem.sh`.

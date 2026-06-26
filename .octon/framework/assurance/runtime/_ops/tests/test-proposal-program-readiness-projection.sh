@@ -56,7 +56,8 @@ review_digest() {
 
 make_repo() {
   local root="$1"
-  mkdir -p "$root/.octon/framework/assurance/runtime/_ops/scripts"
+  mkdir -p "$root/.octon/framework/assurance/runtime/_ops/scripts" \
+    "$root/.octon/framework/assurance/runtime/_ops/lib"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
@@ -65,6 +66,7 @@ make_repo() {
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-retained-run-evidence-index.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
   cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/"
+  cp "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/lib/validation_receipts.py" "$root/.octon/framework/assurance/runtime/_ops/lib/"
   chmod +x "$root"/.octon/framework/assurance/runtime/_ops/scripts/*.sh
 }
 

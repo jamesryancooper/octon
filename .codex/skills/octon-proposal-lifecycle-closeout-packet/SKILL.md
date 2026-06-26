@@ -9,7 +9,7 @@ metadata:
   updated: "2026-04-30"
 skill_sets: [executor, specialist]
 capabilities: [self-validating]
-allowed-tools: Read Glob Grep Bash(git status) Bash(git diff) Bash(gh pr) Bash(.octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh *) Bash(.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh *) Bash(.octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh *) Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/evidence/runs/skills/*)
+allowed-tools: Read Glob Grep Bash(git status) Bash(git diff) Bash(gh pr) Bash(.octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh *) Bash(.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh *) Bash(.octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh *) Bash(.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-order-override-receipt.sh *) Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Packet - Closeout
@@ -87,6 +87,23 @@ path counts, a `worktree_hygiene_evidence` reference to the classifier output,
 and `next_route_condition: closeout-change or operator scope resolution`. Do
 not stage, commit, push, delete, reset, archive, or otherwise clean worktree
 paths from this route.
+
+Exception: when the only remaining blocker is the canonical packet delivery
+archive-before-branch-no-pr order conflict, closeout may use a validating
+`proposal-packet-delivery-order-override-receipt-v1` for
+`partition-clean-for-archive-readiness`. Validate the order override with
+`validate-proposal-packet-delivery-order-override-receipt.sh --receipt <ref>`;
+it must cite a validating closeout-worktree report, a validating
+lifecycle-interaction-return, the source worktree hygiene classifier digest,
+the authorized foreign fingerprint, exact candidate partitioning, and the
+non-authority boundary that closeout-worktree does not authorize archive
+relocation, Git mutation, hosted landing, branch cleanup, repo hygiene cleanup,
+or `cleaned` outcome. When it passes and all child-owned closeout gates pass,
+write `verdict: pass`, `archive_authorized: yes`, and
+`worktree_hygiene_verdict: partition-clean` with refs to the order override,
+closeout-worktree report, lifecycle return, and classifier. This is only
+archive readiness for the separate terminal closeout and archive routes; it is
+not Git clean evidence and does not replace child-owned receipts.
 
 Successful closeout writes or refreshes `support/proposal-closeout.md` with at
 least `verdict`, `closed_at`, and `archive_authorized`. Use `verdict: pass` and

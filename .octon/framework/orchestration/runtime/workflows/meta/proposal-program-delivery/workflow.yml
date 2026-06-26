@@ -65,17 +65,26 @@ stages:
         rollback_metadata: false
       allowed_executor_profiles:
         - read_only_analysis
-  - id: validate-program-state
-    asset: stages/02-validate-program-state.md
+  - id: delivery-readiness-preflight
+    asset: stages/02-delivery-readiness-preflight.md
     kind: verification
     consumes:
       - stage:bind-profile
+    produces:
+      - stage:delivery-readiness-preflight
+    mutation_scope: []
+    authorization: *read_evidence_authorization
+  - id: validate-program-state
+    asset: stages/03-validate-program-state.md
+    kind: verification
+    consumes:
+      - stage:delivery-readiness-preflight
     produces:
       - stage:validate-program-state
     mutation_scope: []
     authorization: *read_evidence_authorization
   - id: run-or-resume-child-lifecycles
-    asset: stages/03-run-or-resume-child-lifecycles.md
+    asset: stages/04-run-or-resume-child-lifecycles.md
     kind: mutation
     consumes:
       - stage:validate-program-state
@@ -112,7 +121,7 @@ stages:
       allowed_executor_profiles:
         - scoped_repo_mutation
   - id: validate-child-receipts
-    asset: stages/04-validate-child-receipts.md
+    asset: stages/05-validate-child-receipts.md
     kind: verification
     consumes:
       - stage:run-or-resume-child-lifecycles
@@ -121,7 +130,7 @@ stages:
     mutation_scope: []
     authorization: *read_evidence_authorization
   - id: route-closeout-and-archive
-    asset: stages/05-route-closeout-and-archive.md
+    asset: stages/06-route-closeout-and-archive.md
     kind: mutation
     consumes:
       - stage:validate-child-receipts
@@ -131,7 +140,7 @@ stages:
       - workflow-scope
     authorization: *repo_mutation_authorization
   - id: route-change-closeout
-    asset: stages/06-route-change-closeout.md
+    asset: stages/07-route-change-closeout.md
     kind: mutation
     consumes:
       - stage:route-closeout-and-archive
@@ -141,7 +150,7 @@ stages:
       - workflow-scope
     authorization: *repo_mutation_authorization
   - id: validate-cleanup-sync-proof
-    asset: stages/07-validate-cleanup-sync-proof.md
+    asset: stages/08-validate-cleanup-sync-proof.md
     kind: verification
     consumes:
       - stage:route-change-closeout
@@ -150,7 +159,7 @@ stages:
     mutation_scope: []
     authorization: *read_evidence_authorization
   - id: emit-delivery-receipt
-    asset: stages/08-emit-delivery-receipt.md
+    asset: stages/09-emit-delivery-receipt.md
     kind: projection
     consumes:
       - stage:validate-cleanup-sync-proof
@@ -186,14 +195,18 @@ artifacts:
 done_gate:
   checks:
     - "profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim"
+    - "execution_order_policy enforces child-before-parent-delivery unless a valid target-bound order override receipt is retained"
+    - "delivery-readiness-preflight passes before expensive child lifecycle continuation or parent delivery"
     - "child packet receipts remain target-owned and parent summary evidence does not replace them"
     - "closeout-change or closeout-worktree owns Change closeout and any hosted mutation"
     - "git mutation preflight passes before branch-local commit, push, hosted no-PR landing, sync, cleanup, or branch deletion"
+    - "dirty or stale source posture selects a route-owned clean worktree with include-path classification before reconstruction, broad stage-all, staging, or commit"
     - "branch landing authorization exists before landed, synced, or cleaned claims"
     - "branch cleanup authorization exists before source branch cleanup claims"
     - "repo-hygiene-cleanup owns any local residue deletion"
     - "terminal current-state proof shows local main, origin/main, and landed ref equality"
     - "delivery receipt validates with validate-proposal-program-delivery-receipt.sh"
+    - "lifecycle postmortem threshold status is recorded when repeated blocker or recovery thresholds apply"
     - "delivery evidence index validates with validate-proposal-program-delivery-evidence-index.sh and remains evidence-only"
 constraints:
   fail_closed: true
@@ -201,6 +214,8 @@ constraints:
   aggregate_receipt_only: true
   child_receipts_remain_target_owned: true
   generated_outputs_are_non_authority: true
+  canonical_execution_order_ref: child-before-parent-delivery
+  retained_readiness_preflight_required: true
 workflow:
   id: proposal-program-delivery
   name: Proposal Program Delivery
@@ -251,11 +266,23 @@ workflow:
       fail_closed_on:
         - missing_profile
         - malformed_profile
+        - non_canonical_order_without_valid_override_receipt
         - pr_fallback_when_forbidden
         - stash_policy_widening
+    - id: delivery-readiness-preflight
+      title: Run retained delivery readiness preflight
+      asset: stages/02-delivery-readiness-preflight.md
+      required: true
+      fail_closed_on:
+        - git_write_preflight_blocked
+        - dirty_source_without_route_owned_clean_worktree
+        - stale_source_without_route_owned_clean_worktree
+        - missing_include_path_classification
+        - stale_review_or_child_receipt_compatibility_gap
+        - generated_freshness_gap
     - id: validate-program-state
       title: Validate current program state
-      asset: stages/02-validate-program-state.md
+      asset: stages/03-validate-program-state.md
       required: true
       fail_closed_on:
         - stale_review_digest
@@ -264,7 +291,7 @@ workflow:
         - proposal_local_file_used_as_authority
     - id: run-or-resume-child-lifecycles
       title: Run or resume child packet lifecycles
-      asset: stages/03-run-or-resume-child-lifecycles.md
+      asset: stages/04-run-or-resume-child-lifecycles.md
       required: true
       fail_closed_on:
         - missing_child_receipt
@@ -272,7 +299,7 @@ workflow:
         - parent_summary_substituted_for_child_receipts
     - id: validate-child-receipts
       title: Validate target-owned child receipts
-      asset: stages/04-validate-child-receipts.md
+      asset: stages/05-validate-child-receipts.md
       required: true
       fail_closed_on:
         - missing_implementation_conformance
@@ -281,7 +308,7 @@ workflow:
         - missing_governed_mechanism_integration_receipt
     - id: route-closeout-and-archive
       title: Route packet closeout and archive handoff
-      asset: stages/05-route-closeout-and-archive.md
+      asset: stages/06-route-closeout-and-archive.md
       required: true
       fail_closed_on:
         - packet_closeout_blocker
@@ -289,7 +316,7 @@ workflow:
         - fresh_unvalidated_archive_mutation
     - id: route-change-closeout
       title: Route Change closeout
-      asset: stages/06-route-change-closeout.md
+      asset: stages/07-route-change-closeout.md
       required: true
       fail_closed_on:
         - git_index_write_denied
@@ -297,9 +324,10 @@ workflow:
         - branch_no_pr_landing_without_authorization
         - pr_fallback_when_profile_forbids_pr
         - unsupported_hosted_mutation
+        - dirty_or_stale_source_without_include_path_classification
     - id: validate-cleanup-sync-proof
       title: Validate cleanup, final sync, and terminal proof
-      asset: stages/07-validate-cleanup-sync-proof.md
+      asset: stages/08-validate-cleanup-sync-proof.md
       required: true
       fail_closed_on:
         - branch_cleanup_without_authorization
@@ -309,7 +337,7 @@ workflow:
         - dirty_worktree_cleaned_overclaim
     - id: emit-delivery-receipt
       title: Emit delivery receipt
-      asset: stages/08-emit-delivery-receipt.md
+      asset: stages/09-emit-delivery-receipt.md
       required: true
       fail_closed_on:
         - aggregate_receipt_replaces_target_receipts

@@ -51,8 +51,10 @@ require_file "$WORKFLOW_PATH" "workflow contract"
 require_file "$README_PATH" "workflow README"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" "profile schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json" "receipt schema"
+require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-order-override-receipt-v1.schema.json" "packet delivery order override schema"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh" "profile validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh" "receipt validator"
+require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-order-override-receipt.sh" "packet delivery order override validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-delivery.sh" "validator test"
 
 if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
@@ -71,10 +73,13 @@ if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.branch_cleanup_owner' 'closeout-change' "branch cleanup owner"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.terminal_current_state_proof_owner' 'closeout-change' "terminal current-state proof owner"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.worktree_hygiene_owner' 'closeout-change' "worktree hygiene owner"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.partition_clean_archive_readiness_owner' 'proposal-packet-delivery-order-override' "partition-clean archive readiness owner"
   require_yaml_value "$WORKFLOW_PATH" '.constraints.outer_orchestrator_command' '/proposal-packet-delivery' "outer orchestrator command"
   require_yaml_value "$WORKFLOW_PATH" '.constraints.required_target_outcome' 'cleaned' "required target outcome"
   require_yaml_value "$WORKFLOW_PATH" '.constraints.required_route' 'branch-no-pr' "required branch-no-pr route"
   require_yaml_value "$WORKFLOW_PATH" '.constraints.pr_fallback_allowed' 'false' "PR fallback forbidden"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.partition_clean_archive_readiness_allowed' 'true' "partition-clean archive readiness allowed"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.partition_clean_cleaned_claim_allowed' 'false' "partition-clean cleaned claim forbidden"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.packet_state_routes."pre-archive".blocked_when_missing_evidence' 'true' "pre-archive missing evidence blocks"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.packet_state_routes."pre-archive".blocked_next_owning_lifecycle' 'closeout-packet' "pre-archive next owning lifecycle"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.packet_state_routes."already-archived".skip_archive_relocation' 'true' "already-archived skips archive relocation"
@@ -121,6 +126,9 @@ for token in \
   "archive-proposal" \
   "closeout-change" \
   "closeout-worktree" \
+  "proposal-packet-delivery-order-override" \
+  "partition-clean archive readiness" \
+  "validate-proposal-packet-delivery-order-override-receipt.sh" \
   "repo-hygiene-cleanup" \
   "pre-archive" \
   "already-archived" \
@@ -153,6 +161,9 @@ require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-deli
 require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"already_archived_required_owners"' "profile schema declares already-archived owners"
 require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"blocked_receipt_requires_explicit_blockers"' "profile schema requires explicit blocked blockers"
 require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"blocked_receipt_requires_next_owning_lifecycle"' "profile schema requires blocked next owning lifecycle"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json" '"partition_clean_archive_readiness"' "receipt schema declares partition-clean archive readiness"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-order-override-receipt-v1.schema.json" '"proposal-packet-delivery-order-override-receipt-v1"' "order override schema declares packet delivery override"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-order-override-receipt-v1.schema.json" '"partition-clean-for-archive-readiness"' "order override schema declares partition-clean mode"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/manifest.yml" "proposal-packet-delivery" "skill manifest registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/registry.yml" "proposal-packet-delivery" "skill registry registration"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/capabilities.yml" "proposal-packet-delivery" "skill capability registration"

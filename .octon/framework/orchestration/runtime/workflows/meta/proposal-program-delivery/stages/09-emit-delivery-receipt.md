@@ -1,4 +1,4 @@
-# Stage 08: Emit Delivery Receipt
+# Stage 09: Emit Delivery Receipt
 
 Emit an aggregate receipt conforming to `proposal-program-delivery-receipt-v1` and validate it with `validate-proposal-program-delivery-receipt.sh`.
 
@@ -9,6 +9,7 @@ Required checks:
 - All source receipts are cited by path or durable evidence reference.
 - Parent summaries do not replace target-owned child receipts.
 - Non-authority classifications are recorded.
+- Order policy, retained readiness preflight, clean-worktree route, include-path classification, and lifecycle postmortem status are recorded.
 - The retained evidence index records refs, digests, disclosure tiers, route, outcome, validator results, and non-authority classification only.
 - The retained evidence index does not authorize delivery, archive, landing, cleanup, execution, child lifecycle outcomes, or child receipt replacement.
 - Open blockers prevent downstream outcome claims.

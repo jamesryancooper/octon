@@ -1,0 +1,22 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program delivery efficiency gates
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal-program delivery architect
+created_date: 2026-06-26
+summary: >
+  Move proposal-program delivery efficiency from prompt discipline into enforced
+  profile, workflow, preflight, worktree-routing, validator, and postmortem gates.
+architecture_drivers:
+  - Enforce the canonical efficient order before expensive proposal-program continuation begins.
+  - Require explicit retained override evidence when an operator requests a different order.
+  - Collapse late delivery blockers into one early delivery readiness preflight.
+  - Default stale or dirty delivery sources to clean route-owned worktrees with classified include boundaries.
+  - Eliminate duplicated child validation receipt pass semantics across validators.
+  - Require formal validated postmortems after long, repeated-blocker, or recovered program runs.
+constraints:
+  - Proposal-local artifacts cannot authorize delivery, landing, cleanup, branch deletion, or generated publication.
+  - Clean-worktree routing must preserve child-owned receipts and must not delete retained evidence.
+  - Alternative order must fail closed without an override receipt bound to the target run.
+  - Generated projections remain non-authoritative.
+  - Pre-1.0 change profile remains atomic unless review explicitly splits the work.

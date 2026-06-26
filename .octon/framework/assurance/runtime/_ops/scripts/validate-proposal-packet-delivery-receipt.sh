@@ -3,7 +3,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 FRAMEWORK_DIR="$(cd -- "$SCRIPT_DIR/../../../../" && pwd)"
+ROOT_DIR="$(cd -- "$FRAMEWORK_DIR/../.." && pwd)"
 SCHEMA_PATH="$FRAMEWORK_DIR/product/contracts/proposal-packet-delivery-receipt-v1.schema.json"
+ORDER_OVERRIDE_VALIDATOR="$SCRIPT_DIR/validate-proposal-packet-delivery-order-override-receipt.sh"
 RECEIPT_PATH=""
 errors=0
 
@@ -85,6 +87,72 @@ require_value() {
   [[ "$value" == "$expected" ]] && pass "$label is $expected" || fail "$label must be $expected"
 }
 
+resolve_repo_ref() {
+  local ref="$1" label="$2"
+  if [[ -z "$ref" || "$ref" == "null" ]]; then
+    fail "$label missing"
+    return 1
+  fi
+  case "$ref" in
+    /*|*"/../"*|../*|./*|*"//"*)
+      fail "$label must be repo-relative without traversal: $ref"
+      return 1
+      ;;
+  esac
+  local resolved="$ROOT_DIR/$ref"
+  if [[ ! -f "$resolved" ]]; then
+    fail "$label does not resolve to a file: $ref"
+    return 1
+  fi
+  printf '%s\n' "$resolved"
+}
+
+check_repo_ref_digest() {
+  local ref="$1" expected="$2" label="$3" path actual
+  path="$(resolve_repo_ref "$ref" "$label")" || return 1
+  actual="sha256:$(shasum -a 256 "$path" | awk '{print $1}')"
+  if [[ "$expected" =~ ^sha256:[0-9a-f]{64}$ && "$actual" == "$expected" ]]; then
+    pass "$label digest matches"
+  else
+    fail "$label digest mismatch: expected $expected current $actual"
+    return 1
+  fi
+}
+
+validate_partition_clean_archive_readiness() {
+  if [[ "$(scalar '.partition_clean_archive_readiness.enabled')" != "true" ]]; then
+    return 1
+  fi
+  [[ "$(scalar '.partition_clean_archive_readiness.mode')" == "partition-clean-for-archive-readiness" ]] \
+    && pass "partition-clean archive readiness mode" \
+    || { fail "partition_clean_archive_readiness.mode must be partition-clean-for-archive-readiness"; return 1; }
+  for key in does_not_authorize_archive does_not_authorize_git_mutation does_not_authorize_cleaned_claim; do
+    [[ "$(scalar ".partition_clean_archive_readiness.$key")" == "true" ]] \
+      && pass "partition_clean_archive_readiness.$key" \
+      || { fail "partition_clean_archive_readiness.$key must be true"; return 1; }
+  done
+
+  local override_ref override_digest override_path report_ref return_ref
+  override_ref="$(scalar '.partition_clean_archive_readiness.order_override_receipt_ref')"
+  override_digest="$(scalar '.partition_clean_archive_readiness.order_override_receipt_digest')"
+  report_ref="$(scalar '.partition_clean_archive_readiness.closeout_worktree_report_ref')"
+  return_ref="$(scalar '.partition_clean_archive_readiness.lifecycle_interaction_return_ref')"
+  check_repo_ref_digest "$override_ref" "$override_digest" "partition-clean order override receipt" || return 1
+  override_path="$(resolve_repo_ref "$override_ref" "partition-clean order override receipt")" || return 1
+  if bash "$ORDER_OVERRIDE_VALIDATOR" --receipt "$override_path" >/dev/null; then
+    pass "partition-clean order override receipt validates"
+  else
+    fail "partition-clean order override receipt must validate"
+    return 1
+  fi
+  [[ "$(yq -r '.partition_clean_archive_readiness.closeout_worktree_report_ref' "$override_path" 2>/dev/null || true)" == "$report_ref" ]] \
+    && pass "partition-clean report ref matches override" \
+    || { fail "partition-clean report ref must match override"; return 1; }
+  [[ "$(yq -r '.partition_clean_archive_readiness.lifecycle_interaction_return_ref' "$override_path" 2>/dev/null || true)" == "$return_ref" ]] \
+    && pass "partition-clean return ref matches override" \
+    || { fail "partition-clean return ref must match override"; return 1; }
+}
+
 require_array_declared() {
   local path="$1" label="$2"
   if yq -e "$path | tag == \"!!seq\"" "$RECEIPT_PATH" >/dev/null 2>&1; then
@@ -143,6 +211,7 @@ for token in \
   '"proposal-packet-delivery-receipt-v1"' \
   '"actual_outcome"' \
   '"cleaned"' \
+  '"partition_clean_archive_readiness"' \
   '"target_receipts"' \
   '"promotion"' \
   '"terminal_closeout"' \
@@ -298,6 +367,19 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     require_scalar '.worktree_hygiene.evidence_ref' "worktree hygiene evidence_ref"
     require_bool '.worktree_hygiene.dirty_worktree' 'false' "worktree dirty flag"
     require_value '.worktree_hygiene.verdict' 'pass' "worktree hygiene verdict"
+  elif [[ "$actual_outcome" == "archive-ready" ]]; then
+    require_scalar '.worktree_hygiene.evidence_ref' "worktree hygiene evidence_ref"
+    require_bool_declared '.worktree_hygiene.dirty_worktree' "worktree dirty flag"
+    require_scalar '.worktree_hygiene.verdict' "worktree hygiene verdict"
+    if [[ "$(scalar '.worktree_hygiene.verdict')" == "pass" && "$(scalar '.worktree_hygiene.dirty_worktree')" == "false" ]]; then
+      pass "archive-ready uses strict worktree hygiene pass"
+    elif validate_partition_clean_archive_readiness; then
+      pass "archive-ready uses validated partition-clean worktree readiness"
+    else
+      fail "archive-ready requires strict worktree hygiene pass or validating partition-clean archive readiness"
+    fi
+  elif [[ "$(scalar '.partition_clean_archive_readiness.enabled')" == "true" ]]; then
+    validate_partition_clean_archive_readiness || fail "partition-clean archive readiness block must validate when present"
   fi
 
   open_blocker_count="$(yq -r '[.blockers[]? | select(.status == "open")] | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"

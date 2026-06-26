@@ -906,6 +906,18 @@ validate_proposal_program_delivery_profile() {
   validate_named_ref_array "$file" "$prefix.evidence_binding.validator_generated_hygiene_refs" "$label validator/generated/hygiene ref"
   validate_named_ref_array "$file" "$prefix.evidence_binding.git_delivery_proof_refs" "$label git delivery proof ref"
 
+  require_yq_true "$file" "$prefix.postmortem_requirement.required == true" "$label postmortem threshold required"
+  require_yq_true "$file" "$prefix.postmortem_requirement.verdict == \"pass\"" "$label postmortem threshold verdict pass"
+  require_yq_true "$file" "$prefix.postmortem_requirement.validator_ref == \".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh\"" "$label postmortem threshold validator bound"
+  validate_named_postmortem_ref_record "$file" "$prefix.postmortem_requirement.evaluation_ref" "$label postmortem evaluation ref"
+  validate_named_postmortem_ref_record "$file" "$prefix.postmortem_requirement.report_ref" "$label postmortem report ref"
+  validate_named_postmortem_ref_record "$file" "$prefix.postmortem_requirement.readiness_summary_ref" "$label postmortem readiness summary ref"
+  validate_named_postmortem_ref_record "$file" "$prefix.postmortem_requirement.evidence_map_ref" "$label postmortem evidence map ref"
+  [[ "$(yq_len "$prefix.postmortem_requirement.digest_bound_evidence_refs" "$file")" -gt 0 ]] \
+    && pass "$label postmortem digest-bound refs present" \
+    || fail "$label postmortem digest-bound refs required"
+  validate_ref_array "$file" "$prefix.postmortem_requirement.digest_bound_evidence_refs" "$label postmortem digest-bound ref"
+
   for scope in parent-program child-packet generated-artifact lifecycle-tooling-or-contract worktree-hygiene-or-residue git-delivery-state external-permission-boundary; do
     yq -e "$prefix.blocker_taxonomy[] | select(.owning_scope == \"$scope\" and .authority_status == \"evidence-only\")" "$file" >/dev/null 2>&1 \
       && pass "$label blocker taxonomy includes $scope" \

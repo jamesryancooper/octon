@@ -25,6 +25,26 @@ delivery_modes:
     workflow_ref: ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml"
     profile_schema_ref: ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
     receipt_schema_ref: ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+    order_override_receipt_schema_ref: ".octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json"
+    execution_order_policy:
+      canonical_order_ref: "child-before-parent-delivery"
+      non_canonical_order_requires_retained_override_receipt: true
+      override_receipt_authorizes_delivery: false
+    readiness_preflight:
+      required_before_expensive_continuation: true
+      retained_receipt_required: true
+      checks:
+        - "git write preflight"
+        - "worktree cleanliness"
+        - "source staleness"
+        - "review freshness"
+        - "child receipt compatibility"
+        - "tooling availability"
+        - "route legality"
+        - "generated freshness"
+    clean_worktree_route:
+      dirty_or_stale_source_defaults_to_route_owned_clean_worktree: true
+      include_path_classification_required_before_reconstruction_stage_commit: true
     entrypoints:
       - "/proposal-program-delivery"
       - "proposal-program-delivery"
@@ -49,6 +69,7 @@ delivery_modes:
       change_closeout_owner: "closeout-change-or-closeout-worktree"
       repo_hygiene_owner: "repo-hygiene-cleanup"
       generated_publication_owner: "owning-publisher-scripts"
+      lifecycle_postmortem_owner: "lifecycle-postmortem"
 
 postmortem_profiles:
   - profile_id: "proposal-program-delivery-evaluation"

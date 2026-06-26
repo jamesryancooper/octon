@@ -1,0 +1,76 @@
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-branch-no-pr-bounded-authorization-envelope.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-proposal-program-readiness-projection.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-child-readiness.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+ M .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+ M .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+ M .octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh
+ M .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+ M .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/README.md
+ M .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/01-bind-evidence.md
+ M .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/04-final-report.md
+ M .octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/workflow.yml
+ M .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md
+ M .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/01-bind-profile.md
+ D .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/02-validate-program-state.md
+ D .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/03-run-or-resume-child-lifecycles.md
+ D .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/04-validate-child-receipts.md
+ D .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/05-route-closeout-and-archive.md
+ D .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-route-change-closeout.md
+ D .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/07-validate-cleanup-sync-proof.md
+ D .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/08-emit-delivery-receipt.md
+ M .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+ M .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+ M .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+ M .octon/generated/proposals/registry.yml
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+?? .octon/framework/assurance/runtime/_ops/lib/validation-receipts.sh
+?? .octon/framework/assurance/runtime/_ops/lib/validation_receipts.py
+?? .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery-profile.sh
+?? .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery-workflow.sh
+?? .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-readiness-projection.sh
+?? .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/02-delivery-readiness-preflight.md
+?? .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/03-validate-program-state.md
+?? .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/04-run-or-resume-child-lifecycles.md
+?? .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/05-validate-child-receipts.md
+?? .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-route-closeout-and-archive.md
+?? .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/07-route-change-closeout.md
+?? .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/08-validate-cleanup-sync-proof.md
+?? .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md
+?? .octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json
+?? .octon/generated/proposals/artifacts/architecture/proposal-program-delivery-efficiency-guardrails/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-program-delivery-efficiency-guardrails/proposal-program-spine.yml
+?? .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-proposal-program-delivery-guardrails.sh
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/README.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/architecture-proposal.yml
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/architecture/acceptance-criteria.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/architecture/implementation-plan.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/architecture/target-architecture.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/navigation/artifact-catalog.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/navigation/source-of-truth-map.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/proposal.yml
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/resources/postmortem-findings.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/resources/source-lineage.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/creation-receipt.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/executable-implementation-prompt.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-conformance-review.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-grade-completeness-review.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/implementation-run.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/post-implementation-drift-churn-review.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/pre-integration-architecture-review.yml
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/proposal-closeout.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/proposal-review.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/support/validation.md
+?? .octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-efficiency-guardrails/validation-plan.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-delivery-efficiency-guardrails-20260626T1715Z/initial-git-status-porcelain.txt
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z/lifecycle-interaction-request.json
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/manual-closeout-20260626T170919Z/worktree-hygiene-classifier.yml

@@ -5,17 +5,22 @@ REPO_PATH=""
 CHECK_INDEX=0
 CHECK_REF=0
 EVIDENCE_PATH=""
+REQUIRE_CLEAN_ROUTE_CLASSIFICATION=0
+INCLUDE_PATH_CLASSIFICATION=""
+BASE_REF="origin/main"
 
 usage() {
   cat <<'USAGE'
 Usage:
-  git-branch-mutation-preflight.sh [--repo <path>] [--check-index] [--check-ref] [--evidence <path>]
+  git-branch-mutation-preflight.sh [--repo <path>] [--check-index] [--check-ref] [--evidence <path>] [--require-clean-route-classification] [--include-path-classification <path>] [--base-ref <ref>]
 
 Rollback-safe git mutation capability preflight.
 
 Behavior:
   - checks index lock creation before branch-local staging/commit;
   - checks temporary ref creation/deletion before push, landing, sync, or cleanup;
+  - when requested, blocks dirty or stale source posture unless include-path
+    classification selects a route-owned clean worktree;
   - emits typed blockers such as git-index-write-denied or git-ref-write-denied;
   - never authorizes delivery, landing, sync, cleanup, or branch deletion.
 USAGE
@@ -79,6 +84,13 @@ emit_evidence() {
     --arg ref_status "$ref_status" \
     --arg ref_blocker "$ref_blocker" \
     --arg ref_detail "$ref_detail" \
+    --argjson source_dirty "$SOURCE_DIRTY_JSON" \
+    --argjson source_stale "$SOURCE_STALE_JSON" \
+    --arg source_base_ref "$BASE_REF" \
+    --arg clean_route "$CLEAN_ROUTE_SELECTION" \
+    --arg include_path_classification "$INCLUDE_PATH_CLASSIFICATION" \
+    --argjson include_path_classification_present "$INCLUDE_PATH_CLASSIFICATION_PRESENT_JSON" \
+    --argjson route_owned_clean_worktree_required "$ROUTE_OWNED_CLEAN_WORKTREE_REQUIRED_JSON" \
     '{
       schema_version: $schema_version,
       emitted_at: $emitted_at,
@@ -97,6 +109,17 @@ emit_evidence() {
         cleanup: false,
         branch_deletion: false
       },
+      source_posture: {
+        dirty: $source_dirty,
+        stale_against_base: $source_stale,
+        base_ref: $source_base_ref
+      },
+      clean_worktree_route: {
+        selected_route: $clean_route,
+        route_owned_clean_worktree_required: $route_owned_clean_worktree_required,
+        include_path_classification_ref: $include_path_classification,
+        include_path_classification_present: $include_path_classification_present
+      },
       checks: {
         index: {
           requested: ($index_status != "not-requested"),
@@ -112,6 +135,60 @@ emit_evidence() {
         }
       }
     }' >"$EVIDENCE_PATH"
+}
+
+bool_json() {
+  [[ "$1" == "1" ]] && printf 'true' || printf 'false'
+}
+
+classification_path_exists() {
+  local ref="$1"
+  [[ -n "$ref" ]] || return 1
+  case "$ref" in
+    /*) [[ -f "$ref" ]] ;;
+    *) [[ -f "$REPO_ROOT/$ref" ]] ;;
+  esac
+}
+
+check_clean_route_classification() {
+  local status_output
+  status_output="$(git -C "$REPO_ROOT" status --porcelain=v1 2>/dev/null || true)"
+  if [[ -n "$status_output" ]]; then
+    SOURCE_DIRTY=1
+  fi
+  if git -C "$REPO_ROOT" rev-parse --verify "$BASE_REF" >/dev/null 2>&1; then
+    if ! git -C "$REPO_ROOT" merge-base --is-ancestor "$BASE_REF" HEAD >/dev/null 2>&1; then
+      SOURCE_STALE=1
+    fi
+  fi
+
+  if [[ "$SOURCE_DIRTY" -eq 1 || "$SOURCE_STALE" -eq 1 ]]; then
+    ROUTE_OWNED_CLEAN_WORKTREE_REQUIRED=1
+    CLEAN_ROUTE_SELECTION="route-owned-clean-worktree"
+  else
+    CLEAN_ROUTE_SELECTION="current-clean-worktree"
+  fi
+
+  if classification_path_exists "$INCLUDE_PATH_CLASSIFICATION"; then
+    INCLUDE_PATH_CLASSIFICATION_PRESENT=1
+  fi
+
+  if [[ "$REQUIRE_CLEAN_ROUTE_CLASSIFICATION" -eq 1 && "$ROUTE_OWNED_CLEAN_WORKTREE_REQUIRED" -eq 1 && "$INCLUDE_PATH_CLASSIFICATION_PRESENT" -ne 1 ]]; then
+    CLEAN_ROUTE_STATUS="blocked"
+    CLEAN_ROUTE_SELECTION="blocked"
+    if [[ "$SOURCE_DIRTY" -eq 1 ]]; then
+      CLEAN_ROUTE_BLOCKER="worktree-dirty-unclassified"
+      CLEAN_ROUTE_DETAIL="dirty source posture requires route-owned clean worktree and include-path classification"
+    else
+      CLEAN_ROUTE_BLOCKER="source-branch-stale-unclassified"
+      CLEAN_ROUTE_DETAIL="stale source posture requires route-owned clean worktree and include-path classification"
+    fi
+    return 1
+  fi
+
+  CLEAN_ROUTE_STATUS="passed"
+  CLEAN_ROUTE_DETAIL="clean route classification requirements satisfied"
+  return 0
 }
 
 need_tool() {
@@ -198,6 +275,19 @@ while [[ $# -gt 0 ]]; do
       [[ $# -gt 0 ]] || error "--evidence requires a value"
       EVIDENCE_PATH="$1"
       ;;
+    --require-clean-route-classification)
+      REQUIRE_CLEAN_ROUTE_CLASSIFICATION=1
+      ;;
+    --include-path-classification)
+      shift
+      [[ $# -gt 0 ]] || error "--include-path-classification requires a value"
+      INCLUDE_PATH_CLASSIFICATION="$1"
+      ;;
+    --base-ref)
+      shift
+      [[ $# -gt 0 ]] || error "--base-ref requires a value"
+      BASE_REF="$1"
+      ;;
     -h|--help)
       usage
       exit 0
@@ -227,10 +317,30 @@ INDEX_DETAIL=""
 REF_STATUS="not-requested"
 REF_BLOCKER=""
 REF_DETAIL=""
+CLEAN_ROUTE_STATUS="not-requested"
+CLEAN_ROUTE_BLOCKER=""
+CLEAN_ROUTE_DETAIL=""
+CLEAN_ROUTE_SELECTION="not-required"
+SOURCE_DIRTY=0
+SOURCE_STALE=0
+INCLUDE_PATH_CLASSIFICATION_PRESENT=0
+ROUTE_OWNED_CLEAN_WORKTREE_REQUIRED=0
 STATUS="passed"
 BLOCKER_CLASS=""
 
-if [[ "$CHECK_INDEX" -eq 1 ]]; then
+if [[ "$REQUIRE_CLEAN_ROUTE_CLASSIFICATION" -eq 1 ]]; then
+  if ! check_clean_route_classification; then
+    STATUS="blocked"
+    BLOCKER_CLASS="$CLEAN_ROUTE_BLOCKER"
+  fi
+fi
+
+SOURCE_DIRTY_JSON="$(bool_json "$SOURCE_DIRTY")"
+SOURCE_STALE_JSON="$(bool_json "$SOURCE_STALE")"
+INCLUDE_PATH_CLASSIFICATION_PRESENT_JSON="$(bool_json "$INCLUDE_PATH_CLASSIFICATION_PRESENT")"
+ROUTE_OWNED_CLEAN_WORKTREE_REQUIRED_JSON="$(bool_json "$ROUTE_OWNED_CLEAN_WORKTREE_REQUIRED")"
+
+if [[ "$STATUS" == "passed" && "$CHECK_INDEX" -eq 1 ]]; then
   if ! check_index_write; then
     STATUS="blocked"
     BLOCKER_CLASS="$INDEX_BLOCKER"
@@ -255,6 +365,7 @@ if [[ "$STATUS" == "passed" ]]; then
 fi
 
 echo "[ERROR] Git mutation preflight blocked: $BLOCKER_CLASS" >&2
+[[ -n "$CLEAN_ROUTE_BLOCKER" ]] && echo "[ERROR] clean-route blocker: $CLEAN_ROUTE_BLOCKER - $CLEAN_ROUTE_DETAIL" >&2
 [[ -n "$INDEX_BLOCKER" ]] && echo "[ERROR] index blocker: $INDEX_BLOCKER - $INDEX_DETAIL" >&2
 [[ -n "$REF_BLOCKER" ]] && echo "[ERROR] ref blocker: $REF_BLOCKER - $REF_DETAIL" >&2
 [[ -n "$EVIDENCE_PATH" ]] && echo "[ERROR] evidence: $EVIDENCE_PATH" >&2
