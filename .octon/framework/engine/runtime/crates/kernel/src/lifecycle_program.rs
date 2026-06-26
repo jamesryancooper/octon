@@ -16700,11 +16700,13 @@ fn closeout_worktree_candidate_authorizes_hygiene_preflight(
         .unwrap_or(false);
     let classifier_ref_matches = auth.classifier_output_ref == classifier_output_ref;
     let classifier_digest_matches = auth.classifier_output_digest == classifier_output_digest;
+    let classifier_snapshot_matches = classifier_ref_matches && classifier_digest_matches;
+    let current_fingerprint_matches =
+        matching_fingerprint || (foreign_fingerprint.is_none() && classifier_snapshot_matches);
     authorized_or_outside_scope
         && auth.child_id == state.child_id
         && auth.route_id == route_id
-        && ((classifier_ref_matches && classifier_digest_matches) || matching_fingerprint)
-        && matching_fingerprint
+        && current_fingerprint_matches
         && auth.disposition == "preserve-and-exclude-from-child-closeout-blocking"
         && auth.non_mutating == Some(true)
         && auth.preserve_and_exclude_from_child_closeout_blocking == Some(true)
