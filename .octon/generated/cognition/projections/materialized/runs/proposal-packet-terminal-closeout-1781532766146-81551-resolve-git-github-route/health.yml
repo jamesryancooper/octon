@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "proposal-packet-terminal-closeout-1781532766146-81551-resolve-git-github-route",
-  "generated_at": "2026-06-26T03:23:47Z",
+  "generated_at": "2026-06-26T03:35:43Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:510fcc4f50aba4378c5536c77fc0edf46610e393b70977cd47cf9a683c1d7d8d",
-    "checked_at": "2026-06-26T03:23:47Z",
+    "combined_source_digest": "sha256:73162d97e4e10af68ebdf92dc57438566639664f97b699b7a5a799a1887c1b39",
+    "checked_at": "2026-06-26T03:35:43Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781532766146-81551-resolve-git-github-route/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:d230bebc481e3f86f61ac3d396a943f4eaa9edebd96dfb4a9af468e3f261fadb",
+      "digest": "sha256:37c9e846ba87acd5cbad5e60f026151ee2971520716361305d3fdc77de93ebbf",
       "status": "present"
     },
     "run_continuity": {

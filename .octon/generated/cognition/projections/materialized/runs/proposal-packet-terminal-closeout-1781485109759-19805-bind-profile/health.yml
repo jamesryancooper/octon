@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "proposal-packet-terminal-closeout-1781485109759-19805-bind-profile",
-  "generated_at": "2026-06-26T03:23:47Z",
+  "generated_at": "2026-06-26T03:35:43Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:e519385b6d3efbc69f3c5bcc2fb8290a89748e9e6423fa04fb2af17ea2bd6da1",
-    "checked_at": "2026-06-26T03:23:47Z",
+    "combined_source_digest": "sha256:aa0d14933c7c7661ba57199630abb2637eb5d1e6f2d911c5c8144222435f9cf6",
+    "checked_at": "2026-06-26T03:35:43Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781485109759-19805-bind-profile/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:d230bebc481e3f86f61ac3d396a943f4eaa9edebd96dfb4a9af468e3f261fadb",
+      "digest": "sha256:37c9e846ba87acd5cbad5e60f026151ee2971520716361305d3fdc77de93ebbf",
       "status": "present"
     },
     "run_continuity": {
