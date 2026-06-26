@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.6.98](https://github.com/jamesryancooper/octon/compare/octon-v0.6.97...octon-v0.6.98) (2026-06-25)
+
+
+### Features
+
+* **delivery:** harden proposal program lifecycle ([e157906](https://github.com/jamesryancooper/octon/commit/e1579065aeb639998de5fec9b60f4b083330a881))
+* **lifecycle:** normalize proposal program execution modes ([83deb70](https://github.com/jamesryancooper/octon/commit/83deb70f6a95414d4751e65d0ea4ed2df232e8b2))
+
+
+### Bug Fixes
+
+* **assurance:** classify archived packet moves ([1a3e825](https://github.com/jamesryancooper/octon/commit/1a3e825be74f32768201c9dc37ce8d8d08197005))
+* **assurance:** classify implementation closeout ([0fa0a88](https://github.com/jamesryancooper/octon/commit/0fa0a88ab1495756d3de52e140903e7bb50b5bf1))
+* **assurance:** close publication freshness leftovers ([cae0e78](https://github.com/jamesryancooper/octon/commit/cae0e788d7c1ebf562420895f30c09762b27bd26))
+* **closeout:** validate retained hosted landing receipts ([afb8cd5](https://github.com/jamesryancooper/octon/commit/afb8cd572907ba309347dde1adfce5be2ad427aa))
+* **delivery:** refresh proposal program publication state ([e8d63b3](https://github.com/jamesryancooper/octon/commit/e8d63b37750089f596e309fada18e381f31397a4))
+* **lifecycle:** bind terminal closeout target outcome ([25e1d3b](https://github.com/jamesryancooper/octon/commit/25e1d3b9a25dd02fd50eb7a67ce7f57acb696037))
+* **lifecycle:** refresh terminal publication evidence ([6515c32](https://github.com/jamesryancooper/octon/commit/6515c32d6da200f1fc49451733b2fdf92a58ac71))
+* **registry:** repair archive evidence refs ([edf7415](https://github.com/jamesryancooper/octon/commit/edf741514c8a14fc164e99a385a529572cb83534))
+
 ## [0.6.97](https://github.com/jamesryancooper/octon/compare/octon-v0.6.96...octon-v0.6.97) (2026-06-22)
 
 
