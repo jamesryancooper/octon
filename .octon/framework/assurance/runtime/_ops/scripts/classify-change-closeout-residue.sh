@@ -124,6 +124,29 @@ temporary_fixture_manifest_for_path() {
   return 0
 }
 
+is_proposal_lifecycle_local_retained_path() {
+  local path="$1"
+  case "$path" in
+    .octon/state/continuity/runs/archive-proposal-[0-9]*/*|\
+    .octon/state/continuity/runs/promote-proposal-[0-9]*/*|\
+    .octon/state/control/execution/runs/archive-proposal-[0-9]*/*|\
+    .octon/state/control/execution/runs/promote-proposal-[0-9]*/*|\
+    .octon/state/evidence/control/execution/authority-decision-archive-proposal-[0-9]*.yml|\
+    .octon/state/evidence/control/execution/authority-decision-promote-proposal-[0-9]*.yml|\
+    .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-[0-9]*.yml|\
+    .octon/state/evidence/control/execution/authority-grant-bundle-promote-proposal-[0-9]*.yml|\
+    .octon/state/evidence/external-index/runs/archive-proposal-[0-9]*.yml|\
+    .octon/state/evidence/external-index/runs/promote-proposal-[0-9]*.yml|\
+    .octon/state/evidence/runs/skills/closeout-worktree/*/lifecycle-interaction-return.json|\
+    .octon/state/evidence/runs/skills/closeout-worktree/*/operator-scope.md)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 classify_routing_path() {
   local path="$1"
   if temporary_fixture_manifest_for_path "$path"; then
@@ -133,6 +156,11 @@ classify_routing_path() {
 
   if is_lifecycle_closeout_publishable_path "$path"; then
     printf '%s\n' "publishable_change"
+    return
+  fi
+
+  if is_proposal_lifecycle_local_retained_path "$path"; then
+    printf '%s\n' "local_private_retained"
     return
   fi
 

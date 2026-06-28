@@ -95,6 +95,21 @@ runs/
 !.octon/state/evidence/external-index/
 !.octon/state/evidence/external-index/**
 
+# Proposal lifecycle archive/promote runtime residue is retained locally after
+# durable proposal artifacts and closeout receipts have been materialized.
+.octon/state/continuity/runs/archive-proposal-[0-9]*/
+.octon/state/continuity/runs/promote-proposal-[0-9]*/
+.octon/state/control/execution/runs/archive-proposal-[0-9]*/
+.octon/state/control/execution/runs/promote-proposal-[0-9]*/
+.octon/state/evidence/control/execution/authority-decision-archive-proposal-[0-9]*.yml
+.octon/state/evidence/control/execution/authority-decision-promote-proposal-[0-9]*.yml
+.octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-[0-9]*.yml
+.octon/state/evidence/control/execution/authority-grant-bundle-promote-proposal-[0-9]*.yml
+.octon/state/evidence/external-index/runs/archive-proposal-[0-9]*.yml
+.octon/state/evidence/external-index/runs/promote-proposal-[0-9]*.yml
+.octon/state/evidence/runs/skills/closeout-worktree/*/lifecycle-interaction-return.json
+.octon/state/evidence/runs/skills/closeout-worktree/*/operator-scope.md
+
 # Local stash cleanup archives are retained on the operator's machine, not
 # committed by default. Track only the convention surface.
 !.octon/state/evidence/cleanup/

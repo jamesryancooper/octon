@@ -206,6 +206,52 @@ case_classifier_is_read_only() {
   grep -Fq "detection_is_deletion_authority: false" <<<"$output"
 }
 
+case_classifier_retains_ignored_proposal_lifecycle_residue() {
+  local repo output state_control_count local_retained_count
+  repo="$(mktemp -d "${TMPDIR:-/tmp}/change-closeout-residue.XXXXXX")"
+  CLEANUP_DIRS+=("$repo")
+  git -C "$repo" init -q
+  git -C "$repo" config user.email "octon@example.invalid"
+  git -C "$repo" config user.name "Octon Test"
+  mkdir -p \
+    "$repo/.octon/state/control/execution/runs" \
+    "$repo/.octon/state/continuity/runs" \
+    "$repo/.octon/state/evidence/control/execution" \
+    "$repo/.octon/state/evidence/external-index/runs" \
+    "$repo/.octon/state/evidence/runs/skills/closeout-worktree"
+  printf '%s\n' "seed" >"$repo/README.md"
+  cat >"$repo/.gitignore" <<'EOF'
+.octon/state/continuity/runs/archive-proposal-[0-9]*/
+.octon/state/control/execution/runs/archive-proposal-[0-9]*/
+.octon/state/evidence/control/execution/authority-decision-archive-proposal-[0-9]*.yml
+.octon/state/evidence/external-index/runs/archive-proposal-[0-9]*.yml
+.octon/state/evidence/runs/skills/closeout-worktree/*/operator-scope.md
+EOF
+  git -C "$repo" add README.md .gitignore
+  git -C "$repo" commit -q -m "seed residue classifier repo"
+
+  mkdir -p \
+    "$repo/.octon/state/control/execution/runs/archive-proposal-12345" \
+    "$repo/.octon/state/continuity/runs/archive-proposal-12345" \
+    "$repo/.octon/state/evidence/runs/skills/closeout-worktree/run-12345"
+  printf '%s\n' "schema_version: run-contract-v3" \
+    >"$repo/.octon/state/control/execution/runs/archive-proposal-12345/run-contract.yml"
+  printf '%s\n' "run_id: archive-proposal-12345" \
+    >"$repo/.octon/state/continuity/runs/archive-proposal-12345/handoff.yml"
+  printf '%s\n' "decision_id: decision-archive-proposal-12345" \
+    >"$repo/.octon/state/evidence/control/execution/authority-decision-archive-proposal-12345.yml"
+  printf '%s\n' "run_id: archive-proposal-12345" \
+    >"$repo/.octon/state/evidence/external-index/runs/archive-proposal-12345.yml"
+  printf '%s\n' "operator scope" \
+    >"$repo/.octon/state/evidence/runs/skills/closeout-worktree/run-12345/operator-scope.md"
+
+  output="$(bash "$CLASSIFIER" --root "$repo")"
+  state_control_count="$(awk '$0 == "  - class: state-control" {getline; print $2}' <<<"$output")"
+  local_retained_count="$(awk '$0 == "  - class: local_private_retained" {getline; print $2}' <<<"$output")"
+  [[ "$state_control_count" == "0" ]] &&
+    [[ "${local_retained_count:-0}" -ge 1 ]]
+}
+
 case_closeout_worktree_wrapper_exists() {
   local wrapper="$ROOT_DIR/.octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
   local contract="$ROOT_DIR/.octon/framework/product/contracts/change-closeout-state-machine.yml"
@@ -530,6 +576,7 @@ main() {
   assert_success "generic phase_loop fails for Change closeout" case_generic_phase_loop_fails
   assert_success "route authority drift fails for Change closeout" case_route_authority_drift_fails
   assert_success "residue classifier is read-only" case_classifier_is_read_only
+  assert_success "residue classifier retains ignored proposal lifecycle residue" case_classifier_retains_ignored_proposal_lifecycle_residue
   assert_success "closeout-worktree wrapper exists and decomposes singular changes" case_closeout_worktree_wrapper_exists
   assert_success "unspecified closeout target defaults to cleaned" case_unspecified_closeout_defaults_to_cleaned
   assert_success "valid completed receipt with stateful evidence passes" case_valid_completed_receipt_passes

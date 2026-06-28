@@ -276,6 +276,11 @@ local_artifact_hygiene:
         - "untracked runtime-agent-quorum checkpoint or evidence artifacts"
         - "no tracked file references the exact artifact path"
       action: "safe-to-delete through the dry-run-first local artifact helper"
+    proposal_lifecycle_archive_promote_runtime_residue:
+      criteria:
+        - "numeric archive-proposal-* and promote-proposal-* run/control/continuity/external-index artifacts after durable proposal artifacts and closeout receipts have been materialized"
+        - "closeout-worktree lifecycle-interaction-return.json and operator-scope.md handoff records that preserve proposal lifecycle handoff context but are not child receipts, archive metadata, generated freshness evidence, or hosted closeout proof"
+      action: "local-retained and ignored by default; do not publish as material Change content, branch-clean as source changes, or delete through generic cleanup"
     local_stash_archive:
       criteria:
         - ".octon/state/evidence/cleanup/stash-archives/**"
