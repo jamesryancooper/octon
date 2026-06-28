@@ -1,0 +1,11 @@
+schema_version: architecture-proposal-v1
+architecture_scope: cross-domain-architecture
+decision_type: new-surface
+owner: Octon assurance validator owner
+status: draft
+summary: Implement validator logic and tests for delivery-time feature-catalog obligation detection.
+affected_subsystems:
+  - assurance/runtime
+  - product/features
+  - product/contracts
+authority_boundary: Validator findings are evidence for a closeout decision and never product-documentation authority by themselves.

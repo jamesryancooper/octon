@@ -51,10 +51,12 @@ require_file "$WORKFLOW_PATH" "workflow contract"
 require_file "$README_PATH" "workflow README"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json" "profile schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json" "receipt schema"
+require_file "$ROOT_DIR/.octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json" "feature catalog drift receipt schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json" "order override receipt schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json" "delivery evidence index schema"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh" "profile validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh" "receipt validator"
+require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh" "feature catalog drift validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-program-delivery-evidence-index.sh" "delivery evidence index generator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh" "delivery evidence index validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh" "validator test"
@@ -70,7 +72,7 @@ if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
   require_yaml_value "$WORKFLOW_PATH" '.workflow.outputs[] | select(.name == "delivery_evidence_index") | .schema_ref' '.octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json' "delivery evidence index output schema"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.validators.evidence_index' '.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh' "delivery evidence index validator"
   stage_count="$(yq -r '(.workflow.stages // []) | length' "$WORKFLOW_PATH" 2>/dev/null || echo 0)"
-  [[ "$stage_count" -ge 9 ]] && pass "workflow has at least nine stages" || fail "workflow must have at least nine stages"
+  [[ "$stage_count" -ge 10 ]] && pass "workflow has at least ten stages" || fail "workflow must have at least ten stages"
   require_yaml_value "$WORKFLOW_PATH" '.stages[1].id' 'delivery-readiness-preflight' "top-level delivery readiness preflight placement"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.stages[1].id' 'delivery-readiness-preflight' "workflow delivery readiness preflight placement"
   for stage_id in \
@@ -79,6 +81,7 @@ if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
     validate-program-state \
     run-or-resume-child-lifecycles \
     validate-child-receipts \
+    validate-feature-catalog-drift \
     route-closeout-and-archive \
     route-change-closeout \
     validate-cleanup-sync-proof \
@@ -104,6 +107,10 @@ for token in \
   "order override receipt" \
   "validate-proposal-program-delivery-profile.sh" \
   "validate-proposal-program-delivery-receipt.sh" \
+  "feature-catalog-drift" \
+  "feature-catalog-drift-receipt-v1" \
+  "validate-feature-catalog-drift-closeout.sh" \
+  "unresolved child or parent feature-catalog drift blocks completed delivery" \
   "validate-proposal-program-delivery-evidence-index.sh" \
   "closeout-change" \
   "closeout-worktree" \
@@ -130,6 +137,8 @@ require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/registry.y
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/capabilities.yml" "proposal-program-delivery" "skill capability registration"
 require_token "$ROOT_DIR/.octon/framework/product/features/catalog.yml" "governed-proposal-delivery" "product feature catalog registration"
 require_token "$ROOT_DIR/.octon/framework/product/features/governed-proposal-delivery.md" "Proposal Program Delivery" "product feature doc"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json" '"feature_catalog_drift"' "receipt schema declares feature catalog drift gate"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json" '"feature-catalog-drift-receipt-v1"' "feature catalog drift receipt schema declares version"
 require_token "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md" "proposal-program-delivery" "proposal lifecycle bundle matrix hook"
 require_token "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml" "proposal-program-delivery" "proposal program lifecycle hook"
 

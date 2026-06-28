@@ -1,0 +1,12 @@
+schema_version: architecture-proposal-v1
+architecture_scope: cross-domain-architecture
+decision_type: surface-refactor
+owner: Octon proposal closeout integration owner
+status: draft
+summary: Wire feature-catalog drift receipts into delivery and terminal closeout workflows.
+affected_subsystems:
+  - orchestration/runtime/workflows/meta/proposal-packet-delivery
+  - orchestration/runtime/workflows/meta/proposal-program-delivery
+  - orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout
+  - product/contracts
+authority_boundary: Receipt integration gates closeout claims but does not grant execution authority or update catalog docs automatically.

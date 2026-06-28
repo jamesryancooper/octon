@@ -190,6 +190,48 @@ require_receipt_verdict_shape() {
   esac
 }
 
+validate_feature_catalog_drift_gate() {
+  local actual_outcome="$1" verdict outcome unresolved_count open_blocker_count
+  require_scalar '.feature_catalog_drift.receipt_ref' "feature catalog drift receipt_ref"
+  require_value '.feature_catalog_drift.validator_ref' '.octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh' "feature catalog drift validator_ref"
+  verdict="$(scalar '.feature_catalog_drift.verdict')"
+  outcome="$(scalar '.feature_catalog_drift.outcome')"
+  unresolved_count="$(scalar '.feature_catalog_drift.unresolved_count')"
+  case "$verdict" in
+    pass|fail|blocked|not-run)
+      pass "feature catalog drift verdict allowed"
+      ;;
+    *)
+      fail "feature catalog drift verdict must be pass, fail, blocked, or not-run"
+      ;;
+  esac
+  case "$outcome" in
+    no-change|documented-change|documented-retirement|blocked-unresolved-drift)
+      pass "feature catalog drift outcome allowed"
+      ;;
+    *)
+      fail "feature catalog drift outcome invalid"
+      ;;
+  esac
+  [[ "$unresolved_count" =~ ^[0-9]+$ ]] && pass "feature catalog drift unresolved_count numeric" || fail "feature catalog drift unresolved_count must be numeric"
+  require_array_declared '.feature_catalog_drift.affected_feature_ids' "feature catalog drift affected feature ids"
+  require_array_declared '.feature_catalog_drift.required_documentation_actions' "feature catalog drift required documentation actions"
+  require_array_nonempty '.feature_catalog_drift.authority_notes' "feature catalog drift authority notes"
+  if [[ "$actual_outcome" == "blocked" ]]; then
+    require_bool_declared '.feature_catalog_drift.fresh' "feature catalog drift fresh"
+    if [[ "$outcome" == "blocked-unresolved-drift" ]]; then
+      [[ "$unresolved_count" -gt 0 ]] && pass "blocked feature catalog drift unresolved count" || fail "blocked feature catalog drift requires unresolved_count > 0"
+      open_blocker_count="$(yq -r '[.blockers[]? | select(.status == "open" and .class == "feature-catalog-drift")] | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
+      [[ "$open_blocker_count" -gt 0 ]] && pass "blocked feature catalog drift has open blocker" || fail "blocked feature catalog drift requires open feature-catalog-drift blocker"
+    fi
+  else
+    require_bool '.feature_catalog_drift.fresh' 'true' "feature catalog drift fresh"
+    require_value '.feature_catalog_drift.verdict' 'pass' "feature catalog drift verdict"
+    [[ "$outcome" != "blocked-unresolved-drift" ]] && pass "feature catalog drift non-blocking outcome" || fail "non-blocked delivery cannot carry blocked-unresolved-drift"
+    [[ "$unresolved_count" == "0" ]] && pass "feature catalog drift unresolved_count zero" || fail "non-blocked delivery requires feature catalog drift unresolved_count 0"
+  fi
+}
+
 need_tool jq
 need_tool yq
 
@@ -207,11 +249,12 @@ else
   fail "receipt schema JSON does not parse"
 fi
 
-for token in \
+  for token in \
   '"proposal-packet-delivery-receipt-v1"' \
   '"actual_outcome"' \
   '"cleaned"' \
   '"partition_clean_archive_readiness"' \
+  '"feature_catalog_drift"' \
   '"target_receipts"' \
   '"promotion"' \
   '"terminal_closeout"' \
@@ -309,6 +352,7 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     require_fresh_pass_receipt '.terminal_closeout' "terminal closeout"
     require_fresh_pass_receipt '.archive' "archive"
   fi
+  validate_feature_catalog_drift_gate "$actual_outcome"
 
   require_scalar '.generated_publication.validator' "generated publication validator"
   if [[ "$actual_outcome" == "blocked" ]]; then

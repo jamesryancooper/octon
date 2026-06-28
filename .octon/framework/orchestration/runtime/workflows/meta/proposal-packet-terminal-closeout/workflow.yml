@@ -97,11 +97,20 @@ stages:
       - stage:verify-post-implementation-drift
     mutation_scope: []
     authorization: *read_evidence_authorization
+  - id: validate-feature-catalog-drift
+    asset: stages/05-validate-feature-catalog-drift.md
+    kind: verification
+    consumes:
+      - stage:verify-post-implementation-drift
+    produces:
+      - stage:validate-feature-catalog-drift
+    mutation_scope: []
+    authorization: *read_evidence_authorization
   - id: validate-publication-freshness
     asset: stages/05-validate-publication-freshness.md
     kind: verification
     consumes:
-      - stage:verify-post-implementation-drift
+      - stage:validate-feature-catalog-drift
     produces:
       - stage:validate-publication-freshness
     mutation_scope: []
@@ -229,11 +238,19 @@ artifacts:
     format: markdown
     determinism: unique
     description: Top-level packet terminal closeout summary.
+  - name: feature_catalog_drift_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-terminal-closeout-{{slug}}/feature-catalog-drift-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 done_gate:
   checks:
     - "profile validates under proposal-packet-terminal-closeout-profile-v1"
-    - "state ledger records all ten workflow states"
+    - "state ledger records all eleven workflow states"
     - "implementation conformance and post-implementation drift validators pass before archive-ready"
+    - "feature catalog drift validates with validate-feature-catalog-drift-closeout.sh before archive-ready"
+    - "unresolved feature-catalog drift blocks archive-ready and records next owning documentation route without authorizing catalog mutation"
     - "pre-terminal publication freshness bundle covers capability, extension, runtime route, host projection, proposal registry, proposal artifact, and runtime-effective handle freshness or is blocked with owner route"
     - "repo-hygiene and worktree hygiene are classified"
     - "post-integration architecture review and terminal evaluator outputs are evidence-only"

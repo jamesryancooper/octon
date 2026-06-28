@@ -68,10 +68,81 @@ require_bool() {
   [[ "$value" == "$expected" ]] && pass "$label is $expected" || fail "$label must be $expected"
 }
 
+require_bool_declared() {
+  local path="$1" label="$2" value
+  value="$(scalar "$path")"
+  case "$value" in
+    true|false)
+      pass "$label declared as boolean"
+      ;;
+    *)
+      fail "$label must be boolean"
+      ;;
+  esac
+}
+
 require_pass_validation() {
   local base="$1" label="$2"
   require_scalar "$base.validation_ref" "$label validation_ref"
   [[ "$(scalar "$base.verdict")" == "pass" ]] && pass "$label verdict pass" || fail "$label verdict must be pass"
+}
+
+validate_feature_catalog_drift_gate() {
+  local terminal_verdict="$1" verdict outcome unresolved_count
+  require_scalar '.feature_catalog_drift.receipt_ref' "feature catalog drift receipt_ref"
+  require_scalar '.feature_catalog_drift.validator_ref' "feature catalog drift validator_ref"
+  [[ "$(scalar '.feature_catalog_drift.validator_ref')" == ".octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh" ]] \
+    && pass "feature catalog drift validator ref" \
+    || fail "feature catalog drift validator_ref must point to validate-feature-catalog-drift-closeout.sh"
+  verdict="$(scalar '.feature_catalog_drift.verdict')"
+  outcome="$(scalar '.feature_catalog_drift.outcome')"
+  unresolved_count="$(scalar '.feature_catalog_drift.unresolved_count')"
+  case "$verdict" in
+    pass|fail|blocked|not-run)
+      pass "feature catalog drift verdict allowed"
+      ;;
+    *)
+      fail "feature catalog drift verdict must be pass, fail, blocked, or not-run"
+      ;;
+  esac
+  case "$outcome" in
+    no-change|documented-change|documented-retirement|blocked-unresolved-drift)
+      pass "feature catalog drift outcome allowed"
+      ;;
+    *)
+      fail "feature catalog drift outcome invalid"
+      ;;
+  esac
+  [[ "$unresolved_count" =~ ^[0-9]+$ ]] && pass "feature catalog drift unresolved_count numeric" || fail "feature catalog drift unresolved_count must be numeric"
+  if yq -e '.feature_catalog_drift.affected_feature_ids | tag == "!!seq"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "feature catalog drift affected feature ids declared"
+  else
+    fail "feature catalog drift affected feature ids must be an array"
+  fi
+  if yq -e '.feature_catalog_drift.required_documentation_actions | tag == "!!seq"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "feature catalog drift documentation actions declared"
+  else
+    fail "feature catalog drift documentation actions must be an array"
+  fi
+  if [[ "$(yq -r '(.feature_catalog_drift.authority_notes // []) | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)" -gt 0 ]]; then
+    pass "feature catalog drift authority notes non-empty"
+  else
+    fail "feature catalog drift authority notes must be non-empty"
+  fi
+  if [[ "$terminal_verdict" == "archive-ready" ]]; then
+    require_bool '.feature_catalog_drift.fresh' "true" "feature catalog drift fresh"
+    [[ "$verdict" == "pass" ]] && pass "feature catalog drift verdict pass" || fail "archive-ready requires feature catalog drift verdict pass"
+    [[ "$outcome" != "blocked-unresolved-drift" ]] && pass "feature catalog drift non-blocking outcome" || fail "archive-ready cannot carry blocked-unresolved-drift"
+    [[ "$unresolved_count" == "0" ]] && pass "feature catalog drift unresolved_count zero" || fail "archive-ready requires feature catalog drift unresolved_count 0"
+  else
+    require_bool_declared '.feature_catalog_drift.fresh' "feature catalog drift fresh"
+    if [[ "$outcome" == "blocked-unresolved-drift" ]]; then
+      [[ "$unresolved_count" -gt 0 ]] && pass "blocked feature catalog drift unresolved count" || fail "blocked feature catalog drift requires unresolved_count > 0"
+      [[ "$(scalar '.blocker.class')" == "feature-catalog-drift-blocked" ]] \
+        && pass "blocked receipt records feature catalog drift blocker class" \
+        || fail "blocked feature catalog drift requires blocker.class feature-catalog-drift-blocked"
+    fi
+  fi
 }
 
 require_state() {
@@ -221,6 +292,7 @@ for token in \
   '"archive-ready"' \
   '"blocked"' \
   '"state_ledger"' \
+  '"feature_catalog_drift"' \
   '"target_owned_evidence_policy"' \
   '"partition_clean_archive_readiness"'; do
   grep -Fq "$token" "$SCHEMA_PATH" && pass "schema token present: $token" || fail "schema token missing: $token"
@@ -271,12 +343,13 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   esac
 
   state_count="$(yq -r '(.state_ledger // []) | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
-  [[ "$state_count" -ge 10 ]] && pass "state ledger has at least ten entries" || fail "state ledger must have at least ten entries"
+  [[ "$state_count" -ge 11 ]] && pass "state ledger has at least eleven entries" || fail "state ledger must have at least eleven entries"
   for state_id in \
     bind-profile \
     verify-durable-implementation-state \
     verify-implementation-conformance \
     verify-post-implementation-drift \
+    validate-feature-catalog-drift \
     validate-publication-freshness \
     classify-repo-hygiene \
     classify-worktree-hygiene \
@@ -298,6 +371,7 @@ if [[ -n "$RECEIPT_PATH" ]]; then
   require_suffix '.implementation.post_implementation_drift_receipt_ref' '/support/post-implementation-drift-churn-review.md' "post-implementation drift receipt ref"
   reject_authority_substitution '.implementation.conformance_receipt_ref' "implementation conformance receipt ref"
   reject_authority_substitution '.implementation.post_implementation_drift_receipt_ref' "post-implementation drift receipt ref"
+  validate_feature_catalog_drift_gate "$terminal_verdict"
 
   require_bool '.publication_freshness.direct_generated_output_edit_used' "false" "direct generated output edit used"
   require_scalar '.generated_input_non_authority.validation_ref' "generated input non-authority validation ref"

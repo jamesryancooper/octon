@@ -56,6 +56,7 @@ stage_ids=(
   verify-durable-implementation-state
   verify-implementation-conformance
   verify-post-implementation-drift
+  validate-feature-catalog-drift
   validate-publication-freshness
   classify-repo-hygiene
   classify-worktree-hygiene
@@ -77,6 +78,9 @@ for token in \
   "proposal-packet-terminal-closeout-receipt" \
   "support/proposal-terminal-closeout.yml" \
   "validate-proposal-packet-terminal-closeout-receipt.sh" \
+  "feature-catalog-drift" \
+  "feature-catalog-drift-receipt-v1" \
+  "validate-feature-catalog-drift-closeout.sh" \
   "archive relocation is not performed" \
   "no_git_mutation: true" \
   "no_residue_deletion: true"; do
@@ -88,6 +92,7 @@ done
 for stage_token in \
   "validate-proposal-implementation-conformance.sh" \
   "validate-proposal-post-implementation-drift.sh" \
+  "validate-feature-catalog-drift-closeout.sh" \
   "validate-proposal-review-gate.sh --require-implementation-authorization" \
   "validate-generated-non-authority.sh" \
   "validate-run-health-read-model.sh" \
@@ -121,6 +126,13 @@ yq -e '.commands[] | select(.id == "proposal-packet-terminal-closeout")' "$COMMA
 yq -e '.skills[] | select(.id == "proposal-packet-terminal-closeout")' "$SKILL_MANIFEST" >/dev/null 2>&1 \
   && pass "skill manifest entry exists" \
   || fail "skill manifest entry missing"
+
+grep -Fq '"feature_catalog_drift"' "$FRAMEWORK_DIR/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json" \
+  && pass "terminal receipt schema declares feature catalog drift gate" \
+  || fail "terminal receipt schema missing feature catalog drift gate"
+grep -Fq '"feature-catalog-drift-receipt-v1"' "$FRAMEWORK_DIR/product/contracts/feature-catalog-drift-receipt-v1.schema.json" \
+  && pass "feature catalog drift receipt schema declares version" \
+  || fail "feature catalog drift receipt schema missing version token"
 
 echo "Validation summary: errors=$errors"
 [[ "$errors" -eq 0 ]]

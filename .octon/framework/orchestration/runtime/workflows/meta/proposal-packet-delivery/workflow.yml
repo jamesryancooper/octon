@@ -120,11 +120,20 @@ stages:
       - stage:validate-implementation-receipts
     mutation_scope: []
     authorization: *read_evidence_authorization
+  - id: validate-feature-catalog-drift
+    asset: stages/05-validate-feature-catalog-drift.md
+    kind: verification
+    consumes:
+      - stage:validate-implementation-receipts
+    produces:
+      - stage:validate-feature-catalog-drift
+    mutation_scope: []
+    authorization: *read_evidence_authorization
   - id: promote-proposal
     asset: stages/05-promote-proposal.md
     kind: mutation
     consumes:
-      - stage:validate-implementation-receipts
+      - stage:validate-feature-catalog-drift
     produces:
       - stage:promote-proposal
     mutation_scope:
@@ -203,6 +212,12 @@ artifacts:
     format: yaml
     determinism: optional
     description: Optional partition-clean archive readiness order override validated by validate-proposal-packet-delivery-order-override-receipt.sh.
+  - name: feature_catalog_drift_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-delivery-{{slug}}/feature-catalog-drift-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 done_gate:
   checks:
     - "/proposal-packet-delivery outcome=cleaned route=branch-no-pr is the outer orchestrator and PR fallback forbidden"
@@ -211,6 +226,8 @@ done_gate:
     - "proposal review/readiness gates and implementation authorization are fresh before implementation"
     - "run-packet-implementation owns implementation execution and target-owned receipts remain authoritative"
     - "implementation conformance and post-implementation drift/churn pass before promotion"
+    - "feature catalog drift validates with validate-feature-catalog-drift-closeout.sh before promotion, closeout, delivery, or cleaned claims"
+    - "unresolved feature-catalog drift blocks completed delivery and records the next owning documentation route without authorizing catalog mutation"
     - "promote-proposal owns implemented status and promotion receipt evidence"
     - "closeout-packet owns proposal-closeout.md and archive authorization"
     - "partition-clean archive readiness requires a validating proposal-packet-delivery-order-override receipt, closeout-worktree report, and lifecycle-interaction-return"
@@ -303,6 +320,7 @@ workflow:
     profile: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh
     receipt: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh
     order_override: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-order-override-receipt.sh
+    feature_catalog_drift: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
     workflow: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh
   packet_state_routes:
     pre-archive:
@@ -419,6 +437,19 @@ workflow:
         - generated_refresh_needed_but_not_authorized
         - generated_output_used_as_closeout_authority
         - missing_governed_mechanism_integration_receipt
+    - id: validate-feature-catalog-drift
+      title: Validate product feature catalog drift
+      asset: stages/05-validate-feature-catalog-drift.md
+      required: true
+      fail_closed_on:
+        - missing_feature_catalog_drift_receipt
+        - feature_catalog_drift_receipt_invalid
+        - missing_catalog_entry
+        - missing_feature_note
+        - under_documented_feature
+        - status_mismatch
+        - stale_catalog_ref
+        - unresolved_feature_catalog_drift
     - id: promote-proposal
       title: Promote through promote-proposal
       asset: stages/05-promote-proposal.md
@@ -488,6 +519,7 @@ workflow:
         - implementation_run_pass
         - implementation_conformance_pass
         - post_implementation_drift_churn_pass
+        - feature_catalog_drift_pass
         - promote_proposal_receipt_pass
         - manifest_status_implemented
     archive-ready:

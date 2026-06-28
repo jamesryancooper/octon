@@ -438,6 +438,7 @@ $(state_entry bind-profile)
 $(state_entry verify-durable-implementation-state)
 $(state_entry verify-implementation-conformance)
 $(state_entry verify-post-implementation-drift)
+$(state_entry validate-feature-catalog-drift)
 $(state_entry validate-publication-freshness)
 $(state_entry classify-repo-hygiene)
 $(state_entry classify-worktree-hygiene)
@@ -453,6 +454,18 @@ implementation:
   post_implementation_drift_receipt_ref: .octon/inputs/exploratory/proposals/architecture/example-terminal-closeout/support/post-implementation-drift-churn-review.md
   post_implementation_drift_validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh
   post_implementation_drift_fresh: true
+feature_catalog_drift:
+  receipt_ref: .octon/state/evidence/runs/workflows/20260613T000000Z-proposal-packet-terminal-closeout-test/feature-catalog-drift-receipt.yml
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  fresh: true
+  verdict: pass
+  outcome: documented-change
+  unresolved_count: 0
+  affected_feature_ids:
+    - run-first-runtime-lifecycle
+  required_documentation_actions: []
+  authority_notes:
+    - feature catalog drift receipt is evidence-only and non-authorizing
 publication_freshness:
   validators:
     - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
@@ -578,6 +591,8 @@ mutate_receipt_expect_fail "blocked verdict with archive readiness flag" '.termi
 mutate_receipt_expect_fail "parent summary substituted for child receipt" '.implementation.conformance_receipt_ref = ".octon/inputs/exploratory/proposals/architecture/example-terminal-closeout/support/proposal-closeout.md"'
 mutate_receipt_expect_fail "stale implementation conformance evidence" '.implementation.conformance_fresh = false'
 mutate_receipt_expect_fail "missing post implementation drift receipt" 'del(.implementation.post_implementation_drift_receipt_ref)'
+mutate_receipt_expect_fail "unresolved feature catalog drift blocks archive-ready" '.feature_catalog_drift.outcome = "blocked-unresolved-drift" | .feature_catalog_drift.unresolved_count = 1'
+mutate_receipt_expect_fail "missing feature catalog drift receipt" 'del(.feature_catalog_drift.receipt_ref)'
 mutate_receipt_expect_fail "generated prompt substituted for child receipt authority" '.implementation.post_implementation_drift_receipt_ref = ".octon/generated/prompts/example-terminal-closeout.md"'
 mutate_receipt_expect_fail "stale publication evidence" '.publication_freshness.validators[0].fresh = false'
 mutate_receipt_expect_fail "direct generated edit used" '.publication_freshness.direct_generated_output_edit_used = true'

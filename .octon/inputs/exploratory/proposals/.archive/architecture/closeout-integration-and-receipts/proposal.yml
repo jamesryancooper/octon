@@ -1,0 +1,65 @@
+schema_version: proposal-v1
+proposal_id: closeout-integration-and-receipts
+title: Closeout Integration And Receipts
+summary: |
+  Integrate feature-catalog drift detection with proposal packet delivery, proposal program delivery, and proposal packet terminal closeout receipts.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/
+- .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+- .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+- .octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json
+status: archived
+archive:
+  archived_at: 2026-06-28
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts
+  promotion_evidence:
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/
+  - .octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json
+  - .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+  - .octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after review accepts the workflow placement, receipt fields, and block semantics.
+related_proposals:
+- product-feature-catalog-documentation-and-drift-gate
+- feature-catalog-drift-closeout-gate
+- feature-catalog-drift-validator
+acceptance_criteria_summary: Delivery and terminal receipts cite the feature-catalog drift result and block completion when unresolved catalog drift remains.
+authority_class_impact:
+  framework: Updates delivery workflows and receipt contracts.
+  instance: No direct instance authority changes.
+  state_control: No state-control mutation.
+  state_evidence: Delivery routes emit retained drift receipts under state/evidence.
+  generated: No generated output authority change.
+  inputs: Proposal lineage only.
+change_profile: atomic
+created_date: 2026-06-27
+evidence_requirements:
+- Delivery receipt cites feature-catalog drift receipt.
+- Terminal closeout receipt cites feature-catalog drift receipt.
+- Blocked closeout examples retain unresolved finding details.
+explicit_runtime_non_implementation_statement: Integration emits retained evidence and gates closeout claims; it does not authorize execution or silently update product docs.
+generated_input_authority_impact: Generated delivery summaries remain evidence/read models only and cannot replace retained drift receipts.
+owner:
+  role: Octon proposal closeout integration owner
+  accountable_role: human operator / repository owner
+rollback_summary: Revert workflow and receipt contract wiring if gate integration blocks valid closeouts or fails to block unresolved drift.
+scope_statement: This child owns workflow integration and receipt wiring. It depends on the gate contract and validator.
+selected_implementation_target: proposal delivery and terminal closeout workflow integration
+source_lineage:
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml
+validation_gates:
+- validate-proposal-packet-delivery-workflow.sh
+- validate-proposal-program-delivery-workflow.sh
+- validate-proposal-packet-terminal-closeout-workflow.sh
+- validate-feature-catalog-drift-closeout.sh --receipt <delivery-receipt>

@@ -14,6 +14,9 @@ steps:
   - id: "verify-post-implementation-drift"
     file: "stages/04-verify-post-implementation-drift.md"
     description: "verify-post-implementation-drift"
+  - id: "validate-feature-catalog-drift"
+    file: "stages/05-validate-feature-catalog-drift.md"
+    description: "validate-feature-catalog-drift"
   - id: "validate-publication-freshness"
     file: "stages/05-validate-publication-freshness.md"
     description: "validate-publication-freshness"
@@ -77,6 +80,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `terminal_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-terminal-closeout-{{slug}}/terminal-receipt.yml`: proposal-packet-terminal-closeout-receipt-v1 aggregate terminal receipt.
 - `packet_terminal_receipt` -> `{{proposal_path}}/support/proposal-terminal-closeout.yml`: Packet-local terminal closeout receipt projection.
 - `terminal_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-proposal-packet-terminal-closeout.md`: Top-level packet terminal closeout summary.
+- `feature_catalog_drift_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-packet-terminal-closeout-{{slug}}/feature-catalog-drift-receipt.yml`: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 
 ## Steps
 
@@ -84,18 +88,21 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 2. [verify-durable-implementation-state](./stages/02-verify-durable-implementation-state.md)
 3. [verify-implementation-conformance](./stages/03-verify-implementation-conformance.md)
 4. [verify-post-implementation-drift](./stages/04-verify-post-implementation-drift.md)
-5. [validate-publication-freshness](./stages/05-validate-publication-freshness.md)
-6. [classify-repo-hygiene](./stages/06-classify-repo-hygiene.md)
-7. [classify-worktree-hygiene](./stages/07-classify-worktree-hygiene.md)
-8. [run-evidence-only-reviews](./stages/08-run-evidence-only-reviews.md)
-9. [resolve-git-github-route](./stages/09-resolve-git-github-route.md)
-10. [emit-terminal-receipt](./stages/10-emit-terminal-receipt.md)
+5. [validate-feature-catalog-drift](./stages/05-validate-feature-catalog-drift.md)
+6. [validate-publication-freshness](./stages/05-validate-publication-freshness.md)
+7. [classify-repo-hygiene](./stages/06-classify-repo-hygiene.md)
+8. [classify-worktree-hygiene](./stages/07-classify-worktree-hygiene.md)
+9. [run-evidence-only-reviews](./stages/08-run-evidence-only-reviews.md)
+10. [resolve-git-github-route](./stages/09-resolve-git-github-route.md)
+11. [emit-terminal-receipt](./stages/10-emit-terminal-receipt.md)
 
 ## Verification Gate
 
 - [ ] profile validates under proposal-packet-terminal-closeout-profile-v1
-- [ ] state ledger records all ten workflow states
+- [ ] state ledger records all eleven workflow states
 - [ ] implementation conformance and post-implementation drift validators pass before archive-ready
+- [ ] feature-catalog-drift validates with validate-feature-catalog-drift-closeout.sh before archive-ready
+- [ ] unresolved feature-catalog drift blocks archive-ready and records next owning lifecycle
 - [ ] pre-terminal publication freshness bundle covers capability, extension, runtime route, host projection, proposal registry, proposal artifact, and runtime-effective handle freshness or is blocked with owner route
 - [ ] repo-hygiene and worktree hygiene are classified
 - [ ] post-integration architecture review and terminal evaluator outputs are evidence-only

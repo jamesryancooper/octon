@@ -17,6 +17,9 @@ steps:
   - id: "validate-child-receipts"
     file: "stages/05-validate-child-receipts.md"
     description: "validate-child-receipts"
+  - id: "validate-feature-catalog-drift"
+    file: "stages/06-validate-feature-catalog-drift.md"
+    description: "validate-feature-catalog-drift"
   - id: "route-closeout-and-archive"
     file: "stages/06-route-closeout-and-archive.md"
     description: "route-closeout-and-archive"
@@ -73,6 +76,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `delivery_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/`: Workflow bundle containing delivery profile, state evidence, inventory, and receipt.
 - `delivery_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-receipt.yml`: Aggregate proposal-program-delivery-receipt output validated by validate-proposal-program-delivery-receipt.sh.
 - `delivery_evidence_index` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-evidence-index.yml`: Compact retained delivery evidence index validated by validate-proposal-program-delivery-evidence-index.sh; evidence-only and non-authorizing.
+- `feature_catalog_drift_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/feature-catalog-drift-receipt.yml`: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 
 Non-canonical order requires a retained `proposal-program-delivery-order-override-receipt-v1` order override receipt. The delivery-readiness-preflight stage writes a retained readiness receipt consumed by later stages.
 
@@ -83,10 +87,11 @@ Non-canonical order requires a retained `proposal-program-delivery-order-overrid
 3. [validate-program-state](./stages/03-validate-program-state.md)
 4. [run-or-resume-child-lifecycles](./stages/04-run-or-resume-child-lifecycles.md)
 5. [validate-child-receipts](./stages/05-validate-child-receipts.md)
-6. [route-closeout-and-archive](./stages/06-route-closeout-and-archive.md)
-7. [route-change-closeout](./stages/07-route-change-closeout.md)
-8. [validate-cleanup-sync-proof](./stages/08-validate-cleanup-sync-proof.md)
-9. [emit-delivery-receipt](./stages/09-emit-delivery-receipt.md)
+6. [validate-feature-catalog-drift](./stages/06-validate-feature-catalog-drift.md)
+7. [route-closeout-and-archive](./stages/06-route-closeout-and-archive.md)
+8. [route-change-closeout](./stages/07-route-change-closeout.md)
+9. [validate-cleanup-sync-proof](./stages/08-validate-cleanup-sync-proof.md)
+10. [emit-delivery-receipt](./stages/09-emit-delivery-receipt.md)
 
 ## Verification Gate
 
@@ -94,6 +99,8 @@ Non-canonical order requires a retained `proposal-program-delivery-order-overrid
 - [ ] execution_order_policy enforces child-before-parent-delivery unless a valid order override receipt is retained
 - [ ] delivery-readiness-preflight records a retained readiness receipt before expensive continuation
 - [ ] child packet receipts remain target-owned and parent summary evidence does not replace them
+- [ ] feature-catalog-drift validates with validate-feature-catalog-drift-closeout.sh before completed delivery
+- [ ] unresolved child or parent feature-catalog drift blocks completed delivery and records next owning lifecycle
 - [ ] closeout-change or closeout-worktree owns Change closeout and any hosted mutation
 - [ ] dirty or stale source posture selects a route-owned clean worktree with include-path classification before reconstruction, broad stage-all, staging, or commit
 - [ ] branch landing authorization exists before landed, synced, or cleaned claims

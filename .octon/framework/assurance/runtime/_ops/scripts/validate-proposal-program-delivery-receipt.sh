@@ -66,6 +66,19 @@ require_bool() {
   [[ "$value" == "$expected" ]] && pass "$label is $expected" || fail "$label must be $expected"
 }
 
+require_bool_declared() {
+  local path="$1" label="$2" value
+  value="$(scalar "$path")"
+  case "$value" in
+    true|false)
+      pass "$label declared as boolean"
+      ;;
+    *)
+      fail "$label must be boolean"
+      ;;
+  esac
+}
+
 require_value() {
   local path="$1" expected="$2" label="$3" value
   value="$(scalar "$path")"
@@ -83,6 +96,61 @@ require_fresh_pass_receipt() {
   require_scalar "$base.receipt_ref" "$label receipt_ref"
   require_bool "$base.fresh" "true" "$label fresh"
   require_value "$base.verdict" "pass" "$label verdict"
+}
+
+validate_feature_catalog_drift_gate() {
+  local actual_outcome="$1" verdict outcome unresolved_count open_blocker_count
+  require_scalar '.feature_catalog_drift.receipt_ref' "feature catalog drift receipt_ref"
+  require_value '.feature_catalog_drift.validator_ref' '.octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh' "feature catalog drift validator_ref"
+  verdict="$(scalar '.feature_catalog_drift.verdict')"
+  outcome="$(scalar '.feature_catalog_drift.outcome')"
+  unresolved_count="$(scalar '.feature_catalog_drift.unresolved_count')"
+  case "$verdict" in
+    pass|fail|blocked|not-run)
+      pass "feature catalog drift verdict allowed"
+      ;;
+    *)
+      fail "feature catalog drift verdict must be pass, fail, blocked, or not-run"
+      ;;
+  esac
+  case "$outcome" in
+    no-change|documented-change|documented-retirement|blocked-unresolved-drift)
+      pass "feature catalog drift outcome allowed"
+      ;;
+    *)
+      fail "feature catalog drift outcome invalid"
+      ;;
+  esac
+  [[ "$unresolved_count" =~ ^[0-9]+$ ]] && pass "feature catalog drift unresolved_count numeric" || fail "feature catalog drift unresolved_count must be numeric"
+  require_array_nonempty '.feature_catalog_drift.authority_notes' "feature catalog drift authority notes"
+  if yq -e '.feature_catalog_drift.affected_feature_ids | tag == "!!seq"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "feature catalog drift affected feature ids declared"
+  else
+    fail "feature catalog drift affected feature ids must be an array"
+  fi
+  if yq -e '.feature_catalog_drift.required_documentation_actions | tag == "!!seq"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "feature catalog drift documentation actions declared"
+  else
+    fail "feature catalog drift documentation actions must be an array"
+  fi
+  if yq -e '.feature_catalog_drift.child_receipt_refs | tag == "!!seq"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "feature catalog drift child receipt refs declared"
+  else
+    fail "feature catalog drift child receipt refs must be an array"
+  fi
+  if [[ "$actual_outcome" == "blocked" ]]; then
+    require_bool_declared '.feature_catalog_drift.fresh' "feature catalog drift fresh"
+    if [[ "$outcome" == "blocked-unresolved-drift" ]]; then
+      [[ "$unresolved_count" -gt 0 ]] && pass "blocked feature catalog drift unresolved count" || fail "blocked feature catalog drift requires unresolved_count > 0"
+      open_blocker_count="$(yq -r '[.blockers[]? | select(.status == "open" and .class == "feature-catalog-drift")] | length' "$RECEIPT_PATH" 2>/dev/null || echo 0)"
+      [[ "$open_blocker_count" -gt 0 ]] && pass "blocked feature catalog drift has open blocker" || fail "blocked feature catalog drift requires open feature-catalog-drift blocker"
+    fi
+  else
+    require_bool '.feature_catalog_drift.fresh' 'true' "feature catalog drift fresh"
+    require_value '.feature_catalog_drift.verdict' 'pass' "feature catalog drift verdict"
+    [[ "$outcome" != "blocked-unresolved-drift" ]] && pass "feature catalog drift non-blocking outcome" || fail "non-blocked delivery cannot carry blocked-unresolved-drift"
+    [[ "$unresolved_count" == "0" ]] && pass "feature catalog drift unresolved_count zero" || fail "non-blocked delivery requires feature catalog drift unresolved_count 0"
+  fi
 }
 
 need_tool jq
@@ -108,6 +176,7 @@ for token in \
   '"cleaned"' \
   '"order_policy"' \
   '"delivery_readiness_preflight"' \
+  '"feature_catalog_drift"' \
   '"clean_worktree_route"' \
   '"lifecycle_postmortem"' \
   '"child_packet_coverage"' \
@@ -242,6 +311,7 @@ if [[ -n "$RECEIPT_PATH" ]]; then
 
   require_fresh_pass_receipt '.implementation_conformance' "implementation conformance"
   require_fresh_pass_receipt '.post_implementation_drift_churn' "post-implementation drift/churn"
+  validate_feature_catalog_drift_gate "$(scalar '.actual_outcome')"
 
   require_scalar '.generated_publication.validator' "generated publication validator"
   require_array_nonempty '.generated_publication.publisher_refs' "generated publication publisher refs"

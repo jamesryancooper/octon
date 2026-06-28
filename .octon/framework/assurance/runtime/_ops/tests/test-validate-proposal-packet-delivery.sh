@@ -442,6 +442,18 @@ post_implementation_drift_churn:
   receipt_ref: .octon/inputs/exploratory/proposals/architecture/example-proposal-packet-delivery/support/post-implementation-drift-churn-review.md
   fresh: true
   verdict: pass
+feature_catalog_drift:
+  receipt_ref: .octon/state/evidence/runs/workflows/test/feature-catalog-drift-receipt.yml
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  fresh: true
+  verdict: pass
+  outcome: documented-change
+  unresolved_count: 0
+  affected_feature_ids:
+    - run-first-runtime-lifecycle
+  required_documentation_actions: []
+  authority_notes:
+    - feature catalog drift receipt is evidence-only and non-authorizing
 generated_publication:
   validator: validate-capability-publication-state.sh
   publisher_refs:
@@ -554,6 +566,8 @@ mutate_receipt_expect_fail "missing implementation conformance" 'del(.implementa
 mutate_receipt_expect_fail "stale accepted review authorization" '.target_packet.accepted_review_fresh = false'
 mutate_receipt_expect_fail "missing implementation authorization" 'del(.target_packet.implementation_authorization_ref)'
 mutate_receipt_expect_fail "missing drift churn receipt" 'del(.post_implementation_drift_churn.receipt_ref)'
+mutate_receipt_expect_fail "unresolved feature catalog drift blocks non-blocked receipt" '.feature_catalog_drift.outcome = "blocked-unresolved-drift" | .feature_catalog_drift.unresolved_count = 1'
+mutate_receipt_expect_fail "missing feature catalog drift receipt" 'del(.feature_catalog_drift.receipt_ref)'
 mutate_receipt_expect_fail "missing promotion receipt" 'del(.promotion.receipt_ref)'
 mutate_receipt_expect_fail "stale promotion receipt" '.promotion.fresh = false'
 mutate_receipt_expect_fail "missing packet closeout receipt" 'del(.packet_closeout.receipt_ref)'

@@ -1,0 +1,58 @@
+schema_version: proposal-v1
+proposal_id: feature-catalog-drift-closeout-gate
+title: Feature Catalog Drift Closeout Gate
+summary: |
+  Define a delivery and terminal-closeout gate plus receipt contract for detecting product feature catalog documentation obligations after proposal implementation evidence exists.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/
+status: archived
+archive:
+  archived_at: 2026-06-28
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate
+  promotion_evidence:
+  - .octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after review accepts the receipt schema, gate placement, and closeout blocking semantics.
+related_proposals:
+- product-feature-catalog-documentation-and-drift-gate
+- document-current-product-feature-gaps
+acceptance_criteria_summary: Delivery and terminal closeout have a defined feature-catalog drift gate that emits retained evidence and blocks unresolved catalog obligations.
+authority_class_impact:
+  framework: Adds product contract and workflow-stage contract changes.
+  instance: No direct instance authority changes.
+  state_control: No state-control mutation.
+  state_evidence: Future retained gate receipts are evidence only.
+  generated: No generated output authority change.
+  inputs: Proposal lineage only.
+change_profile: atomic
+created_date: 2026-06-27
+evidence_requirements:
+- Feature-catalog drift receipt schema.
+- Gate placement in delivery and terminal closeout.
+- Explicit block/no-block outcome semantics.
+explicit_runtime_non_implementation_statement: The gate recommends or blocks; it does not rewrite product docs or mint authority.
+generated_input_authority_impact: Raw and generated surfaces cannot satisfy the gate without authored runtime/spec/validator evidence.
+owner:
+  role: Octon proposal closeout gate architect
+  accountable_role: human operator / repository owner
+rollback_summary: Remove the gate contract and workflow references if validation or review rejects the closeout semantics.
+scope_statement: This child defines the gate and receipt contract. It does not implement the full validator or workflow integration by itself.
+selected_implementation_target: feature catalog drift receipt and closeout gate contract
+source_lineage:
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml
+validation_gates:
+- validate-feature-catalog-drift-closeout.sh --receipt <fixture>
+- delivery and terminal closeout workflow validators

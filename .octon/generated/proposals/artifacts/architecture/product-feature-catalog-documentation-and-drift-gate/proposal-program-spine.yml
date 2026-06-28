@@ -1,0 +1,224 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/proposal.yml",
+      "manifest_sha256": "sha256:17abb8254386c57be560f88b4424b68b5bf2143512d75555c597d98ba0e9a45c",
+      "proposal_id": "document-current-product-feature-gaps",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/feature-catalog-drift-closeout-gate/proposal.yml",
+      "manifest_sha256": "sha256:ca8a30d12dfcb38b6955a0390903d57e00f695883abd2654e4d5f2145f059938",
+      "proposal_id": "feature-catalog-drift-closeout-gate",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/feature-catalog-drift-closeout-gate",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/feature-catalog-drift-validator/proposal.yml",
+      "manifest_sha256": "sha256:893e56dfd3beca1777656439fb799478fbfb7770e9de0a1ea9118964c3b9a9bb",
+      "proposal_id": "feature-catalog-drift-validator",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/feature-catalog-drift-validator",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/proposal.yml",
+      "manifest_sha256": "sha256:4d1b68f389e7a200b8a2b40b0325e6aebf196056f6fdecf30617fe9332688cfc",
+      "proposal_id": "closeout-integration-and-receipts",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:620ceda748b168c11d87236858d07537c15cc694120e2a3bd58c78e4bcc97619",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this parent program, review and authorize each child packet independently, implement child packets through their own routes, and close out the parent only after child-owned evidence proves catalog coverage and closeout-gate behavior.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/product/features/catalog.yml",
+    ".octon/framework/product/features/README.md",
+    ".octon/framework/product/features/",
+    ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json",
+    ".octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/"
+  ],
+  "proposal_id": "product-feature-catalog-documentation-and-drift-gate",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 14343,
+      "estimated_tokens": 3586,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/custom-program-closeout-prompt.md",
+      "sha256": "sha256:f16a66b96d5d48def108bd92ee0603b33e448d73faab2f23a82e7394a174b77e"
+    },
+    {
+      "byte_size": 16041,
+      "estimated_tokens": 4011,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/follow-up-program-verification-prompt.md",
+      "sha256": "sha256:ef4c881ce5ecfe408fb0e548f8599e4530c93bdbfcf279cd883560522a27e8ca"
+    },
+    {
+      "byte_size": 3885,
+      "estimated_tokens": 972,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:224bdedd208347a2731799d50b4281534328dafe83a710549f642b57c7dbdadb"
+    },
+    {
+      "byte_size": 1083,
+      "estimated_tokens": 271,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-creation.md",
+      "sha256": "sha256:673df003a790d019c722b4727c53f06efd230c93fe7b48acc229920b0bb5f229"
+    },
+    {
+      "byte_size": 5318,
+      "estimated_tokens": 1330,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-conformance-review.md",
+      "sha256": "sha256:9a0cd01027edb5fee63836bb727deb01aa82d911fba12f27023beb841860e7a3"
+    },
+    {
+      "byte_size": 14504,
+      "estimated_tokens": 3626,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-prompt.md",
+      "sha256": "sha256:08f89135b926859aa0de8bb9e416d1b58a2656c95ed683bbd569f20416987c7c"
+    },
+    {
+      "byte_size": 2188,
+      "estimated_tokens": 547,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-run.md",
+      "sha256": "sha256:22eba2cb2573c27dbcdebbdd2b6d9953b3f0780ff2604156afbcd94defffa2f9"
+    },
+    {
+      "byte_size": 5927,
+      "estimated_tokens": 1482,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "sha256": "sha256:4b894766bce7c9d69bd53b6fff29d90d67550115e24292b789cbb993a3acd62d"
+    },
+    {
+      "byte_size": 8382,
+      "estimated_tokens": 2096,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-closeout.md",
+      "sha256": "sha256:9de5a7ddc444ee59aa33b842c2f32792b32c7ec819fe93217f84d331b1240f90"
+    },
+    {
+      "byte_size": 4187,
+      "estimated_tokens": 1047,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-review.md",
+      "sha256": "sha256:0aacb1b4df9682db8e2d5f95df48967af6c36e75cf09b27b67b22677f5342796"
+    }
+  ],
+  "related_proposals": [
+    "document-current-product-feature-gaps",
+    "feature-catalog-drift-closeout-gate",
+    "feature-catalog-drift-validator",
+    "closeout-integration-and-receipts"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/architecture-proposal.yml": "sha256:cd6ab6c14f60a4317ccbb864e4f8cd4a5cbfbbb2d6f0178eefb1c3285090df7c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/acceptance-criteria.md": "sha256:4dd172a3bf39664b077fa6b7273d08e4dfb85e7bbccbdd91746337ea0fe1533a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/implementation-plan.md": "sha256:428834c87b87784bed357c220c21486aa9947a6f3191d1164c82bf9d7aa6a7f4",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/artifact-catalog.md": "sha256:6ede22ef85e023ab602945e0dde161524fbe4fa3af19b2d81f0388d79a14c610",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/source-of-truth-map.md": "sha256:ded47e3363ea4a3404b9eb7f0b604982e4271f6c464f3d2c8f07cf3ff585b426",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/proposal.yml": "sha256:658323855152814ad7f5d5d8664c76189d6b1bbc4c479800bb2231c3aae43e1f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/implementation-grade-completeness-review.md": "sha256:224bdedd208347a2731799d50b4281534328dafe83a710549f642b57c7dbdadb",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-review.md": "sha256:0aacb1b4df9682db8e2d5f95df48967af6c36e75cf09b27b67b22677f5342796"
+  },
+  "source_lineage": [
+    ".octon/framework/product/features/catalog.yml",
+    ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/create-program/stages/01-create-program.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

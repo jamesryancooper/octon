@@ -1,0 +1,12 @@
+schema_version: architecture-proposal-v1
+architecture_scope: cross-domain-architecture
+decision_type: new-surface
+owner: Octon proposal closeout gate architect
+status: draft
+summary: Define the closeout gate and retained receipt for feature-catalog drift detection.
+affected_subsystems:
+  - product/contracts
+  - orchestration/runtime/workflows/meta/proposal-packet-delivery
+  - orchestration/runtime/workflows/meta/proposal-program-delivery
+  - orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout
+authority_boundary: The gate can block unsupported closeout claims but cannot authorize execution or mutate product documentation by itself.

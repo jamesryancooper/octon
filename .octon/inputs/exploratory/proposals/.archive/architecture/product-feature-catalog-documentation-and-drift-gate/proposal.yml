@@ -1,0 +1,88 @@
+schema_version: proposal-v1
+proposal_id: product-feature-catalog-documentation-and-drift-gate
+title: Product Feature Catalog Documentation And Drift Gate
+summary: |
+  Create a staged proposal program to document implemented Octon product-facing and cross-surface features in the product feature catalog, then add a delivery and terminal-closeout gate that detects feature-catalog obligations after implementation evidence exists.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/product/features/catalog.yml
+- .octon/framework/product/features/README.md
+- .octon/framework/product/features/
+- .octon/framework/product/contracts/product-feature-catalog-v1.schema.json
+- .octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/
+- .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-06-28
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate
+  promotion_evidence:
+  - .octon/framework/product/features/catalog.yml
+  - .octon/framework/product/features/README.md
+  - .octon/framework/product/features/
+  - .octon/framework/product/contracts/product-feature-catalog-v1.schema.json
+  - .octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  - .octon/framework/assurance/runtime/_ops/tests/
+lifecycle:
+  temporary: true
+  exit_expectation: Review this parent program, review and authorize each child packet independently, implement child packets through their own routes, and close out the parent only after child-owned evidence proves catalog coverage and closeout-gate behavior.
+related_proposals:
+- document-current-product-feature-gaps
+- feature-catalog-drift-closeout-gate
+- feature-catalog-drift-validator
+- closeout-integration-and-receipts
+acceptance_criteria_summary: |
+  The program is acceptable when the child packets define complete catalog coverage for the identified feature gaps and a delivery/terminal-closeout gate that blocks archive-ready or completed claims when feature catalog documentation is missing, stale, under-documented, misclassified, or grouped incorrectly.
+authority_class_impact:
+  framework: Coordinates future product feature catalog, product contract, workflow, and validator changes through child packets.
+  instance: No direct instance authority changes from this parent packet.
+  state_control: No state-control mutation from this parent packet.
+  state_evidence: Future children may define retained feature-catalog drift receipts, but this parent creates no runtime evidence.
+  generated: No generated output edits are authorized by this parent packet.
+  inputs: Parent and child packets are temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-06-27
+evidence_requirements:
+- Child-owned review, implementation, conformance, drift/churn, validation, closeout, and archive evidence for each implemented child.
+- Feature-by-feature evidence proving catalog entries include implementation status, entrypoints, authoritative refs, runtime surfaces, generated/evidence refs, validation refs, related docs, and authority notes.
+- Negative controls proving raw inputs, generated outputs, host UI state, chat/model memory, and tool availability cannot satisfy feature-catalog authority.
+- Closeout-gate receipts proving no catalog change is required, catalog/docs are updated and validated, retirement/split/merge/downgrade is documented and validated, or closeout is blocked.
+explicit_runtime_non_implementation_statement: |
+  Durable behavior changes require accepted child packets, explicit implementation routes, retained implementation evidence, conformance and drift/churn reviews, validator coverage, delivery/terminal closeout evidence, and Change closeout as applicable.
+generated_input_authority_impact: |
+  Proposal paths, raw inputs, generated outputs, retained receipts, host UI state, chat/model memory, and tool availability remain non-authoritative. Generated outputs are derived-only and must not satisfy catalog authority or closeout truth.
+owner:
+  role: Octon product feature catalog governance architect
+  accountable_role: human operator / repository owner
+program_execution_mode: sequential
+rollback_summary: |
+  If review rejects this program, supersede or remove only this proposal lineage. Once child implementation begins, rollback, rejection, or supersession must happen through each child packet's own promotion targets, receipts, and closeout route.
+scope_statement: |
+  This parent is coordination lineage only. It creates a review-ready staged program and sibling child packets. It does not directly update product feature catalog entries, implement validators, change delivery workflows, or claim archive-ready/completed delivery.
+selected_implementation_target: Product feature catalog coverage and delivery-time feature-catalog drift detection.
+source_lineage:
+- .octon/framework/product/features/catalog.yml
+- .octon/framework/product/contracts/product-feature-catalog-v1.schema.json
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/create-program/stages/01-create-program.md
+validation_gates:
+- validate-proposal-standard.sh for parent and children
+- validate-architecture-proposal.sh for parent and children
+- validate-proposal-program-structure.sh for parent
+- validate-product-feature-catalog.sh after catalog documentation child implementation
+- validate-feature-catalog-drift-closeout.sh after drift gate child implementation
+- proposal packet/program delivery workflow validators after closeout integration child implementation

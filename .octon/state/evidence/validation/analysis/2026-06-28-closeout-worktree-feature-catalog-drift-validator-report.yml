@@ -1,0 +1,1862 @@
+{
+  "schema_version": "closeout-worktree-report-v1",
+  "wrapper_id": "closeout-worktree",
+  "default_work_unit": "Change",
+  "run_id": "20260628T012210Z-feature-catalog-drift-validator",
+  "observed_change_set_count": 1,
+  "read_only_classification": true,
+  "detection_is_deletion_authority": false,
+  "direct_material_actions_performed": false,
+  "repo_hygiene_cleanup_actions_performed": false,
+  "initial_inventory_ref": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml",
+  "residue_classification_ref": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml",
+  "selected_candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+  "candidates": [
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "disposition": "foreign",
+      "residue_routing_class": "foreign_manual_review",
+      "ownership": "explicit operator-scoped foreign/manual residue outside child closeout authority",
+      "route_hint": "closeout-worktree",
+      "target_lifecycle_outcome": "preserved",
+      "rollback_or_discard_posture": "preserve exact path set without mutation; rerun classifier if paths change",
+      "boundaries": {
+        "include_paths": [
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/validation-plan.md",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/README.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/README.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+          ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json",
+          ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json",
+          ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+          ".octon/framework/product/features/README.md",
+          ".octon/framework/product/features/catalog.yml",
+          ".octon/generated/proposals/registry.yml",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/stages/05-validate-feature-catalog-drift.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/stages/05-validate-feature-catalog-drift.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-validate-feature-catalog-drift.md",
+          ".octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json",
+          ".octon/framework/product/features/connector-admission-runtime.md",
+          ".octon/framework/product/features/context-pack-builder-and-binding.md",
+          ".octon/framework/product/features/continuous-stewardship-runtime.md",
+          ".octon/framework/product/features/deterministic-filesystem-observation.md",
+          ".octon/framework/product/features/engagement-change-package-compiler.md",
+          ".octon/framework/product/features/evidence-store-and-proof-plane.md",
+          ".octon/framework/product/features/execution-authorization-and-effect-tokens.md",
+          ".octon/framework/product/features/governed-promotion-activation-and-recertification.md",
+          ".octon/framework/product/features/grounded-query-retrieval.md",
+          ".octon/framework/product/features/host-tool-provisioning.md",
+          ".octon/framework/product/features/mission-autonomy-and-planning.md",
+          ".octon/framework/product/features/native-agent-platform-interop.md",
+          ".octon/framework/product/features/native-service-runtime-and-catalog.md",
+          ".octon/framework/product/features/operator-read-models.md",
+          ".octon/framework/product/features/proposal-packet-authoring-validation-archival.md",
+          ".octon/framework/product/features/repo-hygiene-cleanup.md",
+          ".octon/framework/product/features/repository-bootstrap-and-harness-portability.md",
+          ".octon/framework/product/features/run-first-runtime-lifecycle.md",
+          ".octon/framework/product/features/runtime-effective-publication-and-routing.md",
+          ".octon/framework/product/features/self-evolution-runtime.md",
+          ".octon/framework/product/features/support-universe-admission-and-disclosure.md",
+          ".octon/framework/product/features/trust-compatibility-and-portable-proof.md",
+          ".octon/framework/product/features/workflow-authoring-and-studio.md",
+          ".octon/framework/product/features/workflow-statechart-task-harness.md",
+          ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-closeout-gate/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-closeout-gate/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-validator/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-validator/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-program-spine.yml",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/revisions/revision-20260627T164500Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/revisions/revision-20260627T164500Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/revisions/revision-20260627T164500Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/child-packet-contract.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/packet-sequence.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/program-closeout-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/child-packet-index.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/child-packet-index.yml",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/custom-program-closeout-prompt.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/follow-up-program-verification-prompt.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-creation.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-prompt.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-run.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-post-implementation-orchestration-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/revisions/revision-20260627T161403Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/validation-plan.md",
+          ".octon/state/evidence/runs/skills/closeout-worktree/20260628T001202Z-document-current-product-feature-gaps/lifecycle-interaction-return.json",
+          ".octon/state/evidence/runs/skills/closeout-worktree/20260628T001202Z-document-current-product-feature-gaps/operator-scope.md",
+          ".octon/state/evidence/runs/skills/closeout-worktree/20260628T011210Z-feature-catalog-drift-closeout-gate/lifecycle-interaction-return.json",
+          ".octon/state/evidence/runs/skills/closeout-worktree/20260628T011210Z-feature-catalog-drift-closeout-gate/operator-scope.md",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-document-current-product-feature-gaps-classifier.yml",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-document-current-product-feature-gaps-report.yml",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-closeout-gate-classifier.yml",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-closeout-gate-report.yml",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml"
+        ],
+        "exclude_paths": []
+      },
+      "proposal_program_handoff_authorization": {
+        "authorization_grant": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T012210Z-feature-catalog-drift-validator/operator-scope.md",
+        "child_id": "feature-catalog-drift-validator",
+        "route_id": "closeout-packet",
+        "interaction_request_ref": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T012210Z-feature-catalog-drift-validator/operator-scope.md",
+        "classifier_output_ref": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml",
+        "classifier_output_digest": "sha256:f93eac1da0fb63809198c70676ec8aad00269bdd0aa4e033d098f07659facd06",
+        "authorized_foreign_fingerprint": "sha256:88638534c0edec9e900148a60515bece603cf6f3ced8c92e7aede23b2cbb31cc",
+        "foreign_fingerprint": "sha256:88638534c0edec9e900148a60515bece603cf6f3ced8c92e7aede23b2cbb31cc",
+        "disposition": "preserve-and-exclude-from-child-closeout-blocking",
+        "non_mutating": true,
+        "preserve_and_exclude_from_child_closeout_blocking": true,
+        "parent_summary_not_child_closeout_receipt": true,
+        "child_closeout_authority_preserved": true,
+        "forbidden_actions": {
+          "delete": false,
+          "cleanup": false,
+          "reset": false,
+          "stage": false,
+          "commit": false,
+          "push": false,
+          "archive": false,
+          "deliver": false,
+          "publish": false,
+          "promotion": false,
+          "change_closeout": false,
+          "parent_closeout": false,
+          "sibling_mutation": false,
+          "git_ref_mutation": false,
+          "product_catalog_mutation": false,
+          "validator_mutation": false
+        },
+        "authorized_paths": [
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/validation-plan.md",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/README.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/README.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+          ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json",
+          ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json",
+          ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+          ".octon/framework/product/features/README.md",
+          ".octon/framework/product/features/catalog.yml",
+          ".octon/generated/proposals/registry.yml",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/stages/05-validate-feature-catalog-drift.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/stages/05-validate-feature-catalog-drift.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-validate-feature-catalog-drift.md",
+          ".octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json",
+          ".octon/framework/product/features/connector-admission-runtime.md",
+          ".octon/framework/product/features/context-pack-builder-and-binding.md",
+          ".octon/framework/product/features/continuous-stewardship-runtime.md",
+          ".octon/framework/product/features/deterministic-filesystem-observation.md",
+          ".octon/framework/product/features/engagement-change-package-compiler.md",
+          ".octon/framework/product/features/evidence-store-and-proof-plane.md",
+          ".octon/framework/product/features/execution-authorization-and-effect-tokens.md",
+          ".octon/framework/product/features/governed-promotion-activation-and-recertification.md",
+          ".octon/framework/product/features/grounded-query-retrieval.md",
+          ".octon/framework/product/features/host-tool-provisioning.md",
+          ".octon/framework/product/features/mission-autonomy-and-planning.md",
+          ".octon/framework/product/features/native-agent-platform-interop.md",
+          ".octon/framework/product/features/native-service-runtime-and-catalog.md",
+          ".octon/framework/product/features/operator-read-models.md",
+          ".octon/framework/product/features/proposal-packet-authoring-validation-archival.md",
+          ".octon/framework/product/features/repo-hygiene-cleanup.md",
+          ".octon/framework/product/features/repository-bootstrap-and-harness-portability.md",
+          ".octon/framework/product/features/run-first-runtime-lifecycle.md",
+          ".octon/framework/product/features/runtime-effective-publication-and-routing.md",
+          ".octon/framework/product/features/self-evolution-runtime.md",
+          ".octon/framework/product/features/support-universe-admission-and-disclosure.md",
+          ".octon/framework/product/features/trust-compatibility-and-portable-proof.md",
+          ".octon/framework/product/features/workflow-authoring-and-studio.md",
+          ".octon/framework/product/features/workflow-statechart-task-harness.md",
+          ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-closeout-gate/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-closeout-gate/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-validator/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-validator/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-program-spine.yml",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/revisions/revision-20260627T164500Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/revisions/revision-20260627T164500Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/revisions/revision-20260627T164500Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/child-packet-contract.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/packet-sequence.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/program-closeout-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/child-packet-index.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/child-packet-index.yml",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/custom-program-closeout-prompt.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/follow-up-program-verification-prompt.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-creation.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-prompt.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-run.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-post-implementation-orchestration-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/revisions/revision-20260627T161403Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/validation-plan.md",
+          ".octon/state/evidence/runs/skills/closeout-worktree/20260628T001202Z-document-current-product-feature-gaps/lifecycle-interaction-return.json",
+          ".octon/state/evidence/runs/skills/closeout-worktree/20260628T001202Z-document-current-product-feature-gaps/operator-scope.md",
+          ".octon/state/evidence/runs/skills/closeout-worktree/20260628T011210Z-feature-catalog-drift-closeout-gate/lifecycle-interaction-return.json",
+          ".octon/state/evidence/runs/skills/closeout-worktree/20260628T011210Z-feature-catalog-drift-closeout-gate/operator-scope.md",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-document-current-product-feature-gaps-classifier.yml",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-document-current-product-feature-gaps-report.yml",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-closeout-gate-classifier.yml",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-closeout-gate-report.yml",
+          ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml"
+        ]
+      }
+    }
+  ],
+  "actions_performed": [],
+  "discard_actions": [],
+  "cleanup_actions": [],
+  "path_dispositions": [
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/catalog.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/registry.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/stages/05-validate-feature-catalog-drift.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/stages/05-validate-feature-catalog-drift.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-validate-feature-catalog-drift.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/connector-admission-runtime.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/context-pack-builder-and-binding.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/continuous-stewardship-runtime.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/deterministic-filesystem-observation.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/engagement-change-package-compiler.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/evidence-store-and-proof-plane.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/execution-authorization-and-effect-tokens.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/governed-promotion-activation-and-recertification.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/grounded-query-retrieval.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/host-tool-provisioning.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/mission-autonomy-and-planning.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/native-agent-platform-interop.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/native-service-runtime-and-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/operator-read-models.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/proposal-packet-authoring-validation-archival.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/repo-hygiene-cleanup.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/repository-bootstrap-and-harness-portability.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/run-first-runtime-lifecycle.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/runtime-effective-publication-and-routing.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/self-evolution-runtime.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/support-universe-admission-and-disclosure.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/trust-compatibility-and-portable-proof.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/workflow-authoring-and-studio.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/workflow-statechart-task-harness.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-closeout-gate/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-closeout-gate/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-validator/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-validator/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/implementation-conformance-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/proposal-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/revisions/revision-20260627T164500Z.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/implementation-conformance-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/proposal-closeout.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/proposal-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/revisions/revision-20260627T164500Z.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/implementation-conformance-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/proposal-closeout.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/proposal-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/revisions/revision-20260627T164500Z.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/child-packet-contract.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/packet-sequence.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/program-closeout-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/child-packet-index.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/child-packet-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/source-lineage.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/custom-program-closeout-prompt.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/follow-up-program-verification-prompt.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-creation.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-conformance-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-prompt.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-run.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-closeout.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/revisions/revision-20260627T161403Z.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T001202Z-document-current-product-feature-gaps/lifecycle-interaction-return.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T001202Z-document-current-product-feature-gaps/operator-scope.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T011210Z-feature-catalog-drift-closeout-gate/lifecycle-interaction-return.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T011210Z-feature-catalog-drift-closeout-gate/operator-scope.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-document-current-product-feature-gaps-classifier.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-document-current-product-feature-gaps-report.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-closeout-gate-classifier.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-closeout-gate-report.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    }
+  ],
+  "retained_residue": [
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-workflow.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-workflow.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/catalog.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/registry.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/stages/05-validate-feature-catalog-drift.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/stages/05-validate-feature-catalog-drift.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-validate-feature-catalog-drift.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/connector-admission-runtime.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/context-pack-builder-and-binding.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/continuous-stewardship-runtime.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/deterministic-filesystem-observation.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/engagement-change-package-compiler.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/evidence-store-and-proof-plane.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/execution-authorization-and-effect-tokens.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/governed-promotion-activation-and-recertification.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/grounded-query-retrieval.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/host-tool-provisioning.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/mission-autonomy-and-planning.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/native-agent-platform-interop.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/native-service-runtime-and-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/operator-read-models.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/proposal-packet-authoring-validation-archival.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/repo-hygiene-cleanup.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/repository-bootstrap-and-harness-portability.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/run-first-runtime-lifecycle.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/runtime-effective-publication-and-routing.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/self-evolution-runtime.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/support-universe-admission-and-disclosure.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/trust-compatibility-and-portable-proof.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/workflow-authoring-and-studio.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/framework/product/features/workflow-statechart-task-harness.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-closeout-gate/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-closeout-gate/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-validator/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/feature-catalog-drift-validator/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-artifact-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/generated/proposals/artifacts/architecture/product-feature-catalog-documentation-and-drift-gate/proposal-program-spine.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/implementation-conformance-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/proposal-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/support/revisions/revision-20260627T164500Z.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/implementation-conformance-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/proposal-closeout.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/proposal-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/support/revisions/revision-20260627T164500Z.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/implementation-conformance-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/proposal-closeout.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/proposal-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/support/revisions/revision-20260627T164500Z.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/README.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture-proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/acceptance-criteria.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/child-packet-contract.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/implementation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/packet-sequence.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/program-closeout-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/architecture/target-architecture.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/artifact-catalog.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/navigation/source-of-truth-map.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/proposal.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/child-packet-index.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/child-packet-index.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/resources/source-lineage.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/custom-program-closeout-prompt.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/follow-up-program-verification-prompt.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-creation.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-conformance-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-prompt.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-implementation-orchestration-run.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-closeout.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/proposal-review.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/support/revisions/revision-20260627T161403Z.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/validation-plan.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T001202Z-document-current-product-feature-gaps/lifecycle-interaction-return.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T001202Z-document-current-product-feature-gaps/operator-scope.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T011210Z-feature-catalog-drift-closeout-gate/lifecycle-interaction-return.json",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree/20260628T011210Z-feature-catalog-drift-closeout-gate/operator-scope.md",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-document-current-product-feature-gaps-classifier.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-document-current-product-feature-gaps-report.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-closeout-gate-classifier.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-closeout-gate-report.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    },
+    {
+      "candidate_id": "feature-catalog-drift-validator-foreign-hygiene-preserved",
+      "path": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml",
+      "disposition": "foreign manual residue preserved and excluded from child closeout blocking only by explicit operator-scoped closeout-worktree report"
+    }
+  ],
+  "blockers": [],
+  "final_inventory_ref": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml",
+  "final_candidate_dispositions": {
+    "feature-catalog-drift-validator-foreign-hygiene-preserved": {
+      "state": "foreign",
+      "disposition": "preserve-and-exclude-from-child-closeout-blocking",
+      "non_mutating": true,
+      "classifier_output_ref": ".octon/state/evidence/validation/analysis/2026-06-28-closeout-worktree-feature-catalog-drift-validator-classifier.yml",
+      "authorized_foreign_fingerprint": "sha256:88638534c0edec9e900148a60515bece603cf6f3ced8c92e7aede23b2cbb31cc"
+    }
+  },
+  "iterations": [],
+  "final_residue_classes": {
+    "ignored": 0,
+    "staged": 0,
+    "unstaged_tracked": 0,
+    "untracked": 0,
+    "generated_effective_output": 0,
+    "host_projection": 0,
+    "retained_evidence": 147,
+    "state_control": 0,
+    "release_version": 0,
+    "input_surface": 0
+  },
+  "worktree_terminal_state": "disposition_complete_with_retained_residue",
+  "next_route_condition": "foreign path set preserved and excluded from this child closeout hygiene blocker only; rerun child closeout gates without treating this report as archive, cleanup, Change closeout, parent closeout, or sibling evidence"
+}

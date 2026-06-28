@@ -1,0 +1,11 @@
+schema_version: architecture-proposal-v1
+architecture_scope: cross-domain-architecture
+decision_type: boundary-change
+owner: Octon product feature catalog documentation owner
+status: draft
+summary: Add complete product feature catalog coverage for the audited current implementation surface.
+affected_subsystems:
+  - product/features
+  - product/contracts
+  - assurance/runtime
+authority_boundary: The catalog remains navigation-only and does not mint runtime authority, support claims, generated-effective state, or durable evidence.

@@ -1,0 +1,57 @@
+schema_version: proposal-v1
+proposal_id: document-current-product-feature-gaps
+title: Document Current Product Feature Gaps
+summary: |
+  Add or update product feature catalog coverage for the 24 implemented product-facing and cross-surface Octon features identified by audit.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/product/features/catalog.yml
+- .octon/framework/product/features/README.md
+- .octon/framework/product/features/
+- .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+status: archived
+archive:
+  archived_at: 2026-06-28
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps
+  promotion_evidence:
+  - .octon/framework/product/features/catalog.yml
+  - .octon/framework/product/features/README.md
+  - .octon/framework/product/features/
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after review accepts the catalog grouping, feature ids, authority notes, and validation floor.
+related_proposals:
+- product-feature-catalog-documentation-and-drift-gate
+acceptance_criteria_summary: The catalog documents all 24 feature gaps and validates with no missing refs or authority-class drift.
+authority_class_impact:
+  framework: Updates product feature catalog navigation and feature notes.
+  instance: No direct instance authority changes.
+  state_control: No state-control mutation.
+  state_evidence: No retained evidence mutation from documentation alone.
+  generated: No generated output authority change.
+  inputs: Proposal lineage only.
+change_profile: atomic
+created_date: 2026-06-27
+evidence_requirements:
+- Feature-by-feature implementation evidence refs.
+- Catalog validation output.
+- Boundary notes for navigation-only status and non-authority generated/evidence refs.
+explicit_runtime_non_implementation_statement: This packet changes navigation documentation only unless validator changes are explicitly required for catalog awareness.
+generated_input_authority_impact: Generated outputs and raw inputs remain non-authority and may only be cited with their correct authority class.
+owner:
+  role: Octon product feature catalog documentation owner
+  accountable_role: human operator / repository owner
+rollback_summary: Revert catalog and feature-note edits from this child if validation or review rejects the grouping.
+scope_statement: This child owns documentation updates for the current feature gaps. It does not implement the automatic drift gate.
+selected_implementation_target: product feature catalog entries and feature notes
+source_lineage:
+- .octon/framework/product/features/catalog.yml
+- .octon/framework/product/features/README.md
+- .octon/framework/product/contracts/product-feature-catalog-v1.schema.json
+validation_gates:
+- validate-product-feature-catalog.sh
+- validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps
+- validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps

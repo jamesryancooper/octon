@@ -1,0 +1,92 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "sequential"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "document-current-product-feature-gaps"
+    path: ".octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "terminal"
+    phase_id: "phase-1"
+    group_id: "catalog-documentation"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/product/features/catalog.yml"
+      - ".octon/framework/product/features/README.md"
+      - ".octon/framework/product/features/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+    validation_strategy:
+      - "validate-product-feature-catalog.sh"
+      - "validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps"
+      - "validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/document-current-product-feature-gaps"
+    seed_role: "new-child"
+  - child_id: "feature-catalog-drift-closeout-gate"
+    path: ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-closeout-gate"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "document-current-product-feature-gaps"
+    dependency_gate: "terminal"
+    phase_id: "phase-2"
+    group_id: "gate-contract"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/"
+    validation_strategy:
+      - "validate-feature-catalog-drift-closeout.sh --receipt <fixture-receipt>"
+      - "validate-proposal-packet-delivery-workflow.sh"
+      - "validate-proposal-program-delivery-workflow.sh"
+      - "validate-proposal-packet-terminal-closeout-workflow.sh"
+    seed_role: "new-child"
+  - child_id: "feature-catalog-drift-validator"
+    path: ".octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "feature-catalog-drift-closeout-gate"
+    dependency_gate: "terminal"
+    phase_id: "phase-3"
+    group_id: "validator"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "validate-feature-catalog-drift-closeout.sh --fixture missing-catalog-entry"
+      - "validate-feature-catalog-drift-closeout.sh --fixture stale-ref"
+      - "validate-feature-catalog-drift-closeout.sh --fixture status-mismatch"
+      - "validate-feature-catalog-drift-closeout.sh --fixture probably-not-product-feature"
+    seed_role: "new-child"
+  - child_id: "closeout-integration-and-receipts"
+    path: ".octon/inputs/exploratory/proposals/architecture/closeout-integration-and-receipts"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "feature-catalog-drift-closeout-gate"
+      - "feature-catalog-drift-validator"
+    dependency_gate: "terminal"
+    phase_id: "phase-4"
+    group_id: "closeout-integration"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/"
+      - ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json"
+      - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+      - ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json"
+    validation_strategy:
+      - "validate-proposal-packet-delivery-workflow.sh"
+      - "validate-proposal-program-delivery-workflow.sh"
+      - "validate-proposal-packet-terminal-closeout-workflow.sh"
+      - "validate-feature-catalog-drift-closeout.sh --receipt <delivery-receipt>"
+    seed_role: "new-child"

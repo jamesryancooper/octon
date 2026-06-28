@@ -51,9 +51,11 @@ require_file "$WORKFLOW_PATH" "workflow contract"
 require_file "$README_PATH" "workflow README"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" "profile schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json" "receipt schema"
+require_file "$ROOT_DIR/.octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json" "feature catalog drift receipt schema"
 require_file "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-order-override-receipt-v1.schema.json" "packet delivery order override schema"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-profile.sh" "profile validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-receipt.sh" "receipt validator"
+require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh" "feature catalog drift validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-delivery-order-override-receipt.sh" "packet delivery order override validator"
 require_file "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-packet-delivery.sh" "validator test"
 
@@ -90,12 +92,13 @@ if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
   require_yaml_value "$WORKFLOW_PATH" '.workflow.aggregate_receipt_policy.blocked_outcome_requires_explicit_blockers' 'true' "blocked outcomes require explicit blockers"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.aggregate_receipt_policy.blocked_outcome_requires_next_owning_lifecycle' 'true' "blocked outcomes require next owning lifecycle"
   stage_count="$(yq -r '(.workflow.stages // []) | length' "$WORKFLOW_PATH" 2>/dev/null || echo 0)"
-  [[ "$stage_count" -ge 10 ]] && pass "workflow has at least ten stages" || fail "workflow must have at least ten stages"
+  [[ "$stage_count" -ge 11 ]] && pass "workflow has at least eleven stages" || fail "workflow must have at least eleven stages"
   for stage_id in \
     bind-profile \
     validate-packet-state \
     run-or-resume-packet-implementation \
     validate-implementation-receipts \
+    validate-feature-catalog-drift \
     promote-proposal \
     route-packet-closeout \
     route-terminal-closeout-and-archive \
@@ -119,6 +122,10 @@ for token in \
   "/proposal-packet-delivery outcome=cleaned route=branch-no-pr" \
   "validate-proposal-packet-delivery-profile.sh" \
   "validate-proposal-packet-delivery-receipt.sh" \
+  "feature-catalog-drift" \
+  "feature-catalog-drift-receipt-v1" \
+  "validate-feature-catalog-drift-closeout.sh" \
+  "unresolved feature-catalog drift blocks completed delivery" \
   "run-packet-implementation" \
   "promote-proposal" \
   "closeout-packet" \
@@ -162,6 +169,8 @@ require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-deli
 require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"blocked_receipt_requires_explicit_blockers"' "profile schema requires explicit blocked blockers"
 require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-profile-v1.schema.json" '"blocked_receipt_requires_next_owning_lifecycle"' "profile schema requires blocked next owning lifecycle"
 require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json" '"partition_clean_archive_readiness"' "receipt schema declares partition-clean archive readiness"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json" '"feature_catalog_drift"' "receipt schema declares feature catalog drift gate"
+require_token "$ROOT_DIR/.octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json" '"feature-catalog-drift-receipt-v1"' "feature catalog drift receipt schema declares version"
 require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-order-override-receipt-v1.schema.json" '"proposal-packet-delivery-order-override-receipt-v1"' "order override schema declares packet delivery override"
 require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-packet-delivery-order-override-receipt-v1.schema.json" '"partition-clean-for-archive-readiness"' "order override schema declares partition-clean mode"
 require_token "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/manifest.yml" "proposal-packet-delivery" "skill manifest registration"

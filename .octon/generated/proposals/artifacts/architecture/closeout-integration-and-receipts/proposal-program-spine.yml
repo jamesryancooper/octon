@@ -1,0 +1,181 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/proposal.yml",
+      "manifest_sha256": "sha256:01170fff45fb9a46a46e45189a9ed32dc0c997b672d670c9995fd6fd227995f7",
+      "proposal_id": "product-feature-catalog-documentation-and-drift-gate",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/feature-catalog-drift-closeout-gate/proposal.yml",
+      "manifest_sha256": "sha256:ca8a30d12dfcb38b6955a0390903d57e00f695883abd2654e4d5f2145f059938",
+      "proposal_id": "feature-catalog-drift-closeout-gate",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/feature-catalog-drift-closeout-gate",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/feature-catalog-drift-validator/proposal.yml",
+      "manifest_sha256": "sha256:893e56dfd3beca1777656439fb799478fbfb7770e9de0a1ea9118964c3b9a9bb",
+      "proposal_id": "feature-catalog-drift-validator",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/feature-catalog-drift-validator",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:79af26610bf2145981762cec5a2c7ca6c94d406f1ec118b75f28861a646169cd",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Implement only after review accepts the workflow placement, receipt fields, and block semantics.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/closeout-integration-and-receipts/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/",
+    ".octon/framework/product/contracts/proposal-packet-delivery-receipt-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-packet-terminal-closeout-receipt-v1.schema.json"
+  ],
+  "proposal_id": "closeout-integration-and-receipts",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 2502,
+      "estimated_tokens": 626,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/implementation-conformance-review.md",
+      "sha256": "sha256:1cbc23562d58a0314afc09b479063d7a9f7b9993eda3e09a5421773b63bc7741"
+    },
+    {
+      "byte_size": 2903,
+      "estimated_tokens": 726,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:d0c5e8c94177508a84e8df9726623c1e53846d235e0243df1e4aaf1437f444a9"
+    },
+    {
+      "byte_size": 3684,
+      "estimated_tokens": 921,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/implementation-run.md",
+      "sha256": "sha256:24e5f4204216b3cb35c7b384c0498692995af3b109cc47fee91707d7b2c6709c"
+    },
+    {
+      "byte_size": 2046,
+      "estimated_tokens": 512,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:c74fe55f30a432f5bda4ea8d9a1a863c628cc39eaad69340a52b2f111d99e613"
+    },
+    {
+      "byte_size": 6496,
+      "estimated_tokens": 1624,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/proposal-closeout.md",
+      "sha256": "sha256:0e39add4c989b636f06637477c667e9dd8186b3629dacbce54a2294a732476f9"
+    },
+    {
+      "byte_size": 2286,
+      "estimated_tokens": 572,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/proposal-review.md",
+      "sha256": "sha256:a68b61afcccf9b2b08d318b9a481480c28973bc2bed1719eb4512aa3cacbad58"
+    }
+  ],
+  "related_proposals": [
+    "product-feature-catalog-documentation-and-drift-gate",
+    "feature-catalog-drift-closeout-gate",
+    "feature-catalog-drift-validator"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/architecture-proposal.yml": "sha256:1000f34575fdd483e75a092b2d281ed36aa8c3d35a927186390e883e802fda75",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/architecture/acceptance-criteria.md": "sha256:351fe06270ff159cdecdb530e3cd72aa5fca8428e4207d055756269207a70e23",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/architecture/implementation-plan.md": "sha256:3a216ea7d271350066c0522b15c9c455ac92a4114a8c5a9b51c219281360a0e9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/navigation/artifact-catalog.md": "sha256:4db37827761fc21f21df9caae728ca59cec4040936dd708358597c2aef594149",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/navigation/source-of-truth-map.md": "sha256:7ca0bf95dce68f1a250c6013f408eb46e50dcb12738821376f2199fd47d3b3ad",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/proposal.yml": "sha256:4d1b68f389e7a200b8a2b40b0325e6aebf196056f6fdecf30617fe9332688cfc",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/implementation-grade-completeness-review.md": "sha256:d0c5e8c94177508a84e8df9726623c1e53846d235e0243df1e4aaf1437f444a9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/proposal-review.md": "sha256:a68b61afcccf9b2b08d318b9a481480c28973bc2bed1719eb4512aa3cacbad58"
+  },
+  "source_lineage": [
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/workflow.yml",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout/workflow.yml"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-integration-and-receipts/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

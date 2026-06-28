@@ -246,6 +246,20 @@ post_implementation_drift_churn:
   receipt_ref: .octon/inputs/exploratory/proposals/architecture/example-proposal-program-delivery/support/post-implementation-drift-churn-review.md
   fresh: true
   verdict: pass
+feature_catalog_drift:
+  receipt_ref: .octon/state/evidence/runs/workflows/test/feature-catalog-drift-receipt.yml
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  fresh: true
+  verdict: pass
+  outcome: documented-change
+  unresolved_count: 0
+  affected_feature_ids:
+    - run-first-runtime-lifecycle
+  required_documentation_actions: []
+  child_receipt_refs:
+    - .octon/inputs/exploratory/proposals/architecture/example-child/support/feature-catalog-drift-receipt.yml
+  authority_notes:
+    - parent drift summary is evidence-only and does not replace child receipts
 generated_publication:
   validator: validate-capability-publication-state.sh
   publisher_refs:
@@ -351,6 +365,8 @@ expect_pass "valid non-canonical receipt with override status" "$RECEIPT_VALIDAT
 mutate_receipt_expect_fail "stale child receipts" '.child_packet_coverage.children[0].fresh = false'
 mutate_receipt_expect_fail "missing implementation conformance" 'del(.implementation_conformance.receipt_ref)'
 mutate_receipt_expect_fail "missing drift churn receipt" 'del(.post_implementation_drift_churn.receipt_ref)'
+mutate_receipt_expect_fail "unresolved feature catalog drift blocks non-blocked receipt" '.feature_catalog_drift.outcome = "blocked-unresolved-drift" | .feature_catalog_drift.unresolved_count = 1'
+mutate_receipt_expect_fail "missing feature catalog drift receipt" 'del(.feature_catalog_drift.receipt_ref)'
 mutate_receipt_expect_fail "stale generated publication evidence" '.generated_publication.fresh = false'
 mutate_receipt_expect_fail "missing governed mechanism integration receipt" '.governed_mechanism_integration.required = true | .governed_mechanism_integration.receipt_refs = []'
 mutate_receipt_expect_fail "branch-no-pr landing without authorization" '.branch_authorization.landing_performed = true | .branch_authorization.landing_authorization_ref = "not-applicable"'

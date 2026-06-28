@@ -1,0 +1,55 @@
+schema_version: proposal-v1
+proposal_id: feature-catalog-drift-validator
+title: Feature Catalog Drift Validator
+summary: |
+  Implement validator logic and negative controls that compare proposal implementation evidence against product feature catalog documentation obligations.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-06-28
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/feature-catalog-drift-validator
+  promotion_evidence:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+  - .octon/framework/assurance/runtime/_ops/tests/
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after review accepts the detection taxonomy, authoritative evidence rules, and negative controls.
+related_proposals:
+- product-feature-catalog-documentation-and-drift-gate
+- feature-catalog-drift-closeout-gate
+acceptance_criteria_summary: The validator flags missing, stale, under-documented, misclassified, incorrectly grouped, and obsolete feature catalog coverage while excluding non-product-feature surfaces.
+authority_class_impact:
+  framework: Adds validator and tests.
+  instance: No direct instance authority changes.
+  state_control: No state-control mutation.
+  state_evidence: Validator may emit retained validation evidence when called by delivery/closeout routes.
+  generated: No generated output authority change.
+  inputs: Proposal lineage only.
+change_profile: atomic
+created_date: 2026-06-27
+evidence_requirements:
+- Positive fixtures for implemented feature changes requiring docs.
+- Negative controls for non-product-feature and non-authority surfaces.
+- Validator result retained by delivery and terminal closeout routes.
+explicit_runtime_non_implementation_statement: Validator output is evidence for closeout gating, not authority to rewrite product docs.
+generated_input_authority_impact: Generated outputs, raw inputs, host UI state, chat/model memory, and tool availability are negative-control cases unless backed by authored runtime/spec/validator evidence.
+owner:
+  role: Octon assurance validator owner
+  accountable_role: human operator / repository owner
+rollback_summary: Revert validator and tests if detection is overbroad, underbroad, or cannot distinguish authority classes.
+scope_statement: This child owns validator logic. It does not own workflow integration or catalog documentation updates except validator-aware checks.
+selected_implementation_target: feature catalog drift validator and tests
+source_lineage:
+- .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh
+- .octon/framework/product/contracts/product-feature-catalog-v1.schema.json
+validation_gates:
+- validate-feature-catalog-drift-closeout.sh fixtures
+- test-feature-catalog-drift-closeout.sh

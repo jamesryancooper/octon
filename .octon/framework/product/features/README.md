@@ -27,6 +27,33 @@ The catalog answers four questions for agents and operators:
   architectural review doctrine, modes, invocation aliases, validators, and
   generated projections.
 
+## Cataloged Feature Notes
+
+- `engagement-change-package-compiler.md`: Engagement Change Package Compiler.
+- `mission-autonomy-and-planning.md`: Mission Autonomy and Mission Plan Compiler.
+- `continuous-stewardship-runtime.md`: Continuous Stewardship Runtime.
+- `connector-admission-runtime.md`: Connector Admission Runtime.
+- `self-evolution-runtime.md`: Self-Evolution Runtime.
+- `trust-compatibility-and-portable-proof.md`: Trust, Compatibility, Federation, and Portable Proof.
+- `runtime-effective-publication-and-routing.md`: Runtime Effective Publication and Capability Routing.
+- `operator-read-models.md`: Operator Read Models and Run Health Views.
+- `run-first-runtime-lifecycle.md`: Run-First Runtime Lifecycle and Canonical Run Binding.
+- `repo-hygiene-cleanup.md`: Repo Hygiene Cleanup Authorization.
+- `host-tool-provisioning.md`: Host Tool Provisioning.
+- `repository-bootstrap-and-harness-portability.md`: Repository Bootstrap and Harness Portability.
+- `grounded-query-retrieval.md`: Grounded Query Retrieval.
+- `deterministic-filesystem-observation.md`: Deterministic Filesystem Observation.
+- `native-agent-platform-interop.md`: Native Agent Platform Interop.
+- `workflow-authoring-and-studio.md`: Workflow Authoring and Octon Studio.
+- `native-service-runtime-and-catalog.md`: Native Service Runtime and Catalog.
+- `support-universe-admission-and-disclosure.md`: Support Universe Admission and Disclosure.
+- `context-pack-builder-and-binding.md`: Context Pack Builder and Binding.
+- `execution-authorization-and-effect-tokens.md`: Execution Authorization and Effect Tokens.
+- `evidence-store-and-proof-plane.md`: Evidence Store and Proof Plane.
+- `governed-promotion-activation-and-recertification.md`: Governed Promotion, Activation, and Recertification.
+- `workflow-statechart-task-harness.md`: Workflow Statechart and Task Harness.
+- `proposal-packet-authoring-validation-archival.md`: Proposal Packet Authoring, Validation, and Archival.
+
 ## Non-Authority Posture
 
 This catalog is navigation-only. It does not create runtime discovery,

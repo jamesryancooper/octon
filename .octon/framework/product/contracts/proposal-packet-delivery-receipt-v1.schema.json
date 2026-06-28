@@ -16,6 +16,7 @@
     "target_receipts",
     "implementation_conformance",
     "post_implementation_drift_churn",
+    "feature_catalog_drift",
     "generated_publication",
     "governed_mechanism_integration",
     "promotion",
@@ -204,6 +205,9 @@
     },
     "post_implementation_drift_churn": {
       "$ref": "#/$defs/fresh_receipt_verdict"
+    },
+    "feature_catalog_drift": {
+      "$ref": "#/$defs/featureCatalogDriftGate"
     },
     "generated_publication": {
       "type": "object",
@@ -715,6 +719,75 @@
         },
         "verdict": {
           "const": "pass"
+        }
+      }
+    },
+    "featureCatalogDriftGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_ref",
+        "validator_ref",
+        "fresh",
+        "verdict",
+        "outcome",
+        "unresolved_count",
+        "affected_feature_ids",
+        "required_documentation_actions",
+        "authority_notes"
+      ],
+      "properties": {
+        "receipt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validator_ref": {
+          "const": ".octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh"
+        },
+        "fresh": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "blocked",
+            "not-run"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "no-change",
+            "documented-change",
+            "documented-retirement",
+            "blocked-unresolved-drift"
+          ]
+        },
+        "unresolved_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "affected_feature_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required_documentation_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "authority_notes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },

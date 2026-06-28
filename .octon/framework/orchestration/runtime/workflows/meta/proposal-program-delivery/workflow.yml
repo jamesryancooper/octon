@@ -129,11 +129,20 @@ stages:
       - stage:validate-child-receipts
     mutation_scope: []
     authorization: *read_evidence_authorization
+  - id: validate-feature-catalog-drift
+    asset: stages/06-validate-feature-catalog-drift.md
+    kind: verification
+    consumes:
+      - stage:validate-child-receipts
+    produces:
+      - stage:validate-feature-catalog-drift
+    mutation_scope: []
+    authorization: *read_evidence_authorization
   - id: route-closeout-and-archive
     asset: stages/06-route-closeout-and-archive.md
     kind: mutation
     consumes:
-      - stage:validate-child-receipts
+      - stage:validate-feature-catalog-drift
     produces:
       - stage:route-closeout-and-archive
     mutation_scope:
@@ -192,12 +201,20 @@ artifacts:
     format: yaml
     determinism: unique
     description: Compact retained delivery evidence index validated by validate-proposal-program-delivery-evidence-index.sh; evidence-only and non-authorizing.
+  - name: feature_catalog_drift_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/feature-catalog-drift-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 done_gate:
   checks:
     - "profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim"
     - "execution_order_policy enforces child-before-parent-delivery unless a valid target-bound order override receipt is retained"
     - "delivery-readiness-preflight passes before expensive child lifecycle continuation or parent delivery"
     - "child packet receipts remain target-owned and parent summary evidence does not replace them"
+    - "feature catalog drift validates with validate-feature-catalog-drift-closeout.sh before parent closeout, delivery, or cleaned claims"
+    - "unresolved child or parent feature-catalog drift blocks completed delivery and records next owning documentation routes without replacing child receipts"
     - "closeout-change or closeout-worktree owns Change closeout and any hosted mutation"
     - "git mutation preflight passes before branch-local commit, push, hosted no-PR landing, sync, cleanup, or branch deletion"
     - "dirty or stale source posture selects a route-owned clean worktree with include-path classification before reconstruction, broad stage-all, staging, or commit"
@@ -257,6 +274,7 @@ workflow:
     profile: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
     receipt: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
     evidence_index: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh
+    feature_catalog_drift: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
     workflow: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
   stages:
     - id: bind-profile
@@ -306,6 +324,20 @@ workflow:
         - missing_post_implementation_drift_churn
         - stale_generated_publication_evidence
         - missing_governed_mechanism_integration_receipt
+    - id: validate-feature-catalog-drift
+      title: Validate product feature catalog drift
+      asset: stages/06-validate-feature-catalog-drift.md
+      required: true
+      fail_closed_on:
+        - missing_feature_catalog_drift_receipt
+        - feature_catalog_drift_receipt_invalid
+        - missing_catalog_entry
+        - missing_feature_note
+        - under_documented_feature
+        - status_mismatch
+        - stale_catalog_ref
+        - unresolved_child_feature_catalog_drift
+        - unresolved_parent_feature_catalog_drift
     - id: route-closeout-and-archive
       title: Route packet closeout and archive handoff
       asset: stages/06-route-closeout-and-archive.md
@@ -351,6 +383,7 @@ workflow:
         - target_owned_implementation_run
         - implementation_conformance_pass
         - post_implementation_drift_churn_pass
+        - feature_catalog_drift_pass
     archive-ready:
       requires:
         - packet_closeout_pass

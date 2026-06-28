@@ -1,0 +1,23 @@
+schema_version: architecture-proposal-v1
+architecture_scope: cross-domain-architecture
+decision_type: boundary-change
+owner: Octon product feature catalog governance architect
+status: draft
+summary: >
+  Stage catalog documentation updates and a new closeout gate that detects when
+  proposal packet or program work creates, changes, removes, retires, renames,
+  splits, merges, downgrades, or drifts product-facing feature documentation
+  obligations.
+affected_subsystems:
+  - product/features
+  - product/contracts
+  - orchestration/runtime/workflows/meta/proposal-packet-delivery
+  - orchestration/runtime/workflows/meta/proposal-program-delivery
+  - orchestration/runtime/workflows/meta/proposal-packet-terminal-closeout
+  - assurance/runtime
+  - proposal-lifecycle
+authority_boundary: >
+  The product feature catalog remains navigation-only. The drift gate emits
+  retained findings and blocks unsupported closeout claims; it does not mint
+  product authority, runtime routes, support claims, generated-effective state,
+  or execution evidence.

@@ -1,0 +1,157 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate/proposal.yml",
+      "manifest_sha256": "sha256:01170fff45fb9a46a46e45189a9ed32dc0c997b672d670c9995fd6fd227995f7",
+      "proposal_id": "product-feature-catalog-documentation-and-drift-gate",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/product-feature-catalog-documentation-and-drift-gate",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:e630d8fde9a9cdcc464f0fc10d325544e4302b92395c109914e3157b85e9085b",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Implement only after review accepts the catalog grouping, feature ids, authority notes, and validation floor.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/document-current-product-feature-gaps/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/product/features/catalog.yml",
+    ".octon/framework/product/features/README.md",
+    ".octon/framework/product/features/",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+  ],
+  "proposal_id": "document-current-product-feature-gaps",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 2172,
+      "estimated_tokens": 543,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/implementation-conformance-review.md",
+      "sha256": "sha256:ef44d6fc2a0fd7f201f9e90935ac2e373ae037103965d9aa5ed97e0bdd00cf98"
+    },
+    {
+      "byte_size": 2394,
+      "estimated_tokens": 599,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:1e383fccaf3d90de61a5fefc0cd23c5121ce80a3583a85cdb0b70416c85e739f"
+    },
+    {
+      "byte_size": 2710,
+      "estimated_tokens": 678,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/implementation-run.md",
+      "sha256": "sha256:0ef534337d7850a98cc3824b6581db86dc979c1da4a76c8801b2eeb81e08b8bd"
+    },
+    {
+      "byte_size": 2089,
+      "estimated_tokens": 523,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:ce883265ce2912b45caa0fdb38a96a00dc779ed53a40ee35b432164b31123e32"
+    },
+    {
+      "byte_size": 7517,
+      "estimated_tokens": 1880,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/proposal-closeout.md",
+      "sha256": "sha256:7ee033d80dd3a11cbf022af6b73bde0e2d6b48198a982afbd48479892cc81e9e"
+    },
+    {
+      "byte_size": 2471,
+      "estimated_tokens": 618,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/proposal-review.md",
+      "sha256": "sha256:c5ecff69efd9a5cfd7171c3730c6a43cd148836c3208fbbb6fc009f9727a8302"
+    }
+  ],
+  "related_proposals": [
+    "product-feature-catalog-documentation-and-drift-gate"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/architecture-proposal.yml": "sha256:0e1dff9b8af25efa6bba8a128f4fa6f7e97f66785d2c3c4888bb22e79123cb91",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/architecture/acceptance-criteria.md": "sha256:980fc8b67b0dcabcbd3455cb4454d34ee119e7f449410f2d68c4ec52bf82ded5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/architecture/implementation-plan.md": "sha256:a0a6ecceedb782f1abc2f12546754411d34b3364fae8ef308e5c9df2d5c21702",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/navigation/artifact-catalog.md": "sha256:30e311b81278bbafab536b67a47f90307521c5ab4f4df0601733203c6e8a814a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/navigation/source-of-truth-map.md": "sha256:478ae47ee3292f37b4e7004d843e926b315a20e55b601029d72e65cf6832f809",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/proposal.yml": "sha256:17abb8254386c57be560f88b4424b68b5bf2143512d75555c597d98ba0e9a45c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/implementation-grade-completeness-review.md": "sha256:1e383fccaf3d90de61a5fefc0cd23c5121ce80a3583a85cdb0b70416c85e739f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/proposal-review.md": "sha256:c5ecff69efd9a5cfd7171c3730c6a43cd148836c3208fbbb6fc009f9727a8302"
+  },
+  "source_lineage": [
+    ".octon/framework/product/features/catalog.yml",
+    ".octon/framework/product/features/README.md",
+    ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/document-current-product-feature-gaps/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

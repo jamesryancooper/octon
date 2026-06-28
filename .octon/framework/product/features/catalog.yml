@@ -463,7 +463,7 @@ features:
       - path: ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/01-bind-profile.md"
         role: "profile binding workflow stage"
         authority_class: "runtime-implementation"
-      - path: ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/08-emit-delivery-receipt.md"
+      - path: ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md"
         role: "delivery receipt emission workflow stage"
         authority_class: "runtime-implementation"
       - path: ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
@@ -1440,3 +1440,1495 @@ features:
       - "Raw extension packs under inputs/additive/extensions are publication inputs only."
       - "Generated effective extension outputs are derived runtime discovery surfaces, not durable authority."
       - "Capability profiles are composable guardrails, not mutually exclusive extension types."
+
+  - feature_id: "engagement-change-package-compiler"
+    name: "Engagement Change Package Compiler"
+    implementation_status: "implemented"
+    summary: >-
+      Compiles project profiles, change packages, decision requests, and run-contract handoff evidence for engagement preparation without authorizing execution.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "engine/runtime"
+      - "governance"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "octon start|profile|plan|arm|status"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/policies/engagement-change-package-compiler.yml"
+        role: "engagement compiler governance policy"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/engine/runtime/spec/engagement-change-package-compiler-v1.md"
+        role: "engagement compiler runtime spec"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs"
+        role: "engagement command runtime implementation"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/engagement-change-package-compiler.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/engagements/**"
+        role: "generated engagement operator read models"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/engagements/**"
+        role: "retained engagement compiler evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-change-package-compiler.sh"
+        role: "engagement compiler governance validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/engagement-change-package-compiler.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "mission-autonomy-and-planning"
+    name: "Mission Autonomy and Mission Plan Compiler"
+    implementation_status: "implemented"
+    summary: >-
+      Manages mission-scoped autonomy windows, mission plans, continuation decisions, leases, budgets, queue slices, and run-contract candidate handoff.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "engine/runtime"
+      - "orchestration/missions"
+      - "governance"
+    entrypoints:
+      - kind: "cli"
+        value: "octon mission open|status|continue|pause|resume|revoke|close|queue|next"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/policies/mission-continuation.yml"
+        role: "mission continuation policy"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/engine/runtime/spec/mission-plan-v1.md"
+        role: "mission plan runtime spec"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs"
+        role: "mission command runtime implementation"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/mission-autonomy-and-planning.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/missions/**"
+        role: "generated mission operator read models"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/missions/**"
+        role: "retained mission runtime evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh"
+        role: "mission autonomy runtime validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-plan-compiler.sh"
+        role: "mission plan compiler validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/mission-autonomy-and-planning.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "continuous-stewardship-runtime"
+    name: "Continuous Stewardship Runtime"
+    implementation_status: "implemented"
+    summary: >-
+      Runs stewardship programs, epochs, trigger observation, admission/idle/renewal decisions, ledgers, continuity, and evidence snapshots.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "engine/runtime"
+      - "orchestration"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "octon steward open|status|observe|admit|idle|renew|pause|resume|revoke|close|ledger|triggers|epochs|decisions"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/orchestration/practices/stewardship-lifecycle-standards.md"
+        role: "stewardship lifecycle standards"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/engine/runtime/spec/continuous-stewardship-runtime-v3.md"
+        role: "continuous stewardship runtime spec"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs"
+        role: "stewardship command runtime implementation"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/continuous-stewardship-runtime.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/stewardship/**"
+        role: "generated stewardship read models"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/stewardship/programs/**"
+        role: "retained stewardship evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-continuous-stewardship-runtime-v3.sh"
+        role: "continuous stewardship runtime validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/continuous-stewardship-runtime.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "connector-admission-runtime"
+    name: "Connector Admission Runtime"
+    implementation_status: "implemented"
+    summary: >-
+      Admits, validates, stages, quarantines, retires, and evidences connector operations without letting connectors bypass run authorization.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "engine/runtime"
+      - "governance/connectors"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "octon connector list|inspect|status|validate|admit|stage|quarantine|retire|dossier|evidence|drift|decision"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/policies/connector-admission.yml"
+        role: "connector admission policy"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/engine/runtime/spec/connector-admission-v1.schema.json"
+        role: "connector admission schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs"
+        role: "connector command dispatch surface in mission/runtime command module"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/connector-admission-runtime.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/connectors/**"
+        role: "generated connector operator read models"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/connectors/**"
+        role: "retained connector admission and drift evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh"
+        role: "connector admission runtime validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/connector-admission-runtime.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "self-evolution-runtime"
+    name: "Self-Evolution Runtime"
+    implementation_status: "implemented"
+    summary: >-
+      Manages evolution candidates, classification, simulations, labs, proposal compilation, amendment requests, promotion, recertification, rollback, retirement, and ledger inspection without self-authorization.
+    primary_audiences:
+      - "operators"
+      - "maintainers"
+    owner_subsystems:
+      - "engine/runtime"
+      - "governance/evolution"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "octon evolve|amend|promote|recertify"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/evolution/policies/evolution-policy.yml"
+        role: "self-evolution policy"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/engine/runtime/spec/evolution-proposal-compiler-v1.md"
+        role: "evolution proposal compiler spec"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs"
+        role: "evolution command runtime implementation"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/self-evolution-runtime.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/evolution/**"
+        role: "generated evolution operator read models"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/evolution/**"
+        role: "retained evolution evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh"
+        role: "self-evolution runtime validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/self-evolution-runtime.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "trust-compatibility-and-portable-proof"
+    name: "Trust, Compatibility, Federation, and Portable Proof"
+    implementation_status: "implemented"
+    summary: >-
+      Provides adoption preflight, compatibility inspection, trust registries/domains, federation compacts, portable proof bundles, attestations, delegated leases, and certification reporting as evidence-only non-authorizing surfaces.
+    primary_audiences:
+      - "operators"
+      - "maintainers"
+    owner_subsystems:
+      - "engine/runtime"
+      - "governance/trust"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "octon adopt|compatibility|trust|proof|attest|delegate|certify|federation"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/trust/registry.yml"
+        role: "trust registry"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/engine/runtime/spec/portable-proof-bundle-v1.schema.json"
+        role: "portable proof bundle schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/commands/trust.rs"
+        role: "trust command runtime implementation"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/trust-compatibility-and-portable-proof.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/trust/**"
+        role: "generated trust operator read models"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/trust/**"
+        role: "retained trust and proof evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-federated-trust-runtime-v6.sh"
+        role: "federated trust runtime validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-proof-interop-v6.sh"
+        role: "compatibility and proof interop validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/trust-compatibility-and-portable-proof.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "runtime-effective-publication-and-routing"
+    name: "Runtime Effective Publication and Capability Routing"
+    implementation_status: "implemented"
+    summary: >-
+      Publishes freshness-checked generated-effective support matrices, pack routes, runtime route bundles, extension state, capability routing, host projections, locks, handles, and evidence receipts.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "engine/runtime"
+      - "capabilities"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "publish runtime-effective route bundle and capability routing"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-v1.schema.json"
+        role: "runtime-effective route bundle schema"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
+        role: "runtime-effective handle spec"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh"
+        role: "runtime route bundle generator"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+        role: "capability routing publisher"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/runtime-effective-publication-and-routing.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/effective/runtime/**"
+        role: "generated runtime route bundles and locks"
+        authority_class: "generated-effective-non-authority"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/validation/publication/**"
+        role: "retained publication evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh"
+        role: "runtime-effective route bundle validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh"
+        role: "runtime-effective handle validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/runtime-effective-publication-and-routing.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "operator-read-models"
+    name: "Operator Read Models and Run Health Views"
+    implementation_status: "implemented"
+    summary: >-
+      Generates non-authoritative operator read models and run-health views with freshness, source traceability, and forbidden-consumer boundaries.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "engine/runtime"
+      - "assurance/runtime"
+      - "cognition"
+    entrypoints:
+      - kind: "cli"
+        value: "generate-run-health-read-model.sh"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+        role: "operator read-models spec"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+        role: "run-health read-model schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+        role: "run-health read-model generator"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/operator-read-models.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/runs/**"
+        role: "generated run-health operator read models"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/**"
+        role: "retained run-health generation evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+        role: "run-health read-model validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/operator-read-models.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "run-first-runtime-lifecycle"
+    name: "Run-First Runtime Lifecycle and Canonical Run Binding"
+    implementation_status: "implemented"
+    summary: >-
+      Binds consequential execution through canonical run contracts, manifests, authority bundles, checkpoints, rollback posture, replay/trace pointers, evidence roots, and RunCard disclosure.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "engine/runtime"
+      - "constitution/runtime"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "octon run start|inspect|resume|checkpoint|close|replay|disclose"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+        role: "run lifecycle runtime spec"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/constitution/contracts/runtime/run-contract-v3.schema.json"
+        role: "run contract schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+        role: "kernel CLI entrypoint"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/run_binding.rs"
+        role: "canonical run binding implementation"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/run-first-runtime-lifecycle.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/runs/**"
+        role: "generated run operator views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/<run-id>/**"
+        role: "retained canonical run evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/verify-run-contract-support-binding.sh"
+        role: "run contract support binding verifier"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/run-first-runtime-lifecycle.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "repo-hygiene-cleanup"
+    name: "Repo Hygiene Cleanup Authorization"
+    implementation_status: "implemented"
+    summary: >-
+      Authorizes and evidences tightly scoped repository hygiene cleanup with protected-path, manual-review, rollback, and deletion-safety boundaries.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "capabilities/runtime"
+      - "product/contracts"
+      - "governance"
+    entrypoints:
+      - kind: "cli"
+        value: "/repo-hygiene-cleanup"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/policies/repo-hygiene.yml"
+        role: "repo hygiene policy"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+        role: "repo hygiene cleanup authorization schema"
+        authority_class: "product-contract"
+    runtime_surfaces:
+      - path: ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+        role: "repo hygiene cleanup skill contract"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+        role: "local run artifact cleanup helper"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/repo-hygiene-cleanup.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/repo-hygiene/**"
+        role: "generated repo-hygiene operator views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/<run-id>/**"
+        role: "retained repo-hygiene cleanup evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+        role: "repo-hygiene governance validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/repo-hygiene-cleanup.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "host-tool-provisioning"
+    name: "Host Tool Provisioning"
+    implementation_status: "implemented"
+    summary: >-
+      Verifies, installs, repairs, quarantines, and exports host-scoped external tool state while keeping binaries outside the repository authority root.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "scaffolding/runtime"
+      - "capabilities/runtime"
+      - "governance"
+    entrypoints:
+      - kind: "cli"
+        value: "/provision-host-tools"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/policies/host-tool-resolution.yml"
+        role: "host tool resolution policy"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/capabilities/runtime/host-tools/registry.yml"
+        role: "host tool registry"
+        authority_class: "authored-authority"
+    runtime_surfaces:
+      - path: ".octon/framework/capabilities/runtime/commands/provision-host-tools.md"
+        role: "host-tool provisioning command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh"
+        role: "host-tool provisioning runtime script"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/host-tool-provisioning.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/effective/host-tools/repos/**"
+        role: "generated host-tool repo resolution views"
+        authority_class: "generated-effective-non-authority"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/provisioning/host-tools/**"
+        role: "retained host-tool provisioning evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-host-tool-governance.sh"
+        role: "host-tool governance validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/host-tool-provisioning.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "repository-bootstrap-and-harness-portability"
+    name: "Repository Bootstrap and Harness Portability"
+    implementation_status: "implemented"
+    summary: >-
+      Bootstraps Octon into repositories and exports harness profiles, manifests, dependency closures, and receipts for portable adoption without making raw export outputs authority.
+    primary_audiences:
+      - "operators"
+      - "maintainers"
+    owner_subsystems:
+      - "scaffolding/runtime"
+      - "orchestration/runtime"
+      - "bootstrap"
+    entrypoints:
+      - kind: "cli"
+        value: "/init and /export-harness"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/octon.yml"
+        role: "root Octon manifest and export profiles"
+        authority_class: "authored-authority"
+      - path: ".octon/instance/extensions.yml"
+        role: "instance extension selection"
+        authority_class: "authored-authority"
+    runtime_surfaces:
+      - path: ".octon/framework/capabilities/runtime/commands/init.md"
+        role: "init command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh"
+        role: "init runtime script"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/capabilities/runtime/commands/export-harness.md"
+        role: "export-harness command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
+        role: "export-harness runtime script"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/repository-bootstrap-and-harness-portability.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/effective/extensions/**"
+        role: "generated extension publication outputs used by export profiles"
+        authority_class: "generated-effective-non-authority"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/exports/**"
+        role: "retained harness export receipts"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+        role: "extension publication validator used by portability flows"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/repository-bootstrap-and-harness-portability.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "grounded-query-retrieval"
+    name: "Grounded Query Retrieval"
+    implementation_status: "implemented"
+    summary: >-
+      Runs query ask, retrieve, and explain modes over governed retrieval services with citations, evidence packs, diagnostics, degraded-signal behavior, and provider-boundary controls.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "capabilities/runtime/services"
+      - "retrieval"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "/query-ask /query-retrieve /query-explain"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/capabilities/runtime/services/retrieval/query/schema/input.schema.json"
+        role: "Query service input schema"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/capabilities/runtime/services/retrieval/query/schema/output.schema.json"
+        role: "Query service output schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/capabilities/runtime/commands/query-ask.md"
+        role: "query ask command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/capabilities/runtime/services/retrieval/query/impl/query.sh"
+        role: "Query service implementation"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/grounded-query-retrieval.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/query/**"
+        role: "generated query diagnostic views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/services/query/**"
+        role: "retained Query service run evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh"
+        role: "service independence validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/grounded-query-retrieval.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "deterministic-filesystem-observation"
+    name: "Deterministic Filesystem Observation"
+    implementation_status: "implemented"
+    summary: >-
+      Provides deterministic filesystem snapshots, diffs, discovery, graph/provenance query, and OS-agnostic polling watch surfaces as observation rather than authority.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "capabilities/runtime/services"
+      - "filesystem"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "/snapshot-build /snapshot-diff /discover-start /discover-expand /discover-explain /discover-resolve /watch-poll"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/SERVICE.md"
+        role: "filesystem snapshot service contract"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/capabilities/runtime/services/interfaces/filesystem-discovery/SERVICE.md"
+        role: "filesystem discovery service contract"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/capabilities/runtime/commands/snapshot-build.md"
+        role: "snapshot build command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/capabilities/runtime/commands/discover-start.md"
+        role: "discovery start command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/capabilities/runtime/commands/watch-poll.md"
+        role: "watch poll command"
+        authority_class: "runtime-command"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/deterministic-filesystem-observation.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/filesystem/**"
+        role: "generated filesystem observation views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/services/filesystem-*/**"
+        role: "retained filesystem service run evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh"
+        role: "service independence validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/deterministic-filesystem-observation.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "native-agent-platform-interop"
+    name: "Native Agent Platform Interop"
+    implementation_status: "implemented"
+    summary: >-
+      Validates native-first agent platform session policy, context budgets, compaction policy, adapter capability negotiation, degradation, and provider-term boundaries without widening execution authority.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "capabilities/runtime/services"
+      - "agent-platform"
+      - "governance"
+    entrypoints:
+      - kind: "cli"
+        value: "/context-budget /validate-session-policy /validate-platform-interop"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/capabilities/runtime/services/interfaces/agent-platform/schema/session-policy.schema.json"
+        role: "agent platform session policy schema"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/capabilities/governance/policy/provider-term-allowlist.tsv"
+        role: "provider term allowlist"
+        authority_class: "authored-authority"
+    runtime_surfaces:
+      - path: ".octon/framework/capabilities/runtime/commands/context-budget.md"
+        role: "context budget command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/capabilities/runtime/commands/validate-session-policy.md"
+        role: "session policy validation command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/capabilities/runtime/commands/validate-platform-interop.md"
+        role: "platform interop validation command"
+        authority_class: "runtime-command"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/native-agent-platform-interop.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/agent-platform/**"
+        role: "generated agent-platform operator views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/services/agent-platform/**"
+        role: "retained agent platform validation evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh"
+        role: "service independence validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/native-agent-platform-interop.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "workflow-authoring-and-studio"
+    name: "Workflow Authoring and Octon Studio"
+    implementation_status: "implemented"
+    summary: >-
+      Provides Studio workflow graph inspection, staged edit buffers, patch preview export, audit browsing, read-only operations views, and workflow create/evaluate/update commands.
+    primary_audiences:
+      - "operators"
+      - "maintainers"
+    owner_subsystems:
+      - "capabilities/runtime"
+      - "engine/runtime/studio"
+      - "orchestration/workflows"
+    entrypoints:
+      - kind: "cli"
+        value: "/studio /create-workflow /evaluate-workflow /update-workflow"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/orchestration/runtime/workflows/meta/create-workflow/workflow.yml"
+        role: "create workflow meta-workflow"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/orchestration/runtime/workflows/meta/evaluate-workflow/workflow.yml"
+        role: "evaluate workflow meta-workflow"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/capabilities/runtime/commands/studio.md"
+        role: "Studio command"
+        authority_class: "runtime-command"
+      - path: ".octon/framework/engine/runtime/crates/studio/Cargo.toml"
+        role: "Octon Studio crate"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/capabilities/runtime/commands/create-workflow.md"
+        role: "create workflow command"
+        authority_class: "runtime-command"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/workflow-authoring-and-studio.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/workflows/**"
+        role: "generated workflow operator views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/workflows/**"
+        role: "retained workflow run and audit evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-workflow-authority-derivation.sh"
+        role: "workflow authority derivation validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/workflow-authoring-and-studio.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "native-service-runtime-and-catalog"
+    name: "Native Service Runtime and Catalog"
+    implementation_status: "implemented"
+    summary: >-
+      Declares and validates native runtime services, service manifests, schemas, independence boundaries, generated implementation metadata, and retained service run records.
+    primary_audiences:
+      - "operators"
+      - "agents"
+      - "maintainers"
+    owner_subsystems:
+      - "capabilities/runtime/services"
+      - "engine/runtime"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "runtime service manifest and service interfaces"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/engine/runtime/spec/service-manifest-v1.schema.json"
+        role: "service manifest schema"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/capabilities/runtime/services/manifest.yml"
+        role: "runtime service manifest"
+        authority_class: "authored-authority"
+    runtime_surfaces:
+      - path: ".octon/framework/capabilities/runtime/services/_meta/docs/developer-overview.md"
+        role: "service runtime developer overview"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/capabilities/runtime/services/capabilities.yml"
+        role: "service capability declaration"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/native-service-runtime-and-catalog.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/framework/capabilities/runtime/services/**/impl/generated.manifest.json"
+        role: "generated service implementation manifests"
+        authority_class: "generated-effective-non-authority"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/services/**"
+        role: "retained service run evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh"
+        role: "service independence validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/native-service-runtime-and-catalog.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "support-universe-admission-and-disclosure"
+    name: "Support Universe Admission and Disclosure"
+    implementation_status: "implemented"
+    summary: >-
+      Publishes and validates the bounded admitted support universe, support-target admission, proofing, coverage, live claims, exclusions, disclosure, and no-widening support boundaries.
+    primary_audiences:
+      - "operators"
+      - "maintainers"
+    owner_subsystems:
+      - "constitution"
+      - "governance/support-targets"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "support target publication and HarnessCard disclosure"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/support-targets.yml"
+        role: "authoritative support-target declaration"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/constitution/support-targets.schema.json"
+        role: "support-target schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/generate-support-target-matrix.sh"
+        role: "support target matrix generator"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/generate-support-universe-coverage.sh"
+        role: "support universe coverage generator"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/support-universe-admission-and-disclosure.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path: ".octon/generated/effective/governance/support-target-matrix.yml"
+        role: "generated support target matrix"
+        authority_class: "generated-effective-non-authority"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/disclosure/**"
+        role: "retained support disclosure evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-admission.sh"
+        role: "support target admission validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh"
+        role: "support target live claim validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/support-universe-admission-and-disclosure.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "context-pack-builder-and-binding"
+    name: "Context Pack Builder and Binding"
+    implementation_status: "implemented"
+    summary: >-
+      Builds bounded model-visible context packs with source manifests, redactions, omissions, invalidation events, replay records, and receipts while preventing raw input authority drift.
+    primary_audiences:
+      - "agents"
+      - "operators"
+    owner_subsystems:
+      - "engine/runtime"
+      - "assurance/runtime"
+      - "cognition"
+    entrypoints:
+      - kind: "cli"
+        value: "context pack builder fixtures and validator"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"
+        role: "context pack builder spec"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/engine/runtime/spec/context-pack-receipt-v1.schema.json"
+        role: "context pack receipt schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/assurance/runtime/_ops/fixtures/context-pack-builder-v1/cases/durable-duplicate-sources/pack.json"
+        role: "context pack builder executable fixture"
+        authority_class: "retained-evidence"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh"
+        role: "context pack builder validator runtime surface"
+        authority_class: "validation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/context-pack-builder-and-binding.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/context-packs/**"
+        role: "generated context pack views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/framework/assurance/runtime/_ops/fixtures/context-pack-builder-v1/cases/**"
+        role: "retained context-pack fixtures and replay evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh"
+        role: "context pack builder validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/context-pack-builder-and-binding.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "execution-authorization-and-effect-tokens"
+    name: "Execution Authorization and Effect Tokens"
+    implementation_status: "implemented"
+    summary: >-
+      Defines material side-effect inventory, execution authorization, authorized effect token production/consumption, phase results, and boundary coverage for fail-closed effect routing.
+    primary_audiences:
+      - "operators"
+      - "agents"
+    owner_subsystems:
+      - "engine/runtime"
+      - "constitution/authority"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "authorization boundary and authorized effect token validation"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+        role: "execution authorization spec"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/engine/runtime/spec/authorized-effect-token-v2.schema.json"
+        role: "authorized effect token schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+        role: "material side-effect inventory"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+        role: "lifecycle authorization runtime implementation"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/execution-authorization-and-effect-tokens.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/effective/runtime/authorization/**"
+        role: "generated authorization projections"
+        authority_class: "generated-effective-non-authority"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/control/execution/**"
+        role: "retained execution authorization evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+        role: "authorization boundary coverage validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh"
+        role: "authorized effect token enforcement validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/execution-authorization-and-effect-tokens.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "evidence-store-and-proof-plane"
+    name: "Evidence Store and Proof Plane"
+    implementation_status: "implemented"
+    summary: >-
+      Defines retained evidence-store, proof-plane completeness, executable proof bundles, evidence disclosure tiers, proof coverage reports, and negative controls for support and disclosure claims.
+    primary_audiences:
+      - "operators"
+      - "maintainers"
+    owner_subsystems:
+      - "constitution/retention"
+      - "assurance/runtime"
+      - "engine/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "proof bundle and evidence store validators"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+        role: "evidence store runtime spec"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/constitution/contracts/assurance/support-target-proof-bundle-v1.schema.json"
+        role: "support-target proof bundle schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/generate-proof-plane-coverage-report.sh"
+        role: "proof plane coverage generator"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh"
+        role: "proof suite runner"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/evidence-store-and-proof-plane.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/proof-plane/**"
+        role: "generated proof-plane operator views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/lab/**"
+        role: "retained proof-plane and lab evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-proof-plane-completeness.sh"
+        role: "proof plane completeness validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-executability.sh"
+        role: "proof bundle executability validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/evidence-store-and-proof-plane.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "governed-promotion-activation-and-recertification"
+    name: "Governed Promotion, Activation, and Recertification"
+    implementation_status: "implemented"
+    summary: >-
+      Coordinates promotion requests, activation receipts, recertification status, promotion semantics, closure recertification triggers, and proof-backed activation boundaries.
+    primary_audiences:
+      - "operators"
+      - "maintainers"
+    owner_subsystems:
+      - "engine/runtime"
+      - "governance"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "promotion and recertification runtime"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/instance/governance/policies/promotion-semantics.yml"
+        role: "promotion semantics policy"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/engine/runtime/spec/promotion-runtime-v1.md"
+        role: "promotion runtime spec"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/workflow.yml"
+        role: "proposal promotion workflow"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/generate-recertification-status.sh"
+        role: "recertification status generator"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/governed-promotion-activation-and-recertification.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/recertification/**"
+        role: "generated recertification views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/control/execution/promotions/**"
+        role: "retained promotion and recertification evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh"
+        role: "promotion receipt validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-recertification-status.sh"
+        role: "recertification status validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/governed-promotion-activation-and-recertification.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "workflow-statechart-task-harness"
+    name: "Workflow Statechart and Task Harness"
+    implementation_status: "implemented"
+    summary: >-
+      Defines workflow statechart contracts, task-specific execution harness compilation, replay/idempotency/compensation posture, and workflow authority derivation checks.
+    primary_audiences:
+      - "operators"
+      - "agents"
+      - "maintainers"
+    owner_subsystems:
+      - "engine/runtime"
+      - "orchestration/workflows"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "workflow statechart and task harness specs"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/engine/runtime/spec/workflow-statechart-v1.md"
+        role: "workflow statechart spec"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"
+        role: "task-specific execution harness spec"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/orchestration/runtime/workflows/registry.yml"
+        role: "workflow registry"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/orchestration/runtime/workflows/manifest.yml"
+        role: "workflow manifest"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/workflow-statechart-task-harness.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/effective/orchestration/workflows/**"
+        role: "generated workflow routing projections"
+        authority_class: "generated-effective-non-authority"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/workflows/**"
+        role: "retained workflow execution evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh"
+        role: "workflow statechart harness validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-workflow-history-replay-idempotency-compensation.sh"
+        role: "workflow replay/idempotency validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/workflow-statechart-task-harness.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."
+  - feature_id: "proposal-packet-authoring-validation-archival"
+    name: "Proposal Packet Authoring, Validation, and Archival"
+    implementation_status: "implemented"
+    summary: >-
+      Creates, validates, reviews, promotes, closes out, and archives proposal packets through typed proposal standards, artifact indexes, lifecycle gates, and archive relocation boundaries.
+    primary_audiences:
+      - "operators"
+      - "agents"
+      - "maintainers"
+    owner_subsystems:
+      - "orchestration/workflows"
+      - "capabilities/runtime"
+      - "assurance/runtime"
+    entrypoints:
+      - kind: "cli"
+        value: "/create-architecture-proposal /create-design-proposal /create-migration-proposal /create-policy-proposal /validate-proposal /promote-proposal /archive-proposal"
+    authoritative_refs:
+      - path: ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        role: "catalog schema used by this navigation entry"
+        authority_class: "product-contract"
+      - path: ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
+        role: "base proposal standard"
+        authority_class: "authored-authority"
+      - path: ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/proposal-program-child-registry.schema.json"
+        role: "proposal child registry schema"
+        authority_class: "runtime-spec"
+    runtime_surfaces:
+      - path: ".octon/framework/orchestration/runtime/workflows/meta/create-architecture-proposal/workflow.yml"
+        role: "architecture proposal creation workflow"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/orchestration/runtime/workflows/meta/validate-proposal/workflow.yml"
+        role: "proposal validation workflow"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml"
+        role: "proposal archive workflow"
+        authority_class: "runtime-implementation"
+    extension_surfaces:
+      - path: ".octon/framework/product/features/proposal-packet-authoring-validation-archival.md"
+        role: "feature note records extension-surface boundary for this feature"
+        authority_class: "navigation-only"
+    generated_effective_surfaces:
+      - path_pattern: ".octon/generated/cognition/projections/materialized/proposals/**"
+        role: "generated proposal operator views"
+        authority_class: "generated-operator-read-model"
+    evidence_surfaces:
+      - path_pattern: ".octon/state/evidence/runs/workflows/*proposal*/**"
+        role: "retained proposal lifecycle evidence"
+        authority_class: "retained-evidence-pattern"
+    validation_refs:
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+        role: "proposal standard validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-archive-proposal-workflow.sh"
+        role: "archive proposal workflow validator"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        role: "product feature catalog validator"
+        authority_class: "validation"
+    related_docs:
+      - path: ".octon/framework/product/features/proposal-packet-authoring-validation-archival.md"
+        role: "human-readable feature note"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "This product feature catalog entry is navigation-only."
+      - "Runtime, policy, schema, and validator refs keep their own authority classes; this catalog does not mint authority."
+      - "Generated outputs and operator read models are derived/non-authority."
+      - "Retained evidence proves events or checks occurred but does not authorize future execution."
+      - "Raw inputs, host UI state, chat/model memory, and tool availability do not satisfy this feature boundary."

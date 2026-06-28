@@ -1,0 +1,323 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/feature-catalog-drift-receipt-v1.schema.json",
+  "title": "Feature Catalog Drift Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "emitted_at",
+    "target",
+    "catalog_validation",
+    "drift_result",
+    "findings",
+    "blockers",
+    "non_authority_boundary",
+    "authority_notes",
+    "next_route"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "feature-catalog-drift-receipt-v1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "emitted_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "target_type",
+        "promotion_targets"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_type": {
+          "enum": [
+            "proposal-packet",
+            "proposal-program",
+            "delivery-receipt",
+            "terminal-closeout",
+            "fixture"
+          ]
+        },
+        "promotion_targets": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "catalog_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validator_ref",
+        "catalog_ref",
+        "schema_ref",
+        "verdict"
+      ],
+      "properties": {
+        "validator_ref": {
+          "const": ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+        },
+        "catalog_ref": {
+          "const": ".octon/framework/product/features/catalog.yml"
+        },
+        "schema_ref": {
+          "const": ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "blocked",
+            "not-run"
+          ]
+        }
+      }
+    },
+    "drift_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome",
+        "unresolved_count",
+        "affected_feature_ids",
+        "required_documentation_actions"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": [
+            "no-change",
+            "documented-change",
+            "documented-retirement",
+            "blocked-unresolved-drift"
+          ]
+        },
+        "unresolved_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "affected_feature_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required_documentation_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "class",
+          "detail",
+          "evidence_ref",
+          "status"
+        ],
+        "properties": {
+          "class": {
+            "enum": [
+              "feature-catalog-drift",
+              "catalog-validation-failed",
+              "missing-drift-receipt",
+              "receipt-invalid"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "open",
+              "resolved"
+            ]
+          }
+        }
+      }
+    },
+    "non_authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_inputs_non_authority",
+        "generated_outputs_non_authority",
+        "host_ui_state_non_authority",
+        "chat_model_memory_non_authority",
+        "tool_availability_non_authority",
+        "evidence_not_authorization",
+        "catalog_navigation_only"
+      ],
+      "properties": {
+        "raw_inputs_non_authority": {
+          "const": true
+        },
+        "generated_outputs_non_authority": {
+          "const": true
+        },
+        "host_ui_state_non_authority": {
+          "const": true
+        },
+        "chat_model_memory_non_authority": {
+          "const": true
+        },
+        "tool_availability_non_authority": {
+          "const": true
+        },
+        "evidence_not_authorization": {
+          "const": true
+        },
+        "catalog_navigation_only": {
+          "const": true
+        }
+      }
+    },
+    "authority_notes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "next_route": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "drift_result": {
+            "properties": {
+              "outcome": {
+                "const": "blocked-unresolved-drift"
+              }
+            },
+            "required": [
+              "outcome"
+            ]
+          }
+        },
+        "required": [
+          "drift_result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "drift_result": {
+            "properties": {
+              "unresolved_count": {
+                "minimum": 1
+              }
+            }
+          },
+          "blockers": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feature_id",
+        "feature_name",
+        "classification",
+        "status",
+        "evidence_refs",
+        "documentation_action",
+        "authority_note"
+      ],
+      "properties": {
+        "feature_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feature_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "classification": {
+          "enum": [
+            "missing-catalog-entry",
+            "missing-feature-note",
+            "under-documented",
+            "status-mismatch",
+            "probably-not-a-product-feature",
+            "stale-ref",
+            "obsolete-catalog-entry",
+            "incorrect-grouping",
+            "rename-required",
+            "split-required",
+            "merge-required",
+            "downgrade-required",
+            "documented-change",
+            "documented-retirement",
+            "no-change"
+          ]
+        },
+        "status": {
+          "enum": [
+            "resolved",
+            "unresolved",
+            "excluded"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "documentation_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_note": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
