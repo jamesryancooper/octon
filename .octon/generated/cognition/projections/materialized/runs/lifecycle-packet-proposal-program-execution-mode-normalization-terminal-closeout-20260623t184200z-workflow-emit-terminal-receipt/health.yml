@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:7af2bb67d7e259795c1f24898cbe76e9f656347c9a4c1c743227d57975715de3",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-execution-mode-normalization-terminal-closeout-20260623t184200z-workflow-emit-terminal-receipt/events.manifest.yml"

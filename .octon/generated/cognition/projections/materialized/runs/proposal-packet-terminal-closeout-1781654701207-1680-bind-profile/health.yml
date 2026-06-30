@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "proposal-packet-terminal-closeout-1781654701207-1680-bind-profile",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:2cd7eda2a525082403de5770579e328efce4cd7a19bba91ad0f38bafaefeb305",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781654701207-1680-bind-profile/events.manifest.yml"

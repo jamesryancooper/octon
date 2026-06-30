@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:c9e8b3b9060d13075f74bb3cc207d6dd3423e4fdd73ecd76d0de66daf650cd32",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/events.manifest.yml"

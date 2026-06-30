@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:4233c4b58fd0460779c2487ae6b610b846f7a05f5fcf46b586e9244f48b046b9",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml"

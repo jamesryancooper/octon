@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "proposal-packet-terminal-closeout-1781532766146-81551-resolve-git-github-route",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:fda06658782cec57e51ff05e8c370ca7b90e3c114c2b73c36aa8be6ea96fc138",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/proposal-packet-terminal-closeout-1781532766146-81551-resolve-git-github-route/events.manifest.yml"

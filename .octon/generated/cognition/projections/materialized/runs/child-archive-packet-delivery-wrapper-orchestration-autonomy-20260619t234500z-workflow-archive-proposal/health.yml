@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:55bd93976ba1c2c09a9a4f3fa8e143c1ac04547edc8d081c9a1ffa45adb7baff",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml"

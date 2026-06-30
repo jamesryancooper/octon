@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-classify-repo-hygiene",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:a1d9e126c4afe0b18d47b46a0d18be0380b3bc7d61d5635086f894dea0690b3a",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/child-terminal-packet-delivery-wrapper-orchestration-autonomy-20260619t233500z-workflow-classify-repo-hygiene/events.manifest.yml"

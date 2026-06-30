@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-validate-publication-freshness",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:a15ef34cf0aa4717a803fba636d6b6d17008be54b93259d1db2e6e4c5fd173f8",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t224500z-workflow-validate-publication-freshness/events.manifest.yml"

@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:87cfd6506d0b53e06b7e78d0ac3d46a3874b5d93251371d4ce5f23dc50732b6b",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/terminal-closeout-genericity-policy-fixture-20260614t-litmus1-verify-durable-implementation-state/events.manifest.yml"

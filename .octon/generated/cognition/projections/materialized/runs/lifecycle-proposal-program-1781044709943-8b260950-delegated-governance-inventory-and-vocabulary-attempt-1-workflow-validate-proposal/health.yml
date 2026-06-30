@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:f73cc67f31a54bebdce943c853446b2a6a4c1f1f3790b1420a4e3eb84a092ec5",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/lifecycle-proposal-program-1781044709943-8b260950-delegated-governance-inventory-and-vocabulary-attempt-1-workflow-validate-proposal/events.manifest.yml"

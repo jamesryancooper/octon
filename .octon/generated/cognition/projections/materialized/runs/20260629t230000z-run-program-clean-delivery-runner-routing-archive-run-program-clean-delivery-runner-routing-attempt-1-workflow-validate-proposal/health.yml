@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:4ca4c3fd3f1b4c38052ec63141bd1faee25aea433743e05b9af508e4be7dd973",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal/events.manifest.yml"

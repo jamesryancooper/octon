@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene",
-  "generated_at": "2026-06-30T15:40:39Z",
+  "generated_at": "2026-06-30T15:51:24Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.1.0",
@@ -29,7 +29,7 @@
     "status": "stale",
     "source_digest_algorithm": "sha256",
     "combined_source_digest": "sha256:d253f657c63aa24bb0dd9e19d901bcb3fbd8bfc31d2429a056c6a6d28accca00",
-    "checked_at": "2026-06-30T15:40:39Z",
+    "checked_at": "2026-06-30T15:51:24Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/child-terminal-terminal-evidence-sink-autonomy-20260620t015000z-workflow-classify-worktree-hygiene/events.manifest.yml"
