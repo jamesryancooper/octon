@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260630T010710Z-run-program-to-clean-delivery-parent-closeout-prompt/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260630T010710Z-run-program-to-clean-delivery-parent-closeout-prompt/parent/context/context-pack.json
+route_id: cleanup-lifecycle-residue
+run_id: 20260630T010710Z-run-program-to-clean-delivery-parent-closeout-prompt
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-30T01:07:58.573433Z
+validity_state: valid

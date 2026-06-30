@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:737a0685d4f18248b0e3e95c33227b499d9eacb85aa7fcbd94187d0837e5c7b7
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:db7509ce814a647d1d7cffabb0626a2c29557530f0ebfb37c3950fd97caf34c9
+receipt_sha256: sha256:16d66c3adf6d374b29e8cc54cdc5d81579566a8d27114516562e93706b26893a
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T22:25:00.498279Z
+validity_state: valid

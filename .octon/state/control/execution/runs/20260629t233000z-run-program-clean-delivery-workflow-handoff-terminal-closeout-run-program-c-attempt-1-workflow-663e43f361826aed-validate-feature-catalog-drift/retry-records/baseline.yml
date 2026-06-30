@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-29T22:23:10.735386Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift-baseline
+route_taken: allow
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift
+schema_version: run-retry-record-v1
+stage_attempt_id: validate-feature-catalog-drift--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/stage-attempts/validate-feature-catalog-drift--initial.yml

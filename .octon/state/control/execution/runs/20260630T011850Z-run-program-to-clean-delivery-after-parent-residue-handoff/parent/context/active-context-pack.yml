@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260630T011850Z-run-program-to-clean-delivery-after-parent-residue-handoff/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260630T011850Z-run-program-to-clean-delivery-after-parent-residue-handoff/parent/context/context-pack.json
+context_pack_sha256: sha256:f8d63b4b0c12e85c229af5d7ef96d67cd38887bfe49992c957c9aea8dca8b2ef
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260630T011850Z-run-program-to-clean-delivery-after-parent-residue-handoff/parent/context/model-visible-context.json
+model_visible_context_sha256: sha256:f0821ec0feccdab233f6c4dbea05baadca502b5f20e327aa64537570aef8377f
+receipt_sha256: sha256:cc87b0121577c47eaee706b1442be5193ccfc232f48d801bf3f560b521a68d4a
+route_id: cleanup-lifecycle-residue
+run_id: 20260630T011850Z-run-program-to-clean-delivery-after-parent-residue-handoff
+schema_version: active-context-pack-v1
+updated_at: 2026-06-30T01:21:57.292371Z
+validity_state: valid

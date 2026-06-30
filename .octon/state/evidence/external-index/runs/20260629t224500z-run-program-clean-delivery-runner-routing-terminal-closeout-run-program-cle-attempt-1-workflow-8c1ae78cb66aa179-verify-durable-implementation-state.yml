@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:8566b978ddf69bf0d2e03c2daeeeb7ae338b6a8f7bfc251a6fed65b58ef1e4b1
+  entry_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-29T21:45:48.405158Z
+  run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:4898e935dd7a5a24a148aeab1119d2cc057fbdf875a84b12618b4ffb2d9ca6cf
+  entry_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-29T21:45:48.405158Z
+  run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state
+  storage_class: external-immutable
+index_id: external-replay-20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state
+run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-durable-implementation-state
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T21:45:48.405158Z

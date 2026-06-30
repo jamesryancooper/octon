@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T171600Z-run-program-to-clean-delivery-architecture-prebound-return-dispatch/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T171600Z-run-program-to-clean-delivery-architecture-prebound-return-dispatch/parent/context/context-pack.json
+route_id: review-program
+run_id: 20260629T171600Z-run-program-to-clean-delivery-architecture-prebound-return-dispatch
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-29T16:53:02.292964Z
+validity_state: valid

@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/context/model-visible-context.json
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-29T22:23:10.759998Z
+validity_state: valid

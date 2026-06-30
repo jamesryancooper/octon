@@ -1,0 +1,222 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: 20260629T211000Z-run-program-clean-delivery-architecture-terminal-closeout
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+executor: auto
+invocation_authority: unattended
+timeout_seconds: 600
+max_steps: 1
+max_child_concurrency: 1
+child_registry_digest: sha256:14291d3e21cf4e24242bb240443361f359159325dfc1b0cc6e2763ecbbbfb2f9
+execution_mode: sequential
+run_inputs:
+  target_outcome: archive-ready
+  worktree_baseline_lease: explicit-dirty-start
+scheduler_decision:
+- run-program-clean-delivery-architecture
+child_states:
+  run-program-clean-delivery-architecture:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+    current_state: proposal-packet-terminal-closeout
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:f83a8c3182fc446017f06a811c033e2e3a9390740adf50e5b70c1bdf9c3ab2dd
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/engine/runtime/spec/
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+  run-program-clean-delivery-evidence-metadata:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata
+    current_state: closeout-packet
+    final_verdict: blocked-no-route
+    receipt_digests:
+      proposal-review: sha256:f65e8dce5607d37c23f5c27ca35fe7c586a8deeddc257eddaf4de82c94ae55a9
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-workflow-handoff:
+        dependency_id: run-program-clean-delivery-workflow-handoff
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh
+    - .octon/framework/product/contracts/change-receipt-v1.schema.json
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata
+  run-program-clean-delivery-operator-surface:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+    current_state: closeout-packet
+    final_verdict: blocked-no-route
+    receipt_digests:
+      proposal-review: sha256:4ca1fc9a808a4e72e3688e8b5ba69ed59a2ec061790d8ad052269f1d33cc51dc
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-validators:
+        dependency_id: run-program-clean-delivery-validators
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/capabilities/runtime/commands/
+    - .octon/framework/capabilities/runtime/skills/
+    - .octon/framework/product/features/README.md
+    - .octon/framework/product/features/catalog.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+  run-program-clean-delivery-runner-routing:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing
+    current_state: closeout-packet
+    final_verdict: blocked-no-route
+    receipt_digests:
+      proposal-review: sha256:898b8d9462dfa2a40db0a29504e526de13474e5e4e12979c0b2a5bcd63c9f8e6
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-architecture:
+        dependency_id: run-program-clean-delivery-architecture
+        required_gate: verification
+        satisfied: true
+        observed_gate: closeout
+        reason: observed closeout
+    write_scopes:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing
+  run-program-clean-delivery-validators:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+    current_state: closeout-packet
+    final_verdict: blocked-no-route
+    receipt_digests:
+      proposal-review: sha256:21cf98cb01008fdad1b6919362c5fd3286b9278a6b170c12e1be4d08db177305
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-evidence-metadata:
+        dependency_id: run-program-clean-delivery-evidence-metadata
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      run-program-clean-delivery-runner-routing:
+        dependency_id: run-program-clean-delivery-runner-routing
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      run-program-clean-delivery-workflow-handoff:
+        dependency_id: run-program-clean-delivery-workflow-handoff
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/engine/runtime/crates/kernel/tests/
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+  run-program-clean-delivery-workflow-handoff:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+    current_state: closeout-packet
+    final_verdict: blocked-no-route
+    receipt_digests:
+      proposal-review: sha256:034c76ab1ca32d2cb5c06de811905adb0ea55eaeae05fb37211f9792e5d1089e
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-architecture:
+        dependency_id: run-program-clean-delivery-architecture
+        required_gate: verification
+        satisfied: true
+        observed_gate: closeout
+        reason: observed closeout
+      run-program-clean-delivery-runner-routing:
+        dependency_id: run-program-clean-delivery-runner-routing
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+    - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+    - .octon/framework/product/contracts/change-closeout-state-machine.yml
+    - .octon/framework/product/contracts/default-work-unit.yml
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+recovery_attempts:
+  run-program-clean-delivery-architecture: 1
+  run-program-clean-delivery-architecture:route: 1
+program_recovery_action_attempts: {}
+recovery_progress_fingerprints:
+  run-program-clean-delivery-architecture:proposal-packet-terminal-closeout:route:
+    child_id: run-program-clean-delivery-architecture
+    route_id: proposal-packet-terminal-closeout
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: true
+    receipt_digests:
+      proposal-review: sha256:f83a8c3182fc446017f06a811c033e2e3a9390740adf50e5b70c1bdf9c3ab2dd
+    selected_route_id: proposal-packet-terminal-closeout
+closeout_hygiene_suppressions: {}
+aggregate_terminal_blockers:
+  path: .octon/state/evidence/runs/workflows/20260629T211000Z-run-program-clean-delivery-architecture-terminal-closeout/aggregate-terminal-blockers.yml
+  digest: sha256:488df00b06fdc80a9a5acc5b4a51c52f3b70d7b768f728e6b3a11046a95fe289
+  blocked_required_child_count: 6
+  authority_boundary: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+residue_cleanup_attempts: {}
+worktree_baseline_ref: .octon/state/evidence/runs/workflows/20260629T211000Z-run-program-clean-delivery-architecture-terminal-closeout/worktree-baseline.yml
+interaction_request_refs: []
+interaction_return_refs: []
+approvals: []
+program_recovery_recipe_validation_status: null
+program_recovery_recipe_validation_failures: []
+program_recovery_recipe_blocker_class: null
+program_recovery_recipe_route_id: null
+program_recovery_recipe_delegation_contract_basis: null
+latest_event_offset: 13
+latest_event_index: 13
+latest_event_sha256: sha256:9b52f11586ec5dfeda66e81848f665d2dffebaf1b8203a282e4c03bdecc5d951
+event_log_sha256: sha256:5335e4d8f4ef93767b865ceb1b9a9dbc1331ca2aa71e5d9feb3b906ef1741dab
+derived_from_event_index: 13
+atomic_barrier_state: null
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: step-budget-exhausted-continuable
+resume_instruction: octon lifecycle resume --run-id 20260629T211000Z-run-program-clean-delivery-architecture-terminal-closeout

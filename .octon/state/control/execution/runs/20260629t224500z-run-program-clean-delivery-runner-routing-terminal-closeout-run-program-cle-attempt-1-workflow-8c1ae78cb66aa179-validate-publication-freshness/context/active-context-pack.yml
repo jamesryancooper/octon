@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-validate-publication-freshness/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-validate-publication-freshness/context/context-pack.json
+context_pack_sha256: sha256:0c5c1a643ab1fdb044843ca225dc984cf00699b07487ce0538500d933cf62d80
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-validate-publication-freshness/context/model-visible-context.json
+model_visible_context_sha256: sha256:ab8da8b9c57fe89140dcc1e3b7e0d3e5e93195d8ee9a6e51e1edcfe383e076e2
+receipt_sha256: sha256:024754cef256a05a3ea4439c4e5e648b4e3f9793c811edf89710540374c1e6fe
+run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-validate-publication-freshness
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T21:48:04.189012Z
+validity_state: valid

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:1a800e0f8a4890e42ecec0fe02f87e668eb23e78d5a8921faa518d29c38f4434
+  entry_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-29T21:56:19.322171Z
+  run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:ace602fbce2102cd71d50b44a61a226b9ae2a154389cc79602d3087a0c66dfa0
+  entry_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness/replay/manifest.yml
+  recorded_at: 2026-06-29T21:56:19.322171Z
+  run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness
+  storage_class: external-immutable
+index_id: external-replay-20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness
+run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-validate-publication-freshness
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T21:56:19.322171Z

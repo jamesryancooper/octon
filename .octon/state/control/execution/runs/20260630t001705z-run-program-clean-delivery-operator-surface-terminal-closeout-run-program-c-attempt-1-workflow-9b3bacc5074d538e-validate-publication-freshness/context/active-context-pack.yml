@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-validate-publication-freshness/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-validate-publication-freshness/context/context-pack.json
+context_pack_sha256: sha256:28663e383473a1f2cbc4c4e32e8704ab37bd69d8d7bd8c6e35ebde5094866548
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-validate-publication-freshness/context/model-visible-context.json
+model_visible_context_sha256: sha256:f16b470e29867700d84462778e42670a52cdcde368fe99a1a0b24fa16a6a8495
+receipt_sha256: sha256:c66fc873b023e1e19de7727e9034d2c03b2abd94a4d4114d5993f2077af209bd
+run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-validate-publication-freshness
+schema_version: active-context-pack-v1
+updated_at: 2026-06-30T00:21:29.920666Z
+validity_state: valid

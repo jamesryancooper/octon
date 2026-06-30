@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260630T014200Z-run-program-to-clean-delivery-parent-verification-prompt/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260630T014200Z-run-program-to-clean-delivery-parent-verification-prompt/parent/context/context-pack.json
+route_id: generate-program-verification-prompt
+run_id: 20260630T014200Z-run-program-to-clean-delivery-parent-verification-prompt
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-30T00:43:40.174777Z
+validity_state: valid

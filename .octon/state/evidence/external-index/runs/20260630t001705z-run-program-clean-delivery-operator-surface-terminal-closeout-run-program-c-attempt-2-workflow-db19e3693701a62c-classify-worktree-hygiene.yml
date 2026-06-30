@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:1870a0aeed8b609c8f1be38eff0fe980ae564c03b31d00b91c611f47d26dc3d3
+  entry_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-30T00:27:59.751603Z
+  run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:faa67a437a5a249af064f9289612fb4fa44e62f1e290013130bc3e033a9b1c0c
+  entry_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene/replay/manifest.yml
+  recorded_at: 2026-06-30T00:27:59.751603Z
+  run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene
+  storage_class: external-immutable
+index_id: external-replay-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene
+run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-worktree-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-30T00:27:59.751603Z

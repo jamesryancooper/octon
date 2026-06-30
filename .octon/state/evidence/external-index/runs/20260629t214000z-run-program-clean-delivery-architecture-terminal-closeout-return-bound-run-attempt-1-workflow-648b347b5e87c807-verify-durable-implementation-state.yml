@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:2b47c22b99ba923727c019a2ec7fffc1c7a8515af786b1d74e87a53676244919
+  entry_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-29T21:05:18.707208Z
+  run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:ba700278fc7533f2f374459fcbe29d13201b16f4f08e02bf67e419c0f22a076f
+  entry_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state/replay/manifest.yml
+  recorded_at: 2026-06-29T21:05:18.707208Z
+  run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state
+  storage_class: external-immutable
+index_id: external-replay-20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state
+run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-verify-durable-implementation-state
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T21:05:18.707208Z

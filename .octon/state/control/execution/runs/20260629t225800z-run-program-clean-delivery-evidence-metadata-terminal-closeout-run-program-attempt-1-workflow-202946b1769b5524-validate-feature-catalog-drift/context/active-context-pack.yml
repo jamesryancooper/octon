@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-validate-feature-catalog-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-validate-feature-catalog-drift/context/context-pack.json
+context_pack_sha256: sha256:3b4a53d3302e4c8a5f26beab8683052c17ef96886ca2eef1d3fd051fa37e7540
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-validate-feature-catalog-drift/context/model-visible-context.json
+model_visible_context_sha256: sha256:94b966f5f0e241bc2a8facffa4789a7f8a24290a11caa65684798785dea6e601
+receipt_sha256: sha256:c8f94dd1e867793e54b3a04edfa4051fbaa2d5b3397423638b87df153806ed41
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-validate-feature-catalog-drift
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:00:18.379262Z
+validity_state: valid

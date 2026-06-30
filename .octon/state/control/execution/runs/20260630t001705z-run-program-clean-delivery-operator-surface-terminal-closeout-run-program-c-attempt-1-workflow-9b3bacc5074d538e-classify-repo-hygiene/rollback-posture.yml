@@ -1,0 +1,17 @@
+schema_version: run-rollback-posture-v1
+run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-classify-repo-hygiene
+reversibility_class: reversible
+rollback_strategy: rollback
+rollback_ref: null
+rollback_handle: null
+compensation_handle: null
+recovery_window: null
+contamination_state: clean
+retry_record_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-classify-repo-hygiene/retry-records/baseline.yml
+contamination_record_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-classify-repo-hygiene/contamination/current.yml
+resume_allowed: true
+reset_action: No reset required; canonical run evidence remained coherent.
+invalidated_artifacts: []
+hard_reset_required: false
+posture_source: run-contract-default
+updated_at: 2026-06-30T00:21:32.121693Z

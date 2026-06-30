@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-verify-post-implementation-drift
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-verify-post-implementation-drift/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-verify-post-implementation-drift/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-verify-post-implementation-drift/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-verify-post-implementation-drift/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-verify-post-implementation-drift/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-verify-post-implementation-drift/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-verify-post-implementation-drift/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: verify-post-implementation-drift--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6/run-contract.yml
+next_action: null
+updated_at: 2026-06-29T23:07:17.294525Z

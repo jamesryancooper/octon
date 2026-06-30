@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T234709Z-run-program-clean-delivery-validators-terminal-closeout/children/run-program-clean-delivery-validators/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T234709Z-run-program-clean-delivery-validators-terminal-closeout/children/run-program-clean-delivery-validators/context/context-pack.json
+context_pack_sha256: sha256:49dea25e048b3a2461e0a2b24893796f4992b6ee58725cb435078764936ca844
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T234709Z-run-program-clean-delivery-validators-terminal-closeout/children/run-program-clean-delivery-validators/context/model-visible-context.json
+model_visible_context_sha256: sha256:7ff9ef5b0c9705f7463fb59d047de8c0dca3b7e66da75a15d2fe3ae38ab1e6f5
+receipt_sha256: sha256:0958ef27b369c4c5830327a85c95a36521041a9eb0ad5f47258c5379dc442fe6
+route_id: proposal-packet-terminal-closeout
+run_id: 20260629T234709Z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-delivery-validators
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:56:14.362145Z
+validity_state: valid

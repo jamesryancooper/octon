@@ -1,0 +1,34 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: 20260629T171000Z-run-program-clean-delivery-architecture-bound-closeout-direct
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+current_state: null
+current_phase: terminal-explanation-reporting
+completed_states: []
+last_route: null
+loop_counts: {}
+phase_counts:
+  terminal-explanation-reporting: 1
+last_phase_transition: phase-entered:terminal-explanation-reporting
+phase_blockers:
+  blocker_class: worktree-hygiene-blocked
+  blocker_message: proposal closeout is blocked by foreign or ambiguous worktree hygiene; route through closeout-change or operator scope resolution
+  final_verdict: blocked-no-route
+receipt_digests:
+  proposal-review: sha256:f83a8c3182fc446017f06a811c033e2e3a9390740adf50e5b70c1bdf9c3ab2dd
+last_validator_results: []
+run_inputs:
+  lifecycle_interaction_return_refs: .octon/state/evidence/runs/workflows/20260629T165200Z-run-program-to-clean-delivery-architecture-current-return-dispatch/lifecycle-interactions/run-program-clean-delivery-architecture-closeout-packet-closeout-worktree-return.json
+  program_child_closeout_worktree_report_ref: .octon/state/evidence/runs/workflows/20260629T165200Z-run-program-to-clean-delivery-architecture-current-return-dispatch/lifecycle-interactions/run-program-clean-delivery-architecture-closeout-packet-closeout-worktree-report.yml
+  program_child_worktree_hygiene_classifier_ref: .octon/state/evidence/runs/workflows/20260629T165200Z-run-program-to-clean-delivery-architecture-current-return-dispatch/children/run-program-clean-delivery-architecture/worktree-hygiene-preflight-62cd4834d0eac2dd77e6c698c50471937f4d67a018a6243f59d1a918df79df1d.stdout.yml
+  program_child_worktree_hygiene_foreign_fingerprint: sha256:3d53c80266a16f2f7e991b9a0a499fbd389c20fea024e10d4e5d1e143673f489
+interaction_request_refs: []
+interaction_return_refs:
+- .octon/state/evidence/runs/workflows/20260629T165200Z-run-program-to-clean-delivery-architecture-current-return-dispatch/lifecycle-interactions/run-program-clean-delivery-architecture-closeout-packet-closeout-worktree-return.json
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-no-route
+resume_instruction: octon lifecycle resume --run-id 20260629T171000Z-run-program-clean-delivery-architecture-bound-closeout-direct

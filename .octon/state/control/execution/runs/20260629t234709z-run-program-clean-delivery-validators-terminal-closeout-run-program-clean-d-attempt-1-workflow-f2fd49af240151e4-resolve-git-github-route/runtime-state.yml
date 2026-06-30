@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route/run-manifest.yml
+current_stage_attempt_id: resolve-git-github-route--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route/rollback-posture.yml
+last_applied_event_id: evt-run-closed-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-resolve-git-github-route
+last_applied_sequence: 29
+last_applied_event_hash: sha256:f9fad8716e6bf1dab6567adaae326afd0a240d45b82a3353a8ff722cc7c97be6
+materialized_at: 2026-06-29T23:51:36.073084Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-29T23:51:33.921731Z
+updated_at: 2026-06-29T23:51:36.073084Z

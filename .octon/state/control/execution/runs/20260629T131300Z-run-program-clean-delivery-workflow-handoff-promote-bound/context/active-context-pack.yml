@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T131300Z-run-program-clean-delivery-workflow-handoff-promote-bound/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T131300Z-run-program-clean-delivery-workflow-handoff-promote-bound/context/context-pack.json
+context_pack_sha256: sha256:743d511477faebe5bc8d58d0badc7b055c823d23f52c9e69dc74e580f60f9d47
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T131300Z-run-program-clean-delivery-workflow-handoff-promote-bound/context/model-visible-context.json
+model_visible_context_sha256: sha256:cb1b7957a6a6604d20c8a780569b8876e885c875439969c8f88f9f8101a66000
+receipt_sha256: sha256:68364c37b8dcfdc5bd2e4178bb854383d250c424fb6c3af08ac920f30e571636
+route_id: closeout-packet
+run_id: 20260629T131300Z-run-program-clean-delivery-workflow-handoff-promote-bound
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T13:09:26.948636Z
+validity_state: valid

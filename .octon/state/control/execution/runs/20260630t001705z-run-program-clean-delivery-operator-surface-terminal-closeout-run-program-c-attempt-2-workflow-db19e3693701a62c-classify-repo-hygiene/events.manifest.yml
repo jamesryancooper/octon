@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+ledger_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:528c0d9ccf80cc4728e98aef86311b21b4c68dd28b839bb7f5c57c0eb9bb4704
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  sequence: 1
+  event_hash: sha256:8b117ff0d5408266d8f7fc68ecffd7f15ad540ed24418fa1257e4478fa09dc13
+last_event_ref:
+  event_id: evt-run-closed-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  sequence: 29
+  event_hash: sha256:f891bed7181ac09c61e3b48cd70ab4c4a08dd09bc2d27cba4cd4d6da22babca3
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:8b117ff0d5408266d8f7fc68ecffd7f15ad540ed24418fa1257e4478fa09dc13
+  tail_event_hash: sha256:f891bed7181ac09c61e3b48cd70ab4c4a08dd09bc2d27cba4cd4d6da22babca3
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  context_pack_ref: evt-context-pack-bound-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  disclosure_ref: evt-run-closed-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  evidence_snapshot_ref: evt-evidence-snapshot-created-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-03424bf23aa8
+  run_contract_ref: evt-001-run-created-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  run_manifest_ref: evt-002-run-bound-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  runtime_state_ref: evt-run-closed-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  stage_attempt_ref: evt-stage-started-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene/runtime-state.yml
+  last_applied_event_id: evt-run-closed-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-classify-repo-hygiene
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:f891bed7181ac09c61e3b48cd70ab4c4a08dd09bc2d27cba4cd4d6da22babca3
+  materialized_at: 2026-06-30T00:27:55.616955Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-30T00:27:56.530496Z

@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T212500Z-run-program-clean-delivery-architecture-terminal-closeout/children/run-program-clean-delivery-architecture/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T212500Z-run-program-clean-delivery-architecture-terminal-closeout/children/run-program-clean-delivery-architecture/context/context-pack.json
+context_pack_sha256: sha256:2b5413e7b5d1bc6cc30b8ce88a40a917a7cbdace20cae9a56e621d1292559ac8
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T212500Z-run-program-clean-delivery-architecture-terminal-closeout/children/run-program-clean-delivery-architecture/context/model-visible-context.json
+model_visible_context_sha256: sha256:cdd24ca7a375f48bd7bff70ffe0806ef9f0093eac415ad6640c405213e5bc7bc
+receipt_sha256: sha256:fada24a751e9b38cd350fbf9e72bcfac9c25f39a7c58d8ba7c8b82bc5f00d529
+route_id: proposal-packet-terminal-closeout
+run_id: 20260629T212500Z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-delivery-architecture
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T20:56:05.266512Z
+validity_state: valid

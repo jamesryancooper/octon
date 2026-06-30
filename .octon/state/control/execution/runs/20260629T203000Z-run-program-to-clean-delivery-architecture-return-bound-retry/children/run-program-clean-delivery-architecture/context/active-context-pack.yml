@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T203000Z-run-program-to-clean-delivery-architecture-return-bound-retry/children/run-program-clean-delivery-architecture/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T203000Z-run-program-to-clean-delivery-architecture-return-bound-retry/children/run-program-clean-delivery-architecture/context/context-pack.json
+context_pack_sha256: sha256:27b040c412720a57937893da5a279910d0fdc9de4cf2b8a34655581ed682daa1
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T203000Z-run-program-to-clean-delivery-architecture-return-bound-retry/children/run-program-clean-delivery-architecture/context/model-visible-context.json
+model_visible_context_sha256: sha256:0bfb38b6c1589a39d9731ac7d28df2e427c09d91180233df929fde8dde1faebd
+receipt_sha256: sha256:7532e93e510ccfb3fcd2cc93a2b84a6a0d6298092a4e246a4a4e697754e9a1b2
+route_id: closeout-packet
+run_id: 20260629T203000Z-run-program-to-clean-delivery-architecture-return-bound-retry-run-program-clean-delivery-architecture
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T20:33:02.68312Z
+validity_state: valid

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:627fd3da6d14d91e66935c1147d9a7f03c282a71975f955f804e6e43947af948
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:563bfdcf528185ade92196b6a438be6764bd69a3006cb55e0163ce5603294591
+receipt_sha256: sha256:1e8490112bed16a413a22b3efa17009e426a0cac2be713f148d8511688f4d9ce
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:58:49.078977Z
+validity_state: valid

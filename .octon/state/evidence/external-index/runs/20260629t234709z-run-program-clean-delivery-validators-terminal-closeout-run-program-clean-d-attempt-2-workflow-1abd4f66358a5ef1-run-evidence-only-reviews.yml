@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:ab7823f4da1946a163759268008b4ace144241b9650cddb1e4756872ae2906ba
+  entry_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-29T23:58:56.604607Z
+  run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:9cd9e0cf827d8d0734ec4c9464686f6c1c6742bea718b7b4cde9c88416b493c1
+  entry_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-29T23:58:56.604607Z
+  run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews
+  storage_class: external-immutable
+index_id: external-replay-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-run-evidence-only-reviews
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T23:58:56.604607Z

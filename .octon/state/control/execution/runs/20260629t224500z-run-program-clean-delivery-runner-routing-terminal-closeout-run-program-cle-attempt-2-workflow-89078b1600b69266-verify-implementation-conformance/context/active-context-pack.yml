@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-verify-implementation-conformance/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-verify-implementation-conformance/context/context-pack.json
+context_pack_sha256: sha256:4244fca93d800d465842a49543ec750a62b821b0f6ac72caeef0686b8ccc111d
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-verify-implementation-conformance/context/model-visible-context.json
+model_visible_context_sha256: sha256:aa33f68ca7418e94a47b427f49c0a834bfb95a44fdf62565ca0af35798123f48
+receipt_sha256: sha256:36e9dd1bfa8ebc93c7a8eb54bcfffa4d4271f125fd49d6e5e2b1a5f9ca54bb08
+run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-2-workflow-89078b1600b69266-verify-implementation-conformance
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T21:53:52.498481Z
+validity_state: valid

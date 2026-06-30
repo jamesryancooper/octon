@@ -31,6 +31,7 @@
 # Temporary files
 tmp/
 temp/
+.DS_Store
 *.pid
 *.pid.lock
 __pycache__/
@@ -295,3 +296,4 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validators/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-operator-surface/
 !.octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-operator-surface/**
+.octon/inputs/exploratory/proposals/.DS_Store

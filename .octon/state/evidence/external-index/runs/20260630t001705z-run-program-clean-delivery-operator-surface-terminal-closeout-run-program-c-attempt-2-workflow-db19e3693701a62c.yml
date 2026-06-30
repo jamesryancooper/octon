@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:304135285c8e833cc95b167eb9d3ff642165c950fb37d7d01bac8080e67af48e
+  entry_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/replay/manifest.yml
+  recorded_at: 2026-06-30T00:28:08.41736Z
+  run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:e6cb821f22aaa7a31dcd2acc2bece395a385a9f4b8bbd1be8d7370fda4986422
+  entry_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/replay/manifest.yml
+  recorded_at: 2026-06-30T00:28:08.41736Z
+  run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  storage_class: external-immutable
+index_id: external-replay-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-30T00:28:08.41736Z

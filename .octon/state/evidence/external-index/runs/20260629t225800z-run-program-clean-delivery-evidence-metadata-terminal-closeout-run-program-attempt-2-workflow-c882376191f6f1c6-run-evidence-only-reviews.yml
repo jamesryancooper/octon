@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:01f40c694a8d039f28ba7318bd72cc37d927525e154ff4cbbc0a549a5c2550b1
+  entry_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-29T23:09:52.043914Z
+  run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:a8008ddc70302b61b05434e5c9c195b7f47eba88d1c2ff9a4e0d2c3326a43a19
+  entry_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-29T23:09:52.043914Z
+  run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews
+  storage_class: external-immutable
+index_id: external-replay-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T23:09:52.043914Z

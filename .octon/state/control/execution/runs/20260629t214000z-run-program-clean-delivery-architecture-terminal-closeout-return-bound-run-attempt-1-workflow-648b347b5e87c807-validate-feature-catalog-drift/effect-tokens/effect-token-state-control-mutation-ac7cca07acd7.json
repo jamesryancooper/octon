@@ -1,0 +1,70 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-state-control-mutation-ac7cca07acd7",
+    "token_type": "AuthorizedEffect<StateControlMutation>",
+    "effect_kind": "state-control-mutation",
+    "run_id": "20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift",
+    "request_id": "20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift",
+    "grant_id": "grant-20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift.yml",
+    "run_control_root": ".octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift",
+    "run_evidence_root": ".octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-d832aab6f332:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "0450c47eb776efc63bcdaf34f9c3d440851bdac2cce57fb0707dbb6f89e7fa9c",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-d832aab6f332",
+    "runtime_effective_freshness_mode": "digest_bound",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/2026-06-29T20-02-09Z-runtime-route-bundle-d832aab6f332.yml",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "admitted-live-claim",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-29-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-architecture-2/stages/validate-feature-catalog-drift",
+    "scope_envelope": {
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-29-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-architecture-2"
+      ],
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-06-29T21:06:03.168253Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift/effect-tokens/effect-token-state-control-mutation-ac7cca07acd7.json",
+    "journal_ref": ".octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-ac7cca07acd7",
+    "token_digest": "sha256:1095368b4bf8799833fe216c1d38d033ca995e7afdefdacc6dc83f6d53cc2fc7"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 2,
+  "issued_event_ref": ".octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift/events.ndjson#evt-effect-token-minted-effect-token-state-control-mutation-ac7cca07acd7",
+  "last_event_ref": ".octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-ac7cca07acd7",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-feature-catalog-drift/receipts/effect-tokens/effect-token-state-control-mutation-ac7cca07acd7/consumption-a6f98314f82c.json",
+  "last_consumed_at": "2026-06-29T21:06:04.191729Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::finalize_execution:control",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-29-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-architecture-2/stages/validate-feature-catalog-drift",
+  "rejection_reason_codes": []
+}

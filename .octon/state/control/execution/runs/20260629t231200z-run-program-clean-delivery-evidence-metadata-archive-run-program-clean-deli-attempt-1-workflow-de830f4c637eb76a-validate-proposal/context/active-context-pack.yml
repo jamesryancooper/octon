@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t231200z-run-program-clean-delivery-evidence-metadata-archive-run-program-clean-deli-attempt-1-workflow-de830f4c637eb76a-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t231200z-run-program-clean-delivery-evidence-metadata-archive-run-program-clean-deli-attempt-1-workflow-de830f4c637eb76a-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:10e0af0ff8a37fa06ec3da70844c6d923908b3ba9f2cbf2b59d757e151258e22
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t231200z-run-program-clean-delivery-evidence-metadata-archive-run-program-clean-deli-attempt-1-workflow-de830f4c637eb76a-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:c55dd7ddad136f54625b8a77d332917dacd1bc92226930d279545878a3cea122
+receipt_sha256: sha256:16ce2837c31acb8e1069e98ef30277501f3c96abc8079d003fc208d531e6193e
+run_id: 20260629t231200z-run-program-clean-delivery-evidence-metadata-archive-run-program-clean-deli-attempt-1-workflow-de830f4c637eb76a-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:14:49.224007Z
+validity_state: valid

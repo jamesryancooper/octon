@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/context/context-pack.json
+context_pack_sha256: sha256:d86939d437cd479e2dd8c115fa01cf84d3dcb3806023a0e081a3aefa11c7efee
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:6b76028efb667e0966ab83c09a8fb4192e116287c9744aff1b40f11838756190
+receipt_sha256: sha256:f5bd314fd9f93d213f889fac25817b34720cec168c3ba448b77cdc1842b54552
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:02:07.93432Z
+validity_state: valid

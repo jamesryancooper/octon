@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-30T00:32:41.03872Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: 20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59-validate-proposal-baseline
+route_taken: allow
+run_id: 20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59-validate-proposal
+schema_version: run-retry-record-v1
+stage_attempt_id: validate-proposal--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59-validate-proposal/stage-attempts/validate-proposal--initial.yml

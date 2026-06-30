@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: 20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal/run-manifest.yml
+current_stage_attempt_id: validate-proposal--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal/rollback-posture.yml
+last_applied_event_id: evt-run-closed-20260629t145500z-run-program-clean-delivery-evidence-metadata-promote-workflow-validate-proposal
+last_applied_sequence: 29
+last_applied_event_hash: sha256:872cf65da4bb5a31076dcaa7e4768a3dcfda38cc9be97143738e25ac240e4792
+materialized_at: 2026-06-29T14:08:32.202673Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-29T14:08:28.094054Z
+updated_at: 2026-06-29T14:08:32.202673Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews/context/context-pack.json
+context_pack_sha256: sha256:b22c068314eed02b5e3824dd2affee64012fe03b970791333b3f3a71ea1ce07e
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews/context/model-visible-context.json
+model_visible_context_sha256: sha256:0dfe183e6fd4123748d9a8a5f0cc11779b74483859b0deb6ff04f1e0cf0f4571
+receipt_sha256: sha256:41715a5ac44d723babaf96bda69e093f7444b5c0ea7a51de639861e1d5bca007
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-run-evidence-only-reviews
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:09:50.931371Z
+validity_state: valid

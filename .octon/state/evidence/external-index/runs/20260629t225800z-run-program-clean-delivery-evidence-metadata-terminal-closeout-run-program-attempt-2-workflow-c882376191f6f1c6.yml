@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:8ce68ec821941153438e87591175b8c5b64460e8416499a26660d331fb580303
+  entry_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6/replay/manifest.yml
+  recorded_at: 2026-06-29T23:09:58.495225Z
+  run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:410fb37209dc76cea13174c0f5410d6404e67f7f73c32a8783403ec50dca4c73
+  entry_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6/replay/manifest.yml
+  recorded_at: 2026-06-29T23:09:58.495225Z
+  run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6
+  storage_class: external-immutable
+index_id: external-replay-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-2-workflow-c882376191f6f1c6
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T23:09:58.495225Z

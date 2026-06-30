@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:011bd8852e17b14bcb532ae8e4de4a5bf423da3a22fd840498a5a736b5ac1188
+  entry_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-29T22:24:59.334586Z
+  run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:8017e9d4ff0308df990ecec76219835fc35f41c3b6cecba78a47b6aa418626d5
+  entry_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-06-29T22:24:59.334586Z
+  run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews
+  storage_class: external-immutable
+index_id: external-replay-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-run-evidence-only-reviews
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T22:24:59.334586Z

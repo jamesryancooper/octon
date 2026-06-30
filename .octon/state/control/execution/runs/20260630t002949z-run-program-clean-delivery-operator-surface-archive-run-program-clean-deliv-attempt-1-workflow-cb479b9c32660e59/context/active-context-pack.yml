@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59/context/context-pack.json
+context_pack_sha256: sha256:af2d60cb9baf206ada4c9665c46037b628e5496d0ba698fd5057f8fe36679345
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59/context/model-visible-context.json
+model_visible_context_sha256: sha256:11228aad704f0c8ade73185253b0703aa13a6595e093b474015b9bb414fa3819
+receipt_sha256: sha256:285d474a11cbfe139633e4952669dec45db5b1a3697c136f906a378dce4fa977
+run_id: 20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59
+schema_version: active-context-pack-v1
+updated_at: 2026-06-30T00:32:39.674815Z
+validity_state: valid

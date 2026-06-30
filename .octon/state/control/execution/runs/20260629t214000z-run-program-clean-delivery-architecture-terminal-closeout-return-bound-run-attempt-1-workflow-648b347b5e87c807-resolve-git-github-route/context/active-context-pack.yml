@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:da944e6f3985be4271a2854b3fd5f4524b3b62a2c810045e2b500387d25481e5
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:193d06027b95b2a316a1d3168945ae80ab37080ea776ceb3c9cd6d6fcdb16690
+receipt_sha256: sha256:5358ad324e9b2a0df16889bf33a0d3ac79fff3391626570e12b9c2e6bdadff73
+run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T21:07:47.599655Z
+validity_state: valid

@@ -1,0 +1,37 @@
+allowed_capabilities:
+- workflow.stage.execute
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-bind-profile
+- .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-bind-profile
+attempt_kind: initial
+completion_status: criteria-pending
+created_at: 2026-06-29T22:59:31.473303Z
+entry_criteria:
+- Run contract is bound under the canonical run root.
+- Support-target tuple remains admitted for the bounded consequential envelope.
+evidence_refs:
+- .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-bind-profile/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-bind-profile/receipts/grant-bundle.json
+- .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-bind-profile/receipts/execution-receipt.json
+exit_criteria:
+- Stage receipts, replay refs, and disclosure refs are retained under canonical run roots.
+- Stage status reaches a terminal state that agrees with the decision artifact.
+issued_by: octon-kernel
+objective_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-bind-profile/run-contract.yml
+objective_slice: Stage workflow-stage:bind-profile for target proposal-packet-terminal-closeout::bind-profile
+predecessor_refs: []
+requested_capabilities:
+- workflow.stage.execute
+- evidence.write
+retry_class: manual_review_required
+rollback_candidate: true
+rollback_notes: Restore from the canonical checkpoint and reissue the stage if retained evidence becomes inconsistent.
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-bind-profile
+schema_version: stage-attempt-v1
+stage_attempt_id: bind-profile--initial
+stage_ref: workflow-stage:bind-profile
+status: succeeded
+successor_refs: []
+updated_at: 2026-06-29T22:59:33.294732Z
+validated_by: octon-kernel

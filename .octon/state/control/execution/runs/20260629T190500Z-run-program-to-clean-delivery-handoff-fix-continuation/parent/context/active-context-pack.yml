@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T190500Z-run-program-to-clean-delivery-handoff-fix-continuation/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T190500Z-run-program-to-clean-delivery-handoff-fix-continuation/parent/context/context-pack.json
+context_pack_sha256: sha256:d95d33f24bbcbc81cd8a96234b35014762ecce3a233f771f4f83e1bfc900a089
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T190500Z-run-program-to-clean-delivery-handoff-fix-continuation/parent/context/model-visible-context.json
+model_visible_context_sha256: sha256:1f9d47fc901979785d278aec20fd6be36752588e62013e0fa0ca2618359b8717
+receipt_sha256: sha256:93c8bc496898946ebc0f97ea853feac18f6ecb5942b6c203d706279eab4b0675
+route_id: review-program
+run_id: 20260629T190500Z-run-program-to-clean-delivery-handoff-fix-continuation
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T18:43:53.769276Z
+validity_state: valid

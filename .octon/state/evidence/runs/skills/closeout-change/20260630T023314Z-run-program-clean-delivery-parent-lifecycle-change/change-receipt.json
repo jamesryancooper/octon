@@ -1,0 +1,87 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "run-program-clean-delivery-parent-lifecycle-change",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close the parent run-program-to-clean-delivery lifecycle Change on a branch while preserving child-owned packet authority and routing remaining local run-state residue through its own governed owners.",
+  "scope": {
+    "summary": "Parent proposal-program lifecycle surfaces, extension/runtime updates, generated effective outputs, archived child packet material, and owner-regenerated run-health read models were committed on the task branch.",
+    "touched_paths": [
+      ".claude",
+      ".codex",
+      ".cursor",
+      ".gitignore",
+      ".octon/framework",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery",
+      ".octon/inputs/exploratory/proposals/.archive/architecture",
+      ".octon/generated/effective",
+      ".octon/generated/cognition/projections/materialized/runs",
+      ".octon/generated/proposals",
+      ".octon/state/control/extensions/active.yml",
+      ".octon/state/control/extensions/quarantine.yml",
+      ".octon/state/evidence/decisions",
+      ".octon/state/evidence/validation/extensions",
+      ".octon/state/evidence/validation/compatibility/extensions",
+      ".octon/state/evidence/validation/publication"
+    ],
+    "diff_refs": [
+      "54795c3ee04e1a0d5f7ca5ffa198e6a1c8b76b81",
+      "913cf3b72ba86f6ceab315015113f4527d697d21"
+    ]
+  },
+  "source_branch_ref": "chore/run-program-clean-delivery-closeout",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "913cf3b72ba86f6ceab315015113f4527d697d21",
+    "target_ref": "origin/main",
+    "blocker_reason": "The worktree still contains protected state/control, workflow run, external-index, and local metadata residue that is outside this singular Change boundary.",
+    "evidence_refs": [
+      ".octon/state/evidence/validation/analysis/2026-06-30-closeout-worktree-run-program-to-clean-delivery-parent-closeout-program-hygiene.yml",
+      ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+    ]
+  },
+  "not_landed_reason": "Branch-local commits exist, but hosted landing is not attempted while unresolved protected run-state residue remains outside the selected Change boundary.",
+  "not_cleaned_reason": "The repository is not clean because protected state/control, workflow run, external-index, and local metadata residue remains for separate governed disposition.",
+  "landing_stop_reason": "external_blocker",
+  "cleanup_stop_reason": "cleanup_unsafe",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "source_branch_cleanup": {
+    "status": "pending",
+    "local_branch": "chore/run-program-clean-delivery-closeout",
+    "blocker_reason": "Branch cleanup is not eligible until landing, final sync, and cleanup authorization are proven."
+  },
+  "validation_evidence_refs": [
+    "git diff --check -- selected parent lifecycle Change paths",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report .octon/state/evidence/validation/analysis/2026-06-30-closeout-worktree-run-program-to-clean-delivery-parent-closeout-program-hygiene.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  ],
+  "review_waiver_refs": [
+    "solo-maintainer branch-no-pr route waiver: no branch-pr predicate was proven; parent closeout preserves child-owned authority"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "913cf3b72ba86f6ceab315015113f4527d697d21",
+    "branch": "chore/run-program-clean-delivery-closeout"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/run-program-clean-delivery-closeout",
+    "instructions": "Discard the task branch before hosted landing if the parent lifecycle Change is abandoned or superseded."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Protected state/control execution records remain outside the selected Change boundary.",
+    "Workflow run evidence and external-index residue remain outside the selected Change boundary.",
+    ".octon/inputs/exploratory/proposals/.DS_Store has no repo-hygiene deletion authorization because the helper reports zero cleanup candidates.",
+    "No hosted landing, branch cleanup authorization, final sync proof, terminal proof, or git_clean_terminal proof exists yet."
+  ],
+  "created_at": "2026-06-30T02:33:14Z"
+}

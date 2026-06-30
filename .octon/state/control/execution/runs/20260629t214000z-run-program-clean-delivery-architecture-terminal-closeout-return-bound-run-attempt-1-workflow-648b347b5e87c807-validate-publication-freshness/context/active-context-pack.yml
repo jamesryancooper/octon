@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-publication-freshness/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-publication-freshness/context/context-pack.json
+context_pack_sha256: sha256:e378669af2cf20091747d4b07cc5e5a9fcb638d860969f179483fcd26c223426
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-publication-freshness/context/model-visible-context.json
+model_visible_context_sha256: sha256:abc867a347e06086e7c0f0b4cd9dca298aa969d0f40859fe7578ee01d3119fb0
+receipt_sha256: sha256:3e044917190847867714cb2d57630c28662cbbc26c789e60d965fdf923387cea
+run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-publication-freshness
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T21:07:37.365052Z
+validity_state: valid

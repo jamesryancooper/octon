@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+ledger_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:2ed97be7551f1fb70f3e27d8c4c4f6c4ba8df810c6620fddda5e2f052dff2750
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  sequence: 1
+  event_hash: sha256:994b6b80eb3438319fa783d73476778c353c3b767c15f4359f79b05d64fd9a6f
+last_event_ref:
+  event_id: evt-run-closed-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  sequence: 29
+  event_hash: sha256:04fdf8e7d3e41dac3ececc04a36a87bf53e08ba33a5bfc6a405e41b9b9a6f66b
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:994b6b80eb3438319fa783d73476778c353c3b767c15f4359f79b05d64fd9a6f
+  tail_event_hash: sha256:04fdf8e7d3e41dac3ececc04a36a87bf53e08ba33a5bfc6a405e41b9b9a6f66b
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  context_pack_ref: evt-context-pack-bound-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  disclosure_ref: evt-run-closed-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  evidence_snapshot_ref: evt-evidence-snapshot-created-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-169327fd6ea8
+  run_contract_ref: evt-001-run-created-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  run_manifest_ref: evt-002-run-bound-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  runtime_state_ref: evt-run-closed-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  stage_attempt_ref: evt-stage-started-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/runtime-state.yml
+  last_applied_event_id: evt-run-closed-20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:04fdf8e7d3e41dac3ececc04a36a87bf53e08ba33a5bfc6a405e41b9b9a6f66b
+  materialized_at: 2026-06-30T00:28:08.41736Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-30T00:28:09.206118Z

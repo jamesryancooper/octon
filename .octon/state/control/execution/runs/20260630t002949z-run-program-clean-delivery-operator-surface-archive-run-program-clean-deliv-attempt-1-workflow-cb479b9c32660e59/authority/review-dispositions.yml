@@ -1,0 +1,19 @@
+dispositions:
+- blocking: true
+  disposition_id: closeout-completeness
+  evidence_refs:
+  - .octon/state/evidence/runs/20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59/retained-run-evidence.yml
+  - .octon/state/evidence/runs/20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59/replay/manifest.yml
+  status: resolved
+recorded_at: 2026-06-30T00:32:46.717988Z
+review_disposition:
+  outcome: approved
+  status: resolved
+  summary: Run closeout review and risk disposition were materialized before closed lifecycle entry.
+risk_disposition:
+  accepted_risks: []
+  status: resolved
+  unresolved_risk_count: 0
+  unresolved_risks: []
+run_id: 20260630t002949z-run-program-clean-delivery-operator-surface-archive-run-program-clean-deliv-attempt-1-workflow-cb479b9c32660e59
+schema_version: review-dispositions-v1

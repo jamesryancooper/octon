@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T132500Z-run-program-clean-delivery-workflow-handoff-closeout-return/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T132500Z-run-program-clean-delivery-workflow-handoff-closeout-return/context/context-pack.json
+route_id: review-packet
+run_id: 20260629T132500Z-run-program-clean-delivery-workflow-handoff-closeout-return
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-29T13:18:35.256241Z
+validity_state: valid

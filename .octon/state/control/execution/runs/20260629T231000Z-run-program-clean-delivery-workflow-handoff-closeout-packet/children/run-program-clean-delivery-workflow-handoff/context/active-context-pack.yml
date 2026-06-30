@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T231000Z-run-program-clean-delivery-workflow-handoff-closeout-packet/children/run-program-clean-delivery-workflow-handoff/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T231000Z-run-program-clean-delivery-workflow-handoff-closeout-packet/children/run-program-clean-delivery-workflow-handoff/context/context-pack.json
+context_pack_sha256: sha256:9ca9e0a2568ba24d7670edb54117048fa67154cf000d4d3b2526c206f4d58f21
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T231000Z-run-program-clean-delivery-workflow-handoff-closeout-packet/children/run-program-clean-delivery-workflow-handoff/context/model-visible-context.json
+model_visible_context_sha256: sha256:577b8cc0d01b307837b20db9f1830dcdeb42373795a533e0bbd418fae9f629cb
+receipt_sha256: sha256:fc67e7e6b59513b083555c927b12155d0c69301bb24c1b1b79191072ca93508b
+route_id: closeout-packet
+run_id: 20260629T231000Z-run-program-clean-delivery-workflow-handoff-closeout-packet-run-program-clean-delivery-workflow-handoff
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T22:11:47.077495Z
+validity_state: valid

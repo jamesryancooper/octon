@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/run-manifest.yml
+current_stage_attempt_id: initial
+last_checkpoint_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: null
+source_ledger_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/rollback-posture.yml
+last_applied_event_id: evt-run-closed-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4
+last_applied_sequence: 29
+last_applied_event_hash: sha256:0dfcb3204f7730f6447825be1694b17d13b38d4f9820eecbc61d47c7f3765a1a
+materialized_at: 2026-06-29T22:33:14.239959Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-29T22:30:26.261087Z
+updated_at: 2026-06-29T22:33:14.239959Z

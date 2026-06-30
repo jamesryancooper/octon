@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-verify-post-implementation-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-verify-post-implementation-drift/context/context-pack.json
+context_pack_sha256: sha256:ebe63ee593096fffc8135b40fc31b93578f400ee7a338aadabefb494a3240885
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-verify-post-implementation-drift/context/model-visible-context.json
+model_visible_context_sha256: sha256:5eddd0cd2a8b9ca887da47a74416771da76684f9b7bdea3b17f8e6862ab2a924
+receipt_sha256: sha256:6a19a2ca8174b80fcfef5031aeaf626342bc673d6822b780b27425e7c5fa4d91
+run_id: 20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-verify-post-implementation-drift
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T20:46:31.745438Z
+validity_state: valid

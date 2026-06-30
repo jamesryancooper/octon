@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T231200Z-run-program-clean-delivery-evidence-metadata-archive/children/run-program-clean-delivery-evidence-metadata/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T231200Z-run-program-clean-delivery-evidence-metadata-archive/children/run-program-clean-delivery-evidence-metadata/context/context-pack.json
+route_id: archive-proposal
+run_id: 20260629T231200Z-run-program-clean-delivery-evidence-metadata-archive-run-program-clean-delivery-evidence-metadata
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-29T23:14:47.254462Z
+validity_state: valid

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:56821fd9dbe0f5e06480a007e238d24e1812773cd0f28edf5dfc749be676975d
+  entry_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift/replay/manifest.yml
+  recorded_at: 2026-06-29T23:56:24.855592Z
+  run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:9169a269f64787cee0f7fd4efefa3081166f6a72131dcb0f2a0f0215b7c9bcde
+  entry_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift/replay/manifest.yml
+  recorded_at: 2026-06-29T23:56:24.855592Z
+  run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift
+  storage_class: external-immutable
+index_id: external-replay-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-post-implementation-drift
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T23:56:24.855592Z

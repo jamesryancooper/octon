@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: 20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+ledger_ref: .octon/state/control/execution/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:9cf2b92dd71c5c64a469a176ebff346776b3f582df85f1dc0310a42efcfd6252
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  sequence: 1
+  event_hash: sha256:8095fa11b7b44a8a35d7296166c736b56616aee40761800b3d7ec2b699973b2c
+last_event_ref:
+  event_id: evt-run-closed-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  sequence: 29
+  event_hash: sha256:e2131af96dff07d24a38413b4a5e92d4a5eae8708776042234dd112f8dedc9f9
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:8095fa11b7b44a8a35d7296166c736b56616aee40761800b3d7ec2b699973b2c
+  tail_event_hash: sha256:e2131af96dff07d24a38413b4a5e92d4a5eae8708776042234dd112f8dedc9f9
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  context_pack_ref: evt-context-pack-bound-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  disclosure_ref: evt-run-closed-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  evidence_snapshot_ref: evt-evidence-snapshot-created-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-2d53be99267d
+  run_contract_ref: evt-001-run-created-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  run_manifest_ref: evt-002-run-bound-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  runtime_state_ref: evt-run-closed-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  stage_attempt_ref: evt-stage-started-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state/runtime-state.yml
+  last_applied_event_id: evt-run-closed-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-verify-durable-implementation-state
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:e2131af96dff07d24a38413b4a5e92d4a5eae8708776042234dd112f8dedc9f9
+  materialized_at: 2026-06-29T20:56:10.530032Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-29T20:56:11.3411Z

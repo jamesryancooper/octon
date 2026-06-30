@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1/context/context-pack.json
+context_pack_sha256: sha256:ff8ea6e1a76237c7a109f6cebefc0fd33a6c437267bdac7790dd22428faa0224
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1/context/model-visible-context.json
+model_visible_context_sha256: sha256:8e64f597cff3e2b8dc45bfa1d4557519a0f2253495f3bae007e9df9f122aa37a
+receipt_sha256: sha256:3ae4d009375cab46264dfa9f1abff0cd38cd21de7101bf3900bba83f5f95841b
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:56:14.846403Z
+validity_state: valid

@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260628T155500Z-run-program-to-clean-delivery-resume/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260628T155500Z-run-program-to-clean-delivery-resume/parent/context/context-pack.json
+route_id: revise-program
+run_id: 20260628T155500Z-run-program-to-clean-delivery-resume
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-28T15:58:25.775958Z
+validity_state: valid

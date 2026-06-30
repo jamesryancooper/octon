@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/context/context-pack.json
+context_pack_sha256: sha256:a8e8d6cee035b9c6cfc1a45f875657802ed3d341974f96f8e1ca022c74ff68bc
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:65f9fea0f46fd1f391ba0a499f6d028331a7d0151dd712dc056af9d33e975331
+receipt_sha256: sha256:420237194cf8bf4c1cd2ca2ad3c16c270672ca039fec5d2fb2342c29e0d7acaf
+run_id: 20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-30T00:02:44.812537Z
+validity_state: valid

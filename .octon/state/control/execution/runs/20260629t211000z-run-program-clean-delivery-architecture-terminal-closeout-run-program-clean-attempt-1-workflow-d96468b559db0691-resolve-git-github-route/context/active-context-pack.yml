@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:6f6122ffb333675d32e5bbe16b4184574257f1212b32baf9e9d894771bff85fb
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:4ae5511982c1dffdda7e42b75c61d2f69ecdabfc561410cf85f534090450d5e7
+receipt_sha256: sha256:84219edd234d3daeb2aad965684f409f6b406096fb957b6830341dc87439ba44
+run_id: 20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T20:48:13.474432Z
+validity_state: valid

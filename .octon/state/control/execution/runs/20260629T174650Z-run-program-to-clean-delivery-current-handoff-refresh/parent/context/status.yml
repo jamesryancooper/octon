@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T174650Z-run-program-to-clean-delivery-current-handoff-refresh/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T174650Z-run-program-to-clean-delivery-current-handoff-refresh/parent/context/context-pack.json
+route_id: cleanup-lifecycle-residue
+run_id: 20260629T174650Z-run-program-to-clean-delivery-current-handoff-refresh
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-29T17:54:49.204877Z
+validity_state: valid

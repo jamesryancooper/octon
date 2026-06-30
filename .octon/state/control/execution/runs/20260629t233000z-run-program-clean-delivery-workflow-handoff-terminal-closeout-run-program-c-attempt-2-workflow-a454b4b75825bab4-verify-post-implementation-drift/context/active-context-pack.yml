@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift/context/context-pack.json
+context_pack_sha256: sha256:0ba6affb60b20677da22eb466567199ed90ca29863fa85669238de21212c634a
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift/context/model-visible-context.json
+model_visible_context_sha256: sha256:f561480b340602a2f87349ed579101b53b03875b1948781ae155ac9af7bf6c85
+receipt_sha256: sha256:d7a0d0fa5b58c5f2e3eaf1c10d1f102b132100955fdef86b4060dbb033fa6bbb
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T22:30:35.100514Z
+validity_state: valid

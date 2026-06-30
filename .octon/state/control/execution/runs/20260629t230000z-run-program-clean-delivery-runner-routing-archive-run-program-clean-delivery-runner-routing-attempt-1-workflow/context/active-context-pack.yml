@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow/context/context-pack.json
+context_pack_sha256: sha256:bc6e75a1f4f71975e8904fa2651d1a147b9ea84618760718bcaaa60e926983a9
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow/context/model-visible-context.json
+model_visible_context_sha256: sha256:712e43f116501c16874d3940eb8649cdf76c1a11ae4e8890271fd794e9c7fcdb
+receipt_sha256: sha256:86889271f320912508c322a557c852bbcf894723a264fcf20f98fef3ae6ed85a
+run_id: 20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T22:03:13.922851Z
+validity_state: valid

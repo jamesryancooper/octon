@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T234709Z-run-program-clean-delivery-validators-terminal-closeout/children/run-program-clean-delivery-validators/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T234709Z-run-program-clean-delivery-validators-terminal-closeout/children/run-program-clean-delivery-validators/context/context-pack.json
+route_id: proposal-packet-terminal-closeout
+run_id: 20260629T234709Z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-delivery-validators
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-29T23:56:14.362145Z
+validity_state: valid

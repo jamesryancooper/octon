@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:79e0c6051b1fb64891aa3a15033866b518aa5baecd1caf7a9c271c4d61d7c0d2
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:7b94d8aea79f2aa25e5c763a649b2ec9e0e99038a22a68b63e6a8d50ef823553
+receipt_sha256: sha256:e31ff616d62e7f074308f208cbf2eb95df9cd2283e69ce8a80db62c53dbc7576
+run_id: 20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T22:38:43.164597Z
+validity_state: valid

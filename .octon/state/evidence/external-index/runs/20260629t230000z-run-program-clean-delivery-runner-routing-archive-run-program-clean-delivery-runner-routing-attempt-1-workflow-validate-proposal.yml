@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:2c4a66a78837177ee8627e48056c8b5eb3db98486567efca602654180f877b80
+  entry_id: 20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-29T22:03:16.680469Z
+  run_id: 20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:618f8883ff0882e37aeeecc9700acb3af56abb29d8bae399a1e0d407e9f7a085
+  entry_id: 20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-29T22:03:16.680469Z
+  run_id: 20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal
+run_id: 20260629t230000z-run-program-clean-delivery-runner-routing-archive-run-program-clean-delivery-runner-routing-attempt-1-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T22:03:16.680469Z

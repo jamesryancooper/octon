@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:ff35adbdd9165a15578aba2577a6e58f5ba203d85ab4d42335b48bb0b693ab55
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:85fe30dec55554a3dd8304015d705f7c9a6846ce7971d8dfa6ea2f341e823322
+receipt_sha256: sha256:bf3fdc8c53a3c84556f4ff2a23b60cf6820b497d956bf9d19aca9b838e5beb9c
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:02:03.80072Z
+validity_state: valid

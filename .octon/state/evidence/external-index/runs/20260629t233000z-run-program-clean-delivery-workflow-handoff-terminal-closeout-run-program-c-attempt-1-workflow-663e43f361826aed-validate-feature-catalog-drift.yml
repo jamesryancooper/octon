@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:29bdf11616e4ea2286c1a78e28d89e23bdd0559570f4e0210a14ca1e83d31730
+  entry_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/replay/manifest.yml
+  recorded_at: 2026-06-29T22:23:11.891787Z
+  run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:c2eafc737bf3776316df2e830d21ae0b95261a0d48564e5453429ccd08c57d5d
+  entry_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/replay/manifest.yml
+  recorded_at: 2026-06-29T22:23:11.891787Z
+  run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift
+  storage_class: external-immutable
+index_id: external-replay-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T22:23:11.891787Z

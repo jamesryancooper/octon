@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T124000Z-run-program-to-clean-delivery-leased-closeout-returns/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T124000Z-run-program-to-clean-delivery-leased-closeout-returns/parent/context/context-pack.json
+context_pack_sha256: sha256:9fc38a56f5de516e34e99fe89e3cba19c3ef24da7e9aab9bbd4004cfdf09b1b3
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T124000Z-run-program-to-clean-delivery-leased-closeout-returns/parent/context/model-visible-context.json
+model_visible_context_sha256: sha256:82cf07f841fd967a429d6cc271e29b4e2746797530886f9ae8108b7890c6e411
+receipt_sha256: sha256:4389ee16938b17a47f4ccf3b35ead249e032b4e9b4c46f64f39d63924b9bec3b
+route_id: generate-program-correction-prompt
+run_id: 20260629T124000Z-run-program-to-clean-delivery-leased-closeout-returns
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T12:37:17.246259Z
+validity_state: valid

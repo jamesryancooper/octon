@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:23263a9b3b2c87a5f7dce2fce8d5b1e7e22d056d290312c1f6540ee0087b15fb
+  entry_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807/replay/manifest.yml
+  recorded_at: 2026-06-29T21:07:52.630309Z
+  run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:2f5f9150afb58c1f271bc3d2809aced6decb2f5dbe437a4a5f2005243876dce9
+  entry_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807/replay/manifest.yml
+  recorded_at: 2026-06-29T21:07:52.630309Z
+  run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807
+  storage_class: external-immutable
+index_id: external-replay-20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807
+run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T21:07:52.630309Z

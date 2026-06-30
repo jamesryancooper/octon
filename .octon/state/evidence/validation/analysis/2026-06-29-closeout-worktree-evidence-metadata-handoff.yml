@@ -1,0 +1,176 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: 20260629T141323Z-evidence-metadata-handoff
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/20260629T145500Z-run-program-clean-delivery-evidence-metadata-promote/worktree-hygiene-classifier.yml
+residue_classification_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/20260629T145500Z-run-program-clean-delivery-evidence-metadata-promote/worktree-hygiene-classifier.yml
+final_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/20260629T145500Z-run-program-clean-delivery-evidence-metadata-promote/worktree-hygiene-classifier.yml
+selected_candidate_id: authorized-foreign-artifacts
+candidates:
+  - candidate_id: authorized-foreign-artifacts
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: foreign/manual residue explicitly preserved and excluded from the evidence-metadata child closeout blocker
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no mutation performed
+    boundaries:
+      include_paths:
+        - .claude
+        - .codex
+        - .cursor
+        - .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+        - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery
+        - .octon/framework/engine/runtime/spec
+        - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery
+        - .octon/framework/product/contracts/change-closeout-state-machine.yml
+        - .octon/framework/product/contracts/default-work-unit.yml
+        - .octon/generated/effective
+        - .octon/generated/proposals
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle
+        - .octon/inputs/exploratory/proposals/.DS_Store
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+        - .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+        - .octon/state/control
+        - .octon/state/continuity
+        - .octon/state/evidence
+      exclude_paths:
+        - .git
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata
+    proposal_program_handoff_authorization:
+      authorization_grant: evidence-metadata-closeout-worktree-handoff
+      child_id: run-program-clean-delivery-evidence-metadata
+      route_id: closeout-packet
+      interaction_request_ref: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/support/lifecycle-interaction-request-closeout-worktree.json
+      classifier_output_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/20260629T145500Z-run-program-clean-delivery-evidence-metadata-promote/worktree-hygiene-classifier.yml
+      classifier_output_digest: sha256:cd2fc3bdc5e2a5aa4e915b0def44145865cb2f327914358d164b2509cfd5016d
+      authorized_foreign_fingerprint: sha256:de961a5b1749f9d49b2d63eb03f6401112a354fdb0de17d3125ff764ccbe547e
+      foreign_fingerprint: sha256:de961a5b1749f9d49b2d63eb03f6401112a354fdb0de17d3125ff764ccbe547e
+      authorized_paths:
+        - .claude
+        - .codex
+        - .cursor
+        - .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+        - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery
+        - .octon/framework/engine/runtime/spec
+        - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery
+        - .octon/framework/product/contracts/change-closeout-state-machine.yml
+        - .octon/framework/product/contracts/default-work-unit.yml
+        - .octon/generated/effective
+        - .octon/generated/proposals
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle
+        - .octon/inputs/exploratory/proposals/.DS_Store
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+        - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+        - .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+        - .octon/state/control
+        - .octon/state/continuity
+        - .octon/state/evidence
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        hosted_provider_authorization: false
+        repo_hygiene_deletion: false
+        promotion: false
+        cleaned_claim: false
+iterations: []
+final_candidate_dispositions:
+  authorized-foreign-artifacts:
+    state: foreign
+retained_residue:
+  - candidate_id: authorized-foreign-artifacts
+    path: .claude
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .codex
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .cursor
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/framework/engine/runtime/spec
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/framework/product/contracts/change-closeout-state-machine.yml
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/framework/product/contracts/default-work-unit.yml
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/generated/effective
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/generated/proposals
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/inputs/additive/extensions/octon-proposal-lifecycle
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/inputs/exploratory/proposals/.DS_Store
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/state/control
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/state/continuity
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+  - candidate_id: authorized-foreign-artifacts
+    path: .octon/state/evidence
+    disposition: foreign/manual preserved and excluded from child closeout blocking
+blockers: []
+final_residue_classes:
+  ignored: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to evidence-metadata proposal closeout with child closeout authority preserved

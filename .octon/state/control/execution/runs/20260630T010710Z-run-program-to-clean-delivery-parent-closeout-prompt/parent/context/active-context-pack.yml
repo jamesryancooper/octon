@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260630T010710Z-run-program-to-clean-delivery-parent-closeout-prompt/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260630T010710Z-run-program-to-clean-delivery-parent-closeout-prompt/parent/context/context-pack.json
+context_pack_sha256: sha256:b8953f9f84ad967f3185e47233bc6e4968de71448a09aac6fd2d55986bf59893
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260630T010710Z-run-program-to-clean-delivery-parent-closeout-prompt/parent/context/model-visible-context.json
+model_visible_context_sha256: sha256:557984f913c10015f0e3341b32630cc6a13d82fcbe48b663335bccca33f0f284
+receipt_sha256: sha256:51f3da7027e749a569d59efc67d75d2e54e4c8889717899fd5f477682cc08944
+route_id: cleanup-lifecycle-residue
+run_id: 20260630T010710Z-run-program-to-clean-delivery-parent-closeout-prompt
+schema_version: active-context-pack-v1
+updated_at: 2026-06-30T01:07:58.573433Z
+validity_state: valid

@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-bind-profile-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-06-30T00:18:59.035907Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-bind-profile
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-1-workflow-9b3bacc5074d538e-bind-profile/checkpoints/bound.yml

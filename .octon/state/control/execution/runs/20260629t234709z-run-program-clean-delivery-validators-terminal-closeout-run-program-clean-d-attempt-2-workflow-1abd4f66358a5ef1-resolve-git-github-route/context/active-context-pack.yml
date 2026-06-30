@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-resolve-git-github-route/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-resolve-git-github-route/context/context-pack.json
+context_pack_sha256: sha256:4f8c8f2ffaa253e49d9a38a33b82ac7976d4b3bbdf3d69f762ec28ca85f92239
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-resolve-git-github-route/context/model-visible-context.json
+model_visible_context_sha256: sha256:ac8a71e38387c396ec97c8e0b081e1434bc6bccb43a36ab4af9060eb4097f453
+receipt_sha256: sha256:c9dfc34816c987a6a93df9e731c2dd2d96d8387f7e8d2908f59ccb87cc6ee10b
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-resolve-git-github-route
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T23:58:57.759116Z
+validity_state: valid

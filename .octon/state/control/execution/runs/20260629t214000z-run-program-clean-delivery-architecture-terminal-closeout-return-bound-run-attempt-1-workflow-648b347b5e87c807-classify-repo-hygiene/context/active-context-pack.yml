@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:293248d8bdc687d8d4c1ba63108d555cb19ce52959a82bea65031a4a6ee43402
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:f459fef7f1b1880d1ebb2de81e0e22488a918f3a7bde2a2b2c1b59c430a28763
+receipt_sha256: sha256:72024da6b90c445149b14a42397cfa9fd22bf6deec1059224c28c684a954c401
+run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T21:07:39.531893Z
+validity_state: valid

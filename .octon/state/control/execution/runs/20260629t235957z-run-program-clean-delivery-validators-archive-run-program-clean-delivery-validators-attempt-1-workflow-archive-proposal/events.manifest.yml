@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: 20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+ledger_ref: .octon/state/control/execution/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:8470584c9657405073f9008e43a60637d85f58e95eb337d0fadd716df98c4d2d
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  sequence: 1
+  event_hash: sha256:64081efe46d515d0001066c80bc6e5bc84a19c038716c80db8016c95f4b1eecf
+last_event_ref:
+  event_id: evt-run-closed-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  sequence: 29
+  event_hash: sha256:e4a07b55764170940d98361ca6a80085042cef173e1b4873a19eea932e8fb335
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:64081efe46d515d0001066c80bc6e5bc84a19c038716c80db8016c95f4b1eecf
+  tail_event_hash: sha256:e4a07b55764170940d98361ca6a80085042cef173e1b4873a19eea932e8fb335
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  context_pack_ref: evt-context-pack-bound-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  disclosure_ref: evt-run-closed-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-9b5960ce5d90
+  run_contract_ref: evt-001-run-created-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  run_manifest_ref: evt-002-run-bound-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  runtime_state_ref: evt-run-closed-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  stage_attempt_ref: evt-stage-started-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:e4a07b55764170940d98361ca6a80085042cef173e1b4873a19eea932e8fb335
+  materialized_at: 2026-06-30T00:02:46.940215Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-30T00:02:47.779606Z

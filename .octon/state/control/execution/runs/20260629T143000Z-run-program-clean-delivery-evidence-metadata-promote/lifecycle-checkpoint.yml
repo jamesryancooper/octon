@@ -1,0 +1,28 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: 20260629T143000Z-run-program-clean-delivery-evidence-metadata-promote
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata
+current_state: null
+current_phase: terminal-explanation-reporting
+completed_states: []
+last_route: null
+loop_counts: {}
+phase_counts:
+  terminal-explanation-reporting: 1
+last_phase_transition: phase-entered:terminal-explanation-reporting
+phase_blockers:
+  final_verdict: blocked-no-route
+receipt_digests:
+  proposal-review: sha256:834db4b77e7a71b4de0903408ab0756508de0b68a31ec4e0d537123685ca79a8
+last_validator_results: []
+run_inputs:
+  promotion_evidence: .octon/framework/product/contracts/change-receipt-v1.schema.json; .octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh; .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh; .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh; .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh; .octon/framework/assurance/runtime/_ops/tests/test-branch-no-pr-delivery-receipt-builder.sh; .octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh; .octon/framework/assurance/runtime/_ops/tests/test-proposal-artifact-index-spine.sh; .octon/framework/assurance/runtime/_ops/tests/test-validate-evidence-disclosure-tiers.sh
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-no-route
+resume_instruction: octon lifecycle resume --run-id 20260629T143000Z-run-program-clean-delivery-evidence-metadata-promote

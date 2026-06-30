@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:9a39d789d08eca81cd8887bc83c6a4eba001f7f6c2ff00df487d56266a3f3f2d
+  entry_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift/replay/manifest.yml
+  recorded_at: 2026-06-29T23:49:37.005096Z
+  run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:1cb80d03f18c195cddd69e1b7631890de48a614ba3a4a8258fb699723c66e1f3
+  entry_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift/replay/manifest.yml
+  recorded_at: 2026-06-29T23:49:37.005096Z
+  run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift
+  storage_class: external-immutable
+index_id: external-replay-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-1-workflow-f2fd49af240151e4-validate-feature-catalog-drift
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T23:49:37.005096Z

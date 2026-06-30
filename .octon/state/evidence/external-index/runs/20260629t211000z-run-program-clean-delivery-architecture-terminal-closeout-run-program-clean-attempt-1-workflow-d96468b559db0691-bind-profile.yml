@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:d20786021e5db03279e72579ca00706745d8dcf745ee98b9c88fb4df0fdade9b
+  entry_id: 20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-29T20:46:25.490969Z
+  run_id: 20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:f46c8f80f4073bdac322d5bc0670a5db4ac32ff7478d60ca482b66fa738bda2a
+  entry_id: 20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile/replay/manifest.yml
+  recorded_at: 2026-06-29T20:46:25.490969Z
+  run_id: 20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile
+  storage_class: external-immutable
+index_id: external-replay-20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile
+run_id: 20260629t211000z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-d96468b559db0691-bind-profile
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T20:46:25.490969Z

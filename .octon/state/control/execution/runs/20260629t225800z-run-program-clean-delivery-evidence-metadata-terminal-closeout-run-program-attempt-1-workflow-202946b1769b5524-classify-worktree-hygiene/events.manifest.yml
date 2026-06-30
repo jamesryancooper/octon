@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: 20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+ledger_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:186360bffd02cf5180064b784201bcd1384e0be66f9cbabac97957a34adf5355
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  sequence: 1
+  event_hash: sha256:922956b1e46ac4df8c7722d4c3e0f687717ac84fb6211f3b3c0e90e67885e9c0
+last_event_ref:
+  event_id: evt-run-closed-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  sequence: 29
+  event_hash: sha256:e0d50a1a23586a28fa0a21b9bc6134a776a66ee6dbb548017551aabb77a49384
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:922956b1e46ac4df8c7722d4c3e0f687717ac84fb6211f3b3c0e90e67885e9c0
+  tail_event_hash: sha256:e0d50a1a23586a28fa0a21b9bc6134a776a66ee6dbb548017551aabb77a49384
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  context_pack_ref: evt-context-pack-bound-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  disclosure_ref: evt-run-closed-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  evidence_snapshot_ref: evt-evidence-snapshot-created-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-bd44b06ee68e
+  run_contract_ref: evt-001-run-created-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  run_manifest_ref: evt-002-run-bound-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  runtime_state_ref: evt-run-closed-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  stage_attempt_ref: evt-stage-started-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene/runtime-state.yml
+  last_applied_event_id: evt-run-closed-20260629t225800z-run-program-clean-delivery-evidence-metadata-terminal-closeout-run-program-attempt-1-workflow-202946b1769b5524-classify-worktree-hygiene
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:e0d50a1a23586a28fa0a21b9bc6134a776a66ee6dbb548017551aabb77a49384
+  materialized_at: 2026-06-29T23:02:09.113494Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-29T23:02:09.991962Z

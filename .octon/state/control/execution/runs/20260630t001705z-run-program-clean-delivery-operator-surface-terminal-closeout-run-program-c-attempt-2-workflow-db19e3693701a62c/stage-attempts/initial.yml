@@ -1,0 +1,39 @@
+allowed_capabilities:
+- workflow.execute
+- repo.write
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+- .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+attempt_kind: initial
+completion_status: criteria-pending
+created_at: 2026-06-30T00:25:14.851673Z
+entry_criteria:
+- Run contract is bound under the canonical run root.
+- Support-target tuple remains admitted for the bounded consequential envelope.
+evidence_refs:
+- .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/receipts/grant-bundle.json
+- .octon/state/evidence/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/receipts/execution-receipt.json
+exit_criteria:
+- Stage receipts, replay refs, and disclosure refs are retained under canonical run roots.
+- Stage status reaches a terminal state that agrees with the decision artifact.
+issued_by: octon-kernel
+objective_ref: .octon/state/control/execution/runs/20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c/run-contract.yml
+objective_slice: Stage workflow:proposal-packet-terminal-closeout for target proposal-packet-terminal-closeout
+predecessor_refs: []
+requested_capabilities:
+- workflow.execute
+- repo.write
+- evidence.write
+retry_class: manual_review_required
+rollback_candidate: true
+rollback_notes: Restore from the canonical checkpoint and reissue the stage if retained evidence becomes inconsistent.
+run_id: 20260630t001705z-run-program-clean-delivery-operator-surface-terminal-closeout-run-program-c-attempt-2-workflow-db19e3693701a62c
+schema_version: stage-attempt-v1
+stage_attempt_id: initial
+stage_ref: workflow:proposal-packet-terminal-closeout
+status: succeeded
+successor_refs: []
+updated_at: 2026-06-30T00:28:09.065029Z
+validated_by: octon-kernel

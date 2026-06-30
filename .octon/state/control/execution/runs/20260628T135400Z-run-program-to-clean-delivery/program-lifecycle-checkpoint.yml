@@ -1,0 +1,275 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: 20260628T135400Z-run-program-to-clean-delivery
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+executor: auto
+invocation_authority: unattended
+timeout_seconds: 900
+max_steps: 80
+max_child_concurrency: 1
+child_registry_digest: sha256:14291d3e21cf4e24242bb240443361f359159325dfc1b0cc6e2763ecbbbfb2f9
+execution_mode: sequential
+run_inputs:
+  worktree_baseline_lease: explicit-dirty-start
+  worktree_baseline_lease_paths: |
+    .octon/inputs/exploratory/proposals/.DS_Store
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/README.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/architecture-proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/architecture/acceptance-criteria.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/architecture/implementation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/architecture/target-architecture.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/navigation/artifact-catalog.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/navigation/source-of-truth-map.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/validation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/README.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/architecture-proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/architecture/acceptance-criteria.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/architecture/implementation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/architecture/target-architecture.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/navigation/artifact-catalog.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/navigation/source-of-truth-map.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/validation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/README.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/architecture-proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/architecture/acceptance-criteria.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/architecture/implementation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/architecture/target-architecture.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/navigation/artifact-catalog.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/navigation/source-of-truth-map.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/validation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/README.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/architecture-proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/architecture/acceptance-criteria.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/architecture/implementation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/architecture/target-architecture.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/navigation/artifact-catalog.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/navigation/source-of-truth-map.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing/validation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/README.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/architecture-proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/architecture/acceptance-criteria.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/architecture/implementation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/architecture/target-architecture.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/navigation/artifact-catalog.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/navigation/source-of-truth-map.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/validation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/README.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/architecture-proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/architecture/acceptance-criteria.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/architecture/implementation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/architecture/target-architecture.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/navigation/artifact-catalog.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/navigation/source-of-truth-map.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff/validation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/README.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture-proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/acceptance-criteria.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/child-packet-contract.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/implementation-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/packet-sequence.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/program-closeout-plan.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/target-architecture.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/navigation/artifact-catalog.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/navigation/source-of-truth-map.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/proposal.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/child-packet-index.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/child-packet-index.yml
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/friction-analysis.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/repository-reconnaissance.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/support/example-run-program-to-clean-delivery-prompt.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/support/program-creation.md
+    .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/validation-plan.md
+    .octon/state/control/execution/runs/20260628T134514Z-run-program-to-clean-delivery/program-events.ndjson
+    .octon/state/control/execution/runs/20260628T134514Z-run-program-to-clean-delivery/program-lifecycle-checkpoint.yml
+scheduler_decision: []
+child_states:
+  run-program-clean-delivery-architecture:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+    current_state: review-packet
+    final_verdict: route-ready
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/engine/runtime/spec/
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+  run-program-clean-delivery-evidence-metadata:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata
+    current_state: review-packet
+    final_verdict: route-ready
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-workflow-handoff:
+        dependency_id: run-program-clean-delivery-workflow-handoff
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh
+    - .octon/framework/product/contracts/change-receipt-v1.schema.json
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata
+  run-program-clean-delivery-operator-surface:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+    current_state: review-packet
+    final_verdict: route-ready
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-validators:
+        dependency_id: run-program-clean-delivery-validators
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/capabilities/runtime/commands/
+    - .octon/framework/capabilities/runtime/skills/
+    - .octon/framework/product/features/README.md
+    - .octon/framework/product/features/catalog.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+  run-program-clean-delivery-runner-routing:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing
+    current_state: review-packet
+    final_verdict: route-ready
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-architecture:
+        dependency_id: run-program-clean-delivery-architecture
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing
+  run-program-clean-delivery-validators:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+    current_state: review-packet
+    final_verdict: route-ready
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-evidence-metadata:
+        dependency_id: run-program-clean-delivery-evidence-metadata
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      run-program-clean-delivery-runner-routing:
+        dependency_id: run-program-clean-delivery-runner-routing
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      run-program-clean-delivery-workflow-handoff:
+        dependency_id: run-program-clean-delivery-workflow-handoff
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/engine/runtime/crates/kernel/tests/
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+  run-program-clean-delivery-workflow-handoff:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+    current_state: review-packet
+    final_verdict: route-ready
+    receipt_digests: {}
+    gate_status:
+      terminal: false
+      verification: false
+      closeout: false
+    dependency_gate_status:
+      run-program-clean-delivery-architecture:
+        dependency_id: run-program-clean-delivery-architecture
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+      run-program-clean-delivery-runner-routing:
+        dependency_id: run-program-clean-delivery-runner-routing
+        required_gate: verification
+        satisfied: false
+        observed_gate: none
+        reason: observed none
+    write_scopes:
+    - .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+    - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+    - .octon/framework/product/contracts/change-closeout-state-machine.yml
+    - .octon/framework/product/contracts/default-work-unit.yml
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+recovery_attempts: {}
+program_recovery_action_attempts: {}
+recovery_progress_fingerprints: {}
+closeout_hygiene_suppressions: {}
+aggregate_terminal_blockers:
+  path: .octon/state/evidence/runs/workflows/20260628T135400Z-run-program-to-clean-delivery/aggregate-terminal-blockers.yml
+  digest: sha256:65d5e4b22a69703c71db135720da87bc45f5ded17e8ff2be7f700ed7149c028d
+  blocked_required_child_count: 6
+  authority_boundary: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+residue_cleanup_attempts: {}
+worktree_baseline_ref: .octon/state/evidence/runs/workflows/20260628T135400Z-run-program-to-clean-delivery/worktree-baseline.yml
+interaction_request_refs: []
+interaction_return_refs: []
+approvals: []
+program_recovery_recipe_validation_status: null
+program_recovery_recipe_validation_failures: []
+program_recovery_recipe_blocker_class: null
+program_recovery_recipe_route_id: null
+program_recovery_recipe_delegation_contract_basis: null
+latest_event_offset: 39
+latest_event_index: 39
+latest_event_sha256: sha256:c0ae8d2f1080df49c6ba1c40718551f4727aa42d1b5815c95bfabff786857a3b
+event_log_sha256: sha256:eda5acefacc22622ea3a3bfed8e05dce2b648ecba2e60917cf01baf2ad3b795d
+derived_from_event_index: 39
+atomic_barrier_state: null
+cancelled_at: 2026-06-28T14:15:41.583005Z
+cancel_reason: repeated-parent-revise-stale-inventory-no-progress
+cancellation_evidence_path: .octon/state/evidence/runs/workflows/20260628T135400Z-run-program-to-clean-delivery/program-cancelled.yml
+terminal_outcome: cancelled
+final_verdict: cancelled
+resume_instruction: cancelled program lifecycle runs cannot resume dispatch

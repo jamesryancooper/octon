@@ -1,0 +1,113 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: 20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260630T011700Z-run-program-to-clean-delivery-parent-lifecycle-residue-handoff/proposal-worktree-hygiene.yml
+residue_classification_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260630T011700Z-run-program-to-clean-delivery-parent-lifecycle-residue-handoff/proposal-worktree-hygiene.yml
+residue_classification_digest: sha256:18fa09842a1566c045dd9e2522105319a278f9afeef03f3551322189aeb054b6
+final_inventory_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260630T011700Z-run-program-to-clean-delivery-parent-lifecycle-residue-handoff/proposal-worktree-hygiene.yml
+repo_hygiene_cleanup_outcome: not-applicable
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+helper_cleanup_summary:
+  eligible_cleanup_candidates: 0
+  protected_referenced: 6237
+  manual_review: 121
+  classification_digest: sha256:fd64b433c82a49d6f5a126fa78a251c90c2895f6dc3748d42267c7b8d4aa5018
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+repo_hygiene_next_route_condition: no repo-hygiene deletion route authorized; foreign/manual parent residue is preserved and excluded only from the named lifecycle closeout blocker
+selected_candidate_id: parent-lifecycle-residue-current
+candidates:
+  - candidate_id: parent-lifecycle-residue-current
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: parent lifecycle residue explicitly authorized for non-mutating preserve/exclude from the parent cleanup-lifecycle-residue blocker
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, staging, commit, push, publication, archive, branch cleanup, git ref mutation, or cleaned claim
+    boundaries:
+      include_paths:
+        - .claude
+        - .codex
+        - .cursor
+        - .gitignore
+        - .octon
+      exclude_paths:
+        - child closeout receipts
+        - child validation receipts
+        - child archive metadata
+        - child lifecycle outcomes
+        - Change receipts
+        - branch cleanup authorization
+        - terminal current-state proof
+        - git_clean_terminal proof
+    proposal_program_parent_handoff_authorization:
+      authorization_grant: operator-authorized-parent-residue-preserve-and-exclude-for-lifecycle-closeout
+      program_run_id: 20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition
+      parent_route_id: cleanup-lifecycle-residue
+      cleanup_receipt_ref: .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/support/lifecycle-residue-cleanup.md
+      cleanup_receipt_digest: sha256:9081adb5bff7ed209d1050140531e0e092fbb6ae834116e5b8d2a8b7c29e6dff
+      classifier_output_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260630T011700Z-run-program-to-clean-delivery-parent-lifecycle-residue-handoff/proposal-worktree-hygiene.yml
+      classifier_output_digest: sha256:18fa09842a1566c045dd9e2522105319a278f9afeef03f3551322189aeb054b6
+      authorized_foreign_fingerprint: sha256:ac78900300d33ae44d64488ce3b20d30f3b2d4badeeac86801e5b4e3e33f99e6
+      foreign_fingerprint: sha256:ac78900300d33ae44d64488ce3b20d30f3b2d4badeeac86801e5b4e3e33f99e6
+      authorized_paths:
+        - .claude
+        - .codex
+        - .cursor
+        - .gitignore
+        - .octon
+      disposition: preserve-and-exclude-from-lifecycle-closeout-blocking
+      outside_child_owned_closeout_authority: true
+      separately_partitioned_for_later_legal_closeout: true
+      non_mutating: true
+      preserve_and_exclude_from_lifecycle_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+iterations: []
+final_candidate_dispositions:
+  parent-lifecycle-residue-current:
+    state: foreign
+retained_residue:
+  - candidate_id: parent-lifecycle-residue-current
+    path: .claude
+    disposition: foreign/manual residue preserved and excluded from parent lifecycle closeout blocking only
+  - candidate_id: parent-lifecycle-residue-current
+    path: .codex
+    disposition: foreign/manual residue preserved and excluded from parent lifecycle closeout blocking only
+  - candidate_id: parent-lifecycle-residue-current
+    path: .cursor
+    disposition: foreign/manual residue preserved and excluded from parent lifecycle closeout blocking only
+  - candidate_id: parent-lifecycle-residue-current
+    path: .gitignore
+    disposition: foreign/manual residue preserved and excluded from parent lifecycle closeout blocking only
+  - candidate_id: parent-lifecycle-residue-current
+    path: .octon
+    disposition: foreign/manual residue preserved and excluded from parent lifecycle closeout blocking only
+blockers: []
+final_residue_classes:
+  ignored: 0
+  cleanup_safe_local_residue: 1
+  protected_active_control_state: 4
+  manual_review_foreign_ambiguous_unsafe_or_user_owned: 6721
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program lifecycle closeout/archive planning with child authority preserved; no cleaned claim and no git_clean_terminal claim

@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: 20260629t131300z-run-program-clean-delivery-workflow-handoff-promote-bound-workflow-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-06-29T13:09:17.920103Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: 20260629t131300z-run-program-clean-delivery-workflow-handoff-promote-bound-workflow
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/20260629t131300z-run-program-clean-delivery-workflow-handoff-promote-bound-workflow/checkpoints/bound.yml

@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T222500Z-run-program-clean-delivery-runner-routing-closeout-packet-fresh-return/children/run-program-clean-delivery-runner-routing/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T222500Z-run-program-clean-delivery-runner-routing-closeout-packet-fresh-return/children/run-program-clean-delivery-runner-routing/context/context-pack.json
+context_pack_sha256: sha256:a54043f4bd9f0547e24f4fb4ca7d72cbf9d51b34f336636786fa2705063ceb3d
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T222500Z-run-program-clean-delivery-runner-routing-closeout-packet-fresh-return/children/run-program-clean-delivery-runner-routing/context/model-visible-context.json
+model_visible_context_sha256: sha256:0f304fa614df5bbc83ed3e8659908121ae8231bea5b8c0412af3470a40d52c4d
+receipt_sha256: sha256:408095b8fdc2745ad0ed016774ba9f412095f7fcfa5345c0b71ad8d2c7be0b63
+route_id: closeout-packet
+run_id: 20260629T222500Z-run-program-clean-delivery-runner-routing-closeout-packet-fresh-return-run-program-clean-delivery-runner-routing
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T21:35:32.641165Z
+validity_state: valid

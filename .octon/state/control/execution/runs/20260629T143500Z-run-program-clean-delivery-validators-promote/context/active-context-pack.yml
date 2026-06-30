@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T143500Z-run-program-clean-delivery-validators-promote/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T143500Z-run-program-clean-delivery-validators-promote/context/context-pack.json
+context_pack_sha256: sha256:3cdb4fb64dfc3916d4ada6315218995eb20d7b100fd17113855b55abea1d9262
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T143500Z-run-program-clean-delivery-validators-promote/context/model-visible-context.json
+model_visible_context_sha256: sha256:fc53477dd5eb7c57e40563342c1a2861d515ccaccbc3bd8f8f7fbaf8d0ee8bb3
+receipt_sha256: sha256:51c53020fb5529af6eac19427a9e9d1afce524f8af2b8e4ddbf48d1b51478896
+route_id: closeout-packet
+run_id: 20260629T143500Z-run-program-clean-delivery-validators-promote
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T14:39:18.59027Z
+validity_state: valid

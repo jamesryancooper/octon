@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+ledger_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:112db411f7b1f291f4a6d7e5fdee128254db5116682afe4991e189026aa88e4f
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  sequence: 1
+  event_hash: sha256:564cfa630c76d9b987e12cf15bed2ba5542c093a4def8c481a5b564a5cb4224d
+last_event_ref:
+  event_id: evt-run-closed-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  sequence: 29
+  event_hash: sha256:41d184be647a5dfb29d982bba411b4fc769b2d758f09306e9a79d13dd4f13e6c
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:564cfa630c76d9b987e12cf15bed2ba5542c093a4def8c481a5b564a5cb4224d
+  tail_event_hash: sha256:41d184be647a5dfb29d982bba411b4fc769b2d758f09306e9a79d13dd4f13e6c
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  context_pack_ref: evt-context-pack-bound-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  disclosure_ref: evt-run-closed-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  evidence_snapshot_ref: evt-evidence-snapshot-created-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-59384c98ee25
+  run_contract_ref: evt-001-run-created-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  run_manifest_ref: evt-002-run-bound-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  runtime_state_ref: evt-run-closed-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  stage_attempt_ref: evt-stage-started-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt/runtime-state.yml
+  last_applied_event_id: evt-run-closed-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-emit-terminal-receipt
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:41d184be647a5dfb29d982bba411b4fc769b2d758f09306e9a79d13dd4f13e6c
+  materialized_at: 2026-06-29T22:33:11.174292Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-29T22:33:12.067729Z

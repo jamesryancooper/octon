@@ -1,0 +1,215 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: 20260630T015045Z-run-program-to-clean-delivery-parent-closeout-program-hygiene
+observed_change_set_count: 4
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-program/20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition/worktree-hygiene-classifier.yml
+residue_classification_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-program/20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition/worktree-hygiene-classifier.yml
+residue_classification_digest: sha256:efbde2d1f64412c58bfe522e866429b18344e6cf5d4a9fa3a9bc4ed90c7deabe
+final_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-program/20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition/worktree-hygiene-classifier.yml
+repo_hygiene_cleanup_outcome: classification-only
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+helper_cleanup_summary:
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 5704
+  manual_review: 41
+  git_status_digest: sha256:f66e5e046983fb22fb9e3e8273e0bae51c8be27e9af69bc1e9adea3670b044ac
+  classification_digest: sha256:96d521f47f2c3ec08c0dcd81f38aeb31843a7c8e82e2585b6642b23b15548b87
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:80d20c05a0cfb84a6a96d3cc2e952d7a9a0b307391eecc662df8ed10350a6dc7
+  manual_review_paths_digest: sha256:a34b22370bb2b390250b8141a8b7e02691d3e9f39f5389bb7308b8d44b40d465
+  reference_scan_status: bounded-overprotect
+generic_change_classifier_counts:
+  staged: 0
+  unstaged_tracked: 1
+  untracked: 1369
+  ignored: 12001
+  local_branch: 2
+  remote_branch: 3
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 761
+  state_control: 4737
+  release_version: 0
+  input_surface: 1
+  publishable_change: 0
+  publishable_closeout_evidence: 37
+  local_private_retained: 254
+  fixture_retention_candidate: 0
+  foreign_manual_review: 0
+  unsafe: 17448
+  ambiguous: 0
+repo_hygiene_next_route_condition: no repo-hygiene deletion route is authorized because the helper reports zero cleanup candidates
+selected_candidate_id: parent-program-lifecycle-publishable-change
+candidates:
+  - candidate_id: parent-program-lifecycle-publishable-change
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: completed parent proposal-program lifecycle surfaces, durable extension/runtime changes, and owner-regenerated run-health read models, with child-owned receipts preserved by reference only
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260630T023314Z-run-program-clean-delivery-parent-lifecycle-change/change-receipt.json
+    rollback_or_discard_posture: branch-local preservation only until a singular closeout-change receipt authorizes staging, commit, push, landing, branch cleanup, final sync, or terminal proof
+    boundaries:
+      include_paths:
+        - .claude
+        - .codex
+        - .cursor
+        - .gitignore
+        - .octon/framework
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle
+        - .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+        - .octon/inputs/exploratory/proposals/.archive/architecture
+        - .octon/generated/effective
+        - .octon/generated/cognition/projections/materialized/runs
+        - .octon/generated/proposals
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/control/extensions/quarantine.yml
+        - .octon/state/evidence/decisions
+        - .octon/state/evidence/validation/extensions
+        - .octon/state/evidence/validation/compatibility/extensions
+        - .octon/state/evidence/validation/publication
+      exclude_paths:
+        - .octon/state/control/execution
+        - .octon/state/continuity
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs
+        - .octon/state/evidence/validation/analysis
+        - .octon/state/evidence/validation/runtime
+        - .octon/inputs/exploratory/proposals/.DS_Store
+        - child closeout receipts are cited only as evidence and remain child-owned authority
+        - branch cleanup authorization
+        - terminal current-state proof
+        - git_clean_terminal proof
+    lifecycle_closeout_authority:
+      completed_program_run_id: 20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition
+      program_target: .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+      completed_program_summary_ref: .octon/state/evidence/runs/workflows/20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition/summary.md
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/state/evidence/runs/workflows/20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition/summary.md
+        - .octon/state/evidence/runs/workflows/20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition/route-decision-receipt.yml
+        - .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/support/proposal-closeout.md
+        - .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/support/program-implementation-orchestration-conformance-review.md
+        - .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/support/program-post-implementation-orchestration-drift-churn-review.md
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-program/20260630T015045Z-run-program-to-clean-delivery-parent-closeout-worktree-disposition/worktree-hygiene-classifier.yml
+        - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml
+  - candidate_id: parent-closeout-publishable-evidence
+    disposition: deferred
+    residue_routing_class: publishable_closeout_evidence
+    ownership: closeout-worktree and closeout analysis evidence created to route the parent program blocker
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: retain as evidence until a singular closeout-change receipt or terminal local evidence sink records final disposition
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/validation/analysis
+        - .octon/state/evidence/runs/skills/closeout-change
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-worktree
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-program
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/validation/runtime
+  - candidate_id: parent-local-metadata-cleanup
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: local filesystem metadata under proposal inputs; deletion is not authorized by proposal classifier detection alone
+    route_hint: repo-hygiene-cleanup
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: preserve until repo-hygiene helper reports a current exact cleanup candidate and validates an authorization receipt or explicit operator confirmation
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/.DS_Store
+      exclude_paths:
+        - proposal packet contents
+        - proposal archive contents
+        - child receipts
+  - candidate_id: generated-control-and-run-state-residue
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: workflow execution state, authority-decision evidence, external indexes, raw workflow evidence, and active runtime validation state outside the parent lifecycle publishable Change boundary
+    route_hint: generated-run-health-read-model, repo-hygiene-cleanup, or separate closeout-change scope resolution
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: preserve until the owning generator, hygiene route, or singular closeout-change receipt authorizes pruning, retention, publication, or deletion
+    boundaries:
+      include_paths:
+        - .octon/state/control/execution
+        - .octon/state/continuity/runs
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs/skills/20260629T131700Z-run-program-clean-delivery-workflow-handoff-closeout
+        - .octon/state/evidence/runs/skills/20260629T143500Z-run-program-clean-delivery-validators-promote
+        - .octon/state/evidence/runs/skills/20260629T150900Z-run-program-clean-delivery-operator-surface-closeout-worktree-handoff
+        - .octon/state/evidence/runs/skills/closeout-worktree
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-program
+        - .octon/state/evidence/validation/runtime
+      exclude_paths:
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/control/extensions/quarantine.yml
+        - .octon/state/evidence/decisions
+        - .octon/state/evidence/validation/extensions
+        - .octon/state/evidence/validation/compatibility/extensions
+        - .octon/state/evidence/validation/publication
+        - .octon/state/evidence/validation/analysis
+iterations: []
+final_candidate_dispositions:
+  parent-program-lifecycle-publishable-change:
+    state: deferred
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/20260630T023314Z-run-program-clean-delivery-parent-lifecycle-change/change-receipt.json
+  parent-closeout-publishable-evidence:
+    state: deferred
+  parent-local-metadata-cleanup:
+    state: blocked
+  generated-control-and-run-state-residue:
+    state: blocked
+retained_residue: []
+blockers:
+  - candidate_id: parent-program-lifecycle-publishable-change
+    blocker: closeout-change receipt validates branch-local completion but records continued outcome because landing, branch cleanup, final sync, terminal proof, and cleaned outcome are blocked by unresolved protected run-state residue
+    next_route: closeout-change
+  - candidate_id: parent-closeout-publishable-evidence
+    blocker: publishable closeout evidence must be sequenced through closeout-change or retained terminal evidence after the primary Change route to avoid recursive closeout residue
+    next_route: closeout-change
+  - candidate_id: parent-local-metadata-cleanup
+    blocker: repo-hygiene helper dry-run reports zero cleanup candidates, so .DS_Store detection in the proposal classifier is not deletion authority
+    next_route: repo-hygiene-cleanup only if a fresh helper classification selects the exact path or operator explicitly confirms deletion
+  - candidate_id: generated-control-and-run-state-residue
+    blocker: protected control/run-state residue remains outside parent lifecycle publishable Change authority and requires hygiene or separate closeout-change route evidence; generated run-health projections have been owner-regenerated and moved to the publishable Change boundary
+    next_route: repo-hygiene-cleanup or separate closeout-worktree partition after primary Change disposition
+prior_candidate_reconciliation:
+  prior_report_ref: .octon/state/evidence/validation/analysis/2026-06-30-closeout-worktree-run-program-to-clean-delivery-parent-closeout-worktree-disposition.yml
+  candidates:
+    - prior_candidate_id: parent-lifecycle-residue-current
+      current_candidate_id: generated-control-and-run-state-residue
+      disposition: folded
+      rationale: earlier cleanup-lifecycle-residue preserve/exclude report remains valid for that parent blocker; current parent closeout evidence now partitions the broader worktree blocker without replacing child-owned receipts
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 1
+  untracked: 1369
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 761
+  state_control: 4737
+  release_version: 0
+  input_surface: 1
+  cleanup_safe_local_residue: 1
+  protected_active_control_state: 4
+  manual_review_foreign_ambiguous_unsafe_or_user_owned: 6736
+worktree_terminal_state: nonterminal
+next_route_condition: resolve publishable closeout evidence and protected run-state residue before retrying parent archive or any git_clean_terminal claim

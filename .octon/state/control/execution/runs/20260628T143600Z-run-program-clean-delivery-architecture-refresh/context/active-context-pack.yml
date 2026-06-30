@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260628T143600Z-run-program-clean-delivery-architecture-refresh/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260628T143600Z-run-program-clean-delivery-architecture-refresh/context/context-pack.json
+context_pack_sha256: sha256:998f2d38df268c0cee23aaf50f0089640e306a302dedaf4a82c14762c5d650ba
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260628T143600Z-run-program-clean-delivery-architecture-refresh/context/model-visible-context.json
+model_visible_context_sha256: sha256:800514abbedfc3a4f1510153cad27addc757e4d10a234c9a0743d7799476d1c8
+receipt_sha256: sha256:70dacfa23aedb42937e5fe4040319ea506e7fad486102f8787405bf1ad20bfc3
+route_id: revise-packet
+run_id: 20260628T143600Z-run-program-clean-delivery-architecture-refresh
+schema_version: active-context-pack-v1
+updated_at: 2026-06-28T14:42:12.870156Z
+validity_state: valid

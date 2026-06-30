@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T132500Z-run-program-clean-delivery-workflow-handoff-closeout-return/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T132500Z-run-program-clean-delivery-workflow-handoff-closeout-return/context/context-pack.json
+context_pack_sha256: sha256:500b126c8a2893c61594b3f2a564119163f1516c043b214746a4593080bf8661
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/20260629T132500Z-run-program-clean-delivery-workflow-handoff-closeout-return/context/model-visible-context.json
+model_visible_context_sha256: sha256:fb708d7441fc61744a2ebb9416b05fb1a07e93b41d02cc2b39b85035e6c03720
+receipt_sha256: sha256:1f384026cea36333601f161765f16cd6d8628d94b894a5b898ff311e5bebacda
+route_id: review-packet
+run_id: 20260629T132500Z-run-program-clean-delivery-workflow-handoff-closeout-return
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T13:18:35.256241Z
+validity_state: valid

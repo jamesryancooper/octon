@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260629T203000Z-run-program-to-clean-delivery-architecture-return-bound-retry/children/run-program-clean-delivery-architecture/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260629T203000Z-run-program-to-clean-delivery-architecture-return-bound-retry/children/run-program-clean-delivery-architecture/context/context-pack.json
+route_id: closeout-packet
+run_id: 20260629T203000Z-run-program-to-clean-delivery-architecture-return-bound-retry-run-program-clean-delivery-architecture
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-29T20:33:02.68312Z
+validity_state: valid

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:38269d9344ddefa03895ca5e0a2e1f0f3e919a9c5d208674b153c214bf523df6
+  entry_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift/replay/manifest.yml
+  recorded_at: 2026-06-29T22:30:36.199189Z
+  run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:823b30afa681bc11e1e93794db5c48b8978f518a4f89d4744a44b626b095344a
+  entry_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift/replay/manifest.yml
+  recorded_at: 2026-06-29T22:30:36.199189Z
+  run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift
+  storage_class: external-immutable
+index_id: external-replay-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-post-implementation-drift
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T22:30:36.199189Z

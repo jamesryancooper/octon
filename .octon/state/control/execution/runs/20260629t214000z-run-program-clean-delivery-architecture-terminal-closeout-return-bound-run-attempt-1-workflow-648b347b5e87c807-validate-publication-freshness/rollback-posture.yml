@@ -1,0 +1,17 @@
+schema_version: run-rollback-posture-v1
+run_id: 20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-publication-freshness
+reversibility_class: reversible
+rollback_strategy: rollback
+rollback_ref: null
+rollback_handle: null
+compensation_handle: null
+recovery_window: null
+contamination_state: clean
+retry_record_ref: .octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-publication-freshness/retry-records/baseline.yml
+contamination_record_ref: .octon/state/control/execution/runs/20260629t214000z-run-program-clean-delivery-architecture-terminal-closeout-return-bound-run-attempt-1-workflow-648b347b5e87c807-validate-publication-freshness/contamination/current.yml
+resume_allowed: true
+reset_action: No reset required; canonical run evidence remained coherent.
+invalidated_artifacts: []
+hard_reset_required: false
+posture_source: run-contract-default
+updated_at: 2026-06-29T21:07:37.344141Z

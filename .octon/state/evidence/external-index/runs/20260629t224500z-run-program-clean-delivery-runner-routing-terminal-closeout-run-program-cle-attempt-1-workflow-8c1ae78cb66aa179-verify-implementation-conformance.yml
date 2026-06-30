@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:f85fa844db2aabc43c93037c5c54f3b2562fcf18760ae4ea4bbaf27bee1370ea
+  entry_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-29T21:45:50.879441Z
+  run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:c93f74580383f5f755fbcc84f1178cf3c0d7c2c5ed8a367efbd67963469c4251
+  entry_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance/replay/manifest.yml
+  recorded_at: 2026-06-29T21:45:50.879441Z
+  run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance
+  storage_class: external-immutable
+index_id: external-replay-20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance
+run_id: 20260629t224500z-run-program-clean-delivery-runner-routing-terminal-closeout-run-program-cle-attempt-1-workflow-8c1ae78cb66aa179-verify-implementation-conformance
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T21:45:50.879441Z

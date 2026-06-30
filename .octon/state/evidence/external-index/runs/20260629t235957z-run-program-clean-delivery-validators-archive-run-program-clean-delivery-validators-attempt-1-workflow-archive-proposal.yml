@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:7f8a84809da1b155aec404944ba02dd9d4dfd22a3bbdb7452e8de22fa04fefcc
+  entry_id: 20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/replay/manifest.yml
+  recorded_at: 2026-06-30T00:02:46.940215Z
+  run_id: 20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:a06801ff194f97df85795e27561db7b145a53642210e258c0c460e6555336bc8
+  entry_id: 20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal/replay/manifest.yml
+  recorded_at: 2026-06-30T00:02:46.940215Z
+  run_id: 20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+  storage_class: external-immutable
+index_id: external-replay-20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+run_id: 20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-archive-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-30T00:02:46.940215Z

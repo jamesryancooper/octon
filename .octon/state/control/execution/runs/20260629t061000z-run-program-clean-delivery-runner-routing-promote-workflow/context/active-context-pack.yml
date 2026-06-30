@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t061000z-run-program-clean-delivery-runner-routing-promote-workflow/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t061000z-run-program-clean-delivery-runner-routing-promote-workflow/context/context-pack.json
+context_pack_sha256: sha256:3ffc62e27e95d0b312c1dcf6f353af3f2f8f85bccb04b9275de29d1fd7998302
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t061000z-run-program-clean-delivery-runner-routing-promote-workflow/context/model-visible-context.json
+model_visible_context_sha256: sha256:8b4582886ba58479bf947a329b672b44c35004072a8175722723dcf79466e6bf
+receipt_sha256: sha256:04379b9f57b64b18c0d2647d3eda4726159ec10e598a836210b5017ad9c210e3
+run_id: 20260629t061000z-run-program-clean-delivery-runner-routing-promote-workflow
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T12:15:48.9166Z
+validity_state: valid

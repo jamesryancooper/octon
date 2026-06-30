@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: publish-1782755465524-15813
+ledger_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:9c489a3fa575598d5761dee10aeea3242a01630ec49c798db37df6659e1a5558
+event_count: 28
+first_event_ref:
+  event_id: evt-001-run-created-publish-1782755465524-15813
+  sequence: 1
+  event_hash: sha256:ed627bb136bc50092b195f46f2ecfd4cc75371195d2bfdd1d2dcb50cce798ee3
+last_event_ref:
+  event_id: evt-effect-token-consumed-effect-token-evidence-mutation-9e0a40e63b2f
+  sequence: 28
+  event_hash: sha256:be32bc888e8d4ec22819311608d67740288c4ca97c42cd810cc8f9fb0b91daf0
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:ed627bb136bc50092b195f46f2ecfd4cc75371195d2bfdd1d2dcb50cce798ee3
+  tail_event_hash: sha256:be32bc888e8d4ec22819311608d67740288c4ca97c42cd810cc8f9fb0b91daf0
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-publish-1782755465524-15813
+  context_pack_ref: evt-context-pack-bound-publish-1782755465524-15813
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-evidence-mutation-9e0a40e63b2f
+  run_contract_ref: evt-001-run-created-publish-1782755465524-15813
+  run_manifest_ref: evt-002-run-bound-publish-1782755465524-15813
+  runtime_state_ref: evt-capability-authorized-publish-1782755465524-15813
+  stage_attempt_ref: evt-stage-started-publish-1782755465524-15813
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/runtime-state.yml
+  last_applied_event_id: evt-effect-token-consumed-effect-token-evidence-mutation-9e0a40e63b2f
+  last_applied_sequence: 28
+  last_applied_event_hash: sha256:be32bc888e8d4ec22819311608d67740288c4ca97c42cd810cc8f9fb0b91daf0
+  materialized_at: 2026-06-29T17:51:06.406056Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-29T17:51:06.406056Z

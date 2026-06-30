@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:46f92e3e8fa4de25c4c778f6817def8deac949aabca5b029ab505894fdd65bb4
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:7bfe1d15e9213c3931f9a6c4ba790e0372548036b4abfd36482165c0fd1d54e4
+receipt_sha256: sha256:635ef107639f7ac27228d12b1d0184cdd93367854bb962962685afdcf9e86883
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T22:24:51.876688Z
+validity_state: valid

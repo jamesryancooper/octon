@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state/run-manifest.yml
+current_stage_attempt_id: verify-durable-implementation-state--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state/rollback-posture.yml
+last_applied_event_id: evt-run-closed-20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-2-workflow-a454b4b75825bab4-verify-durable-implementation-state
+last_applied_sequence: 29
+last_applied_event_hash: sha256:7f0fdc0a19e14f037ee215cb0509641e3258b038adbcb7c5190673a9ef15b116
+materialized_at: 2026-06-29T22:30:31.986975Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-29T22:30:29.97001Z
+updated_at: 2026-06-29T22:30:31.986975Z

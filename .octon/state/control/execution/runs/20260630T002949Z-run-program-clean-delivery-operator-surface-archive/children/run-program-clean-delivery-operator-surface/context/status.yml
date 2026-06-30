@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/20260630T002949Z-run-program-clean-delivery-operator-surface-archive/children/run-program-clean-delivery-operator-surface/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/20260630T002949Z-run-program-clean-delivery-operator-surface-archive/children/run-program-clean-delivery-operator-surface/context/context-pack.json
+route_id: archive-proposal
+run_id: 20260630T002949Z-run-program-clean-delivery-operator-surface-archive-run-program-clean-delivery-operator-surface
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-30T00:32:39.186018Z
+validity_state: valid

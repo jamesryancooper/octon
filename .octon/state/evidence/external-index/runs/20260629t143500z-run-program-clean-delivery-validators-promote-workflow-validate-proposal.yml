@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:5869bc4016f7c3ff1fcd844dc6389c4c7434a4ef4c86e2ea317ec1e0be0e74a9
+  entry_id: 20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-29T14:39:14.019734Z
+  run_id: 20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:f25d69e0d362d3597c1e8e95f038cc9e020c01bba2856a074c0275ecc5f0521e
+  entry_id: 20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-29T14:39:14.019734Z
+  run_id: 20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal
+run_id: 20260629t143500z-run-program-clean-delivery-validators-promote-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T14:39:14.019734Z

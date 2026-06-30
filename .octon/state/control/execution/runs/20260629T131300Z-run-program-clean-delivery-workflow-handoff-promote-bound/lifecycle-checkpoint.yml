@@ -1,0 +1,29 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: 20260629T131300Z-run-program-clean-delivery-workflow-handoff-promote-bound
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+current_state: closeout-packet
+current_phase: closeout-and-hygiene
+completed_states: []
+last_route: closeout-packet
+loop_counts: {}
+phase_counts:
+  closeout-and-hygiene: 1
+  promotion: 1
+last_phase_transition: phase-entered:closeout-and-hygiene
+phase_blockers:
+  final_verdict: executor-preflight-blocked
+receipt_digests:
+  proposal-review: sha256:fdc0d6f580419331ff105100215b5ca878d20f985a1c83ce526929fffc96c4eb
+last_validator_results: []
+run_inputs:
+  promotion_evidence: .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/,.octon/framework/capabilities/runtime/commands/proposal-program-delivery.md,.octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md,.octon/framework/product/contracts/default-work-unit.yml,.octon/framework/product/contracts/change-closeout-state-machine.yml,.octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md,.octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: executor-preflight-blocked
+resume_instruction: octon lifecycle resume --run-id 20260629T131300Z-run-program-clean-delivery-workflow-handoff-promote-bound

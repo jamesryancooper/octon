@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:0a5b72d37a70615d2725650f2bca188bd53ef80a66b9c1f77ac66320443837cd
+  entry_id: publish-1782668240189-86163-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/publish-1782668240189-86163/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/publish-1782668240189-86163/replay/manifest.yml
+  recorded_at: 2026-06-28T17:37:36.967027Z
+  run_id: publish-1782668240189-86163
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:61b3822ba850085358866e8ed7bbedadbc3247cdddf53334be9da20382578bab
+  entry_id: publish-1782668240189-86163-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/publish-1782668240189-86163/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/publish-1782668240189-86163/replay/manifest.yml
+  recorded_at: 2026-06-28T17:37:36.967027Z
+  run_id: publish-1782668240189-86163
+  storage_class: external-immutable
+index_id: external-replay-publish-1782668240189-86163
+run_id: publish-1782668240189-86163
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-28T17:37:36.967027Z

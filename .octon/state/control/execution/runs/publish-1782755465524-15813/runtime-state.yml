@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: publish-1782755465524-15813
+state: running
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/run-manifest.yml
+current_stage_attempt_id: initial
+last_checkpoint_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/checkpoints/execution-start.yml
+last_receipt_ref: .octon/state/evidence/runs/publish-1782755465524-15813/receipts/policy-receipt.latest.json
+mission_id: null
+parent_run_ref: null
+source_ledger_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/publish-1782755465524-15813/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/publish-1782755465524-15813/rollback-posture.yml
+last_applied_event_id: evt-effect-token-consumed-effect-token-evidence-mutation-9e0a40e63b2f
+last_applied_sequence: 28
+last_applied_event_hash: sha256:be32bc888e8d4ec22819311608d67740288c4ca97c42cd810cc8f9fb0b91daf0
+materialized_at: 2026-06-29T17:51:06.406056Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-29T17:51:05.525489Z
+updated_at: 2026-06-29T17:51:06.406056Z

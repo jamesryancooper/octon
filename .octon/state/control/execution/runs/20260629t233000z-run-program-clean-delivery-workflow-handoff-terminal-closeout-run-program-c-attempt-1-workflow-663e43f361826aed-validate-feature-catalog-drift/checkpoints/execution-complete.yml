@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: 20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift
+checkpoint_id: execution-complete
+stage_attempt_id: validate-feature-catalog-drift--initial
+checkpoint_kind: execution-complete
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/checkpoints/execution-complete.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/20260629t233000z-run-program-clean-delivery-workflow-handoff-terminal-closeout-run-program-c-attempt-1-workflow-663e43f361826aed-validate-feature-catalog-drift/checkpoints/execution-complete.yml
+notes: Execution outcome materialized under the canonical run root.
+created_at: 2026-06-29T22:23:12.511117Z
+updated_at: 2026-06-29T22:23:12.511117Z

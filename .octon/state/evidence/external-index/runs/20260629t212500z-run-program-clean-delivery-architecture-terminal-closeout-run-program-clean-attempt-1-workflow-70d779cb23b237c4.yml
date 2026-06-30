@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:b4febdaac53c70cb2810405ecc73a66cb957aa39aed51ef28aadae5f60307348
+  entry_id: 20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4/replay/manifest.yml
+  recorded_at: 2026-06-29T20:58:44.373188Z
+  run_id: 20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:3d1ac67d49d555bbb7b62e687fa2c3a9b4877c40ba2f297751a917c1be3eedc0
+  entry_id: 20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4/replay/manifest.yml
+  recorded_at: 2026-06-29T20:58:44.373188Z
+  run_id: 20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4
+  storage_class: external-immutable
+index_id: external-replay-20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4
+run_id: 20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T20:58:44.373188Z

@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: publish-1782668248001-90335
+checkpoint_id: execution-start
+stage_attempt_id: initial
+checkpoint_kind: execution-start
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/publish-1782668248001-90335/checkpoints/execution-start.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/publish-1782668248001-90335/checkpoints/execution-start.yml
+notes: Execution artifacts materialized under the canonical run root.
+created_at: 2026-06-28T17:37:28.538147Z
+updated_at: 2026-06-28T17:37:28.538147Z

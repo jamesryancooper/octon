@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-validate-feature-catalog-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-validate-feature-catalog-drift/context/context-pack.json
+context_pack_sha256: sha256:8c0c8fb32dd129fb7dbb07232a258ea61e3fcf3921eb005512e3ae04c83c1648
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-validate-feature-catalog-drift/context/model-visible-context.json
+model_visible_context_sha256: sha256:5719f2626a732b245f88dce5d0347fa2f3467b036678d79d801da1b7a02c7f3e
+receipt_sha256: sha256:b0fcb7ef179ba26f94740512822b6fa87c8f7bbcc30662d51766d38f438b6bc3
+run_id: 20260629t212500z-run-program-clean-delivery-architecture-terminal-closeout-run-program-clean-attempt-1-workflow-70d779cb23b237c4-validate-feature-catalog-drift
+schema_version: active-context-pack-v1
+updated_at: 2026-06-29T20:56:54.123145Z
+validity_state: valid

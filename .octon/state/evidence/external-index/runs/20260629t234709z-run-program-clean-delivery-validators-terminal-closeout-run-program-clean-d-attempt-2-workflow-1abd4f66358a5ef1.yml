@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:17e106413634fbe610e080e0a12e7a61175158bd583ed4bd9caf8309d16dcdb2
+  entry_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1/replay/manifest.yml
+  recorded_at: 2026-06-29T23:59:03.070788Z
+  run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:f24687150a3551ad15d6189345b84ed53e9ee9d289fb5678108349707ae7b6d7
+  entry_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1/replay/manifest.yml
+  recorded_at: 2026-06-29T23:59:03.070788Z
+  run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1
+  storage_class: external-immutable
+index_id: external-replay-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-29T23:59:03.070788Z
