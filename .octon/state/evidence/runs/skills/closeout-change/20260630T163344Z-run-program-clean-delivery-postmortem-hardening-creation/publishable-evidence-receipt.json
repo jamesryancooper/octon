@@ -1,0 +1,91 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "run-program-clean-delivery-postmortem-hardening-creation-closeout",
+  "receipt_mode": "claim",
+  "created_at": "2026-06-30T16:33:44Z",
+  "issuer_ref": "closeout-change",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "run-program-clean-delivery-postmortem-hardening-creation",
+    "claim_type": "closeout",
+    "statement": "The proposal-program creation bundle was validated, published on a branch, and is eligible for governed branch-no-pr landing when helper authorization and final ref alignment pass.",
+    "applies_to": [
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-*"
+    ]
+  },
+  "source_summary": {
+    "summary": "Parent and child proposal manifests, architecture proposal artifacts, generated proposal registry refresh, exact-SHA GitHub check evidence, and route-owned closeout receipt.",
+    "source_refs": [
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/resources/child-packet-index.yml",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/state/evidence/runs/skills/closeout-change/20260630T163344Z-run-program-clean-delivery-postmortem-hardening-creation/change-receipt.json"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "pass",
+    "commands_or_checks": [
+      "validate-proposal-standard.sh for parent and six children",
+      "validate-architecture-proposal.sh for parent and six children",
+      "validate-proposal-program-structure.sh for parent",
+      "generate-proposal-registry.sh --check",
+      "git diff --check",
+      "route_neutral_closeout_validation",
+      "branch_naming_validation",
+      "route_aware_autonomy_validation",
+      "exact_source_sha_validation"
+    ],
+    "evidence_refs": [
+      "/tmp/octon-run-program-clean-delivery-closeout-validation",
+      "GitHub check runs for source SHA 8fed74c163764de1ba51f121e6436f8ebb7273f1"
+    ]
+  },
+  "redactions": {
+    "status": "not-required",
+    "summary": "No private payload is published in this concise receipt.",
+    "redacted_fields": []
+  },
+  "limitations": [
+    {
+      "limitation_id": "child-readiness-deferred",
+      "description": "validate-proposal-program-child-readiness.sh fails until child packets receive accepted proposal-review receipts.",
+      "impact": "The proposal creation Change may land, but child implementation remains blocked until child-owned review acceptance."
+    }
+  ],
+  "local_evidence_refs": [
+    {
+      "ref_kind": "logical-id",
+      "ref": "github-check-runs:8fed74c163764de1ba51f121e6436f8ebb7273f1",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:8fed74c163764de1ba51f121e6436f8ebb7273f1000000000000000000000000",
+      "raw_evidence_not_published": true,
+      "description": "Logical external check-run evidence for the first branch publication SHA; final concrete refs are reported in the operator closeout result."
+    }
+  ],
+  "outcome": {
+    "result": "pass",
+    "summary": "Proposal creation validation and branch route checks passed; landing and cleanup remain governed helper operations.",
+    "decided_at": "2026-06-30T16:33:44Z"
+  },
+  "rollback_or_discard": {
+    "posture": "revert landed commit or discard branch before landing",
+    "trigger": "Use if the proposal-program creation bundle is rejected or superseded before child implementation begins.",
+    "instructions": "Before landing, delete the branch. After landing, revert the landed commit through a governed follow-up Change."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 4600,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}
