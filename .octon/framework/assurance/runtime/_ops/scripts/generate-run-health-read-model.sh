@@ -1175,6 +1175,24 @@ def run_ids_from_repo():
     root = OCTON_DIR / "state/control/execution/runs"
     if not root.is_dir():
         return []
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(ROOT_DIR), "ls-files", "--", ".octon/state/control/execution/runs/*/run-manifest.yml"],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        result = None
+    if result and result.stdout.strip():
+        prefix = ".octon/state/control/execution/runs/"
+        suffix = "/run-manifest.yml"
+        return sorted(
+            line[len(prefix):-len(suffix)]
+            for line in result.stdout.splitlines()
+            if line.startswith(prefix) and line.endswith(suffix)
+        )
     return sorted(path.name for path in root.iterdir() if path.is_dir() and (path / "run-manifest.yml").is_file())
 
 

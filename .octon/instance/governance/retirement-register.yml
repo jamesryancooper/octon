@@ -30,7 +30,7 @@ entries:
     future_widening_blocker: false
     review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
     latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
-    next_review_due: "2026-06-29"
+    next_review_due: "2026-06-30"
   - surface: duplicate-constitutional-shims
     paths:
       - .octon/framework/execution-roles/governance/CONSTITUTION.md
@@ -45,7 +45,7 @@ entries:
     future_widening_blocker: true
     review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
     latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
-    next_review_due: "2026-06-29"
+    next_review_due: "2026-06-30"
   - surface: run-local-disclosure-mirrors
     paths:
       - .octon/state/evidence/runs/*/disclosure/**

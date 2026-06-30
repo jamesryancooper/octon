@@ -15,25 +15,25 @@ targets_evaluated:
     decision: retain
     status_after_review: retained-noncritical
     regression_result: none
-    next_review_date: "2026-06-29"
+    next_review_date: "2026-06-30"
     rationale: Workspace-objective compatibility shims remain bounded and review-dated for bootstrap compatibility only.
   - target_id: duplicate-constitutional-shims
     decision: retain
     status_after_review: historical-retained-noncritical
     regression_result: none
-    next_review_date: "2026-06-29"
+    next_review_date: "2026-06-30"
     rationale: Historical and subordinate charter-shaped shims remain retained for lineage only and stay out of the live path.
   - target_id: legacy-per-run-decision-lineage
     decision: retain
     status_after_review: historical-retained-noncritical
     regression_result: none
-    next_review_date: "2026-06-29"
+    next_review_date: "2026-06-30"
     rationale: Historical per-run decision lineage remains retained only for audit continuity.
   - target_id: helper-authored-run-projections
     decision: retain
     status_after_review: retained-noncritical
     regression_result: none
-    next_review_date: "2026-06-29"
+    next_review_date: "2026-06-30"
     rationale: Helper-authored run projections remain bounded compatibility surfaces pending future retirement.
   - target_id: run-local-disclosure-mirrors
     decision: retain

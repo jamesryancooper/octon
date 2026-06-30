@@ -1,207 +1,258 @@
-schema_version: run-health-read-model-v1
-run_id: child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal
-generated_at: '2026-06-30T02:25:13Z'
-generator:
-  id: generate-run-health-read-model.sh
-  version: 1.1.0
-  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-  allowed_consumers:
-  - operators
-  - validators
-  forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
-freshness:
-  mode: digest-bound
-  status: stale
-  source_digest_algorithm: sha256
-  combined_source_digest: sha256:04b2e691d4970cbfe9619351b0eb4f9229031ff395d54b2cc814ff85d9510dc2
-  checked_at: '2026-06-30T02:25:13Z'
-  expires_at: null
-  freshness_refs:
-  - .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml
-canonical_refs:
-  run_contract: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-contract.yml
-  run_manifest: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-manifest.yml
-  events_journal: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.ndjson
-  events_manifest: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml
-  runtime_state: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/runtime-state.yml
-  authority_decision: .octon/state/evidence/control/execution/authority-decision-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml
-  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml
-  approval_request: null
-  approval_grants: []
-  exception_leases: []
-  revocations: []
-  rollback_posture: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/rollback-posture.yml
-  evidence_root: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal
-  evidence_classification: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/evidence-classification.yml
-  retained_evidence: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/retained-run-evidence.yml
-  replay_pointers: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/replay-pointers.yml
-  intervention_log: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/interventions/log.yml
-  disclosure_run_card: .octon/state/evidence/disclosure/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-card.yml
-  support_targets: .octon/instance/governance/support-targets.yml
-  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-  run_continuity: .octon/state/continuity/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/handoff.yml
-source_digests:
-  run_contract:
-    ref: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-contract.yml
-    digest: sha256:fee93eda37a8229156097c3ce2d7e2cd36829291defe5cc7bd7f74184d483c43
-    status: present
-  run_manifest:
-    ref: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-manifest.yml
-    digest: sha256:a99704b98f1037288d114b69214831a625fea12d5a7c50288edc1f80ff13a91d
-    status: present
-  events_journal:
-    ref: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.ndjson
-    digest: sha256:179f3a854f740ce66c91bf9353ca55ab7241b4f8a17d1e53f908cfe1d0467084
-    status: present
-  events_manifest:
-    ref: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml
-    digest: sha256:301f87968a9084757a513cadd5051b5f493fd03809fcb5ca1e7a4802d0abab61
-    status: present
-  runtime_state:
-    ref: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/runtime-state.yml
-    digest: sha256:080e8ce074b298358488a66ad78d0f744ee20def3c61fd41893a08136528b386
-    status: present
-  authority_decision:
-    ref: .octon/state/evidence/control/execution/authority-decision-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml
-    digest: sha256:f9cf60a5ba1cc70bff49c3f2112643c05fc224f518b8a7f07e70dfc4238ceda5
-    status: present
-  authority_bundle:
-    ref: .octon/state/evidence/control/execution/authority-grant-bundle-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml
-    digest: sha256:6ccd8b4b5acc5752708e8d8cc061236e4b1b963466c98a677e273ad0d5b1e7fc
-    status: present
-  approval_request:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  approval_grants:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  exception_leases:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  revocations:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  rollback_posture:
-    ref: .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/rollback-posture.yml
-    digest: sha256:2dd97d229603924653edbb7a6ee73059d52f03ae6b932284822481a3423b0bf8
-    status: present
-  evidence_root:
-    ref: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal
-    digest: missing
-    status: missing
-  evidence_classification:
-    ref: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/evidence-classification.yml
-    digest: missing
-    status: missing
-  retained_evidence:
-    ref: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/retained-run-evidence.yml
-    digest: missing
-    status: missing
-  replay_pointers:
-    ref: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/replay-pointers.yml
-    digest: missing
-    status: missing
-  intervention_log:
-    ref: .octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/interventions/log.yml
-    digest: missing
-    status: missing
-  disclosure_run_card:
-    ref: .octon/state/evidence/disclosure/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-card.yml
-    digest: missing
-    status: missing
-  support_targets:
-    ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-    status: present
-  support_reconciliation:
-    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:37c9e846ba87acd5cbad5e60f026151ee2971520716361305d3fdc77de93ebbf
-    status: present
-  run_continuity:
-    ref: .octon/state/continuity/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/handoff.yml
-    digest: sha256:62dc6fa5cd2b781418407d4a49a938fc840ba9b710ba7d0362a8b6383fa8539d
-    status: present
-  runtime_route_bundle:
-    ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:0450c47eb776efc63bcdaf34f9c3d440851bdac2cce57fb0707dbb6f89e7fa9c
-    status: present
-  pack_routes:
-    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:ed210e917bd330c60d0e3ab4660d36128889c4b9f83e0c3c0552ceac545b9bfb
-    status: present
-  schema:
-    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
-    status: present
-  operator_read_model_contract:
-    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
-    status: present
-health:
-  status: stale
-  summary: Run-health sources are stale relative to their digest-bound freshness checks.
-  next_required_action: regenerate from current canonical sources
-lifecycle:
-  state: closed
-  decision_state: allow
-  drift_status: in-sync
-  latest_event_hash: sha256:682bc10e9af0200338b968549f9c98fdf50187c31d492dfb8e669c07e7d6a10e
-  latest_sequence: 29
-support:
-  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-  route_status: allow
-  pack_status: allow
-  support_status: supported
-  requested_capability_packs:
-  - repo
-  - git
-  - telemetry
-authorization:
-  status: authorized
-  proof_state: proof-stale
-  human_boundary_state: none
-  active_grants:
-  - .octon/state/evidence/control/execution/authority-grant-bundle-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml
-  open_approvals: []
-  active_exceptions: []
-  active_revocations: []
-evidence:
-  completeness: incomplete
-  missing_required:
-  - evidence_classification
-  - retained_evidence
-  - replay_pointers
-  - journal_snapshot
-  - journal_manifest_snapshot
-rollback:
-  status: ready
-  hard_reset_required: false
-intervention:
-  status: unknown
-  undisclosed_count: 0
-  records: []
-disclosure:
-  status: incomplete
-closure:
-  status: not-ready
-diagnostics:
-- severity: error
-  code: journal-ledger-digest-stale
-  message: events.manifest.yml ledger_digest does not match events.ndjson.
-  refs:
-  - .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml
-  - .octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.ndjson
+{
+  "schema_version": "run-health-read-model-v1",
+  "run_id": "child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal",
+  "generated_at": "2026-06-30T15:51:24Z",
+  "generator": {
+    "id": "generate-run-health-read-model.sh",
+    "version": "1.1.0",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  },
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false,
+    "allowed_consumers": [
+      "operators",
+      "validators"
+    ],
+    "forbidden_consumers": [
+      "runtime",
+      "policy",
+      "authority",
+      "support-claim-evaluation",
+      "state-reconstruction",
+      "direct-runtime-reads"
+    ]
+  },
+  "freshness": {
+    "mode": "digest-bound",
+    "status": "stale",
+    "source_digest_algorithm": "sha256",
+    "combined_source_digest": "sha256:55bd93976ba1c2c09a9a4f3fa8e143c1ac04547edc8d081c9a1ffa45adb7baff",
+    "checked_at": "2026-06-30T15:51:24Z",
+    "expires_at": null,
+    "freshness_refs": [
+      ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml"
+    ]
+  },
+  "canonical_refs": {
+    "run_contract": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-contract.yml",
+    "run_manifest": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-manifest.yml",
+    "events_journal": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.ndjson",
+    "events_manifest": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml",
+    "runtime_state": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/runtime-state.yml",
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml",
+    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml",
+    "approval_request": null,
+    "approval_grants": [],
+    "exception_leases": [],
+    "revocations": [],
+    "rollback_posture": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/rollback-posture.yml",
+    "evidence_root": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal",
+    "evidence_classification": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/evidence-classification.yml",
+    "retained_evidence": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/retained-run-evidence.yml",
+    "replay_pointers": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/replay-pointers.yml",
+    "intervention_log": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/interventions/log.yml",
+    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-card.yml",
+    "support_targets": ".octon/instance/governance/support-targets.yml",
+    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    "run_continuity": ".octon/state/continuity/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/handoff.yml"
+  },
+  "source_digests": {
+    "run_contract": {
+      "ref": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-contract.yml",
+      "digest": "sha256:fee93eda37a8229156097c3ce2d7e2cd36829291defe5cc7bd7f74184d483c43",
+      "status": "present"
+    },
+    "run_manifest": {
+      "ref": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-manifest.yml",
+      "digest": "sha256:a99704b98f1037288d114b69214831a625fea12d5a7c50288edc1f80ff13a91d",
+      "status": "present"
+    },
+    "events_journal": {
+      "ref": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.ndjson",
+      "digest": "sha256:179f3a854f740ce66c91bf9353ca55ab7241b4f8a17d1e53f908cfe1d0467084",
+      "status": "present"
+    },
+    "events_manifest": {
+      "ref": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml",
+      "digest": "sha256:301f87968a9084757a513cadd5051b5f493fd03809fcb5ca1e7a4802d0abab61",
+      "status": "present"
+    },
+    "runtime_state": {
+      "ref": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/runtime-state.yml",
+      "digest": "sha256:080e8ce074b298358488a66ad78d0f744ee20def3c61fd41893a08136528b386",
+      "status": "present"
+    },
+    "authority_decision": {
+      "ref": ".octon/state/evidence/control/execution/authority-decision-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml",
+      "digest": "sha256:f9cf60a5ba1cc70bff49c3f2112643c05fc224f518b8a7f07e70dfc4238ceda5",
+      "status": "present"
+    },
+    "authority_bundle": {
+      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml",
+      "digest": "sha256:6ccd8b4b5acc5752708e8d8cc061236e4b1b963466c98a677e273ad0d5b1e7fc",
+      "status": "present"
+    },
+    "approval_request": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "approval_grants": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "exception_leases": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "revocations": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "rollback_posture": {
+      "ref": ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/rollback-posture.yml",
+      "digest": "sha256:2dd97d229603924653edbb7a6ee73059d52f03ae6b932284822481a3423b0bf8",
+      "status": "present"
+    },
+    "evidence_root": {
+      "ref": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "evidence_classification": {
+      "ref": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/evidence-classification.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "retained_evidence": {
+      "ref": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/retained-run-evidence.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "replay_pointers": {
+      "ref": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/replay-pointers.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "intervention_log": {
+      "ref": ".octon/state/evidence/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/interventions/log.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "disclosure_run_card": {
+      "ref": ".octon/state/evidence/disclosure/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/run-card.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "support_targets": {
+      "ref": ".octon/instance/governance/support-targets.yml",
+      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "status": "present"
+    },
+    "support_reconciliation": {
+      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      "digest": "sha256:6b571b2e9c7b3f7446d1907636b50a921223077b8ebb51b64c5f504bce574b8f",
+      "status": "present"
+    },
+    "run_continuity": {
+      "ref": ".octon/state/continuity/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/handoff.yml",
+      "digest": "sha256:62dc6fa5cd2b781418407d4a49a938fc840ba9b710ba7d0362a8b6383fa8539d",
+      "status": "present"
+    },
+    "runtime_route_bundle": {
+      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "digest": "sha256:c6f4c557dad3112dfb8b928ed98613b7355a56acd97df59501dbc2fc9067b156",
+      "status": "present"
+    },
+    "pack_routes": {
+      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      "digest": "sha256:e09ff95ba393f31e60b4a0bcb15a03a61a2c9d82929896fd3ea263d70bfa36ce",
+      "status": "present"
+    },
+    "schema": {
+      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
+      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
+      "status": "present"
+    },
+    "operator_read_model_contract": {
+      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
+      "status": "present"
+    }
+  },
+  "health": {
+    "status": "stale",
+    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
+    "next_required_action": "regenerate from current canonical sources"
+  },
+  "lifecycle": {
+    "state": "closed",
+    "decision_state": "allow",
+    "drift_status": "in-sync",
+    "latest_event_hash": "sha256:682bc10e9af0200338b968549f9c98fdf50187c31d492dfb8e669c07e7d6a10e",
+    "latest_sequence": 29
+  },
+  "support": {
+    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "route_status": "allow",
+    "pack_status": "allow",
+    "support_status": "supported",
+    "requested_capability_packs": [
+      "repo",
+      "git",
+      "telemetry"
+    ]
+  },
+  "authorization": {
+    "status": "authorized",
+    "proof_state": "proof-stale",
+    "human_boundary_state": "none",
+    "active_grants": [
+      ".octon/state/evidence/control/execution/authority-grant-bundle-child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal.yml"
+    ],
+    "open_approvals": [],
+    "active_exceptions": [],
+    "active_revocations": []
+  },
+  "evidence": {
+    "completeness": "incomplete",
+    "missing_required": [
+      "evidence_classification",
+      "retained_evidence",
+      "replay_pointers",
+      "journal_snapshot",
+      "journal_manifest_snapshot"
+    ]
+  },
+  "rollback": {
+    "status": "ready",
+    "hard_reset_required": false
+  },
+  "intervention": {
+    "status": "unknown",
+    "undisclosed_count": 0,
+    "records": []
+  },
+  "disclosure": {
+    "status": "incomplete"
+  },
+  "closure": {
+    "status": "not-ready"
+  },
+  "diagnostics": [
+    {
+      "severity": "error",
+      "code": "journal-ledger-digest-stale",
+      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
+      "refs": [
+        ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.manifest.yml",
+        ".octon/state/control/execution/runs/child-archive-packet-delivery-wrapper-orchestration-autonomy-20260619t234500z-workflow-archive-proposal/events.ndjson"
+      ]
+    }
+  ]
+}
