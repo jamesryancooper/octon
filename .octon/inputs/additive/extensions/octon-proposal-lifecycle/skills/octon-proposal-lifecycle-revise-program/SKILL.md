@@ -27,3 +27,13 @@ effective authority.
 Keep or return the parent `proposal.yml#status` to `in-review`; acceptance
 requires a later `review-program` pass. Parent revision receipts never
 satisfy child receipts.
+
+Write revision receipts with machine-readable completion fields:
+`revision_id`, `source_review_id`, `changed_parent_files`,
+`changed_packet_files`, `addressed_finding_ids`, `remaining_blocking_count`,
+`post_revision_digest`, `validators_rerun`,
+`catalog_checksum_registry_refresh`, and `child_authority_preserved`. Use
+`remaining_blocking_count: 0` only when the selected parent-local review
+findings are fully addressed; otherwise stop with a blocker instead of writing
+a completion-style revision receipt. Do not emit `post_revision_packet_digest`
+or `pending` placeholders.

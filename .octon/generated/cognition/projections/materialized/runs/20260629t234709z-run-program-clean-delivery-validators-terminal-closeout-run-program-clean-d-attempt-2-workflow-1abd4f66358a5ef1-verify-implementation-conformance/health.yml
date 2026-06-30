@@ -1,0 +1,207 @@
+schema_version: run-health-read-model-v1
+run_id: 20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance
+generated_at: '2026-06-30T02:25:13Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.1.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:eb297c5af539b69d853d04d374af0d546b50219daf6f8e3cfa3b793c33f5d47f
+  checked_at: '2026-06-30T02:25:13Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance
+  evidence_classification: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/run-contract.yml
+    digest: sha256:d07e0fe5edaf3cd28766f46604a99f0d67d401617f3098481f7201a8cb7bf525
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/run-manifest.yml
+    digest: sha256:3d91b26af03ece770190d6f0b83a79cd98c14969b58b3e26a5b8610514a488ad
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/events.ndjson
+    digest: sha256:88ed43dc4f26c22bd7d184469ccd5da0f55c9fcc44252201ec05804777de3492
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/events.manifest.yml
+    digest: sha256:1134b69deaa9169905399744db27faa7916ddc0ed2975ceb6ea3e0d6451573ea
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/runtime-state.yml
+    digest: sha256:e61078d8fecbb8f8d44387badcf709b8caa238aaec5beb6c0c85d04a12a1d4fc
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance.yml
+    digest: sha256:4b0f4db899fa2c076e1c32ff77c3cad40dcc7a7b72ae257da60a20434ec0436c
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance.yml
+    digest: sha256:4616860bb51cd303c7cc46ed7494a854bfcdbf10bc58bb45185b0533add83a9a
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/rollback-posture.yml
+    digest: sha256:782722f02a8dffb548a6bcec6b4931a3326314ad1cbf0f0a4c418ae3db874ef7
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:37c9e846ba87acd5cbad5e60f026151ee2971520716361305d3fdc77de93ebbf
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/handoff.yml
+    digest: sha256:c5833b515bb579cf32a6aa63cce6a00fca5122067ea31fe343e280716fd3cefa
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:0450c47eb776efc63bcdaf34f9c3d440851bdac2cce57fb0707dbb6f89e7fa9c
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:ed210e917bd330c60d0e3ab4660d36128889c4b9f83e0c3c0552ceac545b9bfb
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:e2bf5d6bdd16c0257cbe3279b9b55a40a060a6516c124d8a5641aee14423feac
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/events.manifest.yml
+  - .octon/state/control/execution/runs/20260629t234709z-run-program-clean-delivery-validators-terminal-closeout-run-program-clean-d-attempt-2-workflow-1abd4f66358a5ef1-verify-implementation-conformance/events.ndjson

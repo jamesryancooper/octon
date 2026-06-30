@@ -9,3 +9,4 @@ Required checks:
 - Packet closeout does not archive directly.
 - Archive relocation is followed by terminal freshness, implementation conformance, and post-implementation drift/churn validation.
 - Fresh archive mutations block Change closeout until revalidated.
+- Missing packet closeout or archive authorization emits `SC-001-authority-gap`; stale post-archive validation emits `SC-005-stale-evidence`.

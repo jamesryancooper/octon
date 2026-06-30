@@ -1,0 +1,111 @@
+schema_version: "proposal-v1"
+proposal_id: "run-program-to-clean-delivery"
+title: "Run Program to Clean Delivery"
+summary: >-
+  Parent proposal program for a governed capability that can drive an accepted
+  proposal program through child packet execution, verification, closeout,
+  archive readiness, Change delivery, branch cleanup, terminal evidence, and
+  final git_clean_terminal validation with minimal operator intervention.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+release_state: "pre-1.0"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+  - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+  - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md"
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+  - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/features/README.md"
+status: implemented
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Coordinate child packets through review, implementation, verification,
+    closeout, archive readiness, and delivery hardening proposals. Parent
+    evidence remains coordination-only and never satisfies child receipts,
+    child validation verdicts, child promotion targets, child closeout
+    evidence, child archive metadata, Change delivery receipts, branch cleanup
+    authorization, or terminal clean-state proof.
+related_proposals:
+  - "run-program-clean-delivery-architecture"
+  - "run-program-clean-delivery-runner-routing"
+  - "run-program-clean-delivery-workflow-handoff"
+  - "run-program-clean-delivery-evidence-metadata"
+  - "run-program-clean-delivery-validators"
+  - "run-program-clean-delivery-operator-surface"
+program_execution_mode: "sequential"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/repository-reconnaissance.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/friction-analysis.md"
+selected_implementation_target: "run-program-to-clean-delivery governed lifecycle capability"
+scope_statement: >-
+  Architecture planning only. This parent defines a sequence of child packets
+  for an end-to-end governed lifecycle and delivery capability. It does not
+  implement runtime behavior, update validators, update delivery workflows,
+  mutate generated projections, run closeout, stage, commit, push, archive, or
+  deliver.
+authority_class_impact:
+  framework: "Future child packets may propose runtime, workflow, contract, validator, command, skill, and feature documentation changes."
+  instance: "No instance mutation from this parent packet."
+  state_control: "No control truth mutation from this parent packet."
+  state_evidence: "Future implementation must retain run, delivery, closeout, cleanup, and terminal evidence under canonical roots."
+  generated: "Generated proposal registries and generated/effective outputs remain derived-only and must be refreshed through owning generators."
+  inputs: "This parent and child packets are non-authoritative exploratory proposal lineage."
+runtime_behavior_impact: "None from proposal creation; runtime behavior may change only after child-owned implementation routes promote durable targets."
+generated_input_authority_impact: >-
+  Reinforces that generated outputs, raw inputs, proposal packets, generated
+  prompts, host UI state, chat/model memory, and tool availability never
+  authorize execution, delivery, cleanup, archive, branch mutation, or
+  terminal closeout.
+evidence_requirements:
+  - "Child-owned review, implementation, conformance, drift/churn, closeout, archive, and delivery receipts."
+  - "Parent aggregate orchestration receipts that cite child evidence by path and digest without substituting for it."
+  - "Publishable landing and branch cleanup evidence before local terminal proof synthesis."
+  - "Final terminal current-state proof and residue classification after the last mutation."
+validation_gates:
+  - "validate-proposal-standard.sh for parent and child packets"
+  - "validate-architecture-proposal.sh for parent and child packets"
+  - "validate-proposal-program-structure.sh for the parent"
+  - "validate-proposal-program-child-readiness.sh before implementation orchestration"
+  - "validate-proposal-program-delivery-receipt.sh for aggregate delivery evidence"
+  - "validate-change-closeout-state-machine.sh for Change receipt statefulness"
+  - "validate-hosted-no-pr-landing.sh for branch-no-pr delivery claims"
+  - "validate-evidence-disclosure-tiers.sh for hosted/shared evidence refs"
+acceptance_criteria_summary: >-
+  The implemented capability is acceptable when an agent can start from an
+  accepted proposal program, run route-owned child execution and correction
+  loops, close out and archive in order, deliver through governed Change
+  delivery, retain publishable and local terminal evidence correctly, and prove
+  git_clean_terminal without operator involvement except for true authority,
+  safety, external approval, or unresolved ownership blockers.
+rollback_summary: >-
+  Reject or archive this parent and child proposal packet set before
+  implementation. Future durable implementation must provide atomic rollback
+  notes per child packet and retain evidence rather than deleting it.
+owner:
+  role: "Octon proposal-program author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-28"
+child_authority_preserved: "yes"
+explicit_runtime_non_implementation_statement: >-
+  This proposal program creates planning artifacts only. It does not create a
+  route, execute proposal lifecycles, run delivery, mutate Git refs, clean
+  residue, update generated outputs, or satisfy any child-owned authority.

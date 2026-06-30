@@ -1274,14 +1274,29 @@ struct ProgramRouteReadyState {
 #[derive(Clone, Debug, Serialize)]
 struct ProgramContextRouteDecision {
     step_kind: String,
+    route_owner: String,
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     parent_route: Option<String>,
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     scheduler_phase: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    requested_target_outcome: Option<String>,
     selected_children: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    selected_child_routes: Vec<ProgramSelectedChildRoute>,
     final_verdict: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramSelectedChildRoute {
+    child_id: String,
+    route_id: String,
+    route_type: String,
+    route_owner: String,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -1457,7 +1472,13 @@ struct ProgramRouteDecisionReceipt {
     generated_at: String,
     authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
     route_decision: ProgramContextRouteDecision,
+    selected_route_owner: String,
     route_bypass_guard: String,
+    route_selection_inputs: ProgramRouteSelectionInputs,
+    blocked_alternatives: Vec<ProgramBlockedAlternative>,
+    retry_fingerprint_inputs: Vec<ProgramRetryFingerprintInput>,
+    resume_source_refs: ProgramResumeSourceRefs,
+    delivery_handoff: ProgramDeliveryHandoffEvidence,
     deterministic_preflights: Vec<String>,
     source_refs: Vec<ProgramCompactSourceRef>,
     source_digests: BTreeMap<String, String>,
@@ -1465,6 +1486,86 @@ struct ProgramRouteDecisionReceipt {
     validation_binding: ProgramCompactValidationBinding,
     evidence_refs: Vec<String>,
     failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteSelectionInputs {
+    continuation_mode: String,
+    selection_rule: String,
+    live_state_sources: Vec<String>,
+    child_registry_digest: String,
+    source_ref_count: usize,
+    source_ref_digest: String,
+    parent_receipt_count: usize,
+    child_receipt_digest_count: usize,
+    generated_outputs_authority: String,
+    parent_summary_satisfies_child_receipts: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramBlockedAlternative {
+    scope: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    candidate_route: String,
+    blocker_class: String,
+    message: String,
+    disposition: String,
+    recovery_owner: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRetryFingerprintInput {
+    scope: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    blocker_class: String,
+    route_id: String,
+    target_digest: String,
+    receipt_digest: String,
+    write_scope_digest: String,
+    stable_digest_boundary: String,
+    recovery_owner: String,
+    current_fingerprint: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramResumeSourceRefs {
+    checkpoint_event_index: u64,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    checkpoint_event_sha256: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    event_log_sha256: Option<String>,
+    child_registry_digest: String,
+    model_visible_context_sha256: String,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    unsafe_resume_behavior: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramDeliveryHandoffEvidence {
+    requested_target_outcome: String,
+    target_outcome_is_request_only: bool,
+    readiness_state: String,
+    delivery_owner: String,
+    route_decision_receipt_ref: String,
+    child_registry_digest: String,
+    parent_receipts: Vec<ProgramParentReceiptDigestRef>,
+    child_receipts: Vec<ProgramChildReceiptDigestRef>,
+    generated_freshness_status: String,
+    forbidden_runner_claims: Vec<String>,
+    authority_boundary_notice: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramParentReceiptDigestRef {
+    receipt_id: String,
+    receipt_ref: String,
+    sha256: String,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -23405,7 +23506,23 @@ fn write_program_routing_artifacts(
         generated_at: generated_at.to_string(),
         authority_boundary: compact_evidence_authority_boundary(),
         route_decision: route_decision.clone(),
+        selected_route_owner: program_route_owner(plan),
         route_bypass_guard: program_route_bypass_guard(plan),
+        route_selection_inputs: program_route_selection_inputs(
+            plan,
+            checkpoint,
+            source_refs,
+            &source_digests,
+        ),
+        blocked_alternatives: program_blocked_alternatives(plan),
+        retry_fingerprint_inputs: program_retry_fingerprint_inputs(plan),
+        resume_source_refs: program_resume_source_refs(checkpoint, source_refs, &validation),
+        delivery_handoff: program_delivery_handoff_evidence(
+            plan,
+            checkpoint,
+            &validation,
+            ROUTE_DECISION_RECEIPT_FILE,
+        ),
         deterministic_preflights: program_deterministic_preflights(plan),
         source_refs: source_refs.to_vec(),
         source_digests: source_digests.clone(),
@@ -23507,6 +23624,407 @@ fn program_routing_artifact_validation(
             source_refs.len()
         )),
     })
+}
+
+fn program_route_owner(plan: &ProgramLifecyclePlanResult) -> String {
+    if plan.program_route.is_some() && plan.runnable_batch.is_empty() {
+        "parent-route-owned".to_string()
+    } else if plan.program_route.is_none() && !plan.runnable_batch.is_empty() {
+        "child-route-owned".to_string()
+    } else if plan.program_route.is_none() && plan.runnable_batch.is_empty() {
+        "none-no-dispatch".to_string()
+    } else {
+        "invalid-mixed-parent-and-child-route-selection".to_string()
+    }
+}
+
+fn program_selected_child_routes(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramSelectedChildRoute> {
+    plan.runnable_batch
+        .iter()
+        .filter_map(|child_id| {
+            let state = plan.child_states.get(child_id)?;
+            let route = state.selected_route.as_ref()?;
+            Some(ProgramSelectedChildRoute {
+                child_id: child_id.clone(),
+                route_id: route.route_id.clone(),
+                route_type: route.route_type.clone(),
+                route_owner: "child-lifecycle-route".to_string(),
+            })
+        })
+        .collect()
+}
+
+fn program_route_selection_inputs(
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    source_refs: &[ProgramCompactSourceRef],
+    _source_digests: &BTreeMap<String, String>,
+) -> ProgramRouteSelectionInputs {
+    let child_receipt_digest_count = plan
+        .child_states
+        .values()
+        .map(|state| state.receipt_digests.len())
+        .sum();
+    ProgramRouteSelectionInputs {
+        continuation_mode: "clean-delivery-orchestrated-replan-loop".to_string(),
+        selection_rule:
+            "select exactly one route-owned parent route or one child-owned runnable batch; otherwise stop with typed blocker"
+                .to_string(),
+        live_state_sources: vec![
+            "parent proposal.yml".to_string(),
+            "resources/child-packet-index.yml".to_string(),
+            "child proposal manifests".to_string(),
+            "child-owned support receipts".to_string(),
+            "program lifecycle checkpoint".to_string(),
+            "program event log".to_string(),
+            "retained run evidence".to_string(),
+        ],
+        child_registry_digest: checkpoint.child_registry_digest.clone(),
+        source_ref_count: source_refs.len(),
+        source_ref_digest: stable_text_digest(
+            &source_refs
+                .iter()
+                .map(|source_ref| {
+                    format!(
+                        "{}:{}:{}",
+                        source_ref.artifact_role, source_ref.artifact_ref, source_ref.sha256
+                    )
+                })
+                .collect::<Vec<_>>()
+                .join("\n"),
+        ),
+        parent_receipt_count: plan.parent_receipt_states.len(),
+        child_receipt_digest_count,
+        generated_outputs_authority: "derived-only".to_string(),
+        parent_summary_satisfies_child_receipts: false,
+    }
+}
+
+fn program_blocked_alternatives(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramBlockedAlternative> {
+    let mut alternatives = Vec::new();
+    for blocker in &plan.program_blockers {
+        let candidate_route = blocker
+            .recovery_route
+            .clone()
+            .or_else(|| {
+                plan.program_route
+                    .as_ref()
+                    .map(|route| route.route_id.clone())
+            })
+            .unwrap_or_else(|| "none".to_string());
+        alternatives.push(ProgramBlockedAlternative {
+            scope: "program".to_string(),
+            child_id: None,
+            candidate_route,
+            blocker_class: blocker.blocker_class.clone(),
+            message: blocker.message.clone(),
+            disposition: program_blocker_disposition_label(&blocker.blocker_class).to_string(),
+            recovery_owner: blocker
+                .recovery_route
+                .clone()
+                .unwrap_or_else(|| "program-or-human-owner".to_string()),
+        });
+    }
+    for state in plan.child_states.values() {
+        for blocker in &state.blockers {
+            let candidate_route = blocker
+                .recovery_route
+                .clone()
+                .or_else(|| {
+                    state
+                        .selected_route
+                        .as_ref()
+                        .map(|route| route.route_id.clone())
+                })
+                .unwrap_or_else(|| "none".to_string());
+            alternatives.push(ProgramBlockedAlternative {
+                scope: "child".to_string(),
+                child_id: Some(state.child_id.clone()),
+                candidate_route,
+                blocker_class: blocker.blocker_class.clone(),
+                message: blocker.message.clone(),
+                disposition: program_blocker_disposition_label(&blocker.blocker_class).to_string(),
+                recovery_owner: blocker
+                    .recovery_route
+                    .clone()
+                    .unwrap_or_else(|| "child-lifecycle-owner".to_string()),
+            });
+        }
+    }
+    alternatives
+}
+
+fn program_retry_fingerprint_inputs(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramRetryFingerprintInput> {
+    let mut inputs = Vec::new();
+    let parent_target_digest = stable_text_digest(&plan.target);
+    let parent_receipt_digest = parent_receipt_state_digest(&plan.parent_receipt_states);
+    for blocker in &plan.program_blockers {
+        let route_id = blocker
+            .recovery_route
+            .clone()
+            .or_else(|| {
+                plan.program_route
+                    .as_ref()
+                    .map(|route| route.route_id.clone())
+            })
+            .unwrap_or_else(|| "none".to_string());
+        inputs.push(program_retry_fingerprint_input(
+            "program",
+            None,
+            &blocker.blocker_class,
+            &route_id,
+            &parent_target_digest,
+            &parent_receipt_digest,
+            &stable_text_digest("program-parent-write-scope"),
+            &stable_text_digest(&format!(
+                "{}:{}:{}",
+                plan.child_registry_digest, plan.target, route_id
+            )),
+            blocker
+                .recovery_route
+                .as_deref()
+                .unwrap_or("program-or-human-owner"),
+        ));
+    }
+    for state in plan.child_states.values() {
+        let target_digest = stable_text_digest(&state.target);
+        let receipt_digest = stable_text_digest(
+            &state
+                .receipt_digests
+                .iter()
+                .map(|(receipt_id, digest)| format!("{receipt_id}:{digest}"))
+                .collect::<Vec<_>>()
+                .join("\n"),
+        );
+        let write_scope_digest = stable_text_digest(&state.write_scopes.join("\n"));
+        for blocker in &state.blockers {
+            let route_id = blocker
+                .recovery_route
+                .clone()
+                .or_else(|| {
+                    state
+                        .selected_route
+                        .as_ref()
+                        .map(|route| route.route_id.clone())
+                })
+                .unwrap_or_else(|| "none".to_string());
+            inputs.push(program_retry_fingerprint_input(
+                "child",
+                Some(&state.child_id),
+                &blocker.blocker_class,
+                &route_id,
+                &target_digest,
+                &receipt_digest,
+                &write_scope_digest,
+                &stable_text_digest(&format!(
+                    "{}:{}:{}:{}",
+                    plan.child_registry_digest, state.child_id, state.target, route_id
+                )),
+                blocker
+                    .recovery_route
+                    .as_deref()
+                    .unwrap_or("child-lifecycle-owner"),
+            ));
+        }
+    }
+    inputs
+}
+
+fn program_retry_fingerprint_input(
+    scope: &str,
+    child_id: Option<&str>,
+    blocker_class: &str,
+    route_id: &str,
+    target_digest: &str,
+    receipt_digest: &str,
+    write_scope_digest: &str,
+    stable_digest_boundary: &str,
+    recovery_owner: &str,
+) -> ProgramRetryFingerprintInput {
+    let current_fingerprint = stable_text_digest(&format!(
+        "{scope}\n{}\n{blocker_class}\n{route_id}\n{target_digest}\n{receipt_digest}\n{write_scope_digest}\n{stable_digest_boundary}\n{recovery_owner}",
+        child_id.unwrap_or("program")
+    ));
+    ProgramRetryFingerprintInput {
+        scope: scope.to_string(),
+        child_id: child_id.map(str::to_string),
+        blocker_class: blocker_class.to_string(),
+        route_id: route_id.to_string(),
+        target_digest: target_digest.to_string(),
+        receipt_digest: receipt_digest.to_string(),
+        write_scope_digest: write_scope_digest.to_string(),
+        stable_digest_boundary: stable_digest_boundary.to_string(),
+        recovery_owner: recovery_owner.to_string(),
+        current_fingerprint,
+    }
+}
+
+fn parent_receipt_state_digest(receipts: &BTreeMap<String, ReceiptPlanState>) -> String {
+    stable_text_digest(
+        &receipts
+            .iter()
+            .map(|(receipt_id, receipt)| {
+                format!(
+                    "{receipt_id}:{}:{}:{}:{}:{}",
+                    receipt.path,
+                    receipt.exists,
+                    receipt.verdict.as_deref().unwrap_or("none"),
+                    receipt.current_digest.as_deref().unwrap_or("none"),
+                    receipt.stored_digest.as_deref().unwrap_or("none")
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("\n"),
+    )
+}
+
+fn program_resume_source_refs(
+    checkpoint: &ProgramLifecycleCheckpoint,
+    source_refs: &[ProgramCompactSourceRef],
+    validation: &ProgramRoutingArtifactValidation,
+) -> ProgramResumeSourceRefs {
+    ProgramResumeSourceRefs {
+        checkpoint_event_index: effective_checkpoint_event_index(checkpoint),
+        checkpoint_event_sha256: checkpoint.latest_event_sha256.clone(),
+        event_log_sha256: checkpoint.event_log_sha256.clone(),
+        child_registry_digest: checkpoint.child_registry_digest.clone(),
+        model_visible_context_sha256: validation.model_visible_context_sha256.clone(),
+        source_refs: source_refs.to_vec(),
+        unsafe_resume_behavior:
+            "fail-closed when checkpoint event head, event log, child registry digest, source refs, or model-visible context digest cannot verify"
+                .to_string(),
+    }
+}
+
+fn program_delivery_handoff_evidence(
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    validation: &ProgramRoutingArtifactValidation,
+    route_decision_receipt_ref: &str,
+) -> ProgramDeliveryHandoffEvidence {
+    let requested_target_outcome = checkpoint
+        .run_inputs
+        .get(INPUT_TARGET_OUTCOME)
+        .cloned()
+        .unwrap_or_else(|| "not-requested".to_string());
+    let no_blockers = plan.program_blockers.is_empty()
+        && plan
+            .child_states
+            .values()
+            .all(|state| state.blockers.is_empty());
+    let all_required_terminal = plan
+        .child_states
+        .values()
+        .filter(|state| state.required && !state.deferred)
+        .all(|state| state.terminal_outcome.is_some());
+    let readiness_state = if requested_target_outcome == "cleaned"
+        && all_required_terminal
+        && no_blockers
+        && plan.program_route.is_none()
+        && plan.runnable_batch.is_empty()
+    {
+        "handoff-input-ready".to_string()
+    } else if requested_target_outcome == "cleaned" {
+        "blocked-until-child-parent-delivery-gates-pass".to_string()
+    } else {
+        "not-requested".to_string()
+    };
+    ProgramDeliveryHandoffEvidence {
+        requested_target_outcome,
+        target_outcome_is_request_only: true,
+        readiness_state,
+        delivery_owner: "proposal-program-delivery".to_string(),
+        route_decision_receipt_ref: route_decision_receipt_ref.to_string(),
+        child_registry_digest: checkpoint.child_registry_digest.clone(),
+        parent_receipts: program_parent_receipt_refs(plan),
+        child_receipts: program_child_receipt_refs(plan),
+        generated_freshness_status: program_generated_freshness_status(plan),
+        forbidden_runner_claims: vec![
+            "landing".to_string(),
+            "sync".to_string(),
+            "cleanup".to_string(),
+            "branch-cleanup".to_string(),
+            "terminal-proof".to_string(),
+            "cleaned-claim".to_string(),
+        ],
+        authority_boundary_notice: format!(
+            "runner may request target_outcome=cleaned as delivery input only; Proposal Program Delivery owns delivery mutation and final cleaned proof; model_visible_context_sha256={}",
+            validation.model_visible_context_sha256
+        ),
+    }
+}
+
+fn program_parent_receipt_refs(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramParentReceiptDigestRef> {
+    plan.parent_receipt_states
+        .iter()
+        .filter_map(|(receipt_id, receipt)| {
+            let sha256 = receipt
+                .current_digest
+                .clone()
+                .or_else(|| receipt.stored_digest.clone())?;
+            Some(ProgramParentReceiptDigestRef {
+                receipt_id: receipt_id.clone(),
+                receipt_ref: receipt.path.clone(),
+                sha256,
+            })
+        })
+        .collect()
+}
+
+fn program_child_receipt_refs(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramChildReceiptDigestRef> {
+    plan.child_states
+        .values()
+        .flat_map(|state| {
+            state
+                .receipt_digests
+                .iter()
+                .map(|(receipt_id, digest)| ProgramChildReceiptDigestRef {
+                    receipt_id: format!("{}:{receipt_id}", state.child_id),
+                    receipt_ref: child_receipt_ref(state, receipt_id),
+                    sha256: digest.clone(),
+                })
+        })
+        .collect()
+}
+
+fn program_generated_freshness_status(plan: &ProgramLifecyclePlanResult) -> String {
+    let freshness_blocked = plan
+        .program_blockers
+        .iter()
+        .chain(
+            plan.child_states
+                .values()
+                .flat_map(|state| state.blockers.iter()),
+        )
+        .any(|blocker| {
+            matches!(
+                blocker.blocker_class.as_str(),
+                "publication-drift" | "generated-freshness-drift"
+            ) || blocker.message.contains("generated freshness")
+        });
+    if freshness_blocked {
+        "blocked-or-stale".to_string()
+    } else {
+        "not-blocked-by-current-plan".to_string()
+    }
+}
+
+fn program_blocker_disposition_label(blocker_class: &str) -> &'static str {
+    match classify_program_blocker_class(blocker_class) {
+        ProgramBlockerDisposition::Recoverable => "recoverable",
+        ProgramBlockerDisposition::Human => "human-required",
+        ProgramBlockerDisposition::Unsafe => "unsafe-fail-closed",
+    }
 }
 
 fn program_route_bypass_guard(plan: &ProgramLifecyclePlanResult) -> String {
@@ -23978,12 +24496,15 @@ fn program_context_route_decision(
     };
     ProgramContextRouteDecision {
         step_kind: step_kind.to_string(),
+        route_owner: program_route_owner(plan),
         parent_route: plan
             .program_route
             .as_ref()
             .map(|route| route.route_id.clone()),
         scheduler_phase: plan.scheduler_phase.clone(),
+        requested_target_outcome: checkpoint.run_inputs.get(INPUT_TARGET_OUTCOME).cloned(),
         selected_children: plan.runnable_batch.clone(),
+        selected_child_routes: program_selected_child_routes(plan),
         final_verdict: checkpoint.final_verdict.clone(),
     }
 }
@@ -30210,6 +30731,11 @@ routes:
             - manifest_status: "in-review"
             - receipt_absent: "proposal-review"
         - all:
+            - manifest_status: "in-review"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict: { receipt_id: "proposal-review", value: "revision-required" }
+            - current_review_revision_receipt_present: true
+        - all:
             - any:
                 - manifest_status: "draft"
                 - manifest_status: "in-review"
@@ -30233,6 +30759,7 @@ routes:
       all:
         - receipt_complete: "proposal-review"
         - receipt_verdict: { receipt_id: "proposal-review", value: "revision-required" }
+        - current_review_revision_receipt_present: false
   - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
@@ -31460,6 +31987,13 @@ routes:
             );
         }
 
+        fn write_parent_revision_receipt_for_current_review(&self) {
+            self.write(
+                "parent/support/revisions/revision-001.md",
+                "revision_id: revision-001\nsource_review_id: review-001\nchanged_parent_files:\n  - parent/support/pre-integration-architecture-review.yml\naddressed_finding_ids:\n  - review-blocker-1\nremaining_blocking_count: 0\npost_revision_digest: sha256:live\nvalidators_rerun:\n  - validate-proposal-review-gate\ncatalog_checksum_registry_refresh: unchanged\nchild_authority_preserved: yes\n",
+            );
+        }
+
         fn write_program_implementation_orchestration_prompt_receipt(&self) {
             self.write(
                 "parent/support/program-implementation-orchestration-prompt.md",
@@ -32071,6 +32605,23 @@ packs:
         .unwrap();
 
         assert_program_route(&plan, "revise-proposal-program");
+    }
+
+    #[test]
+    fn program_review_workflow_routes_current_revision_back_to_review() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = program_review_fixture("program-review-after-revision", "in-review");
+        fixture.write_parent_review_receipt("revision-required", "sha256:live");
+        fixture.write_parent_revision_receipt_for_current_review();
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_program_route(&plan, "review-proposal-program");
     }
 
     #[test]
@@ -36589,6 +37140,57 @@ routes:
         );
         assert_eq!(
             route_receipt
+                .get("route_decision")
+                .and_then(|value| value.get("route_owner"))
+                .and_then(serde_yaml::Value::as_str),
+            Some("child-route-owned")
+        );
+        assert_eq!(
+            route_receipt
+                .get("selected_route_owner")
+                .and_then(serde_yaml::Value::as_str),
+            Some("child-route-owned")
+        );
+        assert_eq!(
+            route_receipt
+                .get("route_selection_inputs")
+                .and_then(|value| value.get("generated_outputs_authority"))
+                .and_then(serde_yaml::Value::as_str),
+            Some("derived-only")
+        );
+        assert_eq!(
+            route_receipt
+                .get("route_selection_inputs")
+                .and_then(|value| value.get("parent_summary_satisfies_child_receipts"))
+                .and_then(serde_yaml::Value::as_bool),
+            Some(false)
+        );
+        assert_eq!(
+            route_receipt
+                .get("resume_source_refs")
+                .and_then(|value| value.get("child_registry_digest"))
+                .and_then(serde_yaml::Value::as_str),
+            route_receipt
+                .get("route_selection_inputs")
+                .and_then(|value| value.get("child_registry_digest"))
+                .and_then(serde_yaml::Value::as_str)
+        );
+        assert_eq!(
+            route_receipt
+                .get("delivery_handoff")
+                .and_then(|value| value.get("delivery_owner"))
+                .and_then(serde_yaml::Value::as_str),
+            Some("proposal-program-delivery")
+        );
+        assert_eq!(
+            route_receipt
+                .get("delivery_handoff")
+                .and_then(|value| value.get("target_outcome_is_request_only"))
+                .and_then(serde_yaml::Value::as_bool),
+            Some(true)
+        );
+        assert_eq!(
+            route_receipt
                 .get("route_bypass_guard")
                 .and_then(serde_yaml::Value::as_str),
             Some("child-batch-selected-parent-route-absent")
@@ -37016,7 +37618,17 @@ routes:
         let fixture = ProgramFixture::new("compact-completion-capsule", true);
         fixture.write_full_child_contract();
         fixture.write_parent_status("implemented");
-        fixture.write_registry("sequential", "  []\n");
+        fixture.write_archived_implemented_child_with_legacy_run_receipt("a", "framework/a.md");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "prompt_id: compact-completion-child-implementation\n",
+        );
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
 
         let result = run_program_lifecycle_from_octon_dir(
             &fixture.octon_dir,
@@ -37802,6 +38414,71 @@ routes:
         assert!(!events
             .iter()
             .any(|event| event.event_type == "child-route-started"));
+    }
+
+    #[test]
+    fn clean_delivery_target_outcome_is_handoff_input_not_cleaned_claim() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("clean-delivery-handoff-input", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(INPUT_TARGET_OUTCOME.to_string(), "cleaned".to_string());
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("clean-delivery-handoff-input".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: Some(20),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs,
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.route_execution_mode, "program-route-handoff");
+        assert_eq!(result.final_verdict, "planned");
+        assert!(result.terminal_outcome.is_none());
+        let route_path = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/clean-delivery-handoff-input/route-decision-receipt.yml",
+        );
+        let route_receipt: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&route_path).unwrap()).unwrap();
+        assert_eq!(
+            route_receipt
+                .get("delivery_handoff")
+                .and_then(|value| value.get("requested_target_outcome"))
+                .and_then(serde_yaml::Value::as_str),
+            Some("cleaned")
+        );
+        assert_eq!(
+            route_receipt
+                .get("delivery_handoff")
+                .and_then(|value| value.get("readiness_state"))
+                .and_then(serde_yaml::Value::as_str),
+            Some("blocked-until-child-parent-delivery-gates-pass")
+        );
+        assert!(route_receipt
+            .get("delivery_handoff")
+            .and_then(|value| value.get("forbidden_runner_claims"))
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .any(|value| value.as_str() == Some("cleaned-claim")));
     }
 
     #[test]
@@ -41591,7 +42268,13 @@ routes:
             "sha256:dirty-a",
             &[".codex/skills/closeout-worktree/SKILL.md"],
         );
-        fs::remove_file(fixture.root.join(&legacy_return_ref)).unwrap();
+        fs::rename(
+            fixture.root.join(&legacy_return_ref),
+            fixture
+                .root
+                .join("legacy-closeout-worktree-return-hidden.json"),
+        )
+        .unwrap();
         let report_ref = format!(
             ".octon/state/evidence/validation/analysis/{program_run_id}-a-closeout-packet-closeout-worktree-report.yml"
         );

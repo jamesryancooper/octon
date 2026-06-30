@@ -78,7 +78,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `delivery_evidence_index` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-evidence-index.yml`: Compact retained delivery evidence index validated by validate-proposal-program-delivery-evidence-index.sh; evidence-only and non-authorizing.
 - `feature_catalog_drift_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/feature-catalog-drift-receipt.yml`: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 
-Non-canonical order requires a retained `proposal-program-delivery-order-override-receipt-v1` order override receipt. The delivery-readiness-preflight stage writes a retained readiness receipt consumed by later stages.
+Non-canonical order requires a retained `proposal-program-delivery-order-override-receipt-v1` order override receipt. The delivery-readiness-preflight stage writes a retained readiness receipt consumed by later stages. Runner handoff refs are delivery input only and cannot satisfy child packet, archive, generated-publication, cleanup, Change, branch, final sync, or terminal proof gates.
 
 ## Steps
 
@@ -96,6 +96,7 @@ Non-canonical order requires a retained `proposal-program-delivery-order-overrid
 ## Verification Gate
 
 - [ ] profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim
+- [ ] profile and workflow evidence record target_outcome, release state, order policy, PR policy, stash policy, runner handoff refs when supplied, include-path classification state, and retained preflight refs
 - [ ] execution_order_policy enforces child-before-parent-delivery unless a valid order override receipt is retained
 - [ ] delivery-readiness-preflight records a retained readiness receipt before expensive continuation
 - [ ] child packet receipts remain target-owned and parent summary evidence does not replace them
@@ -110,6 +111,7 @@ Non-canonical order requires a retained `proposal-program-delivery-order-overrid
 - [ ] delivery receipt validates with validate-proposal-program-delivery-receipt.sh
 - [ ] lifecycle postmortem threshold status is recorded when repeated blocker or recovery thresholds apply
 - [ ] delivery evidence index validates with validate-proposal-program-delivery-evidence-index.sh and remains evidence-only
+- [ ] stop condition taxonomy maps blockers to owning routes or validators and prevents aggregate evidence from authorizing missing target-owned receipts
 
 ## References
 

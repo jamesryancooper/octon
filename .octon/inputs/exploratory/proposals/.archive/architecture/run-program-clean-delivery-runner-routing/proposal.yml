@@ -1,0 +1,55 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-runner-routing
+title: Run Program Clean Delivery Runner Routing
+summary: Improve proposal-program runner planning, default route selection, retries, resume, and handoff into clean delivery.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/
+status: archived
+archive:
+  archived_at: 2026-06-29
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing
+  promotion_evidence:
+  - .octon/state/evidence/validation/publication/extensions/2026-06-28T17-35-09Z-extensions-e539e7c8b239.yml
+  - .octon/state/evidence/validation/compatibility/extensions/2026-06-28T17-35-09Z-extensions-e539e7c8b239.yml
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-28T17-38-17Z-capabilities-be9437424bf4.yml
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-28T17-38-23Z-pack-routes-3d2cc4bb7870.yml
+  - .octon/state/evidence/validation/publication/runtime/2026-06-28T17-38-30Z-runtime-route-bundle-d832aab6f332.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after the parent boundary design is accepted and the runner retry/resume defaults can be validated without widening route authority.
+related_proposals:
+- run-program-to-clean-delivery
+- run-program-clean-delivery-architecture
+acceptance_criteria_summary: Accepted when runner defaults can select, sequence, retry, and resume obvious route-owned steps without prompting and without crossing stop conditions.
+authority_class_impact:
+  framework: May later update lifecycle_program.rs and proposal-program contract surfaces.
+  instance: No instance authority change.
+  state_control: Future runs may write normal run control only through runtime routes.
+  state_evidence: Future runs may retain planner and route-decision evidence.
+  generated: Generated outputs remain derived-only.
+  inputs: This packet is non-authoritative.
+change_profile: atomic
+created_date: 2026-06-28
+evidence_requirements:
+- Route-decision receipt coverage.
+- Retry and resume checkpoint coverage.
+- Child authority preservation proof.
+explicit_runtime_non_implementation_statement: This packet is planning only.
+generated_input_authority_impact: Generated projections cannot authorize dispatch.
+owner:
+  role: Octon runtime proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Revert runner and lifecycle contract changes as one atomic change.
+runtime_behavior_impact: Future implementation may change program runner planning and default continuation behavior.
+scope_statement: Runner planning and route-selection improvements only. Do not implement delivery workflow, branch mutation, cleanup, or terminal evidence changes in this packet.
+validation_gates:
+- cargo test -p kernel lifecycle_program
+- validate-proposal-program-structure.sh --package <program>

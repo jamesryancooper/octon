@@ -1,0 +1,33 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "run-program-clean-delivery-evidence-metadata-pre-integration-architecture-review-20260629T141851Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata"
+packet_digest: "sha256:f65e8dce5607d37c23f5c27ca35fe7c586a8deeddc257eddaf4de82c94ae55a9"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/navigation/source-of-truth-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/navigation/artifact-catalog.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/support/affected-artifact-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/support/proposal-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers the evidence-metadata child packet at the current implemented closeout-handoff digest boundary."
+  architecture_scope: "The packet declares cross-domain architecture scope for clean delivery receipt schema, terminal local evidence writing, evidence disclosure-tier validation, proposal registry metadata refresh, and proposal artifact-index refresh."
+  authority_boundaries: "Evidence hardening may validate or retain proof, but it may not authorize execution, delivery, branch cleanup, archive, generated publication, terminal claims, or Change closeout."
+  target_architecture_fit: "The packet separates publishable hosted/shared evidence from local/private terminal snapshots and records per-target current assumptions, required changes, owners, priorities, rationale, retained evidence, generated-output boundaries, rollback, and closeout expectations."
+  evidence_and_validation_plan: "Validation covers proposal shape, architecture shape, strict architecture receipt freshness, proposal-review digest refresh, disclosure-tier validation, terminal-local evidence validation, lifecycle terminal proof validation, proposal artifact-index spine validation, metadata refresh digest checks, and negative controls."
+  rollback_and_closeout: "Rollback reverts receipt schema, terminal writer, disclosure validator, proposal registry generator, and proposal artifact-index generator changes atomically; closeout remains blocked when hosted/shared receipts cite local/private authorization refs or generated metadata lacks digest-backed refresh evidence."

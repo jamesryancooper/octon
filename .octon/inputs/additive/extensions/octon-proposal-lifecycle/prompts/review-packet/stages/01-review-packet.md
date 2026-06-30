@@ -1,5 +1,12 @@
 # Review Packet
 
+- Accepted verdict MUST set `proposal.yml#status` to `accepted`.
+- Accepted verdict MUST NOT leave `proposal.yml#status` as `in-review`.
+- Revision-required verdict MUST set `proposal.yml#status` to `in-review`.
+- Rejected verdict MUST set `proposal.yml#status` to `rejected`.
+- Compute `reviewed_packet_digest` after the final manifest status update.
+- Run the strict implementation-authorization gate for accepted packets.
+
 Resolve exactly one proposal packet path. Read `proposal.yml`, the subtype
 manifest, source-of-truth map, artifact catalog, target architecture or
 equivalent subtype documents, implementation plan, validation plan, acceptance
@@ -14,12 +21,27 @@ review verdict: `accepted`, `revision-required`, or `rejected`. Use
 packet-local changes; use `rejected` when the proposal should not continue in
 this lifecycle path.
 
+Do not treat stale or blocked terminal closeout evidence as an open review
+blocker for an `in-review` packet. `support/proposal-terminal-closeout.yml`
+may be read only as child-owned historical evidence or child-owned historical
+route context, and must not force revision-required by itself. Do not require
+terminal freshness validation for an `in-review` review verdict.
+Compatibility guard: stale or blocked terminal closeout evidence as an open review blocker is forbidden; child-owned historical evidence and child-owned historical route context do not drive an in-review blocker.
+Compatibility guard: Do not require terminal freshness validation for an `in-review` review verdict.
+
 When the verdict is `accepted`, update `proposal.yml#status` to `accepted`
 unless the packet is already `implemented`; for an already implemented packet,
 preserve `implemented` while refreshing the review receipt and digest. When the
 verdict is `rejected`, update `proposal.yml#status` to `rejected`. When the
 verdict is `revision-required`, leave or return `proposal.yml#status` to
 `in-review`. Do not introduce any other proposal status.
+
+Accepted review completion is receipt-atomic. Do not perform a status-only
+accepted mutation or leave an incomplete route result: accepted completion must
+include the accepted-state packet digest in `reviewed_packet_digest`, a fresh
+review receipt, any required strict pre-integration architecture receipt, and
+the registry/checksum/catalog refresh evidence required by the packet.
+Compatibility guard: accepted-state packet digest, status-only accepted mutation, incomplete route result, and strict pre-integration architecture receipt are checked together.
 
 After any manifest status update, compute the reviewed packet digest with:
 

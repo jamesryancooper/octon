@@ -37,6 +37,14 @@ evidence plus a resumable checkpoint. Its contract declares
 remains on the program controller rather than the packet route-progression
 driver.
 
+Clean-delivery continuation is a runner posture inside that replan loop. Use
+`--set target_outcome=cleaned` only to request Proposal Program Delivery as a
+later handoff input. The runner records route-selection inputs, selected route
+ownership, blocked alternatives, retry fingerprint fields, resume source refs,
+and delivery handoff posture in `route-decision-receipt.yml`; it does not turn
+the requested target outcome into landing, sync, cleanup, branch cleanup,
+terminal proof, or a final `cleaned` claim.
+
 Executor behavior:
 
 - Without `--execute-routes`, the runner stops at a planned

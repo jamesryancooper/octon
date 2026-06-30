@@ -1,0 +1,70 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-architecture
+title: Run Program Clean Delivery Architecture
+summary: Define the wrapper/profile boundary, stop-condition taxonomy, and concrete integration surface map for `run-program-to-clean-delivery` without creating a second authority plane.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/02-delivery-readiness-preflight.md
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/04-run-or-resume-child-lifecycles.md
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/05-validate-child-receipts.md
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-validate-feature-catalog-drift.md
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/06-route-closeout-and-archive.md
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/07-route-change-closeout.md
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/08-validate-cleanup-sync-proof.md
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md
+- .octon/framework/engine/runtime/spec/proposal-program-readiness-projection-v1.md
+- .octon/framework/engine/runtime/spec/extension-publication-handle-v1.md
+status: archived
+archive:
+  archived_at: 2026-06-29
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture
+  promotion_evidence:
+  - .octon/state/evidence/validation/publication/extensions/2026-06-28T16-40-20Z-extensions-e539e7c8b239.yml
+  - .octon/state/evidence/validation/compatibility/extensions/2026-06-28T16-40-20Z-extensions-e539e7c8b239.yml
+  - .octon/state/evidence/validation/publication/capabilities/2026-06-28T16-46-36Z-capabilities-13adb3dc50a8.yml
+  - .octon/state/evidence/validation/publication/runtime/2026-06-28T16-46-44Z-runtime-route-bundle-d832aab6f332.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after child review accepts the capability boundary and confirms this is a wrapper/profile over existing route-owned steps rather than a new authority plane.
+related_proposals:
+- run-program-to-clean-delivery
+- run-program-clean-delivery-runner-routing
+- run-program-clean-delivery-workflow-handoff
+- run-program-clean-delivery-evidence-metadata
+- run-program-clean-delivery-validators
+- run-program-clean-delivery-operator-surface
+acceptance_criteria_summary: Accepted when the architecture preserves child, delivery, Change closeout, archive, branch cleanup, repo hygiene, generated publication, and terminal proof ownership; every future mutation target is file-level or explicitly excluded; and stop conditions are machine-checkable.
+authority_class_impact:
+  framework: May later update proposal-program lifecycle contracts, delivery workflow boundaries, and runtime specs.
+  instance: No instance authority change.
+  state_control: No control mutation.
+  state_evidence: Future implementation must retain route-bound evidence.
+  generated: Generated outputs remain derived-only.
+  inputs: This packet is non-authoritative planning input.
+change_profile: atomic
+created_date: 2026-06-28
+evidence_requirements:
+- Boundary decision record.
+- Existing surface reuse map.
+- Affected artifact map with ownership, priority, rationale, and exclusions.
+- Machine-checkable stop-condition taxonomy.
+- Generated extension publication and raw-input non-authority boundary.
+explicit_runtime_non_implementation_statement: This packet is planning only.
+generated_input_authority_impact: Generated outputs and raw proposal inputs remain non-authority.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Reject or archive this packet before implementation.
+runtime_behavior_impact: None until durable implementation.
+scope_statement: Architecture and route-boundary design only. This packet may name concrete future target deltas and refusal criteria, but it must not implement runner, workflow, validator, delivery, closeout, archive, generated publication, repo hygiene, or Git mutations.
+validation_gates:
+- validate-proposal-standard.sh --package <packet> --skip-registry-check
+- validate-architecture-proposal.sh --package <packet>
+- validate-architectural-review-receipts.sh --receipt <packet>/support/pre-integration-architecture-review.yml --package <packet> --mode pre-integration-architecture-review --require-pass
+- validate-proposal-review-gate.sh --package <packet> --print-digest

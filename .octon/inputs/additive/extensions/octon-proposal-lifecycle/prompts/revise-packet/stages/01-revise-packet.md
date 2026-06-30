@@ -9,6 +9,11 @@ Default to requiring the latest review verdict to be `revision-required`.
 Proceed from another verdict only when the operator explicitly identifies a
 superseding review source, and record that basis in the revision receipt.
 
+Do not attempt to repair stale or blocked terminal closeout evidence in this
+route. Treat terminal closeout residue as nonblocking route context unless the
+current review names it as a packet-local finding with a concrete edit inside
+the packet. Revision work is limited to remaining review findings.
+
 Apply the smallest packet-local changes needed to address the selected review
 findings. Keep changes under the proposal packet. Do not edit durable promotion
 targets, runtime surfaces, policy, generated effective extensions, or durable
@@ -34,6 +39,10 @@ Write `support/revisions/<revision-id>.md` with these required fields:
 - `post_revision_digest`
 - `validators_rerun`
 - `catalog_checksum_registry_refresh`
+
+Use the exact field name `post_revision_digest`. Do not emit
+`post_revision_packet_digest`, `pending`, or placeholder digest state.
+Compatibility guard: Do not emit `post_revision_packet_digest`, `pending`, or placeholder digest state.
 
 Refresh `navigation/artifact-catalog.md`, checksums when the packet maintains
 `SHA256SUMS.txt`, and proposal registry projection when manifest or catalog

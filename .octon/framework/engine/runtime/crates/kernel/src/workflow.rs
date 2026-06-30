@@ -3034,6 +3034,7 @@ const TERMINAL_CLOSEOUT_STAGES: &[&str] = &[
     "verify-durable-implementation-state",
     "verify-implementation-conformance",
     "verify-post-implementation-drift",
+    "validate-feature-catalog-drift",
     "validate-publication-freshness",
     "classify-repo-hygiene",
     "classify-worktree-hygiene",
@@ -3064,6 +3065,19 @@ struct TerminalBlocker {
     detail: String,
     failing_evidence_ref: String,
     next_canonical_route: String,
+}
+
+#[derive(Clone, Debug)]
+struct TerminalFeatureCatalogDrift {
+    receipt_ref: String,
+    validation_ref: String,
+    fresh: bool,
+    verdict: String,
+    outcome: String,
+    unresolved_count: usize,
+    affected_feature_ids: Vec<String>,
+    required_documentation_actions: Vec<String>,
+    authority_notes: Vec<String>,
 }
 
 pub fn run_proposal_packet_terminal_closeout_from_octon_dir(
@@ -3412,6 +3426,139 @@ pub fn run_proposal_packet_terminal_closeout_from_octon_dir(
     )?);
     retained_inventory.push(drift.log_rel.clone());
 
+    let feature_catalog_validation = run_terminal_validator(
+        &repo_root,
+        &bundle_root,
+        "feature-catalog-drift-product-feature-catalog",
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh",
+        &[],
+    )?;
+    command_log.push(format!(
+        "- {} | log={} | status={}",
+        feature_catalog_validation.command,
+        feature_catalog_validation.log_rel,
+        feature_catalog_validation.success
+    ));
+    let feature_catalog_drift_receipt_path = bundle_root.join("feature-catalog-drift-receipt.yml");
+    let feature_catalog_drift_receipt_rel =
+        rel_path(&repo_root, &feature_catalog_drift_receipt_path);
+    let feature_catalog_drift_outcome = if feature_catalog_validation.success {
+        "no-change"
+    } else {
+        "blocked-unresolved-drift"
+    };
+    let feature_catalog_drift_unresolved_count = if feature_catalog_validation.success {
+        0
+    } else {
+        1
+    };
+    let feature_catalog_drift_required_actions = if feature_catalog_validation.success {
+        Vec::<String>::new()
+    } else {
+        vec!["restore product feature catalog validation before terminal closeout".to_string()]
+    };
+    fs::write(
+        &feature_catalog_drift_receipt_path,
+        build_feature_catalog_drift_receipt_yaml(
+            &terminal_run_id,
+            &auth_now_rfc3339()?,
+            &manifest,
+            &proposal_rel,
+            &feature_catalog_validation,
+            feature_catalog_drift_outcome,
+            feature_catalog_drift_unresolved_count,
+            &feature_catalog_drift_required_actions,
+        ),
+    )?;
+    let feature_catalog_drift_validation = run_terminal_validator(
+        &repo_root,
+        &bundle_root,
+        "feature-catalog-drift-receipt-validation",
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh",
+        &[
+            String::from("--receipt"),
+            feature_catalog_drift_receipt_rel.clone(),
+        ],
+    )?;
+    command_log.push(format!(
+        "- {} | log={} | status={}",
+        feature_catalog_drift_validation.command,
+        feature_catalog_drift_validation.log_rel,
+        feature_catalog_drift_validation.success
+    ));
+    if !feature_catalog_validation.success || !feature_catalog_drift_validation.success {
+        set_terminal_blocker(
+            &mut blocker,
+            "feature-catalog-drift-blocked",
+            "product feature catalog drift validation failed",
+            if feature_catalog_drift_validation.success {
+                &feature_catalog_validation.log_rel
+            } else {
+                &feature_catalog_drift_validation.log_rel
+            },
+            "revise-product-feature-catalog",
+        );
+    }
+    let feature_catalog_drift = TerminalFeatureCatalogDrift {
+        receipt_ref: feature_catalog_drift_receipt_rel.clone(),
+        validation_ref: feature_catalog_drift_validation.log_rel.clone(),
+        fresh: feature_catalog_validation.success && feature_catalog_drift_validation.success,
+        verdict: if feature_catalog_validation.success && feature_catalog_drift_validation.success {
+            "pass".to_string()
+        } else {
+            "blocked".to_string()
+        },
+        outcome: feature_catalog_drift_outcome.to_string(),
+        unresolved_count: feature_catalog_drift_unresolved_count,
+        affected_feature_ids: Vec::new(),
+        required_documentation_actions: feature_catalog_drift_required_actions,
+        authority_notes: vec![
+            "feature catalog drift receipts are retained evidence only".to_string(),
+            "unresolved drift blocks terminal closeout claims but does not authorize catalog mutation".to_string(),
+        ],
+    };
+    stages.push(write_terminal_stage_record(
+        &runtime_cfg,
+        &policy,
+        &repo_root,
+        &bundle_root,
+        &workflow_request_id,
+        "validate-feature-catalog-drift",
+        false,
+        if feature_catalog_drift.fresh {
+            "pass"
+        } else {
+            "blocked"
+        },
+        vec![
+            format!("{proposal_rel}/support/implementation-conformance-review.md"),
+            format!("{proposal_rel}/support/post-implementation-drift-churn-review.md"),
+            ".octon/framework/product/features/catalog.yml".to_string(),
+        ],
+        vec![
+            feature_catalog_validation.command.clone(),
+            feature_catalog_drift_validation.command.clone(),
+        ],
+        vec![
+            feature_catalog_validation.log_rel.clone(),
+            feature_catalog_drift_receipt_rel.clone(),
+            feature_catalog_drift_validation.log_rel.clone(),
+        ],
+        format!(
+            "# Validate Product Feature Catalog Drift\n\n- receipt_ref: `{}`\n- validator_log: `{}`\n- verdict: `{}`\n- outcome: `{}`\n- unresolved_count: `{}`\n",
+            feature_catalog_drift.receipt_ref,
+            feature_catalog_drift.validation_ref,
+            feature_catalog_drift.verdict,
+            feature_catalog_drift.outcome,
+            feature_catalog_drift.unresolved_count
+        ),
+    )?);
+    retained_inventory.extend([
+        feature_catalog_validation.log_rel.clone(),
+        feature_catalog_drift.receipt_ref.clone(),
+        feature_catalog_drift.validation_ref.clone(),
+    ]);
+
     let publication_validators = [
         (
             "generated-non-authority",
@@ -3628,6 +3775,7 @@ pub fn run_proposal_packet_terminal_closeout_from_octon_dir(
         && final_blocker.class == "none"
         && conformance.success
         && drift.success
+        && feature_catalog_drift.fresh
         && publication_results.iter().all(|result| result.success)
         && worktree.foreign_or_ambiguous_count == 0
     {
@@ -3690,6 +3838,7 @@ pub fn run_proposal_packet_terminal_closeout_from_octon_dir(
         &stages,
         &conformance,
         &drift,
+        &feature_catalog_drift,
         &publication_results,
         &repo_hygiene_report,
         &worktree,
@@ -4503,6 +4652,7 @@ blocker_reporting:
     - stale-evidence
     - validator-failed
     - publication-freshness-blocked
+    - feature-catalog-drift-blocked
     - hygiene-blocked
     - git-route-blocked
     - scope-overrun
@@ -4513,6 +4663,7 @@ blocker_reporting:
     - run-packet-implementation
     - run-packet-verification-and-correction-loop
     - repo-hygiene-cleanup
+    - revise-product-feature-catalog
     - closeout-worktree
     - closeout-change
     - blocked
@@ -5883,6 +6034,56 @@ fn write_terminal_state_ledger(
     Ok(())
 }
 
+fn build_feature_catalog_drift_receipt_yaml(
+    terminal_run_id: &str,
+    emitted_at: &str,
+    manifest: &ProposalManifest,
+    proposal_rel: &str,
+    catalog_validation: &TerminalValidationResult,
+    outcome: &str,
+    unresolved_count: usize,
+    required_documentation_actions: &[String],
+) -> String {
+    let authority_notes = vec![
+        "feature catalog drift receipts are retained evidence only".to_string(),
+        "unresolved drift blocks terminal closeout claims but does not authorize catalog mutation"
+            .to_string(),
+    ];
+    let blockers = if outcome == "blocked-unresolved-drift" {
+        format!(
+            "  - class: catalog-validation-failed\n    detail: {}\n    evidence_ref: {}\n    status: open\n",
+            terminal_yaml_quote(
+                "product feature catalog validation failed during terminal closeout"
+            ),
+            terminal_yaml_quote(&catalog_validation.log_rel)
+        )
+    } else {
+        "  []\n".to_string()
+    };
+    format!(
+        "schema_version: feature-catalog-drift-receipt-v1\nreceipt_id: {}\nemitted_at: {}\ntarget:\n  path: {}\n  target_type: terminal-closeout\n  promotion_targets:\n{}catalog_validation:\n  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh\n  catalog_ref: .octon/framework/product/features/catalog.yml\n  schema_ref: .octon/framework/product/contracts/product-feature-catalog-v1.schema.json\n  verdict: {}\ndrift_result:\n  outcome: {}\n  unresolved_count: {}\n  affected_feature_ids:\n    []\n  required_documentation_actions:\n{}findings:\n  []\nblockers:\n{}non_authority_boundary:\n  raw_inputs_non_authority: true\n  generated_outputs_non_authority: true\n  host_ui_state_non_authority: true\n  chat_model_memory_non_authority: true\n  tool_availability_non_authority: true\n  evidence_not_authorization: true\n  catalog_navigation_only: true\nauthority_notes:\n{}next_route: {}\n",
+        terminal_yaml_quote(&format!("{terminal_run_id}-feature-catalog-drift")),
+        terminal_yaml_quote(emitted_at),
+        terminal_yaml_quote(proposal_rel),
+        terminal_yaml_array_field(&manifest.promotion_targets, "    "),
+        if catalog_validation.success {
+            "pass"
+        } else {
+            "fail"
+        },
+        terminal_yaml_quote(outcome),
+        unresolved_count,
+        terminal_yaml_array_field(required_documentation_actions, "    "),
+        blockers,
+        terminal_yaml_array(&authority_notes, "  "),
+        if outcome == "blocked-unresolved-drift" {
+            "revise-product-feature-catalog"
+        } else {
+            "continue-closeout"
+        }
+    )
+}
+
 fn build_terminal_receipt_yaml(
     repo_root: &Path,
     terminal_run_id: &str,
@@ -5897,6 +6098,7 @@ fn build_terminal_receipt_yaml(
     stages: &[TerminalStageRecord],
     conformance: &TerminalValidationResult,
     drift: &TerminalValidationResult,
+    feature_catalog_drift: &TerminalFeatureCatalogDrift,
     publication_results: &[TerminalValidationResult],
     repo_hygiene_report: &Path,
     worktree: &TerminalWorktreeClassification,
@@ -5954,7 +6156,7 @@ fn build_terminal_receipt_yaml(
         })
         .collect::<String>();
     format!(
-        "schema_version: proposal-packet-terminal-closeout-receipt-v1\nterminal_run_id: {}\nterminalized_at: {}\npacket:\n  proposal_id: {}\n  path: {}\n  proposal_kind: {}\n  status: {}\ntarget_outcome: {}\nterminal_verdict: {}\narchive_ready: {}\nprofile:\n  profile_ref: {}\n  profile_digest: {}\n  profile_validation_evidence_ref: {}\nstate_ledger:\n{}implementation:\n  conformance_receipt_ref: {}\n  conformance_validator_ref: {}\n  conformance_fresh: {}\n  post_implementation_drift_receipt_ref: {}\n  post_implementation_drift_validator_ref: {}\n  post_implementation_drift_fresh: {}\ndurable_implementation_state_evidence_refs:\n{}\npublication_freshness:\n  validators:\n{}  publisher_refresh_receipts: []\n  rerun_evidence_refs:\n{}\n  direct_generated_output_edit_used: false\ngenerated_input_non_authority:\n  validation_ref: {}\n  proposal_inputs_non_authority: true\n  generated_outputs_non_authority: true\n  generated_prompts_non_authority: true\n  host_state_non_authority: true\n  chat_state_non_authority: true\n  tool_state_non_authority: true\n  model_memory_non_authority: true\nrun_health:\n  validation_ref: {}\n  verdict: {}\ncapability_publication:\n  validation_ref: {}\n  verdict: {}\nextension_publication:\n  validation_ref: {}\n  verdict: {}\nrepo_hygiene:\n  classification_ref: {}\n  cleanup_performed: false\n  cleanup_authorization_refs: []\n  unauthorized_deletion_performed: false\nworktree_hygiene:\n  classification_ref: {}\n  verdict: {}\n  foreign_or_ambiguous_count: {}\n  retained_fixture_path_count: {}\n  fixture_retention_refs:\n{}  closeout_worktree_covered_path_count: {}\n  closeout_worktree_report_refs:\n{}  dirty_worktree: {}\nevidence_only_reviews:\n  post_integration_architecture_review_ref: {}\n  post_integration_architecture_review_authority: evidence-only\n  packet_terminal_evaluator_ref: {}\n  packet_terminal_evaluator_authority: evidence-only\n  lifecycle_postmortem_ref: {}\n  lifecycle_postmortem_authority: evidence-only\ngit_github_route:\n  route_ref: {}\n  branch_no_pr: false\n  mutation_delegated: true\n  exact_sha_checks_ref: not-applicable\n  landing_authorization_ref: not-applicable\n  branch_cleanup_required: false\n  branch_cleanup_authorization_ref: not-applicable\narchive_boundary:\n  archive_owner_ref: .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml\n  relocation_performed: false\nblocker:\n  class: {}\n  detail: {}\n  failing_evidence_ref: {}\n  next_canonical_route: {}\nretained_evidence_inventory:\n{}\nexpected_no_new_evidence_loop: true\nnon_authority_declarations:\n  proposal_inputs: non-authority\n  generated_outputs: derived-only-non-authority\n  generated_prompts: non-authority\n  host_state: non-authority\n  dashboards: non-authority\n  chat: non-authority\n  tool_state: non-authority\n  model_memory: non-authority\ntarget_owned_evidence_policy:\n  cites_target_owned_evidence: true\n  aggregate_receipt_replaces_target_owned_receipts: false\n",
+        "schema_version: proposal-packet-terminal-closeout-receipt-v1\nterminal_run_id: {}\nterminalized_at: {}\npacket:\n  proposal_id: {}\n  path: {}\n  proposal_kind: {}\n  status: {}\ntarget_outcome: {}\nterminal_verdict: {}\narchive_ready: {}\nprofile:\n  profile_ref: {}\n  profile_digest: {}\n  profile_validation_evidence_ref: {}\nstate_ledger:\n{}implementation:\n  conformance_receipt_ref: {}\n  conformance_validator_ref: {}\n  conformance_fresh: {}\n  post_implementation_drift_receipt_ref: {}\n  post_implementation_drift_validator_ref: {}\n  post_implementation_drift_fresh: {}\nfeature_catalog_drift:\n  receipt_ref: {}\n  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh\n  fresh: {}\n  verdict: {}\n  outcome: {}\n  unresolved_count: {}\n  affected_feature_ids:\n{}  required_documentation_actions:\n{}  authority_notes:\n{}durable_implementation_state_evidence_refs:\n{}\npublication_freshness:\n  validators:\n{}  publisher_refresh_receipts: []\n  rerun_evidence_refs:\n{}\n  direct_generated_output_edit_used: false\ngenerated_input_non_authority:\n  validation_ref: {}\n  proposal_inputs_non_authority: true\n  generated_outputs_non_authority: true\n  generated_prompts_non_authority: true\n  host_state_non_authority: true\n  chat_state_non_authority: true\n  tool_state_non_authority: true\n  model_memory_non_authority: true\nrun_health:\n  validation_ref: {}\n  verdict: {}\ncapability_publication:\n  validation_ref: {}\n  verdict: {}\nextension_publication:\n  validation_ref: {}\n  verdict: {}\nrepo_hygiene:\n  classification_ref: {}\n  cleanup_performed: false\n  cleanup_authorization_refs: []\n  unauthorized_deletion_performed: false\nworktree_hygiene:\n  classification_ref: {}\n  verdict: {}\n  foreign_or_ambiguous_count: {}\n  retained_fixture_path_count: {}\n  fixture_retention_refs:\n{}  closeout_worktree_covered_path_count: {}\n  closeout_worktree_report_refs:\n{}  dirty_worktree: {}\nevidence_only_reviews:\n  post_integration_architecture_review_ref: {}\n  post_integration_architecture_review_authority: evidence-only\n  packet_terminal_evaluator_ref: {}\n  packet_terminal_evaluator_authority: evidence-only\n  lifecycle_postmortem_ref: {}\n  lifecycle_postmortem_authority: evidence-only\ngit_github_route:\n  route_ref: {}\n  branch_no_pr: false\n  mutation_delegated: true\n  exact_sha_checks_ref: not-applicable\n  landing_authorization_ref: not-applicable\n  branch_cleanup_required: false\n  branch_cleanup_authorization_ref: not-applicable\narchive_boundary:\n  archive_owner_ref: .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml\n  relocation_performed: false\nblocker:\n  class: {}\n  detail: {}\n  failing_evidence_ref: {}\n  next_canonical_route: {}\nretained_evidence_inventory:\n{}\nexpected_no_new_evidence_loop: true\nnon_authority_declarations:\n  proposal_inputs: non-authority\n  generated_outputs: derived-only-non-authority\n  generated_prompts: non-authority\n  host_state: non-authority\n  dashboards: non-authority\n  chat: non-authority\n  tool_state: non-authority\n  model_memory: non-authority\ntarget_owned_evidence_policy:\n  cites_target_owned_evidence: true\n  aggregate_receipt_replaces_target_owned_receipts: false\n",
         terminal_yaml_quote(terminal_run_id),
         terminal_yaml_quote(terminalized_at),
         terminal_yaml_quote(&manifest.proposal_id),
@@ -5976,6 +6178,17 @@ fn build_terminal_receipt_yaml(
         )),
         terminal_yaml_quote(&drift.log_rel),
         if drift.success { "true" } else { "false" },
+        terminal_yaml_quote(&feature_catalog_drift.receipt_ref),
+        if feature_catalog_drift.fresh { "true" } else { "false" },
+        terminal_yaml_quote(&feature_catalog_drift.verdict),
+        terminal_yaml_quote(&feature_catalog_drift.outcome),
+        feature_catalog_drift.unresolved_count,
+        terminal_yaml_array_field(&feature_catalog_drift.affected_feature_ids, "    "),
+        terminal_yaml_array_field(
+            &feature_catalog_drift.required_documentation_actions,
+            "    "
+        ),
+        terminal_yaml_array(&feature_catalog_drift.authority_notes, "    "),
         terminal_yaml_array(&[
             format!("{proposal_rel}/proposal.yml"),
             format!("{proposal_rel}/support/implementation-run.md"),
@@ -6040,6 +6253,16 @@ fn terminal_stage_ledger_yaml(stages: &[TerminalStageRecord], indent: &str) -> S
 fn terminal_yaml_array(values: &[String], indent: &str) -> String {
     if values.is_empty() {
         return format!("{indent}- not-applicable\n");
+    }
+    values
+        .iter()
+        .map(|value| format!("{indent}- {}\n", terminal_yaml_quote(value)))
+        .collect()
+}
+
+fn terminal_yaml_array_field(values: &[String], indent: &str) -> String {
+    if values.is_empty() {
+        return format!("{indent}[]\n");
     }
     values
         .iter()

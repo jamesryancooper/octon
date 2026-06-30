@@ -155,4 +155,4 @@ commands:
     path: octon-proposal-run-program-lifecycle.md
     summary: "Run the governed orchestration wrapper for one proposal program; this is not a leaf route bundle."
     access: agent
-    argument_hint: "<program-packet-path> [--run-id <id>] [--executor auto|codex|claude|mock] [--execute-routes] [--invocation-authority unattended] [--max-steps <n>] [--max-child-concurrency <n>] [--max-iterations <n>]"
+    argument_hint: "<program-packet-path> [--run-id <id>] [--executor auto|codex|claude|mock] [--execute-routes] [--invocation-authority unattended] [--max-steps <n>] [--max-child-concurrency <n>] [--max-iterations <n>] [--set target_outcome=cleaned]"

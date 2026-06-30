@@ -182,10 +182,32 @@ skills:
         required: false
         default: "auto"
         description: "Lifecycle route executor: auto, codex, claude, or mock."
+      - name: execute_routes
+        type: boolean
+        required: false
+        default: false
+        description: "Delegate selected parent or child routes through the shared executor adapter."
+      - name: invocation_authority
+        type: text
+        required: false
+        default: "unattended"
+        description: "Invocation authority for proof-gated delegated route execution."
+      - name: max_steps
+        type: integer
+        required: false
+        description: "Bound selected parent route or child batch dispatch attempts."
+      - name: max_child_concurrency
+        type: integer
+        required: false
+        description: "Bound concurrent child route executors inside one selected batch."
       - name: max_iterations
         type: integer
         required: false
         description: "Optional bounded loop iteration override."
+      - name: target_outcome
+        type: text
+        required: false
+        description: "Optional Proposal Program Delivery requested outcome, such as cleaned; request only, not completion proof."
     requires:
       context: []
   octon-proposal-lifecycle-create-program:

@@ -263,14 +263,46 @@ validate_terminal_local_ref() {
   fi
 }
 
+validate_terminal_proof_ref() {
+  local file="$1"
+  local ref
+
+  ref="$(jq -r '.terminal_current_state_proof_ref // ""' "$file")"
+  [[ -n "$ref" ]] || return 0
+  if is_terminal_local_ref "$ref"; then
+    validate_terminal_local_ref "$file"
+  elif is_local_only_or_generated_ref "$ref"; then
+    fail "terminal current-state proof ref uses non-publishable evidence ref: $ref"
+  else
+    pass "terminal current-state proof ref is not local-only, generated, or input evidence"
+  fi
+}
+
+require_change_jq() {
+  local file="$1"
+  local expr="$2"
+  local ok_msg="$3"
+  local fail_msg="$4"
+  jq -e "$expr" "$file" >/dev/null 2>&1 && pass "$ok_msg" || fail "$fail_msg"
+}
+
 validate_change_receipt() {
   local file
   file="$(resolve_path "$CHANGE_RECEIPT_PATH")"
   require_file "$file"
   jq -e '.' "$file" >/dev/null 2>&1 && pass "change receipt parses as JSON" || { fail "change receipt must parse as JSON"; return; }
 
-  local route closeout outcome hosted_shared
+  local route target closeout outcome hosted_shared
+  case "$(rel_path "$file")" in
+    .octon/state/evidence/local/terminal-closeout/*/change-receipt.json)
+      pass "local terminal change receipt is retained evidence only; hosted/shared authority gate not applicable"
+      validate_terminal_proof_ref "$file"
+      return
+      ;;
+  esac
+
   route="$(jq -r '.selected_route // ""' "$file")"
+  target="$(jq -r '.target_lifecycle_outcome // ""' "$file")"
   closeout="$(jq -r '.closeout_outcome // ""' "$file")"
   outcome="$(jq -r '.lifecycle_outcome // ""' "$file")"
   hosted_shared=0
@@ -303,12 +335,20 @@ validate_change_receipt() {
       (.durable_history.refs[]?),
       (.scope.diff_refs[]?),
       (.landing_evaluation.evidence_refs[]?),
+      (.stateful_closeout.initial_inventory_ref?),
+      (.stateful_closeout.residue_classification_ref?),
       (.stateful_closeout.phase_exit_refs[]?),
       (.stateful_closeout.hosted_landing_refs[]?),
       (.stateful_closeout.cleanup_decision_refs[]?),
       (.stateful_closeout.branch_cleanup_refs[]?),
       (.stateful_closeout.final_verification_ref?),
       (.source_branch_integration.evidence_refs[]?),
+      (.cleanup_evidence_refs[]?),
+      (.source_branch_cleanup.evidence_refs[]?),
+      (.review_evidence_refs[]?),
+      (.external_blocker_refs[]?),
+      (.publishable_evidence_receipt_refs[]?.receipt_ref?),
+      (.correction_branch_aggregate_receipt_ref?),
       (.main_alignment.origin_fetch_evidence_ref?),
       (.main_alignment.local_main_sync_evidence_ref?)
     ] | map(select(type == "string")) | .[]
@@ -318,7 +358,39 @@ validate_change_receipt() {
     pass "hosted/shared closeout receipt avoids local-only, generated, and input evidence refs"
   fi
 
-  validate_terminal_local_ref "$file"
+  validate_terminal_proof_ref "$file"
+
+  if [[ "$outcome" == "cleaned" && "$closeout" == "completed" ]]; then
+    require_change_jq "$file" '.landing_authorization_ref | type == "string" and length > 0' \
+      "hosted/shared cleaned claim has landing authorization ref" \
+      "hosted/shared cleaned claim requires publishable landing authorization ref"
+    require_change_jq "$file" '.cleanup_authorization_ref | type == "string" and length > 0' \
+      "hosted/shared cleaned claim has cleanup authorization ref" \
+      "hosted/shared cleaned claim requires publishable cleanup authorization ref"
+    require_change_jq "$file" '.cleanup_evidence_refs | type == "array" and length > 0' \
+      "hosted/shared cleaned claim has cleanup evidence refs" \
+      "hosted/shared cleaned claim requires cleanup evidence refs"
+    require_change_jq "$file" '.publishable_evidence_receipt_refs | type == "array" and length > 0' \
+      "hosted/shared cleaned claim has repo-publishable evidence receipt refs" \
+      "hosted/shared cleaned claim requires publishable_evidence_receipt_refs"
+    if [[ "$route" == "branch-no-pr" || "$route" == "branch-pr" ]]; then
+      require_change_jq "$file" '.source_branch_cleanup.status == "completed"' \
+        "hosted/shared cleaned branch claim has completed source branch cleanup disposition" \
+        "hosted/shared cleaned branch claim requires source_branch_cleanup.status completed"
+    fi
+  fi
+
+  if [[ "$target" == "cleaned" && "$outcome" != "cleaned" ]]; then
+    require_change_jq "$file" '.not_cleaned_reason | type == "string" and length > 0' \
+      "blocked/deferred cleaned target records not_cleaned_reason" \
+      "blocked/deferred cleaned target requires not_cleaned_reason"
+    require_change_jq "$file" '.cleanup_stop_reason | type == "string" and length > 0' \
+      "blocked/deferred cleaned target records cleanup_stop_reason" \
+      "blocked/deferred cleaned target requires cleanup_stop_reason"
+    require_change_jq "$file" '.closeout_outcome != "completed"' \
+      "blocked/deferred cleaned target does not validate as completed closeout" \
+      "blocked/deferred cleaned target must not validate as completed closeout"
+  fi
 
   case "$closeout:$outcome" in
     completed:*|*:cleaned|*:landed|*:ready|*:published|*:published-branch)

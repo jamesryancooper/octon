@@ -1,0 +1,21 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "run-program-clean-delivery-workflow-handoff"
+title: "Run Program Clean Delivery Workflow Handoff"
+architecture_scope: "cross-domain-architecture"
+decision_type: "surface-refactor"
+status: "accepted"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: "Workflow handoff changes should be atomic and validated by existing delivery gates."
+affected_domains:
+  - "proposal-program-delivery workflow"
+  - "proposal lifecycle operator command and skill surfaces"
+  - "default Change closeout policy"
+  - "closeout-change and closeout-worktree handoff contracts"
+  - "retained delivery evidence and terminal proof boundaries"
+authority_boundary: >-
+  Proposal Program Delivery remains aggregate-only. Child packet receipts,
+  archive authorization, generated publication, repo hygiene cleanup, Git
+  mutation, branch cleanup, final sync, and terminal proof remain owned by
+  their target routes and validators.

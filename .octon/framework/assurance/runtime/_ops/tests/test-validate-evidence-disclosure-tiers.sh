@@ -216,6 +216,7 @@ write_change_receipt_with_terminal_sink() {
   local landing_auth_ref="${3:-.octon/state/evidence/runs/skills/closeout-change/fixture/landing-authorization.json}"
   local required_check_ref="${4:-ci@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}"
   local final_verification_ref="${5:-.octon/state/evidence/runs/skills/closeout-change/fixture/final-verification.yml}"
+  local cleanup_auth_ref="${6:-.octon/state/evidence/runs/skills/closeout-change/fixture/branch-cleanup-authorization.json}"
   local file
   file="$(mktemp "${TMPDIR:-/tmp}/change-receipt-terminal.XXXXXX")"
   CLEANUP_FILES+=("$file")
@@ -234,11 +235,26 @@ write_change_receipt_with_terminal_sink() {
   },
   "validation_evidence_refs": [".octon/state/evidence/validation/fixture/publishable-receipt.json"],
   "landing_authorization_ref": "$landing_auth_ref",
+  "cleanup_authorization_ref": "$cleanup_auth_ref",
   "terminal_current_state_proof_ref": "$terminal_ref",
   "terminal_current_state_proof_digest": "$terminal_digest",
   "integration_status": "landed",
   "publication_status": "hosted-main-updated",
   "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "$cleanup_auth_ref",
+    ".octon/state/evidence/runs/skills/closeout-change/fixture/branch-cleanup.yml"
+  ],
+  "publishable_evidence_receipt_refs": [
+    {
+      "receipt_ref": ".octon/state/evidence/validation/fixture/publishable-receipt.json",
+      "schema_ref": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json",
+      "disclosure_tier": "repo-publishable",
+      "claim_scope_ref": "fixture-hosted-closeout-cleaned",
+      "receipt_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "raw_evidence_not_published": true
+    }
+  ],
   "rollback_handle": {"kind": "git-ref", "ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
   "closeout_outcome": "completed",
   "hosted_landing": {
@@ -256,9 +272,18 @@ write_change_receipt_with_terminal_sink() {
   "stateful_closeout": {
     "phase_exit_refs": [".octon/state/evidence/runs/skills/closeout-change/fixture/phase.yml"],
     "hosted_landing_refs": [".octon/state/evidence/runs/skills/closeout-change/fixture/hosted.yml"],
-    "cleanup_decision_refs": [".octon/state/evidence/runs/skills/closeout-change/fixture/cleanup.yml"],
+    "cleanup_decision_refs": ["$cleanup_auth_ref"],
     "branch_cleanup_refs": [".octon/state/evidence/runs/skills/closeout-change/fixture/branch-cleanup.yml"],
     "final_verification_ref": "$final_verification_ref"
+  },
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "fixture",
+    "remote_branch": "origin/fixture",
+    "evidence_refs": [
+      "$cleanup_auth_ref",
+      ".octon/state/evidence/runs/skills/closeout-change/fixture/branch-cleanup.yml"
+    ]
   },
   "created_at": "2026-05-28T12:00:00Z"
 }
@@ -419,6 +444,73 @@ case_hosted_closeout_local_sink_as_final_verification_fails() {
   assert_failure_contains "local sink as final verification is rejected" "non-publishable evidence ref" run_validator "$root" --change-receipt "$receipt"
 }
 
+case_hosted_closeout_local_sink_as_cleanup_authorization_fails() {
+  local root sink terminal_ref terminal_digest receipt
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest" ".octon/state/evidence/runs/skills/closeout-change/fixture/landing-authorization.json" "ci@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" ".octon/state/evidence/runs/skills/closeout-change/fixture/final-verification.yml" "$terminal_ref")"
+  assert_failure_contains "local sink as cleanup authorization is rejected" "non-publishable evidence ref" run_validator "$root" --change-receipt "$receipt"
+}
+
+case_hosted_closeout_local_sink_as_cleanup_evidence_fails() {
+  local root sink terminal_ref terminal_digest receipt tmp
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest")"
+  tmp="$(mktemp "${TMPDIR:-/tmp}/change-receipt-local-cleanup-evidence.XXXXXX")"
+  CLEANUP_FILES+=("$tmp")
+  jq --arg ref "$terminal_ref" '.cleanup_evidence_refs = [$ref]' "$receipt" >"$tmp"
+  assert_failure_contains "local sink as cleanup evidence is rejected" "non-publishable evidence ref" run_validator "$root" --change-receipt "$tmp"
+}
+
+case_hosted_closeout_proposal_path_ref_fails() {
+  local root receipt
+  root="$(fixture_root)"
+  receipt="$(write_change_receipt ".octon/inputs/exploratory/proposals/architecture/fixture/proposal.yml")"
+  assert_failure_contains "hosted closeout proposal-path dependency is rejected" "non-publishable evidence ref" run_validator "$root" --change-receipt "$receipt"
+}
+
+case_hosted_cleaned_missing_publishable_receipt_fails() {
+  local root sink terminal_ref terminal_digest receipt tmp
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest")"
+  tmp="$(mktemp "${TMPDIR:-/tmp}/change-receipt-no-publishable.XXXXXX")"
+  CLEANUP_FILES+=("$tmp")
+  jq 'del(.publishable_evidence_receipt_refs)' "$receipt" >"$tmp"
+  assert_failure_contains "hosted cleaned claim without publishable evidence is rejected" "requires publishable_evidence_receipt_refs" run_validator "$root" --change-receipt "$tmp"
+}
+
+case_hosted_cleaned_blocked_routing_passes_without_publishable_success() {
+  local root sink terminal_ref terminal_digest receipt tmp
+  root="$(fixture_root)"
+  sink="$(write_local_terminal_sink "$root")"
+  terminal_ref="${sink% *}"
+  terminal_digest="${sink##* }"
+  receipt="$(write_change_receipt_with_terminal_sink "$terminal_ref" "$terminal_digest")"
+  tmp="$(mktemp "${TMPDIR:-/tmp}/change-receipt-blocked-cleaned.XXXXXX")"
+  CLEANUP_FILES+=("$tmp")
+  jq '
+    .lifecycle_outcome = "landed"
+    | .closeout_outcome = "continued"
+    | .cleanup_status = "deferred"
+    | .not_cleaned_reason = "Cleanup authorization is not yet publishable."
+    | .cleanup_stop_reason = "governance_authorization_missing"
+    | .source_branch_cleanup.status = "deferred"
+    | .source_branch_cleanup.blocker_reason = "Cleanup authorization is not yet publishable."
+    | .source_branch_cleanup.evidence_refs = [".octon/state/evidence/runs/skills/closeout-change/fixture/cleanup-blocker.yml"]
+    | .cleanup_evidence_refs = [".octon/state/evidence/runs/skills/closeout-change/fixture/cleanup-blocker.yml"]
+    | del(.cleanup_authorization_ref, .publishable_evidence_receipt_refs)
+  ' "$receipt" >"$tmp"
+  run_validator "$root" --change-receipt "$tmp" >/dev/null
+}
+
 assert_success "static evidence disclosure tier contracts pass" case_static_contract_passes
 assert_success "valid publishable receipt passes" case_valid_publishable_receipt_passes
 assert_success "missing tier metadata fails" case_missing_tier_metadata_fails
@@ -435,6 +527,11 @@ assert_success "hosted closeout rejects local terminal wrong change root" case_h
 assert_success "hosted closeout rejects local sink as landing authorization" case_hosted_closeout_local_sink_as_landing_authorization_fails
 assert_success "hosted closeout rejects local sink as hosted check evidence" case_hosted_closeout_local_sink_as_hosted_check_fails
 assert_success "hosted closeout rejects local sink as final verification" case_hosted_closeout_local_sink_as_final_verification_fails
+assert_success "hosted closeout rejects local sink as cleanup authorization" case_hosted_closeout_local_sink_as_cleanup_authorization_fails
+assert_success "hosted closeout rejects local sink as cleanup evidence" case_hosted_closeout_local_sink_as_cleanup_evidence_fails
+assert_success "hosted closeout rejects proposal-path evidence" case_hosted_closeout_proposal_path_ref_fails
+assert_success "hosted cleaned claim rejects missing publishable evidence" case_hosted_cleaned_missing_publishable_receipt_fails
+assert_success "blocked cleaned target routes without publishable success claim" case_hosted_cleaned_blocked_routing_passes_without_publishable_success
 
 echo "Tests passed: $pass_count"
 if [[ "$fail_count" -ne 0 ]]; then

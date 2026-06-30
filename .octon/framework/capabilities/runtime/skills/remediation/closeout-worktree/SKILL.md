@@ -197,6 +197,17 @@ pruning, publication, closeout, or `cleaned`; the wrapper must report the
 delegated lower actual outcome, blocker, deferred state, or next-route
 condition.
 
+Proposal-program handoff reports must include the delivery caller context that
+caused the wrapper route: include paths, exclude paths, route hints, target
+lifecycle outcome, validation floor, rollback posture, profile constraints,
+source receipt refs and digests, readiness receipt ref and digest, classifier
+output ref and digest when present, foreign fingerprint when present, and
+required return evidence. The report may return candidate disposition,
+delegated `closeout-change` refs, repo-hygiene routing refs, blockers, and
+next-route conditions, but it must not satisfy child packet receipts, Change
+receipts, archive authorization, generated-publication freshness, cleanup
+authorization, branch cleanup, final sync, terminal proof, or `cleaned` claims.
+
 Completed proposal-program lifecycle closeout may classify lifecycle-owned
 input/archive moves, generated effective publication outputs, proposal
 registry artifacts, publication evidence, and tracked extension control files

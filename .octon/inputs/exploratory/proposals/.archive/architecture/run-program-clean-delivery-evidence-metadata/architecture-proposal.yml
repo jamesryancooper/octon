@@ -1,0 +1,13 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "run-program-clean-delivery-evidence-metadata"
+title: "Run Program Clean Delivery Evidence And Metadata"
+architecture_scope: "cross-domain-architecture"
+decision_type: "surface-refactor"
+status: "accepted"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: "Evidence and metadata hardening should land atomically with validators."
+authority_boundary: >-
+  Evidence hardening may validate or retain proof, but it may not authorize
+  execution, delivery, branch cleanup, archive, or terminal claims.

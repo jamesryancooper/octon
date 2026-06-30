@@ -22,6 +22,10 @@ fail() {
   errors=$((errors + 1))
 }
 
+warn() {
+  echo "[WARN] $1"
+}
+
 pass() {
   echo "[OK] $1"
 }
@@ -91,6 +95,46 @@ import json
 import sys
 print(json.dumps(sys.argv[1]))
 PY
+}
+
+digest_file() {
+  local file="$1"
+  shasum -a 256 "$file" | awk '{print "sha256:" $1}'
+}
+
+emit_refresh_receipt() {
+  local generated_registry="$1"
+  local manifest_list="$2"
+  local refresh_status="$3"
+  local next_owning_route="$4"
+  local output_digest current_digest manifest proposal_rel
+
+  output_digest="$(digest_file "$generated_registry")"
+  if [[ -f "$REGISTRY_PATH" ]]; then
+    current_digest="$(digest_file "$REGISTRY_PATH")"
+  else
+    current_digest="missing"
+  fi
+
+  printf 'refresh_receipt:\n'
+  printf '  schema_version: "generated-metadata-refresh-receipt-v1"\n'
+  printf '  owning_generator: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"\n'
+  printf '  owning_route: "proposal-registry-generator"\n'
+  printf '  mode: %s\n' "$(yaml_quote "$MODE")"
+  printf '  refresh_status: %s\n' "$(yaml_quote "$refresh_status")"
+  printf '  output_ref: ".octon/generated/proposals/registry.yml"\n'
+  printf '  expected_output_digest: %s\n' "$(yaml_quote "$output_digest")"
+  printf '  current_output_digest: %s\n' "$(yaml_quote "$current_digest")"
+  printf '  generated_output_authority: "derived-only"\n'
+  printf '  non_authority_classification: "generated-output-non-authority"\n'
+  printf '  next_owning_route: %s\n' "$(yaml_quote "$next_owning_route")"
+  printf '  source_refs:\n'
+  while IFS= read -r manifest; do
+    [[ -n "$manifest" && -f "$manifest" ]] || continue
+    proposal_rel="$(rel_path "$manifest")"
+    printf '    - ref: %s\n' "$(yaml_quote "$proposal_rel")"
+    printf '      sha256: %s\n' "$(yaml_quote "$(digest_file "$manifest")")"
+  done <"$manifest_list"
 }
 
 python3_with_yaml() {
@@ -274,6 +318,34 @@ subtype_validator_for_kind() {
   esac
 }
 
+only_missing_historical_supersession_evidence_errors() {
+  local output="$1"
+  local line saw_error=0
+
+  while IFS= read -r line; do
+    [[ "$line" == "[ERROR]"* ]] || continue
+    saw_error=1
+    case "$line" in
+      *" superseded archive evidence path must exist: "*)
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+  done <<<"$output"
+
+  [[ "$saw_error" -eq 1 ]]
+}
+
+allow_historical_supersession_evidence_drift() {
+  local manifest="$1"
+  local output="$2"
+
+  [[ "$(yaml_string "$manifest" '.status')" == "archived" ]] || return 1
+  [[ "$(yaml_string "$manifest" '.archive.disposition')" == "superseded" ]] || return 1
+  only_missing_historical_supersession_evidence_errors "$output"
+}
+
 emit_target_lines() {
   local manifest="$1"
   local indent="$2"
@@ -289,7 +361,9 @@ emit_target_lines() {
 
 write_manifest_list() {
   local manifest_list="$1"
-  if git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  local git_root
+  git_root="$(git -C "$ROOT_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [[ -n "$git_root" && "$(cd -- "$git_root" && pwd)" == "$ROOT_DIR" ]]; then
     git -C "$ROOT_DIR" ls-files --cached --others --exclude-standard -- .octon/inputs/exploratory/proposals \
       | while IFS= read -r rel; do
         [[ -f "$ROOT_DIR/$rel" ]] || continue
@@ -311,7 +385,7 @@ validate_package() {
   local proposal_dir="$1"
   local proposal_rel="$2"
   local manifest="$proposal_dir/proposal.yml"
-  local kind status archived_from_status validator
+  local kind status archived_from_status validator validation_output
 
   kind="$(yaml_string "$manifest" '.proposal_kind')"
   status="$(yaml_string "$manifest" '.status')"
@@ -329,11 +403,19 @@ validate_package() {
     fi
     pass "proposal packet full validation skipped for projection-only registry recovery: $proposal_rel"
   else
-    if ! env "$GENERATOR_ACTIVE_VAR=1" bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check; then
-      fail "proposal packet validates without registry recursion: $proposal_rel"
-      return 1
+    if ! validation_output="$(env "$GENERATOR_ACTIVE_VAR=1" bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check 2>&1)"; then
+      printf '%s\n' "$validation_output"
+      if allow_historical_supersession_evidence_drift "$manifest" "$validation_output"; then
+        warn "superseded archive evidence path is missing during registry projection; preserving historical projection entry: $proposal_rel"
+        pass "proposal packet validation tolerated historical supersession evidence drift: $proposal_rel"
+      else
+        fail "proposal packet validates without registry recursion: $proposal_rel"
+        return 1
+      fi
+    else
+      printf '%s\n' "$validation_output"
+      pass "proposal packet validates without registry recursion: $proposal_rel"
     fi
-    pass "proposal packet validates without registry recursion: $proposal_rel"
   fi
 
   if [[ "$status" == "archived" ]]; then
@@ -403,6 +485,7 @@ run_projection_only_fast_path() {
 
   "$python_with_yaml" - "$MODE" "$ROOT_DIR" "$REGISTRY_PATH" "$SCHEMA_PATH" <<'PY'
 import difflib
+import hashlib
 import json
 import os
 import re
@@ -449,6 +532,10 @@ def rel(path: Path) -> str:
         return path.as_posix()
 
 
+def sha256_path(path: Path) -> str:
+    return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def scalar(data, dotted: str) -> str:
     value = data
     for part in dotted.split("."):
@@ -478,13 +565,13 @@ def quoted(value: str) -> str:
 
 
 def discover_manifests() -> list[Path]:
-    git_check = subprocess.run(
-        ["git", "-C", str(root), "rev-parse", "--is-inside-work-tree"],
-        stdout=subprocess.DEVNULL,
+    git_root = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
+        stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
         text=True,
     )
-    if git_check.returncode == 0:
+    if git_root.returncode == 0 and Path(git_root.stdout.strip()).resolve() == root.resolve():
         listing = subprocess.run(
             [
                 "git",
@@ -626,8 +713,9 @@ else:
 active: list[dict[str, object]] = []
 archived: list[dict[str, object]] = []
 seen: dict[str, str] = {}
+manifest_paths = discover_manifests()
 
-for manifest in discover_manifests():
+for manifest in manifest_paths:
     proposal_rel = rel(manifest.parent)
     try:
         data = yaml.load(manifest.read_text(), Loader=ProjectionLoader) or {}
@@ -749,14 +837,20 @@ if errors:
     sys.exit(1)
 
 if mode == "check":
+    refresh_status = "fresh"
+    next_owning_route = "none"
     if not registry_path.is_file():
         fail("proposal registry exists at .octon/generated/proposals/registry.yml")
+        refresh_status = "missing-output"
+        next_owning_route = "generate-proposal-registry.sh --write"
     else:
         current = registry_path.read_text()
         if current == generated:
             ok("proposal registry matches generated projection")
         else:
             fail("proposal registry matches generated projection")
+            refresh_status = "stale-output"
+            next_owning_route = "generate-proposal-registry.sh --write"
             sys.stdout.writelines(
                 difflib.unified_diff(
                     current.splitlines(keepends=True),
@@ -766,6 +860,8 @@ if mode == "check":
                 )
             )
 else:
+    refresh_status = "fresh"
+    next_owning_route = "none"
     registry_path.parent.mkdir(parents=True, exist_ok=True)
     if registry_path.is_file() and registry_path.read_text() == generated:
         ok("proposal registry already matches generated projection")
@@ -774,6 +870,27 @@ else:
         tmp.write_text(generated)
         shutil.move(str(tmp), str(registry_path))
         ok("proposal registry written from manifest projection")
+        refresh_status = "written"
+
+current_digest = sha256_path(registry_path) if registry_path.is_file() else "missing"
+expected_digest = "sha256:" + hashlib.sha256(generated.encode()).hexdigest()
+print("refresh_receipt:")
+print('  schema_version: "generated-metadata-refresh-receipt-v1"')
+print('  owning_generator: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"')
+print('  owning_route: "proposal-registry-generator"')
+print(f"  mode: {json.dumps(mode)}")
+print(f"  refresh_status: {json.dumps(refresh_status)}")
+print('  output_ref: ".octon/generated/proposals/registry.yml"')
+print(f"  expected_output_digest: {json.dumps(expected_digest)}")
+print(f"  current_output_digest: {json.dumps(current_digest)}")
+print('  generated_output_authority: "derived-only"')
+print('  non_authority_classification: "generated-output-non-authority"')
+print(f"  next_owning_route: {json.dumps(next_owning_route)}")
+print("  source_refs:")
+for manifest in manifest_paths:
+    if manifest.is_file():
+        print(f"    - ref: {json.dumps(rel(manifest))}")
+        print(f"      sha256: {json.dumps(sha256_path(manifest))}")
 
 print(f"Registry generation summary: errors={errors}")
 sys.exit(0 if errors == 0 else 1)
@@ -889,25 +1006,34 @@ main() {
     exit 1
   fi
 
+  refresh_status="fresh"
+  next_owning_route="none"
   if [[ "$MODE" == "check" ]]; then
     if [[ ! -f "$REGISTRY_PATH" ]]; then
       fail "proposal registry exists at .octon/generated/proposals/registry.yml"
+      refresh_status="missing-output"
+      next_owning_route="generate-proposal-registry.sh --write"
     elif cmp -s "$generated_registry" "$REGISTRY_PATH"; then
       pass "proposal registry matches generated projection"
     else
       fail "proposal registry matches generated projection"
+      refresh_status="stale-output"
+      next_owning_route="generate-proposal-registry.sh --write"
       diff -u "$REGISTRY_PATH" "$generated_registry" || true
     fi
   else
     mkdir -p "$(dirname "$REGISTRY_PATH")"
     if [[ -f "$REGISTRY_PATH" ]] && cmp -s "$generated_registry" "$REGISTRY_PATH"; then
       pass "proposal registry already matches generated projection"
+      refresh_status="fresh"
     else
       cp "$generated_registry" "$REGISTRY_PATH"
       pass "proposal registry written from manifest projection"
+      refresh_status="written"
     fi
   fi
 
+  emit_refresh_receipt "$generated_registry" "$manifest_list" "$refresh_status" "$next_owning_route"
   echo "Registry generation summary: errors=$errors"
   [[ $errors -eq 0 ]]
 }

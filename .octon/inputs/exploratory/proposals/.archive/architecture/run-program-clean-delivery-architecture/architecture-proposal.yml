@@ -1,0 +1,18 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "run-program-clean-delivery-architecture"
+title: "Run Program Clean Delivery Architecture"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+status: "in-review"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: "The packet defines a bounded future capability and does not require transitional coexistence during planning."
+authority_boundary: >-
+  The route boundary must sequence existing owners and may not satisfy child,
+  Change, archive, cleanup, branch, delivery, or terminal evidence directly.
+architecture_decision_summary: >-
+  Compose a clean-delivery wrapper/profile over the existing proposal-program
+  lifecycle runner and Proposal Program Delivery workflow. The wrapper may
+  sequence and stop, but target-owned routes retain mutation and evidence
+  authority.

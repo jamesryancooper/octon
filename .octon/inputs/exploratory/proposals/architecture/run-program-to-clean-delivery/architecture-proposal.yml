@@ -1,0 +1,20 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "run-program-to-clean-delivery"
+title: "Run Program to Clean Delivery"
+architecture_scope: "cross-domain-architecture"
+decision_type: "new-surface"
+status: "draft"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: >-
+    The repository is pre-1.0 and this parent only decomposes a future
+    implementation into bounded child packets. No transitional coexistence is
+    needed at proposal creation time.
+program_execution_mode: "sequential"
+child_authority_preserved: "yes"
+authority_boundary: >-
+  Parent coordination may sequence, validate, and summarize. It must never
+  satisfy child receipts, child promotion targets, child validation verdicts,
+  child terminal outcomes, child archive metadata, Change receipts, branch
+  cleanup authorization, or terminal current-state proof.

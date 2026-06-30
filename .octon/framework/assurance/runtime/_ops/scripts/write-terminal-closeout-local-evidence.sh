@@ -9,6 +9,7 @@ CLASSIFIER="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/classify-c
 CHANGE_RECEIPT_STATE_MACHINE_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh"
 HOSTED_NO_PR_LANDING_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
 CHANGE_CLOSEOUT_ALIGNMENT_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
+DISCLOSURE_TIER_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
 
 CHANGE_ID=""
 PROOF=""
@@ -108,6 +109,129 @@ copy_snapshot() {
   tmp="$destination.tmp.$$"
   cp -- "$source" "$tmp"
   mv -- "$tmp" "$destination"
+}
+
+validate_snapshot_receipt_boundaries() {
+  [[ "$SNAPSHOT_MODE" -eq 1 ]] || return 0
+  python3 - "$RECEIPT" <<'PY'
+import json
+import sys
+
+receipt_path = sys.argv[1]
+with open(receipt_path, "r", encoding="utf-8") as handle:
+    receipt = json.load(handle)
+
+route = receipt.get("selected_route")
+outcome = receipt.get("lifecycle_outcome")
+target = receipt.get("target_lifecycle_outcome")
+closeout = receipt.get("closeout_outcome")
+hosted_shared = route == "branch-pr" or (
+    route == "branch-no-pr" and isinstance(receipt.get("hosted_landing"), dict)
+)
+
+def iter_values(value):
+    if isinstance(value, dict):
+        for child in value.values():
+            yield from iter_values(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from iter_values(child)
+    elif isinstance(value, str):
+        yield value
+
+def get_path(data, dotted):
+    current = data
+    for part in dotted.split("."):
+        if not isinstance(current, dict):
+            return None
+        current = current.get(part)
+    return current
+
+def forbidden_ref(ref):
+    if not isinstance(ref, str):
+        return False
+    markers = [
+        ".octon/state/evidence/local/",
+        "state/evidence/local/",
+        "/.octon/state/evidence/local/",
+        "/state/evidence/local/",
+        "evidence://local/",
+        ".octon/generated/",
+        "generated/",
+        "/.octon/generated/",
+        "/generated/",
+        ".octon/inputs/",
+        "inputs/",
+        "/.octon/inputs/",
+        "/inputs/",
+    ]
+    return any(ref.startswith(marker) or marker in ref for marker in markers)
+
+if not hosted_shared:
+    sys.exit(0)
+
+scanned_fields = [
+    "validation_evidence_refs",
+    "landing_authorization_ref",
+    "cleanup_authorization_ref",
+    "hosted_landing.required_check_refs",
+    "landing_evaluation.evidence_refs",
+    "stateful_closeout.initial_inventory_ref",
+    "stateful_closeout.residue_classification_ref",
+    "stateful_closeout.phase_exit_refs",
+    "stateful_closeout.hosted_landing_refs",
+    "stateful_closeout.cleanup_decision_refs",
+    "stateful_closeout.branch_cleanup_refs",
+    "stateful_closeout.final_verification_ref",
+    "source_branch_integration.evidence_refs",
+    "cleanup_evidence_refs",
+    "source_branch_cleanup.evidence_refs",
+    "publishable_evidence_receipt_refs",
+    "review_evidence_refs",
+    "external_blocker_refs",
+    "main_alignment.origin_fetch_evidence_ref",
+    "main_alignment.local_main_sync_evidence_ref",
+]
+violations = []
+for field in scanned_fields:
+    value = get_path(receipt, field)
+    for ref in iter_values(value):
+        if forbidden_ref(ref):
+            violations.append(f"{field}: {ref}")
+
+if violations:
+    print("[ERROR] snapshot receipt presents local/private, generated, or input refs as hosted/shared evidence:", file=sys.stderr)
+    for violation in violations:
+        print(f"[ERROR]   {violation}", file=sys.stderr)
+    sys.exit(1)
+
+if outcome == "cleaned" and closeout == "completed":
+    required = [
+        ("landing_authorization_ref", isinstance(receipt.get("landing_authorization_ref"), str) and bool(receipt.get("landing_authorization_ref"))),
+        ("cleanup_authorization_ref", isinstance(receipt.get("cleanup_authorization_ref"), str) and bool(receipt.get("cleanup_authorization_ref"))),
+        ("cleanup_evidence_refs", isinstance(receipt.get("cleanup_evidence_refs"), list) and bool(receipt.get("cleanup_evidence_refs"))),
+        ("publishable_evidence_receipt_refs", isinstance(receipt.get("publishable_evidence_receipt_refs"), list) and bool(receipt.get("publishable_evidence_receipt_refs"))),
+    ]
+    if route in {"branch-no-pr", "branch-pr"}:
+        source_cleanup = receipt.get("source_branch_cleanup")
+        required.append(("source_branch_cleanup.status=completed", isinstance(source_cleanup, dict) and source_cleanup.get("status") == "completed"))
+    missing = [name for name, ok in required if not ok]
+    if missing:
+        print("[ERROR] snapshot hosted/shared cleaned receipt is missing publishable authorization evidence: " + ", ".join(missing), file=sys.stderr)
+        sys.exit(1)
+
+if target == "cleaned" and outcome != "cleaned":
+    missing = []
+    if not isinstance(receipt.get("not_cleaned_reason"), str) or not receipt.get("not_cleaned_reason"):
+        missing.append("not_cleaned_reason")
+    if not isinstance(receipt.get("cleanup_stop_reason"), str) or not receipt.get("cleanup_stop_reason"):
+        missing.append("cleanup_stop_reason")
+    if closeout == "completed":
+        missing.append("closeout_outcome must not be completed")
+    if missing:
+        print("[ERROR] snapshot blocked/deferred cleaned receipt lacks explicit blocked-result routing: " + ", ".join(missing), file=sys.stderr)
+        sys.exit(1)
+PY
 }
 
 write_text_snapshot() {
@@ -246,7 +370,6 @@ require_tool shasum
 
 SINK_REL=".octon/state/evidence/local/terminal-closeout/$CHANGE_ID"
 SINK_DIR="$ROOT_DIR/$SINK_REL"
-mkdir -p "$SINK_DIR"
 
 if [[ -n "$LANDING_AUTHORIZATION" ]]; then
   LANDING_AUTHORIZATION="$(resolve_path "$LANDING_AUTHORIZATION")"
@@ -548,6 +671,9 @@ receipt_landed_ref="$(jq -r '.landed_ref // ""' "$RECEIPT")"
   exit 1
 }
 
+validate_snapshot_receipt_boundaries
+
+mkdir -p "$SINK_DIR"
 PROOF_COPY="$SINK_DIR/terminal-current-state-proof.yml"
 RECEIPT_COPY="$SINK_DIR/change-receipt.json"
 REFS_COPY="$SINK_DIR/refs.txt"
@@ -715,6 +841,7 @@ PY
 mv -- "$MANIFEST_TMP" "$MANIFEST"
 
 "$MANIFEST_VALIDATOR" --manifest "$MANIFEST" --change-id "$CHANGE_ID" --landed-ref "$LANDED_REF" >/dev/null
+"$DISCLOSURE_TIER_VALIDATOR" --change-receipt "$RECEIPT_COPY" >/dev/null
 
 if [[ "$SNAPSHOT_MODE" -eq 0 && "$SELECTED_ROUTE" == "branch-no-pr" ]]; then
   "$CHANGE_RECEIPT_STATE_MACHINE_VALIDATOR" --receipt "$RECEIPT_COPY" >/dev/null

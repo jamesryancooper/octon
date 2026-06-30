@@ -1,256 +1,205 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616",
-  "generated_at": "2026-06-26T03:35:43Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.1.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "stale",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:1f54519be626efee4249b8cdfcfda597ee6ab52e84f18b020b0d655b0a3af80b",
-    "checked_at": "2026-06-26T03:35:43Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616",
-    "evidence_classification": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-contract.yml",
-      "digest": "sha256:d8789ed33d307e1b16daca0854bedda18ac59708377839a17e7dd5b7139233ad",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-manifest.yml",
-      "digest": "sha256:ea1eb212ae466adeaae9809ea90c5ef697cba5761d8a601bc4b26be0b2791ed3",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.ndjson",
-      "digest": "sha256:9fe6dbb63f40a8e66c5771a7a48f85aa7306b8f71d53b09ff4628fd301e0081a",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml",
-      "digest": "sha256:e5c92fe2d1e7587e2537c87d1a9b2fd2416dacda6b4f4ea56f2bf5a200570732",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/runtime-state.yml",
-      "digest": "sha256:e1962589736ae740fce100e712d76b12597220fdad817ad323373e38bda53252",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml",
-      "digest": "sha256:f7a3f9d6325f231a2e22efef551ba6f1ef366ede8fa2d8b27b483844b4f29f2e",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml",
-      "digest": "sha256:6e1c1f06f0aa338cf1b9a7594ef4167ad3b262b6a4833d1b1c4062fdcacfeaf9",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/rollback-posture.yml",
-      "digest": "sha256:975826b536e17efbad18add80ae46f0f061a833a062e468c9b7e1e031fad446e",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/evidence-classification.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/retained-run-evidence.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/replay-pointers.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/interventions/log.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-card.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:37c9e846ba87acd5cbad5e60f026151ee2971520716361305d3fdc77de93ebbf",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/handoff.yml",
-      "digest": "sha256:566f0fc1c25f67ec83d698345ef7bc46a38591c78dee30364933a991b262b6e1",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:5d2f8421c491a5019224032423189a54ae8cacb69e939d4f6603e17a27b8e79b",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:bdf5802fada8b117c441366c079bef01ef0619d593066ab030ca654e96327e50",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "stale",
-    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
-    "next_required_action": "regenerate from current canonical sources"
-  },
-  "lifecycle": {
-    "state": "running",
-    "decision_state": "allow",
-    "drift_status": "in-sync",
-    "latest_event_hash": "sha256:e2451201db531fc777e624188a119268b7414db6ea47b1265a2ff2cd4f7da747",
-    "latest_sequence": 20
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
-    "route_status": "allow",
-    "pack_status": "allow",
-    "support_status": "supported",
-    "requested_capability_packs": [
-      "repo",
-      "git",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "authorized",
-    "proof_state": "proof-stale",
-    "human_boundary_state": "none",
-    "active_grants": [
-      ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "evidence_classification",
-      "retained_evidence",
-      "replay_pointers"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "unknown",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "unknown"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": [
-    {
-      "severity": "error",
-      "code": "journal-ledger-digest-stale",
-      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
-      "refs": [
-        ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml",
-        ".octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.ndjson"
-      ]
-    }
-  ]
-}
+schema_version: run-health-read-model-v1
+run_id: archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616
+generated_at: '2026-06-30T02:25:13Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.1.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:13f5e851fe7ae299b6bcfeeaf294fcfc009b6affe023e063b803ce796044fb69
+  checked_at: '2026-06-30T02:25:13Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616
+  evidence_classification: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-contract.yml
+    digest: sha256:d8789ed33d307e1b16daca0854bedda18ac59708377839a17e7dd5b7139233ad
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-manifest.yml
+    digest: sha256:ea1eb212ae466adeaae9809ea90c5ef697cba5761d8a601bc4b26be0b2791ed3
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.ndjson
+    digest: sha256:9fe6dbb63f40a8e66c5771a7a48f85aa7306b8f71d53b09ff4628fd301e0081a
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml
+    digest: sha256:e5c92fe2d1e7587e2537c87d1a9b2fd2416dacda6b4f4ea56f2bf5a200570732
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/runtime-state.yml
+    digest: sha256:e1962589736ae740fce100e712d76b12597220fdad817ad323373e38bda53252
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml
+    digest: sha256:f7a3f9d6325f231a2e22efef551ba6f1ef366ede8fa2d8b27b483844b4f29f2e
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml
+    digest: sha256:6e1c1f06f0aa338cf1b9a7594ef4167ad3b262b6a4833d1b1c4062fdcacfeaf9
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/rollback-posture.yml
+    digest: sha256:975826b536e17efbad18add80ae46f0f061a833a062e468c9b7e1e031fad446e
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:37c9e846ba87acd5cbad5e60f026151ee2971520716361305d3fdc77de93ebbf
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/handoff.yml
+    digest: sha256:566f0fc1c25f67ec83d698345ef7bc46a38591c78dee30364933a991b262b6e1
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:0450c47eb776efc63bcdaf34f9c3d440851bdac2cce57fb0707dbb6f89e7fa9c
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:ed210e917bd330c60d0e3ab4660d36128889c4b9f83e0c3c0552ceac545b9bfb
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: running
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:e2451201db531fc777e624188a119268b7414db6ea47b1265a2ff2cd4f7da747
+  latest_sequence: 20
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - git
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: unknown
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.manifest.yml
+  - .octon/state/control/execution/runs/archive-proposal-architectural-review-mechanism-documentation-projection-alignment-20260616/events.ndjson

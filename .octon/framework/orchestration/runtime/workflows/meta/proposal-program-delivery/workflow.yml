@@ -210,6 +210,7 @@ artifacts:
 done_gate:
   checks:
     - "profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim"
+    - "profile and workflow evidence record target_outcome, release state, order policy, PR policy, stash policy, runner handoff refs when supplied, include-path classification state, and retained preflight refs"
     - "execution_order_policy enforces child-before-parent-delivery unless a valid target-bound order override receipt is retained"
     - "delivery-readiness-preflight passes before expensive child lifecycle continuation or parent delivery"
     - "child packet receipts remain target-owned and parent summary evidence does not replace them"
@@ -225,14 +226,78 @@ done_gate:
     - "delivery receipt validates with validate-proposal-program-delivery-receipt.sh"
     - "lifecycle postmortem threshold status is recorded when repeated blocker or recovery thresholds apply"
     - "delivery evidence index validates with validate-proposal-program-delivery-evidence-index.sh and remains evidence-only"
+    - "stop_condition_taxonomy maps blockers to owning routes or validators and prevents aggregate evidence from authorizing missing target-owned receipts"
 constraints:
   fail_closed: true
   require_relative_local_assets: true
   aggregate_receipt_only: true
   child_receipts_remain_target_owned: true
   generated_outputs_are_non_authority: true
+  runner_handoff_evidence_is_delivery_input_only: true
   canonical_execution_order_ref: child-before-parent-delivery
   retained_readiness_preflight_required: true
+  stop_condition_taxonomy_ref: stop_condition_taxonomy
+stop_condition_taxonomy:
+  - stop_id: SC-001-authority-gap
+    machine_condition: target_owned_receipt_missing_for_claimed_transition
+    owning_route_or_validator: target-transition-owner
+    required_evidence: receipt_ref_and_digest_or_not_applicable_receipt
+    blocked_outcome: blocked:authority-gap
+    next_route: owning_route_or_packet_revision
+  - stop_id: SC-002-ownership-conflict
+    machine_condition: multiple_routes_claim_same_mutation_or_evidence_authority
+    owning_route_or_validator: lifecycle-runner-and-proposal-review
+    required_evidence: blocker_ledger_entry_with_conflicting_owners
+    blocked_outcome: blocked:ownership-conflict
+    next_route: operator_escalation_or_architecture_revision
+  - stop_id: SC-003-unsafe-mutation
+    machine_condition: git_write_preflight_failed_or_dirty_stale_source_without_include_path_classification
+    owning_route_or_validator: delivery-readiness-preflight-and-closeout-worktree
+    required_evidence: retained_preflight_receipt_and_worktree_classifier
+    blocked_outcome: blocked:unsafe-mutation
+    next_route: closeout-worktree_or_change_closeout_preflight
+  - stop_id: SC-004-approval-required
+    machine_condition: required_human_hosted_branch_exception_or_landing_approval_missing
+    owning_route_or_validator: closeout-change-or-authority-engine
+    required_evidence: approval_exception_landing_or_branch_authorization_receipt
+    blocked_outcome: blocked:approval-required
+    next_route: closeout-change_or_human_approval_route
+  - stop_id: SC-005-stale-evidence
+    machine_condition: stored_digest_event_head_review_digest_or_receipt_freshness_mismatch
+    owning_route_or_validator: proposal-review-gate-or-targeted-freshness-validator
+    required_evidence: freshness_diagnostic_with_current_and_stored_digest
+    blocked_outcome: blocked:stale-evidence
+    next_route: review_child_route_rerun_or_freshness_refresh
+  - stop_id: SC-006-generated-freshness-drift
+    machine_condition: generated_effective_extension_capability_proposal_or_runtime_route_output_stale_or_direct_edited
+    owning_route_or_validator: owning-publisher-and-freshness-validators
+    required_evidence: publication_receipt_generation_lock_and_validator_pass
+    blocked_outcome: blocked:generated-freshness-drift
+    next_route: owning_publisher_script
+  - stop_id: SC-007-publishable-evidence-gap
+    machine_condition: hosted_or_shared_closeout_proof_cites_local_private_only_evidence_as_authority
+    owning_route_or_validator: evidence-disclosure-and-terminal-proof-validators
+    required_evidence: disclosure_tier_validation_failure_or_terminal_proof_diagnostic
+    blocked_outcome: blocked:publishable-evidence-gap
+    next_route: evidence_metadata_or_change_closeout_route
+  - stop_id: SC-008-validation-failure
+    machine_condition: required_validator_exits_nonzero
+    owning_route_or_validator: validator-owner
+    required_evidence: compact_validator_log_with_command_cwd_exit_code_and_evidence_ref
+    blocked_outcome: blocked:validation-failure
+    next_route: correction_route_or_packet_revision
+  - stop_id: SC-009-parent-summary-substitution
+    machine_condition: parent_summary_delivery_receipt_readiness_projection_or_evidence_index_used_as_child_owned_evidence
+    owning_route_or_validator: child-receipt-validator-and-delivery-receipt-validator
+    required_evidence: negative_control_validator_result
+    blocked_outcome: blocked:parent-summary-substitution
+    next_route: child_proposal_packet_route
+  - stop_id: SC-010-cleaned-proof-gap
+    machine_condition: cleaned_requested_but_terminal_proof_final_sync_branch_cleanup_or_worktree_hygiene_missing_or_stale
+    owning_route_or_validator: terminal-proof-and-closeout-validators
+    required_evidence: terminal_current_state_proof_and_cleanup_sync_receipts
+    blocked_outcome: blocked:cleaned-proof-gap
+    next_route: terminal_proof_repo_hygiene_or_change_closeout
 workflow:
   id: proposal-program-delivery
   name: Proposal Program Delivery
@@ -247,6 +312,7 @@ workflow:
     aggregate_receipt_only: true
     child_receipts_remain_target_owned: true
     generated_outputs_are_non_authority: true
+    runner_handoff_evidence_is_delivery_input_only: true
     git_mutation_owner: closeout-change
     archive_owner: proposal-archive-lifecycle
     hygiene_cleanup_owner: repo-hygiene-cleanup
@@ -287,6 +353,7 @@ workflow:
         - non_canonical_order_without_valid_override_receipt
         - pr_fallback_when_forbidden
         - stash_policy_widening
+        - runner_handoff_used_as_target_owned_receipt
     - id: delivery-readiness-preflight
       title: Run retained delivery readiness preflight
       asset: stages/02-delivery-readiness-preflight.md
@@ -373,6 +440,8 @@ workflow:
       required: true
       fail_closed_on:
         - aggregate_receipt_replaces_target_receipts
+        - aggregate_receipt_omits_source_receipt_digest
+        - aggregate_receipt_omits_stop_condition_owner_or_next_route
         - generated_prompt_used_as_authority
         - delivery_evidence_index_claims_authority
         - delivery_evidence_index_digest_drift

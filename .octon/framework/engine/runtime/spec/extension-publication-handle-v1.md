@@ -23,3 +23,7 @@ publication state.
 Route-bundle authorization must fail closed when extension publication is not
 published, when quarantine is non-empty, or when the generation lock or
 receipt drifts.
+
+Direct edits under `generated/effective/**`, raw additive input used as runtime
+route authority, missing generation locks, or stale publication receipts map to
+`SC-006-generated-freshness-drift` for proposal-program delivery diagnostics.

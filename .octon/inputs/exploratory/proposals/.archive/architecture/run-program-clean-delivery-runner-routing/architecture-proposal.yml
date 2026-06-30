@@ -1,0 +1,15 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "run-program-clean-delivery-runner-routing"
+title: "Run Program Clean Delivery Runner Routing"
+architecture_scope: "cross-domain-architecture"
+scope_detail: "proposal-program runner planning, deterministic route selection, bounded retry, resume, and delivery handoff evidence"
+decision_type: "surface-refactor"
+status: "in-review"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: "Runner routing changes should be atomic and fail closed."
+authority_boundary: >-
+  Runner routing may select and dispatch route-owned steps, but it may not own
+  child receipts, delivery receipts, Change closeout, branch cleanup, or
+  terminal proof.

@@ -913,6 +913,12 @@ routes:
             - manifest_status: "in-review"
             - receipt_absent: "proposal-review"
         - all:
+            - manifest_status: "in-review"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict: { receipt_id: "proposal-review", value: "accepted" }
+            - receipt_field_equals: { receipt_id: "proposal-review", field: "implementation_prompt_authorized", value: "yes" }
+            - receipt_fresh: "proposal-review"
+        - all:
             - any:
                 - manifest_status: "draft"
                 - manifest_status: "in-review"

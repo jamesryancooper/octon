@@ -19,6 +19,8 @@ LANDING_AUTH="$TMP_ROOT/landing-authorization.json"
 CLEANUP_AUTH="$TMP_ROOT/branch-cleanup-authorization.json"
 RECEIPT="$TMP_ROOT/change-receipt.json"
 INVALID_RECEIPT="$TMP_ROOT/invalid-missing-hosted-landing.json"
+INVALID_MISSING_PUBLISHABLE_RECEIPT="$TMP_ROOT/invalid-missing-publishable-evidence.json"
+TERMINAL_PROOF="$TMP_ROOT/terminal-current-state-proof.yml"
 
 require_text() {
   local needle="$1"
@@ -172,6 +174,16 @@ cat >"$RECEIPT" <<JSON
     "$CLEANUP_AUTH",
     "branch-cleanup@$SHA"
   ],
+  "publishable_evidence_receipt_refs": [
+    {
+      "receipt_ref": ".octon/state/evidence/validation/fixture/publishable-receipt.json",
+      "schema_ref": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json",
+      "disclosure_tier": "repo-publishable",
+      "claim_scope_ref": "fixture-branch-no-pr-cleaned",
+      "receipt_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "raw_evidence_not_published": true
+    }
+  ],
   "source_branch_cleanup": {
     "status": "completed",
     "local_branch": "$SOURCE_BRANCH",
@@ -218,10 +230,47 @@ cat >"$RECEIPT" <<JSON
 }
 JSON
 
+cat >"$TERMINAL_PROOF" <<YAML
+schema_version: lifecycle-terminal-current-state-proof-v1
+proof_id: terminal-proof-fixture-branch-no-pr-cleaned
+observed_at: "2026-06-24T00:00:00Z"
+change_id: fixture-branch-no-pr-cleaned
+lifecycle_outcome: cleaned
+non_authority_classification: retained-evidence-only
+final_refs:
+  head_ref: $SHA
+  main_ref: $SHA
+  origin_main_ref: $SHA
+  landed_ref: $SHA
+alignment:
+  head_equals_local_main: true
+  local_main_equals_origin_main: true
+  origin_main_contains_landed_ref: true
+  local_main_contains_landed_ref: true
+worktree:
+  status: clean
+  status_ref: evidence://validation/git-status.log
+  residue_counts:
+    staged: 0
+    unstaged: 0
+    untracked: 0
+cleanup_classifier_ref: evidence://validation/residue-classifier.log
+validator_refs:
+  - validator: test-branch-no-pr-delivery-receipt-builder
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-branch-no-pr-delivery-receipt-builder.sh
+    cwd: $ROOT_DIR
+    runtime: bash
+    exit_code: 0
+    evidence_ref: evidence://validation/terminal-proof-fixture.log
+evidence_refs:
+  - evidence://validation/terminal-proof-fixture.log
+YAML
+
 require_text "hosted_landing" "$WRITER" "writer emits hosted_landing"
 require_text "source_branch_integration" "$WRITER" "writer emits source_branch_integration"
 require_text "validate-hosted-no-pr-landing.sh" "$WRITER" "writer invokes hosted no-PR validator"
 require_text "validate-change-closeout-lifecycle-alignment.sh" "$WRITER" "writer invokes lifecycle alignment validator"
+require_text "validate-evidence-disclosure-tiers.sh" "$WRITER" "writer invokes disclosure-tier validator"
 
 "$STATE_MACHINE_VALIDATOR" --receipt "$RECEIPT"
 "$HOSTED_LANDING_VALIDATOR" --receipt "$RECEIPT" --skip-live-remote
@@ -233,5 +282,19 @@ if "$HOSTED_LANDING_VALIDATOR" --receipt "$INVALID_RECEIPT" --skip-live-remote >
   exit 1
 fi
 echo "[OK] hosted no-PR validator rejects missing hosted_landing"
+
+jq 'del(.publishable_evidence_receipt_refs)' "$RECEIPT" >"$INVALID_MISSING_PUBLISHABLE_RECEIPT"
+if "$WRITER" \
+  --change-id fixture-branch-no-pr-cleaned \
+  --proof "$TERMINAL_PROOF" \
+  --receipt "$INVALID_MISSING_PUBLISHABLE_RECEIPT" \
+  --landed-ref "$SHA" >/tmp/octon-writer-snapshot-negative.log 2>&1; then
+  echo "[ERROR] writer snapshot mode accepted hosted/shared cleaned receipt without publishable evidence" >&2
+  cat /tmp/octon-writer-snapshot-negative.log >&2
+  exit 1
+fi
+grep -Fq "missing publishable authorization evidence" /tmp/octon-writer-snapshot-negative.log
+rm -f /tmp/octon-writer-snapshot-negative.log
+echo "[OK] writer snapshot mode refuses missing publishable hosted/shared evidence"
 
 echo "Validation summary: errors=0"

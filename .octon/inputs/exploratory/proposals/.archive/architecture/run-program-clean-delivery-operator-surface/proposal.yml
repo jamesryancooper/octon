@@ -1,0 +1,63 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-operator-surface
+title: Run Program Clean Delivery Operator Surface
+summary: Bind the human-facing command, skill, documentation, and feature catalog coverage that operators use to request governed proposal program clean delivery.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+- .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+- .octon/framework/product/features/catalog.yml
+- .octon/framework/product/features/README.md
+- .octon/framework/product/features/governed-proposal-delivery.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/manifest.fragment.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/registry.fragment.yml
+status: archived
+archive:
+  archived_at: 2026-06-30
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/20260630T000409Z-run-program-clean-delivery-operator-surface-closeout-packet/lifecycle-interactions/run-program-clean-delivery-operator-surface-closeout-packet-closeout-worktree-return.json
+  - .octon/state/evidence/runs/workflows/20260630T000409Z-run-program-clean-delivery-operator-surface-closeout-packet/lifecycle-interactions/run-program-clean-delivery-operator-surface-closeout-packet-closeout-worktree-report.yml
+  - .octon/state/evidence/runs/workflows/20260630T000409Z-run-program-clean-delivery-operator-surface-closeout-packet/children/run-program-clean-delivery-operator-surface/worktree-hygiene-preflight-b62c909aeec0ba6e8d32764b37f8507945018e5d4bddd3c012f15f1fc49b172a.stdout.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Promote only after the operator surface remains a thin entrypoint that delegates to governed Proposal Program Delivery and mints no authority.
+related_proposals:
+- run-program-to-clean-delivery
+- run-program-clean-delivery-validators
+acceptance_criteria_summary: Accepted when operators have one clear entrypoint, `/proposal-program-delivery`, that requests governed automation and reports blockers without granting authority itself.
+authority_class_impact:
+  framework: Promotes command, skill, feature documentation, and lifecycle handoff surfaces.
+  instance: No instance authority change.
+  state_control: No control mutation from planning.
+  state_evidence: Future command runs retain route-owned evidence.
+  generated: Generated command/skill projections remain derived-only.
+  inputs: This packet remains non-authority.
+change_profile: atomic
+created_date: 2026-06-28
+evidence_requirements:
+- Command usage documentation for `/proposal-program-delivery`.
+- Skill boundaries for Proposal Program Delivery.
+- Product feature catalog entry and feature note.
+- Lifecycle-runner handoff wording for `target_outcome=cleaned`.
+explicit_runtime_non_implementation_statement: This packet binds operator surfaces only; it does not run delivery, mutate Git, archive packets, delete residue, synthesize terminal proof, or claim a final `cleaned` state.
+generated_input_authority_impact: Operator surface must not rely on chat, host UI, or generated outputs as authority.
+owner:
+  role: Octon operator-surface proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Remove command, skill, and feature docs atomically if rejected.
+runtime_behavior_impact: Operators request clean delivery through `/proposal-program-delivery`; the route reports the highest evidence-backed outcome and next owning lifecycle without itself authorizing implementation, closeout, archive, cleanup, Git mutation, terminal proof, or a `cleaned` claim.
+scope_statement: Bind the existing `/proposal-program-delivery` operator surface, product feature documentation, and lifecycle-runner clean-delivery handoff wording. Do not introduce a duplicate `/run-program-to-clean-delivery` command.
+validation_gates:
+- validate-proposal-program-delivery-workflow.sh
+- validate-product-feature-catalog.sh
+- validate-proposal-review-gate.sh
+- validate-proposal-implementation-readiness.sh
+- validate-proposal-implementation-conformance.sh
+- validate-proposal-post-implementation-drift.sh

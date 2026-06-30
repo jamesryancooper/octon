@@ -717,6 +717,157 @@ JSON
     assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
 }
 
+write_closeout_worktree_handoff_fixture() {
+  local root="$1"
+  local report_ref="$2"
+  local return_ref="$3"
+  local program_run_id="$4"
+  local classifier_ref="$5"
+  local request_ref="$6"
+  local evidence_schema_mode="${7:-include}"
+  local report_path report_digest evidence_schema_line tmp_report
+  mkdir -p "$(dirname "$root/$report_ref")" "$(dirname "$root/$return_ref")" "$(dirname "$root/$classifier_ref")" "$(dirname "$root/$request_ref")"
+  printf 'worktree_hygiene_foreign_fingerprint: "sha256:dirty"\n' >"$root/$classifier_ref"
+  printf '{"schema_version":"lifecycle-interaction-request-v1"}\n' >"$root/$request_ref"
+  cat >"$root/$report_ref" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-fixture
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+selected_candidate_id: authorized-foreign-artifacts
+candidates:
+  - candidate_id: authorized-foreign-artifacts
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    boundaries:
+      include_paths:
+        - unrelated.md
+    proposal_program_handoff_authorization:
+      authorization_grant: fixture
+      program_run_id: "$program_run_id"
+      child_id: fixture-child
+      route_id: closeout-packet
+      interaction_request_ref: "$request_ref"
+      classifier_output_ref: "$classifier_ref"
+      classifier_output_digest: sha256:fixture
+      authorized_foreign_fingerprint: sha256:dirty
+      foreign_fingerprint: sha256:dirty
+      authorized_paths:
+        - unrelated.md
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+final_candidate_dispositions:
+  authorized-foreign-artifacts:
+    state: foreign
+worktree_terminal_state: disposition_complete_with_retained_residue
+YAML
+  if [[ "$report_ref" == *.json ]]; then
+    tmp_report="$(mktemp)"
+    mv "$root/$report_ref" "$tmp_report"
+    yq -o=json '.' "$tmp_report" >"$root/$report_ref"
+    rm -f "$tmp_report"
+  fi
+  report_path="$root/$report_ref"
+  report_digest="$(shasum -a 256 "$report_path" | awk '{print "sha256:" $1}')"
+  evidence_schema_line=''
+  if [[ "$evidence_schema_mode" == "include" ]]; then
+    evidence_schema_line=',
+      "schema_version": "closeout-worktree-report-v1"'
+  fi
+  cat >"$root/$return_ref" <<JSON
+{
+  "schema_version": "lifecycle-interaction-return-v1",
+  "interaction_id": "fixture-closeout-worktree-return",
+  "consumer": {
+    "lifecycle_id": "closeout-worktree",
+    "run_id": "closeout-worktree-fixture"
+  },
+  "outcome": {
+    "completed": true,
+    "lifecycle_outcome": "preserved",
+    "blocker": null
+  },
+  "return_evidence_refs": [
+    {
+      "ref": "$report_ref",
+      "digest": "$report_digest"$evidence_schema_line
+    }
+  ],
+  "remaining_residue": [
+    "unrelated.md"
+  ]
+}
+JSON
+}
+
+case_same_scope_closeout_worktree_handoff_evidence_does_not_block() {
+  local root output report_ref return_ref classifier_ref request_ref
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  report_ref=".octon/state/evidence/validation/analysis/run-1-fixture-child-closeout-packet-closeout-worktree-report.yml"
+  return_ref=".octon/state/evidence/runs/skills/closeout-worktree/run-1-fixture/lifecycle-interaction-return.json"
+  classifier_ref=".octon/state/evidence/runs/workflows/run-1/children/fixture-child/worktree-hygiene-preflight.stdout.yml"
+  request_ref=".octon/state/evidence/runs/workflows/run-1/lifecycle-interactions/fixture-child-closeout-packet.json"
+  write_closeout_worktree_handoff_fixture "$root" "$report_ref" "$return_ref" "run-1" "$classifier_ref" "$request_ref"
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0" &&
+    assert_contains "$output" "path: \"$return_ref\"" &&
+    assert_contains "$output" "path: \"$report_ref\""
+}
+
+case_same_scope_closeout_worktree_json_report_evidence_does_not_block() {
+  local root output report_ref return_ref classifier_ref request_ref
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  report_ref=".octon/state/evidence/runs/workflows/run-1/lifecycle-interactions/fixture-child-closeout-packet-closeout-worktree-report.json"
+  return_ref=".octon/state/evidence/runs/workflows/run-1/lifecycle-interactions/fixture-child-closeout-packet-closeout-worktree-return.json"
+  classifier_ref=".octon/state/evidence/runs/workflows/run-1/children/fixture-child/worktree-hygiene-preflight.stdout.yml"
+  request_ref=".octon/state/evidence/runs/workflows/run-1/lifecycle-interactions/fixture-child-closeout-packet.json"
+  write_closeout_worktree_handoff_fixture "$root" "$report_ref" "$return_ref" "run-1" "$classifier_ref" "$request_ref" "omit"
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0" &&
+    assert_contains "$output" "path: \"$return_ref\"" &&
+    assert_contains "$output" "path: \"$report_ref\""
+}
+
+case_other_run_closeout_worktree_handoff_return_still_blocks() {
+  local root output report_ref return_ref classifier_ref request_ref
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  report_ref=".octon/state/evidence/validation/analysis/other-run-fixture-child-closeout-packet-closeout-worktree-report.yml"
+  return_ref=".octon/state/evidence/runs/skills/closeout-worktree/other-run-fixture/lifecycle-interaction-return.json"
+  classifier_ref=".octon/state/evidence/runs/workflows/other-run/children/fixture-child/worktree-hygiene-preflight.stdout.yml"
+  request_ref=".octon/state/evidence/runs/workflows/other-run/lifecycle-interactions/fixture-child-closeout-packet.json"
+  write_closeout_worktree_handoff_fixture "$root" "$report_ref" "$return_ref" "other-run" "$classifier_ref" "$request_ref"
+  git -C "$root" add "$report_ref" "$classifier_ref" "$request_ref"
+  git -C "$root" commit -qm other-run-closeout-worktree-baseline
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "blocked"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 1" &&
+    assert_contains "$output" "path: \"$return_ref\""
+}
+
 case_same_scope_lifecycle_runs_do_not_block() {
   local root output run_dir
   root="$(new_fixture_repo)"
@@ -1070,6 +1221,9 @@ main() {
   assert_success "same-scope repo-hygiene cleanup receipts without checkpoint do not block" case_same_scope_repo_hygiene_cleanup_receipts_without_checkpoint_do_not_block
   assert_success "same-scope repo-hygiene cleanup receipts with parent run checkpoint do not block" case_same_scope_repo_hygiene_cleanup_receipts_with_parent_run_checkpoint_do_not_block
   assert_success "same-scope repo-hygiene cleanup receipts with retained workflow checkpoint do not block" case_same_scope_repo_hygiene_cleanup_receipts_with_retained_workflow_checkpoint_do_not_block
+  assert_success "same-scope closeout-worktree handoff evidence does not block" case_same_scope_closeout_worktree_handoff_evidence_does_not_block
+  assert_success "same-scope closeout-worktree JSON report evidence does not block" case_same_scope_closeout_worktree_json_report_evidence_does_not_block
+  assert_success "other-run closeout-worktree handoff return still blocks" case_other_run_closeout_worktree_handoff_return_still_blocks
   assert_success "same-scope lifecycle run artifacts do not block" case_same_scope_lifecycle_runs_do_not_block
   assert_success "same-scope lifecycle evidence artifacts do not block" case_same_scope_lifecycle_evidence_runs_do_not_block
   assert_success "current-run ACP decision log append does not block" case_current_run_acp_decision_log_append_does_not_block

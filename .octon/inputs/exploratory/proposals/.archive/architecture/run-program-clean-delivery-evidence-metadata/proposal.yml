@@ -1,0 +1,56 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-evidence-metadata
+title: Run Program Clean Delivery Evidence And Metadata
+summary: Harden receipts, metadata refreshes, projections, and disclosure-tier behavior for autonomous clean delivery.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/product/contracts/change-receipt-v1.schema.json
+- .octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+- .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+- .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+status: archived
+archive:
+  archived_at: 2026-06-29
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/20260629T235000Z-run-program-clean-delivery-evidence-metadata-closeout-packet/lifecycle-interactions/run-program-clean-delivery-evidence-metadata-closeout-packet-closeout-worktree-return.json
+  - .octon/state/evidence/runs/workflows/20260629T235000Z-run-program-clean-delivery-evidence-metadata-closeout-packet/lifecycle-interactions/run-program-clean-delivery-evidence-metadata-closeout-packet-closeout-worktree-report.yml
+  - .octon/state/evidence/runs/workflows/20260629T235000Z-run-program-clean-delivery-evidence-metadata-closeout-packet/children/run-program-clean-delivery-evidence-metadata/worktree-hygiene-preflight-1286988d6f041de7a2bf6083cd17b076ea6a66632780686e33d0aab8548f884b.stdout.yml
+  - .octon/state/evidence/runs/workflows/20260629T235000Z-run-program-clean-delivery-evidence-metadata-closeout-packet/children/run-program-clean-delivery-evidence-metadata/worktree-hygiene-closeout-rerun-d80bc1ea55853b685ad33da06791cf9044f2757675af456a3e0060693d85f3e1.stdout.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after workflow handoff is accepted and evidence retention rules are clear enough to avoid local/private evidence leakage into hosted/shared receipts.
+related_proposals:
+- run-program-to-clean-delivery
+- run-program-clean-delivery-workflow-handoff
+acceptance_criteria_summary: Accepted when hosted/shared receipts can pass disclosure-tier validation and local terminal evidence remains retained-evidence-only.
+authority_class_impact:
+  framework: May later update receipt schema, terminal writer, disclosure validator, and proposal metadata generators.
+  instance: No instance authority change.
+  state_control: No control mutation from planning.
+  state_evidence: Future implementation hardens evidence references and retained receipts.
+  generated: Generated proposal metadata remains derived-only.
+  inputs: This packet remains non-authority.
+change_profile: atomic
+created_date: 2026-06-28
+evidence_requirements:
+- Publishable landing and cleanup evidence refs.
+- Digest-backed local terminal proof refs.
+- Generated metadata refresh receipts.
+explicit_runtime_non_implementation_statement: This packet is planning only.
+generated_input_authority_impact: Generated metadata refreshes remain generator-owned and non-authoritative.
+owner:
+  role: Octon evidence proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Revert receipt, writer, validator, and generator changes atomically.
+runtime_behavior_impact: Future implementation may change receipt validation and evidence writing behavior.
+scope_statement: Receipt, metadata refresh, projection, and disclosure-tier hardening only. Do not implement runner dispatch, delivery workflow sequencing, or Git mutation in this packet.
+validation_gates:
+- validate-evidence-disclosure-tiers.sh
+- validate-terminal-closeout-local-evidence.sh
+- validate-proposal-artifact-index-spine.sh

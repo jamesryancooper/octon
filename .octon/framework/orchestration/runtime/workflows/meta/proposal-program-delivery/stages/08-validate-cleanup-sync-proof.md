@@ -11,3 +11,4 @@ Required checks:
 - Terminal current-state proof is fresh after the final mutation.
 - `cleaned` is rejected when the worktree is dirty.
 - Cleaned claims record the clean-worktree route, include-path classification status, and whether a route-owned clean worktree was required.
+- Local/private evidence used as hosted proof emits `SC-007-publishable-evidence-gap`; missing final sync, cleanup, or terminal proof emits `SC-010-cleaned-proof-gap`.

@@ -1,0 +1,11 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "run-program-clean-delivery-operator-surface"
+title: "Run Program Clean Delivery Operator Surface"
+architecture_scope: "operator entrypoint, product feature documentation, and lifecycle handoff wording"
+decision_type: "new-surface"
+status: "accepted"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: "A thin operator surface can land atomically after route and validator support."
+authority_boundary: "The command and skill are entrypoints only and do not mint execution, delivery, cleanup, or closeout authority."

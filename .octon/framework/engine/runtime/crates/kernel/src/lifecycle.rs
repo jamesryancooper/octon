@@ -3604,6 +3604,12 @@ fn eval_condition_with_context(
                     .context("hygiene_preflight_required condition must be boolean")?;
                 condition_context.hygiene_preflight_required == Some(expected)
             }
+            "current_review_revision_receipt_present" => {
+                let expected = value
+                    .as_bool()
+                    .context("current_review_revision_receipt_present condition must be boolean")?;
+                current_review_revision_receipt_present(&target_state.target_abs)? == expected
+            }
             "receipt_absent" => scalar_str(Some(value))
                 .and_then(|id| target_state.receipts.get(id))
                 .map(|receipt| !receipt.exists)
@@ -3671,6 +3677,92 @@ fn eval_condition_with_context(
         }
     }
     Ok(true)
+}
+
+fn current_review_revision_receipt_present(target_abs: &Path) -> Result<bool> {
+    let review_path = target_abs.join("support/proposal-review.md");
+    if !review_path.is_file() {
+        return Ok(false);
+    }
+    let review_fields = parse_receipt_fields(&review_path)?;
+    let Some(review_id) = review_fields
+        .get("review_id")
+        .map(|value| value.trim())
+        .filter(|value| !value.is_empty())
+    else {
+        return Ok(false);
+    };
+    let revisions_dir = target_abs.join("support/revisions");
+    let Ok(entries) = fs::read_dir(&revisions_dir) else {
+        return Ok(false);
+    };
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if path.extension().and_then(|value| value.to_str()) != Some("md") {
+            continue;
+        }
+        let fields = parse_receipt_fields(&path)?;
+        if revision_receipt_satisfies_current_review(&fields, review_id) {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn revision_receipt_satisfies_current_review(
+    fields: &BTreeMap<String, String>,
+    review_id: &str,
+) -> bool {
+    let required = [
+        "revision_id",
+        "source_review_id",
+        "addressed_finding_ids",
+        "remaining_blocking_count",
+        "post_revision_digest",
+        "validators_rerun",
+        "catalog_checksum_registry_refresh",
+        "child_authority_preserved",
+    ];
+    if required.iter().any(|field| {
+        fields
+            .get(*field)
+            .map(|value| value.trim().is_empty())
+            .unwrap_or(true)
+    }) {
+        return false;
+    }
+    if !fields
+        .get("changed_packet_files")
+        .or_else(|| fields.get("changed_parent_files"))
+        .map(|value| !value.trim().is_empty())
+        .unwrap_or(false)
+    {
+        return false;
+    }
+    if fields.get("source_review_id").map(|value| value.trim()) != Some(review_id) {
+        return false;
+    }
+    if fields
+        .get("remaining_blocking_count")
+        .map(|value| value.trim())
+        != Some("0")
+    {
+        return false;
+    }
+    let Some(digest) = fields.get("post_revision_digest").map(|value| value.trim()) else {
+        return false;
+    };
+    if !digest.starts_with("sha256:") || digest.len() <= "sha256:".len() {
+        return false;
+    }
+    if fields.contains_key("post_revision_packet_digest") {
+        return false;
+    }
+    !fields.values().any(|value| {
+        value
+            .split(',')
+            .any(|part| part.trim().eq_ignore_ascii_case("pending"))
+    })
 }
 
 fn run_required_gates(

@@ -55,6 +55,23 @@ A projection result must identify:
 - `authority_boundary`: an explicit statement that the projection is
   diagnostic, derived, read-only, and non-authoritative.
 
+## Stop Classes
+
+The projection may report delivery stop classes as diagnostics only. It must
+preserve the owning route or validator for each class and must not convert any
+reported class into authorization. The required stop classes are:
+
+- `SC-001-authority-gap`
+- `SC-002-ownership-conflict`
+- `SC-003-unsafe-mutation`
+- `SC-004-approval-required`
+- `SC-005-stale-evidence`
+- `SC-006-generated-freshness-drift`
+- `SC-007-publishable-evidence-gap`
+- `SC-008-validation-failure`
+- `SC-009-parent-summary-substitution`
+- `SC-010-cleaned-proof-gap`
+
 ## Fail-Closed Conditions
 
 The projection validator must fail closed when any required diagnostic source is

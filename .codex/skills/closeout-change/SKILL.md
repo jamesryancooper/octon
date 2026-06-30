@@ -128,6 +128,34 @@ Execute the Change Closeout State Machine phase loop from
 13. **Final Report** — Report the actual lifecycle outcome, blockers,
     validation, receipt, cleanup, rollback handle, and final sync.
 
+## Proposal Program Delivery Handoff
+
+When called by Proposal Program Delivery, treat the delivery request as caller
+context only. Accept explicit include paths, exclude paths, route hints,
+target lifecycle outcome, validation floor, rollback posture, profile
+constraints, source receipt refs and digests, retained readiness receipt ref
+and digest, and blocker context. These inputs help select and execute the
+singular Change closeout route; they are not child receipt, archive,
+generated-publication, cleanup, branch cleanup, final sync, terminal proof, or
+`cleaned` authority.
+
+Return evidence through the Change receipt and retained closeout artifacts:
+selected route, target lifecycle outcome, actual lifecycle outcome,
+stateful closeout, landing authorization and hosted landing evidence when
+landed is claimed, branch cleanup authorization and disposition when cleanup
+mutates refs, final sync proof, terminal current-state proof ref and digest
+when `cleaned` requires terminal proof, rollback handle, source receipt refs,
+and downgrade reasons when the target outcome is not fully proven. Missing,
+stale, failing, local-private-only, or out-of-route evidence must downgrade the
+actual lifecycle outcome instead of allowing delivery to claim `landed`,
+`synced`, or `cleaned`.
+
+Do not let delivery receipts, readiness projections, runner handoff refs,
+parent summaries, compact evidence indexes, generated outputs, host state,
+chat, model memory, or tool state replace the Change receipt, landing
+authorization, cleanup authorization, final sync proof, terminal proof, or
+route-owned validation evidence.
+
 ## Git Mutation Permission Diagnostics
 
 Before retrying a permission-sensitive git mutation that failed or was denied,

@@ -6,11 +6,12 @@ Materialize a compact retained delivery evidence index conforming to `proposal-p
 
 Required checks:
 
-- All source receipts are cited by path or durable evidence reference.
+- All source receipts are cited by path or durable evidence reference plus digest.
 - Parent summaries do not replace target-owned child receipts.
-- Non-authority classifications are recorded.
+- Disclosure tiers, non-authority classifications, excluded evidence classes, stop condition IDs, owning next routes, and downgrade rationale are recorded.
 - Order policy, retained readiness preflight, clean-worktree route, include-path classification, and lifecycle postmortem status are recorded.
 - The retained evidence index records refs, digests, disclosure tiers, route, outcome, validator results, and non-authority classification only.
 - The retained evidence index does not authorize delivery, archive, landing, cleanup, execution, child lifecycle outcomes, or child receipt replacement.
 - Open blockers prevent downstream outcome claims.
 - The receipt records the highest outcome that has current passing owning evidence.
+- Aggregate receipt, readiness projection, parent summary, or evidence index substitution for child-owned evidence emits `SC-009-parent-summary-substitution`.

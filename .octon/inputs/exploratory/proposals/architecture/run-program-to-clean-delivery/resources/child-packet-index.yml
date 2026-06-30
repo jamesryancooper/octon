@@ -1,0 +1,135 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "sequential"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "run-program-clean-delivery-architecture"
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "architecture"
+    rollback_posture: "manual"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/friction-analysis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/repository-reconnaissance.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+      - ".octon/framework/engine/runtime/spec/"
+  - child_id: "run-program-clean-delivery-runner-routing"
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing"
+    required: true
+    deferred: false
+    dependencies:
+      - "run-program-clean-delivery-architecture"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "runner"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/friction-analysis.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - child_id: "run-program-clean-delivery-workflow-handoff"
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff"
+    required: true
+    deferred: false
+    dependencies:
+      - "run-program-clean-delivery-architecture"
+      - "run-program-clean-delivery-runner-routing"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "delivery"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/repository-reconnaissance.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+      - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+      - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md"
+      - ".octon/framework/product/contracts/default-work-unit.yml"
+      - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+  - child_id: "run-program-clean-delivery-evidence-metadata"
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata"
+    required: true
+    deferred: false
+    dependencies:
+      - "run-program-clean-delivery-workflow-handoff"
+    dependency_gate: "verification"
+    phase_id: "phase-4"
+    group_id: "evidence"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/friction-analysis.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"
+  - child_id: "run-program-clean-delivery-validators"
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators"
+    required: true
+    deferred: false
+    dependencies:
+      - "run-program-clean-delivery-runner-routing"
+      - "run-program-clean-delivery-workflow-handoff"
+      - "run-program-clean-delivery-evidence-metadata"
+    dependency_gate: "verification"
+    phase_id: "phase-5"
+    group_id: "validation"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/repository-reconnaissance.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/engine/runtime/crates/kernel/tests/"
+  - child_id: "run-program-clean-delivery-operator-surface"
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface"
+    required: true
+    deferred: false
+    dependencies:
+      - "run-program-clean-delivery-validators"
+    dependency_gate: "verification"
+    phase_id: "phase-6"
+    group_id: "operator-surface"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/resources/friction-analysis.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/commands/"
+      - ".octon/framework/capabilities/runtime/skills/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+      - ".octon/framework/product/features/catalog.yml"
+      - ".octon/framework/product/features/README.md"

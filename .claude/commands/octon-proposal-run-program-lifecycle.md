@@ -27,6 +27,20 @@ the next route. The proposal program contract declares
 `execution_strategy: orchestrated-replan-loop`, so runtime dispatch stays on
 the program lifecycle controller.
 
+For clean-delivery continuation, bind the requested delivery target as a run
+input rather than as a completion claim:
+
+```sh
+.octon/framework/engine/runtime/run lifecycle run --lifecycle proposal-program --target <program-packet-path> --set target_outcome=cleaned
+```
+
+The runner records route-selection inputs, selected route ownership, blocked
+alternatives, retry fingerprint fields, resume source refs, and delivery
+handoff posture in `route-decision-receipt.yml`. A `target_outcome=cleaned`
+input is passed only as a Proposal Program Delivery request; it is not proof of
+landing, sync, cleanup, branch cleanup, terminal proof, or a final `cleaned`
+state.
+
 Executor boundary:
 
 - Without `--execute-routes`, the runner stops at a planned

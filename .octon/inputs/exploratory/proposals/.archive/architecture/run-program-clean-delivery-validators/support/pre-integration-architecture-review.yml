@@ -1,0 +1,25 @@
+schema_version: architectural-review-support-receipt-v1
+receipt_id: run-program-clean-delivery-validators-pre-integration-20260629T143231Z
+proposal_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+packet_digest: sha256:21cf98cb01008fdad1b6919362c5fd3286b9278a6b170c12e1be4d08db177305
+review_mode: pre-integration-architecture-review
+verdict: pass
+unresolved_count: 0
+non_authority_classification: retained-evidence-only
+evidence_refs:
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/proposal.yml
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/architecture-proposal.yml
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/support/affected-artifact-map.md
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/support/implementation-grade-completeness-review.md
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators/support/proposal-review.md
+validator_refs:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh
+blockers: []
+mode_specific_coverage:
+  authority_boundary: aggregate validator is read-only and cannot authorize mutation
+  promotion_scope: exactly one validator script and one regression test
+  target_owned_receipts: aggregate validation cannot replace child-owned receipts
+  rollback: remove both promoted targets atomically
+  generated_outputs: no generated output becomes authority

@@ -555,27 +555,80 @@ try:
     if parent_program:
         expected.append((handoff_capsule_path, tmp_handoff))
 
+    refresh_outputs = []
     if mode == "write":
         output_dir.mkdir(parents=True, exist_ok=True)
         for destination, source in expected:
+            expected_digest = sha256(source)
             if destination.is_file() and destination.read_bytes() == source.read_bytes():
                 ok(f"generated artifact already matches: {rel(destination)}")
+                status = "fresh"
             else:
                 shutil.copyfile(source, destination)
                 ok(f"generated artifact written: {rel(destination)}")
+                status = "written"
+            refresh_outputs.append({
+                "ref": rel(destination),
+                "expected_output_digest": expected_digest,
+                "current_output_digest": sha256(destination) if destination.is_file() else "missing",
+                "refresh_status": status,
+            })
     else:
         for destination, source in expected:
+            expected_digest = sha256(source)
             if not destination.is_file():
                 fail(f"generated artifact exists: {rel(destination)}")
+                refresh_outputs.append({
+                    "ref": rel(destination),
+                    "expected_output_digest": expected_digest,
+                    "current_output_digest": "missing",
+                    "refresh_status": "missing-output",
+                })
                 continue
             current = destination.read_text(errors="replace").splitlines(keepends=True)
             proposed = source.read_text(errors="replace").splitlines(keepends=True)
             if current == proposed:
                 ok(f"generated artifact matches: {rel(destination)}")
+                status = "fresh"
             else:
                 fail(f"generated artifact stale: {rel(destination)}")
+                status = "stale-output"
                 for line in difflib.unified_diff(current, proposed, fromfile=rel(destination), tofile=f"generated/{destination.name}"):
                     sys.stdout.write(line)
+            refresh_outputs.append({
+                "ref": rel(destination),
+                "expected_output_digest": expected_digest,
+                "current_output_digest": sha256(destination) if destination.is_file() else "missing",
+                "refresh_status": status,
+            })
+
+    next_owning_route = "none"
+    if any(item["refresh_status"] in {"missing-output", "stale-output"} for item in refresh_outputs):
+        next_owning_route = (
+            "generate-proposal-artifact-index.sh --proposal "
+            + rel(proposal_dir)
+            + " --write"
+        )
+
+    print("refresh_receipt:")
+    print('  schema_version: "generated-metadata-refresh-receipt-v1"')
+    print('  owning_generator: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"')
+    print('  owning_route: "proposal-artifact-index-generator"')
+    print(f"  proposal_ref: {json.dumps(rel(proposal_dir))}")
+    print(f"  mode: {json.dumps(mode)}")
+    print('  generated_output_authority: "derived-only"')
+    print('  non_authority_classification: "generated-output-non-authority"')
+    print(f"  next_owning_route: {json.dumps(next_owning_route)}")
+    print("  source_refs:")
+    for source_ref in sorted(spine_source_digests):
+        print(f"    - ref: {json.dumps(source_ref)}")
+        print(f"      sha256: {json.dumps(spine_source_digests[source_ref])}")
+    print("  output_refs:")
+    for item in refresh_outputs:
+        print(f"    - ref: {json.dumps(item['ref'])}")
+        print(f"      expected_output_digest: {json.dumps(item['expected_output_digest'])}")
+        print(f"      current_output_digest: {json.dumps(item['current_output_digest'])}")
+        print(f"      refresh_status: {json.dumps(item['refresh_status'])}")
 finally:
     shutil.rmtree(tmp_dir, ignore_errors=True)
 

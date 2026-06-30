@@ -218,6 +218,7 @@ runtime_supported = {
     "blocker_present",
     "cleanup_candidates_present",
     "hygiene_preflight_required",
+    "current_review_revision_receipt_present",
     "receipt_absent",
     "receipt_stale",
     "receipt_fresh",
@@ -323,7 +324,7 @@ validate_condition_context_refs() {
       || fail "condition blocker_present invalid: $label -> $blocker_class"
   done < <(yq -r "$expr | .. | select(tag == \"!!map\" and has(\"blocker_present\")) | .blocker_present // \"\"" "$contract" 2>/dev/null || true)
 
-  for key in cleanup_candidates_present hygiene_preflight_required; do
+  for key in cleanup_candidates_present hygiene_preflight_required current_review_revision_receipt_present; do
     while IFS= read -r is_bool; do
       [[ -n "$is_bool" ]] || continue
       [[ "$is_bool" == "true" ]] \

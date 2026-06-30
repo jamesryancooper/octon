@@ -1,0 +1,55 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-validators
+title: Run Program Clean Delivery Validators
+summary: Add the aggregate validator and regression test that prove autonomous clean delivery completion from target-owned receipts.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh
+status: archived
+archive:
+  archived_at: 2026-06-30
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/20260629T233100Z-run-program-clean-delivery-validators-closeout-packet/lifecycle-interactions/run-program-clean-delivery-validators-closeout-packet-closeout-worktree-return.json
+  - .octon/state/evidence/runs/workflows/20260629T233100Z-run-program-clean-delivery-validators-closeout-packet/lifecycle-interactions/run-program-clean-delivery-validators-closeout-packet-closeout-worktree-report.yml
+  - .octon/state/evidence/runs/workflows/20260629T233100Z-run-program-clean-delivery-validators-closeout-packet/children/run-program-clean-delivery-validators/worktree-hygiene-preflight-e467bdcfaa41178137c50f905bd8c9c7ef341f8204ffba1f16cffe68b0689d64.stdout.yml
+  - .octon/state/evidence/runs/workflows/20260629T233100Z-run-program-clean-delivery-validators-closeout-packet/children/run-program-clean-delivery-validators/worktree-hygiene-closeout-rerun-56c9c7cefae255d2e4f5814e46a28a56247633afccb3c26e1c75e5c11daf7fff.stdout.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Implemented as a narrow aggregate validator only after runner, workflow, evidence, and delivery-receipt requirements were accepted.
+related_proposals:
+- run-program-to-clean-delivery
+- run-program-clean-delivery-runner-routing
+- run-program-clean-delivery-workflow-handoff
+- run-program-clean-delivery-evidence-metadata
+acceptance_criteria_summary: Accepted when the aggregate validator proves clean delivery completion and fails closed on non-clean outcomes, stale terminal proof, and aggregate evidence substitution.
+authority_class_impact:
+  framework: Adds one aggregate assurance script and one shell regression test.
+  instance: No instance authority change.
+  state_control: No control mutation.
+  state_evidence: Fixture evidence is local test data only.
+  generated: No generated authority change.
+  inputs: This packet remains non-authority.
+change_profile: atomic
+created_date: 2026-06-28
+evidence_requirements:
+- Aggregate clean delivery validator output.
+- Negative control test results for non-clean outcomes, stale terminal proof, and aggregate evidence substitution.
+- Route-owned delivery receipt validation results.
+explicit_runtime_non_implementation_statement: The packet files are proposal evidence only; the promoted validator is read-only and cannot authorize mutation, delivery, archive, cleanup, branch cleanup, generated publication, or a cleaned claim.
+generated_input_authority_impact: Validators must prove generated outputs do not authorize delivery.
+owner:
+  role: Octon assurance proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Remove the aggregate validator and regression test atomically if rejected.
+runtime_behavior_impact: Adds read-only validation composition only; no runtime authority or mutation.
+scope_statement: Aggregate clean-delivery validator and regression test only.
+validation_gates:
+- validate-run-program-clean-delivery.sh
+- test-run-program-clean-delivery-validator.sh
+- validate-proposal-program-delivery-receipt.sh

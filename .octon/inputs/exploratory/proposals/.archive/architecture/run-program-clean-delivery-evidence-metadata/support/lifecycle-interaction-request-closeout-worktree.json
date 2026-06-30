@@ -1,0 +1,105 @@
+{
+  "schema_version": "lifecycle-interaction-request-v1",
+  "interaction_id": "run-program-clean-delivery-evidence-metadata-closeout-worktree-handoff-20260629t141223z",
+  "created_at": "2026-06-29T14:12:23Z",
+  "source": {
+    "lifecycle_id": "proposal-packet",
+    "run_id": "20260629T145500Z-run-program-clean-delivery-evidence-metadata-promote",
+    "atomic_unit_type": "proposal-packet",
+    "target_ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata",
+    "phase_id": "closeout-packet"
+  },
+  "request": {
+    "interaction_profile": "handoff",
+    "interaction_kind": "follow_on_work_required",
+    "requested_capability": "closeout-worktree",
+    "requested_lifecycle_id": "closeout-worktree",
+    "requested_route_surface": "closeout-worktree",
+    "requested_atomic_unit_type": "worktree",
+    "requested_target_outcome": "preserved"
+  },
+  "scope": {
+    "include_paths": [
+      ".claude",
+      ".codex",
+      ".cursor",
+      ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md",
+      ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery",
+      ".octon/framework/engine/runtime/spec",
+      ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery",
+      ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/generated/effective",
+      ".octon/generated/proposals",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle",
+      ".octon/inputs/exploratory/proposals/.DS_Store",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery",
+      ".octon/state/control",
+      ".octon/state/continuity",
+      ".octon/state/evidence"
+    ],
+    "exclude_paths": [
+      ".git",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata"
+    ],
+    "boundary_digest": "sha256:e5cc2312009ea5368a6dd3e24a91b3e69ee08708c2c8c3396e1a4cc318224573"
+  },
+  "evidence_offered": [
+    {
+      "ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/20260629T145500Z-run-program-clean-delivery-evidence-metadata-promote/worktree-hygiene-classifier.yml",
+      "digest": "sha256:cd2fc3bdc5e2a5aa4e915b0def44145865cb2f327914358d164b2509cfd5016d",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/support/implementation-conformance-review.md",
+      "digest": "sha256:f1d74839472a4db3e49c4a9d230dd4e778b73fe84734e067744b0fe8601285f3",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/support/post-implementation-drift-churn-review.md",
+      "digest": "sha256:cc14c41cf8a8a51973e531dc0f9e2c7a9f6a8aa3c5bf279f1c190c6b48d39cce",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata/support/validation.md",
+      "digest": "sha256:541dbe4588c4bd217969503795854f04f4659043221eee78f8dd5df1553a0238",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-evidence-metadata/proposal-artifact-index.yml",
+      "digest": "sha256:055daf57cec5f339686f12ae7144b22c60f2991c5e9f9de1d06e77cd95d6e664",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-evidence-metadata/proposal-program-spine.yml",
+      "digest": "sha256:c0978f3d20e4e139c102a7020b0b915b0a8702183bc7007eed2890bb8ae119ec",
+      "acceptance_class": "validation-evidence"
+    }
+  ],
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "worktree-cleanup-authorization",
+      "repo-hygiene-deletion",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "stop_conditions": [
+    "Stop if the requested route treats this request as authorization for archive relocation, promotion, Git or hosted-provider mutation, branch cleanup, worktree cleanup, repo-hygiene deletion, or scope expansion.",
+    "Stop if the requested route cannot preserve proposal-packet closeout authority and target-owned evidence boundaries.",
+    "Stop if fresh return evidence cannot cite the retained classifier, classifier digest, foreign fingerprint, scoped paths, and an independent preservation or blocked disposition."
+  ],
+  "expected_return_evidence": [
+    "lifecycle-interaction-return-v1",
+    "closeout-worktree-report-v1"
+  ]
+}

@@ -39,10 +39,29 @@ cite the bound classifier evidence, match the bound foreign fingerprint, use a
 non-mutating preserve/exclude disposition for this child route, and preserve
 child-owned closeout authority. If those checks pass, the cited
 foreign-or-ambiguous paths are preserved and excluded from child closeout
-blocking only. Do not clean, stage, commit, archive, publish, delete, reset,
-claim `cleaned`, or substitute parent/program evidence for child receipts. If
-validation fails, evidence is stale, or any other child-owned gate fails, write
-a blocked child closeout receipt.
+blocking only. Treat that validated return/report as a
+`resolved-by-validated-closeout-worktree-return` hygiene disposition for this
+child closeout route: it may allow `support/proposal-closeout.md` to record
+`verdict: pass`, `archive_authorized: yes`, `target_outcome: archive-ready`,
+`lifecycle_outcome: archive-ready`, and `worktree_hygiene_verdict:
+preserved-by-closeout-worktree` when every other child-owned gate passes. The
+receipt must cite the classifier, return receipt, closeout-worktree report, and
+foreign fingerprint, and must state that the preserved paths remain outside
+this child route's material authority. Do not clean, stage, commit, archive,
+publish, delete, reset, claim `cleaned`, or substitute parent/program evidence
+for child receipts. If validation fails, evidence is stale, or any other
+child-owned gate fails, write a blocked child closeout receipt.
+
+For closeout/archive-readiness, tolerate classifier snapshot ref churn and
+path-only classifier snapshot churn by comparing the stable bound fingerprint
+from `program_child_worktree_hygiene_foreign_fingerprint` against the validated
+closeout-worktree report. If no validated program-child closeout-worktree
+report has been accepted for the current fingerprint, the closeout receipt must
+remain blocked. When the report is accepted, the closeout receipt may record
+`verdict: pass`, `archive_authorized: yes`, and `lifecycle_outcome:
+archive-ready` without claiming that preserved residue was cleaned or moved.
+Compatibility guard: If no validated program-child closeout-worktree report has been accepted for the current fingerprint, the closeout receipt must remain blocked.
+Compatibility guard: closeout receipt may record `verdict: pass`, `archive_authorized: yes`, and `lifecycle_outcome: archive-ready` only after accepted preservation evidence.
 
 For implemented packet closeout, verify preserved review evidence with the
 baseline review gate:
@@ -70,12 +89,13 @@ Archive-ready claims must also retain terminal freshness evidence. Current-state
 mechanism architecture review and lifecycle postmortem evidence remain
 evidence-only.
 
-If the correctly scoped classifier still reports foreign or ambiguous paths,
-write or refresh `support/proposal-closeout.md` with `verdict: blocked`,
-`archive_authorized: no`, the hygiene counts and evidence path, and
-`next_route_condition: closeout-change or operator scope resolution`. Do not
-stage, commit, push, delete, reset, archive, or otherwise clean worktree paths
-from this route.
+If the correctly scoped classifier still reports foreign or ambiguous paths and
+there is no valid bound program-child closeout-worktree return/report covering
+the current classifier evidence and foreign fingerprint, write or refresh
+`support/proposal-closeout.md` with `verdict: blocked`, `archive_authorized:
+no`, the hygiene counts and evidence path, and `next_route_condition:
+closeout-change or operator scope resolution`. Do not stage, commit, push,
+delete, reset, archive, or otherwise clean worktree paths from this route.
 
 Stage only intended files when the selected route requires staging. Commit,
 push, and open or update a PR only when the selected implementation route uses a
@@ -116,3 +136,19 @@ validation summary instead. Use `verdict: pass` and
 `archive_authorized: yes` only when the packet is ready for the separate
 `archive-proposal` lifecycle route. Do not archive the packet directly from
 this route.
+
+After writing the closeout receipt, refresh generated proposal indexes and
+terminal freshness before claiming archive readiness:
+
+```sh
+bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh --proposal <proposal_path> --write
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh --proposal <proposal_path> --targeted
+```
+
+For a targeted dependency proposal or parent program, reuse only fresh
+child-owned closeout evidence and post-write freshness validation passes. If
+post-write targeted freshness validation fails, write or keep a blocked
+disposition instead of claiming archive readiness.
+Compatibility guard: targeted dependency proposal or parent program reuse requires fresh child-owned closeout evidence and post-write freshness validation passes.
+Compatibility guard: post-write targeted freshness validation passes before archive readiness; otherwise write a blocked disposition.
+Compatibility guard: after writing the closeout receipt, post-write targeted freshness validation passes before archive readiness.

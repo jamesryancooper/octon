@@ -1,0 +1,25 @@
+schema_version: architectural-review-support-receipt-v1
+receipt_id: run-program-clean-delivery-operator-surface-pre-integration-20260629T150512Z
+proposal_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface
+packet_digest: sha256:4ca1fc9a808a4e72e3688e8b5ba69ed59a2ec061790d8ad052269f1d33cc51dc
+review_mode: pre-integration-architecture-review
+verdict: pass
+unresolved_count: 0
+non_authority_classification: retained-evidence-only
+evidence_refs:
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/proposal.yml
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/architecture-proposal.yml
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/support/affected-artifact-map.md
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/support/implementation-grade-completeness-review.md
+  - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface/support/proposal-review.md
+validator_refs:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh
+blockers: []
+mode_specific_coverage:
+  authority_boundary: operator surface delegates to Proposal Program Delivery and mints no route authority
+  promotion_scope: exact command, skill, feature, and lifecycle handoff targets
+  target_owned_receipts: operator surface cannot replace child, delivery, archive, cleanup, Change, branch, or terminal proof receipts
+  rollback: remove promoted operator-surface docs and lifecycle handoff wording atomically
+  generated_outputs: generated outputs remain derived-only

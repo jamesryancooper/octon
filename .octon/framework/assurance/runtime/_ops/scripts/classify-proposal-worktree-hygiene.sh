@@ -559,6 +559,131 @@ same_scope_repo_hygiene_cleanup_receipt() {
   return 1
 }
 
+repo_relative_file_exists() {
+  local rel="$1"
+  [[ -n "$rel" ]] || return 1
+  case "$rel" in
+    /*|*"/../"*|../*|*"/.."|.) return 1 ;;
+  esac
+  [[ -f "$ROOT_DIR/$rel" ]]
+}
+
+file_sha256() {
+  local file="$1"
+  shasum -a 256 "$file" | awk '{print "sha256:" $1}'
+}
+
+closeout_worktree_report_ref_location() {
+  local report_ref="$1"
+  case "$report_ref" in
+    .octon/state/evidence/validation/analysis/*closeout-worktree*.yml|\
+    .octon/state/evidence/validation/analysis/*closeout-worktree*.yaml|\
+    .octon/state/evidence/validation/analysis/*closeout-worktree*.json|\
+    .octon/state/evidence/runs/workflows/*/lifecycle-interactions/*closeout-worktree-report*.yml|\
+    .octon/state/evidence/runs/workflows/*/lifecycle-interactions/*closeout-worktree-report*.yaml|\
+    .octon/state/evidence/runs/workflows/*/lifecycle-interactions/*closeout-worktree-report*.json)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+closeout_worktree_return_ref_location() {
+  local return_ref="$1"
+  case "$return_ref" in
+    .octon/state/evidence/runs/skills/closeout-worktree/*/lifecycle-interaction-return.json|\
+    .octon/state/evidence/runs/workflows/*/lifecycle-interactions/*closeout-worktree-return*.json)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+same_scope_closeout_worktree_report_ref() {
+  local report_ref="$1"
+  local report_path program_run_id classifier_ref request_ref
+  [[ -n "$RUN_ID" ]] || return 1
+  command -v yq >/dev/null 2>&1 || return 1
+  closeout_worktree_report_ref_location "$report_ref" || return 1
+  repo_relative_file_exists "$report_ref" || return 1
+  report_path="$ROOT_DIR/$report_ref"
+  [[ "$(yq -r '.schema_version // ""' "$report_path" 2>/dev/null || true)" == "closeout-worktree-report-v1" ]] || return 1
+
+  while IFS=$'\t' read -r program_run_id classifier_ref request_ref; do
+    [[ -n "$program_run_id$classifier_ref$request_ref" ]] || continue
+    if [[ "$program_run_id" == "$RUN_ID" ]] ||
+      [[ "$classifier_ref" == ".octon/state/evidence/runs/workflows/$RUN_ID/"* ]] ||
+      [[ "$request_ref" == ".octon/state/evidence/runs/workflows/$RUN_ID/"* ]]; then
+      return 0
+    fi
+  done < <(
+    yq -r '.candidates[]?.proposal_program_handoff_authorization // {} | [.program_run_id // "", .classifier_output_ref // "", .interaction_request_ref // ""] | @tsv' "$report_path" 2>/dev/null || true
+  )
+  return 1
+}
+
+same_scope_closeout_worktree_return_ref() {
+  local return_ref="$1"
+  local required_report_ref="${2:-}"
+  local return_path return_schema consumer completed report_ref expected_digest report_path actual_digest
+  [[ -n "$RUN_ID" ]] || return 1
+  command -v jq >/dev/null 2>&1 || return 1
+  closeout_worktree_return_ref_location "$return_ref" || return 1
+  repo_relative_file_exists "$return_ref" || return 1
+  return_path="$ROOT_DIR/$return_ref"
+  return_schema="$(jq -r '.schema_version // ""' "$return_path" 2>/dev/null || true)"
+  [[ "$return_schema" == "lifecycle-interaction-return-v1" ]] || return 1
+  consumer="$(jq -r '.consumer.lifecycle_id // ""' "$return_path" 2>/dev/null || true)"
+  [[ "$consumer" == "closeout-worktree" ]] || return 1
+  completed="$(jq -r 'if (.outcome.completed == true) then "true" else "" end' "$return_path" 2>/dev/null || true)"
+  [[ "$completed" == "true" ]] || return 1
+
+  while IFS=$'\t' read -r report_ref expected_digest; do
+    [[ -n "$report_ref" ]] || continue
+    [[ -z "$required_report_ref" || "$report_ref" == "$required_report_ref" ]] || continue
+    closeout_worktree_report_ref_location "$report_ref" || continue
+    repo_relative_file_exists "$report_ref" || continue
+    report_path="$ROOT_DIR/$report_ref"
+    [[ -n "$expected_digest" && "$expected_digest" != "null" ]] || continue
+    actual_digest="$(file_sha256 "$report_path")"
+    [[ "$actual_digest" == "$expected_digest" ]] || continue
+    same_scope_closeout_worktree_report_ref "$report_ref" && return 0
+  done < <(
+    jq -r '.return_evidence_refs[]? | [.ref // "", .digest // ""] | @tsv' "$return_path" 2>/dev/null || true
+  )
+  return 1
+}
+
+same_scope_closeout_worktree_report_artifact() {
+  local report_ref="$1"
+  local search_root candidate_return
+  closeout_worktree_report_ref_location "$report_ref" || return 1
+  same_scope_closeout_worktree_report_ref "$report_ref" || return 1
+  for search_root in \
+    "$ROOT_DIR/.octon/state/evidence/runs/skills/closeout-worktree" \
+    "$ROOT_DIR/.octon/state/evidence/runs/workflows"; do
+    [[ -d "$search_root" ]] || continue
+    while IFS= read -r candidate_return; do
+      candidate_return="${candidate_return#"$ROOT_DIR/"}"
+      same_scope_closeout_worktree_return_ref "$candidate_return" "$report_ref" && return 0
+    done < <(find "$search_root" -type f \( -name 'lifecycle-interaction-return.json' -o -path '*/lifecycle-interactions/*closeout-worktree-return*.json' \) 2>/dev/null | sort)
+  done
+  return 1
+}
+
+same_scope_closeout_worktree_handoff_artifact() {
+  local path="$1"
+  if closeout_worktree_return_ref_location "$path"; then
+    same_scope_closeout_worktree_return_ref "$path"
+    return $?
+  fi
+  if closeout_worktree_report_ref_location "$path"; then
+    same_scope_closeout_worktree_report_artifact "$path"
+    return $?
+  fi
+  return 1
+}
+
 matches_current_run_acp_decision_log() {
   local path="$1"
   local diff added_lines line decision_run_id removed_count
@@ -925,6 +1050,7 @@ while IFS= read -r line; do
     same_scope_lifecycle_run_artifact "$path" ||
     same_scope_program_recovery_publish_artifact "$path" ||
     same_scope_repo_hygiene_cleanup_receipt "$path" ||
+    same_scope_closeout_worktree_handoff_artifact "$path" ||
     matches_current_run_acp_decision_log "$path" ||
     nonblocking_local_metadata "$path"; then
     printf '%s\t%s\n' "$status" "$path" >>"$OWNED_ROWS"

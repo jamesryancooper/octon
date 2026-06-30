@@ -1,5 +1,12 @@
 # Review Program
 
+- Accepted verdict MUST set parent `proposal.yml#status` to `accepted`.
+- Accepted verdict MUST NOT leave parent status as `in-review`.
+- Revision-required verdict MUST set parent status to `in-review`.
+- Rejected verdict MUST set parent `proposal.yml#status` to `rejected`.
+- Compute `reviewed_packet_digest` after the final parent status update.
+- Run the strict implementation-authorization gate for accepted parent reviews.
+
 Resolve exactly one parent proposal program path. Read the parent
 `proposal.yml`, `resources/child-packet-index.yml`,
 `resources/child-packet-index.md`, `architecture/packet-sequence.md`,

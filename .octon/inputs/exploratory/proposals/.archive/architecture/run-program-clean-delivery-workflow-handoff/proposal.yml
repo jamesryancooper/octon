@@ -1,0 +1,58 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-workflow-handoff
+title: Run Program Clean Delivery Workflow Handoff
+summary: Integrate proposal-program lifecycle handoff with Proposal Program Delivery, closeout-change, closeout-worktree, archive, hygiene, and terminal proof ownership.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+- .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md
+- .octon/framework/product/contracts/default-work-unit.yml
+- .octon/framework/product/contracts/change-closeout-state-machine.yml
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+status: archived
+archive:
+  archived_at: 2026-06-29
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/20260629T231000Z-run-program-clean-delivery-workflow-handoff-closeout-packet/lifecycle-interactions/run-program-clean-delivery-workflow-handoff-closeout-packet-closeout-worktree-return.json
+  - .octon/state/evidence/runs/workflows/20260629T231000Z-run-program-clean-delivery-workflow-handoff-closeout-packet/lifecycle-interactions/run-program-clean-delivery-workflow-handoff-closeout-packet-closeout-worktree-report.yml
+  - .octon/state/evidence/runs/workflows/20260629T231000Z-run-program-clean-delivery-workflow-handoff-closeout-packet/children/run-program-clean-delivery-workflow-handoff/worktree-hygiene-preflight-0faf8071b5b1e12b233d7e74dc90f7f8d0fc0005393ac53a2b33a127cf6c5b07.stdout.yml
+  - .octon/state/evidence/runs/workflows/20260629T231000Z-run-program-clean-delivery-workflow-handoff-closeout-packet/children/run-program-clean-delivery-workflow-handoff/worktree-hygiene-closeout-rerun-4984b59957104c1930dce7155bd7260ba5420449e98354a7dff9442a4b42e561.stdout.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Implement only after runner handoff decisions are accepted and delivery workflow ownership can remain aggregate-only.
+related_proposals:
+- run-program-to-clean-delivery
+- run-program-clean-delivery-architecture
+- run-program-clean-delivery-runner-routing
+acceptance_criteria_summary: Accepted when delivery handoff can be automated without owning child, archive, cleanup, or Git mutation authority.
+authority_class_impact:
+  framework: May later update delivery workflow, command, skill, and closeout contract text.
+  instance: No instance authority change.
+  state_control: No control mutation from planning.
+  state_evidence: Future delivery runs retain aggregate evidence only.
+  generated: Generated outputs remain derived-only.
+  inputs: This packet remains non-authoritative.
+change_profile: atomic
+created_date: 2026-06-28
+evidence_requirements:
+- Delivery readiness preflight receipt.
+- Child-owned receipt compatibility evidence.
+- Change closeout handoff evidence.
+explicit_runtime_non_implementation_statement: This packet is planning only.
+generated_input_authority_impact: Generated prompts and metadata remain non-authority.
+owner:
+  role: Octon delivery workflow proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Revert delivery workflow and closeout contract changes atomically.
+runtime_behavior_impact: Future implementation may alter workflow dispatch and handoff behavior.
+scope_statement: Delivery workflow and route handoff planning only.
+validation_gates:
+- validate-proposal-program-delivery-workflow.sh
+- validate-change-closeout-state-machine.sh

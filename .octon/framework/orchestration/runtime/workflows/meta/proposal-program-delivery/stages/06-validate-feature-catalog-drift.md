@@ -21,6 +21,8 @@ Required checks:
 - Generated outputs, raw inputs, host UI state, chat/model memory, and tool
   availability remain non-authority. Retained drift evidence proves the check
   happened but does not authorize future execution or catalog mutation.
+- Missing or failing drift validation emits `SC-008-validation-failure` and
+  cannot be downgraded by parent program summary evidence.
 
 Receipt fields:
 

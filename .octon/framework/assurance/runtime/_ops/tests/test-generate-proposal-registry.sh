@@ -484,13 +484,18 @@ run_generator_in_fixture() {
 }
 
 case_check_passes_for_valid_projection() {
-  local fixture_root
+  local fixture_root output
   fixture_root="$(create_fixture_repo)"
   mkdir -p "$fixture_root/.octon/generated"
   touch "$fixture_root/.octon/README.md"
   write_active_architecture_proposal "$fixture_root"
   run_generator_in_fixture "$fixture_root" --write >/dev/null
-  run_generator_in_fixture "$fixture_root" --check
+  output="$(run_generator_in_fixture "$fixture_root" --check)"
+  grep -Fq 'refresh_receipt:' <<<"$output" &&
+    grep -Fq 'owning_generator: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"' <<<"$output" &&
+    grep -Fq 'generated_output_authority: "derived-only"' <<<"$output" &&
+    grep -Fq 'source_refs:' <<<"$output" &&
+    grep -Fq 'expected_output_digest:' <<<"$output"
 }
 
 case_write_allows_proposal_path_examples_in_assurance_tests() {
@@ -515,6 +520,20 @@ case_check_fails_on_orphaned_registry_entry() {
   run_generator_in_fixture "$fixture_root" --write >/dev/null
   printf '\n  - id: "manual-only"\n    kind: "architecture"\n    scope: "octon-internal"\n    path: ".octon/inputs/exploratory/proposals/architecture/manual-only"\n    title: "Manual Only"\n    status: "draft"\n    promotion_targets:\n      - ".octon/README.md"\n' >>"$fixture_root/.octon/generated/proposals/registry.yml"
   run_generator_in_fixture "$fixture_root" --check
+}
+
+case_check_stale_registry_names_next_owning_route() {
+  local fixture_root output rc=0
+  fixture_root="$(create_fixture_repo)"
+  mkdir -p "$fixture_root/.octon/generated"
+  touch "$fixture_root/.octon/README.md"
+  write_active_architecture_proposal "$fixture_root"
+  run_generator_in_fixture "$fixture_root" --write >/dev/null
+  printf '\n  - id: "manual-only"\n    kind: "architecture"\n    scope: "octon-internal"\n    path: ".octon/inputs/exploratory/proposals/architecture/manual-only"\n    title: "Manual Only"\n    status: "draft"\n    promotion_targets:\n      - ".octon/README.md"\n' >>"$fixture_root/.octon/generated/proposals/registry.yml"
+  output="$(run_generator_in_fixture "$fixture_root" --check 2>&1)" || rc=$?
+  (( rc != 0 )) &&
+    grep -Fq 'refresh_status: "stale-output"' <<<"$output" &&
+    grep -Fq 'next_owning_route: "generate-proposal-registry.sh --write"' <<<"$output"
 }
 
 case_check_fails_on_duplicate_proposal_key() {
@@ -620,6 +639,9 @@ main() {
     "proposal registry generator rejects orphaned manual entries" \
     "proposal registry matches generated projection" \
     case_check_fails_on_orphaned_registry_entry
+  assert_success \
+    "proposal registry refresh receipt names next route for stale output" \
+    case_check_stale_registry_names_next_owning_route
   assert_failure_contains \
     "proposal registry generator rejects duplicate proposal keys" \
     "duplicate proposal key" \

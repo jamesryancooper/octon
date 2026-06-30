@@ -43,6 +43,36 @@ relationship_to_default_work_unit:
       disposition_complete_with_retained_residue: "Every candidate is closed, retained, or foreign with authority-backed evidence, but Git-clean worktree state is not claimed."
       nonterminal: "Blocked, deferred, escalated, ambiguous, or unresolved delegated residue remains."
     default_work_unit_replacement: false
+  proposal_program_delivery_handoff:
+    caller_posture: "aggregate workflow caller, not a closeout state machine"
+    accepted_context:
+      - "include_paths"
+      - "exclude_paths"
+      - "route_hints"
+      - "target_lifecycle_outcome"
+      - "validation_floor"
+      - "rollback_posture"
+      - "profile_constraints"
+      - "source_receipt_refs_and_digests"
+      - "readiness_receipt_ref_and_digest"
+      - "blocker_context"
+    returned_evidence:
+      - "selected_route"
+      - "target_lifecycle_outcome"
+      - "lifecycle_outcome"
+      - "stateful_closeout"
+      - "landing_authorization_ref when hosted landing is claimed"
+      - "branch_cleanup_authorization_ref when cleanup mutates refs"
+      - "final_sync_proof_ref when synced or cleaned is claimed"
+      - "terminal_current_state_proof_ref and digest when cleaned requires terminal proof"
+      - "rollback_handle"
+      - "not_landed_reason, not_cleaned_reason, landing_stop_reason, or cleanup_stop_reason when downgraded"
+    no_substitution_rule: >-
+      Proposal-program delivery may pass context and later cite returned
+      closeout evidence, but it cannot stage, commit, push, land, branch-clean,
+      finalize sync, synthesize terminal proof, replace the Change receipt, or
+      turn readiness, runner handoff, parent summary, aggregate receipt, or
+      compact evidence index material into closeout authority.
   forbidden_competing_routes:
     - "branch-land-no-pr"
     - "Closeout Changes"

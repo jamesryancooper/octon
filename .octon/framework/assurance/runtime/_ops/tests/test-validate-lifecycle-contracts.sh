@@ -764,7 +764,7 @@ main() {
   root="$(new_fixture_repo valid-context-condition-predicates)"
   write_fixture_support "$root"
   write_valid_contract "$root"
-  yq -i '.routes[0].enter_when = {"all": [{"blocker_present": "lifecycle-residue-cleanup-needed"}, {"cleanup_candidates_present": true}, {"hygiene_preflight_required": false}]}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  yq -i '.routes[0].enter_when = {"all": [{"blocker_present": "lifecycle-residue-cleanup-needed"}, {"cleanup_candidates_present": true}, {"hygiene_preflight_required": false}, {"current_review_revision_receipt_present": false}]}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
   assert_success "valid context condition predicates pass" "$root"
 
   root="$(new_fixture_repo invalid-context-condition-bool)"

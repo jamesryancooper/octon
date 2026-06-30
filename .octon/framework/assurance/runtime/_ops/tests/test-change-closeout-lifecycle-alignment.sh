@@ -186,6 +186,23 @@ attach_valid_cleanup_authorization() {
   printf '%s\n' "$auth"
 }
 
+attach_publishable_evidence_receipt_ref() {
+  local receipt="$1"
+  local tmp
+  tmp="$(mktemp)"
+  jq '.publishable_evidence_receipt_refs = [
+    {
+      receipt_ref: ".octon/state/evidence/validation/fixture/publishable-receipt.json",
+      schema_ref: ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json",
+      disclosure_tier: "repo-publishable",
+      claim_scope_ref: .change_id,
+      receipt_digest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      raw_evidence_not_published: true
+    }
+  ]' "$receipt" >"$tmp"
+  mv "$tmp" "$receipt"
+}
+
 run_validator() {
   bash "$VALIDATOR" --receipt "$1" >/dev/null
 }
@@ -676,6 +693,7 @@ case_branch_no_pr_cleaned_full_evidence_passes() {
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
   rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason)'
   attach_valid_cleanup_authorization "$receipt" >/dev/null
+  attach_publishable_evidence_receipt_ref "$receipt"
   run_validator "$receipt"
 }
 
@@ -683,6 +701,7 @@ case_branch_no_pr_cleaned_requires_cleanup_authorization() {
   local receipt
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
   rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason, .cleanup_authorization_ref)'
+  attach_publishable_evidence_receipt_ref "$receipt"
   ! run_validator "$receipt"
 }
 
@@ -691,6 +710,7 @@ case_branch_no_pr_cleaned_rejects_denied_cleanup_authorization() {
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
   rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason)'
   auth="$(attach_valid_cleanup_authorization "$receipt")"
+  attach_publishable_evidence_receipt_ref "$receipt"
   rewrite_json_file "$auth" '.authorization_result = "denied"'
   ! run_validator "$receipt"
 }
@@ -700,6 +720,7 @@ case_branch_no_pr_cleaned_rejects_stale_cleanup_authorization() {
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
   rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason)'
   auth="$(attach_valid_cleanup_authorization "$receipt")"
+  attach_publishable_evidence_receipt_ref "$receipt"
   rewrite_json_file "$auth" '.landed_ref = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"'
   ! run_validator "$receipt"
 }

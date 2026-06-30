@@ -9,3 +9,4 @@ Required checks:
 - The retained delivery-readiness preflight receipt is consumed rather than rediscovering authority blockers independently.
 - Parent program summaries do not satisfy child receipt requirements.
 - Stale, missing, or ambiguous child evidence blocks downstream claims.
+- Missing target-owned child evidence emits `SC-001-authority-gap`; parent-summary substitution emits `SC-009-parent-summary-substitution`.

@@ -1,259 +1,208 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow",
-  "generated_at": "2026-06-26T03:35:43Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.1.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "stale",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:9ddd529e9bbbb46b0399937bd78d183785103e761e47e4b6880467afd3278210",
-    "checked_at": "2026-06-26T03:35:43Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow",
-    "evidence_classification": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-contract.yml",
-      "digest": "sha256:7bc5fb590d49fdb15588e852ad9059e51193c967964251b6abdcf31f21b18766",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-manifest.yml",
-      "digest": "sha256:203a04c88e234f18be3c0d16d3eb6de178391f82a2bd6c05dd3fb612b33ee231",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.ndjson",
-      "digest": "sha256:39862836b491d1963b34ef76f43aafe844ad90c51713f49f2a57243e6371a61c",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.manifest.yml",
-      "digest": "sha256:e359e9aee8085ccd1c268449b64d51226dc0c0e8171a5b330744d08576a8b8b0",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/runtime-state.yml",
-      "digest": "sha256:028b525b9caa5d2d058256104b6a4609b55e2c5c56ba1106b767ed58190a90bc",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml",
-      "digest": "sha256:07e00546361fef05b6a50a294fed8e6a7ac214b34240e389da3ea576fd659209",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml",
-      "digest": "sha256:e10796f0cf24a495f7778f7d689b74174015631c69d6d2a18906e436ab998ade",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/rollback-posture.yml",
-      "digest": "sha256:29cb16aa931a3ac4a21ab9881d7607eb0ec918019a64605a3193bb679afd1a0d",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/evidence-classification.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/retained-run-evidence.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/replay-pointers.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/interventions/log.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-card.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:37c9e846ba87acd5cbad5e60f026151ee2971520716361305d3fdc77de93ebbf",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/handoff.yml",
-      "digest": "sha256:c55a6fb0b28ecef4655b550a2ce5703836311ff9d8d19c4667e2188d252b6b8f",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:5d2f8421c491a5019224032423189a54ae8cacb69e939d4f6603e17a27b8e79b",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:bdf5802fada8b117c441366c079bef01ef0619d593066ab030ca654e96327e50",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "stale",
-    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
-    "next_required_action": "regenerate from current canonical sources"
-  },
-  "lifecycle": {
-    "state": "closed",
-    "decision_state": "allow",
-    "drift_status": "in-sync",
-    "latest_event_hash": "sha256:b7ababcab4a84888023ef7dd0ea0aedbf897ab5361f09c91fda30df74bc33488",
-    "latest_sequence": 29
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
-    "route_status": "allow",
-    "pack_status": "allow",
-    "support_status": "supported",
-    "requested_capability_packs": [
-      "repo",
-      "shell",
-      "git",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "authorized",
-    "proof_state": "proof-stale",
-    "human_boundary_state": "none",
-    "active_grants": [
-      ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "evidence_classification",
-      "retained_evidence",
-      "replay_pointers",
-      "journal_snapshot",
-      "journal_manifest_snapshot"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "unknown",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "incomplete"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": [
-    {
-      "severity": "error",
-      "code": "journal-ledger-digest-stale",
-      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
-      "refs": [
-        ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.manifest.yml",
-        ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.ndjson"
-      ]
-    }
-  ]
-}
+schema_version: run-health-read-model-v1
+run_id: child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow
+generated_at: '2026-06-30T02:25:13Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.1.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:b0b150e80748297e2c31e4c6f1f07e1eb0a3e1bc2208d4d490c7ac1ee424cd23
+  checked_at: '2026-06-30T02:25:13Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow
+  evidence_classification: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-contract.yml
+    digest: sha256:7bc5fb590d49fdb15588e852ad9059e51193c967964251b6abdcf31f21b18766
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-manifest.yml
+    digest: sha256:203a04c88e234f18be3c0d16d3eb6de178391f82a2bd6c05dd3fb612b33ee231
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.ndjson
+    digest: sha256:39862836b491d1963b34ef76f43aafe844ad90c51713f49f2a57243e6371a61c
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.manifest.yml
+    digest: sha256:e359e9aee8085ccd1c268449b64d51226dc0c0e8171a5b330744d08576a8b8b0
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/runtime-state.yml
+    digest: sha256:028b525b9caa5d2d058256104b6a4609b55e2c5c56ba1106b767ed58190a90bc
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml
+    digest: sha256:07e00546361fef05b6a50a294fed8e6a7ac214b34240e389da3ea576fd659209
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml
+    digest: sha256:e10796f0cf24a495f7778f7d689b74174015631c69d6d2a18906e436ab998ade
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/rollback-posture.yml
+    digest: sha256:29cb16aa931a3ac4a21ab9881d7607eb0ec918019a64605a3193bb679afd1a0d
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:37c9e846ba87acd5cbad5e60f026151ee2971520716361305d3fdc77de93ebbf
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/handoff.yml
+    digest: sha256:c55a6fb0b28ecef4655b550a2ce5703836311ff9d8d19c4667e2188d252b6b8f
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:0450c47eb776efc63bcdaf34f9c3d440851bdac2cce57fb0707dbb6f89e7fa9c
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:ed210e917bd330c60d0e3ab4660d36128889c4b9f83e0c3c0552ceac545b9bfb
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:b7ababcab4a84888023ef7dd0ea0aedbf897ab5361f09c91fda30df74bc33488
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - git
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.manifest.yml
+  - .octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t204500z-workflow/events.ndjson

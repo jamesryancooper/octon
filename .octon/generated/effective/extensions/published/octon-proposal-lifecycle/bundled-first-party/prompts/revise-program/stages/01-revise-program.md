@@ -36,11 +36,19 @@ Write `support/revisions/<revision-id>.md` with these required fields:
 - `revision_id`
 - `source_review_id`
 - `changed_parent_files`
+- `changed_packet_files`
 - `addressed_finding_ids`
 - `remaining_blocking_count`
 - `post_revision_digest`
 - `validators_rerun`
+- `catalog_checksum_registry_refresh`
 - `child_authority_preserved`
+
+Use the exact field name `post_revision_digest`. Do not emit
+`post_revision_packet_digest`, `pending`, or placeholder values. When the
+selected parent-local findings are fully addressed, set
+`remaining_blocking_count: 0`; otherwise stop with a blocker instead of writing
+a completion-style revision receipt.
 
 Re-run parent structural validation and the baseline parent review gate. Report
 changed parent files, addressed findings, remaining blockers, post-revision

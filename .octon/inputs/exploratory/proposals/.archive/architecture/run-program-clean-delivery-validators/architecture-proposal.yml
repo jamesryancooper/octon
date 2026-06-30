@@ -1,0 +1,11 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "run-program-clean-delivery-validators"
+title: "Run Program Clean Delivery Validators"
+architecture_scope: "clean delivery validators and acceptance gates"
+decision_type: "new-surface"
+status: "accepted"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: "New validators should land atomically with fixture tests."
+authority_boundary: "The aggregate validator checks evidence and never authorizes mutation."

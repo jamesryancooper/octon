@@ -169,6 +169,17 @@ main() {
     bash "$VALIDATOR" --root "$valid_root" --proposal ".octon/inputs/exploratory/proposals/architecture/fixture-child"
   assert_success "generator check accepts fresh generated artifacts" \
     bash "$GENERATOR" --root "$valid_root" --proposal ".octon/inputs/exploratory/proposals/architecture/fixture-child" --check
+  local receipt_output
+  receipt_output="$(bash "$GENERATOR" --root "$valid_root" --proposal ".octon/inputs/exploratory/proposals/architecture/fixture-child" --check)"
+  if grep -Fq 'refresh_receipt:' <<<"$receipt_output" &&
+    grep -Fq 'owning_generator: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"' <<<"$receipt_output" &&
+    grep -Fq 'generated_output_authority: "derived-only"' <<<"$receipt_output" &&
+    grep -Fq 'source_refs:' <<<"$receipt_output" &&
+    grep -Fq 'output_refs:' <<<"$receipt_output"; then
+    pass "artifact generator emits digest-backed refresh receipt"
+  else
+    fail "artifact generator emits digest-backed refresh receipt"
+  fi
 
   local digest_root="$tmp/digest-mismatch"
   make_fixture "$digest_root"
@@ -176,6 +187,15 @@ main() {
   printf '%s\n' 'tampered source' >>"$digest_root/.octon/inputs/exploratory/proposals/architecture/fixture-child/README.md"
   assert_failure "source digest mismatch fails closed" \
     bash "$VALIDATOR" --root "$digest_root" --proposal ".octon/inputs/exploratory/proposals/architecture/fixture-child"
+  local stale_output stale_rc=0
+  stale_output="$(bash "$GENERATOR" --root "$digest_root" --proposal ".octon/inputs/exploratory/proposals/architecture/fixture-child" --check 2>&1)" || stale_rc=$?
+  if (( stale_rc != 0 )) &&
+    grep -Fq 'refresh_status: "stale-output"' <<<"$stale_output" &&
+    grep -Fq 'next_owning_route: "generate-proposal-artifact-index.sh --proposal .octon/inputs/exploratory/proposals/architecture/fixture-child --write"' <<<"$stale_output"; then
+    pass "artifact generator stale check names next owning route"
+  else
+    fail "artifact generator stale check names next owning route"
+  fi
 
   local authority_root="$tmp/authority-negative-control"
   make_fixture "$authority_root"

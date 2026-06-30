@@ -18,6 +18,14 @@ a retained delivery-readiness preflight before expensive child continuation,
 parent delivery, Git mutation, publication checks, landing, sync, cleanup, or
 branch deletion.
 
+Runner handoff continuation is allowed only after the retained readiness
+evidence validates. `target_outcome`, PR policy, stash policy, order policy,
+operator grant context, runner handoff refs, include-path classification, and
+retained preflight refs are profile-bound or workflow-evidence-bound inputs.
+Runner handoff refs and readiness projections are not child packet, archive,
+generated-publication, cleanup, Change, branch, final sync, or terminal proof
+authority.
+
 ## Usage
 
 ```text
@@ -37,10 +45,12 @@ branch deletion.
 - A delivery summary under `.octon/state/evidence/validation/analysis/`.
 - A `proposal-program-delivery-receipt-v1` aggregate receipt.
 
-The receipt may report `cleaned` only when target-owned implementation receipts,
-publication freshness, packet closeout, archive handoff, Change closeout,
-landing proof, branch cleanup authorization, final sync proof, terminal proof,
-worktree hygiene, clean-worktree route selection, include-path classification
-when source posture is dirty or stale, and any required lifecycle postmortem
-threshold evidence all pass. Otherwise it reports `blocked` with the blocker
-class and next owning lifecycle.
+The receipt may report `cleaned` only when target-owned implementation
+receipts, source receipt refs and digests, publication freshness, packet
+closeout, archive handoff, Change closeout, landing proof, branch cleanup
+authorization, final sync proof, terminal proof, worktree hygiene,
+clean-worktree route selection, include-path classification when source
+posture is dirty or stale, and any required lifecycle postmortem threshold
+evidence all pass. Otherwise it reports the highest evidence-backed outcome
+with the blocker class, downgrade rationale, excluded evidence classes, and
+next owning lifecycle.

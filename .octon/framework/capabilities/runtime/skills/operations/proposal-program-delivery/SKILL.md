@@ -44,20 +44,22 @@ The matching command surface is:
 ## Required Checks
 
 - Validate any supplied profile with `validate-proposal-program-delivery-profile.sh`.
+- Require profile or workflow evidence for `target_outcome`, release state, order policy, PR policy, stash policy, operator grant context when supplied, runner handoff refs when supplied, include-path classification state, and retained preflight refs.
 - Enforce `execution_order_policy`: `child-before-parent-delivery` is canonical, and non-canonical requested order requires a retained target-bound `proposal-program-delivery-order-override-receipt-v1`.
 - Run the retained delivery-readiness preflight before child lifecycle continuation, parent delivery, Git mutation, publication checks, landing, sync, cleanup, or branch deletion.
 - Re-run accepted review, implementation readiness, and proposal subtype validators.
 - Run or resume child packet lifecycles through their owning packet workflows.
-- Validate target-owned child receipts directly; parent summaries are not sufficient.
-- Validate implementation conformance, post-implementation drift/churn, generated publication freshness, and governed mechanism integration coverage.
+- Validate target-owned child receipts directly by source receipt ref plus digest; parent summaries, readiness projections, aggregate delivery receipts, delivery evidence indexes, generated outputs, host state, chat, model memory, and tool state are not sufficient.
+- Validate implementation conformance, post-implementation drift/churn, generated publication freshness, feature-catalog drift, and governed mechanism integration coverage through owning validators and source receipts.
 - Route packet closeout and archive through their owning lifecycles.
-- Route Git mutation, branch-no-pr landing, final sync, branch cleanup, and Change closeout through `closeout-change` or `closeout-worktree`.
+- Route Git mutation, branch-no-pr landing, final sync, branch cleanup, and Change closeout through `closeout-change` or `closeout-worktree` with explicit include paths, exclude paths, route hints, target lifecycle outcome, validation floor, rollback posture, profile constraints, source receipt refs, readiness receipt ref, and blocker context.
 - Require git mutation preflight before branch-local commit, push, hosted no-PR landing, sync, cleanup, or branch deletion; retain typed blocked evidence such as `git-index-write-denied` or `git-ref-write-denied` instead of retrying blindly.
 - When source posture is dirty or stale, require a route-owned clean worktree from current `origin/main` and include-path classification before reconstruction, broad stage-all, staging, or commit.
 - When repeated blocker, recovery, or long-run thresholds apply, require validated lifecycle postmortem evidence before learned-from completion claims.
 - Route residue deletion only through `repo-hygiene-cleanup` with cleanup authorization.
 - Validate terminal current-state proof and worktree hygiene after the final mutation.
 - Validate the aggregate receipt with `validate-proposal-program-delivery-receipt.sh`.
+- Require the aggregate receipt to record source receipt refs, digests, disclosure tiers, non-authority classifications, excluded evidence classes, stop condition IDs, owning next routes, highest evidence-backed outcome, clean-worktree route, include-path classification status, lifecycle postmortem status when required, and downgrade rationale.
 - Generate the compact retained delivery evidence index with `generate-proposal-program-delivery-evidence-index.sh`.
 - Validate the compact retained delivery evidence index with `validate-proposal-program-delivery-evidence-index.sh`.
 
@@ -74,6 +76,7 @@ compact `proposal-program-delivery-evidence-index-v1` retained index.
 - Do not archive, move, or rename child packets directly from delivery.
 - Do not mutate Git, hosted branches, or PR state outside Change closeout.
 - Do not proceed with non-canonical delivery order without a valid retained order override receipt.
+- Do not treat runner handoff refs or delivery-readiness evidence as child packet, archive, generated-publication, cleanup, Change, branch, final sync, or terminal proof authority.
 - Do not reconstruct, broad stage-all, stage, commit, push, land, sync, cleanup, or delete branches from dirty or stale source posture without route-owned clean worktree selection and include-path classification.
 - Do not delete repo hygiene residue or worktree residue without the owning cleanup authorization.
 - Do not edit generated/effective outputs by hand.

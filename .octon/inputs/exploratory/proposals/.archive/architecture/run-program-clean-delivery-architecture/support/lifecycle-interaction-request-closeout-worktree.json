@@ -1,0 +1,86 @@
+{
+  "schema_version": "lifecycle-interaction-request-v1",
+  "interaction_id": "run-program-clean-delivery-architecture-closeout-worktree-handoff-20260628t165723z",
+  "created_at": "2026-06-28T16:57:23Z",
+  "source": {
+    "lifecycle_id": "proposal-packet",
+    "run_id": "20260628T170000Z-run-program-clean-delivery-architecture-promote",
+    "atomic_unit_type": "proposal-packet",
+    "target_ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture",
+    "phase_id": "closeout-packet"
+  },
+  "request": {
+    "interaction_profile": "handoff",
+    "interaction_kind": "follow_on_work_required",
+    "requested_capability": "closeout-worktree",
+    "requested_lifecycle_id": "closeout-worktree",
+    "requested_route_surface": "closeout-worktree",
+    "requested_atomic_unit_type": "worktree",
+    "requested_target_outcome": "preserved"
+  },
+  "scope": {
+    "include_paths": [
+      ".octon/generated/effective",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle",
+      ".octon/inputs/exploratory/proposals/.DS_Store",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-evidence-metadata",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-operator-surface",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-runner-routing",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validators",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-workflow-handoff",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery",
+      ".octon/state/control",
+      ".octon/state/continuity",
+      ".octon/state/evidence"
+    ],
+    "exclude_paths": [
+      ".git",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture"
+    ],
+    "boundary_digest": "sha256:ac98012c99648313031aacfd4cacb69de43300853bc40c6d4d46947bee8f8a41"
+  },
+  "evidence_offered": [
+    {
+      "ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/20260628T170000Z-run-program-clean-delivery-architecture-promote/worktree-hygiene-classifier.yml",
+      "digest": "sha256:0cf9b69252ce4029ebdcdc5332d78c718ce1e0ebae8d0a6bce4a3da9ef5fb789",
+      "acceptance_class": "validation-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/support/implementation-conformance-review.md",
+      "digest": "sha256:d41c104ba507fdce7edf462a240124917f5dac5a1f9a3a6370af8c28754ab5ba",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/support/post-implementation-drift-churn-review.md",
+      "digest": "sha256:69bf24e77c9aee7b26a60682fd9130ffb4fad170a6b9ccaf0269529c4d6d82c4",
+      "acceptance_class": "review-evidence"
+    },
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture/support/validation.md",
+      "digest": "sha256:1f1d2ba3d5c78771427ec0750b36f0113d9246a45d87d9cd76a013893e74b32d",
+      "acceptance_class": "validation-evidence"
+    }
+  ],
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "worktree-cleanup-authorization",
+      "repo-hygiene-deletion",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "stop_conditions": [
+    "Stop if the requested route treats this request as authorization for archive relocation, promotion, Git or hosted-provider mutation, branch cleanup, worktree cleanup, repo-hygiene deletion, or scope expansion.",
+    "Stop if the requested route cannot preserve proposal-packet closeout authority and target-owned evidence boundaries.",
+    "Stop if fresh return evidence cannot cite the retained classifier, classifier digest, foreign fingerprint, scoped paths, and an independent preservation or blocked disposition."
+  ],
+  "expected_return_evidence": [
+    "lifecycle-interaction-return-v1",
+    "closeout-worktree-report-v1"
+  ]
+}

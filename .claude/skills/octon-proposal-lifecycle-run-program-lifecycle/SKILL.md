@@ -37,6 +37,14 @@ evidence plus a resumable checkpoint. Its contract declares
 remains on the program controller rather than the packet route-progression
 driver.
 
+Clean-delivery continuation is a runner posture inside that replan loop. Use
+`--set target_outcome=cleaned` only to request Proposal Program Delivery as a
+later handoff input. The runner records route-selection inputs, selected route
+ownership, blocked alternatives, retry fingerprint fields, resume source refs,
+and delivery handoff posture in `route-decision-receipt.yml`; it does not turn
+the requested target outcome into landing, sync, cleanup, branch cleanup,
+terminal proof, or a final `cleaned` claim.
+
 Executor behavior:
 
 - Without `--execute-routes`, the runner stops at a planned
@@ -55,6 +63,21 @@ Executor behavior:
 - Durable implementation, promotion, closeout, and archival routes execute only after
   proof-gated delegation succeeds. `--invocation-authority unattended` authorizes
   delegated execution, but missing or invalid proof fails closed.
+- Proposal-program delivery preserves the canonical order
+  `child implementation -> child validation -> child closeout -> child archive -> parent/program delivery -> landing/sync/cleanup`.
+  Non-canonical requested order stops before continuation unless a retained,
+  target-bound order override receipt validates against
+  `proposal-program-delivery-order-override-receipt-v1`.
+- Before expensive child continuation, parent delivery, Git mutation,
+  publication checks, landing, sync, cleanup, or branch deletion, delivery must
+  consume one retained delivery-readiness preflight receipt covering Git write
+  access, worktree cleanliness, source staleness, review freshness, child receipt
+  compatibility, tooling, route legality, and generated freshness.
+- Dirty or stale source posture defaults to a route-owned clean worktree from
+  current `origin/main`; include-path classification is required before
+  reconstruction, broad stage-all, staging, or commit.
+- Repeatedly blocked, recovered, or long-running delivery paths require
+  validated lifecycle postmortem evidence before learned-from completion claims.
 - Program recovery is bounded by the proposal-program autonomous recovery
   envelope. Low-risk generated refresh, diagnostics, evidence-index
   materialization, lifecycle-residue classification, and current-run

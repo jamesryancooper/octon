@@ -52,6 +52,39 @@ worktree_wrapper:
     git_clean_terminal: "No non-ignored staged, unstaged, untracked, retained-evidence, generated-effective, host-projection, state-control, release-version, or input-surface residue remains; ignored local residue may remain only with foreign or retained evidence."
     disposition_complete_with_retained_residue: "Every candidate is closed, retained, or foreign with authority-backed evidence, but Git-clean worktree state is not claimed."
     nonterminal: "Blocked, deferred, escalated, ambiguous, or unresolved delegated residue remains."
+proposal_program_delivery_handoff:
+  caller_role: "aggregate delivery coordinator only"
+  accepted_inputs:
+    - "include_paths"
+    - "exclude_paths"
+    - "route_hints"
+    - "target_lifecycle_outcome"
+    - "validation_floor"
+    - "rollback_posture"
+    - "profile_constraints"
+    - "source_receipt_refs_and_digests"
+    - "readiness_receipt_ref_and_digest"
+    - "blocker_context"
+  route_owner_boundaries:
+    child_receipts: "child packet lifecycle routes"
+    archive: "proposal packet closeout and proposal archive lifecycle"
+    generated_publication: "owning generator or publisher"
+    repo_hygiene_cleanup: "repo-hygiene-cleanup receipt-backed helper route"
+    change_closeout: "closeout-change"
+    dirty_worktree_partitioning: "closeout-worktree"
+    branch_cleanup_final_sync_terminal_proof: "closeout-change and terminal proof validators"
+  no_substitution_rule: >-
+    Proposal-program delivery receipts, readiness projections, parent summaries,
+    compact evidence indexes, runner handoff refs, generated outputs, host
+    state, chat, model memory, and tool state may cite target-owned evidence by
+    ref and digest only. They never satisfy child receipt, archive,
+    generated-publication, cleanup, Change, branch cleanup, final sync,
+    terminal proof, landed, synced, or cleaned gates.
+  downgrade_rule: >-
+    When closeout-change, closeout-worktree, archive, cleanup, generated
+    publication, final sync, or terminal proof evidence is missing, stale,
+    failing, or outside the selected route authority, delivery reports the
+    highest evidence-backed outcome with a stop condition and next owning route.
 closeout_defaults:
   target_lifecycle_outcome:
     unspecified_closeout_request: "cleaned"

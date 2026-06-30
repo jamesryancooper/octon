@@ -25,6 +25,67 @@ delivery_modes:
     workflow_ref: ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml"
     profile_schema_ref: ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
     receipt_schema_ref: ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+    order_override_receipt_schema_ref: ".octon/framework/product/contracts/proposal-program-delivery-order-override-receipt-v1.schema.json"
+    execution_order_policy:
+      canonical_order_ref: "child-before-parent-delivery"
+      non_canonical_order_requires_retained_override_receipt: true
+      override_receipt_authorizes_delivery: false
+    readiness_preflight:
+      required_before_expensive_continuation: true
+      retained_receipt_required: true
+      checks:
+        - "git write preflight"
+        - "worktree cleanliness"
+        - "source staleness"
+        - "review freshness"
+        - "child receipt compatibility"
+        - "tooling availability"
+        - "route legality"
+        - "generated freshness"
+    clean_worktree_route:
+      dirty_or_stale_source_defaults_to_route_owned_clean_worktree: true
+      include_path_classification_required_before_reconstruction_stage_commit: true
+    stop_condition_taxonomy:
+      - stop_id: "SC-001-authority-gap"
+        machine_condition: "target-owned receipt missing for claimed transition"
+        owning_route_or_validator: "target transition owner"
+        blocked_outcome: "blocked:authority-gap"
+      - stop_id: "SC-002-ownership-conflict"
+        machine_condition: "multiple routes claim the same mutation or evidence authority"
+        owning_route_or_validator: "lifecycle runner and proposal review"
+        blocked_outcome: "blocked:ownership-conflict"
+      - stop_id: "SC-003-unsafe-mutation"
+        machine_condition: "git write preflight failed or dirty/stale source lacks include-path classification"
+        owning_route_or_validator: "delivery-readiness-preflight and closeout-worktree"
+        blocked_outcome: "blocked:unsafe-mutation"
+      - stop_id: "SC-004-approval-required"
+        machine_condition: "required approval, exception, landing, hosted, or branch authorization is missing"
+        owning_route_or_validator: "closeout-change or authority engine"
+        blocked_outcome: "blocked:approval-required"
+      - stop_id: "SC-005-stale-evidence"
+        machine_condition: "stored digest, event head, review digest, or receipt freshness mismatches current source"
+        owning_route_or_validator: "proposal review gate or targeted freshness validator"
+        blocked_outcome: "blocked:stale-evidence"
+      - stop_id: "SC-006-generated-freshness-drift"
+        machine_condition: "generated effective or publication output is stale or direct-edited"
+        owning_route_or_validator: "owning publisher and freshness validators"
+        blocked_outcome: "blocked:generated-freshness-drift"
+      - stop_id: "SC-007-publishable-evidence-gap"
+        machine_condition: "hosted/shared closeout proof cites local/private-only evidence as authority"
+        owning_route_or_validator: "evidence disclosure and terminal proof validators"
+        blocked_outcome: "blocked:publishable-evidence-gap"
+      - stop_id: "SC-008-validation-failure"
+        machine_condition: "required validator exits nonzero"
+        owning_route_or_validator: "validator owner"
+        blocked_outcome: "blocked:validation-failure"
+      - stop_id: "SC-009-parent-summary-substitution"
+        machine_condition: "parent summary, delivery receipt, readiness projection, or evidence index is used as child-owned evidence"
+        owning_route_or_validator: "child receipt validator and delivery receipt validator"
+        blocked_outcome: "blocked:parent-summary-substitution"
+      - stop_id: "SC-010-cleaned-proof-gap"
+        machine_condition: "cleaned requested but terminal proof, final sync, branch cleanup, or worktree hygiene is missing or stale"
+        owning_route_or_validator: "terminal proof and closeout validators"
+        blocked_outcome: "blocked:cleaned-proof-gap"
     entrypoints:
       - "/proposal-program-delivery"
       - "proposal-program-delivery"
@@ -49,6 +110,7 @@ delivery_modes:
       change_closeout_owner: "closeout-change-or-closeout-worktree"
       repo_hygiene_owner: "repo-hygiene-cleanup"
       generated_publication_owner: "owning-publisher-scripts"
+      lifecycle_postmortem_owner: "lifecycle-postmortem"
 
 postmortem_profiles:
   - profile_id: "proposal-program-delivery-evaluation"
@@ -127,6 +189,11 @@ program:
         - "blocker_class"
         - "child_id_when_present"
         - "route_id"
+        - "target_digest"
+        - "receipt_digest"
+        - "write_scope_digest"
+        - "stable_digest_boundary"
+        - "recovery_owner"
         - "disposition"
       targeted_refresh_diagnostic_fields:
         - "failing_path"
@@ -239,6 +306,78 @@ program:
       freshness_readiness_projection_authorizes_archive: false
       generated_output_authority: "derived-only"
       raw_evidence_retained: true
+  clean_delivery_continuation:
+    mode_id: "clean-delivery-continuation"
+    declared_posture: "orchestrated-replan-loop"
+    continuation_mode_field: "route-decision-receipt.yml#route_selection_inputs.continuation_mode"
+    selected_outcome_field: "route-decision-receipt.yml#delivery_handoff.requested_target_outcome"
+    route_selection_inputs:
+      required_live_sources:
+        - "parent proposal.yml"
+        - "resources/child-packet-index.yml"
+        - "child proposal manifests"
+        - "child-owned support receipts"
+        - "program lifecycle checkpoint"
+        - "program event log"
+        - "retained run evidence"
+      exactly_one_route_owned_continuation_required: true
+      child_routes_precede_parent_delivery: true
+      no_prompt_fallback_when_unique_route_is_legal: true
+      ambiguous_or_multiple_routes_stop_with_typed_blocker: true
+    route_decision_evidence:
+      receipt_ref: "route-decision-receipt.yml"
+      required_fields:
+        - "route_decision"
+        - "selected_route_owner"
+        - "route_selection_inputs"
+        - "blocked_alternatives"
+        - "retry_fingerprint_inputs"
+        - "resume_source_refs"
+        - "delivery_handoff"
+      source_refs_required: true
+      source_digests_required: true
+      model_visible_context_sha256_required: true
+      generated_outputs_authorize_route_selection: false
+      parent_summary_satisfies_child_receipts: false
+    retry_fingerprint_fields:
+      - "blocker_class"
+      - "child_id_when_present"
+      - "route_id"
+      - "target_digest"
+      - "receipt_digest"
+      - "write_scope_digest"
+      - "stable_digest_boundary"
+      - "recovery_owner"
+    resume_source_refs:
+      checkpoint_event_head: "required"
+      event_log_sha256: "required"
+      child_registry_digest: "required"
+      source_ref_sha256: "required"
+      model_visible_context_sha256: "required"
+      unsafe_resume_behavior: "fail-closed"
+    delivery_handoff:
+      target_outcome_cleaned_is_request_only: true
+      owner: "proposal-program-delivery"
+      runner_owns_landing: false
+      runner_owns_sync: false
+      runner_owns_cleanup: false
+      runner_owns_branch_cleanup: false
+      runner_owns_terminal_proof: false
+      runner_owns_cleaned_claim: false
+      required_before_handoff_ready:
+        - "parent review fresh"
+        - "child readiness pass"
+        - "child receipts fresh"
+        - "parent receipts fresh"
+        - "generated freshness pass"
+        - "delivery-readiness preflight pass"
+        - "route-decision receipt source refs verify"
+      stop_before_delivery_mutation_when_missing:
+        - "Change closeout"
+        - "branch cleanup authorization"
+        - "cleanup authorization"
+        - "terminal proof"
+        - "owning-route evidence"
   atomic_policy:
     eligibility: "explicit-route-opt-in"
     require_declared_write_scopes: true
@@ -1156,6 +1295,19 @@ routes:
             - manifest_status: "in-review"
             - receipt_absent: "proposal-review"
         - all:
+            - manifest_status: "in-review"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict:
+                receipt_id: "proposal-review"
+                value: "revision-required"
+            - current_review_revision_receipt_present: true
+        - all:
+            - manifest_status: "in-review"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict: { receipt_id: "proposal-review", value: "accepted" }
+            - receipt_field_equals: { receipt_id: "proposal-review", field: "implementation_prompt_authorized", value: "yes" }
+            - receipt_fresh: "proposal-review"
+        - all:
             - any:
                 - manifest_status: "draft"
                 - manifest_status: "in-review"
@@ -1194,6 +1346,7 @@ routes:
         - receipt_verdict:
             receipt_id: "proposal-review"
             value: "revision-required"
+        - current_review_revision_receipt_present: false
   - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
