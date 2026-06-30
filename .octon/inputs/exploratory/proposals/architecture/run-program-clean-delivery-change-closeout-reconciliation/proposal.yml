@@ -1,0 +1,56 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-change-closeout-reconciliation
+title: Run Program Clean Delivery Change Closeout Reconciliation
+summary: Ensure branch publication, merge, local main sync, and branch cleanup are reconciled through governed Change closeout receipts before terminal clean-delivery claims.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+  - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: in-review
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, implement Change closeout reconciliation after accepted review, and close out with child-owned closeout validation evidence.
+related_proposals:
+  - run-program-clean-delivery-postmortem-hardening
+selected_implementation_target: Governed Change closeout reconciliation for publication, merge, sync, and branch cleanup.
+scope_statement: This child owns Change closeout reconciliation only. It does not implement architecture-review freshness, delivery receipt completion, cleanup disposition, validator chain hardening, or test hermeticity.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+authority_class_impact:
+  framework: Future implementation may update Change closeout skill, default work unit policy, closeout state machine, receipt schema, validators, and tests listed in promotion targets.
+  instance: No direct instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation must retain Change closeout reconciliation proof for this child only.
+  generated: Generated outputs remain derived-only and cannot authorize merge or cleanup claims.
+  inputs: This child packet is temporary proposal lineage only.
+evidence_requirements:
+  - Accepted child proposal review and strict pre-integration architecture review before durable edits.
+  - Change receipt validation for branch-local, PR-backed, and already-landed states.
+  - Evidence that remote publication, merge, local main sync, and branch cleanup are represented in receipt state transitions.
+  - Negative controls proving GitHub host state or chat narrative cannot replace Change closeout receipts.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-change-closeout-lifecycle-alignment.sh --receipt <receipt>"
+  - "validate-hosted-no-pr-landing.sh --receipt <receipt>"
+acceptance_criteria_summary: Terminal clean-delivery claims require governed Change closeout evidence for publication, merge, local main sync, and branch cleanup when those actions occur.
+risk_posture: High. The fix must preserve route-neutral Change closeout semantics without making GitHub host state authoritative.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+owner:
+  role: Octon Change closeout reconciliation architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-30
+source_lineage:
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+  - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"

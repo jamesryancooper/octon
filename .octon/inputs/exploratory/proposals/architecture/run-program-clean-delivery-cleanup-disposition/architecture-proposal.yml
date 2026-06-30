@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: clean-delivery cleanup and worktree disposition
+decision_type: boundary-change
+status: in-review
+owner: Octon cleanup disposition architect
+created_date: 2026-06-30
+summary: Makes cleanup and preservation depend on classified residue, closeout-worktree disposition, and matching return fingerprints.
+architecture_drivers:
+  - Dirty worktree blockers must expose exact residue evidence instead of repeating cleanup routes.
+  - Cleanup detection must not authorize deletion.
+  - Preservation can be terminal only when validated disposition evidence says so.
+constraints:
+  - Preserve authored, state-control, state-evidence, generated, and input authority boundaries.
+  - Do not delete protected or foreign residue without a governed receipt.
+  - Reuse closeout-worktree rather than creating a proposal-program-specific cleanup authority.

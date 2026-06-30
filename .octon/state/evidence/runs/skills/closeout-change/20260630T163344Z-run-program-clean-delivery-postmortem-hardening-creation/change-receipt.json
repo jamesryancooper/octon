@@ -1,0 +1,95 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "run-program-clean-delivery-postmortem-hardening-creation-20260630T163344Z",
+  "selected_route": "direct-main",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "direct-main-landing",
+  "intent": "Create the run-program clean-delivery postmortem hardening proposal program and its six child proposal packets without implementing child promotion targets.",
+  "scope": {
+    "summary": "Adds a parent proposal program, six sibling child architecture proposal packets, the derived proposal registry refresh, and direct-main closeout evidence for the proposal creation Change.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/**",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/**",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/**",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/**",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/**",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/**",
+      ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-test-hermeticity/**",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/state/evidence/runs/skills/closeout-change/20260630T163344Z-run-program-clean-delivery-postmortem-hardening-creation/change-receipt.json"
+    ],
+    "diff_refs": [
+      "origin/main@a50721058d65d03a7aedcbc053fe347833b5c1b4..direct-main-closeout-commit"
+    ],
+    "validation_notes": [
+      "validate-proposal-program-child-readiness.sh was run and failed only because each child remains in-review without accepted support/proposal-review.md implementation authorization; the parent proposal.yml gates that validator after child review acceptance, so it is not used as proposal creation authority.",
+      "Proposal input files remain temporary non-authoritative lineage; generated registry output remains derived-only."
+    ]
+  },
+  "target_branch_ref": "main",
+  "landed_ref": "direct-main-closeout-commit",
+  "main_alignment": {
+    "local_main_ref": "direct-main-closeout-commit",
+    "origin_main_ref": "direct-main-closeout-commit",
+    "landed_ref": "direct-main-closeout-commit",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "final post-push fetch origin verification records the concrete commit hash in the operator closeout report.",
+    "local_main_sync_evidence_ref": "direct-main closeout starts from local main synchronized with origin/main at a50721058d65d03a7aedcbc053fe347833b5c1b4 and records final sync verification after push.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "post-push final verification resolves the concrete landed commit after commit creation."
+  },
+  "integration_method": "direct-commit",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "No branch cleanup is applicable for direct-main.",
+    "No deletion, reset, restore, archive, or child implementation cleanup was performed."
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch --untracked-files=all before closeout showed current main equal to origin/main at a50721058d65d03a7aedcbc053fe347833b5c1b4 with seven untracked run-program-clean-delivery proposal directories.",
+    "residue_classification_ref": "classify-change-closeout-residue.sh reported staged=0, unstaged-tracked=0, untracked=7, input-surface=83; classify-proposal-worktree-hygiene.sh for the parent reported pass and child_closeout_authority_preserved=true.",
+    "phase_exit_refs": [
+      "read-in-and-constraints: root AGENTS adapter, canonical ingress, mandatory constitutional read set, default work unit policy, change closeout state machine, git worktree autonomy contract, closeout-worktree skill, and closeout-change skill read.",
+      "inventory: local main, HEAD, main, and origin/main all resolved to a50721058d65d03a7aedcbc053fe347833b5c1b4 before validation.",
+      "route-resolution: direct-main selected because main was current, the candidate was one proposal-program creation bundle, validation was local, rollback is a normal revert of the resulting main commit, and no PR-required predicate was identified.",
+      "validation: parent and six child validate-proposal-standard.sh and validate-architecture-proposal.sh passed after canonical proposal registry refresh; parent validate-proposal-program-structure.sh passed; git diff --check passed.",
+      "authority-boundary: child promotion targets were not implemented, child proposal-review receipts were not synthesized, and parent evidence was not treated as child receipt evidence."
+    ],
+    "cleanup_decision_refs": [
+      "No repo-hygiene deletion route selected; ignored local residue was not touched.",
+      "Generated proposal registry refreshed through generate-proposal-registry.sh --write after validate-proposal-standard.sh identified stale projection drift."
+    ],
+    "safe_cleanup_evidence_class": "not-applicable",
+    "final_verification_ref": "post-commit and post-push git status, fetch, and ref alignment verification recorded in final closeout report"
+  },
+  "validation_evidence_refs": [
+    "OCTON_PROPOSAL_REGISTRY_PROJECTION_ONLY=1 generate-proposal-registry.sh --write: passed, Registry generation summary errors=0",
+    "OCTON_PROPOSAL_REGISTRY_PROJECTION_ONLY=1 generate-proposal-registry.sh --check: passed",
+    "validate-proposal-standard.sh --package <parent>: passed",
+    "validate-architecture-proposal.sh --package <parent>: passed",
+    "validate-proposal-standard.sh --package <six children>: passed for each child",
+    "validate-architecture-proposal.sh --package <six children>: passed for each child",
+    "validate-proposal-program-structure.sh --package <parent>: passed",
+    "git diff --check: passed"
+  ],
+  "review_waiver_refs": [
+    "No PR-required predicate was identified for a non-runtime proposal-input creation Change on current main.",
+    "validate-proposal-program-child-readiness.sh requires accepted child proposal-review receipts for implementation authorization and is intentionally deferred until child review acceptance."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "direct-main-closeout-commit",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "direct-main-closeout-commit",
+    "instructions": "Use a governed follow-up Change to revert the direct-main commit if this proposal-program creation bundle must be backed out."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-30T16:33:44Z"
+}

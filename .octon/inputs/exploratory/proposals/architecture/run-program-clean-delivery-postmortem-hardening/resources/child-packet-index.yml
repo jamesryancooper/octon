@@ -1,0 +1,129 @@
+schema_version: octon-proposal-program-child-registry-v2
+execution_mode: sequential
+default_child_lifecycle_id: proposal-packet
+children:
+  - child_id: run-program-clean-delivery-architecture-review-freshness
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness
+    priority: P0
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: terminal
+    phase_id: phase-1
+    group_id: review-freshness
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "validate-architectural-review-receipts.sh --receipt <receipt> --package <packet> --require-pass"
+      - "cargo test -p octon_kernel review_packet_completion_requires_fresh_accepted_architecture_review_receipt"
+      - "cargo test -p octon_kernel stale_architecture_review_gate_retains_child_review_packet_route"
+  - child_id: run-program-clean-delivery-delivery-receipt-completion
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion
+    priority: P0
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-architecture-review-freshness
+    dependency_gate: terminal
+    phase_id: phase-2
+    group_id: delivery-proof
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+      - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+      - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/"
+      - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "validate-proposal-program-delivery-workflow.sh"
+      - "validate-proposal-program-delivery-receipt.sh --receipt <receipt>"
+      - "validate-proposal-program-delivery-evidence-index.sh --index <index>"
+      - "validate-run-program-clean-delivery.sh --receipt <receipt>"
+  - child_id: run-program-clean-delivery-change-closeout-reconciliation
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation
+    priority: P0
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-delivery-receipt-completion
+    dependency_gate: terminal
+    phase_id: phase-3
+    group_id: change-closeout
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+      - ".octon/framework/product/contracts/default-work-unit.yml"
+      - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+      - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "validate-change-closeout-state-machine.sh"
+      - "validate-change-closeout-lifecycle-alignment.sh --receipt <receipt> --verify-live-refs"
+      - "validate-hosted-no-pr-landing.sh --receipt <receipt> --require-live-remote"
+  - child_id: run-program-clean-delivery-cleanup-disposition
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-change-closeout-reconciliation
+    dependency_gate: terminal
+    phase_id: phase-4
+    group_id: cleanup-disposition
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "validate-closeout-worktree-wrapper.sh --report <report>"
+      - "classify-proposal-worktree-hygiene.sh --target <fixture> --lifecycle proposal-program"
+      - "cleanup-local-run-artifacts.sh --dry-run"
+  - child_id: run-program-clean-delivery-validator-hardening
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-cleanup-disposition
+    dependency_gate: terminal
+    phase_id: phase-5
+    group_id: validator-hardening
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "validate-run-program-clean-delivery.sh"
+      - "test-run-program-clean-delivery-validator.sh"
+      - "validate-evidence-disclosure-tiers.sh --change-receipt <receipt>"
+  - child_id: run-program-clean-delivery-test-hermeticity
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-test-hermeticity
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-validator-hardening
+    dependency_gate: terminal
+    phase_id: phase-6
+    group_id: test-hermeticity
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "test-classify-proposal-worktree-hygiene.sh"
+      - "git status --short -- .octon/generated/cognition/projections/materialized/runs"

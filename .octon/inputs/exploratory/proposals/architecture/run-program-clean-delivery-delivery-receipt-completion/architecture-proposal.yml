@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program delivery receipt completion
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal-program delivery receipt architect
+created_date: 2026-06-30
+summary: Adds concrete receipt and evidence-index requirements to Proposal Program Delivery and clean-delivery validation.
+architecture_drivers:
+  - Delivery closeout must be receipt-backed, not narrative-backed.
+  - Evidence indexes must cite parent closeout and child terminal evidence without replacing child-owned receipts.
+  - Clean-delivery validators must fail when delivery receipt or index evidence is missing.
+constraints:
+  - Proposal inputs remain non-authoritative planning surfaces.
+  - Generated outputs cannot substitute for retained delivery receipts.
+  - Delivery evidence must preserve parent-owned and child-owned authority boundaries.

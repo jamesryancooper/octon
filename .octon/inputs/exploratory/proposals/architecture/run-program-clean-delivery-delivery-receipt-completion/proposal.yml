@@ -1,0 +1,58 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-delivery-receipt-completion
+title: Run Program Clean Delivery Delivery Receipt Completion
+summary: Require Proposal Program Delivery receipts and delivery evidence indexes before any clean-delivery or git-clean-terminal claim is accepted.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+  - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+  - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/"
+  - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+  - ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: in-review
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, implement delivery receipt completion after accepted review, and close out with child-owned delivery validation evidence.
+related_proposals:
+  - run-program-clean-delivery-postmortem-hardening
+selected_implementation_target: Proposal Program Delivery receipt and evidence-index completion gates.
+scope_statement: This child owns delivery receipt completeness only. It does not implement architecture-review freshness, Change closeout reconciliation, cleanup disposition, validator chain hardening outside delivery gates, or test hermeticity.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+authority_class_impact:
+  framework: Future implementation may update delivery workflow, command, skill, contracts, validators, and tests listed in promotion targets.
+  instance: No direct instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation must retain delivery receipt validation and evidence-index validation proof for this child only.
+  generated: Generated outputs remain derived-only and must not substitute for retained delivery evidence.
+  inputs: This child packet is temporary proposal lineage only.
+evidence_requirements:
+  - Accepted child proposal review and strict pre-integration architecture review before durable edits.
+  - Delivery receipt schema validation evidence for complete and incomplete receipts.
+  - Evidence-index validation proving required parent and child references are present without replacing child-owned authority.
+  - Negative controls proving lifecycle narrative alone cannot satisfy delivery closeout.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-proposal-program-delivery-receipt.sh --receipt <receipt>"
+  - "validate-proposal-program-delivery-evidence-index.sh --index <index>"
+  - "validate-run-program-clean-delivery.sh --receipt <receipt>"
+acceptance_criteria_summary: Clean delivery cannot be claimed unless delivery receipt and evidence index validators pass, and the evidence index cites child receipts without taking over child-owned authority.
+risk_posture: High. Receipt completion must be strict enough to prevent false clean delivery while still accepting completed programs with valid retained evidence.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+owner:
+  role: Octon proposal-program delivery receipt architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-30
+source_lineage:
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+  - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/"
+  - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh"

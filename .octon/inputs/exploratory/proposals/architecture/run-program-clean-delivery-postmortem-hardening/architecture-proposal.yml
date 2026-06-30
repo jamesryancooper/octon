@@ -1,0 +1,35 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-postmortem-hardening
+title: Run Program Clean Delivery Postmortem Hardening
+architecture_scope: proposal-program lifecycle closeout and delivery assurance
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal-program postmortem hardening architect
+created_date: 2026-06-30
+program_execution_mode: sequential
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: >
+    The repository is pre-1.0 and the corrective work should land as one
+    coherent hardening program with child-owned implementation slices. No
+    transitional coexistence is required at proposal creation time.
+child_authority_preserved: yes
+authority_boundary: >
+  Parent coordination may sequence, validate, and summarize corrective child
+  work. It must not satisfy child review receipts, child implementation
+  receipts, child validation verdicts, child closeout evidence, child archive
+  metadata, Change delivery receipts, branch cleanup authorization, or terminal
+  current-state proof.
+architecture_drivers:
+  - Refresh stale evidence through owning routes rather than hand-edited digests.
+  - Require concrete delivery receipts before clean-delivery claims.
+  - Keep manual GitHub or local Git operations reconcilable through governed closeout evidence.
+  - Preserve cleanup detection as routing evidence only.
+  - Expand validators and tests to cover the repeated failure modes.
+  - Keep validation tests hermetic against tracked generated outputs.
+constraints:
+  - Parent evidence remains coordination-only.
+  - Child packets must be sibling packets, not nested directories.
+  - Final terminal proof remains owned by Proposal Program Delivery and Change closeout.
+  - Cleanup deletion requires explicit repo-hygiene authorization or operator confirmation.

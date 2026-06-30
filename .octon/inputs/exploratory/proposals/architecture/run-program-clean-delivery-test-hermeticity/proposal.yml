@@ -1,0 +1,56 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-test-hermeticity
+title: Run Program Clean Delivery Test Hermeticity
+summary: Make proposal worktree hygiene and run-health read-model tests hermetic so validation does not dirty tracked generated health files.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/run-health-read-model/"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: in-review
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, implement test hermeticity after accepted review, and close out with child-owned validation evidence that generated health projections remain unchanged.
+related_proposals:
+  - run-program-clean-delivery-postmortem-hardening
+selected_implementation_target: Hermetic worktree-hygiene and run-health read-model validation tests.
+scope_statement: This child owns test hermeticity only. It does not implement architecture-review freshness, delivery receipt completion, Change closeout reconciliation, cleanup disposition, or general validator hardening.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs remain derived-only; this child prevents tests from mutating tracked generated projections as a side effect.
+authority_class_impact:
+  framework: Future implementation may update hygiene tests, run-health generator behavior, read-model validator, fixtures, and tests listed in promotion targets.
+  instance: No direct instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation must retain test output and post-test worktree proof for this child only.
+  generated: Generated health projections must not be modified by tests unless an authorized publication route explicitly regenerates them.
+  inputs: This child packet is temporary proposal lineage only.
+evidence_requirements:
+  - Accepted child proposal review and strict pre-integration architecture review before durable edits.
+  - Test evidence showing hygiene tests pass without changing tracked generated health files.
+  - Fixture evidence showing run-health read-model generation writes to temporary or fixture-owned locations during tests.
+  - Negative controls proving tests fail or isolate when a command would write tracked generated projections.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "test-classify-proposal-worktree-hygiene.sh"
+  - "test-run-health-read-model.sh"
+  - "git status --short -- .octon/generated/cognition/projections/materialized/runs"
+acceptance_criteria_summary: The affected tests pass and leave tracked generated health projections unchanged, so validation can support final hygiene proof instead of creating new dirty residue.
+risk_posture: Medium. The fix must preserve meaningful generated-output freshness coverage while isolating test writes from tracked generated projections.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+owner:
+  role: Octon validation hermeticity architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-30
+source_lineage:
+  - ".octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/run-health-read-model/"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-run-health-read-model.sh"

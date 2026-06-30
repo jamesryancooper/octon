@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: validator test hermeticity for generated run-health projections
+decision_type: boundary-change
+status: in-review
+owner: Octon validation hermeticity architect
+created_date: 2026-06-30
+summary: Isolates tests from tracked generated run-health projections while preserving generator and validator coverage.
+architecture_drivers:
+  - Validation must not dirty the repository it is trying to prove clean.
+  - Generated outputs remain derived-only and must be modified only through authorized generation or publication routes.
+  - Tests need fixture-owned or temporary outputs for generator coverage.
+constraints:
+  - Do not weaken run-health validation semantics.
+  - Do not treat generated projections as authored authority.
+  - Do not delete or revert unrelated generated state as part of test execution.

@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: Change closeout reconciliation for clean delivery
+decision_type: boundary-change
+status: in-review
+owner: Octon Change closeout reconciliation architect
+created_date: 2026-06-30
+summary: Aligns terminal publication, merge, local main sync, and branch cleanup with governed Change closeout receipts.
+architecture_drivers:
+  - Change closeout receipts must reflect post-publication and post-merge state transitions.
+  - Local main sync and branch cleanup must not be claimed without governed receipt evidence.
+  - Host state may be observed but must not mint authority.
+constraints:
+  - Preserve the default work unit policy as the source of Change route semantics.
+  - Do not replace route-neutral Change closeout with a proposal-program-specific fork.
+  - Do not make GitHub labels, PR comments, or chat transcript authoritative.
