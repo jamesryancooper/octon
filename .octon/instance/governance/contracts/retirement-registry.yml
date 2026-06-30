@@ -39,7 +39,7 @@ entries:
     support_scope: "Bootstrap compatibility and legacy workspace-objective readers only."
     value_metric: "Zero active runtime or scaffold readers remain outside explicit compatibility paths."
     review_contract_ref: ".octon/instance/governance/contracts/drift-review.yml"
-    review_date: "2026-06-29"
+    review_date: "2026-06-30"
     retirement_trigger:
       - "Bootstrap and scaffolding stop requiring workspace-objective compatibility adapters."
       - "Drift review finds zero kernel-path or runtime readers."
@@ -62,7 +62,7 @@ entries:
     support_scope: "Historical lineage or subordinate assurance-governance only; these surfaces must never regain peer constitutional authority."
     value_metric: "Historical and subordinate references remain useful without re-entering ingress, validator requirements, or proof-plane obligations as peer authority."
     review_contract_ref: ".octon/instance/governance/contracts/drift-review.yml"
-    review_date: "2026-06-29"
+    review_date: "2026-06-30"
     retirement_trigger:
       - "Historical lineage references no longer require duplicate constitutional text."
       - "Maintainability and documentation evidence stop citing retained duplicate shims."
@@ -83,7 +83,7 @@ entries:
     support_scope: "Historical decision lineage only; per-run authority remains canonical under state/evidence/control/execution/**."
     value_metric: "No active run, disclosure artifact, or validator relies on historical per-run decision evidence."
     review_contract_ref: ".octon/instance/governance/contracts/retirement-review.yml"
-    review_date: "2026-06-29"
+    review_date: "2026-06-30"
     retirement_trigger:
       - "All remaining readers consume canonical control/evidence execution roots."
       - "Retirement review finds no lineage-only references needed for audit continuity."
@@ -104,7 +104,7 @@ entries:
     support_scope: "Legacy projection helpers for seeded run and read-model compatibility only."
     value_metric: "Canonical run control and authority evidence roots remain complete without helper-authored projections."
     review_contract_ref: ".octon/instance/governance/contracts/retirement-review.yml"
-    review_date: "2026-06-29"
+    review_date: "2026-06-30"
     retirement_trigger:
       - "Canonical runtime writers and generated views no longer consume helper-authored projections."
       - "Ablation shows no RunCard, run-manifest, or authority evidence regression after helper removal."

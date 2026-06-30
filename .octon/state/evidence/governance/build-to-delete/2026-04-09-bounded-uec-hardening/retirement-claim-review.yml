@@ -20,22 +20,22 @@ entries:
   - target_id: workspace-objective-compatibility-shims
     status: retained-noncritical
     claim_blocking: false
-    review_date: "2026-06-29"
+    review_date: "2026-06-30"
     rationale: Bootstrap compatibility shims remain bounded, explicit, and scheduled for review.
   - target_id: duplicate-constitutional-shims
     status: historical-retained-noncritical
     claim_blocking: false
-    review_date: "2026-06-29"
+    review_date: "2026-06-30"
     rationale: Historical and subordinate shims remain outside the kernel path and are review-scheduled.
   - target_id: legacy-per-run-decision-lineage
     status: historical-retained-noncritical
     claim_blocking: false
-    review_date: "2026-06-29"
+    review_date: "2026-06-30"
     rationale: Historical decision lineage remains retained only for audit continuity.
   - target_id: helper-authored-run-projections
     status: retained-noncritical
     claim_blocking: false
-    review_date: "2026-06-29"
+    review_date: "2026-06-30"
     rationale: Helper projections remain explicitly bounded and are backed by an ablation path.
   - target_id: run-local-disclosure-mirrors
     status: historical-retained-noncritical
