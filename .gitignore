@@ -33,6 +33,8 @@ tmp/
 temp/
 *.pid
 *.pid.lock
+__pycache__/
+*.py[cod]
 .octon/generated/.tmp/
 .octon/generated/.tmp/capabilities/policy/
 .octon/generated/cognition/graph/
