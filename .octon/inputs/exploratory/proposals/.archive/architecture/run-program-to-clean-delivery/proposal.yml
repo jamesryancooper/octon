@@ -34,7 +34,27 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/tests/"
   - ".octon/framework/product/features/catalog.yml"
   - ".octon/framework/product/features/README.md"
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-30
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+  promotion_evidence:
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-to-clean-delivery/support/proposal-closeout.md
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-to-clean-delivery/support/program-implementation-orchestration-conformance-review.md
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-to-clean-delivery/support/program-post-implementation-orchestration-drift-churn-review.md
+    - .octon/state/evidence/runs/workflows/20260630T023600Z-run-program-clean-delivery-post-change-closeout-replan/summary.md
+    - .octon/state/evidence/runs/workflows/20260630T023600Z-run-program-clean-delivery-post-change-closeout-replan/program-lifecycle-checkpoint.yml
+    - .octon/state/evidence/runs/workflows/20260630T023600Z-run-program-clean-delivery-post-change-closeout-replan/route-decision-receipt.yml
+    - .octon/state/evidence/runs/workflows/20260630T175013Z-proposal-program-delivery-run-program-to-clean-delivery/proposal-program-delivery-receipt.yml
+    - .octon/state/evidence/runs/workflows/20260630T175013Z-proposal-program-delivery-run-program-to-clean-delivery/proposal-program-delivery-evidence-index.yml
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture/support/proposal-terminal-closeout.yml
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-runner-routing/support/proposal-terminal-closeout.yml
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-workflow-handoff/support/proposal-terminal-closeout.yml
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-evidence-metadata/support/proposal-terminal-closeout.yml
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validators/support/proposal-terminal-closeout.yml
+    - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-operator-surface/support/proposal-terminal-closeout.yml
 lifecycle:
   temporary: true
   exit_expectation: >-
