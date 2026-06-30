@@ -1,0 +1,17 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal lifecycle surface coherence
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal lifecycle surface coherence architect
+created_date: 2026-06-30
+summary: Creates a parent proposal program that stages all confirmed Run Program to Clean Delivery lifecycle surface gaps while preserving child packet authority boundaries.
+architecture_drivers:
+  - Confirmed runtime capability surfaces must have matching operator and host projection surfaces before operators can discover them reliably.
+  - Delivery workflow inputs must be required or optional consistently across commands, skills, workflows, contracts, manifests, validators, and projections.
+  - Program review/revision already exists as a parent-local lifecycle loop and needs documentation plus validation, not a duplicate authority surface.
+  - Parent program closeout must depend on child-owned terminal evidence, aggregate verification/correction, archive handoff, cleanup disposition, and terminal proof.
+constraints:
+  - Proposal inputs remain non-authoritative planning surfaces.
+  - Parent program coordination must not satisfy child-owned lifecycle gates.
+  - Generated projections remain derived-only and require canonical publication receipts before being treated as fresh discovery surfaces.
+  - Convenience aliases must not replace canonical command, skill, workflow, or contract surfaces.

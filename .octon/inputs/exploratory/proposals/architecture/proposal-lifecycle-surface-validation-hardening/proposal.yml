@@ -1,0 +1,62 @@
+schema_version: proposal-v1
+proposal_id: proposal-lifecycle-surface-validation-hardening
+title: Proposal Lifecycle Surface Validation Hardening
+summary: Add regression validation for proposal packet and program lifecycle surface coherence after input contract alignment, alias, host projection, and review-loop documentation changes land.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"
+  - ".octon/framework/product/features/catalog.yml"
+status: in-review
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, implement regression validation for the accepted lifecycle surface set, and close out with child-owned validation evidence.
+related_proposals:
+  - proposal-program-lifecycle-surface-coherence
+  - proposal-delivery-input-contract-alignment
+  - proposal-program-delivery-host-projections
+  - proposal-program-delivery-operator-alias
+  - proposal-program-review-loop-documentation
+selected_implementation_target: Lifecycle surface coherence validators and regression tests.
+scope_statement: This child owns validation hardening and product catalog coherence checks. It does not directly publish host projections or add alias command behavior.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable validation changes.
+generated_input_authority_impact: Generated projections remain discovery aids only. Validation may inspect generated or host projections as non-authoritative mirrors but cannot make them authority.
+authority_class_impact:
+  framework: Future implementation may add validators, tests, lifecycle contract checks, bundle matrix checks, and product catalog coherence checks listed in promotion targets.
+  instance: No direct instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation must retain validator run evidence and negative controls.
+  generated: Generated outputs remain derived-only and must not satisfy authority checks.
+  inputs: This child packet is temporary proposal lineage only.
+evidence_requirements:
+  - Accepted child proposal review and strict pre-integration architecture review before durable edits.
+  - Validator evidence for packet/program lifecycle symmetry and intentional asymmetry.
+  - Validator evidence for required input coherence and alias delegation.
+  - Validator evidence for product catalog versus host projection claims.
+  - Negative controls for parent closeout, archive handoff, cleanup disposition, terminal proof, generated-output freshness, and child authority boundaries.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "new or updated lifecycle surface coherence tests"
+  - "new or updated product catalog and host projection coherence tests"
+acceptance_criteria_summary: Regression validation detects lifecycle surface drift across packet/program commands, skills, workflows, contracts, prompt bundles, manifests, projections, product catalog entries, docs, closeout, archive handoff, cleanup, and terminal proof surfaces.
+risk_posture: Medium. Validators must catch meaningful drift without making generated or host projection mirrors authoritative.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+owner:
+  role: Octon proposal lifecycle assurance architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-30
+source_lineage:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".codex/commands/"
+  - ".codex/skills/"

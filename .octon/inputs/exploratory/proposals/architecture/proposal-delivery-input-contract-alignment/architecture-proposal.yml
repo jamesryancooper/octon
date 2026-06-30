@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal delivery input contract alignment
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal delivery contract architect
+created_date: 2026-06-30
+summary: Aligns proposal delivery input requirements so canonical commands, skills, workflows, contracts, manifests, validators, and docs describe the same delivery preconditions.
+architecture_drivers:
+  - Delivery wrappers must fail closed on missing required inputs before mutation.
+  - Host projections must not mirror stale required or optional semantics.
+  - Packet and program delivery may differ, but differences must be explicit and validated.
+constraints:
+  - Proposal inputs remain non-authoritative planning surfaces.
+  - Generated outputs cannot settle contract disputes.
+  - Tightening inputs must preserve valid resume paths when the canonical workflow supports them.

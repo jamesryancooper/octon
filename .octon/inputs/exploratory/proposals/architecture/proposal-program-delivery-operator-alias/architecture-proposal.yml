@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal program delivery operator alias
+decision_type: new-surface
+status: in-review
+owner: Octon proposal delivery command architect
+created_date: 2026-06-30
+summary: Adds an optional delegating alias for program delivery while preserving canonical wrapper authority and delivery gates.
+architecture_drivers:
+  - Operators remember the capability as "Run Program to Clean Delivery".
+  - Command discovery should expose the remembered name without creating a second lifecycle.
+  - Aliases must fail closed when canonical delivery preconditions are missing.
+constraints:
+  - The alias must delegate to the canonical wrapper.
+  - The alias cannot own independent lifecycle state or evidence requirements.
+  - Host projections remain non-authoritative and are handled separately.
