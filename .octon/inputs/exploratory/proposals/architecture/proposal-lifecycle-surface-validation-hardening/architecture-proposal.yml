@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal lifecycle surface validation hardening
+decision_type: boundary-change
+status: in-review
+owner: Octon proposal lifecycle assurance architect
+created_date: 2026-06-30
+summary: Adds validators and tests that prevent proposal lifecycle commands, skills, workflows, contracts, manifests, projections, product catalog entries, and docs from drifting apart.
+architecture_drivers:
+  - Lifecycle surfaces span multiple directories and need regression protection.
+  - Intentional asymmetry must be distinguished from missing surfaces.
+  - Product catalog and host projection claims must stay honest.
+constraints:
+  - Validators may inspect projection mirrors but cannot make them authoritative.
+  - Negative controls must preserve child authority boundaries.
+  - Validation should target accepted surfaces, not speculative future wrappers.

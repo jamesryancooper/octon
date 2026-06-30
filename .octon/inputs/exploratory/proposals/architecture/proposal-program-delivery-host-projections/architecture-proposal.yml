@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal delivery host projections
+decision_type: new-surface
+status: in-review
+owner: Octon proposal delivery host projection architect
+created_date: 2026-06-30
+summary: Adds or corrects `.codex` command and skill projections for implemented proposal delivery wrappers while preserving canonical `.octon` authority boundaries.
+architecture_drivers:
+  - Operators need discoverable host projections for implemented delivery wrappers.
+  - Product catalog claims should not outstate host projection availability.
+  - Host projections must cite canonical source surfaces and stay non-authoritative.
+constraints:
+  - This child is repo-local and must not mutate canonical `.octon` runtime authority.
+  - Projection publication must wait for stable canonical input contracts.
+  - Generated projections require freshness or publication evidence when applicable.

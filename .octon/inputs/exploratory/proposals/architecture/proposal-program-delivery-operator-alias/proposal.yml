@@ -1,0 +1,56 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-delivery-operator-alias
+title: Proposal Program Delivery Operator Alias
+summary: Add an optional operator-facing command alias for running a proposal program through delivery while delegating to the canonical `proposal-program-delivery` wrapper.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"
+  - ".octon/framework/capabilities/runtime/commands/"
+  - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+status: in-review
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, add the alias only as a delegation surface, and close out with child-owned evidence that no independent lifecycle authority was introduced.
+related_proposals:
+  - proposal-program-lifecycle-surface-coherence
+  - proposal-delivery-input-contract-alignment
+selected_implementation_target: Optional `octon-proposal-run-program-delivery` operator alias.
+scope_statement: This child owns the canonical Octon alias surface only. Host projection publication for the alias is handled by the repo-local host projection child after this child lands.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Proposal paths, generated outputs, host projections, prompts, and chat history remain non-authoritative.
+authority_class_impact:
+  framework: Future implementation may add or update command definitions, command registries, capability routing docs, skill delegation text, validators, and tests listed in promotion targets.
+  instance: No direct instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation must retain alias delegation and no-authority-widening validation evidence.
+  generated: Generated outputs remain derived-only and must not authorize alias behavior.
+  inputs: This child packet is temporary proposal lineage only.
+evidence_requirements:
+  - Accepted child proposal review and strict pre-integration architecture review before durable edits.
+  - Evidence that the alias delegates to `proposal-program-delivery` and has no independent workflow, lifecycle, or closeout semantics.
+  - Negative controls proving alias invocation cannot bypass required delivery profile, review, verification, correction, closeout, archive, cleanup, or terminal proof gates.
+  - Documentation evidence that the alias is optional convenience, not a replacement for the canonical wrapper.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "command manifest validation for alias delegation"
+  - "lifecycle extension validation tests for alias discoverability and authority boundaries"
+acceptance_criteria_summary: The operator alias exists only as a delegating command surface, carries no independent authority, appears in lifecycle command discovery, and fails closed when canonical delivery preconditions are missing.
+risk_posture: Medium. Operator aliases can widen behavior accidentally if they duplicate rather than delegate canonical wrapper semantics.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+owner:
+  role: Octon proposal delivery command architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-30
+source_lineage:
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/framework/capabilities/runtime/commands/"
+  - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"

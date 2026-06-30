@@ -1,0 +1,54 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-review-loop-documentation
+title: Proposal Program Review Loop Documentation
+summary: Document the existing parent-local program review/revision loop and the intentional absence of a separate program review-and-revise wrapper unless future evidence warrants it.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+status: in-review
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, document the program review/revision design decision, and close out with child-owned validation evidence.
+related_proposals:
+  - proposal-program-lifecycle-surface-coherence
+selected_implementation_target: Program review/revision lifecycle documentation and discoverability.
+scope_statement: This child owns documentation and validation for the existing program review/revision loop. It does not add a duplicate standalone review-and-revise wrapper unless implementation evidence disproves the intentional omission.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Proposal paths, generated outputs, prompts, and host projections remain non-authoritative.
+authority_class_impact:
+  framework: Future implementation may update lifecycle extension docs, commands, skills, bundle matrix, and validation tests listed in promotion targets.
+  instance: No direct instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation must retain evidence that parent review/revision remains parent-local and does not satisfy child receipts.
+  generated: Generated outputs remain derived-only.
+  inputs: This child packet is temporary proposal lineage only.
+evidence_requirements:
+  - Accepted child proposal review and strict pre-integration architecture review before durable edits.
+  - Evidence that `program-review-revision` remains present in the lifecycle contract.
+  - Documentation evidence explaining why a standalone program review-and-revise wrapper is currently unnecessary.
+  - Negative controls proving parent program review cannot edit or satisfy child-owned authority surfaces.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "lifecycle contract tests asserting program-review-revision loop coverage"
+  - "documentation validation for parent-local program review/revision boundaries"
+acceptance_criteria_summary: Operators can discover how program review and revision work, the intentional omission of a separate wrapper is documented, and tests preserve child authority boundaries.
+risk_posture: Low. Documentation drift is the main risk; adding a duplicate wrapper would increase lifecycle surface area without evidence.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+owner:
+  role: Octon proposal program review lifecycle architect
+  accountable_role: human operator / repository owner
+created_date: 2026-06-30
+source_lineage:
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"

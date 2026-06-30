@@ -1,0 +1,123 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "sequential"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "proposal-delivery-input-contract-alignment"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-delivery-input-contract-alignment"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "terminal"
+    phase_id: "phase-1"
+    group_id: "delivery-contract"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/"
+      - ".octon/framework/capabilities/runtime/commands/"
+      - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/"
+      - ".octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/"
+      - ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+      - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
+    validation_strategy:
+      - "validate-proposal-program-delivery-workflow.sh"
+      - "validate-proposal-program-delivery-profile.sh --profile <fixture>"
+      - "validate-proposal-program-delivery-receipt.sh --receipt <fixture>"
+      - "proposal lifecycle extension validation tests covering required input coherence"
+    seed_role: "new-child"
+  - child_id: "proposal-program-delivery-host-projections"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-delivery-input-contract-alignment"
+      - "proposal-program-delivery-operator-alias"
+    dependency_gate: "terminal"
+    phase_id: "phase-3"
+    group_id: "host-projections"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".codex/skills/proposal-program-delivery/"
+      - ".codex/skills/proposal-packet-delivery/"
+      - ".codex/skills/proposal-packet-terminal-closeout/"
+      - ".codex/commands/"
+    validation_strategy:
+      - "host projection availability check for proposal delivery surfaces"
+      - "projection freshness or publication receipt validation where generated publication is involved"
+      - "validate-proposal-standard.sh for changed proposal packets"
+    seed_role: "new-child"
+  - child_id: "proposal-program-delivery-operator-alias"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-delivery-input-contract-alignment"
+    dependency_gate: "terminal"
+    phase_id: "phase-2"
+    group_id: "operator-alias"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"
+      - ".octon/framework/capabilities/runtime/commands/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "command manifest validation proves alias delegates to proposal-program-delivery"
+      - "operator projection validation proves alias has no independent authority"
+      - "lifecycle extension validation tests cover alias discoverability"
+    seed_role: "new-child"
+  - child_id: "proposal-program-review-loop-documentation"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-delivery-input-contract-alignment"
+    dependency_gate: "terminal"
+    phase_id: "phase-4"
+    group_id: "review-revision"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "lifecycle contract tests continue to assert program-review-revision loop coverage"
+      - "documentation validation covers intentional omission of a standalone review-and-revise wrapper"
+      - "negative controls prove parent review does not edit child authority surfaces"
+    seed_role: "new-child"
+  - child_id: "proposal-lifecycle-surface-validation-hardening"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-surface-validation-hardening"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-delivery-host-projections"
+      - "proposal-program-delivery-operator-alias"
+      - "proposal-program-review-loop-documentation"
+    dependency_gate: "terminal"
+    phase_id: "phase-5"
+    group_id: "validation-hardening"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/"
+      - ".octon/framework/product/features/catalog.yml"
+    validation_strategy:
+      - "validator tests cover packet/program lifecycle symmetry and intentional asymmetry"
+      - "validator tests cover product catalog versus host projection coherence"
+      - "validator tests cover required delivery input consistency"
+      - "validator tests cover parent closeout, archive handoff, cleanup, and terminal proof refusal cases"
+    seed_role: "new-child"

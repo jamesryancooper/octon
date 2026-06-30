@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal program review revision documentation
+decision_type: surface-refactor
+status: in-review
+owner: Octon proposal program review lifecycle architect
+created_date: 2026-06-30
+summary: Clarifies the existing parent-local program review/revision loop and documents the intentional omission of a duplicate wrapper.
+architecture_drivers:
+  - Operators need to compare packet-level and program-level lifecycle surfaces.
+  - The program lifecycle contract already carries review/revision semantics.
+  - Child authority boundaries must stay visible during parent review.
+constraints:
+  - Documentation cannot make proposal inputs authoritative.
+  - A new wrapper should not be added without evidence that the existing lifecycle runner is inadequate.
+  - Parent review cannot satisfy child receipts.
