@@ -30,22 +30,22 @@
       ".octon/state/evidence/runs/skills/closeout-change/20260630T163344Z-run-program-clean-delivery-postmortem-hardening-creation/publishable-evidence-receipt.json"
     ],
     "diff_refs": [
-      "origin/main@a50721058d65d03a7aedcbc053fe347833b5c1b4..branch-no-pr-closeout-commit"
+      "origin/main@a50721058d65d03a7aedcbc053fe347833b5c1b4..59ccf67ff7df491e80b2e1b73d2966b7251aa266"
     ],
     "validation_notes": [
       "validate-proposal-program-child-readiness.sh was run and failed only because each child remains in-review without accepted support/proposal-review.md implementation authorization; the parent proposal.yml gates that validator after child review acceptance, so it is not used as proposal creation authority.",
       "Proposal input files remain temporary non-authoritative lineage; generated registry output remains derived-only."
     ]
   },
-  "source_branch_ref": "chore/RCD-20260630-clean-delivery-hardening@branch-no-pr-closeout-commit",
-  "target_branch_ref": "origin/main@branch-no-pr-closeout-commit",
-  "remote_branch_ref": "origin/chore/RCD-20260630-clean-delivery-hardening@branch-no-pr-closeout-commit",
+  "source_branch_ref": "chore/RCD-20260630-clean-delivery-hardening",
+  "target_branch_ref": "origin/main@59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+  "remote_branch_ref": "origin/chore/RCD-20260630-clean-delivery-hardening@59ccf67ff7df491e80b2e1b73d2966b7251aa266",
   "landing_authorization_ref": "/tmp/run-program-clean-delivery-postmortem-hardening-branch-landing-authorization.json",
   "cleanup_authorization_ref": "/tmp/run-program-clean-delivery-postmortem-hardening-branch-cleanup-authorization.json",
   "landing_evaluation": {
     "status": "succeeded",
     "provider_ruleset_ref": "live-provider-rules:origin/main",
-    "source_ref": "branch-no-pr-closeout-commit",
+    "source_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
     "target_ref": "origin/main",
     "evidence_refs": [
       "git-branch-hosted-preflight.sh passed with exact source-SHA checks",
@@ -57,31 +57,31 @@
     "remote": "origin",
     "target_branch": "main",
     "source_branch": "chore/RCD-20260630-clean-delivery-hardening",
-    "source_ref": "branch-no-pr-closeout-commit",
+    "source_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
     "target_pre_ref": "a50721058d65d03a7aedcbc053fe347833b5c1b4",
-    "target_post_ref": "branch-no-pr-closeout-commit",
-    "validated_ref": "branch-no-pr-closeout-commit",
+    "target_post_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+    "validated_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
     "required_check_refs": [
-      "route_neutral_closeout_validation@branch-no-pr-closeout-commit",
-      "branch_naming_validation@branch-no-pr-closeout-commit",
-      "route_aware_autonomy_validation@branch-no-pr-closeout-commit",
-      "exact_source_sha_validation@branch-no-pr-closeout-commit"
+      "route_neutral_closeout_validation@59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+      "branch_naming_validation@59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+      "route_aware_autonomy_validation@59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+      "exact_source_sha_validation@59ccf67ff7df491e80b2e1b73d2966b7251aa266"
     ],
     "provider_ruleset_ref": "live-provider-rules:origin/main",
     "push_refspec": "chore/RCD-20260630-clean-delivery-hardening:main",
     "fast_forward_only": true
   },
-  "landed_ref": "branch-no-pr-closeout-commit",
+  "landed_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
   "source_branch_integration": {
-    "source_branch_ref": "chore/RCD-20260630-clean-delivery-hardening@branch-no-pr-closeout-commit",
-    "source_ref": "branch-no-pr-closeout-commit",
-    "landed_ref": "branch-no-pr-closeout-commit",
-    "origin_main_ref": "branch-no-pr-closeout-commit",
+    "source_branch_ref": "chore/RCD-20260630-clean-delivery-hardening",
+    "source_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+    "landed_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+    "origin_main_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
     "integrated": true,
     "method": "hosted no-PR fast-forward",
     "evidence_refs": [
       "origin/main fast-forward landing of chore/RCD-20260630-clean-delivery-hardening",
-      "origin/main contains branch-no-pr-closeout-commit"
+      "origin/main contains 59ccf67ff7df491e80b2e1b73d2966b7251aa266"
     ]
   },
   "source_branch_cleanup": {
@@ -95,9 +95,9 @@
     ]
   },
   "main_alignment": {
-    "local_main_ref": "branch-no-pr-closeout-commit",
-    "origin_main_ref": "branch-no-pr-closeout-commit",
-    "landed_ref": "branch-no-pr-closeout-commit",
+    "local_main_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+    "origin_main_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
+    "landed_ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
     "aligned": true,
     "origin_fetch_evidence_ref": "final post-landing fetch origin verification records the concrete commit hash in the operator closeout report.",
     "local_main_sync_evidence_ref": "git-branch-cleanup.sh syncs local main to origin/main after cleanup; final verification reports the concrete ref.",
@@ -120,7 +120,7 @@
       "schema_ref": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json",
       "disclosure_tier": "repo-publishable",
       "claim_scope_ref": "run-program-clean-delivery-postmortem-hardening-creation",
-      "receipt_digest": "sha256:8fed74c163764de1ba51f121e6436f8ebb7273f1000000000000000000000000",
+      "receipt_digest": "sha256:59ccf67ff7df491e80b2e1b73d2966b7251aa2660000000000000000000000",
       "raw_evidence_not_published": true
     }
   ],
@@ -172,12 +172,12 @@
   ],
   "durable_history": {
     "kind": "commit",
-    "ref": "branch-no-pr-closeout-commit",
+    "ref": "59ccf67ff7df491e80b2e1b73d2966b7251aa266",
     "branch": "chore/RCD-20260630-clean-delivery-hardening"
   },
   "rollback_handle": {
     "kind": "revert-commit",
-    "ref": "branch-no-pr-closeout-commit",
+    "ref": "revert 59ccf67ff7df491e80b2e1b73d2966b7251aa266",
     "instructions": "Use a governed follow-up Change to revert the landed branch-no-pr commit if this proposal-program creation bundle must be backed out."
   },
   "closeout_outcome": "completed",

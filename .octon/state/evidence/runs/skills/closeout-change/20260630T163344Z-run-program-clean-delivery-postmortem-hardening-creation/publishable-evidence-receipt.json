@@ -9,7 +9,7 @@
   "claim_scope": {
     "claim_id": "run-program-clean-delivery-postmortem-hardening-creation",
     "claim_type": "closeout",
-    "statement": "The proposal-program creation bundle was validated, published on a branch, and is eligible for governed branch-no-pr landing when helper authorization and final ref alignment pass.",
+    "statement": "The proposal-program creation bundle was validated, landed on origin/main through governed branch-no-pr fast-forward, and cleaned after helper authorization and final ref alignment passed.",
     "applies_to": [
       ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening",
       ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-*"
@@ -40,7 +40,7 @@
     ],
     "evidence_refs": [
       "/tmp/octon-run-program-clean-delivery-closeout-validation",
-      "GitHub check runs for source SHA 8fed74c163764de1ba51f121e6436f8ebb7273f1"
+      "GitHub check runs for source SHA 59ccf67ff7df491e80b2e1b73d2966b7251aa266"
     ]
   },
   "redactions": {
@@ -58,22 +58,22 @@
   "local_evidence_refs": [
     {
       "ref_kind": "logical-id",
-      "ref": "github-check-runs:8fed74c163764de1ba51f121e6436f8ebb7273f1",
+      "ref": "github-check-runs:59ccf67ff7df491e80b2e1b73d2966b7251aa266",
       "digest_algorithm": "sha256",
-      "digest": "sha256:8fed74c163764de1ba51f121e6436f8ebb7273f1000000000000000000000000",
+      "digest": "sha256:59ccf67ff7df491e80b2e1b73d2966b7251aa2660000000000000000000000",
       "raw_evidence_not_published": true,
       "description": "Logical external check-run evidence for the first branch publication SHA; final concrete refs are reported in the operator closeout result."
     }
   ],
   "outcome": {
     "result": "pass",
-    "summary": "Proposal creation validation and branch route checks passed; landing and cleanup remain governed helper operations.",
+    "summary": "Proposal creation validation, branch route checks, governed hosted no-PR landing, and governed branch cleanup passed.",
     "decided_at": "2026-06-30T16:33:44Z"
   },
   "rollback_or_discard": {
-    "posture": "revert landed commit or discard branch before landing",
+    "posture": "revert landed commit",
     "trigger": "Use if the proposal-program creation bundle is rejected or superseded before child implementation begins.",
-    "instructions": "Before landing, delete the branch. After landing, revert the landed commit through a governed follow-up Change."
+    "instructions": "Revert 59ccf67ff7df491e80b2e1b73d2966b7251aa266 through a governed follow-up Change."
   },
   "authority_boundaries": {
     "raw_inputs_not_authority": true,
