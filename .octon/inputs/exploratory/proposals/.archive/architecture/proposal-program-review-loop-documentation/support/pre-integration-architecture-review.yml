@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-program-review-loop-documentation-pre-integration-architecture-review-20260630T200656Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation"
+packet_digest: "sha256:34d8a49b683fa63a86ab453c94b566c8dd414e93ea24e25c0612004c34b38386"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation/support/implementation-grade-completeness-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers program review/revision documentation before durable implementation."
+  system_job: "The child documents existing parent-local review/revision behavior and intentional wrapper omission."
+  authority_boundaries: "Parent review/revision documentation cannot authorize edits to child-owned manifests, receipts, validation verdicts, or terminal outcomes."
+  validation_plan: "The child requires lifecycle contract tests and documentation validation for parent-local boundaries."
+  rollback_and_closeout: "Rollback or supersession stays limited to this child's documentation and validation targets and evidence route."

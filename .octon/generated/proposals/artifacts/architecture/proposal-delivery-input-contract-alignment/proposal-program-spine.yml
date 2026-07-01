@@ -1,0 +1,183 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
+      "manifest_sha256": "sha256:1bea6d88d3640423756f6e87bd58fab2952cb1c3caec9571e6e6e1a74754e6b8",
+      "proposal_id": "proposal-program-lifecycle-surface-coherence",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-lifecycle-surface-coherence",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:7c0896cea026089bc7256d6ab97d5109b9f46a326c5d881695eee833f529a76a",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child independently, align the delivery input contract through accepted implementation, and close out with child-owned validation evidence before parent closeout.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-delivery-input-contract-alignment/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-packet-delivery/",
+    ".octon/framework/capabilities/runtime/commands/",
+    ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/",
+    ".octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/",
+    ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+    ".octon/framework/assurance/runtime/_ops/scripts/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "proposal_id": "proposal-delivery-input-contract-alignment",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 17591,
+      "estimated_tokens": 4398,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/executable-implementation-prompt.md",
+      "sha256": "sha256:7bb02e6ccb1cd012523f28974aa627b6049b30bf3bbd3deba98112f5fe678b09"
+    },
+    {
+      "byte_size": 5424,
+      "estimated_tokens": 1356,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/implementation-conformance-review.md",
+      "sha256": "sha256:404fcacc57f077dc96872fc0644773204aa4bc0bf2c81ca9010b129274b2f680"
+    },
+    {
+      "byte_size": 2143,
+      "estimated_tokens": 536,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:e8bb90dcf264c883a78759ddb5e14f04208b2efaa226aa05b66e229695d1b634"
+    },
+    {
+      "byte_size": 6671,
+      "estimated_tokens": 1668,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/implementation-run.md",
+      "sha256": "sha256:46f6b4d676a463b5e8313c6d7d4896061746f1ac2228b96994a347289970afbd"
+    },
+    {
+      "byte_size": 3507,
+      "estimated_tokens": 877,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:37c3f870a9a9baeb47f762886d1ad05bd18b03182f3a91bb5e1e1fbf59cb558f"
+    },
+    {
+      "byte_size": 13483,
+      "estimated_tokens": 3371,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/proposal-closeout.md",
+      "sha256": "sha256:231f2a8d854b6ed9c3b8d9f67a475da8b1627cb79cb66a65693a75eb384787b7"
+    },
+    {
+      "byte_size": 2889,
+      "estimated_tokens": 723,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/proposal-review.md",
+      "sha256": "sha256:7eb22b5e62e3fbffbfa9e30c3ce78e8f4f3e45b5397a1d7e835ded0a56280963"
+    },
+    {
+      "byte_size": 5002,
+      "estimated_tokens": 1251,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/validation.md",
+      "sha256": "sha256:9d2e656b3256f15eae31dd672e43f09aacf903e74af4e1daad8d8c7f39da03e0"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-lifecycle-surface-coherence"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/architecture-proposal.yml": "sha256:ad3958407cd75081e1123f76dab898b3c380cddd6f193ad00359250c5fee5dae",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/architecture/acceptance-criteria.md": "sha256:0e75468028a1018a6e0a77b02ac4bb3a5798a6e94a7577c31edf9e00056d94db",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/architecture/implementation-plan.md": "sha256:4003e241556b60463849df37110a6f97bb3482f909fd8b36403790e8a454f3c8",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/navigation/artifact-catalog.md": "sha256:1a9266cdcc87dd6bb90963e5efedc7ce6ff3ea07a9f720aa7b69fdaf23d65c71",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/navigation/source-of-truth-map.md": "sha256:fd992b161790eed6e48f88a81a1c7e208fd19ef2a3da9959a54ecb549378c673",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/proposal.yml": "sha256:6c8c5b11c53a7246a4f904fd7d0d4a47409e5af661a4fcb20fb23d8730c24d29",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/executable-implementation-prompt.md": "sha256:7bb02e6ccb1cd012523f28974aa627b6049b30bf3bbd3deba98112f5fe678b09",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/implementation-grade-completeness-review.md": "sha256:e8bb90dcf264c883a78759ddb5e14f04208b2efaa226aa05b66e229695d1b634",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/proposal-review.md": "sha256:7eb22b5e62e3fbffbfa9e30c3ce78e8f4f3e45b5397a1d7e835ded0a56280963"
+  },
+  "source_lineage": [
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+    ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md",
+    ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

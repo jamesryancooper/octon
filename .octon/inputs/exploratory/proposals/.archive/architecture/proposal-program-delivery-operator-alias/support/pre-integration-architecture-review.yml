@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-program-delivery-operator-alias-pre-integration-architecture-review-20260630T200656Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias"
+packet_digest: "sha256:069852117cd9667b75ccac9f104128ffa19c1377c87a203c05ce0e18ce19d1aa"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias/support/implementation-grade-completeness-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers the optional program delivery operator alias before durable implementation."
+  system_job: "The child adds discoverable operator vocabulary while delegating to the canonical proposal-program-delivery wrapper."
+  authority_boundaries: "The alias owns no independent lifecycle state, workflow, closeout, archive, cleanup, or terminal proof authority."
+  validation_plan: "The child requires command manifest and lifecycle extension checks proving delegation and no authority widening."
+  rollback_and_closeout: "Rollback or supersession stays limited to this child's alias-related promotion targets and evidence route."

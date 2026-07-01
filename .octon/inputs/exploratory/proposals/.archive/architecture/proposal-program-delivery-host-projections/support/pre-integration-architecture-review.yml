@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-program-delivery-host-projections-pre-integration-architecture-review-20260630T200656Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections"
+packet_digest: "sha256:994c7182a33aaefce42940664468ab345023e92df5b77af326f1fe53dc2051ee"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections/support/implementation-grade-completeness-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers repo-local host projection publication before durable implementation."
+  system_job: "The child exposes accepted proposal delivery wrappers in `.codex` command and skill projection surfaces."
+  authority_boundaries: "Host projections are discovery mirrors and cannot authorize lifecycle transitions or mutate canonical `.octon` runtime authority."
+  validation_plan: "The child requires host projection inventory and source-reference checks for every created projection."
+  rollback_and_closeout: "Rollback or supersession stays limited to this child's repo-local projection targets and evidence route."

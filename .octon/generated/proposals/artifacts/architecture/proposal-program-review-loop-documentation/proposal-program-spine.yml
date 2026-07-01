@@ -1,0 +1,174 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
+      "manifest_sha256": "sha256:1bea6d88d3640423756f6e87bd58fab2952cb1c3caec9571e6e6e1a74754e6b8",
+      "proposal_id": "proposal-program-lifecycle-surface-coherence",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-lifecycle-surface-coherence",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:34d8a49b683fa63a86ab453c94b566c8dd414e93ea24e25c0612004c34b38386",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child independently, document the program review/revision design decision, and close out with child-owned validation evidence.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-review-loop-documentation/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "proposal_id": "proposal-program-review-loop-documentation",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 14922,
+      "estimated_tokens": 3731,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/executable-implementation-prompt.md",
+      "sha256": "sha256:2a41b748b72aec5cb75061e60a0bcf1b6b117fad9b05324bf30e1e7c576b57a0"
+    },
+    {
+      "byte_size": 4645,
+      "estimated_tokens": 1162,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/implementation-conformance-review.md",
+      "sha256": "sha256:f76ae0d699a7cad9f3e9b2dd5e61c66c454f38bc45b9d2f84c4d56007caf2be8"
+    },
+    {
+      "byte_size": 2174,
+      "estimated_tokens": 544,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:38392aea7d5a223578ac23735490aa64eccad80620daf164576c516701e69509"
+    },
+    {
+      "byte_size": 9959,
+      "estimated_tokens": 2490,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/implementation-run.md",
+      "sha256": "sha256:70ec7f2fc9a1d002a3e524652f1c93a03720300aa7d6ee0f583e4debde93c07f"
+    },
+    {
+      "byte_size": 3633,
+      "estimated_tokens": 909,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:5f7757cd4424c79f6dcdd498e972aaadb2faeabdb3573fd755aed2be28be89b1"
+    },
+    {
+      "byte_size": 12333,
+      "estimated_tokens": 3084,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/proposal-closeout.md",
+      "sha256": "sha256:5ba307a498e3324026383d4f64d9e0b32719be5fc7195e91d74dd67361d9301a"
+    },
+    {
+      "byte_size": 2205,
+      "estimated_tokens": 552,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/proposal-review.md",
+      "sha256": "sha256:91b8723f1cf50fe8c87decfac77deda262a6b746ea9573182c5e8f697f23b5ab"
+    },
+    {
+      "byte_size": 6135,
+      "estimated_tokens": 1534,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/validation.md",
+      "sha256": "sha256:5fbc0418ae6f602f2121b6d9027d6722c2d5c7b6760e005ef462c1a791bd6cc7"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-lifecycle-surface-coherence"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/architecture-proposal.yml": "sha256:8b56b54c5da2554249dce5c1d2f4f57f5676b1302958aa52e2a62d9627454798",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/architecture/acceptance-criteria.md": "sha256:48313ad41e37f2436a8286f25a9b52e3195896c0a2547c998a03870ba39ce7fb",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/architecture/implementation-plan.md": "sha256:4d10291b906620e50f33a8a89d55946d1b68d0f0f497d01ecc4cd6b94d54bbfc",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/navigation/artifact-catalog.md": "sha256:a1a575e753cecf36caf71d5167bb5e49f689d3edf3075c32755ccc8fd6177612",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/navigation/source-of-truth-map.md": "sha256:1fea5a667ac57ca3d2f27e9de53c82beb175c73133414a7b4ad2909e86d01e08",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/proposal.yml": "sha256:1a7acfd78ee9512a05d5838bac93d2d7c07e7863d66b1d4b66644d52905f3b9f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/executable-implementation-prompt.md": "sha256:2a41b748b72aec5cb75061e60a0bcf1b6b117fad9b05324bf30e1e7c576b57a0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/implementation-grade-completeness-review.md": "sha256:38392aea7d5a223578ac23735490aa64eccad80620daf164576c516701e69509",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/proposal-review.md": "sha256:91b8723f1cf50fe8c87decfac77deda262a6b746ea9573182c5e8f697f23b5ab"
+  },
+  "source_lineage": [
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md",
+    ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/support/proposal-review.md"
+  ],
+  "status": "archived"
+}
