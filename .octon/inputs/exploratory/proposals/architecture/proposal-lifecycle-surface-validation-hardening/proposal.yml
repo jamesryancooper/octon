@@ -11,7 +11,7 @@ promotion_targets:
   - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/"
   - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"
   - ".octon/framework/product/features/catalog.yml"
-status: in-review
+status: accepted
 change_profile: atomic
 lifecycle:
   temporary: true

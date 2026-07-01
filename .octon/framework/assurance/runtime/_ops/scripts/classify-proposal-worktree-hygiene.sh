@@ -151,13 +151,15 @@ proposal_manifest_for_rel() {
 add_program_child_scope_from_dir() {
   local program_dir="$1"
   local registry="$program_dir/resources/child-packet-index.yml"
-  local child_manifest
+  local child_manifest child_manifest_dir
   [[ -f "$registry" ]] || return 0
   command -v yq >/dev/null 2>&1 || return 0
   while IFS= read -r child_path; do
     [[ -n "$child_path" && "$child_path" != "null" ]] || continue
     add_prefix "$SCOPE_PREFIXES" "$child_path"
     if child_manifest="$(proposal_manifest_for_rel "$child_path")"; then
+      child_manifest_dir="$(normalize_path "$(dirname "$child_manifest")")"
+      add_prefix "$SCOPE_PREFIXES" "$child_manifest_dir"
       add_in_scope_from_manifest "$child_manifest"
     fi
   done < <(yq -r '.children[]?.path // ""' "$registry" 2>/dev/null || true)
@@ -225,6 +227,7 @@ add_program_scope_from_run_checkpoint() {
 
 add_program_generated_scope() {
   add_prefix "$SCOPE_PREFIXES" ".octon/generated/effective"
+  add_prefix "$SCOPE_PREFIXES" ".octon/generated/cognition/projections/materialized/runs"
   add_prefix "$SCOPE_PREFIXES" ".octon/generated/proposals"
   add_prefix "$SCOPE_PREFIXES" ".octon/state/control/extensions"
   add_prefix "$SCOPE_PREFIXES" ".octon/state/evidence/decisions/repo/capabilities"
@@ -454,13 +457,27 @@ publication_command_for_manifest() {
   command -v yq >/dev/null 2>&1 || return 1
   action_type="$(yq -r '.action_type // ""' "$manifest" 2>/dev/null || true)"
   target_id="$(yq -r '.target_id // ""' "$manifest" 2>/dev/null || true)"
-  [[ "$action_type" == "publish_generated_effective" ]] || return 1
   case "$target_id" in
     publication:*) ;;
     *) return 1 ;;
   esac
   target_slug="${target_id#publication:}"
   [[ -n "$target_slug" && "$target_slug" != "null" ]] || return 1
+  case "$action_type:$target_slug" in
+    publish_extension_activation:extension-state)
+      printf 'publish-extension-state\n'
+      return 0
+      ;;
+    publish_extension_activation:host-projections)
+      printf 'publish-host-projections\n'
+      return 0
+      ;;
+    publish_capability_pack_activation:capability-routing)
+      printf 'publish-capability-routing\n'
+      return 0
+      ;;
+  esac
+  [[ "$action_type" == "publish_generated_effective" ]] || return 1
   printf 'publish-%s\n' "$target_slug"
 }
 
@@ -480,7 +497,7 @@ completed_current_recovery_command() {
     if [[ "$actual_command" == "$command_id" && "$status" == "completed" && "$exit_code" == "0" ]]; then
       return 0
     fi
-  done < <(find "$recovery_root" -type f -name '*command.result.yml' 2>/dev/null | LC_ALL=C sort)
+  done < <(find "$recovery_root" -type f -name '*.result.yml' 2>/dev/null | LC_ALL=C sort)
   return 1
 }
 

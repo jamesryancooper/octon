@@ -361,11 +361,13 @@ YAML
   printf 'baseline\n' >"$root/.octon/framework/archived-child-target.md"
   git -C "$root" add .
   git -C "$root" commit -qm archived-child-baseline
+  printf 'archived child notes\n' >"$archive_dir/README.md"
   printf 'changed\n' >"$root/.octon/framework/archived-child-target.md"
   run_classifier "$root" proposal-program "$output"
   assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
-    assert_contains "$output" "worktree_hygiene_in_scope_path_count: 1" &&
-    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
+    assert_contains "$output" "worktree_hygiene_in_scope_path_count: 2" &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0" &&
+    assert_contains "$output" 'path: ".octon/inputs/exploratory/proposals/.archive/architecture/fixture-child/README.md"'
 }
 
 case_program_checkpoint_scope_applies_to_child_target() {
@@ -504,16 +506,25 @@ YAML
 write_publication_recovery_result_fixture() {
   local root="$1"
   local command_id="$2"
+  write_publication_recovery_command_result_fixture "$root" "$command_id" "03"
+}
+
+write_publication_recovery_command_result_fixture() {
+  local root="$1"
+  local command_id="$2"
+  local ordinal="$3"
   local action_root
   action_root="$root/.octon/state/evidence/runs/workflows/run-1/program-recovery-actions/refresh-publication-projections/attempt-1"
   mkdir -p "$action_root"
-  cat >"$action_root/summary.yml" <<'YAML'
+  if [[ ! -f "$action_root/summary.yml" ]]; then
+    cat >"$action_root/summary.yml" <<'YAML'
 schema_version: "octon-program-recovery-action-v1"
 action_id: "refresh-publication-projections"
 blocker_class: "publication-drift"
 status: "completed"
 YAML
-  cat >"$action_root/03-command.result.yml" <<YAML
+  fi
+  cat >"$action_root/$ordinal-$command_id.result.yml" <<YAML
 schema_version: "octon-program-recovery-action-command-v1"
 action_id: "refresh-publication-projections"
 blocker_class: "publication-drift"
@@ -535,6 +546,31 @@ case_program_recovery_publish_run_artifacts_do_not_block_when_bound() {
     assert_contains "$output" "worktree_hygiene_foreign_path_count: 0" &&
     assert_contains "$output" "path: \".octon/state/control/execution/runs/$run_id/run-manifest.yml\"" &&
     assert_contains "$output" "path: \".octon/state/evidence/external-index/runs/$run_id.yml\""
+}
+
+case_program_recovery_typed_publish_run_artifacts_do_not_block_when_bound() {
+  local root output run_id
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  write_publication_recovery_command_result_fixture "$root" "publish-extension-state" "01"
+  write_publication_recovery_command_result_fixture "$root" "publish-capability-routing" "02"
+  write_publication_recovery_command_result_fixture "$root" "publish-host-projections" "03"
+  write_publication_recovery_command_result_fixture "$root" "publish-runtime-route-bundle" "04"
+  run_id="publish-fixture-extension-state"
+  write_publish_run_fixture "$root" "$run_id" "publish_extension_activation" "publication:extension-state"
+  run_id="publish-fixture-capability-routing"
+  write_publish_run_fixture "$root" "$run_id" "publish_capability_pack_activation" "publication:capability-routing"
+  run_id="publish-fixture-host-projections"
+  write_publish_run_fixture "$root" "$run_id" "publish_extension_activation" "publication:host-projections"
+  run_id="publish-fixture-runtime-route-bundle"
+  write_publish_run_fixture "$root" "$run_id" "publish_generated_effective" "publication:runtime-route-bundle"
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0" &&
+    assert_contains "$output" 'path: ".octon/state/control/execution/runs/publish-fixture-extension-state/run-manifest.yml"' &&
+    assert_contains "$output" 'path: ".octon/state/control/execution/runs/publish-fixture-capability-routing/run-manifest.yml"' &&
+    assert_contains "$output" 'path: ".octon/state/control/execution/runs/publish-fixture-host-projections/run-manifest.yml"' &&
+    assert_contains "$output" 'path: ".octon/state/control/execution/runs/publish-fixture-runtime-route-bundle/run-manifest.yml"'
 }
 
 case_many_program_recovery_publish_run_artifacts_do_not_block_when_bound() {
@@ -987,6 +1023,18 @@ case_program_generated_projection_scope_does_not_block() {
     assert_contains "$output" "worktree_hygiene_foreign_path_count: 0"
 }
 
+case_program_generated_run_health_projection_scope_does_not_block() {
+  local root output
+  root="$(new_fixture_repo)"
+  output="$(new_output_file)"
+  mkdir -p "$root/.octon/generated/cognition/projections/materialized/runs/fixture-run"
+  printf 'health\n' >"$root/.octon/generated/cognition/projections/materialized/runs/fixture-run/health.yml"
+  run_classifier "$root" proposal-program "$output"
+  assert_contains "$output" 'worktree_hygiene_verdict: "pass"' &&
+    assert_contains "$output" "worktree_hygiene_foreign_path_count: 0" &&
+    assert_contains "$output" 'path: ".octon/generated/cognition/projections/materialized/runs/fixture-run/health.yml"'
+}
+
 case_program_generated_projection_scope_applies_to_packet_child_target() {
   local root output run_dir
   root="$(new_fixture_repo)"
@@ -1230,10 +1278,12 @@ main() {
   assert_success "other-run ACP decision log append still blocks" case_other_run_acp_decision_log_append_still_blocks
   assert_success "same program lifecycle artifacts do not block packet child target" case_same_program_lifecycle_artifacts_do_not_block_packet_child_target
   assert_success "program recovery-bound publish run artifacts do not block" case_program_recovery_publish_run_artifacts_do_not_block_when_bound
+  assert_success "program recovery-bound typed publish run artifacts do not block" case_program_recovery_typed_publish_run_artifacts_do_not_block_when_bound
   assert_success "many program recovery-bound publish run artifacts do not block" case_many_program_recovery_publish_run_artifacts_do_not_block_when_bound
   assert_success "unbound publish run artifacts still block" case_unbound_publish_run_artifacts_still_block
   assert_success "mismatched recovery command publish run artifacts still block" case_publish_run_artifacts_with_mismatched_recovery_command_still_block
   assert_success "program generated projections do not block" case_program_generated_projection_scope_does_not_block
+  assert_success "program generated run-health projections do not block" case_program_generated_run_health_projection_scope_does_not_block
   assert_success "program generated projection scope applies to packet child target" case_program_generated_projection_scope_applies_to_packet_child_target
   assert_success "program retained evidence does not block" case_program_retained_evidence_scope_does_not_block
   assert_success "program host projection mirrors do not block" case_program_host_projection_mirror_does_not_block

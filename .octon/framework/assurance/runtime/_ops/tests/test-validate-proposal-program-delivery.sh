@@ -67,6 +67,22 @@ mutate_receipt_expect_fail() {
   expect_fail "$description" "$RECEIPT_VALIDATOR" --receipt "$target"
 }
 
+mutate_text_fixture_expect_workflow_fail() {
+  local description="$1" source_path="$2" env_name="$3" script="$4" target
+  target="$TMP_DIR/${description//[^A-Za-z0-9_.-]/_}.txt"
+  cp "$source_path" "$target"
+  perl -0pi -e "$script" "$target"
+  expect_fail "$description" env "$env_name=$target" "$WORKFLOW_VALIDATOR"
+}
+
+mutate_yaml_fixture_expect_workflow_fail() {
+  local description="$1" source_path="$2" env_name="$3" expression="$4" target
+  target="$TMP_DIR/${description//[^A-Za-z0-9_.-]/_}.yml"
+  cp "$source_path" "$target"
+  yq -i "$expression" "$target"
+  expect_fail "$description" env "$env_name=$target" "$WORKFLOW_VALIDATOR"
+}
+
 require_tool yq
 
 cat >"$TMP_DIR/valid-profile.yml" <<'YAML'
@@ -338,6 +354,66 @@ expect_pass "schema-only receipt validator" "$RECEIPT_VALIDATOR"
 expect_pass "valid receipt" "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/valid-receipt.yml"
 expect_pass "schema-only delivery evidence index validator" "$EVIDENCE_INDEX_VALIDATOR"
 expect_pass "workflow validator" "$WORKFLOW_VALIDATOR"
+
+expect_fail \
+  "workflow rejects missing additive alias command" \
+  env "OCTON_PROPOSAL_PROGRAM_DELIVERY_ALIAS_COMMAND_PATH=$TMP_DIR/missing-additive-alias.md" "$WORKFLOW_VALIDATOR"
+cat >"$TMP_DIR/native-alias.md" <<'TXT'
+# /octon-proposal-run-program-delivery
+TXT
+expect_fail \
+  "workflow rejects native framework alias command" \
+  env "OCTON_PROPOSAL_PROGRAM_DELIVERY_NATIVE_ALIAS_COMMAND_PATH=$TMP_DIR/native-alias.md" "$WORKFLOW_VALIDATOR"
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional command admission inputs" \
+  "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-program-delivery.md" \
+  "OCTON_PROPOSAL_PROGRAM_DELIVERY_COMMAND_PATH" \
+  's|/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>|/proposal-program-delivery target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]|'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional additive alias admission inputs" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-delivery.md" \
+  "OCTON_PROPOSAL_PROGRAM_DELIVERY_ALIAS_COMMAND_PATH" \
+  's|/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>|/octon-proposal-run-program-delivery target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]|'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional skill admission inputs" \
+  "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md" \
+  "OCTON_PROPOSAL_PROGRAM_DELIVERY_SKILL_PATH" \
+  's|/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>|/proposal-program-delivery target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]|'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional command manifest admission inputs" \
+  "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" \
+  "OCTON_PROPOSAL_PROGRAM_DELIVERY_COMMAND_MANIFEST_PATH" \
+  's|target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>|target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]|'
+mutate_yaml_fixture_expect_workflow_fail \
+  "workflow rejects native command manifest alias registration" \
+  "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" \
+  "OCTON_PROPOSAL_PROGRAM_DELIVERY_COMMAND_MANIFEST_PATH" \
+  '.commands += [{"id": "octon-proposal-run-program-delivery", "display_name": "Run Program to Clean Delivery", "path": "octon-proposal-run-program-delivery.md", "summary": "Alias for proposal-program-delivery.", "access": "agent", "argument_hint": "target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>"}]'
+mutate_yaml_fixture_expect_workflow_fail \
+  "workflow rejects optional additive alias manifest admission inputs" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/manifest.fragment.yml" \
+  "OCTON_PROPOSAL_LIFECYCLE_COMMAND_MANIFEST_PATH" \
+  '(.commands[] | select(.id == "octon-proposal-run-program-delivery") | .argument_hint) = "target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]"'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects missing bundle matrix alias hook" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md" \
+  "OCTON_PROPOSAL_LIFECYCLE_BUNDLE_MATRIX_PATH" \
+  's|; alias `octon-proposal-run-program-delivery`||; s|The optional operator-facing command alias is\n`octon-proposal-run-program-delivery` with display label\n`Run Program to Clean Delivery`. It delegates to `proposal-program-delivery`\nand does not create an independent workflow, lifecycle mode, closeout, archive,\ncleanup, Git mutation, branch cleanup, generated publication, receipt schema,\nprofile schema, or terminal proof rule.\n||'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects missing lifecycle delivery_run_id input hook" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml" \
+  "OCTON_PROPOSAL_PROGRAM_DELIVERY_LIFECYCLE_CONTRACT_PATH" \
+  's|\n        - "delivery_run_id"||'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects missing lifecycle resume non-authority guard" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml" \
+  "OCTON_PROPOSAL_PROGRAM_DELIVERY_LIFECYCLE_CONTRACT_PATH" \
+  's|\n          - "generated outputs"||'
+mutate_yaml_fixture_expect_workflow_fail \
+  "workflow rejects alias lifecycle delivery mode" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml" \
+  "OCTON_PROPOSAL_PROGRAM_DELIVERY_LIFECYCLE_CONTRACT_PATH" \
+  '.delivery_modes += [{"mode_id": "octon-proposal-run-program-delivery"}]'
 
 mutate_profile_expect_fail "missing profile gate declarations" 'del(.publication_checks)'
 mutate_profile_expect_fail "branch-no-pr PR fallback forbidden" '.pr_policy.fallback_to_pr = true'

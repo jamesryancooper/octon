@@ -54,6 +54,13 @@ main() {
     fail "parent receipt versus child receipt boundary is missing"
   fi
 
+  if rg -n 'program-review-revision' "$PACK_ROOT/context/patterns/proposal-program.md" "$PACK_ROOT/commands/octon-proposal-review-program.md" "$PACK_ROOT/commands/octon-proposal-revise-program.md" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-program/SKILL.md" "$PACK_ROOT/skills/octon-proposal-lifecycle-revise-program/SKILL.md" >/dev/null \
+    && rg -n 'standalone program review-and-revise wrapper' "$PACK_ROOT/context/patterns/proposal-program.md" "$PACK_ROOT/commands/octon-proposal-review-program.md" "$PACK_ROOT/commands/octon-proposal-revise-program.md" "$PACK_ROOT/skills/octon-proposal-lifecycle-review-program/SKILL.md" "$PACK_ROOT/skills/octon-proposal-lifecycle-revise-program/SKILL.md" >/dev/null; then
+    pass "program review/revision uses existing loop without standalone wrapper"
+  else
+    fail "program review/revision wrapper omission is missing"
+  fi
+
   if rg -n 'support/program-creation\.md' "$PACK_ROOT/prompts/create-program" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null \
     && rg -n 'never satisf(y|ies) child receipts|never satisfies child receipts' "$PACK_ROOT/prompts/create-program" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null; then
     pass "program creation receipt is parent-local only"

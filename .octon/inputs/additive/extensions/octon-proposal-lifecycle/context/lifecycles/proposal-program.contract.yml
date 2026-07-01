@@ -89,6 +89,30 @@ delivery_modes:
     entrypoints:
       - "/proposal-program-delivery"
       - "proposal-program-delivery"
+    input_contract:
+      required_before_admission:
+        - "target_program_path"
+        - "target_outcome"
+        - "profile_path"
+        - "delivery_run_id"
+      profile_arg: "profile=<profile-path>"
+      delivery_run_arg: "run-id=<id>"
+      resume_evidence:
+        allowed:
+          - "fresh target-bound proposal-program-delivery workflow evidence"
+          - "fresh target-bound delivery receipt from the same program delivery run"
+        forbidden:
+          - "proposal-local support summaries"
+          - "generated prompts"
+          - "generated outputs"
+          - "dashboards"
+          - "host state"
+          - "chat"
+          - "model memory"
+          - "parent summaries as child receipt substitutes"
+          - "aggregate receipts from other targets"
+          - "delivery evidence indexes"
+      missing_required_input_behavior: "fail-closed-before-mutation"
     supported_outcomes:
       - "implemented"
       - "archive-ready"

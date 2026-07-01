@@ -71,6 +71,14 @@ mutate_receipt_expect_fail() {
   expect_fail "$description" "$RECEIPT_VALIDATOR" --receipt "$target"
 }
 
+mutate_text_fixture_expect_workflow_fail() {
+  local description="$1" source_path="$2" env_name="$3" script="$4" target
+  target="$TMP_DIR/${description//[^A-Za-z0-9_.-]/_}.txt"
+  cp "$source_path" "$target"
+  perl -0pi -e "$script" "$target"
+  expect_fail "$description" env "$env_name=$target" "$WORKFLOW_VALIDATOR"
+}
+
 write_partition_clean_fixtures() {
   local fixture_ref_base classifier_ref report_ref return_ref override_ref
   local classifier_path report_path return_path override_path
@@ -555,6 +563,42 @@ expect_pass "schema-only receipt validator" "$RECEIPT_VALIDATOR"
 expect_pass "valid receipt" "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/valid-receipt.yml"
 expect_pass "valid partition-clean archive-ready receipt" "$RECEIPT_VALIDATOR" --receipt "$TMP_DIR/partition-clean-archive-ready-receipt.yml"
 expect_pass "workflow validator" "$WORKFLOW_VALIDATOR"
+
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional command admission inputs" \
+  "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" \
+  "OCTON_PROPOSAL_PACKET_DELIVERY_COMMAND_PATH" \
+  's|/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional skill admission inputs" \
+  "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md" \
+  "OCTON_PROPOSAL_PACKET_DELIVERY_SKILL_PATH" \
+  's|/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional command manifest admission inputs" \
+  "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" \
+  "OCTON_PROPOSAL_PACKET_DELIVERY_COMMAND_MANIFEST_PATH" \
+  's|target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional extension command admission inputs" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-packet-delivery.md" \
+  "OCTON_PROPOSAL_PACKET_DELIVERY_EXTENSION_COMMAND_PATH" \
+  's|/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects optional extension manifest admission inputs" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/manifest.fragment.yml" \
+  "OCTON_PROPOSAL_PACKET_DELIVERY_EXTENSION_COMMAND_MANIFEST_PATH" \
+  's|target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects missing lifecycle delivery_run_id input hook" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml" \
+  "OCTON_PROPOSAL_PACKET_DELIVERY_LIFECYCLE_CONTRACT_PATH" \
+  's|\n        - "delivery_run_id"||'
+mutate_text_fixture_expect_workflow_fail \
+  "workflow rejects missing lifecycle resume non-authority guard" \
+  "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml" \
+  "OCTON_PROPOSAL_PACKET_DELIVERY_LIFECYCLE_CONTRACT_PATH" \
+  's|\n          - "generated outputs"||'
 
 mutate_profile_expect_fail "missing profile gate declarations" 'del(.publication_checks)'
 mutate_profile_expect_fail "branch-no-pr PR fallback forbidden" '.pr_policy.fallback_to_pr = true'
