@@ -296,4 +296,16 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validators/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-operator-surface/
 !.octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-operator-surface/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-input-contract-alignment/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-operator-alias/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-operator-alias/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-review-loop-documentation/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-host-projections/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-delivery-host-projections/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-surface-validation-hardening/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-surface-validation-hardening/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/**
 .octon/inputs/exploratory/proposals/.DS_Store

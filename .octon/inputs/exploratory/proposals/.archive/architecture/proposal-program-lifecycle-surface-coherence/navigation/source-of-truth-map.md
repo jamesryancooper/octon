@@ -20,6 +20,15 @@ Child authority is preserved through sibling packet ownership.
 | Source lineage or child registry | `resources/child-packet-index.yml` |
 | Search-before-create evidence | `resources/repository-reconnaissance.md` |
 | Source lineage or child registry | `resources/source-lineage.md` |
+| Proposal-local receipt or lifecycle support evidence | `support/follow-up-program-verification-prompt.md` |
+| Proposal-local prompt or lifecycle support evidence | `support/custom-program-closeout-prompt.md` |
 | Proposal-local receipt or creation evidence | `support/implementation-grade-completeness-review.md` |
+| Proposal-local receipt or lifecycle support evidence | `support/lifecycle-residue-cleanup.md` |
+| Proposal-local receipt or lifecycle support evidence | `support/pre-integration-architecture-review.yml` |
 | Proposal-local receipt or creation evidence | `support/program-creation.md` |
+| Proposal-local receipt or lifecycle support evidence | `support/program-implementation-orchestration-conformance-review.md` |
+| Proposal-local receipt or lifecycle support evidence | `support/program-implementation-orchestration-prompt.md` |
+| Proposal-local receipt or lifecycle support evidence | `support/program-implementation-orchestration-run.md` |
+| Proposal-local receipt or lifecycle support evidence | `support/program-post-implementation-orchestration-drift-churn-review.md` |
+| Proposal-local receipt or lifecycle support evidence | `support/proposal-review.md` |
 | Validation expectations | `validation-plan.md` |

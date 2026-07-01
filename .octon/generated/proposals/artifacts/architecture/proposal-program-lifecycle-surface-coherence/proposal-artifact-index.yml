@@ -1,0 +1,671 @@
+{
+  "artifact_count": 28,
+  "artifacts": [
+    {
+      "byte_size": 1664,
+      "estimated_tokens": 416,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "README.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/README.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "overview",
+      "sha256": "sha256:7cdaf6189513ecca1e5b899bbdb03b4f28b704496c65f6142578f411a1c456f8",
+      "stage_relevance": [
+        "orientation"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2034,
+      "estimated_tokens": 509,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/acceptance-criteria.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "acceptance-criteria",
+      "sha256": "sha256:e1eee927a13f941ab8bb9f91436b79cd01f72acee78c3aad2ec2bbc4c9c91edd",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 1690,
+      "estimated_tokens": 423,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/child-packet-contract.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/child-packet-contract.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "child-packet-contract",
+      "sha256": "sha256:a062f2da51b69d4073bcff6a436dca7a9aa0cdb876e37522355266ed229780db",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2567,
+      "estimated_tokens": 642,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/implementation-plan.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-plan",
+      "sha256": "sha256:2cab756bbdfb014db301450224c7e5e7970c5b1cdf6c448a714a537b3becaf17",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 1015,
+      "estimated_tokens": 254,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/packet-sequence.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/packet-sequence.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-sequence",
+      "sha256": "sha256:1a5e29ecfe1599e3299c77e777e30157b14b1bcca280d9b869a2dc3dd0e8d92b",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2323,
+      "estimated_tokens": 581,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/program-closeout-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/program-closeout-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "program-closeout-plan",
+      "sha256": "sha256:ef6eef3b9f007d34760da7e6dff30629585079476e3a36f37b05df88f5878860",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2362,
+      "estimated_tokens": 591,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/target-architecture.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "target-architecture",
+      "sha256": "sha256:3494c5f4b72df74787c47b1ba4cdda370113c7637ecb1027feac65937f51d8ac",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 1442,
+      "estimated_tokens": 361,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture-proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "subtype-manifest",
+      "sha256": "sha256:980c273ed463ef30fec580024e7cdf7a3f17dacd98e032b67ff38a276d535aa0",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 2419,
+      "estimated_tokens": 605,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/navigation/artifact-catalog.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "artifact-catalog",
+      "sha256": "sha256:23217b992846994bab8cbe75159b0c9c18464065c2bc23b76e55e57b12ee75e6",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 2761,
+      "estimated_tokens": 691,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/navigation/source-of-truth-map.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "source-of-truth-map",
+      "sha256": "sha256:9ebd237ab688e4a9f0f070d6588b07afa73544fe2666a6a288b8dcef8e570132",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 7363,
+      "estimated_tokens": 1841,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "proposal-manifest",
+      "sha256": "sha256:ac69ced0c8a027da227ee236cc24ddf6acd5cf001b7cfc5fa3983c664985c452",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 962,
+      "estimated_tokens": 241,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/child-packet-index.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/resources/child-packet-index.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:fd4c9f3be493d9a10b994f2dda22f37fd6d75d0fbc1d014be9982865df0d7bff",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 6310,
+      "estimated_tokens": 1578,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/child-packet-index.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/resources/child-packet-index.yml",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:0ac711e5234fe5e3ee7d68ced1bd5a4ae6578bff0f6287ff3669813a18038f4b",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2027,
+      "estimated_tokens": 507,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/repository-reconnaissance.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/resources/repository-reconnaissance.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:91af530f1e9d8a8f59ebba86a0a0e741f6462c163bca4c7d44ef49ce9201e106",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 993,
+      "estimated_tokens": 249,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/source-lineage.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/resources/source-lineage.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:c41f19c0f8210adf3a90f2c4e20f9e814d0250d1b71ce7111fe74e1655b7fb16",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 16292,
+      "estimated_tokens": 4073,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/custom-program-closeout-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/custom-program-closeout-prompt.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "custom-program-closeout-prompt",
+      "sha256": "sha256:54df9ad52c249186c03977a2b9a89521777a3b2a071690d426b6b4f0ba2b0ca5",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 18203,
+      "estimated_tokens": 4551,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/follow-up-program-verification-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/follow-up-program-verification-prompt.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "follow-up-program-verification-prompt",
+      "sha256": "sha256:68e306deb5c0f13fa81b8b841fece15a03668ee47425e6eb162a97b72cc30f9e",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2210,
+      "estimated_tokens": 553,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/implementation-grade-completeness-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "implementation-grade-completeness-review",
+      "sha256": "sha256:4379c25c021f710ff43c9e65aea6efc63e34ad607ed3282edb67e6c0041d3ba9",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4942,
+      "estimated_tokens": 1236,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/lifecycle-residue-cleanup.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/lifecycle-residue-cleanup.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "lifecycle-residue-cleanup",
+      "sha256": "sha256:b1432ef8efc8c418ae296885d09c06a31bc45546a474366a900f29d67a74efe9",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 3696,
+      "estimated_tokens": 924,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/pre-integration-architecture-review.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/pre-integration-architecture-review.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "pre-integration-architecture-review",
+      "sha256": "sha256:72075ec50e043f9730d413096174fef2a6eae2a2ea685ba7f19b8bc1d508154a",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 1049,
+      "estimated_tokens": 263,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-creation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/program-creation.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-creation",
+      "sha256": "sha256:5be0a9db0169eeb79d97a3d242d44af31d35304db8231ab1b0a235d8cd94ff43",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 9031,
+      "estimated_tokens": 2258,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-implementation-orchestration-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/program-implementation-orchestration-conformance-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-implementation-orchestration-conformance-review",
+      "sha256": "sha256:18c922a39c387c9d4c90f6071fc0de2f4d1f76e49bec7370a58ae680b0f1839f",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 7034,
+      "estimated_tokens": 1759,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-implementation-orchestration-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/program-implementation-orchestration-prompt.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-implementation-orchestration-prompt",
+      "sha256": "sha256:7e9606178f617b28fbe7bfab628912ced3cbefaaa0d78b87237efc4a46313190",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4657,
+      "estimated_tokens": 1165,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-implementation-orchestration-run.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/program-implementation-orchestration-run.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-implementation-orchestration-run",
+      "sha256": "sha256:56f7bb5169df0e4f7ccd1038b76f1f17399538a8cf53f71c61743e051198a942",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 6174,
+      "estimated_tokens": 1544,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/program-post-implementation-orchestration-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "program-post-implementation-orchestration-drift-churn-review",
+      "sha256": "sha256:7494c2d78f7d3e7d1b79fc08b138d95cd87e2c82b3b86a16e44099e968efaf29",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 8451,
+      "estimated_tokens": 2113,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:ffc4697c6efe74d42af778d3d0b1786d5b822b65fd06810f694e3befbe028718",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 3567,
+      "estimated_tokens": 892,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/proposal-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-review",
+      "sha256": "sha256:c8411cb290af633754fd8935a8ad3ffaf4939de3c5e75f2d9e99e76aa4f3f4df",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 1607,
+      "estimated_tokens": 402,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "validation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/validation-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:57a6b261dc4978610a764a4112e4a4d196cf90d2694b8c9c37c631d0de160ed5",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    }
+  ],
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "compact_outputs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-lifecycle-surface-coherence/proposal-artifact-index.yml",
+      "artifact_role": "proposal-artifact-index",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-lifecycle-surface-coherence/proposal-program-spine.yml",
+      "artifact_role": "proposal-program-spine",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-lifecycle-surface-coherence/proposal-artifact-index.yml",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_id": "proposal-program-lifecycle-surface-coherence",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "schema_version": "octon-proposal-artifact-index-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture-proposal.yml": "sha256:980c273ed463ef30fec580024e7cdf7a3f17dacd98e032b67ff38a276d535aa0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/acceptance-criteria.md": "sha256:e1eee927a13f941ab8bb9f91436b79cd01f72acee78c3aad2ec2bbc4c9c91edd",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/implementation-plan.md": "sha256:2cab756bbdfb014db301450224c7e5e7970c5b1cdf6c448a714a537b3becaf17",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/navigation/artifact-catalog.md": "sha256:23217b992846994bab8cbe75159b0c9c18464065c2bc23b76e55e57b12ee75e6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/navigation/source-of-truth-map.md": "sha256:9ebd237ab688e4a9f0f070d6588b07afa73544fe2666a6a288b8dcef8e570132",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml": "sha256:ac69ced0c8a027da227ee236cc24ddf6acd5cf001b7cfc5fa3983c664985c452",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/implementation-grade-completeness-review.md": "sha256:4379c25c021f710ff43c9e65aea6efc63e34ad607ed3282edb67e6c0041d3ba9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/proposal-review.md": "sha256:c8411cb290af633754fd8935a8ad3ffaf4939de3c5e75f2d9e99e76aa4f3f4df"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/support/proposal-review.md"
+  ],
+  "targeted_dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-delivery-input-contract-alignment/proposal.yml",
+      "manifest_sha256": "sha256:7eb9b444224a5f04d9cfd5f0538da0530805fd26138e79958a9c05342adb8658",
+      "proposal_id": "proposal-delivery-input-contract-alignment",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-delivery-input-contract-alignment",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias/proposal.yml",
+      "manifest_sha256": "sha256:f6af14f3282800155965802e6185b07145fab9e7edb4edac3ec7f83822c65fa1",
+      "proposal_id": "proposal-program-delivery-operator-alias",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-operator-alias",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections/proposal.yml",
+      "manifest_sha256": "sha256:01b3272fc333c4ef5bd52c4b157fc26ccc0aa3d5f2c31772c31ea58fb6cffea9",
+      "proposal_id": "proposal-program-delivery-host-projections",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-delivery-host-projections",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation/proposal.yml",
+      "manifest_sha256": "sha256:9c40b2b01d9e1cd17ba93b8ae323f02dea5a660a7d6195a178377a6cfd5f3ca3",
+      "proposal_id": "proposal-program-review-loop-documentation",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-review-loop-documentation",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-surface-validation-hardening/proposal.yml",
+      "manifest_sha256": "sha256:458934151d92a4bea83037360d8730d79244dc579b421bf66d7ffe3106454e33",
+      "proposal_id": "proposal-lifecycle-surface-validation-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-surface-validation-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "validation": {
+    "negative_controls": [
+      "generated-registry-cannot-replace-manifest",
+      "source-digest-mismatch-fails-closed",
+      "missing-child-handoff-fails-when-parent-program-present"
+    ],
+    "validator": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+  }
+}
