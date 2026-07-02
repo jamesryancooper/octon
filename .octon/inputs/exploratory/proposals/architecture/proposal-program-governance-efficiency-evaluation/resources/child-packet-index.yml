@@ -1,0 +1,106 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "sequential"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "proposal-governance-efficiency-report-contract"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-report-contract"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "terminal"
+    phase_id: "phase-1"
+    group_id: "report-contract"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/product/contracts/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "report contract schema validation"
+      - "negative controls proving advisory report fields are non-authoritative"
+    seed_role: "first-child"
+  - child_id: "proposal-governance-efficiency-evidence-collector"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-evidence-collector"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-governance-efficiency-report-contract"
+    dependency_gate: "terminal"
+    phase_id: "phase-2"
+    group_id: "evidence-collector"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "read-only evidence collection tests"
+      - "fixture coverage for missing, stale, and partial evidence"
+    seed_role: "follow-on"
+  - child_id: "proposal-governance-efficiency-scoring-and-classification"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-scoring-and-classification"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-governance-efficiency-report-contract"
+      - "proposal-governance-efficiency-evidence-collector"
+    dependency_gate: "terminal"
+    phase_id: "phase-3"
+    group_id: "scoring"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/product/contracts/"
+    validation_strategy:
+      - "scoring fixture tests for redundancy, automation, batching, and risk-based candidates"
+      - "uncertainty handling tests for incomplete evidence"
+    seed_role: "follow-on"
+  - child_id: "proposal-governance-efficiency-operator-surface"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-operator-surface"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-governance-efficiency-report-contract"
+      - "proposal-governance-efficiency-evidence-collector"
+      - "proposal-governance-efficiency-scoring-and-classification"
+    dependency_gate: "terminal"
+    phase_id: "phase-4"
+    group_id: "operator-surface"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/commands/"
+      - ".octon/framework/capabilities/runtime/skills/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+    validation_strategy:
+      - "operator command or skill validation"
+      - "negative controls proving the surface is not a required delivery gate"
+    seed_role: "follow-on"
+  - child_id: "proposal-governance-efficiency-validation-and-documentation"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-governance-efficiency-report-contract"
+      - "proposal-governance-efficiency-evidence-collector"
+      - "proposal-governance-efficiency-scoring-and-classification"
+      - "proposal-governance-efficiency-operator-surface"
+    dependency_gate: "terminal"
+    phase_id: "phase-5"
+    group_id: "validation-documentation"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+      - ".octon/framework/product/features/catalog.yml"
+    validation_strategy:
+      - "regression tests for advisory-only behavior"
+      - "documentation checks for authority boundaries and governance efficiency interpretation"
+    seed_role: "follow-on"

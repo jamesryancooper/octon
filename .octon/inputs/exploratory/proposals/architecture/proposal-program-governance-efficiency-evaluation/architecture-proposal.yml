@@ -1,0 +1,16 @@
+schema_version: architecture-proposal-v1
+architecture_scope: governance efficiency evaluation
+decision_type: new-surface
+status: draft
+owner: Octon governance efficiency evaluation architect
+created_date: 2026-07-01
+summary: Creates a parent proposal program for an advisory governance efficiency evaluator that measures control value, latency, redundancy, automation fit, batching fit, and risk-based governance candidates.
+architecture_drivers:
+  - Governance should preserve quality, authority boundaries, and delivery confidence without unnecessary latency.
+  - Lifecycle evidence already records many delay, retry, validation, and blocker signals that can be evaluated without adding a new gate.
+  - Recommendations must be separated from authorization so efficiency analysis does not become another governance burden.
+constraints:
+  - The evaluator is read-only and advisory by default.
+  - The evaluator must not authorize implementation, delivery, closeout, cleanup, archive, terminal proof, or child-owned lifecycle outcomes.
+  - Missing or partial evidence must be disclosed instead of converted into confident recommendations.
+  - Any recommendation that changes governance policy requires a later accepted proposal.

@@ -1,0 +1,140 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "unknown"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
+      "manifest_sha256": "sha256:ac69ced0c8a027da227ee236cc24ddf6acd5cf001b7cfc5fa3983c664985c452",
+      "proposal_id": "proposal-program-lifecycle-surface-coherence",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": null,
+      "open_blocking_findings_count": null,
+      "receipt_ref": null,
+      "reviewed_packet_digest": null,
+      "verdict": null
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review independently, implement bounded retry controls if accepted, and close out through packet-owned validation evidence.",
+    "status": "in-review",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-retry-step-budget-controls/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/main.rs",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/README.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md"
+  ],
+  "proposal_id": "proposal-program-retry-step-budget-controls",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 300,
+      "estimated_tokens": 75,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-conformance-review.md",
+      "sha256": "sha256:027c282868d55cc016e83d9bacdf2ffdb36ab33d9a29cd01f7c419d27a5a038e"
+    },
+    {
+      "byte_size": 2206,
+      "estimated_tokens": 552,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:b821bf1c31dc060fde35acc4871a9ce4ba67bd4f34d12f3dabdc1f4dcd47c0c3"
+    },
+    {
+      "byte_size": 318,
+      "estimated_tokens": 80,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:4e6a40a0cfee7eb74efb449be448ded64db711bb6a38f4a01b81f0a09c1d84fc"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-lifecycle-surface-coherence"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture-proposal.yml": "sha256:865246e4fa495279fff898ace962c8737948656bc37783b5fff58259c249c409",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/acceptance-criteria.md": "sha256:fbf2cd9875f5f7251d6d0a80c53344d80d76e1019627ff2fab12d6f0f73b4b1e",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/implementation-plan.md": "sha256:a8e224ebddcaca0c8ffdb757b71c37f18f1d22d2b949fce0f47d6a05c4ecdb49",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/artifact-catalog.md": "sha256:ba80bcdf44419a9bade3be25b0315d2b6d7c9390849f4775930d6021a2b3e389",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/source-of-truth-map.md": "sha256:e9f9d39461889e556a38c7bf5bdc835e986e557367eef674602c6666bf04c614",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/proposal.yml": "sha256:f3003e29057c10b49f93af13806543314789d3a9de4f6c6ec82cb70a873c2fb6",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md": "sha256:b821bf1c31dc060fde35acc4871a9ce4ba67bd4f34d12f3dabdc1f4dcd47c0c3"
+  },
+  "source_lineage": [
+    ".octon/framework/engine/runtime/crates/kernel/src/main.rs",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md"
+  ],
+  "status": "in-review"
+}

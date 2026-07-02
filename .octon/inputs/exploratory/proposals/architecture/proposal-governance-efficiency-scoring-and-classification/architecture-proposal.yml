@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: governance efficiency scoring and classification
+decision_type: new-surface
+status: draft
+owner: Octon governance efficiency scoring architect
+created_date: 2026-07-01
+summary: Adds advisory scoring and classification rules for governance efficiency evaluation reports.
+architecture_drivers:
+  - Governance decisions need a clear view of risk reduced per unit of delay.
+  - Controls should be candidates for automation, batching, caching, or risk-based treatment only when evidence supports that recommendation.
+  - Scoring must expose uncertainty so partial evidence does not become false precision.
+constraints:
+  - Scores are advisory and non-authorizing.
+  - Scoring must not mutate governance policy.
+  - Scoring must depend on stable report and collector outputs.

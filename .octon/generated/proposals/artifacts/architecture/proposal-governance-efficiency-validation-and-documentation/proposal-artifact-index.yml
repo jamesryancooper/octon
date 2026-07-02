@@ -1,0 +1,345 @@
+{
+  "artifact_count": 11,
+  "artifacts": [
+    {
+      "byte_size": 248,
+      "estimated_tokens": 62,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "README.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/README.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "overview",
+      "sha256": "sha256:256592676f257b758648ee5c2109962344de1566ffbee831d2b667abf6cd6450",
+      "stage_relevance": [
+        "orientation"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 456,
+      "estimated_tokens": 114,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture/acceptance-criteria.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "acceptance-criteria",
+      "sha256": "sha256:ca9939522def295a47ec3eb227f75d00338de6eb8a545ac6112656ef94c37ffa",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 418,
+      "estimated_tokens": 105,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture/implementation-plan.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-plan",
+      "sha256": "sha256:1956a29d07ba5e4e313bcfab764f78a2546bbbceb004b312e5e32bea5df095ff",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 536,
+      "estimated_tokens": 134,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture/target-architecture.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "target-architecture",
+      "sha256": "sha256:671c3f80ad2f46b8550c361bf7aa17fa6f3889afde02778cc9e9ec6ffed8b0c7",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 956,
+      "estimated_tokens": 239,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture-proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "subtype-manifest",
+      "sha256": "sha256:404c09fff1c85c38cd685819a7b81d343465f5594cd1e6bc308ffb6523d19168",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 681,
+      "estimated_tokens": 171,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/navigation/artifact-catalog.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "artifact-catalog",
+      "sha256": "sha256:93e0ef261413d7a49d66f3cb593ca3daa5f6d715a1eeaf23bcc522f4c6286eee",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 635,
+      "estimated_tokens": 159,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/navigation/source-of-truth-map.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "source-of-truth-map",
+      "sha256": "sha256:6f8eb87891d2cedcbf3fef8906ce18fa790e28eb8c2d43cc93b9ff379fc51c03",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 3685,
+      "estimated_tokens": 922,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "proposal-manifest",
+      "sha256": "sha256:007d04b554867b0775d4b12fe8b3793a34e852998481c0d5963033fba1e208df",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 413,
+      "estimated_tokens": 104,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/source-lineage.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/resources/source-lineage.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:b0b599187e6a5f1ee2be89de7b0dbc6269f28e475b114e13bcc3ce9d741456c9",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 1798,
+      "estimated_tokens": 450,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/support/implementation-grade-completeness-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "implementation-grade-completeness-review",
+      "sha256": "sha256:1e745f9465da28fca35cd0fcd8deea520488341499df304ffb80bcd2f553881e",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 803,
+      "estimated_tokens": 201,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "validation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/validation-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "packet-file",
+      "sha256": "sha256:98b3449027bc678dbcf86585e19ad7ce92a180cae852dfee00d5049f2afb1eb0",
+      "stage_relevance": [
+        "operator-audit"
+      ],
+      "stage_role": "optional-reference"
+    }
+  ],
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "compact_outputs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/proposal-governance-efficiency-validation-and-documentation/proposal-artifact-index.yml",
+      "artifact_role": "proposal-artifact-index",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/proposal-governance-efficiency-validation-and-documentation/proposal-program-spine.yml",
+      "artifact_role": "proposal-program-spine",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-governance-efficiency-validation-and-documentation/proposal-artifact-index.yml",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_id": "proposal-governance-efficiency-validation-and-documentation",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "schema_version": "octon-proposal-artifact-index-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture-proposal.yml": "sha256:404c09fff1c85c38cd685819a7b81d343465f5594cd1e6bc308ffb6523d19168",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture/acceptance-criteria.md": "sha256:ca9939522def295a47ec3eb227f75d00338de6eb8a545ac6112656ef94c37ffa",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture/implementation-plan.md": "sha256:1956a29d07ba5e4e313bcfab764f78a2546bbbceb004b312e5e32bea5df095ff",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/navigation/artifact-catalog.md": "sha256:93e0ef261413d7a49d66f3cb593ca3daa5f6d715a1eeaf23bcc522f4c6286eee",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/navigation/source-of-truth-map.md": "sha256:6f8eb87891d2cedcbf3fef8906ce18fa790e28eb8c2d43cc93b9ff379fc51c03",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/proposal.yml": "sha256:007d04b554867b0775d4b12fe8b3793a34e852998481c0d5963033fba1e208df",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/support/implementation-grade-completeness-review.md": "sha256:1e745f9465da28fca35cd0fcd8deea520488341499df304ffb80bcd2f553881e"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation/support/implementation-grade-completeness-review.md"
+  ],
+  "targeted_dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-governance-efficiency-evaluation/proposal.yml",
+      "manifest_sha256": "sha256:ecb9883ab63460a83d9e409160732ab8ed2c9bfa0e900a2f9052211f7c4f2378",
+      "proposal_id": "proposal-program-governance-efficiency-evaluation",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-governance-efficiency-evaluation",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-report-contract/proposal.yml",
+      "manifest_sha256": "sha256:dc672b37dbab5b6d72cee0abed227186eeb139ef025c39f92df313f290d67f26",
+      "proposal_id": "proposal-governance-efficiency-report-contract",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-report-contract",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-evidence-collector/proposal.yml",
+      "manifest_sha256": "sha256:4c85b737fd5fe62db4fe6dae7f664628fcdb320eae4c68a9b7ae334c1e5d2b72",
+      "proposal_id": "proposal-governance-efficiency-evidence-collector",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-evidence-collector",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-scoring-and-classification/proposal.yml",
+      "manifest_sha256": "sha256:73b3f403836c2821ae4907f7dc3647d069f479e3d3f9d33b84578f2fdae2ee24",
+      "proposal_id": "proposal-governance-efficiency-scoring-and-classification",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-scoring-and-classification",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-operator-surface/proposal.yml",
+      "manifest_sha256": "sha256:9e022840e8deb61c959b92fb6d18e496ecb534907212b7edf8b5a8f179b77585",
+      "proposal_id": "proposal-governance-efficiency-operator-surface",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-operator-surface",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "validation": {
+    "negative_controls": [
+      "generated-registry-cannot-replace-manifest",
+      "source-digest-mismatch-fails-closed",
+      "missing-child-handoff-fails-when-parent-program-present"
+    ],
+    "validator": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+  }
+}

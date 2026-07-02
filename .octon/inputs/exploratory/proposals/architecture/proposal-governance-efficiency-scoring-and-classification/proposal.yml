@@ -1,0 +1,50 @@
+schema_version: proposal-v1
+proposal_id: proposal-governance-efficiency-scoring-and-classification
+title: Governance Efficiency Scoring And Classification
+summary: Define and implement advisory scoring for governance efficiency findings, including latency cost, risk coverage, redundancy, automation fit, batching fit, risk-based fit, and uncertainty.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: draft
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement scoring only after report contract and collector children reach terminal outcomes.
+related_proposals:
+  - proposal-program-governance-efficiency-evaluation
+  - proposal-governance-efficiency-report-contract
+  - proposal-governance-efficiency-evidence-collector
+selected_implementation_target: Advisory governance efficiency scoring and classification.
+scope_statement: This child owns scoring rules and classification vocabulary. It does not collect raw evidence, expose an operator surface, mutate governance policy, or turn recommendations into gates.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable scoring changes.
+generated_input_authority_impact: Scores and classifications are advisory. They cannot authorize lifecycle transitions or replace gate evidence.
+authority_class_impact:
+  framework: May add scoring scripts, report contract extensions, and tests.
+  instance: No instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: May read normalized collector output and cite retained evidence references.
+  generated: No generated output authority change.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Fixture evidence for scoring and classification behavior.
+  - Negative controls proving scores cannot authorize lifecycle outcomes.
+  - Uncertainty handling for incomplete or contradictory evidence.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "scoring fixture tests"
+acceptance_criteria_summary: Scoring is acceptable when it identifies high-latency low-value controls, redundant controls, automation candidates, batching candidates, and risk-based candidates while preserving uncertainty and advisory-only boundaries.
+risk_posture: Medium. Overconfident scoring could drive unsafe governance simplification if uncertainty is hidden.
+rollback_summary: Revert or supersede only scoring rules, contract extensions, and tests owned by this child.
+owner:
+  role: Octon governance efficiency scoring architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-01
+source_lineage:
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"

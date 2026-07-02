@@ -1,0 +1,48 @@
+schema_version: proposal-v1
+proposal_id: proposal-governance-efficiency-report-contract
+title: Governance Efficiency Report Contract
+summary: Define the advisory report contract for governance efficiency evaluation, including risk coverage, evidence source, latency cost, redundancy, automation, batching, risk-based candidates, uncertainty, and recommendation fields.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: draft
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only the report contract and related validation after explicit implementation authorization.
+related_proposals:
+  - proposal-program-governance-efficiency-evaluation
+selected_implementation_target: Governance efficiency advisory report contract.
+scope_statement: This child owns the report schema, vocabulary, and contract validation only. It does not collect evidence, score controls, expose an operator command, or change lifecycle gates.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable contract and validator changes.
+generated_input_authority_impact: Advisory reports are analysis outputs, not authority. They cannot authorize implementation, validation, closeout, archive, cleanup, or terminal proof.
+authority_class_impact:
+  framework: May add contract and schema validation surfaces for advisory reports.
+  instance: No instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Future reports may cite retained evidence by reference but remain advisory.
+  generated: No generated output authority change.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Contract proof that every report field has a clear meaning and authority posture.
+  - Negative controls proving report fields cannot satisfy lifecycle gates.
+  - Schema validation fixtures for complete, partial, and invalid reports.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "report contract schema validation"
+acceptance_criteria_summary: The report contract is acceptable when it captures governance value and friction clearly while marking every recommendation as advisory and non-authorizing.
+risk_posture: Low. Contract drift can confuse interpretation, but the surface is advisory.
+rollback_summary: Revert or supersede only the report contract and validator changes owned by this child.
+owner:
+  role: Octon governance efficiency report contract architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-01
+source_lineage:
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"

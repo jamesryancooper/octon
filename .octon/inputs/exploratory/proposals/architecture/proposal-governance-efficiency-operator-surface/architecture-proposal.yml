@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: governance efficiency operator surface
+decision_type: new-surface
+status: draft
+owner: Octon governance efficiency operator surface architect
+created_date: 2026-07-01
+summary: Adds optional operator access for advisory governance efficiency evaluation while preserving lifecycle authority boundaries.
+architecture_drivers:
+  - Operators need a simple way to run the evaluator for a surface, feature, packet, program, or lifecycle run.
+  - The interface must clearly distinguish advisory output from governance authority.
+  - Optional access should support governance improvement work without slowing normal delivery.
+constraints:
+  - The evaluator must not become a required lifecycle step.
+  - The operator surface must delegate to canonical evaluator logic.
+  - The surface must not mutate workflow state or git state.

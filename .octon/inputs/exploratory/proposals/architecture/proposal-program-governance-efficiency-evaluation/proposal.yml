@@ -1,0 +1,69 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-governance-efficiency-evaluation
+title: Proposal Program Governance Efficiency Evaluation
+summary: >
+  Create a proposal program for a read-only governance efficiency evaluation
+  feature that measures governance latency, duplicated controls, automation
+  opportunities, batching opportunities, and risk-based candidates without
+  weakening quality, authority boundaries, or delivery confidence.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/capabilities/runtime/commands/"
+  - ".octon/framework/capabilities/runtime/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+status: draft
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this parent program and every sibling child packet independently. Implement only accepted children, and keep the evaluation feature advisory until a later accepted proposal promotes any recommendation into a mandatory governance change.
+related_proposals:
+  - "proposal-governance-efficiency-report-contract"
+  - "proposal-governance-efficiency-evidence-collector"
+  - "proposal-governance-efficiency-scoring-and-classification"
+  - "proposal-governance-efficiency-operator-surface"
+  - "proposal-governance-efficiency-validation-and-documentation"
+acceptance_criteria_summary: The program is acceptable when the proposed feature can evaluate governance cost and effectiveness from retained lifecycle evidence, identify redundant or over-broad controls, and recommend automation, batching, or risk-based treatment without becoming a delivery gate or replacing child-owned authority.
+program_execution_mode: sequential
+selected_implementation_target: Read-only governance efficiency evaluation for lifecycle and proposal-program surfaces.
+scope_statement: Parent program coordination only. This packet creates sibling child proposal packets and parent-local coordination artifacts. It does not implement runtime behavior, validators, generated outputs, delivery routes, cleanup, archive, Git, or terminal proof.
+explicit_runtime_non_implementation_statement: This parent program does not modify runtime behavior. Durable changes require accepted child packets, implementation routes, retained child evidence, conformance receipts, drift/churn receipts, validation, closeout, and archive handling.
+generated_input_authority_impact: Proposal-local files, generated projections, prompts, chat history, local host state, and raw inputs remain non-authoritative. The proposed evaluator may read retained evidence but must not authorize lifecycle transitions.
+authority_class_impact:
+  framework: Coordinates future contract, command, skill, validator, test, and catalog updates through child packets.
+  instance: No direct instance authority changes from this parent packet.
+  state_control: No state-control mutation from this parent packet.
+  state_evidence: Future children may read retained evidence and emit advisory reports; those reports must not become retained authority unless a later proposal authorizes that role.
+  generated: No generated output edits are authorized by this parent.
+  inputs: Parent and child packets are temporary proposal lineage only.
+evidence_requirements:
+  - Child-owned review, architecture review, implementation, conformance, drift/churn, validation, closeout, archive, cleanup, and terminal proof evidence for each implemented child.
+  - Proof that the governance efficiency report is advisory and cannot satisfy review, validation, closeout, archive, cleanup, or terminal gates.
+  - Evidence that scoring and recommendations cite retained lifecycle inputs by reference and disclose missing data.
+  - Negative controls proving recommendations cannot mutate workflow state or widen authority boundaries.
+validation_gates:
+  - "validate-proposal-standard.sh for parent and children"
+  - "validate-architecture-proposal.sh for parent and children"
+  - "validate-proposal-program-structure.sh for parent"
+  - "validate-proposal-implementation-readiness.sh for children"
+  - "report contract schema validation after contract child implementation"
+  - "read-only evidence collection tests after collector child implementation"
+  - "advisory-only negative controls after operator-surface child implementation"
+rollback_summary: If review rejects this program, supersede or remove this parent and child proposal lineage. If child work begins, rollback, rejection, or supersession must happen through each child packet's own promotion targets and retained evidence path.
+owner:
+  role: Octon governance efficiency evaluation architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-01
+source_lineage:
+  - ".octon/state/evidence/runs/workflows/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/capabilities/runtime/commands/"
+  - ".octon/framework/capabilities/runtime/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"

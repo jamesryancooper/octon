@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: governance efficiency evidence collector
+decision_type: new-surface
+status: draft
+owner: Octon governance efficiency evidence collector architect
+created_date: 2026-07-01
+summary: Adds a read-only collector for retained lifecycle and proposal evidence used by advisory governance efficiency reports.
+architecture_drivers:
+  - Governance efficiency findings need evidence-backed timing, retry, blocker, and validation facts.
+  - The collector should normalize retained evidence without making lifecycle decisions.
+  - Missing evidence should become explicit uncertainty, not a guessed result.
+constraints:
+  - The collector must not mutate workflow state, retained evidence, proposal packets, generated outputs, or git state.
+  - Collection must cite source evidence paths.
+  - The collector must not score controls or recommend policy changes by itself.

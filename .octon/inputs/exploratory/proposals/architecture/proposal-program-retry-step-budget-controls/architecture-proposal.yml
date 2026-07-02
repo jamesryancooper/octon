@@ -1,0 +1,16 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal program retry step budget controls
+decision_type: surface-refactor
+status: in-review
+owner: Octon proposal-program lifecycle runtime architect
+created_date: 2026-07-01
+summary: Expose bounded step-budget controls on proposal-program retry so safe continuation can advance multiple route dispatches without manual one-step loops.
+architecture_drivers:
+  - Program lifecycle retries can be continuable but inefficient when constrained to one dispatch per retry.
+  - Operators need an explicit bounded retry-time control rather than a hidden checkpoint behavior.
+  - Retry controls must preserve child-owned implementation, validation, closeout, archive, cleanup, and terminal authority.
+constraints:
+  - Retry must remain bounded and fail closed.
+  - Retry-time overrides must not mutate checkpoint identity, target binding, lifecycle id, run inputs, child registry ownership, or retained event truth.
+  - Parent evidence must not satisfy child-owned receipts, validation verdicts, promotion targets, archive metadata, cleanup dispositions, or terminal outcomes.
+  - The active coherence program must not be expanded by this standalone packet.

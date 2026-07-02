@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: governance efficiency validation and documentation
+decision_type: boundary-change
+status: draft
+owner: Octon governance efficiency validation and documentation architect
+created_date: 2026-07-01
+summary: Adds validation and documentation proving the governance efficiency evaluator remains advisory and safe to interpret.
+architecture_drivers:
+  - Advisory tools can become de facto gates unless boundaries are tested and documented.
+  - Users need guidance for turning recommendations into future proposals without bypassing governance.
+  - Regression tests should preserve the efficiency feature's non-authoritative posture.
+constraints:
+  - Documentation must not present evaluator output as mandatory closeout evidence.
+  - Tests must reject misuse of evaluator reports as lifecycle receipts.
+  - Any future policy change recommended by the evaluator must route through a separate proposal.

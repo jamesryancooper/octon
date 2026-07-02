@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: governance efficiency report contract
+decision_type: new-surface
+status: draft
+owner: Octon governance efficiency report contract architect
+created_date: 2026-07-01
+summary: Defines the advisory report contract used to evaluate governance efficiency without granting lifecycle authority.
+architecture_drivers:
+  - Findings need stable fields so comparisons across lifecycle runs are meaningful.
+  - Recommendations must disclose evidence basis, uncertainty, and authority posture.
+  - Contract validation should prevent advisory reports from being mistaken for gate receipts.
+constraints:
+  - Report fields are advisory and non-authorizing.
+  - Contract implementation must not require the report during delivery.
+  - Missing evidence must be represented explicitly.
