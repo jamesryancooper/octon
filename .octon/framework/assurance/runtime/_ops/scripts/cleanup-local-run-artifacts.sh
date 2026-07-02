@@ -14,7 +14,6 @@ AUTHORIZE_OUT=""
 AUTHORIZATION_RECEIPT=""
 REQUESTED_CLEANUP_PATH_ARGS=()
 REFERENCE_SCAN_PATTERN_LIMIT="${OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT:-2000}"
-REFERENCE_SCAN_CHUNK_SIZE="${OCTON_CLEANUP_REFERENCE_SCAN_CHUNK_SIZE:-500}"
 REFERENCE_SCAN_STATUS="not-needed"
 REFERENCE_SCAN_PATTERN_COUNT=0
 
@@ -175,11 +174,6 @@ if [[ ! "$REFERENCE_SCAN_PATTERN_LIMIT" =~ ^[0-9]+$ ]]; then
   exit 2
 fi
 
-if [[ ! "$REFERENCE_SCAN_CHUNK_SIZE" =~ ^[0-9]+$ || "$REFERENCE_SCAN_CHUNK_SIZE" -eq 0 ]]; then
-  echo "[ERROR] OCTON_CLEANUP_REFERENCE_SCAN_CHUNK_SIZE must be a positive integer" >&2
-  exit 2
-fi
-
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/octon-local-run-artifacts.XXXXXX")"
 trap 'rm -rf "$TMP_DIR"' EXIT
 UNTRACKED_PATHS="$TMP_DIR/untracked-paths.txt"
@@ -327,7 +321,208 @@ write_reference_scan_paths() {
   done <"$UNTRACKED_PATHS" | sort -u >"$REFERENCE_SCAN_PATHS"
 }
 
-collect_retained_evidence_references() {
+run_candidate_reference_scan() {
+  local output="$1"
+  local mode="$2"
+  shift 2
+  : >"$output"
+  python3 - "$ROOT_DIR" "$REFERENCE_SCAN_PATHS" "$output" "$mode" "$@" <<'PY'
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1]).resolve()
+patterns_path = Path(sys.argv[2])
+output_path = Path(sys.argv[3])
+mode = sys.argv[4]
+scan_roots = sys.argv[5:]
+
+excluded_source_prefixes = (
+    ".octon/state/evidence/local/",
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/",
+)
+
+try:
+    candidates = sorted(
+        {
+            line.strip()
+            for line in patterns_path.read_text(encoding="utf-8", errors="ignore").splitlines()
+            if line.strip()
+        }
+    )
+except OSError as exc:
+    print(f"[ERROR] cannot read reference scan paths: {exc}", file=sys.stderr)
+    sys.exit(1)
+
+if not candidates:
+    output_path.write_text("", encoding="utf-8")
+    sys.exit(0)
+
+candidate_set = set(candidates)
+candidate_lengths = sorted({len(candidate) for candidate in candidates})
+ds_store_candidates = [candidate for candidate in candidates if ".DS_Store" in candidate]
+path_char_bytes = set(
+    b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    b"abcdefghijklmnopqrstuvwxyz"
+    b"0123456789"
+    b"._-/:%@+"
+)
+
+
+def scan_bytes(data):
+    if b".octon/" not in data and b".DS_Store" not in data:
+        return set()
+
+    found = set()
+    start = 0
+    while True:
+        position = data.find(b".octon/", start)
+        if position < 0:
+            break
+        end = position
+        while end < len(data) and data[end] in path_char_bytes:
+            end += 1
+        token = data[position:end].decode("utf-8", errors="surrogateescape")
+        token_length = len(token)
+        for candidate_length in candidate_lengths:
+            if candidate_length > token_length:
+                break
+            candidate = token[:candidate_length]
+            if candidate in candidate_set:
+                found.add(candidate)
+        start = position + 1
+
+    if ds_store_candidates and b".DS_Store" in data:
+        for candidate in ds_store_candidates:
+            if candidate.encode("utf-8", errors="surrogateescape") in data:
+                found.add(candidate)
+    return found
+
+
+def read_rel_file(rel):
+    path = root / rel
+    if not path.is_file():
+        return b""
+    try:
+        return path.read_bytes()
+    except OSError as exc:
+        raise RuntimeError(f"cannot read {rel}: {exc}") from exc
+
+
+def tracked_files():
+    completed = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(root),
+            "grep",
+            "-z",
+            "-l",
+            "-F",
+            "-e",
+            ".octon/",
+            "-e",
+            ".DS_Store",
+            "--",
+        ],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if completed.returncode == 1:
+        return
+    if completed.returncode != 0:
+        stderr = completed.stderr.decode("utf-8", errors="replace").strip()
+        print(f"[ERROR] git grep prefilter failed during reference scan: {stderr}", file=sys.stderr)
+        sys.exit(completed.returncode or 1)
+    for raw in completed.stdout.split(b"\0"):
+        if raw:
+            yield raw.decode("utf-8", errors="surrogateescape")
+
+
+def retained_files():
+    if not scan_roots:
+        return
+    try:
+        completed = subprocess.run(
+            [
+                "rg",
+                "-0",
+                "-l",
+                "-F",
+                "-e",
+                ".octon/",
+                "-e",
+                ".DS_Store",
+                "--",
+                *scan_roots,
+            ],
+            check=False,
+            cwd=root,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except FileNotFoundError:
+        completed = None
+
+    if completed is not None:
+        if completed.returncode == 1:
+            return
+        if completed.returncode != 0:
+            stderr = completed.stderr.decode("utf-8", errors="replace").strip()
+            print(f"[ERROR] retained evidence prefilter failed during reference scan: {stderr}", file=sys.stderr)
+            sys.exit(completed.returncode or 1)
+        for raw in completed.stdout.split(b"\0"):
+            if raw:
+                yield raw.decode("utf-8", errors="surrogateescape")
+        return
+
+    for root_rel in scan_roots:
+        start = root / root_rel
+        if not start.exists():
+            continue
+        for dirpath, dirnames, filenames in os.walk(start):
+            dirnames[:] = sorted(d for d in dirnames if d != ".git")
+            for filename in sorted(filenames):
+                path = Path(dirpath) / filename
+                try:
+                    rel = path.relative_to(root).as_posix()
+                except ValueError:
+                    continue
+                yield rel
+
+
+try:
+    matches = set()
+    if mode == "tracked":
+        sources = tracked_files()
+    elif mode == "retained":
+        sources = retained_files()
+    else:
+        print(f"[ERROR] unsupported reference scan mode: {mode}", file=sys.stderr)
+        sys.exit(2)
+
+    for rel in sources:
+        if mode == "retained" and any(rel.startswith(prefix) for prefix in excluded_source_prefixes):
+            continue
+        for match in scan_bytes(read_rel_file(rel)):
+            if mode == "retained" and rel == match:
+                continue
+            matches.add(match)
+except RuntimeError as exc:
+    print(f"[ERROR] {exc}", file=sys.stderr)
+    sys.exit(1)
+
+output_path.write_text(
+    "".join(f"{match}\n" for match in sorted(matches)),
+    encoding="utf-8",
+)
+PY
+}
+
+run_retained_reference_scan() {
+  local output="$1"
   local scan_roots=()
   local root_rel
   for root_rel in \
@@ -340,69 +535,16 @@ collect_retained_evidence_references() {
   do
     [[ -e "$ROOT_DIR/$root_rel" ]] && scan_roots+=("$root_rel")
   done
-  [[ "${#scan_roots[@]}" -gt 0 ]] || return 0
-
-  local retained_reference_matches="$TMP_DIR/retained-reference-matches.txt"
-
-  (
-    cd "$ROOT_DIR"
-    if command -v rg >/dev/null 2>&1; then
-      rg --threads 1 --sort path --no-messages --path-separator / -F -o -f "$REFERENCE_SCAN_PATHS" -- "${scan_roots[@]}" >"$retained_reference_matches" || true
-    else
-      grep -R -I -F -o -f "$REFERENCE_SCAN_PATHS" -- "${scan_roots[@]}" >"$retained_reference_matches" || true
-    fi
-  )
-  python3 - "$retained_reference_matches" <<'PY'
-import sys
-from pathlib import Path
-
-excluded_source_prefixes = (
-    ".octon/state/evidence/local/",
-    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/",
-)
-
-referenced = set()
-for raw in Path(sys.argv[1]).read_text(encoding="utf-8", errors="ignore").splitlines():
-    line = raw.rstrip("\n")
-    if not line or ":" not in line:
-        continue
-    source, match = line.split(":", 1)
-    if not source or not match:
-        continue
-    if source == match:
-        continue
-    if any(source.startswith(prefix) for prefix in excluded_source_prefixes):
-        continue
-    referenced.add(match)
-
-for candidate in sorted(referenced):
-    print(candidate)
-PY
+  if [[ "${#scan_roots[@]}" -eq 0 ]]; then
+    : >"$output"
+    return 0
+  fi
+  run_candidate_reference_scan "$output" retained "${scan_roots[@]}"
 }
 
 run_tracked_reference_scan() {
   local output="$1"
-  local chunk_dir chunk_prefix chunk_file status
-  : >"$output"
-  chunk_dir="$TMP_DIR/reference-scan-chunks"
-  mkdir -p "$chunk_dir"
-  chunk_prefix="$chunk_dir/chunk-"
-  split -l "$REFERENCE_SCAN_CHUNK_SIZE" "$REFERENCE_SCAN_PATHS" "$chunk_prefix"
-  while IFS= read -r chunk_file; do
-    [[ -n "$chunk_file" ]] || continue
-    set +e
-    git -C "$ROOT_DIR" grep -h -F -o -f "$chunk_file" -- >>"$output" 2>/dev/null
-    status=$?
-    set -e
-    case "$status" in
-      0|1)
-        ;;
-      *)
-        return "$status"
-        ;;
-    esac
-  done < <(find "$chunk_dir" -type f -name 'chunk-*' | sort)
-  return 0
+  run_candidate_reference_scan "$output" tracked
 }
 
 if [[ -s "$UNTRACKED_PATHS" ]]; then
@@ -414,11 +556,12 @@ if [[ -s "$UNTRACKED_PATHS" ]]; then
       cp "$REFERENCE_SCAN_PATHS" "$REFERENCED_PATHS"
     else
       TRACKED_REFERENCE_MATCHES="$TMP_DIR/tracked-reference-matches.txt"
-      if run_tracked_reference_scan "$TRACKED_REFERENCE_MATCHES"; then
+      RETAINED_REFERENCE_MATCHES="$TMP_DIR/retained-reference-matches.txt"
+      if run_tracked_reference_scan "$TRACKED_REFERENCE_MATCHES" && run_retained_reference_scan "$RETAINED_REFERENCE_MATCHES"; then
         REFERENCE_SCAN_STATUS="complete"
         {
           cat "$TRACKED_REFERENCE_MATCHES"
-          collect_retained_evidence_references
+          cat "$RETAINED_REFERENCE_MATCHES"
         } | sort -u >"$REFERENCED_PATHS"
       else
         REFERENCE_SCAN_STATUS="failed-overprotect"

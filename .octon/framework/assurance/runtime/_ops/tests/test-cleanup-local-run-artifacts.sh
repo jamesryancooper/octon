@@ -550,16 +550,69 @@ if int(match.group(1)) < 3000:
 PY
 
 root="$(make_fixture)"
+python3 - "$root" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+publication_dir = root / ".octon/state/evidence/validation/publication/extensions"
+publication_dir.mkdir(parents=True, exist_ok=True)
+for index in range(3000):
+    path = publication_dir / f"large-complete-{index:04d}.yml"
+    path.write_text(f"receipt: large-complete-{index:04d}\n", encoding="utf-8")
+(root / "tracked-large-reference.yml").write_text(
+    "ref: .octon/state/evidence/validation/publication/extensions/large-complete-0042.yml\n",
+    encoding="utf-8",
+)
+PY
+git -C "$root" add tracked-large-reference.yml
+git -C "$root" -c user.name="Octon Test" -c user.email="octon@example.invalid" commit -m "reference large cleanup candidate" >/dev/null
+large_complete_scan_output="$(HELPER="$HELPER" ROOT="$root" python3 - <<'PY'
+import os
+import subprocess
+
+env = os.environ.copy()
+env["OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT"] = "10000"
+completed = subprocess.run(
+    ["bash", os.environ["HELPER"], "--root", os.environ["ROOT"], "--summary-only"],
+    check=True,
+    capture_output=True,
+    env=env,
+    text=True,
+    timeout=20,
+)
+print(completed.stdout, end="")
+PY
+)"
+assert_output_contains "$large_complete_scan_output" "large complete reference scan did not finish" "reference_scan_status: complete"
+python3 - "$large_complete_scan_output" <<'PY'
+import re
+import sys
+
+output = sys.argv[1]
+protected = re.search(r"protected_referenced:\s*([0-9]+)", output)
+cleanup = re.search(r"cleanup_candidates:\s*([0-9]+)", output)
+if not protected or int(protected.group(1)) < 1:
+    raise SystemExit("large complete reference scan did not protect the tracked reference")
+if not cleanup or int(cleanup.group(1)) < 1:
+    raise SystemExit("large complete reference scan did not leave unreferenced candidates cleanup-eligible")
+PY
+
+root="$(make_fixture)"
 fake_git_bin="$tmp_root/fake-git-bin-$fixture_index"
 mkdir -p "$fake_git_bin"
 real_git="$(command -v git)"
 cat >"$fake_git_bin/git" <<EOF
 #!/usr/bin/env bash
+found_grep=0
+found_z=0
 for arg in "\$@"; do
-  if [[ "\$arg" == "grep" ]]; then
-    exit 137
-  fi
+  [[ "\$arg" == "grep" ]] && found_grep=1
+  [[ "\$arg" == "-z" ]] && found_z=1
 done
+if [[ "\$found_grep" == "1" && "\$found_z" == "1" ]]; then
+  exit 137
+fi
 exec "$real_git" "\$@"
 EOF
 chmod +x "$fake_git_bin/git"
