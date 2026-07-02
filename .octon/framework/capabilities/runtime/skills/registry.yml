@@ -4239,7 +4239,8 @@ skills:
         format: markdown
         determinism: unique
         description: Execution log for proposal-packet-terminal-closeout runs
-    host_adapters: []
+    host_adapters:
+    - codex
     routing:
       selectors:
         include:
@@ -4375,7 +4376,8 @@ skills:
         format: markdown
         determinism: unique
         description: Execution log for proposal-packet-delivery runs
-    host_adapters: []
+    host_adapters:
+    - codex
     routing:
       selectors:
         include:
@@ -4447,7 +4449,8 @@ skills:
         format: markdown
         determinism: unique
         description: Execution log for proposal-program-delivery runs
-    host_adapters: []
+    host_adapters:
+    - codex
     routing:
       selectors:
         include:

@@ -3,6 +3,7 @@ use crate::errors::{LifecycleErrorClass, LifecycleExecutionError};
 use crate::request::LifecycleRouteExecutionRequest;
 use crate::result::LifecycleRouteExecutionResult;
 use crate::{observer, prompt_bundle, workflow_leaf};
+use serde::Deserialize;
 use std::fs;
 use std::fs::File;
 use std::fs::OpenOptions;
@@ -237,8 +238,8 @@ fn run_with_timeout(
     executor_observation_path: &Path,
     executor_terminal_path: &Path,
 ) -> Result<AgentOutput, LifecycleExecutionError> {
-    let mut command = build_executor_command(executor_bin, executor_name, repo_root)?;
-    let command_line = executor_command_line(executor_bin, executor_name, repo_root);
+    let mut command = build_executor_command(executor_bin, executor_name, repo_root, request)?;
+    let command_line = executor_command_line(executor_bin, executor_name, repo_root, request);
     write_executor_start_evidence(
         executor_start_path,
         executor_name,
@@ -417,6 +418,7 @@ fn build_executor_command(
     executor_bin: &Path,
     executor_name: &str,
     repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
 ) -> Result<Command, LifecycleExecutionError> {
     let mut command = Command::new(executor_bin);
     match executor_name {
@@ -427,8 +429,13 @@ fn build_executor_command(
                 .arg(CODEX_SERVICE_TIER_OVERRIDE)
                 .arg("--ephemeral")
                 .arg("--skip-git-repo-check")
+                .arg("--sandbox")
+                .arg("workspace-write")
                 .arg("--cd")
                 .arg(repo_root);
+            for add_dir in codex_workspace_add_dirs(repo_root, request) {
+                command.arg("--add-dir").arg(add_dir);
+            }
         }
         "claude" => {
             command.arg("-p").arg("--output-format").arg("text");
@@ -445,17 +452,80 @@ fn build_executor_command(
     Ok(command)
 }
 
-fn executor_command_line(executor_bin: &Path, executor_name: &str, repo_root: &Path) -> String {
+fn executor_command_line(
+    executor_bin: &Path,
+    executor_name: &str,
+    repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
+) -> String {
     match executor_name {
-        "codex" => format!(
-            "{} exec -c '{}' --ephemeral --skip-git-repo-check --cd {}",
-            executor_bin.display(),
-            CODEX_SERVICE_TIER_OVERRIDE,
-            repo_root.display()
-        ),
+        "codex" => {
+            let mut line = format!(
+                "{} exec -c '{}' --ephemeral --skip-git-repo-check --sandbox workspace-write --cd {}",
+                executor_bin.display(),
+                CODEX_SERVICE_TIER_OVERRIDE,
+                repo_root.display()
+            );
+            for add_dir in codex_workspace_add_dirs(repo_root, request) {
+                line.push_str(&format!(" --add-dir {}", add_dir.display()));
+            }
+            line
+        }
         "claude" => format!("{} -p --output-format text", executor_bin.display()),
         _ => executor_bin.display().to_string(),
     }
+}
+
+#[derive(Deserialize)]
+struct ProposalManifest {
+    #[serde(default)]
+    promotion_targets: Vec<String>,
+}
+
+fn codex_workspace_add_dirs(
+    repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
+) -> Vec<PathBuf> {
+    if !route_can_apply_promotion_targets(request) {
+        return Vec::new();
+    }
+    let manifest_path = request.target.join(&request.manifest_path);
+    let Ok(manifest) = fs::read_to_string(&manifest_path) else {
+        return Vec::new();
+    };
+    let Ok(manifest) = serde_yaml::from_str::<ProposalManifest>(&manifest) else {
+        return Vec::new();
+    };
+    let mut add_dirs = Vec::new();
+    for target in manifest.promotion_targets {
+        if target == ".codex" || target.starts_with(".codex/") {
+            let codex_dir = repo_root.join(".codex");
+            if !add_dirs.iter().any(|dir| dir == &codex_dir) {
+                add_dirs.push(codex_dir);
+            }
+        }
+    }
+    add_dirs
+}
+
+fn route_can_apply_promotion_targets(request: &LifecycleRouteExecutionRequest) -> bool {
+    if !matches!(
+        request.route.route_id.as_str(),
+        "run-packet-implementation" | "run-packet-verification-and-correction-loop"
+    ) {
+        return false;
+    }
+    request
+        .route
+        .delegation_contract
+        .as_ref()
+        .map(|contract| {
+            matches!(
+                contract.declared_write_scope_source.as_str(),
+                "target" | "route-completion-and-target"
+            )
+        })
+        .unwrap_or(false)
 }
 
 #[cfg(unix)]
@@ -670,6 +740,11 @@ fn yaml_scalar(value: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::request::{
+        LifecycleDelegationContract, LifecycleExecutionPolicy, LifecycleHumanBoundaryContext,
+        LifecycleInvocationAuthority, LifecycleReceiptSpec, LifecycleRouteSpec,
+    };
+    use std::collections::BTreeMap;
 
     #[test]
     fn timeout_boundary_success_with_completion_is_completed() {
@@ -709,8 +784,12 @@ mod tests {
     fn codex_command_applies_fast_service_tier_override_and_preserves_executor_flags() {
         let executor_bin = PathBuf::from("/usr/local/bin/codex");
         let repo_root = std::env::temp_dir().join("octon lifecycle executor repo");
+        let target = repo_root.join("packet");
+        fs::create_dir_all(&target).unwrap();
+        fs::write(target.join("proposal.yml"), "status: accepted\n").unwrap();
+        let request = test_request(&repo_root, &target, "run-packet-implementation");
 
-        let command = build_executor_command(&executor_bin, "codex", &repo_root).unwrap();
+        let command = build_executor_command(&executor_bin, "codex", &repo_root, &request).unwrap();
         let args = command
             .get_args()
             .map(|arg| arg.to_string_lossy().to_string())
@@ -726,16 +805,141 @@ mod tests {
                 CODEX_SERVICE_TIER_OVERRIDE.to_string(),
                 "--ephemeral".to_string(),
                 "--skip-git-repo-check".to_string(),
+                "--sandbox".to_string(),
+                "workspace-write".to_string(),
                 "--cd".to_string(),
                 repo_root.display().to_string(),
             ]
         );
 
-        let command_line = executor_command_line(&executor_bin, "codex", &repo_root);
+        let command_line = executor_command_line(&executor_bin, "codex", &repo_root, &request);
         assert!(command_line.contains("-c 'service_tier=\"fast\"'"));
         assert!(command_line.contains("--ephemeral"));
         assert!(command_line.contains("--skip-git-repo-check"));
+        assert!(command_line.contains("--sandbox workspace-write"));
         assert!(command_line.contains(&format!("--cd {}", repo_root.display())));
+    }
+
+    #[test]
+    fn codex_command_adds_codex_dir_for_codex_promotion_targets() {
+        let executor_bin = PathBuf::from("/usr/local/bin/codex");
+        let repo_root =
+            std::env::temp_dir().join(format!("octon-codex-add-dir-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&repo_root);
+        fs::create_dir_all(repo_root.join(".codex")).unwrap();
+        let target = repo_root.join("packet");
+        fs::create_dir_all(&target).unwrap();
+        fs::write(
+            target.join("proposal.yml"),
+            "status: accepted\npromotion_targets:\n  - \".codex/commands/\"\n  - \".octon/framework/example\"\n",
+        )
+        .unwrap();
+        let request = test_request(&repo_root, &target, "run-packet-implementation");
+
+        let command = build_executor_command(&executor_bin, "codex", &repo_root, &request).unwrap();
+        let args = command
+            .get_args()
+            .map(|arg| arg.to_string_lossy().to_string())
+            .collect::<Vec<_>>();
+
+        assert!(args.windows(2).any(|window| {
+            window[0] == "--add-dir" && window[1] == repo_root.join(".codex").display().to_string()
+        }));
+        let command_line = executor_command_line(&executor_bin, "codex", &repo_root, &request);
+        assert!(command_line.contains(&format!("--add-dir {}", repo_root.join(".codex").display())));
+        let _ = fs::remove_dir_all(&repo_root);
+    }
+
+    #[test]
+    fn codex_command_does_not_add_codex_dir_for_prompt_generation_route() {
+        let executor_bin = PathBuf::from("/usr/local/bin/codex");
+        let repo_root =
+            std::env::temp_dir().join(format!("octon-codex-no-add-dir-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&repo_root);
+        fs::create_dir_all(repo_root.join(".codex")).unwrap();
+        let target = repo_root.join("packet");
+        fs::create_dir_all(&target).unwrap();
+        fs::write(
+            target.join("proposal.yml"),
+            "status: accepted\npromotion_targets:\n  - \".codex/commands/\"\n",
+        )
+        .unwrap();
+        let request = test_request(&repo_root, &target, "generate-packet-implementation-prompt");
+
+        let command = build_executor_command(&executor_bin, "codex", &repo_root, &request).unwrap();
+        let args = command
+            .get_args()
+            .map(|arg| arg.to_string_lossy().to_string())
+            .collect::<Vec<_>>();
+
+        assert!(!args.iter().any(|arg| arg == "--add-dir"));
+        let _ = fs::remove_dir_all(&repo_root);
+    }
+
+    fn test_request(
+        repo_root: &Path,
+        target: &Path,
+        route_id: &str,
+    ) -> LifecycleRouteExecutionRequest {
+        LifecycleRouteExecutionRequest {
+            schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
+            run_id: "test-run".to_string(),
+            lifecycle_id: "proposal-packet".to_string(),
+            owner_extension: "test-extension".to_string(),
+            phase_id: None,
+            target: target.to_path_buf(),
+            manifest_path: "proposal.yml".to_string(),
+            status_field: "status".to_string(),
+            executor: "codex".to_string(),
+            route: LifecycleRouteSpec {
+                route_id: route_id.to_string(),
+                route_type: "extension".to_string(),
+                command_id: None,
+                skill_id: None,
+                prompt_set_id: None,
+                required_inputs: Vec::new(),
+                completion_replan_required: false,
+                delegation_contract: Some(LifecycleDelegationContract {
+                    decision_class: "delegated-execution".to_string(),
+                    safe_delegation: true,
+                    authority_zones_allowed: vec!["workspace-declared".to_string()],
+                    declared_write_scope_source: "route-completion-and-target".to_string(),
+                    required_evidence_gates: Vec::new(),
+                    required_receipts_before_dispatch: Vec::new(),
+                    required_receipts_before_completion: Vec::new(),
+                    replay_class: "bounded-retry".to_string(),
+                    automated_recovery_policy: "bounded-automated-retry".to_string(),
+                    human_only_boundaries: Vec::new(),
+                }),
+            },
+            effective_extension_catalog: repo_root
+                .join(".octon/generated/effective/extensions/catalog.effective.yml"),
+            runtime_route_bundle: repo_root
+                .join(".octon/generated/effective/runtime/route-bundle.yml"),
+            bound_inputs: BTreeMap::new(),
+            receipts: Vec::<LifecycleReceiptSpec>::new(),
+            expected_receipts: Vec::new(),
+            expected_paths: Vec::new(),
+            expected_manifest_status: None,
+            expected_target_change: false,
+            evidence_root: repo_root.join(".octon/state/evidence/test-run"),
+            checkpoint_path: repo_root
+                .join(".octon/state/control/test-run/lifecycle-checkpoint.yml"),
+            interaction_request_refs: Vec::new(),
+            interaction_return_refs: Vec::new(),
+            policy: LifecycleExecutionPolicy {
+                timeout_seconds: 1800,
+                cancellation_token: None,
+                retry_attempt: 0,
+                invocation_authority: LifecycleInvocationAuthority {
+                    mode: "unattended".to_string(),
+                    provenance: "lifecycle-invocation".to_string(),
+                    authority_ref: None,
+                },
+            },
+            human_boundary_context: None::<LifecycleHumanBoundaryContext>,
+            evidence_gate_results: BTreeMap::new(),
+        }
     }
 
     #[test]

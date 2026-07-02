@@ -11,3 +11,7 @@ manifest, child registry and index, sequence, child contract, validation plan,
 closeout plan, and parent support artifacts. It must not edit child manifests,
 child receipts, child promotion targets, child validation verdicts, child
 archive metadata, runtime truth, or generated effective authority.
+
+Program revision returns through `review-program` inside the existing
+`program-review-revision` loop. It does not create or require a standalone
+program review-and-revise wrapper.

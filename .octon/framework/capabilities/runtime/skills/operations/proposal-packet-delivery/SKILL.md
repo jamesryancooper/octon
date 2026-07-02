@@ -39,12 +39,16 @@ Delegate to:
 The matching command surface is:
 
 ```text
-/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]
+/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>
 ```
 
 ## Required Checks
 
-- Validate any supplied profile with `validate-proposal-packet-delivery-profile.sh`.
+- Require caller-supplied or fresh target-bound workflow evidence for
+  `profile_path`/`profile`, `delivery_run_id`/`run-id`, target packet path,
+  `target_outcome`/`outcome`, and `route=branch-no-pr` before workflow
+  admission.
+- Validate the bound profile with `validate-proposal-packet-delivery-profile.sh`.
 - Re-run accepted review, strict architecture review, implementation readiness,
   and proposal subtype validators.
 - Bind `route=branch-no-pr` for cleaned delivery and refuse PR fallback when
@@ -84,6 +88,10 @@ summary, and the aggregate `proposal-packet-delivery-receipt-v1` receipt.
   cleanup authorization.
 - Do not edit generated/effective outputs by hand.
 - Do not let the aggregate receipt replace target-owned receipts.
+- Do not treat proposal-local support files, generated prompts, generated
+  outputs, dashboards, host/tool/chat state, model memory, parent summaries,
+  aggregate delivery receipts, or delivery evidence indexes as substitutes for
+  required delivery admission inputs.
 - Do not treat proposal-local support files, generated prompts, generated
   outputs, dashboards, host/tool/chat state, or model memory as authority.
 - Report `blocked` with the next owning lifecycle when any delivery prerequisite

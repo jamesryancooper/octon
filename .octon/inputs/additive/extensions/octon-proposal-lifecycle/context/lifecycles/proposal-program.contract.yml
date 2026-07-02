@@ -1105,16 +1105,19 @@ gates:
     validator_id: "proposal-review-strict"
     required_before_routes:
       - "generate-program-implementation-orchestration-prompt"
+      - "run-program-implementation-orchestration"
       - "promote-proposal"
     on_fail_route_id: "review-program"
   - gate_id: "program-child-proposal-readiness"
     validator_id: "program-child-proposal-readiness"
     required_before_routes:
       - "generate-program-implementation-orchestration-prompt"
+      - "run-program-implementation-orchestration"
   - gate_id: "program-structure"
     validator_id: "program-structure"
     required_before_routes:
       - "generate-program-implementation-orchestration-prompt"
+      - "run-program-implementation-orchestration"
       - "promote-proposal"
       - "generate-program-verification-prompt"
       - "generate-program-closeout-prompt"
@@ -1412,6 +1415,51 @@ routes:
         - receipt_fresh: "proposal-review"
         - file_present: "resources/child-packet-index.yml"
         - receipt_absent: "program-implementation-orchestration-prompt"
+  - route_id: "run-program-implementation-orchestration"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed:
+        - "workspace-declared"
+        - "octon-run-bound"
+      declared_write_scope_source: "route-completion-and-target"
+      required_evidence_gates:
+        - "program-review-authorization"
+        - "program-child-proposal-readiness"
+        - "program-structure"
+      required_receipts_before_dispatch:
+        - "proposal-review"
+        - "program-implementation-orchestration-prompt"
+      required_receipts_before_completion:
+        - "program-implementation-orchestration-run"
+      replay_class: "idempotent-rerun"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries:
+        - "scope-expansion"
+        - "policy-override"
+        - "stale-evidence-acceptance"
+        - "authority-ambiguity"
+    completion:
+      expected_receipts:
+        - "program-implementation-orchestration-run"
+      expected_paths:
+        - "support/program-implementation-orchestration-run.md"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "accepted"
+        - receipt_complete: "proposal-review"
+        - receipt_verdict:
+            receipt_id: "proposal-review"
+            value: "accepted"
+        - receipt_fresh: "proposal-review"
+        - receipt_complete: "program-implementation-orchestration-prompt"
+        - file_present: "support/program-implementation-orchestration-prompt.md"
+        - any:
+            - receipt_absent: "program-implementation-orchestration-run"
+            - receipt_incomplete: "program-implementation-orchestration-run"
+            - receipt_stale: "program-implementation-orchestration-run"
   - route_id: "promote-proposal"
     route_type: "workflow"
     delegation_contract:
@@ -1533,6 +1581,28 @@ routes:
         - any:
             - receipt_absent: "program-implementation-orchestration-conformance"
             - receipt_absent: "program-post-implementation-orchestration-drift"
+            - receipt_incomplete: "program-implementation-orchestration-conformance"
+            - receipt_incomplete: "program-post-implementation-orchestration-drift"
+            - receipt_verdict:
+                receipt_id: "program-implementation-orchestration-conformance"
+                value: "fail"
+            - receipt_verdict:
+                receipt_id: "program-post-implementation-orchestration-drift"
+                value: "fail"
+            - receipt_verdict:
+                receipt_id: "program-implementation-orchestration-conformance"
+                value: "blocked"
+            - receipt_verdict:
+                receipt_id: "program-post-implementation-orchestration-drift"
+                value: "blocked"
+            - receipt_field_equals:
+                receipt_id: "program-implementation-orchestration-conformance"
+                field: "child_authority_preserved"
+                value: "no"
+            - receipt_field_equals:
+                receipt_id: "program-post-implementation-orchestration-drift"
+                field: "child_authority_preserved"
+                value: "no"
   - route_id: "generate-program-correction-prompt"
     route_type: "extension"
     delegation_contract:

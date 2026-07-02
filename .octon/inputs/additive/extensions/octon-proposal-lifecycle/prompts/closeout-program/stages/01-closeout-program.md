@@ -36,3 +36,16 @@ blocked, write `verdict: blocked`, `archive_authorized: no`,
 `selected_git_route: stage-only-escalate`, the blocker class and hygiene counts
 reported by the read-only classifier, a cleanup summary, and a nonterminal
 `next_route_condition` such as `closeout-change or operator scope resolution`.
+
+If the only closeout/archive-readiness blocker is parent worktree hygiene
+already dispositioned by `closeout-worktree`, accept it only after validating
+the parent `lifecycle-interaction-return-v1` and cited
+`closeout-worktree-report-v1`. The report must contain parent handoff
+authorization to `preserve-and-exclude-from-lifecycle-closeout-blocking` bound
+to the current classifier digest or foreign fingerprint, cleanup receipt,
+residue fingerprint, non-mutating disposition, and retained path set. In that
+case the closeout receipt may record
+`worktree_hygiene_verdict: resolved-by-validated-parent-closeout-worktree-return`
+and proceed if all other closeout gates pass. The accepted handoff is not
+cleanup authority, archive authorization, Git mutation authority, publication
+authority, a `cleaned` claim, promotion authority, or child-owned evidence.

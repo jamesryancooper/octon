@@ -62,6 +62,11 @@ archive metadata, runtime truth, or generated effective authority. Parent
 review and revision receipts may summarize child outcomes but never satisfy
 child receipts.
 
+The `program-review-revision` lifecycle loop is the current review/revision
+mechanism. No standalone program review-and-revise wrapper is admitted unless
+future accepted evidence shows the generic program lifecycle runner cannot
+execute this parent-local loop clearly.
+
 ## Required Relationship Consistency
 
 Child ids in the parent `related_proposals`, `resources/child-packet-index.yml`,

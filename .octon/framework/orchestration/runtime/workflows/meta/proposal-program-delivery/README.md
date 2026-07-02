@@ -41,7 +41,7 @@ _Generated README from canonical workflow `proposal-program-delivery`._
 ## Usage
 
 ```text
-/proposal-program-delivery
+/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
 ```
 
 ## Purpose
@@ -67,6 +67,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## Failure Conditions
 
 - Required inputs are missing or invalid.
+- Required admission inputs are presented as optional without a named,
+  evidence-backed derivation.
 - The canonical workflow contract or stage assets are missing.
 - Verification criteria are not satisfied.
 

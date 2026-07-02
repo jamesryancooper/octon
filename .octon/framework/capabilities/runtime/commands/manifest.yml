@@ -91,7 +91,7 @@ commands:
   path: proposal-packet-delivery.md
   summary: Invoke accepted proposal packet delivery coordination without replacing target-owned lifecycles.
   access: agent
-  argument_hint: target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]
+  argument_hint: target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>
   routing:
     selectors:
       include:
@@ -100,12 +100,14 @@ commands:
     fingerprints:
       tech_tags: []
       language_tags: []
+  host_adapters:
+  - codex
 - id: proposal-program-delivery
   display_name: Proposal Program Delivery
   path: proposal-program-delivery.md
   summary: Invoke accepted proposal program delivery coordination without replacing target-owned lifecycles.
   access: agent
-  argument_hint: target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]
+  argument_hint: target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
   routing:
     selectors:
       include:

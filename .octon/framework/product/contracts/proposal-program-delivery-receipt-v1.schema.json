@@ -47,6 +47,7 @@
       "minLength": 1
     },
     "profile": {
+      "description": "Validated profile binding for this delivery run. profile_ref records the retained profile source that satisfied the required workflow profile_path input.",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -61,6 +62,7 @@
           "minLength": 1
         },
         "profile_ref": {
+          "description": "Retained source ref for the profile document that satisfied workflow admission.",
           "type": "string",
           "minLength": 1
         },
@@ -100,6 +102,7 @@
       }
     },
     "target_outcome": {
+      "description": "Requested workflow admission outcome; actual outcome and target-owned proof determine delivery claims.",
       "enum": [
         "implemented",
         "archive-ready",

@@ -38,13 +38,28 @@ Delegate to:
 The matching command surface is:
 
 ```text
-/proposal-program-delivery target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]
+/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
 ```
+
+Accepted operator alias:
+
+```text
+/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
+```
+
+The alias delegates to `proposal-program-delivery`. It is operator vocabulary
+only and does not create an independent lifecycle contract, workflow id, skill
+authority, closeout rule, archive rule, cleanup rule, Git mutation rule, branch
+cleanup rule, generated publication rule, receipt schema, profile schema, or
+terminal proof rule.
 
 ## Required Checks
 
-- Validate any supplied profile with `validate-proposal-program-delivery-profile.sh`.
-- Require profile or workflow evidence for `target_outcome`, release state, order policy, PR policy, stash policy, operator grant context when supplied, runner handoff refs when supplied, include-path classification state, and retained preflight refs.
+- Require caller-supplied or fresh target-bound workflow evidence for
+  `profile_path`/`profile`, `delivery_run_id`/`run-id`, target program path,
+  and `target_outcome`/`outcome` before workflow admission.
+- Validate the bound profile with `validate-proposal-program-delivery-profile.sh`.
+- Require profile or workflow evidence for release state, order policy, PR policy, stash policy, operator grant context when supplied, runner handoff refs when supplied, include-path classification state, and retained preflight refs.
 - Enforce `execution_order_policy`: `child-before-parent-delivery` is canonical, and non-canonical requested order requires a retained target-bound `proposal-program-delivery-order-override-receipt-v1`.
 - Run the retained delivery-readiness preflight before child lifecycle continuation, parent delivery, Git mutation, publication checks, landing, sync, cleanup, or branch deletion.
 - Re-run accepted review, implementation readiness, and proposal subtype validators.
@@ -77,6 +92,10 @@ compact `proposal-program-delivery-evidence-index-v1` retained index.
 - Do not mutate Git, hosted branches, or PR state outside Change closeout.
 - Do not proceed with non-canonical delivery order without a valid retained order override receipt.
 - Do not treat runner handoff refs or delivery-readiness evidence as child packet, archive, generated-publication, cleanup, Change, branch, final sync, or terminal proof authority.
+- Do not treat proposal-local support files, generated prompts, generated
+  outputs, dashboards, host/tool/chat state, model memory, parent summaries,
+  aggregate delivery receipts, or delivery evidence indexes as substitutes for
+  required delivery admission inputs.
 - Do not reconstruct, broad stage-all, stage, commit, push, land, sync, cleanup, or delete branches from dirty or stale source posture without route-owned clean worktree selection and include-path classification.
 - Do not delete repo hygiene residue or worktree residue without the owning cleanup authorization.
 - Do not edit generated/effective outputs by hand.

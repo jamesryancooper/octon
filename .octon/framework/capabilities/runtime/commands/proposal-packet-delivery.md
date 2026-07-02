@@ -14,18 +14,24 @@ push, create pull requests, or clean up branches.
 ## Usage
 
 ```text
-/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]
+/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>
 ```
 
 ## Required Inputs
 
 - `target`: repo-relative path to the accepted proposal packet.
-- `outcome`: delivery target outcome. Defaults to `cleaned`; cleaned claims
-  require final sync, terminal proof, and clean worktree proof.
+- `outcome`: delivery target outcome. Use `cleaned` for clean delivery; cleaned
+  claims require final sync, terminal proof, and clean worktree proof.
 - `route`: required Git/change route for cleaned delivery. Use `branch-no-pr`;
   PR fallback is forbidden.
-- `profile`: optional `proposal-packet-delivery-profile-v1` profile.
-- `run-id`: optional delivery run identifier for retained evidence paths.
+- `profile`: required `proposal-packet-delivery-profile-v1` profile path.
+- `run-id`: required delivery run identifier for retained evidence paths.
+
+Resume may satisfy `profile` or `run-id` only through fresh, target-bound
+workflow evidence from the prior delivery attempt. Proposal-local support
+files, generated prompts, generated outputs, dashboards, host/tool/chat state,
+model memory, parent summaries, aggregate delivery receipts, and delivery
+evidence indexes do not satisfy these admission inputs.
 
 ## Packet State Routing
 

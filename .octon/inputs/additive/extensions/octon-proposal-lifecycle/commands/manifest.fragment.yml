@@ -83,7 +83,13 @@ commands:
     path: octon-proposal-run-packet-delivery.md
     summary: "Run the workflow-backed delivery wrapper for one accepted proposal packet."
     access: agent
-    argument_hint: "target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]"
+    argument_hint: "target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>"
+  - id: octon-proposal-run-program-delivery
+    display_name: "Run Program to Clean Delivery"
+    path: octon-proposal-run-program-delivery.md
+    summary: "Alias for the canonical proposal-program-delivery wrapper; it adds no independent lifecycle authority."
+    access: agent
+    argument_hint: "target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>"
   - id: octon-proposal-create-program
     display_name: "Program - Create"
     path: octon-proposal-create-program.md

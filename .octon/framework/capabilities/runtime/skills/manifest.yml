@@ -1492,6 +1492,8 @@ skills:
       - "check terminal readiness before archiving"
     skill_sets: []
     capabilities: []
+    host_adapters:
+      - codex
 
   - id: fixture-retention-closeout
     display_name: Fixture Retention Closeout
@@ -1535,6 +1537,8 @@ skills:
       - "run proposal packet delivery"
     skill_sets: []
     capabilities: []
+    host_adapters:
+      - codex
 
   - id: proposal-program-delivery
     display_name: Proposal Program Delivery
@@ -1554,6 +1558,8 @@ skills:
       - "run proposal program delivery"
     skill_sets: []
     capabilities: []
+    host_adapters:
+      - codex
 
   - id: postgres-best-practices
     display_name: Postgres Best Practices

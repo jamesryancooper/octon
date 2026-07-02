@@ -246,6 +246,13 @@ main() {
   else
     fail "program verification prompts are missing aggregate receipt requirements"
   fi
+  if rg -n 'resolved-by-validated-parent-closeout-worktree-return' "$PACK_ROOT/prompts/generate-program-verification-prompt" "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop/SKILL.md" >/dev/null \
+    && rg -n 'parent-closeout-worktree-return\.json' "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop/SKILL.md" >/dev/null \
+    && rg -n 'preserve-and-exclude-from-lifecycle-closeout-blocking' "$PACK_ROOT/prompts/generate-program-verification-prompt" "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop/SKILL.md" >/dev/null; then
+    pass "program verification accepts validated parent closeout-worktree handoff"
+  else
+    fail "program verification still loops on validated parent closeout-worktree handoff"
+  fi
 
   if rg -n 'support/program-implementation-orchestration-conformance-review\.md' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null \
     && rg -n 'support/program-post-implementation-orchestration-drift-churn-review\.md' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null \
@@ -256,10 +263,17 @@ main() {
   else
     fail "program closeout prompts are missing aggregate or closeout receipt requirements"
   fi
+  if rg -n 'resolved-by-validated-parent-closeout-worktree-return' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-program/SKILL.md" >/dev/null \
+    && rg -n 'preserve-and-exclude-from-lifecycle-closeout-blocking' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-program/SKILL.md" >/dev/null \
+    && rg -n 'archive authorization|archive_authorization|archive_authorized: false' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-program/SKILL.md" "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null; then
+    pass "program closeout keeps parent closeout-worktree handoff non-authorizing"
+  else
+    fail "program closeout can still treat parent closeout-worktree handoff as authority"
+  fi
 
   assert_file "commands/octon-proposal-run-program-lifecycle.md"
   assert_file "skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
-  if ! rg -n 'run-program-implementation' "$PACK_ROOT/context/routing.contract.yml" "$PACK_ROOT/commands" "$PACK_ROOT/skills" "$PACK_ROOT/prompts" >/dev/null; then
+  if ! rg -n '(^|[^[:alnum:]_-])run-program-implementation([^[:alnum:]_-]|$)' "$PACK_ROOT/context/routing.contract.yml" "$PACK_ROOT/commands" "$PACK_ROOT/skills" "$PACK_ROOT/prompts" >/dev/null; then
     pass "direct run-program-implementation surface is absent"
   else
     fail "direct run-program-implementation surface must not exist"

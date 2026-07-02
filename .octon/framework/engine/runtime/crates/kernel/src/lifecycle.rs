@@ -5492,6 +5492,80 @@ routes:
     }
 
     #[test]
+    fn incomplete_implementation_run_receipt_reenters_implementation_route() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("incomplete-implementation-reentry");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted"] }
+states: [{ state_id: "implement" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-review"
+    path: "support/proposal-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "run-packet-implementation"
+    route_type: "extension"
+    enter_when:
+      any:
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict:
+                receipt_id: "proposal-review"
+                value: "accepted"
+            - file_present: "support/executable-implementation-prompt.md"
+            - receipt_absent: "implementation-run"
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict:
+                receipt_id: "proposal-review"
+                value: "accepted"
+            - file_present: "support/executable-implementation-prompt.md"
+            - receipt_incomplete: "implementation-run"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: accepted\n");
+        fixture.write("packet/support/proposal-review.md", "verdict: accepted\n");
+        fixture.write(
+            "packet/support/executable-implementation-prompt.md",
+            "# Implementation Prompt\n",
+        );
+        fixture.write("packet/support/implementation-run.md", "outcome: blocked\n");
+
+        let plan = plan_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-packet",
+            Path::new("packet"),
+        )
+        .unwrap();
+
+        assert_eq!(plan.final_verdict, "route-ready");
+        assert_eq!(
+            plan.next_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("run-packet-implementation")
+        );
+    }
+
+    #[test]
     fn lifecycle_execution_strategy_defaults_packet_to_route_progression() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = FixtureRepo::new("strategy-default-packet");
@@ -6703,7 +6777,7 @@ routes:
             "// promotion target evidence\n",
         );
         fixture.write(
-            ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh",
+            ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-shape.sh",
             "#!/usr/bin/env bash\nexit 0\n",
         );
         fs::create_dir_all(
@@ -6714,7 +6788,7 @@ routes:
         .unwrap();
         fixture.write(
             "program/support/program-implementation-orchestration-run.md",
-            "verdict: pass\nimplemented_at: 2026-06-24T00:00:00Z\npromotion_evidence_count: 3\nchild_authority_preserved: yes\n\n## Promotion Evidence Refs\n\n- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs\n- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh\n- .octon/framework/assurance/runtime/_ops/tests/\n",
+            "verdict: pass\nimplemented_at: 2026-06-24T00:00:00Z\npromotion_evidence_count: 3\nchild_authority_preserved: yes\n\n## Promotion Evidence Refs\n\n- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs\n- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-shape.sh\n- .octon/framework/assurance/runtime/_ops/tests/\n",
         );
         let route = RoutePlanState {
             route_id: "promote-proposal".to_string(),
@@ -6755,7 +6829,7 @@ routes:
                 .get("promotion_evidence")
                 .map(String::as_str),
             Some(
-                ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs,.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh,.octon/framework/assurance/runtime/_ops/tests"
+                ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs,.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-shape.sh,.octon/framework/assurance/runtime/_ops/tests"
             )
         );
         assert_eq!(
