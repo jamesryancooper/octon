@@ -549,4 +549,23 @@ if int(match.group(1)) < 3000:
     raise SystemExit(f"large bounded reference scan protected too few paths: {match.group(1)}")
 PY
 
+root="$(make_fixture)"
+fake_git_bin="$tmp_root/fake-git-bin-$fixture_index"
+mkdir -p "$fake_git_bin"
+real_git="$(command -v git)"
+cat >"$fake_git_bin/git" <<EOF
+#!/usr/bin/env bash
+for arg in "\$@"; do
+  if [[ "\$arg" == "grep" ]]; then
+    exit 137
+  fi
+done
+exec "$real_git" "\$@"
+EOF
+chmod +x "$fake_git_bin/git"
+failed_scan_output="$(PATH="$fake_git_bin:$PATH" OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT=10000 bash "$HELPER" --root "$root" --summary-only)"
+assert_output_contains "$failed_scan_output" "failed reference scan did not report fail-safe status" "reference_scan_status: failed-overprotect"
+assert_output_contains "$failed_scan_output" "failed reference scan did not overprotect cleanup candidates" "cleanup_candidates: 0"
+assert_output_not_contains "$failed_scan_output" "failed reference scan treated residue as cleanup candidate" "cleanup_candidate" ".octon/state/evidence/validation/publication/capabilities/stale.yml"
+
 echo "[OK] cleanup-local-run-artifacts helper preserves referenced evidence and requires validating cleanup authorization receipts"

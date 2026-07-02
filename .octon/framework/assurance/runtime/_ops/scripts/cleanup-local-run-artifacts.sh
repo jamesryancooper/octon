@@ -14,6 +14,7 @@ AUTHORIZE_OUT=""
 AUTHORIZATION_RECEIPT=""
 REQUESTED_CLEANUP_PATH_ARGS=()
 REFERENCE_SCAN_PATTERN_LIMIT="${OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT:-2000}"
+REFERENCE_SCAN_CHUNK_SIZE="${OCTON_CLEANUP_REFERENCE_SCAN_CHUNK_SIZE:-500}"
 REFERENCE_SCAN_STATUS="not-needed"
 REFERENCE_SCAN_PATTERN_COUNT=0
 
@@ -171,6 +172,11 @@ fi
 
 if [[ ! "$REFERENCE_SCAN_PATTERN_LIMIT" =~ ^[0-9]+$ ]]; then
   echo "[ERROR] OCTON_CLEANUP_REFERENCE_SCAN_PATTERN_LIMIT must be a non-negative integer" >&2
+  exit 2
+fi
+
+if [[ ! "$REFERENCE_SCAN_CHUNK_SIZE" =~ ^[0-9]+$ || "$REFERENCE_SCAN_CHUNK_SIZE" -eq 0 ]]; then
+  echo "[ERROR] OCTON_CLEANUP_REFERENCE_SCAN_CHUNK_SIZE must be a positive integer" >&2
   exit 2
 fi
 
@@ -374,6 +380,31 @@ for candidate in sorted(referenced):
 PY
 }
 
+run_tracked_reference_scan() {
+  local output="$1"
+  local chunk_dir chunk_prefix chunk_file status
+  : >"$output"
+  chunk_dir="$TMP_DIR/reference-scan-chunks"
+  mkdir -p "$chunk_dir"
+  chunk_prefix="$chunk_dir/chunk-"
+  split -l "$REFERENCE_SCAN_CHUNK_SIZE" "$REFERENCE_SCAN_PATHS" "$chunk_prefix"
+  while IFS= read -r chunk_file; do
+    [[ -n "$chunk_file" ]] || continue
+    set +e
+    git -C "$ROOT_DIR" grep -h -F -o -f "$chunk_file" -- >>"$output" 2>/dev/null
+    status=$?
+    set -e
+    case "$status" in
+      0|1)
+        ;;
+      *)
+        return "$status"
+        ;;
+    esac
+  done < <(find "$chunk_dir" -type f -name 'chunk-*' | sort)
+  return 0
+}
+
 if [[ -s "$UNTRACKED_PATHS" ]]; then
   write_reference_scan_paths
   if [[ -s "$REFERENCE_SCAN_PATHS" ]]; then
@@ -382,11 +413,17 @@ if [[ -s "$UNTRACKED_PATHS" ]]; then
       REFERENCE_SCAN_STATUS="bounded-overprotect"
       cp "$REFERENCE_SCAN_PATHS" "$REFERENCED_PATHS"
     else
-      REFERENCE_SCAN_STATUS="complete"
-      {
-        git -C "$ROOT_DIR" grep -h -F -o -f "$REFERENCE_SCAN_PATHS" -- 2>/dev/null || true
-        collect_retained_evidence_references
-      } | sort -u >"$REFERENCED_PATHS"
+      TRACKED_REFERENCE_MATCHES="$TMP_DIR/tracked-reference-matches.txt"
+      if run_tracked_reference_scan "$TRACKED_REFERENCE_MATCHES"; then
+        REFERENCE_SCAN_STATUS="complete"
+        {
+          cat "$TRACKED_REFERENCE_MATCHES"
+          collect_retained_evidence_references
+        } | sort -u >"$REFERENCED_PATHS"
+      else
+        REFERENCE_SCAN_STATUS="failed-overprotect"
+        cp "$REFERENCE_SCAN_PATHS" "$REFERENCED_PATHS"
+      fi
     fi
   else
     REFERENCE_SCAN_STATUS="empty"
@@ -724,6 +761,11 @@ classify_path() {
 
   if is_referenced_by_protected_file "$rel"; then
     set_classification "$(referenced_kind_for_path "$rel")" "protected_referenced" "referenced by a tracked or retained control, evidence, generated, or governance file"
+    return
+  fi
+
+  if [[ "$REFERENCE_SCAN_STATUS" == "failed-overprotect" ]]; then
+    set_classification "reference_scan_failed" "protected" "reference scan failed; cleanup eligibility is unproven"
     return
   fi
 
