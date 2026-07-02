@@ -1,0 +1,25 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-refresh-generated-projections-lifecycle-surface-coherence-d1a4ffd51f79",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/refresh-generated-projections-lifecycle-surface-coherence",
+  "source_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+  "remote_source_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+  "target_pre_ref": "234cd7ef117b80b8ec5860cfd5dcdd99538b748d",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "empty-check-set-explicitly-allowed@d1a4ffd51f79942f927477197b2d0d520ff0f404"
+  ],
+  "allow_empty_check_set": true,
+  "rollback_handle": "git revert d1a4ffd51f79942f927477197b2d0d520ff0f404 from main if generated projection validation fails after landing",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-07-02T01:43:08Z",
+  "empty_check_set_rationale": "Hosted preflight found no required checks for exact source SHA d1a4ffd51f79942f927477197b2d0d520ff0f404; local generated-publication validators passed on a clean committed snapshot."
+}

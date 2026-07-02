@@ -1,0 +1,160 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "refresh-generated-projections-lifecycle-surface-coherence",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Publish a digest-backed handoff for an already-landed generated projection closeout without publishing local terminal evidence.",
+  "scope": {
+    "summary": "Publishable closeout handoff for the generated projection Change landed at d1a4ffd51f79942f927477197b2d0d520ff0f404.",
+    "touched_paths": [
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/publishable-evidence-receipt.json",
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-cleanup-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/change-receipt.json"
+    ],
+    "excluded_paths": [
+      ".octon/state/evidence/local/**",
+      ".octon/generated/**",
+      ".claude/**",
+      ".codex/**",
+      ".cursor/**",
+      ".octon/inputs/**",
+      ".octon/state/control/**",
+      ".octon/state/continuity/**"
+    ]
+  },
+  "validation_evidence_refs": [
+    "validate-evidence-disclosure-tiers.sh",
+    "validate-change-closeout-state-machine.sh",
+    "validate-change-closeout-lifecycle-alignment.sh",
+    "validate-lifecycle-terminal-current-state-proof.sh",
+    "validate-hosted-no-pr-landing.sh",
+    "terminal-local-evidence-digest:sha256:3debb9b5d7998168c056d8645051aa8bf6a084adde5a60e1286199d8b12ead2b",
+    "terminal-local-evidence-digest:sha256:eed12a364b321b5f0143dd99285a57a3847776b8f1851b1b938811035e3457c6"
+  ],
+  "durable_history": {
+    "branch": "chore/refresh-generated-projections-lifecycle-surface-coherence",
+    "kind": "commit",
+    "ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404"
+  },
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-cleanup-authorization.json",
+    "terminal-local-evidence-digest:sha256:42c7c35be362d4f651b81cc5f01f294f2c996b73bf3c31e68451f2ef41bfa44d",
+    "terminal-closeout-final-refs@d1a4ffd51f79942f927477197b2d0d520ff0f404"
+  ],
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "git revert d1a4ffd51f79942f927477197b2d0d520ff0f404 from main if generated projection validation fails after landing",
+    "instructions": "This handoff is evidence-only. Revert the handoff commit if its digest claims are invalid; revert d1a4ffd51f79942f927477197b2d0d520ff0f404 only if the underlying generated projection Change itself must be backed out."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-07-02T14:26:39Z",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-cleanup-authorization.json",
+  "terminal_current_state_proof_ref": "terminal-local-evidence-digest:sha256:eed12a364b321b5f0143dd99285a57a3847776b8f1851b1b938811035e3457c6",
+  "terminal_current_state_proof_digest": "sha256:eed12a364b321b5f0143dd99285a57a3847776b8f1851b1b938811035e3457c6",
+  "publishable_evidence_receipt_refs": [
+    {
+      "receipt_ref": ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/publishable-evidence-receipt.json",
+      "schema_ref": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json",
+      "disclosure_tier": "repo-publishable",
+      "claim_scope_ref": "refresh-generated-projections-lifecycle-surface-coherence",
+      "receipt_digest": "sha256:8962ac9a457b48af99a29c87892db1bd62c9fbb5a09e87b6b9033430dde56470",
+      "raw_evidence_not_published": true,
+      "local_evidence_digest_refs": [
+        "sha256:3debb9b5d7998168c056d8645051aa8bf6a084adde5a60e1286199d8b12ead2b",
+        "sha256:eed12a364b321b5f0143dd99285a57a3847776b8f1851b1b938811035e3457c6",
+        "sha256:f1c908619f338bd687f099c8d7faa6e8102a8f47a6e30692278a23c62344e72c",
+        "sha256:42c7c35be362d4f651b81cc5f01f294f2c996b73bf3c31e68451f2ef41bfa44d"
+      ]
+    }
+  ],
+  "source_branch_ref": "chore/refresh-generated-projections-lifecycle-surface-coherence",
+  "remote_branch_ref": "origin/chore/refresh-generated-projections-lifecycle-surface-coherence@d1a4ffd51f79942f927477197b2d0d520ff0f404",
+  "target_branch_ref": "origin/main@d1a4ffd51f79942f927477197b2d0d520ff0f404",
+  "landed_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+  "integration_method": "fast-forward",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/refresh-generated-projections-lifecycle-surface-coherence",
+    "source_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "target_pre_ref": "234cd7ef117b80b8ec5860cfd5dcdd99538b748d",
+    "target_post_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "validated_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@d1a4ffd51f79942f927477197b2d0d520ff0f404"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "d1a4ffd51f79942f927477197b2d0d520ff0f404:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "target_ref": "origin/main@d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-landing-authorization.json",
+      "terminal-local-evidence-digest:sha256:f1c908619f338bd687f099c8d7faa6e8102a8f47a6e30692278a23c62344e72c",
+      "terminal-closeout-final-refs@d1a4ffd51f79942f927477197b2d0d520ff0f404"
+    ]
+  },
+  "main_alignment": {
+    "aligned": true,
+    "landed_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "local_main_contains_landed_ref": true,
+    "local_main_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "local_main_sync_evidence_ref": "git-fast-forward-local-main@d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "origin_fetch_evidence_ref": "git-fetch-origin-main@d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "origin_main_contains_landed_ref": true,
+    "origin_main_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "verification_ref": "terminal-closeout-final-refs@d1a4ffd51f79942f927477197b2d0d520ff0f404"
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "chore/refresh-generated-projections-lifecycle-surface-coherence",
+    "source_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "landed_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "origin_main_ref": "d1a4ffd51f79942f927477197b2d0d520ff0f404",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-cleanup-authorization.json",
+      "terminal-closeout-final-refs@d1a4ffd51f79942f927477197b2d0d520ff0f404"
+    ]
+  },
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/refresh-generated-projections-lifecycle-surface-coherence",
+    "remote_branch": "origin/chore/refresh-generated-projections-lifecycle-surface-coherence",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-cleanup-authorization.json",
+      "terminal-closeout-final-refs@d1a4ffd51f79942f927477197b2d0d520ff0f404"
+    ]
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "terminal-local-evidence-digest:sha256:0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+    "residue_classification_ref": "terminal-local-evidence-digest:sha256:cdd33079d90709a9feddb52a4aabd6787630018845f167c19eeb3a95f3ea28b6",
+    "phase_exit_refs": [
+      "terminal-closeout-final-refs@d1a4ffd51f79942f927477197b2d0d520ff0f404"
+    ],
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-landing-authorization.json"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-cleanup-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/refresh-generated-projections-lifecycle-surface-coherence/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "final_verification_ref": "terminal-local-evidence-digest:sha256:eed12a364b321b5f0143dd99285a57a3847776b8f1851b1b938811035e3457c6"
+  }
+}

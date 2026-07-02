@@ -1,0 +1,126 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "refresh-generated-projections-lifecycle-surface-coherence-publishable-handoff",
+  "receipt_mode": "claim",
+  "created_at": "2026-07-02T14:26:39Z",
+  "issuer_ref": "closeout-change:fallback-reconstruction-explicitly-authorized-by-operator",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "refresh-generated-projections-lifecycle-surface-coherence",
+    "claim_type": "closeout",
+    "statement": "Digest-backed publishable handoff for the already-landed generated projection closeout without publishing local terminal evidence.",
+    "applies_to": [
+      "refresh-generated-projections-lifecycle-surface-coherence",
+      "d1a4ffd51f79942f927477197b2d0d520ff0f404"
+    ]
+  },
+  "source_summary": {
+    "summary": "The local terminal closeout evidence for the generated projection Change validated as cleaned. This receipt publishes only stable digests and concise outcome facts.",
+    "source_refs": [
+      "terminal-local-evidence-digest:sha256:3debb9b5d7998168c056d8645051aa8bf6a084adde5a60e1286199d8b12ead2b",
+      "terminal-local-evidence-digest:sha256:eed12a364b321b5f0143dd99285a57a3847776b8f1851b1b938811035e3457c6",
+      "terminal-local-evidence-digest:sha256:f1c908619f338bd687f099c8d7faa6e8102a8f47a6e30692278a23c62344e72c",
+      "terminal-local-evidence-digest:sha256:42c7c35be362d4f651b81cc5f01f294f2c996b73bf3c31e68451f2ef41bfa44d"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "pass",
+    "commands_or_checks": [
+      "validate-change-closeout-state-machine.sh --receipt local-terminal-change-receipt",
+      "validate-change-closeout-lifecycle-alignment.sh --receipt local-terminal-change-receipt",
+      "validate-lifecycle-terminal-current-state-proof.sh --proof local-terminal-proof",
+      "validate-evidence-disclosure-tiers.sh --change-receipt local-terminal-change-receipt"
+    ],
+    "evidence_refs": [
+      "terminal-local-evidence-digest:sha256:3debb9b5d7998168c056d8645051aa8bf6a084adde5a60e1286199d8b12ead2b",
+      "terminal-local-evidence-digest:sha256:eed12a364b321b5f0143dd99285a57a3847776b8f1851b1b938811035e3457c6"
+    ]
+  },
+  "redactions": {
+    "status": "applied",
+    "summary": "Local terminal sink paths, raw status snapshots, and residue classification payloads are not published.",
+    "redacted_fields": [
+      ".octon/state/evidence/local/** raw payloads",
+      "absolute local checkout paths"
+    ]
+  },
+  "limitations": [
+    {
+      "limitation_id": "digest-summary-only",
+      "description": "This handoff summarizes already-validated local terminal evidence by digest only.",
+      "impact": "It does not replace the raw local terminal evidence and does not authorize new mutation."
+    },
+    {
+      "limitation_id": "derived-output-non-authority",
+      "description": "The underlying Change concerns generated projection output.",
+      "impact": "Generated output remains derived-only and cannot serve as closeout, archive, policy, or runtime authority."
+    }
+  ],
+  "local_evidence_refs": [
+    {
+      "ref_kind": "logical-id",
+      "ref": "local-terminal-change-receipt",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:3debb9b5d7998168c056d8645051aa8bf6a084adde5a60e1286199d8b12ead2b",
+      "raw_evidence_not_published": true,
+      "description": "Local terminal Change receipt for refresh-generated-projections-lifecycle-surface-coherence."
+    },
+    {
+      "ref_kind": "logical-id",
+      "ref": "local-terminal-current-state-proof",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:eed12a364b321b5f0143dd99285a57a3847776b8f1851b1b938811035e3457c6",
+      "raw_evidence_not_published": true,
+      "description": "Local terminal current-state proof for the generated projection closeout."
+    },
+    {
+      "ref_kind": "logical-id",
+      "ref": "local-terminal-landing-authorization",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:f1c908619f338bd687f099c8d7faa6e8102a8f47a6e30692278a23c62344e72c",
+      "raw_evidence_not_published": true,
+      "description": "Local governed branch-no-pr landing authorization receipt."
+    },
+    {
+      "ref_kind": "logical-id",
+      "ref": "local-terminal-branch-cleanup-authorization",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:42c7c35be362d4f651b81cc5f01f294f2c996b73bf3c31e68451f2ef41bfa44d",
+      "raw_evidence_not_published": true,
+      "description": "Local governed branch cleanup authorization receipt."
+    },
+    {
+      "ref_kind": "logical-id",
+      "ref": "local-terminal-evidence-manifest",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:c8066ec52c6e287b84bf2459d38bbe92a049b48cfd1de40523af9188c68a322b",
+      "raw_evidence_not_published": true,
+      "description": "Local terminal evidence manifest declaring retained-evidence-only posture."
+    }
+  ],
+  "outcome": {
+    "result": "pass",
+    "summary": "Publishable handoff is limited to digest-backed confirmation that the already-landed generated projection Change reached cleaned in route-owned local terminal evidence.",
+    "decided_at": "2026-07-02T14:26:39Z"
+  },
+  "rollback_or_discard": {
+    "posture": "evidence-only-discardable",
+    "trigger": "Discard this handoff if any cited digest no longer matches the retained local terminal evidence or if the source landed ref is not contained in origin/main.",
+    "instructions": "Remove this handoff commit or revert it; do not mutate generated outputs, branch state, or local terminal evidence as a rollback for this summary."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 6073,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}
