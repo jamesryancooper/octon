@@ -357,8 +357,8 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 6135,
-      "estimated_tokens": 1534,
+      "byte_size": 6297,
+      "estimated_tokens": 1575,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/validation.md",
@@ -369,7 +369,7 @@
         "validator-dispute"
       ],
       "role": "validation",
-      "sha256": "sha256:5fbc0418ae6f602f2121b6d9027d6722c2d5c7b6760e005ef462c1a791bd6cc7",
+      "sha256": "sha256:de73e47e0012e07924b94805797c9899a1593cce3c59dd1db6b71d79dde173a6",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -470,11 +470,11 @@
   ],
   "targeted_dependency_refs": [
     {
-      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
-      "manifest_sha256": "sha256:1bea6d88d3640423756f6e87bd58fab2952cb1c3caec9571e6e6e1a74754e6b8",
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
+      "manifest_sha256": "sha256:ac69ced0c8a027da227ee236cc24ddf6acd5cf001b7cfc5fa3983c664985c452",
       "proposal_id": "proposal-program-lifecycle-surface-coherence",
       "proposal_kind": "architecture",
-      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-lifecycle-surface-coherence",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence",
       "ref_type": "related_proposal",
       "required": true,
       "source_field": "proposal.yml#related_proposals"

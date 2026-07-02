@@ -122,6 +122,31 @@ delivery_modes:
     entrypoints:
       - "/octon-proposal-run-packet-delivery"
       - "proposal-packet-delivery"
+    input_contract:
+      required_before_admission:
+        - "target_packet_path"
+        - "target_outcome"
+        - "route=branch-no-pr"
+        - "profile_path"
+        - "delivery_run_id"
+      profile_arg: "profile=<profile-path>"
+      delivery_run_arg: "run-id=<id>"
+      resume_evidence:
+        allowed:
+          - "fresh target-bound proposal-packet-delivery workflow evidence"
+          - "fresh target-bound delivery receipt from the same packet delivery run"
+        forbidden:
+          - "proposal-local support summaries"
+          - "generated prompts"
+          - "generated outputs"
+          - "dashboards"
+          - "host state"
+          - "chat"
+          - "model memory"
+          - "parent summaries"
+          - "aggregate receipts from other targets"
+          - "delivery evidence indexes"
+      missing_required_input_behavior: "fail-closed-before-mutation"
     supported_outcomes:
       - "implemented"
       - "archive-ready"
@@ -1046,6 +1071,14 @@ routes:
                 receipt_id: "proposal-review"
                 value: "accepted"
             - file_present: "support/executable-implementation-prompt.md"
+            - receipt_incomplete: "implementation-run"
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict:
+                receipt_id: "proposal-review"
+                value: "accepted"
+            - file_present: "support/executable-implementation-prompt.md"
             - receipt_complete: "implementation-run"
             - receipt_verdict:
                 receipt_id: "implementation-run"
@@ -1234,7 +1267,12 @@ routes:
             receipt_id: "post-implementation-drift"
             field: "verdict"
             value: "pass"
-        - receipt_absent: "proposal-closeout"
+        - any:
+            - receipt_absent: "proposal-closeout"
+            - receipt_field_equals:
+                receipt_id: "proposal-closeout"
+                field: "verdict"
+                value: "blocked"
   - route_id: "proposal-packet-terminal-closeout"
     route_type: "workflow"
     required_inputs:

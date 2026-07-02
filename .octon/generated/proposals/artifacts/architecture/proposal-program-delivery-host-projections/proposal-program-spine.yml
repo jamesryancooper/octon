@@ -18,11 +18,11 @@
   },
   "dependency_refs": [
     {
-      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
-      "manifest_sha256": "sha256:1bea6d88d3640423756f6e87bd58fab2952cb1c3caec9571e6e6e1a74754e6b8",
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence/proposal.yml",
+      "manifest_sha256": "sha256:ac69ced0c8a027da227ee236cc24ddf6acd5cf001b7cfc5fa3983c664985c452",
       "proposal_id": "proposal-program-lifecycle-surface-coherence",
       "proposal_kind": "architecture",
-      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-lifecycle-surface-coherence",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-lifecycle-surface-coherence",
       "ref_type": "related_proposal",
       "required": true,
       "source_field": "proposal.yml#related_proposals"

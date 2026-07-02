@@ -35,12 +35,15 @@ target-owned packet receipts without replacing them. Implementation, promotion,
 packet closeout, terminal closeout, archive relocation, Change closeout, branch
 cleanup, repo hygiene cleanup, and generated publication freshness remain owned
 by their canonical lifecycles and publisher scripts.
+The command requires `target`, `outcome`, `route=branch-no-pr`, `profile`, and
+`run-id` before admission unless a future accepted workflow adds a named
+preflight derivation with retained evidence and negative controls.
 
 ## Workflow-Backed Program Delivery Routes
 
 | Route | Workflow | Command | Skill |
 | --- | --- | --- | --- |
-| `proposal-program-delivery` | `proposal-program-delivery` | `proposal-program-delivery` | `proposal-program-delivery` |
+| `proposal-program-delivery` | `proposal-program-delivery` | `proposal-program-delivery`; alias `octon-proposal-run-program-delivery` | `proposal-program-delivery` |
 
 `proposal-program-delivery` is a workflow-backed route, not a prompt bundle. It
 emits an aggregate `proposal-program-delivery-receipt-v1` receipt that cites
@@ -48,6 +51,15 @@ target-owned child receipts without replacing them. Packet closeout, archive
 relocation, Change closeout, branch cleanup, repo hygiene cleanup, and generated
 publication freshness remain owned by their canonical lifecycles and publisher
 scripts.
+The optional operator-facing command alias is
+`octon-proposal-run-program-delivery` with display label
+`Run Program to Clean Delivery`. It delegates to `proposal-program-delivery`
+and does not create an independent workflow, lifecycle mode, closeout, archive,
+cleanup, Git mutation, branch cleanup, generated publication, receipt schema,
+profile schema, or terminal proof rule.
+The workflow requires target program path, target outcome, profile path, and
+delivery run id before admission unless a future accepted workflow adds a named
+preflight derivation with retained evidence and negative controls.
 
 ## Program Coordination Routes
 

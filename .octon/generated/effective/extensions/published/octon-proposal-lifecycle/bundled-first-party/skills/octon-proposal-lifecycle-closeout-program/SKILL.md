@@ -50,6 +50,22 @@ and `next_route_condition: closeout-change or operator scope resolution`. Do
 not stage, commit, push, delete, reset, archive, or otherwise clean worktree
 paths from this route.
 
+Exception: parent program closeout may treat that hygiene blocker as
+`resolved-by-validated-parent-closeout-worktree-return` only when a supplied
+`lifecycle_interaction_return_refs` entry, or the default parent return path
+`.octon/state/evidence/runs/workflows/<run-id>/lifecycle-interactions/parent-closeout-worktree-return.json`,
+validates with `validate-lifecycle-interaction-receipts.sh --return
+<return-ref>`, its cited `closeout-worktree-report-v1` validates with
+`validate-closeout-worktree-wrapper.sh --report <report-ref>`, and the report
+contains parent handoff authorization to
+`preserve-and-exclude-from-lifecycle-closeout-blocking` for the current
+classifier digest or foreign fingerprint, cleanup receipt, residue fingerprint,
+non-mutating disposition, and retained path set. That accepted handoff may
+unblock only the parent closeout/archive-readiness hygiene gate. It must not be
+used as deletion authority, cleanup authority, archive authorization, Git
+mutation authority, publication authority, a `cleaned` claim, or child-owned
+receipt/evidence.
+
 Execute gated program closeout after required child lifecycle states are
 implemented, archived, rejected, superseded, or covered by an explicitly
 deferred report outcome.

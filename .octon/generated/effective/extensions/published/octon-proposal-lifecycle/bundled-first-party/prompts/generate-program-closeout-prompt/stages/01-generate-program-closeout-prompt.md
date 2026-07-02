@@ -35,3 +35,15 @@ prompt must require `verdict: blocked`, `archive_authorized: no`,
 fields, a cleanup summary, and a nonterminal `next_route_condition`. Parent
 closeout evidence may summarize child outcomes but never satisfies child
 receipts or authorizes child archival by itself.
+
+The generated prompt must include the parent `closeout-worktree` handoff
+exception. A validated parent `lifecycle-interaction-return-v1` and cited
+`closeout-worktree-report-v1` may clear only the parent
+closeout/archive-readiness worktree hygiene blocker when the report is bound to
+the current classifier digest or foreign fingerprint, cleanup receipt, residue
+fingerprint, non-mutating disposition, and retained path set, and contains
+parent handoff authorization to
+`preserve-and-exclude-from-lifecycle-closeout-blocking`. The generated prompt
+must forbid using that handoff as deletion authority, cleanup authority,
+archive authorization, Git mutation authority, publication authority, a
+`cleaned` claim, promotion authority, or child-owned evidence.

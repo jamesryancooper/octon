@@ -32,3 +32,21 @@ On aggregate pass, write parent-local
 pass` and `child_authority_preserved: yes` only when child manifests, receipts,
 promotion targets, validation verdicts, archive metadata, and terminal outcomes
 remain child-owned.
+
+If parent-local `support/lifecycle-residue-cleanup.md` reports
+`worktree_hygiene_verdict: blocked`, `closeout_blocking: true`, or
+`archive_blocking: true`, check the lifecycle interaction returns supplied to
+the route and the default parent return path:
+`.octon/state/evidence/runs/workflows/<run-id>/lifecycle-interactions/parent-closeout-worktree-return.json`.
+Accept that residue as resolved only when the return validates with
+`validate-lifecycle-interaction-receipts.sh --return <return-ref>`, the returned
+`closeout-worktree-report-v1` validates with
+`validate-closeout-worktree-wrapper.sh --report <report-ref>`, and the report
+contains parent handoff authorization to
+`preserve-and-exclude-from-lifecycle-closeout-blocking` for the current cleanup
+receipt/classifier digest, residue fingerprint, and retained path set. In that
+case the aggregate receipts may record `verdict: pass` with a
+`resolved-by-validated-parent-closeout-worktree-return` hygiene disposition when
+all other aggregate gates pass. This disposition does not authorize deletion,
+cleanup, archive relocation, Git mutation, publication edits, `cleaned` claims,
+or child-owned evidence.

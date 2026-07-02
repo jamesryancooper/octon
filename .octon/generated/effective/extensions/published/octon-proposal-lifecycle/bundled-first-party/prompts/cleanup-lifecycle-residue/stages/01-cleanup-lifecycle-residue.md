@@ -103,7 +103,8 @@ remaining_blocker_class: none
 If cleanup candidates are zero and active implementation work is intact, but
 the proposal worktree classifier reports blocked hygiene, nonzero foreign
 paths, or unresolved ambiguous ownership outside the lifecycle target scope,
-record the cleanup as implementation-safe and publication-blocking:
+record the cleanup as implementation-safe and publication-blocking unless a
+validated parent closeout-worktree handoff covers the current residue:
 
 ```yaml
 verdict: blocked-retained
@@ -116,6 +117,27 @@ implementation_hygiene_verdict: pass
 publication_hygiene_verdict: blocked
 remaining_blocker_class: worktree-hygiene-blocked
 ```
+
+If a parent `lifecycle-interaction-return-v1` validates, its cited
+`closeout-worktree-report-v1` validates, and the report is bound to the current
+classifier digest or foreign fingerprint, residue fingerprint, cleanup receipt
+context, non-mutating disposition, and retained path set with
+`preserve-and-exclude-from-lifecycle-closeout-blocking`, record:
+
+```yaml
+worktree_hygiene_verdict: resolved-by-validated-parent-closeout-worktree-return
+closeout_blocking: false
+archive_blocking: false
+remaining_blocker_class: none
+cleanup_deletion_performed: false
+repo_hygiene_cleanup_performed: false
+cleaned_claim: false
+archive_authorized: false
+```
+
+This handoff clears only the parent lifecycle closeout/archive-readiness
+hygiene blocker. It does not authorize deletion, cleanup, archive relocation,
+Git mutation, publication, promotion, cleaned claims, or child-owned evidence.
 
 Do not collapse these fields into `worktree_hygiene_verdict`. The legacy
 worktree hygiene verdict remains compatibility evidence; the phase-specific
