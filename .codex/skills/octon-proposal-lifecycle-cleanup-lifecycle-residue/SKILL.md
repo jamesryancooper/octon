@@ -82,6 +82,22 @@ manual-review state is local evidence and not a human approval pause. Record
 `archive_blocking: false`, `implementation_hygiene_verdict: pass`,
 `publication_hygiene_verdict: pass`, and `remaining_blocker_class: none`.
 
+If cleanup candidates are zero and the classifier reports only foreign or
+manual-review residue outside this cleanup route's authority, preserve the
+residue and require a non-mutating `closeout-worktree` handoff. When a validated
+parent `lifecycle-interaction-return-v1` and cited
+`closeout-worktree-report-v1` cover the current classifier digest or foreign
+fingerprint, residue fingerprint, cleanup receipt context, and retained path
+set with `preserve-and-exclude-from-lifecycle-closeout-blocking`, the cleanup
+receipt may record `worktree_hygiene_verdict:
+resolved-by-validated-parent-closeout-worktree-return`,
+`closeout_blocking: false`, `archive_blocking: false`, and
+`remaining_blocker_class: none`. It must still record
+`cleanup_deletion_performed: false`, `repo_hygiene_cleanup_performed: false`,
+`cleaned_claim: false`, and `archive_authorized: false`; the handoff does not
+authorize deletion, cleanup, archive relocation, Git mutation, publication,
+promotion, cleaned claims, or child-owned evidence.
+
 The `residue_fingerprint` field must equal the current output of
 `proposal-lifecycle-residue-fingerprint.sh` for the bound program target and
 proposal-program lifecycle. Keep the cleanup helper's `classification_digest`

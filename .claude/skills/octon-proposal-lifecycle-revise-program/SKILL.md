@@ -28,6 +28,10 @@ Keep or return the parent `proposal.yml#status` to `in-review`; acceptance
 requires a later `review-program` pass. Parent revision receipts never
 satisfy child receipts.
 
+This route is the revision side of the existing `program-review-revision` loop.
+Do not introduce or depend on a standalone program review-and-revise wrapper
+unless a later accepted packet admits that surface.
+
 Write revision receipts with machine-readable completion fields:
 `revision_id`, `source_review_id`, `changed_parent_files`,
 `changed_packet_files`, `addressed_finding_ids`, `remaining_blocking_count`,

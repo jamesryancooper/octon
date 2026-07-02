@@ -31,3 +31,7 @@ Set only the parent `proposal.yml#status`: `accepted` for an accepted verdict,
 promotion targets, child validation verdicts, child archive metadata, runtime
 truth, or generated effective authority. Parent review receipts never satisfy
 child receipts.
+
+This route is the review side of the existing `program-review-revision` loop.
+Do not introduce or depend on a standalone program review-and-revise wrapper
+unless a later accepted packet admits that surface.

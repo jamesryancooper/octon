@@ -12,3 +12,7 @@ This command may update only the parent `proposal.yml#status` to `accepted`,
 `rejected`, or `in-review`. It must not edit child manifests, child receipts,
 child promotion targets, child validation verdicts, child archive metadata,
 runtime truth, or generated effective authority.
+
+Program review participates in the existing `program-review-revision` loop with
+`revise-program`. It does not create or require a standalone program
+review-and-revise wrapper.

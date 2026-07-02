@@ -29,15 +29,23 @@ authority.
 ## Usage
 
 ```text
-/proposal-program-delivery target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]
+/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
 ```
 
 ## Required Inputs
 
 - `target`: repo-relative path to the accepted proposal program.
-- `outcome`: optional delivery target outcome. Defaults to `cleaned`.
-- `profile`: optional `proposal-program-delivery-profile-v1` profile.
-- `run-id`: optional delivery run identifier for retained evidence paths.
+- `outcome`: delivery target outcome. Use `cleaned` for clean delivery; the
+  requested outcome is not itself evidence of landing, sync, cleanup, branch
+  cleanup, terminal proof, or a final cleaned state.
+- `profile`: required `proposal-program-delivery-profile-v1` profile path.
+- `run-id`: required delivery run identifier for retained evidence paths.
+
+Resume may satisfy `profile` or `run-id` only through fresh, target-bound
+workflow evidence from the prior delivery attempt. Proposal-local support
+files, generated prompts, generated outputs, dashboards, host/tool/chat state,
+model memory, parent summaries, aggregate delivery receipts, and delivery
+evidence indexes do not satisfy these admission inputs.
 
 ## Outputs
 

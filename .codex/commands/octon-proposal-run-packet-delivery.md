@@ -3,7 +3,7 @@
 Run the workflow-backed delivery wrapper for one accepted proposal packet:
 
 ```text
-/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]
+/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>
 ```
 
 This is an operator-facing proposal lifecycle command for
@@ -23,8 +23,14 @@ push, create pull requests, or clean up branches.
 - `route`: required Git/change route for cleaned delivery. Use `branch-no-pr`;
   PR fallback is forbidden unless a future accepted profile explicitly changes
   the route through its owning lifecycle.
-- `profile`: optional `proposal-packet-delivery-profile-v1` profile.
-- `run-id`: optional delivery run identifier for retained evidence paths.
+- `profile`: required `proposal-packet-delivery-profile-v1` profile path.
+- `run-id`: required delivery run identifier for retained evidence paths.
+
+Resume may satisfy `profile` or `run-id` only through fresh, target-bound
+workflow evidence from the prior delivery attempt. Proposal-local support
+files, generated prompts, generated outputs, dashboards, host/tool/chat state,
+model memory, parent summaries, aggregate delivery receipts, and delivery
+evidence indexes do not satisfy these admission inputs.
 
 ## Outputs
 
