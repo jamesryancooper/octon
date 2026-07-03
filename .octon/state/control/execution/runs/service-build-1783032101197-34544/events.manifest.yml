@@ -1,0 +1,38 @@
+schema_version: run-event-ledger-v2
+run_id: service-build-1783032101197-34544
+ledger_ref: .octon/state/control/execution/runs/service-build-1783032101197-34544/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/service-build-1783032101197-34544/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:3e791875a35cc95bb2072c5cb96bcfba46e93f9485523529dbb9d39bb5cfd4ff
+event_count: 7
+first_event_ref:
+  event_id: evt-001-run-created-service-build-1783032101197-34544
+  sequence: 1
+  event_hash: sha256:cc3b5de400a374bc7d655bf5dc928a23610692b0c7041771e3c345590327eae4
+last_event_ref:
+  event_id: evt-context-pack-bound-service-build-1783032101197-34544
+  sequence: 7
+  event_hash: sha256:5865201fc1759925c55b20ca549e4ea5b3ec8ea9d494a91ba97db84902aa4a14
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:cc3b5de400a374bc7d655bf5dc928a23610692b0c7041771e3c345590327eae4
+  tail_event_hash: sha256:5865201fc1759925c55b20ca549e4ea5b3ec8ea9d494a91ba97db84902aa4a14
+governing_event_refs:
+  checkpoint_ref: evt-004-checkpoint-bound-service-build-1783032101197-34544
+  context_pack_ref: evt-context-pack-bound-service-build-1783032101197-34544
+  run_contract_ref: evt-001-run-created-service-build-1783032101197-34544
+  run_manifest_ref: evt-002-run-bound-service-build-1783032101197-34544
+  runtime_state_ref: evt-003-authority-requested-service-build-1783032101197-34544
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/service-build-1783032101197-34544/runtime-state.yml
+  last_applied_event_id: evt-context-pack-bound-service-build-1783032101197-34544
+  last_applied_sequence: 7
+  last_applied_event_hash: sha256:5865201fc1759925c55b20ca549e4ea5b3ec8ea9d494a91ba97db84902aa4a14
+  materialized_at: 2026-07-02T22:41:41.433784Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-07-02T22:41:41.433784Z

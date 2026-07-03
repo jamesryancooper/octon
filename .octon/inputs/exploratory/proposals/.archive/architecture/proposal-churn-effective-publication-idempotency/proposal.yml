@@ -1,0 +1,70 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-effective-publication-idempotency
+title: Churn Effective Publication Idempotency
+summary: Make runtime-facing generated/effective publishers digest-aware and no-op stable while preserving freshness, locks, receipts, traceability, and resolver validation.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-pack-routes.sh"
+  - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only effective publication idempotency after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-common-generator-idempotency-metrics
+selected_implementation_target: Runtime-facing generated/effective publication idempotency.
+scope_statement: This child owns effective publication no-op stability for runtime, capability, governance, locality, and related lock/receipt surfaces. It does not remove required freshness or receipt obligations.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable publisher or validator changes.
+generated_input_authority_impact: Runtime-facing generated/effective outputs remain derived-only and must be consumed through freshness-checked handles.
+authority_class_impact:
+  framework: May update effective publishers, validators, and tests.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Publication receipts remain retained evidence.
+  generated: Future implementation may reduce rewrites through publisher-owned generation only.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - No-op effective publication proof with zero tracked diffs.
+  - Freshness, lock, receipt, resolver, and raw-path negative-control evidence.
+  - Proof that changed-file count scales with changed effective inputs.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-generated-effective-freshness.sh"
+  - "validate-runtime-effective-artifact-handles.sh"
+  - "validate-runtime-effective-state.sh"
+  - "validate-no-raw-generated-effective-runtime-reads.sh"
+acceptance_criteria_summary: Effective publication idempotency is acceptable when unchanged semantic inputs do not rewrite runtime-facing generated/effective outputs and all freshness, lock, receipt, resolver, and negative-control guarantees remain intact.
+risk_posture: High. Runtime-facing generated/effective outputs are non-authoritative but freshness-critical.
+rollback_summary: Revert or supersede only effective publisher, validator, and test changes owned by this child.
+owner:
+  role: Octon effective publication architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-pack-routes.sh"
+  - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

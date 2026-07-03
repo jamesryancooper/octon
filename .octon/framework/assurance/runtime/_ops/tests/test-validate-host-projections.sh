@@ -87,6 +87,9 @@ enter_publication_runtime_boundary() {
   return 0
 }
 EOF
+  cp \
+    "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/generator-idempotency-common.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/generator-idempotency-common.sh"
 
   cat >"$root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" <<'EOF'
 #!/usr/bin/env bash
@@ -491,6 +494,23 @@ run_validator() {
   OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$HOST_VALIDATOR" >/dev/null
 }
 
+snapshot_projection_metadata() {
+  local root="$1"
+  python3 - "$root" <<'PY'
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+for host in (".claude", ".cursor", ".codex"):
+    host_root = root / host
+    if not host_root.exists():
+        continue
+    for path in sorted(p for p in host_root.rglob("*") if p.is_file() and not p.is_symlink()):
+        stat = path.stat()
+        print(f"{path.relative_to(root)}\t{stat.st_mtime_ns}\t{stat.st_size}")
+PY
+}
+
 case_publish_and_validate_passes() {
   local fixture
   fixture="$(create_fixture)"
@@ -527,6 +547,19 @@ case_active_command_projection_overwrites_existing_file() {
   cmp -s \
     "$fixture/.octon/framework/capabilities/runtime/commands/demo-command.md" \
     "$fixture/.cursor/commands/demo-command.md"
+}
+
+case_noop_projection_publish_preserves_file_metadata() {
+  local fixture before after
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  run_publish "$fixture"
+  before="$(snapshot_projection_metadata "$fixture")"
+  sleep 1
+  run_publish "$fixture"
+  after="$(snapshot_projection_metadata "$fixture")"
+  [[ "$after" == "$before" ]]
 }
 
 case_read_only_host_projection_is_non_controlling() {
@@ -584,6 +617,7 @@ main() {
   assert_success "host projections publish and validate for native and extension capabilities" case_publish_and_validate_passes
   assert_success "stale host projections are pruned on republish" case_stale_projection_is_pruned
   assert_success "active command projections overwrite existing files" case_active_command_projection_overwrites_existing_file
+  assert_success "no-op host projection publish preserves file metadata" case_noop_projection_publish_preserves_file_metadata
   assert_success "read-only host projections are retained but non-controlling" case_read_only_host_projection_is_non_controlling
   assert_success "host validator selects PyYAML-capable python from non-root runtime context" case_validator_selects_yaml_python_from_non_root_runtime_context
   assert_success "legacy symlink projections are replaced with materialized copies" case_symlink_replaced_by_materialized_copy

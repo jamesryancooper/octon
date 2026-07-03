@@ -1,0 +1,222 @@
+{
+  "schema_version": "execution-receipt-v3",
+  "request_id": "tool-1783032232938-48374",
+  "grant_id": "grant-tool-1783032232938-48374",
+  "target_id": "interfaces/filesystem-snapshot::snapshot.build",
+  "action_type": "invoke_service",
+  "path_type": "service",
+  "environment_class": "development",
+  "workflow_mode": "role-mediated",
+  "requested_capability_packs": [
+    "repo",
+    "telemetry"
+  ],
+  "granted_capability_packs": [
+    "repo",
+    "shell",
+    "telemetry"
+  ],
+  "requested_capabilities": [
+    "clock.read",
+    "fs.read",
+    "fs.write",
+    "log.write"
+  ],
+  "granted_capabilities": [
+    "clock.read",
+    "fs.read",
+    "fs.write",
+    "log.write"
+  ],
+  "policy_mode_requested": "hard-enforce",
+  "policy_mode_effective": "hard-enforce",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "execution_role_ref": {
+    "kind": "system",
+    "id": "octon-kernel"
+  },
+  "context_pack_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/context/context-pack.json",
+  "context_evidence_required": true,
+  "context_evidence_binding": {
+    "context_pack_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/context/context-pack.json",
+    "context_pack_receipt_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/context/context-pack-receipt.json",
+    "context_pack_sha256": "sha256:add5b17830fe802744143679626ad2f5a4399e34d6594c672940db4edd396234",
+    "receipt_sha256": "sha256:b9904fa2a9bd0f7988f85ad87a7a43e425523320a9a9f97214cc90f88e390f1d",
+    "builder_spec_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+    "builder_version": "context-pack-builder-v1",
+    "verification_status": "valid",
+    "freshness_status": "valid",
+    "valid_until": "9999-12-31T23:59:59Z",
+    "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+    "model_visible_context_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/context/model-visible-context.json",
+    "model_visible_context_sha256": "sha256:ca7fe87e2b86ce2a7fe8277b9ef976b25c32dfec621d90fb4ad5730b1ec8199d",
+    "context_validity_state": "valid",
+    "context_rebuild_ref": null,
+    "context_invalidation_ref": null,
+    "source_count": 12,
+    "failed_required_source_count": 0,
+    "subordinate_to_authorize_execution": true
+  },
+  "risk_materiality_ref": ".octon/framework/constitution/contracts/authority/risk-materiality-v1.schema.json",
+  "support_target_tuple_ref": ".octon/state/control/execution/runs/tool-1783032232938-48374#support_target_tuple",
+  "rollback_plan_ref": ".octon/framework/constitution/contracts/runtime/rollback-plan-v1.schema.json",
+  "browser_ui_record_refs": [],
+  "api_egress_record_refs": [],
+  "side_effects": {
+    "touched_scope": [
+      "service-state"
+    ],
+    "shell_commands": [],
+    "network_targets": [],
+    "publications": [],
+    "branch_mutations": [],
+    "executor_profile": null,
+    "dangerous_flags_blocked": [],
+    "authorized_effects": [
+      {
+        "token_id": "effect-token-evidence-mutation-a1a6d7573e7c",
+        "token_type": "AuthorizedEffect<EvidenceMutation>",
+        "effect_kind": "evidence-mutation",
+        "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/services/tool-1783032232938-48374",
+        "token_record_ref": ".octon/state/control/execution/runs/tool-1783032232938-48374/effect-tokens/effect-token-evidence-mutation-a1a6d7573e7c.json",
+        "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/effect-tokens/effect-token-evidence-mutation-a1a6d7573e7c/consumption-9074140f00cf.json",
+        "journal_event_refs": [
+          ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-a1a6d7573e7c",
+          ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-a1a6d7573e7c"
+        ]
+      },
+      {
+        "token_id": "effect-token-service-invocation-744a8a94c1d3",
+        "token_type": "AuthorizedEffect<ServiceInvocation>",
+        "effect_kind": "service-invocation",
+        "scope_ref": "interfaces/filesystem-snapshot::snapshot.build",
+        "token_record_ref": ".octon/state/control/execution/runs/tool-1783032232938-48374/effect-tokens/effect-token-service-invocation-744a8a94c1d3.json",
+        "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/effect-tokens/effect-token-service-invocation-744a8a94c1d3/consumption-c356b9a1ae91.json",
+        "journal_event_refs": [
+          ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumption-requested-effect-token-service-invocation-744a8a94c1d3",
+          ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumed-effect-token-service-invocation-744a8a94c1d3"
+        ]
+      },
+      {
+        "token_id": "effect-token-state-control-mutation-482135dd685c",
+        "token_type": "AuthorizedEffect<StateControlMutation>",
+        "effect_kind": "state-control-mutation",
+        "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/services/tool-1783032232938-48374",
+        "token_record_ref": ".octon/state/control/execution/runs/tool-1783032232938-48374/effect-tokens/effect-token-state-control-mutation-482135dd685c.json",
+        "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/effect-tokens/effect-token-state-control-mutation-482135dd685c/consumption-7a2a28a61481.json",
+        "journal_event_refs": [
+          ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-482135dd685c",
+          ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-482135dd685c"
+        ]
+      }
+    ]
+  },
+  "mission_ref": null,
+  "slice_ref": null,
+  "intent_ref": {
+    "id": "workspace-charter://octon/octon-governed-harness",
+    "version": "1.3.0"
+  },
+  "mission_class": null,
+  "oversight_mode": null,
+  "execution_posture": null,
+  "reversibility_class": null,
+  "boundary_id": null,
+  "rollback_handle": null,
+  "compensation_handle": null,
+  "recovery_window": null,
+  "autonomy_budget_state": null,
+  "breaker_state": null,
+  "applied_directive_refs": [],
+  "applied_authorize_update_refs": [],
+  "touched_scope": [
+    "service-state"
+  ],
+  "override_requested": false,
+  "override_accepted": true,
+  "ai_review_enforced": false,
+  "autonomy_policy_enforced": false,
+  "evidence_links": {
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-tool-1783032232938-48374.yml",
+    "authority_grant_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-tool-1783032232938-48374.yml",
+    "authorization_phase_grant": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/authorization-phases/grant.json",
+    "authorization_phase_preflight": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/authorization-phases/preflight.json",
+    "authorization_phase_receipt_materialization": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/authorization-phases/receipt-materialization.json",
+    "authorization_phase_request_materialization": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/authorization-phases/request-materialization.json",
+    "authorization_phase_routing": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/authorization-phases/routing.json",
+    "decision": "policy-decision.json",
+    "grant": "grant-bundle.json",
+    "instruction_manifest": ".octon/state/evidence/runs/tool-1783032232938-48374/instruction-layer-manifest.json",
+    "outcome": "outcome.json",
+    "policy_digest": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/policy-digest.latest.md",
+    "policy_receipt": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/policy-receipt.latest.json",
+    "receipt": "execution-receipt.json",
+    "replay_pointers": ".octon/state/evidence/runs/tool-1783032232938-48374/replay-pointers.yml",
+    "request": "execution-request.json",
+    "retained_evidence": ".octon/state/evidence/runs/tool-1783032232938-48374/retained-run-evidence.yml",
+    "run_control_root": ".octon/state/control/execution/runs/tool-1783032232938-48374",
+    "run_receipts_root": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts",
+    "run_root": ".octon/state/evidence/runs/tool-1783032232938-48374",
+    "side_effects": "side-effects.json",
+    "stage_attempt": ".octon/state/control/execution/runs/tool-1783032232938-48374/stage-attempts/initial.yml",
+    "trace_pointers": ".octon/state/evidence/runs/tool-1783032232938-48374/trace-pointers.yml"
+  },
+  "budget": null,
+  "support_tier": "observe-and-read",
+  "ownership_refs": [
+    "operator://octon-maintainers"
+  ],
+  "approval_request_ref": null,
+  "approval_grant_refs": [],
+  "exception_lease_refs": [],
+  "revocation_refs": [],
+  "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-tool-1783032232938-48374.yml",
+  "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-tool-1783032232938-48374.yml",
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-a1a6d7573e7c",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/services/tool-1783032232938-48374",
+      "token_record_ref": ".octon/state/control/execution/runs/tool-1783032232938-48374/effect-tokens/effect-token-evidence-mutation-a1a6d7573e7c.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/effect-tokens/effect-token-evidence-mutation-a1a6d7573e7c/consumption-9074140f00cf.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-a1a6d7573e7c",
+        ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-a1a6d7573e7c"
+      ]
+    },
+    {
+      "token_id": "effect-token-service-invocation-744a8a94c1d3",
+      "token_type": "AuthorizedEffect<ServiceInvocation>",
+      "effect_kind": "service-invocation",
+      "scope_ref": "interfaces/filesystem-snapshot::snapshot.build",
+      "token_record_ref": ".octon/state/control/execution/runs/tool-1783032232938-48374/effect-tokens/effect-token-service-invocation-744a8a94c1d3.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/effect-tokens/effect-token-service-invocation-744a8a94c1d3/consumption-c356b9a1ae91.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumption-requested-effect-token-service-invocation-744a8a94c1d3",
+        ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumed-effect-token-service-invocation-744a8a94c1d3"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-482135dd685c",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/services/tool-1783032232938-48374",
+      "token_record_ref": ".octon/state/control/execution/runs/tool-1783032232938-48374/effect-tokens/effect-token-state-control-mutation-482135dd685c.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032232938-48374/receipts/effect-tokens/effect-token-state-control-mutation-482135dd685c/consumption-7a2a28a61481.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-482135dd685c",
+        ".octon/state/control/execution/runs/tool-1783032232938-48374/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-482135dd685c"
+      ]
+    }
+  ],
+  "network_egress_posture": null,
+  "evidence_completeness_status": null,
+  "timestamps": {
+    "started_at": "2026-07-02T22:43:54.068572Z",
+    "completed_at": "2026-07-02T22:43:55.069246Z"
+  }
+}

@@ -1,0 +1,27 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-run-health-read-model-compaction-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-run-health-read-model-compaction"
+packet_digest: "sha256:fceb1e23cb6af243bad5f7b3681e1878a77978d202acd6f196e0d941960e05f0"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-run-health-read-model-compaction/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-run-health-read-model-compaction/README.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-run-health-read-model-compaction/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-test-hermeticity/proposal.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers run-health read-model compaction readiness."
+  system_job: "Reduce one-file-per-retained-run generated projection fanout."
+  current_reality: "The audit found about 1010 tracked modified generated run-health files."
+  target_architecture_fit: "Changed-run-only generation and compact indexes address the producer instead of cleaning generated paths afterward."
+  authority_boundaries: "Generated health projections remain non-authoritative and cannot satisfy runtime, policy, support, or closeout gates."
+  complexity_and_leverage: "The packet isolates run-health generator and validator changes and consumes existing hermeticity work."
+  evidence_and_validation_plan: "Validation includes generator fixtures, consumer compatibility tests, freshness checks, and no-op diff proof."
+  rollback_and_closeout: "Rollback restores prior generator/validator behavior; generated output refresh remains a separate authorized route."

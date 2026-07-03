@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-host-projection-idempotency-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-host-projection-idempotency"
+packet_digest: "sha256:8be76c68f01801318f59ca3eb035b8d31206e05c359e400737ca2ab218c931e7"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-host-projection-idempotency/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-host-projection-idempotency/README.md"
+  - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projection-purity.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers host projection idempotency readiness."
+  system_job: "Reduce `.claude`, `.codex`, and `.cursor` projection fanout while preserving non-authority parity."
+  current_reality: "The audit found about 33 changed host projection files."
+  target_architecture_fit: "Publisher idempotency and changed-source-only projection address host fanout at the producer."
+  authority_boundaries: "Host projections remain generated-like user-facing mirrors and cannot mint authority."
+  complexity_and_leverage: "The child isolates host publisher and validation changes."
+  evidence_and_validation_plan: "Validation includes host parity, projection purity, no-op publish checks, and authority negative controls."
+  rollback_and_closeout: "Rollback restores prior host publisher behavior; host projection mutation remains outside readiness."

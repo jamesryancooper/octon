@@ -611,6 +611,7 @@ fn op_snapshot_build(input: &Value) -> Result<Value, ServiceError> {
 
     let input_fingerprint = sha256_hex(seed_lines.join("\n").as_bytes());
     let snapshot_id = format!("snap-{}", &input_fingerprint[..16]);
+    let protected_snapshot_ids = collect_protected_snapshot_ids(input, &state_dir, &snapshot_id)?;
     let snapshot_dir = join_path(&state_dir, &snapshot_id);
     let staging_dir = join_path(
         &state_dir,
@@ -710,7 +711,10 @@ fn op_snapshot_build(input: &Value) -> Result<Value, ServiceError> {
         write_jsonl_file(&join_path(&staging_dir, "files.jsonl"), &file_lines)?;
         write_jsonl_file(&join_path(&staging_dir, "nodes.jsonl"), &node_lines)?;
         write_jsonl_file(&join_path(&staging_dir, "edges.jsonl"), &edge_lines)?;
-        write_jsonl_file(&join_path(&staging_dir, SEARCH_INDEX_FILE), &search_index_lines)?;
+        write_jsonl_file(
+            &join_path(&staging_dir, SEARCH_INDEX_FILE),
+            &search_index_lines,
+        )?;
         write_text_file(&join_path(&staging_dir, "manifest.json"), &manifest_json)?;
         write_text_file(
             &join_path(&staging_dir, SNAPSHOT_READY_MARKER),
@@ -731,11 +735,14 @@ fn op_snapshot_build(input: &Value) -> Result<Value, ServiceError> {
     write_hash_cache(&cache_path, &cache_next)?;
 
     if set_current {
-        write_text_file(&join_path(&state_dir, "current"), &snapshot_id)?;
+        write_text_file_if_changed(&join_path(&state_dir, "current"), &snapshot_id)?;
     }
 
     let mut gc_keep_ids = BTreeSet::new();
     gc_keep_ids.insert(snapshot_id.clone());
+    for id in &protected_snapshot_ids {
+        gc_keep_ids.insert(id.clone());
+    }
     let current_path = join_path(&state_dir, "current");
     if fs_exists(&current_path) {
         let current = read_text_file(&current_path).unwrap_or_default();
@@ -768,6 +775,13 @@ fn op_snapshot_build(input: &Value) -> Result<Value, ServiceError> {
             "max_total_bytes": max_total_bytes,
             "max_op_ms": max_op_ms,
             "lock_stale_ms": lock_stale_ms
+        },
+        "retention": {
+            "protected_snapshot_ids": protected_snapshot_ids.iter().cloned().collect::<Vec<_>>(),
+            "protected_snapshot_count": protected_snapshot_ids.len(),
+            "gc_max_snapshots": gc_max_snapshots,
+            "gc_max_age_hours": gc_max_age_hours,
+            "gc_max_state_bytes": gc_max_state_bytes
         },
         "gc": gc
     }))
@@ -909,7 +923,12 @@ fn op_kg_neighbors(input: &Value) -> Result<Value, ServiceError> {
     let snapshot = load_snapshot(input)?;
     let node_id = get_str(input, "node_id")?
         .filter(|s| !s.is_empty())
-        .ok_or_else(|| err("ERR_FILESYSTEM_INTERFACES_INPUT_INVALID", "node_id is required."))?;
+        .ok_or_else(|| {
+            err(
+                "ERR_FILESYSTEM_INTERFACES_INPUT_INVALID",
+                "node_id is required.",
+            )
+        })?;
 
     let direction = get_str(input, "direction")?.unwrap_or_else(|| "out".to_string());
     let edge_type_filter = get_str(input, "edge_type")?.unwrap_or_default();
@@ -1269,7 +1288,12 @@ fn op_resolve(input: &Value) -> Result<Value, ServiceError> {
     let snapshot = load_snapshot(input)?;
     let node_id = get_str(input, "node_id")?
         .filter(|s| !s.is_empty())
-        .ok_or_else(|| err("ERR_FILESYSTEM_INTERFACES_INPUT_INVALID", "node_id is required."))?;
+        .ok_or_else(|| {
+            err(
+                "ERR_FILESYSTEM_INTERFACES_INPUT_INVALID",
+                "node_id is required.",
+            )
+        })?;
 
     let node = snapshot
         .nodes
@@ -1822,9 +1846,8 @@ fn acquire_snapshot_build_lock(
 
     let existing_body = read_text_file(&lock_path).unwrap_or_default();
     if stale_after_ms > 0 {
-        let created_ms = parse_lock_created_ms(&existing_body).or_else(|| {
-            fs_get_stat(&lock_path).and_then(|stat| stat.modified_ms)
-        });
+        let created_ms = parse_lock_created_ms(&existing_body)
+            .or_else(|| fs_get_stat(&lock_path).and_then(|stat| stat.modified_ms));
         if let Some(created_ms) = created_ms {
             let age_ms = monotonic_now_ms().saturating_sub(created_ms);
             if age_ms > stale_after_ms {
@@ -2173,7 +2196,7 @@ fn write_jsonl_file(path: &str, lines: &[String]) -> Result<(), ServiceError> {
     } else {
         format!("{}\n", lines.join("\n"))
     };
-    write_text_file(path, &body)
+    write_text_file_if_changed(path, &body).map(|_| ())
 }
 
 fn write_text_file(path: &str, content: &str) -> Result<(), ServiceError> {
@@ -2184,6 +2207,19 @@ fn write_text_file(path: &str, content: &str) -> Result<(), ServiceError> {
     }
     bindings::fs::write(path, content.as_bytes());
     Ok(())
+}
+
+fn write_text_file_if_changed(path: &str, content: &str) -> Result<bool, ServiceError> {
+    if let Some(stat) = fs_get_stat(path) {
+        if matches!(stat.kind, bindings::fs::NodeKind::File)
+            && bindings::fs::read(path) == content.as_bytes()
+        {
+            return Ok(false);
+        }
+    }
+
+    write_text_file(path, content)?;
+    Ok(true)
 }
 
 fn read_text_file(path: &str) -> Result<String, ServiceError> {
@@ -2228,6 +2264,67 @@ fn get_bool_or(input: &Value, key: &str, default: bool) -> bool {
         .and_then(|o| o.get(key))
         .and_then(Value::as_bool)
         .unwrap_or(default)
+}
+
+fn collect_protected_snapshot_ids(
+    input: &Value,
+    state_dir: &str,
+    new_snapshot_id: &str,
+) -> Result<BTreeSet<String>, ServiceError> {
+    let Some(value) = input
+        .as_object()
+        .and_then(|o| o.get("protected_snapshot_ids"))
+    else {
+        return Ok(BTreeSet::new());
+    };
+
+    let Some(values) = value.as_array() else {
+        return Err(err(
+            "ERR_FILESYSTEM_INTERFACES_INPUT_INVALID",
+            "protected_snapshot_ids must be an array of snapshot ids.",
+        ));
+    };
+
+    let mut out = BTreeSet::new();
+    for value in values {
+        let Some(id) = value.as_str() else {
+            return Err(err(
+                "ERR_FILESYSTEM_INTERFACES_INPUT_INVALID",
+                "protected_snapshot_ids entries must be strings.",
+            ));
+        };
+        if !is_valid_snapshot_id(id) {
+            return Err(err(
+                "ERR_FILESYSTEM_INTERFACES_INPUT_INVALID",
+                format!("Invalid protected snapshot id: {id}"),
+            ));
+        }
+
+        if id != new_snapshot_id {
+            let snapshot_dir = join_path(state_dir, id);
+            if !snapshot_dir_is_ready(&snapshot_dir) {
+                return Err(err(
+                    "ERR_FILESYSTEM_INTERFACES_SNAPSHOT_INVALID",
+                    format!("Protected snapshot is missing or incomplete: {id}"),
+                ));
+            }
+        }
+
+        out.insert(id.to_string());
+    }
+
+    Ok(out)
+}
+
+fn is_valid_snapshot_id(id: &str) -> bool {
+    let Some(suffix) = id.strip_prefix("snap-") else {
+        return false;
+    };
+
+    (8..=64).contains(&suffix.len())
+        && suffix
+            .chars()
+            .all(|c| c.is_ascii_hexdigit() && !c.is_ascii_uppercase())
 }
 
 fn norm_rel_required(value: Option<String>) -> Result<String, ServiceError> {
@@ -2462,7 +2559,8 @@ fn should_skip(path: &str, state_dir: &str) -> bool {
         return false;
     }
 
-    if normalized == RUNTIME_STATE_ROOT || normalized.starts_with(&format!("{RUNTIME_STATE_ROOT}/"))
+    if normalized == RUNTIME_STATE_ROOT
+        || normalized.starts_with(&format!("{RUNTIME_STATE_ROOT}/"))
         || normalized == RUNTIME_TRACE_EVIDENCE_ROOT
         || normalized.starts_with(&format!("{RUNTIME_TRACE_EVIDENCE_ROOT}/"))
     {
@@ -2839,14 +2937,20 @@ mod tests {
         });
         let err_type = ensure_supported_snapshot_format(&invalid_type, DEFAULT_STATE_DIR)
             .expect_err("invalid type should fail");
-        assert_eq!(err_type.code, "ERR_FILESYSTEM_INTERFACES_FORMAT_UNSUPPORTED");
+        assert_eq!(
+            err_type.code,
+            "ERR_FILESYSTEM_INTERFACES_FORMAT_UNSUPPORTED"
+        );
 
         let unsupported = serde_json::json!({
             "snapshot_format_version": SNAPSHOT_MAX_SUPPORTED_FORMAT_VERSION + 1
         });
         let err_range = ensure_supported_snapshot_format(&unsupported, DEFAULT_STATE_DIR)
             .expect_err("unsupported version should fail");
-        assert_eq!(err_range.code, "ERR_FILESYSTEM_INTERFACES_FORMAT_UNSUPPORTED");
+        assert_eq!(
+            err_range.code,
+            "ERR_FILESYSTEM_INTERFACES_FORMAT_UNSUPPORTED"
+        );
     }
 
     #[test]
@@ -2865,6 +2969,56 @@ mod tests {
         let body = "created_ms=12345\ncreated_at=2026-01-01T00:00:00Z\n";
         assert_eq!(parse_lock_created_ms(body), Some(12345));
         assert_eq!(parse_lock_created_ms("created_at=..."), None);
+    }
+
+    #[test]
+    fn snapshot_id_validation_matches_contract_shape() {
+        assert!(is_valid_snapshot_id("snap-abcdef12"));
+        assert!(is_valid_snapshot_id(
+            "snap-abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+        ));
+        assert!(!is_valid_snapshot_id("snap-abc"));
+        assert!(!is_valid_snapshot_id("snap-ABCDEF12"));
+        assert!(!is_valid_snapshot_id("snapshot-abcdef12"));
+        assert!(!is_valid_snapshot_id("snap-abcdef1z"));
+    }
+
+    #[test]
+    fn protected_snapshot_ids_accept_new_snapshot_and_deduplicate() {
+        let input = serde_json::json!({
+            "protected_snapshot_ids": [
+                "snap-abcdef12",
+                "snap-abcdef12"
+            ]
+        });
+        let ids =
+            collect_protected_snapshot_ids(&input, DEFAULT_STATE_DIR, "snap-abcdef12").unwrap();
+
+        assert_eq!(ids.len(), 1);
+        assert!(ids.contains("snap-abcdef12"));
+    }
+
+    #[test]
+    fn protected_snapshot_ids_reject_invalid_input() {
+        let invalid_shape = serde_json::json!({
+            "protected_snapshot_ids": "snap-abcdef12"
+        });
+        assert_eq!(
+            collect_protected_snapshot_ids(&invalid_shape, DEFAULT_STATE_DIR, "snap-abcdef12")
+                .expect_err("non-array protected ids should fail")
+                .code,
+            "ERR_FILESYSTEM_INTERFACES_INPUT_INVALID"
+        );
+
+        let invalid_id = serde_json::json!({
+            "protected_snapshot_ids": ["snap-ABCDEF12"]
+        });
+        assert_eq!(
+            collect_protected_snapshot_ids(&invalid_id, DEFAULT_STATE_DIR, "snap-abcdef12")
+                .expect_err("invalid protected id should fail")
+                .code,
+            "ERR_FILESYSTEM_INTERFACES_INPUT_INVALID"
+        );
     }
 
     #[test]
@@ -3104,7 +3258,9 @@ mod tests {
         for token in
             include_str!("lib.rs").split(|c: char| !(c.is_ascii_alphanumeric() || c == '_'))
         {
-            if token.starts_with("ERR_FILESYSTEM_INTERFACES_") && token != "ERR_FILESYSTEM_INTERFACES_" {
+            if token.starts_with("ERR_FILESYSTEM_INTERFACES_")
+                && token != "ERR_FILESYSTEM_INTERFACES_"
+            {
                 out.insert(token.to_string());
             }
         }
@@ -3137,7 +3293,8 @@ mod tests {
                 .and_then(Value::as_bool)
                 == Some(false);
 
-            let contract_version_present = props.contains_key("filesystem_interfaces_contract_version");
+            let contract_version_present =
+                props.contains_key("filesystem_interfaces_contract_version");
 
             let error_has_code_message = props
                 .get("error")

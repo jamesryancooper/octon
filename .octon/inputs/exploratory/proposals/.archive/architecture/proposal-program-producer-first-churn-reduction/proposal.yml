@@ -1,0 +1,138 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-producer-first-churn-reduction
+title: Producer First Churn Reduction Program
+summary: >
+  Create a producer-first proposal program that reduces generated, projected,
+  validation, and local operational churn by fixing generator and publisher
+  entrypoints while preserving evidence, freshness, authority, closeout,
+  support-claim, and operator-observability guarantees.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/capabilities/_ops/scripts/"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/"
+  - ".octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/"
+  - ".octon/framework/product/contracts/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: >
+    Review this parent program and each sibling child packet independently.
+    Implement only accepted children through child-owned routes, and close out
+    the parent only after child-owned evidence proves churn reduction without
+    weakening freshness, receipts, retained evidence, authority boundaries, or
+    operator observability.
+related_proposals:
+  - proposal-churn-common-generator-idempotency-metrics
+  - proposal-churn-run-health-read-model-compaction
+  - proposal-churn-effective-publication-idempotency
+  - proposal-churn-extension-payload-compaction
+  - proposal-churn-filesystem-snapshot-retention
+  - proposal-churn-proposal-artifact-compaction
+  - proposal-churn-receipt-fanout-compaction
+  - proposal-churn-host-projection-idempotency
+  - proposal-churn-tmp-engine-cache-hygiene
+  - proposal-churn-retained-run-evidence-efficiency
+external_dependencies:
+  - run-program-clean-delivery-test-hermeticity
+  - run-program-clean-delivery-cleanup-disposition
+  - proposal-program-loop-breaker
+  - closeout-worktree-autonomous-partition-evidence
+program_execution_mode: sequential
+selected_implementation_target: Producer entrypoint churn reduction across generated, projected, validation, and local operational surfaces.
+scope_statement: >
+  Parent coordination only. This packet creates sibling child proposal packets
+  and parent-local coordination artifacts for producer-first churn reduction.
+  It does not implement churn fixes, mutate generated outputs, delete retained
+  evidence, run generated publishers, or authorize cleanup.
+explicit_runtime_non_implementation_statement: >
+  This parent program does not change runtime behavior. Durable changes require
+  accepted child packets, implementation routes, retained child evidence,
+  conformance receipts, drift/churn receipts, validation, closeout, and archive
+  handling.
+generated_input_authority_impact: >
+  Generated outputs remain derived-only and non-authoritative. Runtime-facing
+  generated/effective outputs must retain freshness, locks, receipts,
+  traceability, resolver validation, and non-authority classification.
+authority_class_impact:
+  framework: Coordinates future generator, publisher, validator, test, service, and contract updates through child packets.
+  instance: No direct instance authority changes from this parent packet.
+  state_control: No state-control mutation from this parent packet.
+  state_evidence: Future children may define retained evidence compaction or indexing requirements, but retained evidence is not disposable without owning cleanup authority.
+  generated: No generated output edits are authorized by this parent packet.
+  inputs: Parent and child packets are temporary proposal lineage only.
+objective:
+  - Reduce dirty-worktree noise from derived output churn.
+  - Reduce unnecessary generated file rewrites and timestamped receipt fanout.
+  - Reduce local scratch residue, runtime cost, and token cost.
+  - Preserve evidence retention, freshness validation, closeout safety, support-claim safety, and operator observability.
+negative_constraints:
+  - "Do not hand-edit generated outputs."
+  - "Do not weaken freshness gates, locks, receipts, traceability, resolver validation, or support-proof checks."
+  - "Do not delete retained evidence without owning cleanup authority that classifies exact files as stale or unreferenced."
+  - "Do not treat host projections as authority."
+  - "Do not fold source, framework, input, or archive changes into cleanup."
+  - "Do not clean noisy path families after the fact when the correct fix is producer idempotency."
+metrics:
+  - changed file count
+  - generated no-op rewrite rate
+  - receipt fanout count
+  - dirty-worktree residue count
+  - ".tmp byte/file count"
+  - process runtime
+  - token budget impact
+  - validation coverage retained
+  - freshness/lock/receipt validation retained
+  - evidence retrieval integrity
+evidence_requirements:
+  - Child-owned review, implementation, conformance, drift/churn, validation, closeout, archive, cleanup, and terminal proof evidence for each implemented child.
+  - Baseline churn measurements from the attached audit and any later representative lifecycle runs.
+  - No-op producer evidence showing unchanged inputs do not rewrite outputs.
+  - Negative controls proving freshness, lock, receipt, support-claim, and authority-boundary failures still fail closed.
+  - Evidence retrieval proof for any compacted retained validation or run evidence.
+validation_gates:
+  - "validate-proposal-standard.sh for parent and children"
+  - "validate-architecture-proposal.sh for parent and children"
+  - "validate-proposal-program-structure.sh for parent"
+  - "validate-proposal-implementation-readiness.sh for children before implementation"
+  - "producer no-op diff checks for every implemented generator or publisher"
+  - "freshness, lock, receipt, and resolver negative controls for runtime-facing generated/effective outputs"
+  - "retained evidence retrieval and reference-integrity checks for evidence compaction work"
+acceptance_criteria_summary: >
+  The program is acceptable when every churn-producing surface is assigned to
+  its producer, no-op producer runs create zero tracked diffs, changed-file
+  count scales with changed inputs rather than retained history, repeated
+  receipts are compact without losing proof retrieval, local scratch stays
+  within explicit file/byte budgets, and all evidence, freshness, authority,
+  closeout, support-claim, and observability guarantees remain intact.
+risk_posture: High. The program touches generators, runtime-facing publication surfaces, retained validation evidence, and host projections where efficiency changes can create false freshness or evidence loss if implemented incorrectly.
+rollback_summary: >
+  Reject or supersede this parent before implementation if the decomposition is
+  wrong. After child work begins, rollback must happen through each child
+  packet's own promotion targets and retained evidence route.
+owner:
+  role: Octon producer-first churn reduction architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - "current conversation thread on generated churn"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+  - ".octon/framework/constitution/CHARTER.md"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/cognition/_meta/architecture/generated/README.md"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: accepted
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

@@ -1,0 +1,66 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-run-health-read-model-compaction
+title: Churn Run Health Read Model Compaction
+summary: Reduce run-health generated read-model fanout by changing the run-health producer to emit compact, changed-run-only outputs while preserving operator freshness and source traceability.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only run-health producer compaction after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-common-generator-idempotency-metrics
+  - run-program-clean-delivery-test-hermeticity
+selected_implementation_target: Run-health read-model producer compaction.
+scope_statement: This child owns run-health read-model generator and validator behavior only. It does not own generic generated cleanup or retained run evidence deletion.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable generator or validator changes.
+generated_input_authority_impact: Run-health read models remain operator projections, derived-only, non-authoritative, and forbidden as runtime or policy inputs.
+authority_class_impact:
+  framework: May update run-health generator, validator, and tests.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Reads retained run evidence but does not delete it.
+  generated: Future implementation may change generated output shape through the generator only.
+  inputs: Temporary proposal lineage only.
+external_dependencies:
+  - run-program-clean-delivery-test-hermeticity
+evidence_requirements:
+  - No-op generator proof with zero tracked run-health projection diffs.
+  - Changed-run-only fixture proof.
+  - Freshness and source traceability proof for compact indexes and any materialized windows.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "test-run-health-read-model.sh"
+  - "validate-run-health-read-model.sh"
+  - "git status --short -- .octon/generated/cognition/projections/materialized/runs"
+acceptance_criteria_summary: Run-health compaction is acceptable when no-op runs do not rewrite tracked generated health files and changed-file count scales with changed runs, not retained run count.
+risk_posture: Medium. Operator visibility and freshness metadata must not be weakened.
+rollback_summary: Revert or supersede only run-health generator, validator, and test changes owned by this child.
+owner:
+  role: Octon run-health read-model architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-run-health-read-model-compaction
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

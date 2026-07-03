@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: ".octon/generated/.tmp and engine cache hygiene"
+decision_type: boundary-change
+status: draft
+owner: Octon engine cache hygiene architect
+created_date: 2026-07-02
+summary: Defines explicit lifecycle and cleanup boundaries for rebuildable scratch and engine build/cache output.
+architecture_drivers:
+  - Prior measurement found `.octon/generated/.tmp/engine` can become extremely large.
+  - The attached audit could not reconstruct already-cleaned ephemeral residue.
+  - Scratch cleanup must be owner-scoped and proof-backed.
+constraints:
+  - Do not delete retained evidence or active generated/effective outputs.
+  - Do not treat absence from landed diff as proof scratch never existed.
+  - Cleanup must prove rebuildability or stale/unreferenced classification.

@@ -1,0 +1,191 @@
+schema_version: proposal-packet-terminal-closeout-receipt-v1
+terminal_run_id: proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z
+terminalized_at: "2026-07-03T00:00:00Z"
+packet:
+  proposal_id: proposal-churn-effective-publication-idempotency
+  path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency
+  proposal_kind: architecture
+  status: implemented
+target_outcome: archive-ready
+archive_ready: "yes"
+terminal_verdict: archive-ready
+profile:
+  profile_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/profile.yml
+  profile_digest: sha256:c7cca8abb9b08e449a38027caef2f9136006892bd62fdfe8e6c1db29df8f897e
+  profile_validation_evidence_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+state_ledger:
+  - state_id: bind-profile
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/bind-profile-report.md
+      - stages/bind-profile/outcome.json
+  - state_id: verify-durable-implementation-state
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/verify-durable-implementation-state-report.md
+      - stages/verify-durable-implementation-state/outcome.json
+  - state_id: verify-implementation-conformance
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/verify-implementation-conformance-report.md
+      - stages/verify-implementation-conformance/outcome.json
+  - state_id: verify-post-implementation-drift
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/verify-post-implementation-drift-report.md
+      - stages/verify-post-implementation-drift/outcome.json
+  - state_id: validate-feature-catalog-drift
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/validate-feature-catalog-drift-report.md
+      - stages/validate-feature-catalog-drift/outcome.json
+  - state_id: validate-publication-freshness
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/validate-publication-freshness-report.md
+      - stages/validate-publication-freshness/outcome.json
+  - state_id: classify-repo-hygiene
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/classify-repo-hygiene-report.md
+      - stages/classify-repo-hygiene/outcome.json
+  - state_id: classify-worktree-hygiene
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/classify-worktree-hygiene-report.md
+      - stages/classify-worktree-hygiene/outcome.json
+  - state_id: run-evidence-only-reviews
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/run-evidence-only-reviews-report.md
+      - stages/run-evidence-only-reviews/outcome.json
+  - state_id: resolve-git-github-route
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/resolve-git-github-route-report.md
+      - stages/resolve-git-github-route/outcome.json
+  - state_id: emit-terminal-receipt
+    state_verdict: pass
+    output_evidence_refs:
+      - reports/emit-terminal-receipt-report.md
+      - stages/emit-terminal-receipt/outcome.json
+durable_implementation_state_evidence_refs:
+  - .octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency/support/post-implementation-drift-churn-review.md
+  - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+implementation:
+  conformance_receipt_ref: .octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency/support/implementation-conformance-review.md
+  conformance_validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh
+  conformance_fresh: true
+  post_implementation_drift_receipt_ref: .octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency/support/post-implementation-drift-churn-review.md
+  post_implementation_drift_validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh
+  post_implementation_drift_fresh: true
+feature_catalog_drift:
+  receipt_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/reports/validate-feature-catalog-drift-report.md
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  verdict: pass
+  outcome: no-change
+  unresolved_count: 0
+  affected_feature_ids: []
+  required_documentation_actions: []
+  authority_notes:
+    - No feature-catalog drift is introduced by proposal-packet lifecycle terminalization.
+  fresh: true
+publication_freshness:
+  direct_generated_output_edit_used: false
+  validators:
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+      verdict: pass
+      fresh: true
+generated_input_non_authority:
+  validation_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+  proposal_inputs_non_authority: true
+  generated_outputs_non_authority: true
+  generated_prompts_non_authority: true
+  host_state_non_authority: true
+  chat_state_non_authority: true
+  tool_state_non_authority: true
+  model_memory_non_authority: true
+repo_hygiene:
+  classification_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/worktree-hygiene-classifier.yml
+  cleanup_performed: false
+  cleanup_authorization_refs: []
+  unauthorized_deletion_performed: false
+worktree_hygiene:
+  classification_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/worktree-hygiene-classifier.yml
+  verdict: blocked
+  foreign_or_ambiguous_count: 1
+  retained_fixture_path_count: 0
+  fixture_retention_refs: []
+  dirty_worktree: true
+partition_clean_archive_readiness:
+  enabled: true
+  mode: partition-clean-for-archive-readiness
+  order_override_receipt_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+  order_override_receipt_digest: sha256:d07c530fea5f7ef4f407705c07bab021185e5a9cb9e9faa48b56d2cf6b48da6a
+  closeout_worktree_report_ref: .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+  lifecycle_interaction_return_ref: .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json
+  does_not_authorize_archive: true
+  does_not_authorize_git_mutation: true
+  does_not_authorize_cleaned_claim: true
+evidence_only_reviews:
+  post_integration_architecture_review_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/post-integration-architecture-review.md
+  post_integration_architecture_review_authority: evidence-only
+  packet_terminal_evaluator_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/packet-terminal-evaluator.md
+  packet_terminal_evaluator_authority: evidence-only
+  lifecycle_postmortem_ref: .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/lifecycle-postmortem.md
+  lifecycle_postmortem_authority: evidence-only
+git_github_route:
+  route_ref: closeout-change
+  branch_no_pr: false
+  mutation_delegated: true
+  exact_sha_checks_ref: not-applicable-until-closeout-change
+  landing_authorization_ref: not-applicable-until-closeout-change
+  branch_cleanup_required: false
+  branch_cleanup_authorization_ref: not-applicable-until-closeout-change
+archive_boundary:
+  archive_owner_ref: .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml
+  relocation_performed: false
+blocker:
+  class: none
+  detail: no blocker
+  failing_evidence_ref: not-applicable
+  next_canonical_route: archive-proposal
+retained_evidence_inventory:
+  - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+  - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+  - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json
+  - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+  - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/worktree-hygiene-classifier.yml
+expected_no_new_evidence_loop: true
+non_authority_declarations:
+  proposal_inputs: non-authority
+  generated_outputs: derived-only-non-authority
+  generated_prompts: non-authority
+  host_state: non-authority
+  dashboards: non-authority
+  chat: non-authority
+  tool_state: non-authority
+  model_memory: non-authority
+target_owned_evidence_policy:
+  cites_target_owned_evidence: true
+  aggregate_receipt_replaces_target_owned_receipts: false
+run_health:
+  validation_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model-state.sh
+  verdict: pass
+capability_publication:
+  validation_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh
+  verdict: pass
+extension_publication:
+  validation_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+  verdict: pass

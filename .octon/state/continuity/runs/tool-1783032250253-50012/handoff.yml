@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: tool-1783032250253-50012
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/tool-1783032250253-50012/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/tool-1783032250253-50012/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/tool-1783032250253-50012/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/tool-1783032250253-50012/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/tool-1783032250253-50012/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/tool-1783032250253-50012/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/tool-1783032250253-50012/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-07-02T22:44:13.160239Z

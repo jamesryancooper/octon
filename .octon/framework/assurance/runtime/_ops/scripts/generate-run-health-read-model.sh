@@ -16,6 +16,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -39,6 +40,7 @@ PACK_ROUTES_REF = ".octon/generated/effective/capabilities/pack-routes.effective
 SUPPORT_RECONCILIATION_REF = ".octon/generated/effective/governance/support-envelope-reconciliation.yml"
 COMPACT_MANIFEST_NAME = "run-health-compact-manifest.yml"
 GENERATED_FRESHNESS_OWNER = "owning-generator-script"
+VOLATILE_GENERATION_KEYS = {"generated_at", "checked_at", "recorded_at", "updated_at"}
 GENERATED_FRESHNESS_OUTCOMES = [
     "generated_freshness_not_in_scope",
     "generated_input_scope_detected_and_owner_routed",
@@ -102,9 +104,44 @@ def load_yaml(path):
 def write_yaml(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     if yaml is not None:
-        path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+        text = yaml.safe_dump(data, sort_keys=False)
     else:
-        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        text = json.dumps(data, indent=2) + "\n"
+    return write_text_if_changed(path, text, data)
+
+
+def write_text_if_changed(path, text, data=None):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_file():
+        existing_text = path.read_text(encoding="utf-8")
+        if existing_text == text:
+            return False
+        if data is not None:
+            existing_data = load_yaml(path)
+            if stable_projection_payload(existing_data) == stable_projection_payload(data):
+                return False
+    fd, tmp_name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(text)
+        os.replace(tmp_name, path)
+    finally:
+        if os.path.exists(tmp_name):
+            os.unlink(tmp_name)
+    return True
+
+
+def stable_projection_payload(value):
+    if isinstance(value, dict):
+        return {
+            key: stable_projection_payload(item)
+            for key, item in value.items()
+            if key not in VOLATILE_GENERATION_KEYS
+        }
+    if isinstance(value, list):
+        return [stable_projection_payload(item) for item in value]
+    return value
 
 
 def repo_ref(path):
@@ -1206,6 +1243,19 @@ def compact_source_digest(ref):
     }
 
 
+def collect_health_outputs(output_root):
+    output_root = Path(output_root)
+    if not output_root.is_dir():
+        return []
+    records = []
+    for health_path in sorted(output_root.glob("*/health.yml")):
+        health = load_yaml(health_path)
+        run_id = str(health.get("run_id") or health_path.parent.name)
+        status = str(health.get("health", {}).get("status") or "unknown")
+        records.append({"run_id": run_id, "health_ref": repo_ref(health_path), "status": status})
+    return records
+
+
 def write_compact_manifest(output_root, evidence_root, generated_at, outputs):
     manifest_path = output_root / COMPACT_MANIFEST_NAME
     manifest_ref = repo_ref(manifest_path)
@@ -1392,6 +1442,7 @@ def main():
         write_yaml(out_file, health)
         outputs.append({"run_id": run_id, "health_ref": repo_ref(out_file), "status": health["health"]["status"]})
 
+    index_outputs = collect_health_outputs(output_root)
     write_yaml(
         output_root / "index.yml",
         {
@@ -1402,17 +1453,17 @@ def main():
                 "may_authorize": False,
                 "may_widen_support": False,
             },
-            "runs": outputs,
+            "runs": index_outputs,
         },
     )
     index_ref = repo_ref(output_root / "index.yml")
-    published_paths = [item["health_ref"] for item in outputs]
+    published_paths = [item["health_ref"] for item in index_outputs]
     if index_ref:
         published_paths.append(index_ref)
-    compact_ref = write_compact_manifest(output_root, evidence_root, generated_at, outputs)
+    compact_ref = write_compact_manifest(output_root, evidence_root, generated_at, index_outputs)
     if compact_ref:
         published_paths.append(compact_ref)
-    write_evidence(evidence_root, generated_at, outputs, published_paths, pruned, args.no_evidence, compact_ref)
+    write_evidence(evidence_root, generated_at, index_outputs, published_paths, pruned, args.no_evidence, compact_ref)
     if pruned:
         print(f"Pruned {len(pruned)} stale run-health read models under {output_root}")
     print(f"Generated {len(outputs)} run-health read models under {output_root}")

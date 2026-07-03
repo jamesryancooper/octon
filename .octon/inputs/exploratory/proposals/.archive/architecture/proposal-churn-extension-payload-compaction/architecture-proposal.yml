@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: extension publication copied payload compaction
+decision_type: surface-refactor
+status: draft
+owner: Octon extension publication architect
+created_date: 2026-07-02
+summary: Refactors extension publication to avoid repeated copied payload fanout for unchanged extension state.
+architecture_drivers:
+  - The audit found extension publication projection churn, including copied published payloads.
+  - Copied payload trees create review and token cost when content is unchanged.
+  - Extension publication must remain freshness-checked and receipt-backed.
+constraints:
+  - Do not remove required publication or compatibility receipts.
+  - Do not treat extension source inputs as cleanup candidates.
+  - Do not make generated published payloads authoritative.

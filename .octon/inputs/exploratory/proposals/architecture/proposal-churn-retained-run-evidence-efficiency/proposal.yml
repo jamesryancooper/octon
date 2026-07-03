@@ -1,0 +1,63 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-retained-run-evidence-efficiency
+title: Churn Retained Run Evidence Efficiency
+summary: Optionally improve retained run evidence, control, and continuity efficiency through evidence-retention indexing and owning cleanup authority, without treating retained truth as disposable churn.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-retained-run-evidence-index.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-retained-run-evidence-index.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: draft
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this optional adjacent child independently, then implement only evidence-retention/indexing efficiency after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-receipt-fanout-compaction
+  - run-program-clean-delivery-cleanup-disposition
+  - proposal-program-loop-breaker
+  - closeout-worktree-autonomous-partition-evidence
+selected_implementation_target: Optional retained run evidence, control, and continuity efficiency.
+scope_statement: This optional child owns retained evidence indexing and cleanup-authority clarification only. It does not classify retained evidence, control truth, or continuity as generated cleanup.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable evidence-store, index, cleanup, or validator changes.
+generated_input_authority_impact: Retained run evidence and control truth are not generated outputs. Generated summaries or indexes may aid retrieval but cannot replace retained evidence.
+authority_class_impact:
+  framework: May update evidence-store specs, retained evidence index generation, cleanup helpers, validators, and tests.
+  instance: No direct instance authority change.
+  state_control: Control truth remains authoritative under its existing contracts.
+  state_evidence: Retained evidence remains durable unless exact files are classified stale or unreferenced by an owning cleanup route.
+  generated: Generated indexes remain derived-only.
+  inputs: Temporary proposal lineage only.
+external_dependencies:
+  - run-program-clean-delivery-cleanup-disposition
+  - proposal-program-loop-breaker
+  - closeout-worktree-autonomous-partition-evidence
+evidence_requirements:
+  - Evidence reference graph and retrieval proof.
+  - Owning cleanup authority proof before any stale/unreferenced classification.
+  - Negative controls preventing generated indexes from replacing retained evidence.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-retained-run-evidence-index.sh"
+  - "cleanup-local-run-artifacts.sh --dry-run"
+  - "reference-integrity checks"
+acceptance_criteria_summary: Optional retained evidence efficiency is acceptable only if indexing or retention reduces operational overhead without deleting referenced evidence, mutating control truth, or weakening continuity and closeout guarantees.
+risk_posture: High. This surface contains retained evidence and control truth and must remain adjacent rather than core generated cleanup.
+rollback_summary: Revert or supersede only evidence-store, index, cleanup helper, validator, and test changes owned by this child.
+owner:
+  role: Octon retained evidence efficiency architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/state/evidence/runs/**"
+  - ".octon/state/control/execution/**"
+  - ".octon/state/continuity/**"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"

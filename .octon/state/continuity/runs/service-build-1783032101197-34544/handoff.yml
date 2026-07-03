@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: service-build-1783032101197-34544
+status: bound
+run_contract_ref: .octon/state/control/execution/runs/service-build-1783032101197-34544/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/service-build-1783032101197-34544/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/service-build-1783032101197-34544/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/service-build-1783032101197-34544/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/service-build-1783032101197-34544/evidence-classification.yml
+last_receipt_ref: null
+last_checkpoint_ref: .octon/state/control/execution/runs/service-build-1783032101197-34544/checkpoints/bound.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: Complete authority routing before any consequential side effects.
+updated_at: 2026-07-02T22:41:41.41628Z

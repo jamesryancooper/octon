@@ -1,0 +1,72 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-generated-effective-publication-aaa0365bc87f",
+    "token_type": "AuthorizedEffect<GeneratedEffectivePublication>",
+    "effect_kind": "generated-effective-publication",
+    "run_id": "publish-1783033321346-49552",
+    "request_id": "publish-1783033321346-49552",
+    "grant_id": "grant-publish-1783033321346-49552",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-publish-1783033321346-49552.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1783033321346-49552.yml",
+    "run_control_root": ".octon/state/control/execution/runs/publish-1783033321346-49552",
+    "run_evidence_root": ".octon/state/evidence/runs/publish-1783033321346-49552",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-publication-bypass:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_freshness_mode": "publication-bypass",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/<pending>",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "publication-bypass",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "git",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/generated/effective/capabilities",
+    "scope_envelope": {
+      "read": [
+        "/Users/jamesryancooper/Projects/octon"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/generated/effective/capabilities",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/publication/capabilities"
+      ],
+      "executor_profile": "scoped_repo_mutation",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-07-02T23:02:01.854718Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/effect-tokens/effect-token-generated-effective-publication-aaa0365bc87f.json",
+    "journal_ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson#evt-effect-token-minted-effect-token-generated-effective-publication-aaa0365bc87f",
+    "token_digest": "sha256:6661aac4f8d53f23728bd18982b162035ae0db0cc61242a90ec6134f23c9967c"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 1,
+  "issued_event_ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson#evt-effect-token-minted-effect-token-generated-effective-publication-aaa0365bc87f",
+  "last_event_ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson#evt-effect-token-consumed-effect-token-generated-effective-publication-aaa0365bc87f",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/publish-1783033321346-49552/receipts/effect-tokens/effect-token-generated-effective-publication-aaa0365bc87f/consumption-d74e7f140727.json",
+  "last_consumed_at": "2026-07-02T23:02:02.02249Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs::publication_internal_verify:generated",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/generated/effective/capabilities",
+  "rejection_reason_codes": []
+}

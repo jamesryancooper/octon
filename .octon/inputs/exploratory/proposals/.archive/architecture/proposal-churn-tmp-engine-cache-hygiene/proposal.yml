@@ -1,0 +1,67 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-tmp-engine-cache-hygiene
+title: Churn Tmp Engine Cache Hygiene
+summary: Bound `.octon/generated/.tmp` and engine build/cache residue with explicit scratch lifecycle, TTL, size budgets, and rebuildability proof.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-publication-validation-runs.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/instance/governance/policies/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only `.tmp` and engine cache hygiene after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-common-generator-idempotency-metrics
+  - run-program-clean-delivery-cleanup-disposition
+selected_implementation_target: ".octon/generated/.tmp and engine build/cache hygiene."
+scope_statement: This child owns rebuildable scratch and engine cache lifecycle. It does not delete retained evidence, generated effective outputs, or source files.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable cleanup, wrapper, policy, or test changes.
+generated_input_authority_impact: ".octon/generated/.tmp remains local rebuildable scratch when classified by owning policy and proof, not authority or retained evidence."
+authority_class_impact:
+  framework: May update publication wrapper, cleanup helpers, tests, and hygiene policy references.
+  instance: May update repo hygiene policy only if explicitly accepted.
+  state_control: No state-control mutation.
+  state_evidence: Retained evidence is not deleted by this child.
+  generated: Future implementation may prune `.tmp` only as rebuildable scratch under owning rules.
+  inputs: Temporary proposal lineage only.
+external_dependencies:
+  - run-program-clean-delivery-cleanup-disposition
+evidence_requirements:
+  - ".tmp file and byte count before and after representative runs."
+  - Rebuildability proof for pruned scratch/cache output.
+  - Cleanup dry-run and refusal evidence for non-scratch surfaces.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "cleanup-publication-validation-runs.sh dry-run"
+  - "repo hygiene policy validation"
+  - ".tmp byte/file budget checks"
+acceptance_criteria_summary: ".tmp hygiene is acceptable when local scratch remains ignored, bounded, rebuildable, and prunable without touching retained evidence or runtime-facing generated/effective outputs."
+risk_posture: Medium. Scratch cleanup is valuable but must not erase evidence or active runtime state.
+rollback_summary: Revert or supersede only wrapper, cleanup helper, policy, and test changes owned by this child.
+owner:
+  role: Octon engine cache hygiene architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/generated/.tmp/**"
+  - ".octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-tmp-engine-cache-hygiene
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

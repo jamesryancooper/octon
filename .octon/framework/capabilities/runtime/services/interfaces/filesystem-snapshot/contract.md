@@ -7,7 +7,8 @@
 3. Publish snapshots atomically and reject incomplete/corrupt artifacts.
 4. Enforce typed policy and validation failures with fail-closed behavior.
 5. Enforce bounded limits for files scanned, bytes processed, and operation time.
-6. Preserve retention constraints without deleting the active snapshot pointer.
+6. Preserve retention constraints without deleting the active snapshot pointer
+   or caller-declared protected snapshot references.
 
 ## Operation Families
 

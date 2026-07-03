@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: runtime-facing generated/effective publication idempotency
+decision_type: surface-refactor
+status: draft
+owner: Octon effective publication architect
+created_date: 2026-07-02
+summary: Refactors effective publishers to skip unchanged outputs while preserving freshness, locks, receipts, traceability, and resolver validation.
+architecture_drivers:
+  - Runtime-facing generated/effective outputs are high-assurance derived surfaces.
+  - Rewriting unchanged outputs creates dirty-worktree and token cost without adding evidence value.
+  - Idempotency must not create stale freshness or false receipt claims.
+constraints:
+  - Do not weaken freshness gates or lock validation.
+  - Do not allow raw generated/effective runtime reads.
+  - Do not remove required publication receipts.

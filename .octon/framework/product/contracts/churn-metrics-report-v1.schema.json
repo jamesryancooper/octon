@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/churn-metrics-report-v1.schema.json",
+  "title": "Octon Churn Metrics Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_role",
+    "report_id",
+    "generated_at",
+    "non_authority_classification",
+    "producer",
+    "consumer",
+    "scope",
+    "authority_boundaries",
+    "metrics",
+    "validation",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-churn-metrics-report-v1"
+    },
+    "artifact_role": {
+      "const": "churn-metrics-report"
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*(@[A-Za-z0-9._:-]+)?$"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "non_authority_classification": {
+      "const": "measurement-only"
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "entrypoint_ref", "owner"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "entrypoint_ref": {"type": "string", "minLength": 1},
+        "owner": {"type": "string", "minLength": 1}
+      }
+    },
+    "consumer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_consumers", "forbidden_consumers"],
+      "properties": {
+        "allowed_consumers": {"$ref": "#/$defs/non_empty_string_array"},
+        "forbidden_consumers": {
+          "type": "array",
+          "minItems": 7,
+          "contains": {"const": "runtime"},
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path_family", "authority_classification"],
+      "properties": {
+        "path_family": {
+          "type": "string",
+          "enum": [
+            "generated-derived-output",
+            "runtime-facing-generated-effective",
+            "retained-evidence",
+            "retained-control-or-continuity",
+            "host-projection",
+            "local-scratch",
+            "source-framework-input-or-archive-trigger",
+            "mixed",
+            "other"
+          ]
+        },
+        "authority_classification": {
+          "type": "string",
+          "enum": [
+            "derived-only",
+            "freshness-gated-derived-only",
+            "retained-evidence",
+            "mutable-operational-truth",
+            "host-projection-non-authority",
+            "rebuildable-local-scratch",
+            "authored-trigger-not-cleanup-candidate",
+            "mixed"
+          ]
+        }
+      }
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generated_outputs_are_authority",
+        "metrics_replace_freshness_validation",
+        "metrics_replace_closeout_validation",
+        "metrics_authorize_cleanup",
+        "metrics_satisfy_support_claims"
+      ],
+      "properties": {
+        "generated_outputs_are_authority": {"const": false},
+        "metrics_replace_freshness_validation": {"const": false},
+        "metrics_replace_closeout_validation": {"const": false},
+        "metrics_authorize_cleanup": {"const": false},
+        "metrics_satisfy_support_claims": {"const": false}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "changed_file_count",
+        "generated_noop_rewrite_rate",
+        "receipt_fanout_count",
+        "dirty_worktree_residue_count",
+        "tmp_byte_file_count",
+        "process_runtime",
+        "token_budget_impact",
+        "validation_coverage_retained",
+        "freshness_lock_receipt_validation_retained",
+        "evidence_retrieval_integrity"
+      ],
+      "properties": {
+        "changed_file_count": {"$ref": "#/$defs/before_after_count_metric"},
+        "generated_noop_rewrite_rate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["noop_invocations", "rewrites_detected", "rate", "evidence_ref"],
+          "properties": {
+            "noop_invocations": {"type": "integer", "minimum": 0},
+            "rewrites_detected": {"type": "integer", "minimum": 0},
+            "rate": {"type": "number", "minimum": 0},
+            "evidence_ref": {"type": "string", "minLength": 1}
+          }
+        },
+        "receipt_fanout_count": {"$ref": "#/$defs/before_after_count_metric"},
+        "dirty_worktree_residue_count": {"$ref": "#/$defs/before_after_count_metric"},
+        "tmp_byte_file_count": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["file_count", "byte_count", "evidence_ref"],
+          "properties": {
+            "file_count": {"type": "integer", "minimum": 0},
+            "byte_count": {"type": "integer", "minimum": 0},
+            "evidence_ref": {"type": "string", "minLength": 1}
+          }
+        },
+        "process_runtime": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["seconds", "evidence_ref"],
+          "properties": {
+            "seconds": {"type": "number", "minimum": 0},
+            "evidence_ref": {"type": "string", "minLength": 1}
+          }
+        },
+        "token_budget_impact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["diff_line_count", "estimated_token_count", "evidence_ref"],
+          "properties": {
+            "diff_line_count": {"type": "integer", "minimum": 0},
+            "estimated_token_count": {"type": "integer", "minimum": 0},
+            "evidence_ref": {"type": "string", "minLength": 1}
+          }
+        },
+        "validation_coverage_retained": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["validators_expected", "validators_passed", "coverage_retained", "evidence_ref"],
+          "properties": {
+            "validators_expected": {"type": "integer", "minimum": 0},
+            "validators_passed": {"type": "integer", "minimum": 0},
+            "coverage_retained": {"const": true},
+            "evidence_ref": {"type": "string", "minLength": 1}
+          }
+        },
+        "freshness_lock_receipt_validation_retained": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["checks_expected", "checks_passed", "coverage_retained", "evidence_ref"],
+          "properties": {
+            "checks_expected": {"type": "integer", "minimum": 0},
+            "checks_passed": {"type": "integer", "minimum": 0},
+            "coverage_retained": {"const": true},
+            "evidence_ref": {"type": "string", "minLength": 1}
+          }
+        },
+        "evidence_retrieval_integrity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["references_checked", "references_missing", "retrieval_status", "evidence_ref"],
+          "properties": {
+            "references_checked": {"type": "integer", "minimum": 0},
+            "references_missing": {"type": "integer", "minimum": 0},
+            "retrieval_status": {"type": "string", "enum": ["pass", "fail", "not-applicable"]},
+            "evidence_ref": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validators_run", "negative_controls"],
+      "properties": {
+        "validators_run": {"$ref": "#/$defs/non_empty_string_array"},
+        "negative_controls": {"$ref": "#/$defs/non_empty_string_array"}
+      }
+    },
+    "evidence_refs": {"$ref": "#/$defs/non_empty_string_array"}
+  },
+  "$defs": {
+    "non_empty_string_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "before_after_count_metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline_count", "post_change_count", "evidence_ref"],
+      "properties": {
+        "baseline_count": {"type": "integer", "minimum": 0},
+        "post_change_count": {"type": "integer", "minimum": 0},
+        "evidence_ref": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

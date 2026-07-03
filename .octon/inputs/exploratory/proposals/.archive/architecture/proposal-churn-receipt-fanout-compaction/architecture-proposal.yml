@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: validation and publication receipt fanout compaction
+decision_type: surface-refactor
+status: draft
+owner: Octon validation receipt architect
+created_date: 2026-07-02
+summary: Refactors receipt writing to reduce repeated timestamped fanout without deleting retained validation or publication evidence.
+architecture_drivers:
+  - The audit found prompt-alignment, publication, and compatibility receipt fanout.
+  - Timestamped receipts are retained evidence, so cleanup cannot be generic.
+  - Operators need compact proof summaries with full proof retrieval.
+constraints:
+  - Do not delete retained evidence without owning cleanup authority.
+  - Do not replace full proof with summary-only evidence.
+  - Preserve publication receipt obligations for runtime-facing outputs.

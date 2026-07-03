@@ -92,6 +92,12 @@ def estimate_tokens(size):
 def stable_json(value):
     return json.dumps(value, indent=2, sort_keys=True) + "\n"
 
+def write_if_changed(destination, source):
+    if destination.is_file() and destination.read_bytes() == source.read_bytes():
+        return "fresh"
+    shutil.copyfile(source, destination)
+    return "written"
+
 def load_yaml(path):
     result = subprocess.run(
         ["yq", "-o=json", ".", str(path)],
@@ -560,13 +566,11 @@ try:
         output_dir.mkdir(parents=True, exist_ok=True)
         for destination, source in expected:
             expected_digest = sha256(source)
-            if destination.is_file() and destination.read_bytes() == source.read_bytes():
+            status = write_if_changed(destination, source)
+            if status == "fresh":
                 ok(f"generated artifact already matches: {rel(destination)}")
-                status = "fresh"
             else:
-                shutil.copyfile(source, destination)
                 ok(f"generated artifact written: {rel(destination)}")
-                status = "written"
             refresh_outputs.append({
                 "ref": rel(destination),
                 "expected_output_digest": expected_digest,

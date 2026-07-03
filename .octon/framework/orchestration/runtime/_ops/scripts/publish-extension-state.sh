@@ -6,6 +6,7 @@ source "$SCRIPT_DIR/extensions-common.sh"
 
 extensions_common_init "${BASH_SOURCE[0]}"
 source "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+source "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/generator-idempotency-common.sh"
 
 enter_publication_runtime_boundary extension-state
 
@@ -478,6 +479,80 @@ copy_projection_dir() {
   mkdir -p "$(dirname "$dest_abs")"
   rm -r -f "$dest_abs"
   cp -R "$source_abs" "$dest_abs"
+}
+
+normalize_extension_publication_payload() {
+  sed -E \
+    -e 's/^([[:space:]]*)published_at: "?[^"]*"?/\1published_at: "__PUBLISHED_AT__"/' \
+    -e 's/^([[:space:]]*)updated_at: "?[^"]*"?/\1updated_at: "__UPDATED_AT__"/' \
+    -e 's/^([[:space:]]*)validation_timestamp: "?[^"]*"?/\1validation_timestamp: "__VALIDATION_TIMESTAMP__"/' \
+    -e 's/^([[:space:]]*)validated_at: "?[^"]*"?/\1validated_at: "__VALIDATED_AT__"/' \
+    -e 's#^([[:space:]]*)publication_receipt_path: "?[^"]*"?#\1publication_receipt_path: "__PUBLICATION_RECEIPT_PATH__"#' \
+    -e 's/^([[:space:]]*)publication_receipt_sha256: "?[^"]*"?/\1publication_receipt_sha256: "__PUBLICATION_RECEIPT_SHA256__"/' \
+    -e 's#^([[:space:]]*)compatibility_receipt_path: "?[^"]*"?#\1compatibility_receipt_path: "__COMPATIBILITY_RECEIPT_PATH__"#' \
+    -e 's/^([[:space:]]*)compatibility_receipt_sha256: "?[^"]*"?/\1compatibility_receipt_sha256: "__COMPATIBILITY_RECEIPT_SHA256__"/' \
+    -e 's#^([[:space:]]*)alignment_receipt_path: "?[^"]*"?#\1alignment_receipt_path: "__ALIGNMENT_RECEIPT_PATH__"#' \
+    -e 's/^([[:space:]]*)receipt_id: "?[^"]*"?/\1receipt_id: "__RECEIPT_ID__"/'
+}
+
+normalized_extension_file_digest() {
+  local file="$1"
+  if [[ ! -f "$file" ]]; then
+    printf 'missing\n'
+    return 0
+  fi
+  normalize_extension_publication_payload <"$file" | ext_hash_text
+}
+
+normalized_extension_tree_digest() {
+  local root="$1"
+  if [[ ! -d "$root" ]]; then
+    printf 'missing\n'
+    return 0
+  fi
+  (
+    cd "$root"
+    while IFS= read -r rel_path; do
+      rel_path="${rel_path#./}"
+      printf '%s %s\n' "$rel_path" "$(normalize_extension_publication_payload <"$rel_path" | ext_hash_text)"
+    done < <(find . -type f | LC_ALL=C sort)
+  ) | ext_hash_text
+}
+
+extension_publication_semantic_noop() {
+  local family_tmp="$1" active_tmp="$2" quarantine_tmp="$3"
+  [[ -d "$EFFECTIVE_DIR" && -f "$ACTIVE_STATE" && -f "$QUARANTINE_STATE" ]] || return 1
+  [[ "$(normalized_extension_tree_digest "$family_tmp")" == "$(normalized_extension_tree_digest "$EFFECTIVE_DIR")" ]] || return 1
+  [[ "$(normalized_extension_file_digest "$active_tmp")" == "$(normalized_extension_file_digest "$ACTIVE_STATE")" ]] || return 1
+  [[ "$(normalized_extension_file_digest "$quarantine_tmp")" == "$(normalized_extension_file_digest "$QUARANTINE_STATE")" ]] || return 1
+  return 0
+}
+
+publish_tree_if_changed() {
+  local source_dir="$1" target_dir="$2"
+  local rel_path source_file target_file
+  mkdir -p "$target_dir"
+  (
+    cd "$source_dir"
+    find . -type f | LC_ALL=C sort
+  ) | while IFS= read -r rel_path; do
+    rel_path="${rel_path#./}"
+    source_file="$source_dir/$rel_path"
+    target_file="$target_dir/$rel_path"
+    octon_churn_write_file_if_changed "$target_file" "$source_file" >/dev/null
+  done
+  if [[ -d "$target_dir" ]]; then
+    (
+      cd "$target_dir"
+      find . -type f | LC_ALL=C sort
+    ) | while IFS= read -r rel_path; do
+      rel_path="${rel_path#./}"
+      if [[ ! -f "$source_dir/$rel_path" ]]; then
+        rm -f "$target_dir/$rel_path"
+      fi
+    done
+    find "$target_dir" -depth -type d -empty -exec rmdir {} +
+  fi
 }
 
 stage_pack_command_projections() {
@@ -1011,7 +1086,7 @@ write_pack_lifecycle_contracts() {
 
 write_effective_files() {
   local desired_sha="$1" root_sha="$2" tmpdir="$3" status="$4"
-  local active_tmp quarantine_tmp family_tmp catalog_tmp artifact_map_tmp lock_tmp published_tmp receipt_tmp previous_family_tmp retained_tmp_root
+  local active_tmp quarantine_tmp family_tmp catalog_tmp artifact_map_tmp lock_tmp published_tmp receipt_tmp retained_tmp_root
   local compatibility_receipt_tmp compatibility_receipt_rel compatibility_receipt_abs compatibility_receipt_id compatibility_receipt_sha compatibility_receipt_slug
   local key pack_id source_id manifest_abs manifest_rel trust_decision
   local rel_path bucket abs_path sha payload_lines payload_sha
@@ -1265,21 +1340,21 @@ write_effective_files() {
     fi
   } >"$lock_tmp"
 
-  mkdir -p "$(dirname "$ACTIVE_STATE")" "$(dirname "$receipt_abs")" "$(dirname "$compatibility_receipt_abs")"
-  previous_family_tmp="$tmpdir/effective-extensions.previous"
-  if [[ -d "$EFFECTIVE_DIR" ]]; then
-    mv "$EFFECTIVE_DIR" "$previous_family_tmp"
+  if extension_publication_semantic_noop "$family_tmp" "$active_tmp" "$quarantine_tmp"; then
+    return 0
   fi
-  mv "$family_tmp" "$EFFECTIVE_DIR"
-  mv "$receipt_tmp" "$receipt_abs"
-  mv "$compatibility_receipt_tmp" "$compatibility_receipt_abs"
-  mv "$quarantine_tmp" "$QUARANTINE_STATE"
-  mv "$active_tmp" "$ACTIVE_STATE"
+
+  mkdir -p "$(dirname "$ACTIVE_STATE")" "$(dirname "$receipt_abs")" "$(dirname "$compatibility_receipt_abs")"
+  publish_tree_if_changed "$family_tmp" "$EFFECTIVE_DIR"
+  octon_churn_write_file_if_changed "$receipt_abs" "$receipt_tmp" >/dev/null
+  octon_churn_write_file_if_changed "$compatibility_receipt_abs" "$compatibility_receipt_tmp" >/dev/null
+  octon_churn_write_file_if_changed "$QUARANTINE_STATE" "$quarantine_tmp" >/dev/null
+  octon_churn_write_file_if_changed "$ACTIVE_STATE" "$active_tmp" >/dev/null
   while IFS= read -r abs_path; do
     [[ -n "$abs_path" ]] || continue
     rel_path="${abs_path#$retained_tmp_root/}"
     mkdir -p "$ROOT_DIR/$(dirname "$rel_path")"
-    mv "$abs_path" "$ROOT_DIR/$rel_path"
+    octon_churn_write_file_if_changed "$ROOT_DIR/$rel_path" "$abs_path" >/dev/null
   done < <(find "$retained_tmp_root" -type f | sort)
 }
 

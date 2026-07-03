@@ -1,0 +1,25 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-tmp-engine-cache-hygiene-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-tmp-engine-cache-hygiene"
+packet_digest: "sha256:44576eb9e34d05b90abf2e1f7344a095ffaf9528e02f12e6be4b816f72357d89"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-tmp-engine-cache-hygiene/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-tmp-engine-cache-hygiene/README.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers `.tmp` and engine cache hygiene readiness."
+  system_job: "Bound local scratch and engine build/cache residue without touching retained evidence or runtime-facing generated/effective outputs."
+  current_reality: "The latest audit could not reconstruct already-cleaned ephemeral residue, while prior measurements showed large ignored scratch."
+  target_architecture_fit: "Concrete budgets, cleanup dry-run, and rebuildability proof address scratch at the producer/cleanup route."
+  authority_boundaries: "Scratch remains local and rebuildable; retained evidence, active control truth, source, archives, generated/effective outputs, and host projections are refusal surfaces."
+  complexity_and_leverage: "The child isolates wrapper, cleanup helper, policy, and test work."
+  evidence_and_validation_plan: "Validation includes file/byte budgets, dry-run classification, rebuild proof, and refusal negative controls."
+  rollback_and_closeout: "Rollback restores prior wrappers/policy; cleanup deletion remains outside readiness."

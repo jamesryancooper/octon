@@ -1,0 +1,60 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-common-generator-idempotency-metrics
+title: Churn Common Generator Idempotency Metrics
+summary: Define common producer no-op write discipline and churn metrics so generated, projected, validation, and local scratch producers can prove unchanged inputs do not rewrite outputs.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/product/contracts/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only common idempotency and churn measurement contracts after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+selected_implementation_target: Common generator idempotency and churn metrics contract.
+scope_statement: This child owns common no-op write behavior, stable output guidance, and churn metric definitions. It does not modify any producer-specific generator behavior by itself.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable contract, script, or test changes.
+generated_input_authority_impact: Generated outputs remain derived-only. Metrics may measure generated churn but cannot authorize generated output edits or freshness claims.
+authority_class_impact:
+  framework: May add or update shared producer guidance, measurement helpers, and tests.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Future metrics evidence may be retained but remains measurement evidence, not authority.
+  generated: No generated output authority change.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Baseline and post-change churn metric evidence for representative producers.
+  - No-op producer evidence showing zero tracked diffs or explicit allowed exceptions.
+  - Negative controls proving metrics cannot satisfy freshness, closeout, or support-proof gates.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "producer no-op diff fixture tests"
+  - "churn metric schema or report validation"
+acceptance_criteria_summary: Common idempotency and metrics are acceptable when every child can report changed file count, no-op rewrite rate, receipt fanout, dirty residue, .tmp size, runtime, token impact, and retained validation coverage without changing authority semantics.
+risk_posture: Medium. Weak metrics could hide churn or create false confidence, but this child is advisory until implemented.
+rollback_summary: Revert or supersede only common metric and idempotency contract changes owned by this child.
+owner:
+  role: Octon churn metrics architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - "current conversation thread on generated churn"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-common-generator-idempotency-metrics
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

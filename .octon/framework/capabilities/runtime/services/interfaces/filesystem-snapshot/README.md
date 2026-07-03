@@ -7,6 +7,7 @@ Native-first writer plane for filesystem reads plus deterministic snapshot lifec
 - Provide bounded `fs.*` reads for agent tooling.
 - Build, diff, and select deterministic snapshot artifacts.
 - Publish snapshot state atomically for downstream query/discovery services.
+- Preserve caller-declared protected snapshots during producer-owned retention.
 
 ## Core Artifacts
 

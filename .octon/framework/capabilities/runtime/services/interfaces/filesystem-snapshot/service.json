@@ -14,7 +14,7 @@
   "entry": "service.wasm",
   "format_version": "service-manifest-v1",
   "integrity": {
-    "wasm_sha256": "a7323900aed00bdcab5e8288d6b88ce621e1107d760f02a1b76a7307149ea068"
+    "wasm_sha256": "02e3253739557282a8adbe4713191119d6d2ae098126c6586b07536320a9ab52"
   },
   "limits": {
     "max_concurrency": 1,
@@ -434,6 +434,14 @@
             "minimum": 1,
             "type": "integer"
           },
+          "protected_snapshot_ids": {
+            "items": {
+              "pattern": "^snap-[a-f0-9]{8,64}$",
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
           "root": {
             "minLength": 1,
             "type": "string"
@@ -538,6 +546,43 @@
               "ok": {
                 "const": true
               },
+              "retention": {
+                "additionalProperties": false,
+                "properties": {
+                  "gc_max_age_hours": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "gc_max_snapshots": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "gc_max_state_bytes": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "protected_snapshot_count": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "protected_snapshot_ids": {
+                    "items": {
+                      "pattern": "^snap-[a-f0-9]{8,64}$",
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "protected_snapshot_ids",
+                  "protected_snapshot_count",
+                  "gc_max_snapshots",
+                  "gc_max_age_hours",
+                  "gc_max_state_bytes"
+                ],
+                "type": "object"
+              },
               "set_current": {
                 "type": "boolean"
               },
@@ -555,7 +600,8 @@
               "snapshot_dir",
               "manifest",
               "counts",
-              "set_current"
+              "set_current",
+              "retention"
             ]
           },
           {

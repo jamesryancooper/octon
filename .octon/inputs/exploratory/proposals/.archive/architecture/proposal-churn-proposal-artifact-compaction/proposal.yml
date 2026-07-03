@@ -1,0 +1,64 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-proposal-artifact-compaction
+title: Churn Proposal Artifact Compaction
+summary: Reduce generated proposal registry, artifact index, and spine churn by making proposal artifact generation archive-aware and changed-packet-only.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only proposal artifact generation compaction after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-common-generator-idempotency-metrics
+selected_implementation_target: Proposal generated registry and artifact compaction.
+scope_statement: This child owns generated proposal registry, artifact index, and spine churn only. It does not delete proposal packets or archive records.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable generator or validator changes.
+generated_input_authority_impact: Generated proposal outputs remain derived read models and cannot replace proposal manifests, reviews, receipts, or retained evidence.
+authority_class_impact:
+  framework: May update proposal registry/artifact generators, validators, and tests.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: No retained evidence deletion.
+  generated: Future implementation may reduce generated proposal output fanout through generator-owned changes only.
+  inputs: Proposal packets and archives remain input/proposal lineage, not cleanup candidates.
+evidence_requirements:
+  - No-op proposal generator proof with zero tracked generated proposal diffs.
+  - Changed-packet-only generation proof.
+  - Archive-aware registry and artifact freshness validation evidence.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "generate-proposal-registry.sh --check"
+  - "validate-proposal-artifact-index-spine.sh"
+  - "test-proposal-artifact-index-spine.sh"
+acceptance_criteria_summary: Proposal artifact compaction is acceptable when proposal generated outputs change only for changed proposal inputs and archive records remain retained lineage, not cleanup candidates.
+risk_posture: Medium. Proposal generated outputs are derived, but stale registry or artifact maps can mislead operators.
+rollback_summary: Revert or supersede only proposal registry/artifact generator, validator, and test changes owned by this child.
+owner:
+  role: Octon proposal artifact generation architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-proposal-artifact-compaction
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

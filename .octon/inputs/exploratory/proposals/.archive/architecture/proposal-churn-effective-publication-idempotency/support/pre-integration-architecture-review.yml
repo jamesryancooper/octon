@@ -1,0 +1,27 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-effective-publication-idempotency-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency"
+packet_digest: "sha256:e7a5204b8e723964acd547ecb044193b1241fa2da0efe714f3d1189603cf6527"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency/README.md"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers runtime-facing generated/effective publication idempotency readiness."
+  system_job: "Reduce unnecessary effective-output rewrites without weakening freshness or resolver guarantees."
+  current_reality: "The audit found effective runtime, capability, and extension generated output churn."
+  target_architecture_fit: "Digest-aware write-if-changed behavior addresses producer rewrites while preserving locks and receipts."
+  authority_boundaries: "Generated/effective outputs remain non-authoritative and freshness-checked."
+  complexity_and_leverage: "The packet groups shared effective-publication invariants before extension payload compaction."
+  evidence_and_validation_plan: "Validation includes freshness, handle, raw-read denial, no-op publish, and stale/digest negative controls."
+  rollback_and_closeout: "Rollback restores prior publishers; generated publication and closeout stay outside readiness."

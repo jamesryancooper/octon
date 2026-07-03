@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/receipt-fanout-compaction-v1.schema.json",
+  "title": "Octon Receipt Fanout Compaction Pointer v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "producer_id",
+    "generation_id",
+    "receipt_content_sha256",
+    "receipt_path",
+    "receipt_sha256",
+    "retained_full_receipt",
+    "non_authority_classification",
+    "authority_boundaries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-compact-receipt-pointer-v1"
+    },
+    "producer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "receipt_content_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "receipt_path": {
+      "type": "string",
+      "pattern": "^\\.octon/state/evidence/validation/.*/by-digest/.+/[a-f0-9]{64}\\.yml$"
+    },
+    "receipt_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "retained_full_receipt": {
+      "const": true
+    },
+    "non_authority_classification": {
+      "const": "retained-evidence-index"
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replaces_full_receipt",
+        "authorizes_cleanup",
+        "satisfies_freshness_without_receipt",
+        "generated_output_authority"
+      ],
+      "properties": {
+        "replaces_full_receipt": {
+          "const": false
+        },
+        "authorizes_cleanup": {
+          "const": false
+        },
+        "satisfies_freshness_without_receipt": {
+          "const": false
+        },
+        "generated_output_authority": {
+          "const": false
+        }
+      }
+    }
+  }
+}

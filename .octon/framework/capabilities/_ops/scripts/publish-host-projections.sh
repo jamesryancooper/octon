@@ -9,6 +9,7 @@ else
   OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../.." && pwd)"
   ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 fi
+source "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/generator-idempotency-common.sh"
 source "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
 
 enter_publication_runtime_boundary host-projections
@@ -120,7 +121,7 @@ copy_command_projection() {
   if [[ -L "$dest_file" || -d "$dest_file" ]]; then
     rm -r -f "$dest_file"
   fi
-  cp "$source_abs" "$dest_file"
+  octon_churn_write_file_if_changed "$dest_file" "$source_abs" >/dev/null
 }
 
 copy_skill_projection() {
@@ -135,10 +136,7 @@ copy_skill_projection() {
   if [[ -L "$dest_dir" || ( -e "$dest_dir" && ! -d "$dest_dir" ) ]]; then
     rm -r -f "$dest_dir"
   fi
-  if [[ ! -e "$dest_dir" ]]; then
-    cp -R "$source_abs" "$dest_dir"
-    return 0
-  fi
+  mkdir -p "$dest_dir"
   while IFS= read -r -d '' source_entry; do
     rel="${source_entry#$source_abs/}"
     mkdir -p "$dest_dir/$rel"
@@ -149,7 +147,7 @@ copy_skill_projection() {
     if [[ -L "$dest_dir/$rel" || -d "$dest_dir/$rel" ]]; then
       rm -r -f "$dest_dir/$rel"
     fi
-    cp "$source_entry" "$dest_dir/$rel"
+    octon_churn_write_file_if_changed "$dest_dir/$rel" "$source_entry" >/dev/null
   done < <(find "$source_abs" -mindepth 1 -type f -print0 | sort -z)
   while IFS= read -r -d '' dest_entry; do
     rel="${dest_entry#$dest_dir/}"

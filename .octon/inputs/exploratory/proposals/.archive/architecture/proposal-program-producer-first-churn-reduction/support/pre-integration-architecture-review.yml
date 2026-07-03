@@ -1,0 +1,31 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-program-producer-first-churn-reduction-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction"
+packet_digest: "sha256:99bf287f5a653147c0cc5c55731582f429dbe65233f2bded24b880ef37d549eb"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction/resources/churn-class-table.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction/resources/metrics.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction/architecture/child-packet-contract.md"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers parent coordination readiness before any implementation orchestration prompt is generated."
+  system_job: "The program decomposes churn reduction into producer-owned children while preserving evidence, freshness, authority, support-claim, closeout, and observability guarantees."
+  current_reality: "The attached audit shows tracked churn across run-health projections, effective outputs, extension payloads, proposal artifacts, validation receipts, and host projections, with ephemeral scratch residue partly unreconstructable."
+  target_architecture_fit: "The target uses producer idempotency, compact retained evidence, owner-scoped retention, and metrics rather than path cleanup."
+  authority_boundaries: "Parent artifacts coordinate only and do not satisfy child receipts, generated freshness, retained evidence, runtime authority, host projection authority, or implementation proof."
+  complexity_and_leverage: "The one-parent, child-packet decomposition isolates failure modes and owners without duplicating existing dependency packets."
+  evidence_and_validation_plan: "Readiness depends on proposal validators, architecture receipts, child-readiness, common churn metrics, freshness negative controls, and evidence retrieval integrity checks."
+  rollback_and_closeout: "Rollback before implementation is proposal-local supersession or rejection; implemented rollback remains child-owned and outside this readiness route."

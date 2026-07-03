@@ -1,0 +1,191 @@
+schema_version: octon-proposal-program-child-registry-v2
+execution_mode: sequential
+default_child_lifecycle_id: proposal-packet
+children:
+  - child_id: proposal-churn-common-generator-idempotency-metrics
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-common-generator-idempotency-metrics
+    priority: P0
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: terminal
+    phase_id: phase-1
+    group_id: common-idempotency
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/product/contracts/"
+    validation_strategy:
+      - "producer no-op rewrite checks"
+      - "churn metrics fixture tests"
+  - child_id: proposal-churn-run-health-read-model-compaction
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-run-health-read-model-compaction
+    priority: P0
+    required: true
+    deferred: false
+    dependencies:
+      - proposal-churn-common-generator-idempotency-metrics
+    dependency_gate: terminal
+    phase_id: phase-2
+    group_id: run-health
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "run-health changed-run-only generation fixtures"
+      - "git status checks for generated run-health projections"
+  - child_id: proposal-churn-effective-publication-idempotency
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency
+    priority: P0
+    required: true
+    deferred: false
+    dependencies:
+      - proposal-churn-common-generator-idempotency-metrics
+    dependency_gate: terminal
+    phase_id: phase-3
+    group_id: effective-publication
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-pack-routes.sh"
+      - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "runtime effective no-op publication checks"
+      - "freshness, lock, receipt, and resolver negative controls"
+  - child_id: proposal-churn-extension-payload-compaction
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-extension-payload-compaction
+    priority: P0
+    required: true
+    deferred: false
+    dependencies:
+      - proposal-churn-effective-publication-idempotency
+    dependency_gate: terminal
+    phase_id: phase-4
+    group_id: extension-payloads
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-active-state-compactness.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "extension payload digest reuse tests"
+      - "extension publication receipt and compatibility validation"
+  - child_id: proposal-churn-filesystem-snapshot-retention
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-filesystem-snapshot-retention
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - proposal-churn-effective-publication-idempotency
+    dependency_gate: terminal
+    phase_id: phase-5
+    group_id: filesystem-snapshots
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "snapshot stable identity tests"
+      - "producer-owned retention and reference-integrity proof"
+  - child_id: proposal-churn-proposal-artifact-compaction
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-proposal-artifact-compaction
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - proposal-churn-common-generator-idempotency-metrics
+    dependency_gate: terminal
+    phase_id: phase-6
+    group_id: proposal-artifacts
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "proposal changed-packet-only generation tests"
+      - "registry and artifact index freshness validation"
+  - child_id: proposal-churn-receipt-fanout-compaction
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-receipt-fanout-compaction
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - proposal-churn-common-generator-idempotency-metrics
+      - proposal-churn-effective-publication-idempotency
+    dependency_gate: terminal
+    phase_id: phase-7
+    group_id: receipt-fanout
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/product/contracts/"
+    validation_strategy:
+      - "receipt dedupe and latest-pointer tests"
+      - "retained full-log retrieval and digest verification"
+  - child_id: proposal-churn-host-projection-idempotency
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-host-projection-idempotency
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - proposal-churn-common-generator-idempotency-metrics
+    dependency_gate: terminal
+    phase_id: phase-8
+    group_id: host-projections
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projection-purity.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "host projection no-op publish checks"
+      - "non-authority and host parity validation"
+  - child_id: proposal-churn-tmp-engine-cache-hygiene
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-tmp-engine-cache-hygiene
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - proposal-churn-common-generator-idempotency-metrics
+    dependency_gate: terminal
+    phase_id: phase-9
+    group_id: tmp-engine-cache
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-publication-validation-runs.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/instance/governance/policies/"
+    validation_strategy:
+      - ".tmp byte/file budget checks"
+      - "scratch cleanup dry-run and rebuildability proof"
+  - child_id: proposal-churn-retained-run-evidence-efficiency
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency
+    priority: P2
+    required: false
+    deferred: true
+    dependencies:
+      - proposal-churn-receipt-fanout-compaction
+    dependency_gate: terminal
+    phase_id: phase-10
+    group_id: retained-run-evidence
+    rollback_posture: manual
+    write_scopes:
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-retained-run-evidence-index.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-retained-run-evidence-index.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "retained evidence reference-integrity checks"
+      - "owning cleanup authority proof for stale or unreferenced files"

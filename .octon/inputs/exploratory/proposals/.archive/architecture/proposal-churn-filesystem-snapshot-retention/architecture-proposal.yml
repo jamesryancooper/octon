@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: capability filesystem snapshot retention
+decision_type: surface-refactor
+status: draft
+owner: Octon filesystem snapshot architect
+created_date: 2026-07-02
+summary: Refactors filesystem snapshot production to use stable identity, no-op detection, and explicit producer-owned retention.
+architecture_drivers:
+  - Filesystem snapshots existed in the audit but did not materially churn.
+  - Snapshot surfaces can grow without explicit retention budgets.
+  - Snapshot retention must distinguish generated snapshots from retained evidence references.
+constraints:
+  - Do not prune referenced evidence.
+  - Do not treat capability effective outputs as generic cleanup.
+  - Do not weaken snapshot schema or service validation.

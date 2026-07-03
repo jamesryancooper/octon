@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-filesystem-snapshot-retention
+title: Churn Filesystem Snapshot Retention
+summary: Add stable identity, no-op detection, and producer-owned retention to capability filesystem snapshots while preserving snapshot evidence and reference integrity.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only filesystem snapshot retention changes after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-effective-publication-idempotency
+selected_implementation_target: Capability filesystem snapshot retention and no-op identity.
+scope_statement: This child owns filesystem snapshot producer retention and identity only. It does not authorize generic deletion of generated/effective capability outputs.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable service or validation changes.
+generated_input_authority_impact: Filesystem snapshots remain derived capability outputs unless separately retained as evidence by an owning route.
+authority_class_impact:
+  framework: May update filesystem snapshot service contracts, implementation, and tests.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Reference-integrity proof is required before any retained evidence interaction.
+  generated: Future implementation may prune generated snapshots only through producer-owned retention.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Snapshot stable identity proof.
+  - No-op snapshot proof.
+  - Retention budget and producer-owned GC proof with reference-integrity checks.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "filesystem snapshot service tests"
+  - "snapshot manifest schema validation"
+  - "reference-integrity checks"
+acceptance_criteria_summary: Filesystem snapshot retention is acceptable when unchanged snapshots do not churn, stale generated snapshots are pruned only by producer-owned authority, and referenced evidence remains intact.
+risk_posture: Medium. Snapshot pruning without reference proof could lose diagnostic context.
+rollback_summary: Revert or supersede only filesystem snapshot service and test changes owned by this child.
+owner:
+  role: Octon filesystem snapshot architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-filesystem-snapshot-retention
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

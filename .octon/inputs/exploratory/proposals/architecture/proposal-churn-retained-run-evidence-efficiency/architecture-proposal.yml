@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: optional retained run evidence, control, and continuity efficiency
+decision_type: boundary-change
+status: draft
+owner: Octon retained evidence efficiency architect
+created_date: 2026-07-02
+summary: Defines optional adjacent evidence-retention/indexing efficiency while preserving retained evidence, control truth, and continuity guarantees.
+architecture_drivers:
+  - Retained run evidence and control trees can grow, but they include durable truth.
+  - The audit found only narrow landed churn in retained run evidence/control/continuity.
+  - Any efficiency work needs owning cleanup authority and reference-integrity proof.
+constraints:
+  - Do not treat retained evidence as disposable generated churn.
+  - Do not mutate control truth through cleanup.
+  - Do not allow generated indexes to replace retained evidence.

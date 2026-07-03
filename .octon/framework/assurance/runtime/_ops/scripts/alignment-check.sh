@@ -386,6 +386,22 @@ run_proposal_lifecycle() {
     bash "$SCRIPT_DIR/../tests/test-validate-proposal-post-implementation-drift.sh"
 
   run_step \
+    "Test common generator idempotency and churn metrics contract" \
+    bash "$SCRIPT_DIR/../tests/test-churn-common-generator-idempotency-metrics.sh"
+
+  run_step \
+    "Test proposal artifact compaction contract" \
+    bash "$SCRIPT_DIR/../tests/test-proposal-artifact-compaction.sh"
+
+  run_step \
+    "Test receipt fanout compaction contract" \
+    bash "$SCRIPT_DIR/../tests/test-receipt-fanout-compaction.sh"
+
+  run_step \
+    "Test tmp engine cache hygiene contract" \
+    bash "$SCRIPT_DIR/../tests/test-tmp-engine-cache-hygiene.sh"
+
+  run_step \
     "Validate proposal standard fixtures" \
     bash "$SCRIPT_DIR/../tests/test-validate-proposal-standard.sh"
 

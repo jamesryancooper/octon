@@ -1,0 +1,21 @@
+# Artifact Catalog
+
+- `proposal.yml`
+- `architecture-proposal.yml`
+- `README.md`
+- `resources/child-packet-index.yml`
+- `resources/child-packet-index.md`
+- `resources/churn-class-table.md`
+- `resources/metrics.md`
+- `architecture/packet-sequence.md`
+- `architecture/child-packet-contract.md`
+- `architecture/program-closeout-plan.md`
+- `architecture/target-architecture.md`
+- `architecture/implementation-plan.md`
+- `architecture/acceptance-criteria.md`
+- `navigation/artifact-catalog.md`
+- `navigation/source-of-truth-map.md`
+- `support/program-creation.md`
+- `support/implementation-grade-completeness-review.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/proposal-review.md`

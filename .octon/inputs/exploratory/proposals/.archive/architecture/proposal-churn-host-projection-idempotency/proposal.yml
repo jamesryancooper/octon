@@ -1,0 +1,64 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-host-projection-idempotency
+title: Churn Host Projection Idempotency
+summary: Make host projection publishing idempotent for `.claude`, `.codex`, and `.cursor` projections while keeping them user-facing, generated-like, and non-authoritative.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projection-purity.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only host projection publisher idempotency after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-common-generator-idempotency-metrics
+selected_implementation_target: Host projection publisher idempotency.
+scope_statement: This child owns host projection publisher fanout only. It does not classify host projections as authority or generic cleanup.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable publisher or validator changes.
+generated_input_authority_impact: Host projections remain generated-like, user-facing, non-authoritative mirrors and must not mint authority.
+authority_class_impact:
+  framework: May update host projection publisher, validators, and tests.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: No retained evidence deletion.
+  generated: Host projections are outside `.octon/generated` but remain projection-only.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - No-op host projection publish proof with zero tracked diffs.
+  - Host parity and non-authority validation evidence.
+  - Changed-source-only projection evidence.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-host-projections.sh"
+  - "validate-host-projection-purity.sh"
+  - "test-validate-host-projections.sh"
+acceptance_criteria_summary: Host projection idempotency is acceptable when no-op host publishing creates zero diffs and changed projections remain user-facing non-authoritative mirrors.
+risk_posture: Medium. Host projections are user-facing and can mislead operators if authority posture or parity is wrong.
+rollback_summary: Revert or supersede only host projection publisher, validator, and test changes owned by this child.
+owner:
+  role: Octon host projection architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-host-projection-idempotency
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

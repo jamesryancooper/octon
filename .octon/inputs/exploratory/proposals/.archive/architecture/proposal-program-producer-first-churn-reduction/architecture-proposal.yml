@@ -1,0 +1,21 @@
+schema_version: architecture-proposal-v1
+architecture_scope: producer-first generated, projected, validation, and local operational churn reduction
+decision_type: surface-refactor
+status: draft
+owner: Octon producer-first churn reduction architect
+created_date: 2026-07-02
+summary: >
+  Creates a parent proposal program for reducing churn at generator and
+  publisher entrypoints rather than cleaning noisy path families after the
+  fact.
+architecture_drivers:
+  - Churn reduction must be proportional to producer input changes, not retained history size.
+  - Generated outputs and host projections are non-authoritative, but runtime-facing generated/effective outputs still require freshness and traceability.
+  - Retained validation and run evidence must remain discoverable even when compacted.
+  - Local scratch residue should be bounded without becoming retained evidence or authority.
+constraints:
+  - Generated outputs remain derived-only and must not be hand-edited.
+  - Runtime-facing generated/effective outputs must retain freshness, locks, receipts, and resolver validation.
+  - Retained evidence is not disposable without owning cleanup authority.
+  - Host projections are generated-like, user-facing, non-authoritative projections owned by the host projection publisher.
+  - Source, framework, input, and archive changes are causal inputs, not cleanup candidates.

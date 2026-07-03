@@ -10,6 +10,7 @@ else
   ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 fi
 source "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+source "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/generator-idempotency-common.sh"
 
 enter_publication_runtime_boundary capability-routing
 
@@ -1012,10 +1013,10 @@ main() {
   perl -0pi -e 's/__PUBLICATION_RECEIPT_SHA256__/'"$receipt_sha"'/g' "$lock_tmp"
 
   mkdir -p "$(dirname "$receipt_abs")"
-  mv "$receipt_tmp" "$receipt_abs"
-  mv "$routing_tmp" "$ROUTING_FILE"
-  mv "$artifact_tmp" "$ARTIFACT_MAP_FILE"
-  mv "$lock_tmp" "$GENERATION_LOCK_FILE"
+  octon_churn_write_file_if_changed "$receipt_abs" "$receipt_tmp" >/dev/null
+  octon_churn_write_file_if_changed "$ROUTING_FILE" "$routing_tmp" >/dev/null
+  octon_churn_write_file_if_changed "$ARTIFACT_MAP_FILE" "$artifact_tmp" >/dev/null
+  octon_churn_write_file_if_changed "$GENERATION_LOCK_FILE" "$lock_tmp" >/dev/null
 
   echo "[OK] published capability routing: $generation_id"
 }

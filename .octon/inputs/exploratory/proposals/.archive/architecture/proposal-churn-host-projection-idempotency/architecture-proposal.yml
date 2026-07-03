@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: host projection publisher idempotency
+decision_type: surface-refactor
+status: draft
+owner: Octon host projection architect
+created_date: 2026-07-02
+summary: Refactors host projection publishing to reduce `.claude`, `.codex`, and `.cursor` fanout while preserving non-authority projection parity.
+architecture_drivers:
+  - The audit found about 33 changed host projection files.
+  - Host projections are generated-like and user-facing but outside `.octon/generated`.
+  - Host projection cleanup must be publisher-owned to avoid authority drift.
+constraints:
+  - Host projections cannot become authority.
+  - Do not generic-clean host projection paths.
+  - Preserve host parity and projection purity validation.

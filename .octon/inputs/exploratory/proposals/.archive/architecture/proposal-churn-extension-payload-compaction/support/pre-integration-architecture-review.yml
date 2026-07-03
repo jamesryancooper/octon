@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-extension-payload-compaction-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-extension-payload-compaction"
+packet_digest: "sha256:865589f70a06cdc302aa62349a42ed0e808d2d31112e2e5f818979f0f8245977"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-extension-payload-compaction/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-extension-payload-compaction/README.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-effective-publication-idempotency/proposal.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-active-state-compactness.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers extension payload compaction readiness."
+  system_job: "Reduce copied extension payload fanout while preserving publication and compatibility proof."
+  current_reality: "The audit found generated extension output churn including copied published payloads."
+  target_architecture_fit: "Digest reuse and changed-extension-only publication address publisher fanout."
+  authority_boundaries: "Copied payloads remain generated derived outputs and extension source files remain non-cleanup inputs."
+  complexity_and_leverage: "The child depends on effective publication idempotency so runtime-facing invariants stay stable."
+  evidence_and_validation_plan: "Validation includes extension publication, compactness, digest reuse, and stale receipt negative controls."
+  rollback_and_closeout: "Rollback restores prior extension publisher behavior; publication refresh remains separate."

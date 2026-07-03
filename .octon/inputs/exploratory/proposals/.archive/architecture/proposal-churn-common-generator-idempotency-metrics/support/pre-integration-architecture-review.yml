@@ -1,0 +1,27 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-common-generator-idempotency-metrics-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-common-generator-idempotency-metrics"
+packet_digest: "sha256:47f108320122350cca749483aca6a4c49a56471fcd8113664cf7edeb7d2adcb3"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-common-generator-idempotency-metrics/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-common-generator-idempotency-metrics/README.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-common-generator-idempotency-metrics/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction/resources/metrics.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers common metric and idempotency readiness."
+  system_job: "Define shared producer no-op discipline and churn metric vocabulary."
+  current_reality: "Existing producers lack a uniform no-op rewrite and metric contract."
+  target_architecture_fit: "The child creates shared measurement expectations without changing producer-specific semantics."
+  authority_boundaries: "Metrics remain advisory evidence and cannot replace freshness, evidence, support-proof, or closeout gates."
+  complexity_and_leverage: "A common metric base reduces duplicated child-specific measurement design."
+  evidence_and_validation_plan: "Validation uses no-op rewrite checks and churn metric fixture tests."
+  rollback_and_closeout: "Rollback removes shared metric artifacts before any producer-specific implementation depends on them."

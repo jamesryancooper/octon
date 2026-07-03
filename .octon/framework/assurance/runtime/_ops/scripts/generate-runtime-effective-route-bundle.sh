@@ -2,6 +2,7 @@
 set -euo pipefail
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/closure-packet-common.sh"
 source "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+source "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/generator-idempotency-common.sh"
 
 enter_publication_runtime_boundary runtime-route-bundle
 
@@ -30,6 +31,38 @@ hash_file() {
     shasum -a 256 "$1" | awk '{print $1}'
   else
     sha256sum "$1" | awk '{print $1}'
+  fi
+}
+
+normalize_effective_publication_payload() {
+  sed -E \
+    -e 's/^generated_at: "?[^"]*"?/generated_at: "__GENERATED_AT__"/' \
+    -e 's/^published_at: "?[^"]*"?/published_at: "__PUBLISHED_AT__"/' \
+    -e 's#^publication_receipt_path: "?[^"]*"?#publication_receipt_path: "__PUBLICATION_RECEIPT_PATH__"#' \
+    -e 's/^publication_receipt_sha256: "?[^"]*"?/publication_receipt_sha256: "__PUBLICATION_RECEIPT_SHA256__"/' \
+    -e 's/^route_bundle_sha256: "?[^"]*"?/route_bundle_sha256: "__ROUTE_BUNDLE_SHA256__"/'
+}
+
+maybe_reuse_publication_values() {
+  local candidate_out="$1"
+  local candidate_lock="$2"
+  if [[ ! -f "$OUT_FILE" || ! -f "$LOCK_FILE" ]]; then
+    return 0
+  fi
+  if [[ "$(normalize_effective_publication_payload <"$candidate_out")" != "$(normalize_effective_publication_payload <"$OUT_FILE")" ]]; then
+    return 0
+  fi
+  if [[ "$(normalize_effective_publication_payload <"$candidate_lock")" != "$(normalize_effective_publication_payload <"$LOCK_FILE")" ]]; then
+    return 0
+  fi
+  local existing_timestamp existing_receipt
+  existing_timestamp="$(yq -r '.generated_at // ""' "$OUT_FILE")"
+  existing_receipt="$(yq -r '.publication_receipt_path // ""' "$OUT_FILE")"
+  if [[ -n "$existing_timestamp" && -n "$existing_receipt" ]] && octon_churn_receipt_ref_is_compacted "$existing_receipt"; then
+    timestamp="$existing_timestamp"
+    stamp_id="${timestamp//:/-}"
+    receipt_rel="$existing_receipt"
+    receipt_abs="$ROOT_DIR/$receipt_rel"
   fi
 }
 
@@ -212,8 +245,17 @@ out_sha="$(hash_file "$tmp_out")"
   fi
 } >"$tmp_lock"
 
-cp "$tmp_out" "$OUT_FILE"
-cp "$tmp_lock" "$LOCK_FILE"
+original_timestamp="$timestamp"
+original_receipt_rel="$receipt_rel"
+maybe_reuse_publication_values "$tmp_out" "$tmp_lock"
+if [[ "$timestamp" != "$original_timestamp" || "$receipt_rel" != "$original_receipt_rel" ]]; then
+  OLD_TIMESTAMP="$original_timestamp" NEW_TIMESTAMP="$timestamp" OLD_RECEIPT_REL="$original_receipt_rel" NEW_RECEIPT_REL="$receipt_rel" \
+    perl -0pi -e 's/\Q$ENV{OLD_TIMESTAMP}\E/$ENV{NEW_TIMESTAMP}/g; s/\Q$ENV{OLD_RECEIPT_REL}\E/$ENV{NEW_RECEIPT_REL}/g' "$tmp_out" "$tmp_lock"
+  out_sha="$(hash_file "$tmp_out")"
+  yq -i ".route_bundle_sha256 = \"$out_sha\"" "$tmp_lock"
+fi
+
+receipt_tmp="$tmpdir/publication.receipt.yml"
 
 {
   echo 'schema_version: "octon-validation-publication-receipt-v1"'
@@ -250,7 +292,18 @@ cp "$tmp_lock" "$LOCK_FILE"
   echo '  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"'
   echo '  - ".octon/state/control/extensions/active.yml"'
   echo '  - ".octon/state/control/extensions/quarantine.yml"'
-} >"$receipt_abs"
+} >"$receipt_tmp"
 
-receipt_sha="$(hash_file "$receipt_abs")"
-yq -i ".publication_receipt_sha256 = \"$receipt_sha\"" "$LOCK_FILE"
+receipt_publish_output="$(octon_churn_publish_compacted_receipt "$ROOT_DIR" ".octon/state/evidence/validation/publication/runtime" "runtime-route-bundle" "$generation_id" "$receipt_tmp")"
+receipt_rel="$(printf '%s\n' "$receipt_publish_output" | awk '$1 == "receipt_path" { print $2; exit }')"
+receipt_sha="$(printf '%s\n' "$receipt_publish_output" | awk '$1 == "receipt_sha256" { print $2; exit }')"
+receipt_sha="${receipt_sha#sha256:}"
+receipt_abs="$ROOT_DIR/$receipt_rel"
+yq -i ".publication_receipt_path = \"$receipt_rel\"" "$tmp_out"
+yq -i ".publication_receipt_path = \"$receipt_rel\"" "$tmp_lock"
+out_sha="$(hash_file "$tmp_out")"
+yq -i ".route_bundle_sha256 = \"$out_sha\"" "$tmp_lock"
+yq -i ".publication_receipt_sha256 = \"$receipt_sha\"" "$tmp_lock"
+
+octon_churn_write_file_if_changed "$OUT_FILE" "$tmp_out" >/dev/null
+octon_churn_write_file_if_changed "$LOCK_FILE" "$tmp_lock" >/dev/null

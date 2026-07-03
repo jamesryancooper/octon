@@ -1,0 +1,63 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-extension-payload-compaction
+title: Churn Extension Payload Compaction
+summary: Reduce extension publication copied payload fanout by making the extension publisher reuse unchanged payloads and publish changed extensions only.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-active-state-compactness.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only extension payload compaction after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-effective-publication-idempotency
+selected_implementation_target: Extension publication copied payload compaction.
+scope_statement: This child owns extension publication payload fanout. It does not change extension source authority or remove required extension publication receipts.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable publisher or validator changes.
+generated_input_authority_impact: Extension published payloads remain generated derived outputs and must not become authority.
+authority_class_impact:
+  framework: May update extension publisher, validators, and tests.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Publication and compatibility receipts remain retained evidence.
+  generated: Future implementation may reduce copied generated payload fanout through the publisher only.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Extension no-op publish proof with zero copied payload rewrites.
+  - Digest reuse proof for unchanged extension payloads.
+  - Publication and compatibility receipt linkage evidence.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-extension-publication-state.sh"
+  - "validate-extension-active-state-compactness.sh"
+  - "extension payload digest reuse tests"
+acceptance_criteria_summary: Extension payload compaction is acceptable when unchanged extension payloads are not recopied or rewritten and changed extensions still publish with complete receipt and compatibility evidence.
+risk_posture: High. Extension publication is runtime-facing and must retain freshness, compatibility, and receipt semantics.
+rollback_summary: Revert or supersede only extension publisher, validator, and test changes owned by this child.
+owner:
+  role: Octon extension publication architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-extension-payload-compaction
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

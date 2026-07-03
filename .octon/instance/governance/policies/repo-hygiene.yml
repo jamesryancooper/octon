@@ -210,6 +210,28 @@ local_artifact_hygiene:
       evidence.
   delegated_closeout_route: "closeout-worktree may delegate eligible local residue to repo-hygiene-cleanup, but the wrapper itself must not delete or claim cleanup authority."
   default_mode: "dry-run"
+  generated_tmp_scratch:
+    root: ".octon/generated/.tmp/**"
+    owner: "repo-hygiene local artifact cleanup route"
+    producer_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-publication-validation-runs.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+    max_files: 50000
+    max_bytes: 2147483648
+    ttl_seconds: 604800
+    cleanup_trigger: "Run cleanup-publication-validation-runs.sh --tmp-budget-report for measurement, then use cleanup-local-run-artifacts.sh dry-run/authorize/authorization or explicit --confirm for exact cleanup candidates."
+    rebuildability_proof: "Scratch and engine build/cache outputs under this root must be recreated by their owning publisher, service build, or validation route before they may be classified as cleanup candidates."
+    authority_posture: "local rebuildable scratch only; not source, retained evidence, active control state, runtime-facing generated/effective output, freshness evidence, host projection authority, or closeout truth"
+    refusal_roots:
+      - ".octon/state/evidence/**"
+      - ".octon/state/control/**"
+      - ".octon/state/continuity/**"
+      - ".octon/generated/effective/**"
+      - ".octon/generated/cognition/projections/materialized/runs/**"
+      - ".claude/**"
+      - ".codex/**"
+      - ".cursor/**"
   autonomous_receipt_route:
     allowed: true
     rule: >-

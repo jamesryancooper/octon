@@ -66,6 +66,33 @@ publish_state() {
     bash "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" >/dev/null
 }
 
+snapshot_extension_publication_state() {
+  local fixture_root="$1"
+  (
+    cd "$fixture_root"
+    for path in \
+      .octon/generated/effective/extensions \
+      .octon/state/control/extensions \
+      .octon/state/evidence/validation/publication/extensions \
+      .octon/state/evidence/validation/compatibility/extensions \
+      .octon/state/evidence/validation/extensions/prompt-alignment; do
+      [[ -e "$path" ]] || continue
+      find "$path" -type f
+    done | LC_ALL=C sort | while IFS= read -r rel_path; do
+      printf '%s %s\n' "$(shasum -a 256 "$rel_path" | awk '{print $1}')" "$rel_path"
+    done
+  ) | shasum -a 256 | awk '{print $1}'
+}
+
+count_extension_receipts() {
+  local fixture_root="$1"
+  find \
+    "$fixture_root/.octon/state/evidence/validation/publication/extensions" \
+    "$fixture_root/.octon/state/evidence/validation/compatibility/extensions" \
+    "$fixture_root/.octon/state/evidence/validation/extensions/prompt-alignment" \
+    -type f 2>/dev/null | wc -l | awk '{print $1}'
+}
+
 write_enabled_pack_manifest() {
   local fixture_root="$1" pack_id="$2" source_id="$3"
   cat >"$fixture_root/.octon/instance/extensions.yml" <<EOF
@@ -233,6 +260,27 @@ case_publication_receipt_is_emitted_for_clean_publish() {
   [[ -n "$receipt_rel" ]]
   [[ -f "$fixture_root/$receipt_rel" ]]
   [[ "$(yq -r '.result // ""' "$fixture_root/$receipt_rel")" == "published" ]]
+}
+
+case_noop_publish_does_not_rewrite_effective_state_or_fanout_receipts() {
+  local fixture_root before_snapshot after_snapshot before_receipts after_receipts
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+  write_enabled_pack_manifest "$fixture_root" "docs" "bundled-first-party"
+
+  publish_state "$fixture_root"
+  before_snapshot="$(snapshot_extension_publication_state "$fixture_root")"
+  before_receipts="$(count_extension_receipts "$fixture_root")"
+  sleep 1
+  publish_state "$fixture_root"
+  after_snapshot="$(snapshot_extension_publication_state "$fixture_root")"
+  after_receipts="$(count_extension_receipts "$fixture_root")"
+
+  [[ "$after_snapshot" == "$before_snapshot" ]]
+  [[ "$after_receipts" == "$before_receipts" ]]
+  run_validator "$fixture_root"
 }
 
 case_fully_invalid_selection_withdraws_extensions() {
@@ -769,6 +817,7 @@ main() {
   assert_success "one valid and one denied selected pack publishes with quarantine" case_partial_surviving_set_publishes_with_quarantine
   assert_success "acknowledged first-party external pack publishes cleanly" case_acknowledged_first_party_external_pack_publishes_cleanly
   assert_success "clean extension publish emits a publication receipt" case_publication_receipt_is_emitted_for_clean_publish
+  assert_success "no-op extension publish does not rewrite effective state or fan out receipts" case_noop_publish_does_not_rewrite_effective_state_or_fanout_receipts
   assert_success "fully invalid selected set withdraws extension contributions" case_fully_invalid_selection_withdraws_extensions
   assert_success "active-state generation mismatches fail validation" case_active_state_generation_mismatch_fails
   assert_success "non-manifest payload changes invalidate the generation lock" case_non_manifest_payload_change_invalidates_generation_lock

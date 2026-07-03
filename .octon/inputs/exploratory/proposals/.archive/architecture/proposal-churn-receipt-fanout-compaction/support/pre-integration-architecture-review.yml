@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-receipt-fanout-compaction-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-receipt-fanout-compaction"
+packet_digest: "sha256:e5b94653759550f1a4844272819c57a9f694d439aab87adc8fd6fb6aea873ae4"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-receipt-fanout-compaction/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-receipt-fanout-compaction/README.md"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers retained validation/publication receipt fanout compaction readiness."
+  system_job: "Reduce repeated timestamped receipt fanout while preserving full proof retrieval."
+  current_reality: "The audit found extension prompt-alignment, publication, and compatibility receipt fanout."
+  target_architecture_fit: "Content-addressed proof, compact indexes, and strict equivalence rules reduce fanout without deleting evidence."
+  authority_boundaries: "Retained evidence remains non-disposable and compact summaries cannot replace required full proof."
+  complexity_and_leverage: "The child handles receipt fanout across validators and publication writers with shared equivalence rules."
+  evidence_and_validation_plan: "Validation includes schema checks, digest integrity, retrieval proof, and non-equivalent negative controls."
+  rollback_and_closeout: "Rollback restores prior receipt writers; cleanup classification remains external."

@@ -1,0 +1,184 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/proposal.yml",
+      "manifest_sha256": "sha256:2d0c9ccdd234a6f05d1f6fb7e22e249a1658b6c6faf0739c84bc88eb34b54bf3",
+      "proposal_id": "proposal-program-producer-first-churn-reduction",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-common-generator-idempotency-metrics/proposal.yml",
+      "manifest_sha256": "sha256:46c10a7b15d2e6792a3f6896f6655598627e10cb79760d05e58140e5cb30632e",
+      "proposal_id": "proposal-churn-common-generator-idempotency-metrics",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-common-generator-idempotency-metrics",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-test-hermeticity/proposal.yml",
+      "manifest_sha256": "sha256:a2471d4285efc3fe6ab62cab0d6952c1bf734bc215db1312d7e142adaf37ad6c",
+      "proposal_id": "run-program-clean-delivery-test-hermeticity",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-test-hermeticity",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:fceb1e23cb6af243bad5f7b3681e1878a77978d202acd6f196e0d941960e05f0",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child independently, then implement only run-health producer compaction after explicit authorization.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-churn-run-health-read-model-compaction/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/"
+  ],
+  "proposal_id": "proposal-churn-run-health-read-model-compaction",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 2791,
+      "estimated_tokens": 698,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/implementation-conformance-review.md",
+      "sha256": "sha256:03f83d7dee1bac64f0bfaccc5564cb9d525c7f664a9706fcb5650710cb65cccb"
+    },
+    {
+      "byte_size": 1995,
+      "estimated_tokens": 499,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:1f73f543c668d31b8480e7a4c13ae6f823bf7232ab8cf694e66fe359f7f188a3"
+    },
+    {
+      "byte_size": 2104,
+      "estimated_tokens": 526,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/implementation-run.md",
+      "sha256": "sha256:32c49390b2a868e1d76db24a55fc91fbc264a41c84292b14f704d43351f86dba"
+    },
+    {
+      "byte_size": 2892,
+      "estimated_tokens": 723,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:a7405397b1606286e4d43154a5bd1b736c2a9d2c7cd1f715dd348a5e66253ae5"
+    },
+    {
+      "byte_size": 1279,
+      "estimated_tokens": 320,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/proposal-closeout.md",
+      "sha256": "sha256:ff8faafca2653eeaeee89b61faa6b210617505709229a7626ca66e526a26c804"
+    },
+    {
+      "byte_size": 1402,
+      "estimated_tokens": 351,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/proposal-review.md",
+      "sha256": "sha256:ea2e1d8cc387910394d7b15e4b5b5db2804e036c9aadd320cfebfd70ac0a9ec9"
+    },
+    {
+      "byte_size": 1052,
+      "estimated_tokens": 263,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/validation.md",
+      "sha256": "sha256:0983ef1caeb8da2041953f596fbc270a4feb0012cf469e40c2f53a5695ebef46"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-producer-first-churn-reduction",
+    "proposal-churn-common-generator-idempotency-metrics",
+    "run-program-clean-delivery-test-hermeticity"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/architecture-proposal.yml": "sha256:596dcbdcc96c303a86f67587e6bb1c8a80e58595cf0e9d409909694839360463",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/architecture/acceptance-criteria.md": "sha256:ba1d590a2104e39dc7c92ebc918826cbdca1c5cb5a79f69c1ff99fb826557dec",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/architecture/implementation-plan.md": "sha256:1c3573f4a880b5ab04e743918b39eddd26c7b0cb78ada15d61a3a841ad48ebbd",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/navigation/artifact-catalog.md": "sha256:eaa1ac6f9767bfbfc50bba052be0baa64fbc930edae75af2107154d798fb5387",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/navigation/source-of-truth-map.md": "sha256:774042e6c774cd22f962c5be8ef35ffe2970c0004c61b315b6560018fbe48b23",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/proposal.yml": "sha256:33a6824f76e1a15e573db5029fd84ebd365a2600d67e72cc32db4af4a00b900b",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/implementation-grade-completeness-review.md": "sha256:1f73f543c668d31b8480e7a4c13ae6f823bf7232ab8cf694e66fe359f7f188a3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/proposal-review.md": "sha256:ea2e1d8cc387910394d7b15e4b5b5db2804e036c9aadd320cfebfd70ac0a9ec9"
+  },
+  "source_lineage": [
+    ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh",
+    "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

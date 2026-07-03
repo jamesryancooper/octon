@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: run-health generated read-model compaction
+decision_type: surface-refactor
+status: draft
+owner: Octon run-health read-model architect
+created_date: 2026-07-02
+summary: Refactors run-health read-model generation to reduce one-file-per-retained-run churn while preserving operator read-model guarantees.
+architecture_drivers:
+  - The audit found about 1010 tracked modified run-health generated files.
+  - Most lifecycle runs need changed-run visibility rather than full retained-history rewrites.
+  - Operator read models need freshness and source traceability, but not broad no-op file churn.
+constraints:
+  - Do not weaken run-health validation semantics.
+  - Do not delete retained run evidence.
+  - Do not treat generated read models as runtime or policy authority.

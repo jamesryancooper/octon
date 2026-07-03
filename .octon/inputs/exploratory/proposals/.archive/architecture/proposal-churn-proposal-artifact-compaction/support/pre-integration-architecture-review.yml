@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-proposal-artifact-compaction-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-proposal-artifact-compaction"
+packet_digest: "sha256:58abe95c2a20e444bc5b60da5dffcaa2d0c4cbc7894215b365f20d7bc16750b6"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-proposal-artifact-compaction/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-proposal-artifact-compaction/README.md"
+  - ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers generated proposal registry and artifact compaction readiness."
+  system_job: "Reduce generated proposal registry, artifact index, and spine churn."
+  current_reality: "The audit found generated proposal registry and artifact churn plus retained proposal archive additions."
+  target_architecture_fit: "Archive-aware changed-packet-only generation addresses derived output churn while retaining proposal lineage."
+  authority_boundaries: "Generated proposal outputs remain discovery-only and cannot replace proposal manifests or receipts."
+  complexity_and_leverage: "The child isolates proposal generator and validator changes."
+  evidence_and_validation_plan: "Validation includes registry check, artifact index validation, and no-op generation proof."
+  rollback_and_closeout: "Rollback restores prior proposal generator behavior; generated registry refresh is a separate authorized route."

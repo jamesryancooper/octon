@@ -1,0 +1,25 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "proposal-churn-filesystem-snapshot-retention-pre-integration-architecture-review-20260702"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-filesystem-snapshot-retention"
+packet_digest: "sha256:feb2da625973ed40cc19ac2d8db4bdc0d022c198531ea719e842df77770de552"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-filesystem-snapshot-retention/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-churn-filesystem-snapshot-retention/README.md"
+  - ".octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/README.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Strict pre-integration review covers filesystem snapshot retention readiness."
+  system_job: "Add stable snapshot identity and producer-owned retention to capability filesystem snapshots."
+  current_reality: "Filesystem snapshots existed but did not churn in the latest audit, while retention risk remains a known generated/effective family concern."
+  target_architecture_fit: "Stable identity, budgets, and reference-integrity proof address future churn without deleting referenced evidence."
+  authority_boundaries: "Snapshots remain derived outputs unless separately retained as evidence by an owning route."
+  complexity_and_leverage: "The child isolates snapshot service and tests rather than broad generated cleanup."
+  evidence_and_validation_plan: "Validation includes schema, service, no-op identity, and reference-integrity checks."
+  rollback_and_closeout: "Rollback restores prior snapshot behavior and leaves retained evidence intact."

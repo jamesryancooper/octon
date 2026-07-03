@@ -1,0 +1,267 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-common-generator-idempotency-metrics/proposal.yml",
+      "manifest_sha256": "sha256:46c10a7b15d2e6792a3f6896f6655598627e10cb79760d05e58140e5cb30632e",
+      "proposal_id": "proposal-churn-common-generator-idempotency-metrics",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-common-generator-idempotency-metrics",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction/proposal.yml",
+      "manifest_sha256": "sha256:33a6824f76e1a15e573db5029fd84ebd365a2600d67e72cc32db4af4a00b900b",
+      "proposal_id": "proposal-churn-run-health-read-model-compaction",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-run-health-read-model-compaction",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-effective-publication-idempotency/proposal.yml",
+      "manifest_sha256": "sha256:37a34a1fc260d75917804d32a7a7da9a027dd53fd511e9fffe0b9fdf79f5afef",
+      "proposal_id": "proposal-churn-effective-publication-idempotency",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-effective-publication-idempotency",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-extension-payload-compaction/proposal.yml",
+      "manifest_sha256": "sha256:72fe1bbf9d5423572c002dbe8f078bd0e2ea14bb00185f57a99bcf3ffec30cd2",
+      "proposal_id": "proposal-churn-extension-payload-compaction",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-extension-payload-compaction",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-filesystem-snapshot-retention/proposal.yml",
+      "manifest_sha256": "sha256:dc758da5aea65a861f92c0d9c64dba74a4805e6035386a1d4704f58467d8edbb",
+      "proposal_id": "proposal-churn-filesystem-snapshot-retention",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-filesystem-snapshot-retention",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-proposal-artifact-compaction/proposal.yml",
+      "manifest_sha256": "sha256:925e3c73584e8a8408b125f5e18660896e7b3d0a7db8f1a497563b9330da29f5",
+      "proposal_id": "proposal-churn-proposal-artifact-compaction",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-proposal-artifact-compaction",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-receipt-fanout-compaction/proposal.yml",
+      "manifest_sha256": "sha256:139ad9048a6d84ea63cd17c785ca707854758ffd582d287b52d5d9c7a860eb61",
+      "proposal_id": "proposal-churn-receipt-fanout-compaction",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-receipt-fanout-compaction",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-host-projection-idempotency/proposal.yml",
+      "manifest_sha256": "sha256:2f50067ca841db47e6c462fa3cf59b0095fbf89e28fac38986887f34dd9da5e1",
+      "proposal_id": "proposal-churn-host-projection-idempotency",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-host-projection-idempotency",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-tmp-engine-cache-hygiene/proposal.yml",
+      "manifest_sha256": "sha256:c91f5df775b322920676e3ecc2126c6fc070d7ea8e9ebdfa9394ca833c1e9a33",
+      "proposal_id": "proposal-churn-tmp-engine-cache-hygiene",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-tmp-engine-cache-hygiene",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/proposal.yml",
+      "manifest_sha256": "sha256:223c81b61006d80d98e2b2fc3fc5eb27e1fa4f5564ce0c7f442adf141b415e1d",
+      "proposal_id": "proposal-churn-retained-run-evidence-efficiency",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:99bf287f5a653147c0cc5c55731582f429dbe65233f2bded24b880ef37d549eb",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this parent program and each sibling child packet independently. Implement only accepted children through child-owned routes, and close out the parent only after child-owned evidence proves churn reduction without weakening freshness, receipts, retained evidence, authority boundaries, or operator observability.\n",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-producer-first-churn-reduction/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/assurance/runtime/_ops/scripts/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/framework/capabilities/_ops/scripts/",
+    ".octon/framework/orchestration/runtime/_ops/scripts/",
+    ".octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/",
+    ".octon/framework/product/contracts/"
+  ],
+  "proposal_id": "proposal-program-producer-first-churn-reduction",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 3046,
+      "estimated_tokens": 762,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:00cfa0cd8e861b6a6dccf67551e3021f6c9830d960cf3f51ee39716e2b56f414"
+    },
+    {
+      "byte_size": 1080,
+      "estimated_tokens": 270,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/program-creation.md",
+      "sha256": "sha256:3479894be295d0ff15f2c3af8ee580fdedff71764ee1d31629b1d373d1e9121b"
+    },
+    {
+      "byte_size": 1605,
+      "estimated_tokens": 402,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/program-implementation-orchestration-conformance-review.md",
+      "sha256": "sha256:fd5a84cd1f0e58fac57c788e806c2f637d3ab5fbfcf1b696cc99e0f1f7b1fa9a"
+    },
+    {
+      "byte_size": 625,
+      "estimated_tokens": 157,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/program-post-implementation-orchestration-drift-churn-review.md",
+      "sha256": "sha256:f51de876f7fe6e770ce6456969ccbea3d0176c1d998a606a2c7e84858a662bee"
+    },
+    {
+      "byte_size": 1515,
+      "estimated_tokens": 379,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/proposal-closeout.md",
+      "sha256": "sha256:066010a42f8edce4c71194bc2063138bc632041870102d09275c184354129f25"
+    },
+    {
+      "byte_size": 1933,
+      "estimated_tokens": 484,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/proposal-review.md",
+      "sha256": "sha256:e81271b4a3aa8db31ab4b0597ea425e42c4cc5ef42c27094cbee6a8c60f14204"
+    },
+    {
+      "byte_size": 976,
+      "estimated_tokens": 244,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/validation.md",
+      "sha256": "sha256:1c2413da8b0421d1975c53f216be2a12b0fdfc31af41a93e7465b13eb26c839b"
+    }
+  ],
+  "related_proposals": [
+    "proposal-churn-common-generator-idempotency-metrics",
+    "proposal-churn-run-health-read-model-compaction",
+    "proposal-churn-effective-publication-idempotency",
+    "proposal-churn-extension-payload-compaction",
+    "proposal-churn-filesystem-snapshot-retention",
+    "proposal-churn-proposal-artifact-compaction",
+    "proposal-churn-receipt-fanout-compaction",
+    "proposal-churn-host-projection-idempotency",
+    "proposal-churn-tmp-engine-cache-hygiene",
+    "proposal-churn-retained-run-evidence-efficiency"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/architecture-proposal.yml": "sha256:6c26e7843ec34219326fae8ccce171df14a0ce58e9ead0aaa64bbb098ee4e54a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/architecture/acceptance-criteria.md": "sha256:dd56107c238addf7bb6ee4b3b402a988bcf0fcda0a9d9cf963ce1d06f745572e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/architecture/implementation-plan.md": "sha256:7b64865ec70a99f1d892fff7e7fd6a7327292554f6cc4252611ac4c81e3d7d59",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/navigation/artifact-catalog.md": "sha256:868f64ff51dbb5804ffabb2a051821c510780f996e8782816b6aeef0a5c2d9b4",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/navigation/source-of-truth-map.md": "sha256:1aeff80cabeb5403db9fc1321f6fb32c1ca2b446488c819c709c73266e9e43f3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/proposal.yml": "sha256:2d0c9ccdd234a6f05d1f6fb7e22e249a1658b6c6faf0739c84bc88eb34b54bf3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/implementation-grade-completeness-review.md": "sha256:00cfa0cd8e861b6a6dccf67551e3021f6c9830d960cf3f51ee39716e2b56f414",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/proposal-review.md": "sha256:e81271b4a3aa8db31ab4b0597ea425e42c4cc5ef42c27094cbee6a8c60f14204"
+  },
+  "source_lineage": [
+    "current conversation thread on generated churn",
+    "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt",
+    ".octon/framework/constitution/CHARTER.md",
+    ".octon/framework/constitution/obligations/fail-closed.yml",
+    ".octon/framework/constitution/obligations/evidence.yml",
+    ".octon/framework/cognition/_meta/architecture/generated/README.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-producer-first-churn-reduction/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

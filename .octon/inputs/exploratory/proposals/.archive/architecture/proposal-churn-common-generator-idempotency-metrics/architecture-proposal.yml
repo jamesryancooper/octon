@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: common generator idempotency and churn metrics
+decision_type: new-surface
+status: draft
+owner: Octon churn metrics architect
+created_date: 2026-07-02
+summary: Defines common no-op write and churn metric expectations for all producer-specific churn reduction packets.
+architecture_drivers:
+  - Churn reduction needs shared measurement before producer-specific fixes can be compared.
+  - No-op writes should be proven at producer entrypoints rather than inferred from path cleanup.
+  - Metrics must measure efficiency without replacing freshness, evidence, or closeout gates.
+constraints:
+  - Metrics are advisory evidence and cannot authorize publication or cleanup.
+  - Generated outputs remain non-authoritative.
+  - Producer-specific semantics remain owned by child packets.

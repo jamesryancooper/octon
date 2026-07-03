@@ -1,0 +1,245 @@
+{
+  "schema_version": "closeout-worktree-report-v1",
+  "wrapper_id": "closeout-worktree",
+  "default_work_unit": "Change",
+  "run_id": "closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z",
+  "target": ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction",
+  "target_lifecycle_outcome": "cleaned",
+  "observed_change_set_count": 3,
+  "read_only_classification": true,
+  "detection_is_deletion_authority": false,
+  "direct_material_actions_performed": false,
+  "repo_hygiene_cleanup_actions_performed": false,
+  "initial_inventory_ref": ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/initial-inventory.txt",
+  "residue_classification_ref": ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/worktree-hygiene-classifier.yml",
+  "final_inventory_ref": ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/final-inventory.txt",
+  "selected_candidate_id": "producer-first-churn-delivery-change",
+  "candidates": [
+    {
+      "candidate_id": "producer-first-churn-delivery-change",
+      "disposition": "deferred",
+      "residue_routing_class": "publishable_change",
+      "ownership": "coherent producer-first churn-reduction implementation, proposal lifecycle, canonical generated publication, and validation evidence candidate for branch-no-pr closeout",
+      "route_hint": "closeout-change branch-no-pr after packet and parent archive route authorization",
+      "target_lifecycle_outcome": "cleaned",
+      "rollback_or_discard_posture": "preserve for branch-no-pr closeout; closeout-worktree performs no staging, commit, push, landing, archive, deletion, or cleaned claim",
+      "boundaries": {
+        "include_paths": [
+          ".octon/framework",
+          ".octon/instance/governance/policies/repo-hygiene.yml",
+          ".octon/generated/effective",
+          ".octon/generated/proposals",
+          ".octon/inputs/exploratory/proposals/architecture",
+          ".octon/inputs/exploratory/proposals/.archive",
+          ".octon/state/control/extensions/active.yml",
+          ".octon/state/control/extensions/quarantine.yml",
+          ".octon/state/evidence/decisions",
+          ".octon/state/evidence/validation/extensions",
+          ".octon/state/evidence/validation/compatibility/extensions",
+          ".octon/state/evidence/validation/publication"
+        ],
+        "exclude_paths": [
+          ".git",
+          ".octon/state/control/execution",
+          ".octon/state/continuity",
+          ".octon/state/evidence/control",
+          ".octon/state/evidence/external-index",
+          ".octon/state/evidence/runs/services",
+          ".octon/state/evidence/runs/workflows",
+          ".octon/state/evidence/runs/skills",
+          ".octon/state/evidence/validation/analysis"
+        ]
+      },
+      "lifecycle_closeout_authority": {
+        "completed_program_run_id": "proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z",
+        "program_target": ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction",
+        "completed_program_summary_ref": ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml",
+        "child_authority_preserved": true,
+        "parent_summary_not_child_receipt": true,
+        "local_run_state_excluded": true,
+        "proof_refs": [
+          ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml",
+          ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/worktree-hygiene-classifier.yml",
+          ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction/support/program-implementation-orchestration-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/proposal-program-producer-first-churn-reduction/support/program-post-implementation-orchestration-drift-churn-review.md"
+        ]
+      }
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "disposition": "foreign",
+      "residue_routing_class": "foreign_manual_review",
+      "ownership": "raw control, continuity, service-run, workflow, and lifecycle-interaction evidence preserved for downstream branch-no-pr closeout and not used as child packet authority",
+      "route_hint": "preserve-and-exclude return to proposal-packet and program closeout; branch-no-pr closeout remains final worktree owner",
+      "target_lifecycle_outcome": "preserved",
+      "rollback_or_discard_posture": "retain; no deletion, cleanup, archive, git mutation, or cleaned claim authorized by this report",
+      "boundaries": {
+        "include_paths": [
+          ".octon/state/control/execution",
+          ".octon/state/continuity",
+          ".octon/state/evidence/control",
+          ".octon/state/evidence/external-index",
+          ".octon/state/evidence/runs/services",
+          ".octon/state/evidence/runs/workflows",
+          ".octon/state/evidence/runs/skills/closeout-worktree",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet",
+          ".octon/state/evidence/validation/analysis"
+        ],
+        "exclude_paths": [
+          ".git"
+        ]
+      },
+      "proposal_program_handoff_authorization": {
+        "outside_child_route_write_scope": true,
+        "authorization_grant": "Program lifecycle route preserves raw/local operational run state for branch-no-pr closeout without treating it as child packet authority or cleanup material.",
+        "child_id": "proposal-program-producer-first-churn-reduction",
+        "route_id": "closeout-worktree",
+        "interaction_request_ref": ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/profile.yml",
+        "classifier_output_ref": ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/worktree-hygiene-classifier.yml",
+        "classifier_output_digest": "sha256:54ed0a1b9c733e6f1194d3711802f02bc2fb8365591c6eebebf533612a7cf2a4",
+        "authorized_foreign_fingerprint": "sha256:1525bb6b1e10f1350990ad9dc8d0b47b5a3b00ffe4260f33bb81de7d87f21fac",
+        "foreign_fingerprint": "sha256:1525bb6b1e10f1350990ad9dc8d0b47b5a3b00ffe4260f33bb81de7d87f21fac",
+        "authorized_paths": [
+          ".octon/state/control/execution",
+          ".octon/state/continuity",
+          ".octon/state/evidence/control",
+          ".octon/state/evidence/external-index",
+          ".octon/state/evidence/runs/services",
+          ".octon/state/evidence/runs/workflows",
+          ".octon/state/evidence/runs/skills/closeout-worktree",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet",
+          ".octon/state/evidence/validation/analysis"
+        ],
+        "disposition": "preserve-and-exclude-from-child-closeout-blocking",
+        "non_mutating": true,
+        "preserve_and_exclude_from_child_closeout_blocking": true,
+        "parent_summary_not_child_closeout_receipt": true,
+        "child_closeout_authority_preserved": true,
+        "forbidden_actions": {
+          "deletion": false,
+          "reset": false,
+          "staging": false,
+          "commit": false,
+          "push": false,
+          "publication": false,
+          "archive": false,
+          "branch_cleanup": false,
+          "git_ref_mutation": false,
+          "worktree_cleanup": false,
+          "repo_hygiene_deletion": false,
+          "promotion": false,
+          "hosted_provider_action": false,
+          "cleaned_claim": false,
+          "child_closeout_receipt_replacement": false,
+          "child_validation_replacement": false
+        }
+      }
+    },
+    {
+      "candidate_id": "retained-local-evidence",
+      "disposition": "retained",
+      "residue_routing_class": "local_private_retained",
+      "ownership": "local-private retained evidence residue, if present, remains outside packet authority and outside cleanup authority",
+      "route_hint": "repo-hygiene-cleanup only with future owning cleanup authorization; no action in packet closeout",
+      "target_lifecycle_outcome": "retained",
+      "rollback_or_discard_posture": "retain; closeout-worktree performed no deletion or cleanup",
+      "boundaries": {
+        "include_paths": [
+          ".octon/state/evidence/local/"
+        ],
+        "exclude_paths": [
+          ".git"
+        ]
+      }
+    }
+  ],
+  "iterations": [],
+  "final_candidate_dispositions": {
+    "producer-first-churn-delivery-change": {
+      "state": "deferred"
+    },
+    "retained-operational-run-state": {
+      "state": "foreign"
+    },
+    "retained-local-evidence": {
+      "state": "retained"
+    }
+  },
+  "retained_residue": [
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/control/execution",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/continuity",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/evidence/control",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/evidence/external-index",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/evidence/runs/services",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/evidence/runs/workflows",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/evidence/runs/skills/closeout-worktree",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-operational-run-state",
+      "path": ".octon/state/evidence/validation/analysis",
+      "disposition": "foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim"
+    },
+    {
+      "candidate_id": "retained-local-evidence",
+      "path": ".octon/state/evidence/local/",
+      "disposition": "ignored/local retained evidence path preserved; no cleanup performed by closeout-worktree"
+    }
+  ],
+  "blockers": [
+    {
+      "candidate_id": "producer-first-churn-delivery-change",
+      "blocker": "branch-no-pr Change closeout remains ordered after packet and parent archive authorization",
+      "reason": "The publishable implementation candidate is safely separable but must not be staged, committed, pushed, landed, cleaned, or deleted from closeout-worktree; the branch-no-pr closeout route remains the owner of final mutation and cleanup proof.",
+      "evidence_refs": [
+        ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/worktree-hygiene-classifier.yml",
+        ".octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml"
+      ]
+    }
+  ],
+  "final_residue_classes": {
+    "staged": 0,
+    "unstaged_tracked": 45,
+    "untracked": 260,
+    "ignored": 0,
+    "generated_effective_output": 10,
+    "host_projection": 0,
+    "retained_evidence": 120,
+    "state_control": 55,
+    "release_version": 0,
+    "input_surface": 11
+  },
+  "worktree_terminal_state": "nonterminal",
+  "next_route_condition": "return to proposal-packet/program archive route, then branch-no-pr change closeout after archive authorization exists"
+}

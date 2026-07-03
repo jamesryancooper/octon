@@ -1,0 +1,66 @@
+schema_version: proposal-v1
+proposal_id: proposal-churn-receipt-fanout-compaction
+title: Churn Receipt Fanout Compaction
+summary: Compact repeated timestamped validation and publication receipt fanout while retaining full proof retrieval, digest integrity, and evidence obligations.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/product/contracts/"
+status: archived
+change_profile: atomic
+release_state: pre-1.0
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only validation/publication receipt compaction after explicit authorization.
+related_proposals:
+  - proposal-program-producer-first-churn-reduction
+  - proposal-churn-common-generator-idempotency-metrics
+  - proposal-churn-effective-publication-idempotency
+  - run-program-clean-delivery-cleanup-disposition
+selected_implementation_target: Timestamped validation and publication receipt fanout compaction.
+scope_statement: This child owns receipt fanout compaction under retained validation evidence. It does not delete retained evidence without owning cleanup authority.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable validator, publisher, or contract changes.
+generated_input_authority_impact: Receipts are retained evidence, not generated source. Compact indexes or latest pointers cannot replace required full proof retrieval.
+authority_class_impact:
+  framework: May update receipt writers, validators, tests, and evidence contracts.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Retained validation evidence remains durable unless exact files are classified stale or unreferenced by an owning route.
+  generated: No generated output authority change.
+  inputs: Temporary proposal lineage only.
+external_dependencies:
+  - run-program-clean-delivery-cleanup-disposition
+evidence_requirements:
+  - Baseline receipt fanout count for representative validation/publication runs.
+  - Dedupe or content-addressing proof for equivalent receipts.
+  - Retrieval proof from compact index/latest pointer to retained full evidence.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "receipt schema validation"
+  - "retained evidence retrieval tests"
+  - "digest integrity checks"
+acceptance_criteria_summary: Receipt fanout compaction is acceptable when repeated equivalent validations create bounded receipt changes and full retained proof remains discoverable and digest-verified.
+risk_posture: High. Receipt compaction must not weaken evidence obligations or publication proof.
+rollback_summary: Revert or supersede only receipt writer, validator, contract, and test changes owned by this child.
+owner:
+  role: Octon validation receipt architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-02
+source_lineage:
+  - ".octon/state/evidence/validation/**"
+  - "/Users/jamesryancooper/.codex/attachments/33e8ea94-533a-4d16-9423-7e536fab91ad/pasted-text.txt"
+
+archive:
+  archived_at: 2026-07-03T00:00:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-receipt-fanout-compaction
+  promotion_evidence:
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/program-closeout-summary.yml
+    - .octon/state/evidence/runs/workflows/proposal-program-delivery-producer-first-churn-reduction-20260703T000000Z/proposal-packet-delivery-order-override-receipt.yml
+    - .octon/state/evidence/validation/analysis/2026-07-03T00-00-00Z-closeout-worktree-proposal-program-producer-first-churn-reduction-review-items.yml
+    - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-proposal-program-producer-first-churn-reduction-20260703T000000Z/lifecycle-interaction-return.json

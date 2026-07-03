@@ -1,0 +1,48 @@
+approval_grant_refs: []
+approval_request_ref: null
+authority_provenance_refs: []
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-publish-1783030753178-52086.yml
+exception_refs: []
+generated_at: 2026-07-02T22:19:21.164756Z
+grant_consumption:
+  approval_grant_refs: []
+  authority_provenance_refs: []
+  consumes_bound_grant_only: false
+  consumption_receipt_ref: .octon/state/evidence/control/execution/authority-grant-bundle-publish-1783030753178-52086.yml
+  mints_fresh_authority: false
+  mode: null
+grant_id: grant-publish-1783030753178-52086
+network_egress_posture: null
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+request_id: publish-1783030753178-52086
+requested_capability_packs:
+- repo
+- shell
+- git
+- telemetry
+revocation_refs: []
+rollback_posture_ref: .octon/state/control/execution/runs/publish-1783030753178-52086/rollback-posture.yml
+route_id: runtime-route:runtime-route-bundle-publication-bypass:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+run_id: publish-1783030753178-52086
+runtime_effective_claim_effect: publication-bypass
+runtime_effective_extensions_generation_id: publication-bypass
+runtime_effective_extensions_status: publication-bypass
+runtime_effective_freshness_mode: publication-bypass
+runtime_effective_non_authority_classification: derived-runtime-handle
+runtime_effective_publication_receipt_ref: .octon/state/evidence/validation/publication/runtime/<pending>
+runtime_effective_route_bundle_ref: .octon/generated/effective/runtime/route-bundle.yml
+runtime_effective_route_bundle_sha256: runtime-route-bundle-publication-bypass
+runtime_effective_route_generation_id: runtime-route-bundle-publication-bypass
+schema_version: authority-grant-bundle-v1
+support_target:
+  host_adapter: repo-shell
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  model_adapter: repo-local-governed
+  model_tier: repo-local-governed
+  route: allow
+  support_status: supported
+  workload_tier: repo-consequential
+support_tier: repo-consequential
+typed_exception_boundary: null
+workflow_mode: role-mediated

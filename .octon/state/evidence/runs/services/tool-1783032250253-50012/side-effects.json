@@ -1,0 +1,49 @@
+{
+  "touched_scope": [
+    "service-state"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": null,
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-ff739ba02a7d",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/services/tool-1783032250253-50012",
+      "token_record_ref": ".octon/state/control/execution/runs/tool-1783032250253-50012/effect-tokens/effect-token-evidence-mutation-ff739ba02a7d.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032250253-50012/receipts/effect-tokens/effect-token-evidence-mutation-ff739ba02a7d/consumption-06c00f8cf257.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/tool-1783032250253-50012/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-ff739ba02a7d",
+        ".octon/state/control/execution/runs/tool-1783032250253-50012/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-ff739ba02a7d"
+      ]
+    },
+    {
+      "token_id": "effect-token-service-invocation-504c2302ee69",
+      "token_type": "AuthorizedEffect<ServiceInvocation>",
+      "effect_kind": "service-invocation",
+      "scope_ref": "interfaces/filesystem-snapshot::snapshot.build",
+      "token_record_ref": ".octon/state/control/execution/runs/tool-1783032250253-50012/effect-tokens/effect-token-service-invocation-504c2302ee69.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032250253-50012/receipts/effect-tokens/effect-token-service-invocation-504c2302ee69/consumption-60a77ae998ca.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/tool-1783032250253-50012/events.ndjson#evt-effect-token-consumption-requested-effect-token-service-invocation-504c2302ee69",
+        ".octon/state/control/execution/runs/tool-1783032250253-50012/events.ndjson#evt-effect-token-consumed-effect-token-service-invocation-504c2302ee69"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-9cfbde7cecd0",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/services/tool-1783032250253-50012",
+      "token_record_ref": ".octon/state/control/execution/runs/tool-1783032250253-50012/effect-tokens/effect-token-state-control-mutation-9cfbde7cecd0.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/tool-1783032250253-50012/receipts/effect-tokens/effect-token-state-control-mutation-9cfbde7cecd0/consumption-9f69c088ca8b.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/tool-1783032250253-50012/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-9cfbde7cecd0",
+        ".octon/state/control/execution/runs/tool-1783032250253-50012/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-9cfbde7cecd0"
+      ]
+    }
+  ]
+}

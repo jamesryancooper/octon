@@ -59,6 +59,8 @@ copy_packet2_runtime_scripts() {
 set -euo pipefail
 enter_publication_runtime_boundary() { :; }
 EOF
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/generator-idempotency-common.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/generator-idempotency-common.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \

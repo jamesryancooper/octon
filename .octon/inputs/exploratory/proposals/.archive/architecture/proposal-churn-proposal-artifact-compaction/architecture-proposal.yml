@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal generated registry and artifact compaction
+decision_type: surface-refactor
+status: draft
+owner: Octon proposal artifact generation architect
+created_date: 2026-07-02
+summary: Refactors proposal generated artifact production to avoid rewriting unrelated registry, index, and spine outputs.
+architecture_drivers:
+  - The audit found generated proposal registry and artifact churn.
+  - Proposal archives and input records are retained lineage, not generated cleanup candidates.
+  - Operators need fresh proposal read models without broad no-op rewrites.
+constraints:
+  - Do not delete proposal packets or archive records.
+  - Do not make generated proposal outputs authoritative.
+  - Preserve registry and artifact freshness validation.
