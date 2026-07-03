@@ -158,6 +158,51 @@ case_architecture_stale_digest_diagnostic_fields() {
   echo "[OK] stale architecture digest emits refresh diagnostics"
 }
 
+case_architecture_digest_survives_archive_metadata_relocation() {
+  local package receipt manifest
+  package="$(new_architectural_review_digest_package)"
+  receipt="$package/support/pre-integration-architecture-review.yml"
+  manifest="$package/proposal.yml"
+  perl -0pi -e 's/status: "accepted"/status: "archived"\narchive:\n  archived_at: 2026-05-08\n  archived_from_status: implemented\n  disposition: implemented\n  original_path: .octon\/inputs\/exploratory\/proposals\/architecture\/architectural-review-digest-fixture\n  promotion_evidence:\n    - .octon\/framework\/example.md/' "$manifest"
+
+  bash "$RECEIPT_VALIDATOR" \
+    --receipt "$receipt" \
+    --package "$package" \
+    --mode pre-integration-architecture-review \
+    --require-pass
+  echo "[OK] architecture digest survives archive metadata relocation"
+}
+
+case_architecture_missing_receipt_fails() {
+  local package receipt
+  package="$(new_architectural_review_digest_package)"
+  receipt="$package/support/pre-integration-architecture-review.yml"
+  rm -f "$receipt"
+
+  expect_failure \
+    "missing architecture review receipt" \
+    bash "$RECEIPT_VALIDATOR" \
+      --receipt "$receipt" \
+      --package "$package" \
+      --mode pre-integration-architecture-review \
+      --require-pass
+}
+
+case_architecture_non_pass_receipt_fails() {
+  local package receipt
+  package="$(new_architectural_review_digest_package)"
+  receipt="$package/support/pre-integration-architecture-review.yml"
+  perl -0pi -e 's/verdict: "pass"/verdict: "blocked"/; s/unresolved_count: 0/unresolved_count: 1/; s/blockers: \[\]/blockers:\n  - blocked fixture/' "$receipt"
+
+  expect_failure \
+    "non-pass architecture review receipt" \
+    bash "$RECEIPT_VALIDATOR" \
+      --receipt "$receipt" \
+      --package "$package" \
+      --mode pre-integration-architecture-review \
+      --require-pass
+}
+
 bash "$RECEIPT_VALIDATOR" \
   --receipt "$FIXTURE_DIR/valid-pre-integration-receipt.yml" \
   --mode pre-integration-architecture-review \
@@ -200,5 +245,8 @@ expect_failure \
   bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-skills-commands.sh" --root "$root"
 
 case_architecture_stale_digest_diagnostic_fields
+case_architecture_digest_survives_archive_metadata_relocation
+case_architecture_missing_receipt_fails
+case_architecture_non_pass_receipt_fails
 
 echo "[OK] architectural review validator fixtures passed"

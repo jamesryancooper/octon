@@ -223,8 +223,9 @@ packet_digest_for_inventory() {
   else
     while IFS= read -r rel; do
       if [[ "$rel" == "proposal.yml" ]]; then
-        # Post-acceptance lifecycle status is route state, not changed review content.
-        sed -E 's/^([[:space:]]*status[[:space:]]*:)[[:space:]]*"?(accepted|implemented|archived)"?[[:space:]]*$/\1 accepted/' "$PROPOSAL_DIR/$rel" \
+        # Review-to-acceptance lifecycle status and archive relocation metadata
+        # are route state, not changed review content.
+        canonical_review_manifest "$PROPOSAL_DIR/$rel" \
           | shasum -a 256 \
           | awk -v rel="$rel" '{print $1 "  " rel}'
       else
@@ -234,6 +235,22 @@ packet_digest_for_inventory() {
     shasum -a 256 "$hashes" | awk '{print "sha256:" $1}'
   fi
   rm -r "$tmp_dir"
+}
+
+canonical_review_manifest() {
+  local manifest="$1"
+  if [[ "$(yq -r '.status // ""' "$manifest" 2>/dev/null)" == "archived" \
+    && -n "$(yq -r '.archive.original_path // ""' "$manifest" 2>/dev/null)" ]]; then
+    awk '
+      BEGIN { skip = 0 }
+      /^archive:[[:space:]]*$/ { skip = 1; next }
+      skip && /^[^[:space:]][^:]*:/ { skip = 0 }
+      skip { next }
+      { print }
+    ' "$manifest"
+  else
+    cat "$manifest"
+  fi | sed -E 's/^([[:space:]]*status[[:space:]]*:)[[:space:]]*"?(in-review|accepted|implemented|archived)"?[[:space:]]*$/\1 accepted/'
 }
 
 reviewed_packet_digest() {
@@ -331,6 +348,11 @@ validate_digest_fresh() {
   elif legacy_digest="$(legacy_reviewed_packet_digest)" && [[ "$recorded_digest" == "$legacy_digest" ]]; then
     pass "reviewed packet digest is fresh"
     warn "reviewed packet digest matches legacy support inventory scope"
+  elif [[ "$status" == "archived" \
+    && -n "$(yq -r '.archive.original_path // ""' "$MANIFEST" 2>/dev/null)" \
+    && "$recorded_digest" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+    pass "reviewed packet digest preserved from pre-archive packet"
+    warn "archived packet digest is pre-archive review evidence; archive metadata is not reviewed content"
   else
     emit_stale_evidence_recovery_diagnostic \
       "$(review_gate_repo_rel "$REVIEW")#reviewed_packet_digest" \

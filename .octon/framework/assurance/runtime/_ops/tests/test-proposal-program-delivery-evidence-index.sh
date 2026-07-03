@@ -145,6 +145,20 @@ post_implementation_drift_churn:
   receipt_ref: .octon/inputs/exploratory/proposals/architecture/example-program/support/post-implementation-drift-churn-review.md
   fresh: true
   verdict: pass
+feature_catalog_drift:
+  receipt_ref: .octon/state/evidence/runs/workflows/program-delivery/feature-catalog-drift-receipt.yml
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  fresh: true
+  verdict: pass
+  outcome: documented-change
+  unresolved_count: 0
+  affected_feature_ids:
+    - run-first-runtime-lifecycle
+  required_documentation_actions: []
+  child_receipt_refs:
+    - .octon/inputs/exploratory/proposals/architecture/example-child/support/feature-catalog-drift-receipt.yml
+  authority_notes:
+    - parent drift summary is evidence-only and does not replace child receipts
 generated_publication:
   validator: validate-capability-publication-state.sh
   publisher_refs:
@@ -185,6 +199,14 @@ worktree_hygiene:
   evidence_ref: .octon/state/evidence/local/terminal-proof/program-delivery/worktree-hygiene.yml
   dirty_worktree: false
   verdict: pass
+delivery_evidence_index:
+  ref: .octon/state/evidence/runs/workflows/program-delivery/proposal-program-delivery-evidence-index.yml
+  schema_version: proposal-program-delivery-evidence-index-v1
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh
+  validator_verdict: pass
+  evidence_only: true
+  source_receipt_digest_bound: true
+  circular_digest_required: false
 clean_worktree_route:
   source_dirty: false
   source_stale: false

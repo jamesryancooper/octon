@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 TEST_NAME="$(basename "$0")"
 CLASSIFIER="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+GENERATED_RUN_HEALTH_REF=".octon/generated/cognition/projections/materialized/runs"
 
 pass_count=0
 fail_count=0
@@ -67,6 +68,16 @@ assert_not_contains() {
   local file="$1"
   local pattern="$2"
   ! grep -Fq -- "$pattern" "$file"
+}
+
+generated_run_health_status_for_root() {
+  local root="$1"
+  git -C "$root" status --porcelain -- "$GENERATED_RUN_HEALTH_REF" 2>/dev/null || true
+}
+
+assert_generated_run_health_status_unchanged() {
+  local before="$1"
+  [[ "$(generated_run_health_status_for_root "$ROOT_DIR")" == "$before" ]]
 }
 
 new_fixture_repo() {
@@ -1035,6 +1046,20 @@ case_program_generated_run_health_projection_scope_does_not_block() {
     assert_contains "$output" 'path: ".octon/generated/cognition/projections/materialized/runs/fixture-run/health.yml"'
 }
 
+case_tracked_generated_run_health_mutation_is_detectable() {
+  local root before after
+  root="$(new_fixture_repo)"
+  mkdir -p "$root/$GENERATED_RUN_HEALTH_REF/fixture-run"
+  printf 'baseline\n' >"$root/$GENERATED_RUN_HEALTH_REF/fixture-run/health.yml"
+  git -C "$root" add "$GENERATED_RUN_HEALTH_REF/fixture-run/health.yml"
+  git -C "$root" commit -qm generated-run-health-baseline
+  before="$(generated_run_health_status_for_root "$root")"
+  printf 'changed\n' >"$root/$GENERATED_RUN_HEALTH_REF/fixture-run/health.yml"
+  after="$(generated_run_health_status_for_root "$root")"
+  [[ -z "$before" ]] &&
+    [[ "$after" == *" $GENERATED_RUN_HEALTH_REF/fixture-run/health.yml"* ]]
+}
+
 case_program_generated_projection_scope_applies_to_packet_child_target() {
   local root output run_dir
   root="$(new_fixture_repo)"
@@ -1249,6 +1274,8 @@ case_archived_packet_active_original_path_still_present_fails_closed() {
 }
 
 main() {
+  local generated_run_health_status_before
+  generated_run_health_status_before="$(generated_run_health_status_for_root "$ROOT_DIR")"
   assert_success "owned current-run control and evidence paths do not block" case_owned_run_paths_do_not_block
   assert_success "target support and promotion targets are in scope" case_declared_in_scope_paths_do_not_block
   assert_success "target packet manifest state does not block hygiene" case_target_packet_manifest_state_does_not_block
@@ -1284,6 +1311,7 @@ main() {
   assert_success "mismatched recovery command publish run artifacts still block" case_publish_run_artifacts_with_mismatched_recovery_command_still_block
   assert_success "program generated projections do not block" case_program_generated_projection_scope_does_not_block
   assert_success "program generated run-health projections do not block" case_program_generated_run_health_projection_scope_does_not_block
+  assert_success "tracked generated run-health mutation is detectable" case_tracked_generated_run_health_mutation_is_detectable
   assert_success "program generated projection scope applies to packet child target" case_program_generated_projection_scope_applies_to_packet_child_target
   assert_success "program retained evidence does not block" case_program_retained_evidence_scope_does_not_block
   assert_success "program host projection mirrors do not block" case_program_host_projection_mirror_does_not_block
@@ -1295,6 +1323,7 @@ main() {
   assert_success "generated control and evidence residue are not swept into archive move" case_generated_control_and_evidence_residue_not_swept_into_archive_move
   assert_success "archived packet missing archive metadata fails closed" case_archived_packet_missing_archive_metadata_fails_closed
   assert_success "archived packet with active original path still present fails closed" case_archived_packet_active_original_path_still_present_fails_closed
+  assert_success "tracked generated run-health projections are unchanged" assert_generated_run_health_status_unchanged "$generated_run_health_status_before"
 
   echo
   echo "$TEST_NAME: passed=$pass_count failed=$fail_count"

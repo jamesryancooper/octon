@@ -1,0 +1,171 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml",
+      "manifest_sha256": "sha256:2b1ebb891d0a9c1e194ffac1cb5ef82b10ee12f8999786484ace88b1b076b43e",
+      "proposal_id": "run-program-clean-delivery-postmortem-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:86cfd7f8cd3d5f7dc6666ff58d2eebf3720a519562a0a6880ba6829cb4a7ca87",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child independently, implement validator hardening after accepted review, and close out with child-owned validator evidence.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-validator-hardening/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/"
+  ],
+  "proposal_id": "run-program-clean-delivery-validator-hardening",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 3454,
+      "estimated_tokens": 864,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/executable-implementation-prompt.md",
+      "sha256": "sha256:ba5c9bf1daa42a2c45ba06ffa43c08ad942898babb029fa803ad34b67ece24f9"
+    },
+    {
+      "byte_size": 4138,
+      "estimated_tokens": 1035,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-conformance-review.md",
+      "sha256": "sha256:14e14f10a8f96ede039f258081b4e605afea6ddf8bb314ada448bd77004ad5b4"
+    },
+    {
+      "byte_size": 1948,
+      "estimated_tokens": 487,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:faf104014b5d24bd271575701ae7d8a729a374ce3862eb1ac365089c4a3a99e4"
+    },
+    {
+      "byte_size": 3171,
+      "estimated_tokens": 793,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-run.md",
+      "sha256": "sha256:b1ac4d33a851c621a51c9950d9a4c62e0aacbd164ce60c91483a5f3601ca34ff"
+    },
+    {
+      "byte_size": 3554,
+      "estimated_tokens": 889,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:fb087c18fa498c08190e96c739b923d79625e5464454ccb023f615ec4dcd507c"
+    },
+    {
+      "byte_size": 3598,
+      "estimated_tokens": 900,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-closeout.md",
+      "sha256": "sha256:c19b041ca3494e4bc0d5a9870f38cb28a1307448638778609ceaeb973b4baace"
+    },
+    {
+      "byte_size": 1778,
+      "estimated_tokens": 445,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-review.md",
+      "sha256": "sha256:1b865b4df8f9a8b642ebc102f2161d7522347084ede8ae65789bcd506634acde"
+    },
+    {
+      "byte_size": 2112,
+      "estimated_tokens": 528,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/validation.md",
+      "sha256": "sha256:cfe638ef10e52b8f3328d07e625aa9f9ea828982bf6993f703f2b3159e00f6ec"
+    }
+  ],
+  "related_proposals": [
+    "run-program-clean-delivery-postmortem-hardening"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture-proposal.yml": "sha256:ba676c487fbe1658c70dfb0e2c33cbe6ccbc7ac04f048c1616f569e01f15636e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/acceptance-criteria.md": "sha256:fc2f2b0ffc70f309cd301ccb5df6fbadfe17b3ce4cff6006ca2aa5e002841ea4",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/implementation-plan.md": "sha256:4d4921bbe6b2b679329256007a53cb2ce55c3313f3d638086c6c1b1f98e76903",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/artifact-catalog.md": "sha256:d942d77455d825b1d7d736cabe783042d9e82f2077061f84aeb411c71127bcde",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/source-of-truth-map.md": "sha256:b6f769b82008c023dcc74661c99dc178df25814b3d04ff6115d0113be9e37212",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/proposal.yml": "sha256:0364f2bbb56a81451a319ecbd2ec08ad04ebf1fa264f64d5c47d1e5a23971ddc",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/executable-implementation-prompt.md": "sha256:ba5c9bf1daa42a2c45ba06ffa43c08ad942898babb029fa803ad34b67ece24f9",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md": "sha256:faf104014b5d24bd271575701ae7d8a729a374ce3862eb1ac365089c4a3a99e4",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-review.md": "sha256:1b865b4df8f9a8b642ebc102f2161d7522347084ede8ae65789bcd506634acde"
+  },
+  "source_lineage": [
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

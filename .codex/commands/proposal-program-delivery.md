@@ -51,7 +51,11 @@ evidence indexes do not satisfy these admission inputs.
 
 - A delivery evidence bundle under `.octon/state/evidence/runs/workflows/`.
 - A delivery summary under `.octon/state/evidence/validation/analysis/`.
-- A `proposal-program-delivery-receipt-v1` aggregate receipt.
+- A `proposal-program-delivery-receipt-v1` aggregate receipt that names the
+  retained delivery evidence index by path and validator posture without
+  embedding the index digest.
+- A validated compact `proposal-program-delivery-evidence-index-v1` retained
+  index.
 
 The receipt may report `cleaned` only when target-owned implementation
 receipts, source receipt refs and digests, publication freshness, packet

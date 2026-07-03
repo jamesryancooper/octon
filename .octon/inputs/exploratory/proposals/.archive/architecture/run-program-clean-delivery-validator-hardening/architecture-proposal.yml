@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: clean-delivery terminal validator chain
+decision_type: boundary-change
+status: accepted
+owner: Octon clean-delivery validator architect
+created_date: 2026-06-30
+summary: Strengthens the static clean-delivery validator chain and its negative controls.
+architecture_drivers:
+  - Final terminal claims must fail when blockers remain open.
+  - Delivery receipt, evidence index, disclosure validation, remote/local sync, and clean worktree proof must be checked together.
+  - Known false-terminal states need deterministic negative fixtures.
+constraints:
+  - Do not treat generated projections as authority for terminal status.
+  - Do not allow parent summaries to replace required route receipts.
+  - Keep validator evidence compact but behavior-proving.

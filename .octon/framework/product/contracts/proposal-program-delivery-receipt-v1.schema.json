@@ -28,6 +28,7 @@
     "final_sync",
     "terminal_current_state_proof",
     "worktree_hygiene",
+    "delivery_evidence_index",
     "clean_worktree_route",
     "lifecycle_postmortem",
     "blockers",
@@ -559,6 +560,48 @@
             "fail",
             "not-run"
           ]
+        }
+      }
+    },
+    "delivery_evidence_index": {
+      "description": "Non-circular binding to the retained compact delivery evidence index. The receipt names the index path and validator posture but does not embed the index digest.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "schema_version",
+        "validator_ref",
+        "validator_verdict",
+        "evidence_only",
+        "source_receipt_digest_bound",
+        "circular_digest_required"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_version": {
+          "const": "proposal-program-delivery-evidence-index-v1"
+        },
+        "validator_ref": {
+          "const": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
+        },
+        "validator_verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "not-run"
+          ]
+        },
+        "evidence_only": {
+          "const": true
+        },
+        "source_receipt_digest_bound": {
+          "const": true
+        },
+        "circular_digest_required": {
+          "const": false
         }
       }
     },

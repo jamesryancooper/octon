@@ -1,0 +1,31 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "run-program-clean-delivery-cleanup-disposition-pre-integration-architecture-review-refresh-20260703T054948Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition"
+packet_digest: "sha256:7299754b15b98ad89a3daa870dbb496d8fc06023da2df4be74608ca8085a73c1"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
+blockers: []
+mode_specific_coverage:
+  architecture_scope: "Clean-delivery cleanup and worktree disposition boundary change is scoped to closeout-worktree, hygiene classification, cleanup helper behavior, wrapper validation, and assurance tests."
+  authority_boundaries: "The packet preserves proposal-local non-authority, generated-output derived-only posture, state-control separation, state-evidence retention, and durable promotion target ownership."
+  lifecycle_gate: "Implementation-grade completeness has verdict pass with zero unresolved questions; accepted review authorizes implementation prompt generation only."
+  validation_plan: "Proposal validators, strict architecture receipt validation, classifier fixtures, closeout-worktree wrapper validation, cleanup dry-run checks, and deletion-denial negative controls are specified."
+  rollback_and_closeout: "Rollback is limited to this child packet's declared durable promotion targets; closeout requires child-owned residue classification and disposition evidence."

@@ -1,0 +1,44 @@
+{
+  "schema_version": "git-mutation-preflight-v1",
+  "emitted_at": "2026-07-03T10:40:06Z",
+  "repo_root": "/private/tmp/octon-run-program-clean-delivery-postmortem-hardening-delivery",
+  "git_common_dir": "/Users/jamesryancooper/Projects/octon/.git",
+  "status": "passed",
+  "blocker_class": null,
+  "current_branch": "chore/run-program-clean-delivery-postmortem-hardening-delivery",
+  "head_ref": "53cde5aa74b503362e354d124878cc65cfbb0c65",
+  "rollback_safe": true,
+  "non_authorizing": true,
+  "authority_effects": {
+    "delivery": false,
+    "landing": false,
+    "sync": false,
+    "cleanup": false,
+    "branch_deletion": false
+  },
+  "source_posture": {
+    "dirty": true,
+    "stale_against_base": false,
+    "base_ref": "origin/main"
+  },
+  "clean_worktree_route": {
+    "selected_route": "route-owned-clean-worktree",
+    "route_owned_clean_worktree_required": true,
+    "include_path_classification_ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-postmortem-hardening-20260703T093801Z/lifecycle-interactions/parent-route-owned-clean-worktree-return.json",
+    "include_path_classification_present": true
+  },
+  "checks": {
+    "index": {
+      "requested": true,
+      "status": "passed",
+      "blocker_class": null,
+      "detail": "created and removed index lock probe"
+    },
+    "ref": {
+      "requested": true,
+      "status": "passed",
+      "blocker_class": null,
+      "detail": "created and deleted temporary ref refs/octon/preflight/20260703T104006Z-90172"
+    }
+  }
+}

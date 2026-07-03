@@ -259,6 +259,41 @@ if receipt:
         ((receipt.get("target_program") or {}).get("path")),
         "target_program path matches source receipt",
     )
+    index_binding = receipt.get("delivery_evidence_index") or {}
+    require_equal(
+        index_binding.get("schema_version"),
+        "proposal-program-delivery-evidence-index-v1",
+        "source receipt delivery evidence index schema_version",
+    )
+    require_equal(
+        index_binding.get("validator_ref"),
+        ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh",
+        "source receipt delivery evidence index validator_ref",
+    )
+    require_equal(index_binding.get("validator_verdict"), "pass", "source receipt delivery evidence index validator_verdict")
+    require_bool(index_binding.get("evidence_only"), True, "source receipt delivery evidence index evidence-only")
+    require_bool(
+        index_binding.get("source_receipt_digest_bound"),
+        True,
+        "source receipt delivery evidence index source receipt digest bound",
+    )
+    require_bool(
+        index_binding.get("circular_digest_required"),
+        False,
+        "source receipt delivery evidence index circular digest required",
+    )
+    binding_ref = index_binding.get("ref")
+    if binding_ref:
+        binding_path = resolve_ref(binding_ref).resolve()
+        if binding_path == index_path.resolve():
+            ok("source receipt delivery evidence index ref matches index path")
+        else:
+            fail(
+                "source receipt delivery evidence index ref must match index path; "
+                f"found {binding_ref!r}"
+            )
+    else:
+        fail("source receipt delivery evidence index ref missing")
 
 route = index.get("route") or {}
 if route.get("change_closeout_route"):

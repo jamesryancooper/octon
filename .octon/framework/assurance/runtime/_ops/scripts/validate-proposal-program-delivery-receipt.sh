@@ -178,6 +178,7 @@ for token in \
   '"delivery_readiness_preflight"' \
   '"feature_catalog_drift"' \
   '"clean_worktree_route"' \
+  '"delivery_evidence_index"' \
   '"lifecycle_postmortem"' \
   '"child_packet_coverage"' \
   '"terminal_current_state_proof"' \
@@ -379,6 +380,24 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     require_scalar '.worktree_hygiene.evidence_ref' "worktree hygiene evidence_ref"
     require_bool '.worktree_hygiene.dirty_worktree' 'false' "worktree dirty flag"
     require_value '.worktree_hygiene.verdict' 'pass' "worktree hygiene verdict"
+  fi
+
+  require_scalar '.delivery_evidence_index.ref' "delivery evidence index ref"
+  require_value '.delivery_evidence_index.schema_version' 'proposal-program-delivery-evidence-index-v1' "delivery evidence index schema_version"
+  require_value '.delivery_evidence_index.validator_ref' '.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh' "delivery evidence index validator_ref"
+  case "$(scalar '.delivery_evidence_index.validator_verdict')" in
+    pass|fail|not-run)
+      pass "delivery evidence index validator_verdict allowed"
+      ;;
+    *)
+      fail "delivery evidence index validator_verdict must be pass, fail, or not-run"
+      ;;
+  esac
+  require_bool '.delivery_evidence_index.evidence_only' 'true' "delivery evidence index evidence-only"
+  require_bool '.delivery_evidence_index.source_receipt_digest_bound' 'true' "delivery evidence index source receipt digest bound"
+  require_bool '.delivery_evidence_index.circular_digest_required' 'false' "delivery evidence index circular digest required"
+  if [[ "$(scalar '.actual_outcome')" != "blocked" ]]; then
+    require_value '.delivery_evidence_index.validator_verdict' 'pass' "non-blocked delivery evidence index validator verdict"
   fi
 
   require_scalar '.clean_worktree_route.selected_route' "clean worktree selected route"

@@ -10,6 +10,7 @@ allowed_reference_files:
   - .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
   - .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs
   - .octon/instance/governance/policies/hierarchical-planning.yml
+  - .octon/instance/governance/policies/repo-hygiene.yml
   - .octon/instance/governance/policies/preflight-evidence-lane.yml
 required_rule_refs:
   - doc_ref: .octon/framework/constitution/obligations/fail-closed.yml

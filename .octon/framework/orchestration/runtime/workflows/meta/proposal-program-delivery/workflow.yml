@@ -467,6 +467,8 @@ workflow:
         - origin_main_equals_landed_ref
     cleaned:
       requires:
+        - delivery_receipt_valid
+        - delivery_evidence_index_valid
         - branch_cleanup_authorized_and_done
         - repo_hygiene_cleanup_authorized_and_done_or_not_needed
         - terminal_current_state_proof_pass

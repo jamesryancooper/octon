@@ -208,6 +208,20 @@ post_implementation_drift_churn:
   receipt_ref: fixture-drift.md
   verdict: pass
   fresh: true
+feature_catalog_drift:
+  receipt_ref: fixture-feature-catalog-drift.yml
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  fresh: true
+  verdict: pass
+  outcome: documented-change
+  unresolved_count: 0
+  affected_feature_ids:
+    - run-first-runtime-lifecycle
+  required_documentation_actions: []
+  child_receipt_refs:
+    - fixture-child-feature-catalog-drift.yml
+  authority_notes:
+    - parent drift summary is evidence-only and does not replace child receipts
 generated_publication:
   validator: validate-publication-freshness-gates.sh
   publisher_refs:
@@ -247,6 +261,14 @@ worktree_hygiene:
   evidence_ref: not-run
   dirty_worktree: true
   verdict: not-run
+delivery_evidence_index:
+  ref: not-run
+  schema_version: proposal-program-delivery-evidence-index-v1
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh
+  validator_verdict: not-run
+  evidence_only: true
+  source_receipt_digest_bound: true
+  circular_digest_required: false
 clean_worktree_route:
   source_dirty: false
   source_stale: false

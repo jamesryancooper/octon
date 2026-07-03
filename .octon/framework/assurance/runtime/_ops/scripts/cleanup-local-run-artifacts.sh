@@ -578,6 +578,10 @@ else
 fi
 
 write_classification_input_rows() {
+  if [[ ! -s "$REFERENCED_PATHS" ]]; then
+    awk '$0 != "" { print "0\t" $0 }' "$UNTRACKED_PATHS" >"$CLASSIFICATION_INPUT_ROWS"
+    return
+  fi
   awk '
     NR == FNR {
       if ($0 != "") {

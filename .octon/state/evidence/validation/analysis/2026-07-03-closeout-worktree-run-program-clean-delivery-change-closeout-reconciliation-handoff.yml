@@ -1,0 +1,141 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-run-program-clean-delivery-change-closeout-reconciliation-handoff-20260703T045900Z
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/worktree-hygiene-classifier.yml"
+residue_classification_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/worktree-hygiene-classifier.yml"
+final_inventory_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/worktree-hygiene-classifier.yml"
+selected_candidate_id: authorized-foreign-artifacts
+candidates:
+  - candidate_id: authorized-foreign-artifacts
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: foreign/manual program-level, prior-child, generated/publication, and retained route residue outside the change-closeout-reconciliation child closeout write scope
+    route_hint: closeout-worktree preserve-and-exclude return for closeout-change handoff
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, archive relocation, publication, staging, commit, push, cleanup, or Git ref mutation
+    boundaries:
+      include_paths:
+        - ".gitignore"
+        - ".octon/generated"
+        - ".octon/state"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+        - ".octon/framework/assurance/runtime/_ops/scripts"
+        - ".octon/framework/assurance/runtime/_ops/tests"
+        - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+        - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery"
+        - ".octon/framework/product/contracts"
+      exclude_paths:
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation"
+    proposal_program_handoff_authorization:
+      authorization_grant: operator-steering-closeout-hygiene-preserve-and-exclude
+      program_run_id: lifecycle-proposal-packet-change-closeout-reconciliation-20260703
+      child_id: run-program-clean-delivery-change-closeout-reconciliation
+      route_id: closeout-packet
+      interaction_request_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/lifecycle-interaction-request.json"
+      interaction_request_digest: "sha256:ba6854765876538c5af321d28913d9e449ab08fb48f0548fa3d3ae541f9cbea1"
+      classifier_output_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/worktree-hygiene-classifier.yml"
+      classifier_output_digest: "sha256:19c9e9c826cfb9fd2d4b3f2fb107ac94e80253303e423e417cf9f62ba9701956"
+      authorized_foreign_fingerprint: "sha256:405a8f13e2a5768df22dc0ed160d1ddadf0033c4009c2aa9d5a807d66e301292"
+      foreign_fingerprint: "sha256:405a8f13e2a5768df22dc0ed160d1ddadf0033c4009c2aa9d5a807d66e301292"
+      boundary_digest: "sha256:e05dd5c8259a3fb88f83e30dd1d0dd8fc3a825386e8ad22e73a3de66ed73f08b"
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        restore: false
+        overwrite: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        worktree_cleanup: false
+        repo_hygiene_deletion: false
+        promotion: false
+        hosted_provider_action: false
+        cleaned_claim: false
+        child_closeout_receipt_replacement: false
+        child_validation_replacement: false
+      authorized_paths:
+        - ".gitignore"
+        - ".octon/generated"
+        - ".octon/state"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+        - ".octon/framework/assurance/runtime/_ops/scripts"
+        - ".octon/framework/assurance/runtime/_ops/tests"
+        - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+        - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery"
+        - ".octon/framework/product/contracts"
+iterations: []
+final_candidate_dispositions:
+  authorized-foreign-artifacts:
+    state: foreign
+retained_residue:
+  - candidate_id: authorized-foreign-artifacts
+    path: ".gitignore"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/generated"
+    disposition: foreign/manual generated and publication residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state"
+    disposition: foreign/manual retained state and evidence residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness"
+    disposition: foreign/manual prior-child residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion"
+    disposition: foreign/manual prior-child residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+    disposition: foreign/manual parent-program residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/assurance/runtime/_ops/scripts"
+    disposition: foreign/manual broader program implementation residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/assurance/runtime/_ops/tests"
+    disposition: foreign/manual broader program implementation residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+    disposition: foreign/manual broader program implementation residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery"
+    disposition: foreign/manual broader program implementation residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery"
+    disposition: foreign/manual broader program implementation residue preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/product/contracts"
+    disposition: foreign/manual broader program implementation residue preserved outside child closeout scope
+blockers:
+  - candidate_id: authorized-foreign-artifacts
+    blocker: broader program-level, prior-child, generated/publication, and retained route residue remains intentionally preserved and is not change-closeout-reconciliation child closeout authority
+final_residue_classes:
+  ignored: 0
+  publishable_change: 7
+  publishable_closeout_evidence: 8
+  cleanup_safe_local_residue: 0
+  protected_retained_evidence: 17
+  protected_active_control_state: 58
+  foreign_manual_review: 3275
+worktree_terminal_state: nonterminal
+next_route_condition: return lifecycle-interaction evidence to proposal-packet child closeout preflight; broader residue remains preserved and excluded from this child blocker without cleanup or Git mutation

@@ -234,6 +234,16 @@ case_accepted_fresh_review_passes() {
   run_validator "$root" --require-implementation-authorization
 }
 
+case_in_review_architecture_receipt_survives_acceptance_status_transition() {
+  local root manifest
+  root="$(create_fixture_repo)"
+  write_packet "$root" in-review
+  write_review "$root" accepted yes 0
+  manifest="$(packet_dir "$root")/proposal.yml"
+  perl -0pi -e 's/status: "in-review"/status: "accepted"/' "$manifest"
+  run_validator "$root" --require-implementation-authorization
+}
+
 case_implemented_fresh_review_preserves_authorization() {
   local root
   root="$(create_fixture_repo)"
@@ -250,12 +260,50 @@ case_archived_fresh_review_preserves_authorization() {
   run_validator "$root" --require-implementation-authorization
 }
 
+case_archived_review_survives_archive_metadata_relocation() {
+  local root manifest
+  root="$(create_fixture_repo)"
+  write_packet "$root" implemented
+  write_review "$root" accepted yes 0
+  manifest="$(packet_dir "$root")/proposal.yml"
+  perl -0pi -e 's/status: "implemented"/status: "archived"\narchive:\n  archived_at: 2026-05-08\n  archived_from_status: implemented\n  disposition: implemented\n  original_path: .octon\/inputs\/exploratory\/proposals\/architecture\/review-fixture\n  promotion_evidence:\n    - .octon\/framework\/example.md/' "$manifest"
+  run_validator "$root" --require-implementation-authorization
+}
+
 case_accepted_stale_review_fails() {
   local root
   root="$(create_fixture_repo)"
   write_packet "$root" accepted
   write_review "$root" accepted yes 0
   printf '\nChanged after review.\n' >>"$(packet_dir "$root")/README.md"
+  run_validator "$root" --require-implementation-authorization
+}
+
+case_parent_owned_architecture_review_cannot_satisfy_child_gate() {
+  local root parent_dir child_receipt parent_receipt
+  root="$(create_fixture_repo)"
+  write_packet "$root" accepted
+  write_review "$root" accepted yes 0
+
+  child_receipt="$(packet_dir "$root")/support/pre-integration-architecture-review.yml"
+  parent_dir="$root/.octon/inputs/exploratory/proposals/architecture/parent-fixture/support"
+  parent_receipt="$parent_dir/pre-integration-architecture-review.yml"
+  mkdir -p "$parent_dir"
+  cp "$child_receipt" "$parent_receipt"
+  perl -0pi -e 's|proposal_path: "[^"]+"|proposal_path: ".octon/inputs/exploratory/proposals/architecture/parent-fixture"|' "$parent_receipt"
+  rm -f "$child_receipt"
+
+  run_validator "$root" --require-implementation-authorization
+}
+
+case_non_pass_architecture_review_blocks_strict_gate() {
+  local root receipt
+  root="$(create_fixture_repo)"
+  write_packet "$root" accepted
+  write_review "$root" accepted yes 0
+  receipt="$(packet_dir "$root")/support/pre-integration-architecture-review.yml"
+  perl -0pi -e 's/verdict: "pass"/verdict: "blocked"/; s/unresolved_count: 0/unresolved_count: 1/; s/blockers: \[\]/blockers:\n  - blocked fixture/' "$receipt"
+
   run_validator "$root" --require-implementation-authorization
 }
 
@@ -395,11 +443,17 @@ main() {
     "accepted packets pass strict review gate with a fresh accepted receipt" \
     case_accepted_fresh_review_passes
   assert_success \
+    "in-review architecture receipts remain fresh across acceptance status transition" \
+    case_in_review_architecture_receipt_survives_acceptance_status_transition
+  assert_success \
     "implemented packets preserve strict review authorization with a fresh accepted receipt" \
     case_implemented_fresh_review_preserves_authorization
   assert_success \
     "archived packets preserve strict review authorization with a fresh accepted receipt" \
     case_archived_fresh_review_preserves_authorization
+  assert_success \
+    "archived packets preserve review digest across archive metadata relocation" \
+    case_archived_review_survives_archive_metadata_relocation
   assert_failure_contains \
     "accepted packets fail when review digest is stale" \
     "reviewed packet digest is fresh" \
@@ -408,6 +462,14 @@ main() {
     "stale review digest emits stale evidence diagnostic" \
     '"stale_cause":"reviewed packet digest does not match current packet digest"' \
     case_accepted_stale_review_fails
+  assert_failure_contains \
+    "parent-owned architecture review cannot satisfy child gate" \
+    "architecture proposal has strict Pre-Integration Architecture Review receipt" \
+    case_parent_owned_architecture_review_cannot_satisfy_child_gate
+  assert_failure_contains \
+    "non-pass architecture review blocks strict implementation authorization" \
+    "required pass receipt has pass verdict" \
+    case_non_pass_architecture_review_blocks_strict_gate
   assert_failure_contains_without \
     "accepted review blockers emit hard blocker without repair hint" \
     '"hard_blocker_reason":"accepted review has open blocking findings"' \

@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal lifecycle architecture-review freshness
+decision_type: boundary-change
+status: accepted
+owner: Octon proposal-program architecture-review freshness architect
+created_date: 2026-06-30
+summary: Adds enforceable freshness semantics for architecture-review receipts used by proposal-program lifecycle routes.
+architecture_drivers:
+  - Stale packet_digest values must block review-sensitive route advancement.
+  - Receipt refresh must happen through the owning architecture-review route.
+  - Parent lifecycle evidence must not substitute for child-owned review receipts.
+constraints:
+  - Proposal inputs remain non-authoritative planning surfaces.
+  - Generated outputs cannot authorize review acceptance or receipt freshness.
+  - Freshness checks must be deterministic and fixture-backed.

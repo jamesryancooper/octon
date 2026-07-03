@@ -84,6 +84,9 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 The primary durable outputs are the workflow evidence bundle, the delivery
 summary, the aggregate `proposal-program-delivery-receipt-v1` receipt, and the
 compact `proposal-program-delivery-evidence-index-v1` retained index.
+The aggregate receipt must bind the evidence index by path and validator
+posture without embedding the index digest; the evidence index remains the
+digest-bound artifact for the source receipt and cited refs.
 
 ## Boundaries
 

@@ -7,6 +7,7 @@ GENERATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/generate-ru
 VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
 FIXTURE_ROOT="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/fixtures/run-health-read-model"
 SCHEMA_PATH="$ROOT_DIR/.octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+GENERATED_RUN_HEALTH_REF=".octon/generated/cognition/projections/materialized/runs"
 
 pass_count=0
 fail_count=0
@@ -45,6 +46,16 @@ assert_success() {
   else
     fail "$label"
   fi
+}
+
+generated_run_health_status_for_root() {
+  local root="$1"
+  git -C "$root" status --porcelain -- "$GENERATED_RUN_HEALTH_REF" 2>/dev/null || true
+}
+
+assert_generated_run_health_status_unchanged() {
+  local before="$1"
+  [[ "$(generated_run_health_status_for_root "$ROOT_DIR")" == "$before" ]]
 }
 
 create_fixture_repo() {
@@ -282,7 +293,27 @@ EOF
   yq -e '.pruned_paths[] | select(. == ".octon/generated/cognition/projections/materialized/runs/stale-run/health.yml")' "$evidence_root/generation.yml" >/dev/null
 }
 
+case_tracked_generated_run_health_mutation_is_detectable() {
+  local tmp before after
+  tmp="$(mktemp -d "${TMPDIR:-/tmp}/run-health-read-model.XXXXXX")"
+  cleanup_dirs+=("$tmp")
+  mkdir -p "$tmp/$GENERATED_RUN_HEALTH_REF/fixture-run"
+  printf 'baseline\n' >"$tmp/$GENERATED_RUN_HEALTH_REF/fixture-run/health.yml"
+  git -C "$tmp" init -q
+  git -C "$tmp" config user.email "octon-test@example.invalid"
+  git -C "$tmp" config user.name "Octon Test"
+  git -C "$tmp" add .
+  git -C "$tmp" commit -qm generated-run-health-baseline
+  before="$(generated_run_health_status_for_root "$tmp")"
+  printf 'changed\n' >"$tmp/$GENERATED_RUN_HEALTH_REF/fixture-run/health.yml"
+  after="$(generated_run_health_status_for_root "$tmp")"
+  [[ -z "$before" ]] &&
+    [[ "$after" == *" $GENERATED_RUN_HEALTH_REF/fixture-run/health.yml"* ]]
+}
+
 main() {
+  local generated_run_health_status_before
+  generated_run_health_status_before="$(generated_run_health_status_for_root "$ROOT_DIR")"
   assert_success "fixture statuses validate" case_fixture_statuses_validate
   assert_success "generation receipt includes published paths and index" case_generation_receipt_includes_published_paths_and_index
   assert_success "generation receipt includes compact manifest" case_generation_receipt_includes_compact_manifest
@@ -294,6 +325,8 @@ main() {
   assert_success "no-op generation keeps existing projection bytes" case_noop_generation_keeps_existing_projection_bytes
   assert_success "incremental run generation preserves unrelated health projection" case_incremental_run_generation_preserves_unrelated_health_projection
   assert_success "all-runs pruning records pruned paths" case_all_runs_pruning_records_pruned_paths
+  assert_success "tracked generated run-health mutation is detectable" case_tracked_generated_run_health_mutation_is_detectable
+  assert_success "tracked generated run-health projections are unchanged" assert_generated_run_health_status_unchanged "$generated_run_health_status_before"
 
   echo
   echo "$TEST_NAME: passed=$pass_count failed=$fail_count"

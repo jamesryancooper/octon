@@ -1,0 +1,173 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml",
+      "manifest_sha256": "sha256:2b1ebb891d0a9c1e194ffac1cb5ef82b10ee12f8999786484ace88b1b076b43e",
+      "proposal_id": "run-program-clean-delivery-postmortem-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:7299754b15b98ad89a3daa870dbb496d8fc06023da2df4be74608ca8085a73c1",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child independently, implement cleanup disposition after accepted review, and close out with child-owned residue classification and disposition evidence.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-cleanup-disposition/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+    ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/"
+  ],
+  "proposal_id": "run-program-clean-delivery-cleanup-disposition",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 22130,
+      "estimated_tokens": 5533,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/executable-implementation-prompt.md",
+      "sha256": "sha256:62e0dfd1f0101c3c474e7d4c4e2cb7fb3e3443a598ef3bed77e8a49fdf3364b3"
+    },
+    {
+      "byte_size": 5235,
+      "estimated_tokens": 1309,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-conformance-review.md",
+      "sha256": "sha256:a02503ea42425dbe0e2c72cb17eefe8b6e861832e539c3dd8623576d2dce8d6e"
+    },
+    {
+      "byte_size": 2062,
+      "estimated_tokens": 516,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:de2156cfec87fcf52046b2a2cca6c8412f24f3a188e16bb6840abc5fed816c47"
+    },
+    {
+      "byte_size": 2766,
+      "estimated_tokens": 692,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-run.md",
+      "sha256": "sha256:c014eee7efac0b17f5a15d37d2850bdbee6eef73dad24d07f3c98df68802d6fc"
+    },
+    {
+      "byte_size": 4046,
+      "estimated_tokens": 1012,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:21e07d4b7a9adaa4dadb85d45659fc94a854cacab590041d713f8bb8c00d2f4a"
+    },
+    {
+      "byte_size": 6085,
+      "estimated_tokens": 1522,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-closeout.md",
+      "sha256": "sha256:17af704946efd802eaefd9f89c604db066066f153ca4727ae8fd743526241f4c"
+    },
+    {
+      "byte_size": 6225,
+      "estimated_tokens": 1557,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-review.md",
+      "sha256": "sha256:cc5441146428a3ec9a4ce358c86c57d7b04d751bff36ce0b6e0895c7bace8912"
+    },
+    {
+      "byte_size": 6040,
+      "estimated_tokens": 1510,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/validation.md",
+      "sha256": "sha256:d6d4e28b7b18c51261756e9bd56988375174f268ebe2286bbe13e6a7f6b62868"
+    }
+  ],
+  "related_proposals": [
+    "run-program-clean-delivery-postmortem-hardening"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml": "sha256:3b1bab9ce1d743957689f7fa5db3b482c786c7d3cdd3f1e90dad25ee2744a11c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md": "sha256:a3cc33bdfff9b70673f8294d4063bbf55b281808fb11fb8382ec21fbb4f45d19",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md": "sha256:dc64a4aa081dffead0ab6a3f2d35d9cce6b8ad9903478da5b5a63acfbe7707fb",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md": "sha256:778f07d59c10d986a90263bb185b9bc90884c7219f63f6d40c1bb8df0e0b2489",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md": "sha256:c625ed11ae09485f8b56fce63abd2d066d19a21d061e40e9e999c472a5fa59bf",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml": "sha256:bb77c0c972c9eced6733c7e6fb8be142a26ceed08e8117d0fe77eb5016c33af7",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/executable-implementation-prompt.md": "sha256:62e0dfd1f0101c3c474e7d4c4e2cb7fb3e3443a598ef3bed77e8a49fdf3364b3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md": "sha256:de2156cfec87fcf52046b2a2cca6c8412f24f3a188e16bb6840abc5fed816c47",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-review.md": "sha256:cc5441146428a3ec9a4ce358c86c57d7b04d751bff36ce0b6e0895c7bace8912"
+  },
+  "source_lineage": [
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+    ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

@@ -1,0 +1,227 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-run-program-clean-delivery-architecture-review-freshness-handoff-20260703T023821Z
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+residue_classification_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+selected_candidate_id: authorized-foreign-artifacts
+candidates:
+  - candidate_id: authorized-foreign-artifacts
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: foreign/manual program-level residue outside the child closeout write scope
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no mutation performed
+    boundaries:
+      include_paths:
+        - ".octon/generated/effective/runtime/route-bundle.lock.yml"
+        - ".octon/generated/effective/runtime/route-bundle.yml"
+        - ".octon/generated/cognition/projections/materialized/runs/index.yml"
+        - ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml"
+        - ".octon/generated/proposals/registry.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+        - ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml"
+        - ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+        - ".octon/state/evidence/validation/publication/runtime/latest/runtime-route-bundle-runtime-route-bundle-d832aab6f332.yml"
+        - ".octon/state/continuity/runs/publish-1783045461249-35247"
+        - ".octon/state/continuity/runs/publish-1783045602550-82912"
+        - ".octon/state/control/execution/runs/lifecycle-proposal-program-1783042646367-bf60fd3b"
+        - ".octon/state/control/execution/runs/lifecycle-proposal-program-1783042707383-fe69b213"
+        - ".octon/state/control/execution/runs/publish-1783045461249-35247"
+        - ".octon/state/control/execution/runs/publish-1783045602550-82912"
+        - ".octon/state/evidence/control/execution/authority-decision-publish-1783045461249-35247.yml"
+        - ".octon/state/evidence/control/execution/authority-decision-publish-1783045602550-82912.yml"
+        - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1783045461249-35247.yml"
+        - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1783045602550-82912.yml"
+        - ".octon/state/evidence/external-index/runs/publish-1783045461249-35247.yml"
+        - ".octon/state/evidence/external-index/runs/publish-1783045602550-82912.yml"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md"
+        - ".octon/state/evidence/validation/publication/runtime/by-digest/runtime-route-bundle/548e2a0b89d770f1efdc87f5a5dd5fde9968196b82e0533c8cea222ee0557760.yml"
+      exclude_paths:
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-architectural-review-validators.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-review-gate.sh"
+    proposal_program_handoff_authorization:
+      authorization_grant: operator-authorized-foreign-artifact-preserve-and-exclude-for-child-closeout
+      program_run_id: lifecycle-proposal-packet-1783043808679-444c752d
+      child_id: run-program-clean-delivery-architecture-review-freshness
+      route_id: closeout-packet
+      interaction_request_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json"
+      classifier_output_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+      classifier_output_digest: "sha256:c0a506ec62d0b30d2990ffa74a5008ef6dfd98b6cddb6b807948f10e98007f29"
+      authorized_foreign_fingerprint: "sha256:c2a7cfcb6055429db01564e6cbd5355502659d23e418fa7e500a1b0ebfbd90bd"
+      foreign_fingerprint: "sha256:c2a7cfcb6055429db01564e6cbd5355502659d23e418fa7e500a1b0ebfbd90bd"
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+      authorized_paths:
+        - ".octon/generated/effective/runtime/route-bundle.lock.yml"
+        - ".octon/generated/effective/runtime/route-bundle.yml"
+        - ".octon/generated/cognition/projections/materialized/runs/index.yml"
+        - ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml"
+        - ".octon/generated/proposals/registry.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+        - ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml"
+        - ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+        - ".octon/state/evidence/validation/publication/runtime/latest/runtime-route-bundle-runtime-route-bundle-d832aab6f332.yml"
+        - ".octon/state/continuity/runs/publish-1783045461249-35247"
+        - ".octon/state/continuity/runs/publish-1783045602550-82912"
+        - ".octon/state/control/execution/runs/lifecycle-proposal-program-1783042646367-bf60fd3b"
+        - ".octon/state/control/execution/runs/lifecycle-proposal-program-1783042707383-fe69b213"
+        - ".octon/state/control/execution/runs/publish-1783045461249-35247"
+        - ".octon/state/control/execution/runs/publish-1783045602550-82912"
+        - ".octon/state/evidence/control/execution/authority-decision-publish-1783045461249-35247.yml"
+        - ".octon/state/evidence/control/execution/authority-decision-publish-1783045602550-82912.yml"
+        - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1783045461249-35247.yml"
+        - ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1783045602550-82912.yml"
+        - ".octon/state/evidence/external-index/runs/publish-1783045461249-35247.yml"
+        - ".octon/state/evidence/external-index/runs/publish-1783045602550-82912.yml"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md"
+        - ".octon/state/evidence/validation/publication/runtime/by-digest/runtime-route-bundle/548e2a0b89d770f1efdc87f5a5dd5fde9968196b82e0533c8cea222ee0557760.yml"
+iterations: []
+final_candidate_dispositions:
+  authorized-foreign-artifacts:
+    state: foreign
+retained_residue:
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/generated/effective/runtime/route-bundle.lock.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/generated/effective/runtime/route-bundle.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/generated/cognition/projections/materialized/runs/index.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/generated/proposals/registry.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/validation/publication/runtime/latest/runtime-route-bundle-runtime-route-bundle-d832aab6f332.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/continuity/runs/publish-1783045461249-35247"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/continuity/runs/publish-1783045602550-82912"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1783042646367-bf60fd3b"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/control/execution/runs/lifecycle-proposal-program-1783042707383-fe69b213"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/control/execution/runs/publish-1783045461249-35247"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/control/execution/runs/publish-1783045602550-82912"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/control/execution/authority-decision-publish-1783045461249-35247.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/control/execution/authority-decision-publish-1783045602550-82912.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1783045461249-35247.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1783045602550-82912.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/external-index/runs/publish-1783045461249-35247.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/external-index/runs/publish-1783045602550-82912.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state/evidence/validation/publication/runtime/by-digest/runtime-route-bundle/548e2a0b89d770f1efdc87f5a5dd5fde9968196b82e0533c8cea222ee0557760.yml"
+    disposition: foreign/manual preserved outside child closeout scope
+blockers:
+  - candidate_id: authorized-foreign-artifacts
+    blocker: broader program-level residue remains intentionally preserved for parent program delivery and is not child closeout authority
+final_inventory_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+final_residue_classes:
+  ignored: 0
+  retained_evidence: 20
+  generated_effective_output: 3
+  state_control: 10
+  input_surface: 1
+worktree_terminal_state: nonterminal
+next_route_condition: return lifecycle-interaction evidence to proposal-program child closeout preflight; broader residue remains under parent program delivery authority

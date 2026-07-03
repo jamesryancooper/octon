@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-validator-hardening
+title: Run Program Clean Delivery Validator Hardening
+summary: Harden clean-delivery validators so terminal claims require disclosure validation, no open blockers, delivery evidence, remote/local match, and a clean worktree.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-03
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening
+  promotion_evidence:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh
+  - .octon/state/evidence/validation/proposals/run-program-clean-delivery-validator-hardening/2026-07-03T0659Z-post-implementation-validation-summary.tsv
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, implement validator hardening after accepted review, and close out with child-owned validator evidence.
+related_proposals:
+- run-program-clean-delivery-postmortem-hardening
+acceptance_criteria_summary: Clean-delivery validation fails for every known false-terminal case and passes only when lifecycle, delivery, disclosure, remote/local, and worktree hygiene gates are all proven.
+authority_class_impact:
+  framework: Future implementation may update clean-delivery validators, evidence disclosure validator integration, validator tests, and fixtures listed in promotion targets.
+  instance: No direct instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation must retain validator proof and negative-control evidence for this child only.
+  generated: Generated outputs remain derived-only and cannot satisfy final disclosure or clean-terminal proof by themselves.
+  inputs: This child packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-06-30
+evidence_requirements:
+- Accepted child proposal review and strict pre-integration architecture review before durable edits.
+- Negative fixtures for dirty worktree, final sync false, open blockers, missing delivery receipt, missing delivery evidence index, and stale disclosure validation.
+- Positive fixture for completed parent lifecycle evidence with blocker_count zero, matching remote/local head, and clean status.
+- Proof that evidence-disclosure validation is part of the clean-delivery validator chain.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+owner:
+  role: Octon clean-delivery validator architect
+  accountable_role: human operator / repository owner
+risk_posture: High. Validator hardening must prevent false terminal claims without requiring manual interpretation of stale or unrelated evidence.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+scope_statement: This child owns validator-chain hardening only. It does not implement architecture-review freshness, delivery workflow semantics, Change closeout reconciliation, cleanup disposition, or test hermeticity.
+selected_implementation_target: Clean-delivery static validation chain and negative controls.
+source_lineage:
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-run-program-clean-delivery.sh --receipt <receipt>
+- validate-evidence-disclosure-tiers.sh --target <evidence-root>
+- test-run-program-clean-delivery-validator.sh

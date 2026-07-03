@@ -316,6 +316,14 @@ worktree_hygiene:
   evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T000000Z/worktree-hygiene.log
   dirty_worktree: false
   verdict: pass
+delivery_evidence_index:
+  ref: .octon/state/evidence/runs/workflows/test/proposal-program-delivery-evidence-index.yml
+  schema_version: proposal-program-delivery-evidence-index-v1
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh
+  validator_verdict: pass
+  evidence_only: true
+  source_receipt_digest_bound: true
+  circular_digest_required: false
 clean_worktree_route:
   source_dirty: false
   source_stale: false
@@ -451,6 +459,8 @@ mutate_receipt_expect_fail "repo hygiene deletion without cleanup authorization"
 mutate_receipt_expect_fail "missing terminal current-state proof" 'del(.terminal_current_state_proof.evidence_ref)'
 mutate_receipt_expect_fail "dirty worktree cleaned overclaim" '.worktree_hygiene.dirty_worktree = true'
 mutate_receipt_expect_fail "main origin landed ref mismatch" '.final_sync.main_origin_landed_ref_equal = false'
+mutate_receipt_expect_fail "missing delivery evidence index binding" 'del(.delivery_evidence_index)'
+mutate_receipt_expect_fail "delivery evidence index not validated" '.delivery_evidence_index.validator_verdict = "not-run"'
 mutate_receipt_expect_fail "missing readiness preflight fails" 'del(.delivery_readiness_preflight)'
 mutate_receipt_expect_fail "readiness preflight blocker fails non-blocked receipt" '.delivery_readiness_preflight.blockers = ["git-index-write-denied"]'
 mutate_receipt_expect_fail "dirty source without include-path classification fails" '.clean_worktree_route.source_dirty = true | .clean_worktree_route.selected_route = "current-clean-worktree" | .clean_worktree_route.include_path_classification_ref = "not-required" | .clean_worktree_route.include_path_classification_valid = false'

@@ -1,0 +1,112 @@
+{
+  "schema_version": "closeout-worktree-report-v1",
+  "wrapper_id": "closeout-worktree",
+  "default_work_unit": "Change",
+  "run_id": "closeout-worktree-run-program-clean-delivery-test-hermeticity-terminal-handoff-2-20260703T081000Z",
+  "observed_change_set_count": 1,
+  "read_only_classification": true,
+  "detection_is_deletion_authority": false,
+  "direct_material_actions_performed": false,
+  "repo_hygiene_cleanup_actions_performed": false,
+  "initial_inventory_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity-1/reports/worktree-hygiene-classification.md",
+  "residue_classification_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity-1/reports/worktree-hygiene-classification.md",
+  "final_inventory_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity-1/reports/worktree-hygiene-classification.md",
+  "selected_candidate_id": "authorized-terminal-request-current-classifier",
+  "candidates": [
+    {
+      "candidate_id": "authorized-terminal-request-current-classifier",
+      "disposition": "foreign",
+      "residue_routing_class": "foreign_manual_review",
+      "ownership": "terminal closeout handoff request evidence retained outside test-hermeticity child terminal cleanup authority",
+      "route_hint": "closeout-worktree preserve-and-exclude return for terminal closeout hygiene handoff",
+      "target_lifecycle_outcome": "preserved",
+      "rollback_or_discard_posture": "preserve-only; no deletion, reset, archive relocation, publication, staging, commit, push, cleanup, or Git ref mutation",
+      "boundaries": {
+        "include_paths": [
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/terminal-lifecycle-interaction-request.json"
+        ],
+        "exclude_paths": []
+      },
+      "proposal_program_handoff_authorization": {
+        "authorization_grant": "operator-steering-terminal-closeout-hygiene-preserve-and-exclude",
+        "program_run_id": "lifecycle-proposal-packet-test-hermeticity-20260703",
+        "child_id": "run-program-clean-delivery-test-hermeticity",
+        "route_id": "proposal-packet-terminal-closeout",
+        "interaction_request_ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/terminal-lifecycle-interaction-request.json",
+        "interaction_request_digest": "sha256:ba661616b718d59f0e797705ecaa431ad1f4bf955e87e6443a6b7c1023d6c4c8",
+        "classifier_output_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity-1/reports/worktree-hygiene-classification.md",
+        "classifier_output_digest": "sha256:226bd3a143f0fa61345af556102e72348b3e0fec5591f1e40bd6406f7dcb3d6d",
+        "terminal_receipt_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity-1/terminal-receipt.yml",
+        "terminal_receipt_digest": "sha256:747f1cfa915c23865097032bea50510cf9f804fb2196319f88b3a426ffb3cd8d",
+        "authorized_paths": [
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/terminal-lifecycle-interaction-request.json"
+        ],
+        "authorized_foreign_fingerprint": "sha256:e4a5655d02ae9ca823a07a7dcdaa052d37f4713104b7f074dabaca085a1b8aef",
+        "foreign_fingerprint": "sha256:e4a5655d02ae9ca823a07a7dcdaa052d37f4713104b7f074dabaca085a1b8aef",
+        "boundary_digest": "sha256:902ac621639ba6ea330dc15ed84af0c15b050e569eb4ecd96646653362e6a487",
+        "disposition": "preserve-and-exclude-from-child-closeout-blocking",
+        "outside_child_route_write_scope": true,
+        "non_mutating": true,
+        "preserve_and_exclude_from_child_closeout_blocking": true,
+        "parent_summary_not_child_closeout_receipt": true,
+        "child_closeout_authority_preserved": true,
+        "parent_evidence_replaces_child_evidence": false,
+        "forbidden_actions": {
+          "deletion": false,
+          "reset": false,
+          "restore": false,
+          "overwrite": false,
+          "archive_relocation": false,
+          "publication": false,
+          "staging": false,
+          "commit": false,
+          "push": false,
+          "git_ref_mutation": false,
+          "cleaned_claim": false,
+          "archive": false,
+          "branch_cleanup": false,
+          "worktree_cleanup": false,
+          "repo_hygiene_deletion": false,
+          "promotion": false,
+          "hosted_provider_action": false,
+          "child_closeout_receipt_replacement": false,
+          "child_validation_replacement": false
+        }
+      }
+    }
+  ],
+  "retained_residue": [
+    {
+      "candidate_id": "authorized-terminal-request-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/terminal-lifecycle-interaction-request.json",
+      "disposition": "foreign/manual terminal interaction request retained; no cleanup or Git mutation performed"
+    }
+  ],
+  "blockers": [
+    {
+      "candidate_id": "authorized-terminal-request-current-classifier",
+      "blocker": "terminal interaction request remains intentionally preserved and outside test-hermeticity child terminal cleanup authority"
+    }
+  ],
+  "final_candidate_dispositions": {
+    "authorized-terminal-request-current-classifier": {
+      "state": "foreign"
+    }
+  },
+  "iterations": [],
+  "final_residue_classes": {
+    "ignored": 0,
+    "staged": 0,
+    "unstaged_tracked": 0,
+    "untracked": 1,
+    "generated_effective_output": 0,
+    "host_projection": 0,
+    "retained_evidence": 1,
+    "state_control": 0,
+    "release_version": 0,
+    "input_surface": 0,
+    "foreign_manual_review": 1
+  },
+  "worktree_terminal_state": "nonterminal",
+  "next_route_condition": "return lifecycle-interaction evidence to proposal-packet terminal closeout; terminal request evidence remains preserved and excluded from this child terminal blocker without cleanup or Git mutation"
+}

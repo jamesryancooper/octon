@@ -1,0 +1,9 @@
+command	verdict	summary
+validate-proposal-standard.sh --skip-registry-check	pass	Packet structural validation passed after child-owned review artifact updates.
+validate-architecture-proposal.sh	pass	Architecture subtype validation passed with strict pre-integration review receipt.
+validate-proposal-implementation-readiness.sh	pass	Implementation readiness and accepted review gate passed.
+validate-proposal-review-gate.sh --require-implementation-authorization	pass	Accepted review digest and strict architecture receipt were fresh.
+validate-architectural-review-receipts.sh --require-pass	pass	Pre-integration architecture review receipt passed with zero blockers.
+validate-evidence-disclosure-tiers.sh	pass	Evidence disclosure tier contract validation passed.
+validate-run-program-clean-delivery.sh	pass	Static clean-delivery validator chain passed, including evidence disclosure validation.
+test-run-program-clean-delivery-validator.sh	pass	Focused fixture suite passed with pass=17 fail=0, including stale disclosure validation and false-terminal negative controls.

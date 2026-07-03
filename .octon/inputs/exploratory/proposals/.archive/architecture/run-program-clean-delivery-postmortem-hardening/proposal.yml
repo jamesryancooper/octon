@@ -1,0 +1,130 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-postmortem-hardening
+title: Run Program Clean Delivery Postmortem Hardening
+summary: |
+  Create a corrective proposal program that addresses every material issue identified in the postmortem for the run-program-to-clean-delivery proposal program, including stale parent architecture review evidence, missing delivery receipts, manual Change closeout reconciliation gaps, cleanup disposition ambiguity, validator coverage gaps, and non-hermetic validation tests.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+- .octon/framework/engine/runtime/crates/kernel/src/workflow.rs
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+- .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/product/contracts/default-work-unit.yml
+- .octon/framework/product/contracts/change-closeout-state-machine.yml
+- .octon/framework/product/contracts/change-receipt-v1.schema.json
+- .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+- .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+- .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+- .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+- .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-03
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening
+  promotion_evidence:
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-test-hermeticity/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-test-hermeticity/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-test-hermeticity/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-test-hermeticity/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-closeout.md
+lifecycle:
+  temporary: true
+  exit_expectation: |
+    Review this parent program, review and authorize each child packet independently, implement only through child-owned routes, and close out the parent only after child-owned evidence proves the repeated failure modes are durably corrected without replacing child authority or delivery authority.
+related_proposals:
+- run-program-clean-delivery-architecture-review-freshness
+- run-program-clean-delivery-delivery-receipt-completion
+- run-program-clean-delivery-change-closeout-reconciliation
+- run-program-clean-delivery-cleanup-disposition
+- run-program-clean-delivery-validator-hardening
+- run-program-clean-delivery-test-hermeticity
+acceptance_criteria_summary: |
+  The program is acceptable when all six child packets have complete target surfaces, validation gates, acceptance criteria, and authority boundaries that prevent recurrence of the stale review, false completion, missing delivery receipt, manual closeout bypass, cleanup ambiguity, validator gap, and non-hermetic test issues identified in the postmortem.
+authority_class_impact:
+  framework: Coordinates future lifecycle, workflow, closeout, product-contract, validator, and test changes through child packets.
+  instance: No direct instance authority changes from this parent.
+  state_control: No state-control mutation from this parent.
+  state_evidence: Future children may define retained evidence requirements, but this parent creates only proposal-local planning evidence.
+  generated: No generated output edits are authorized by this parent.
+  inputs: Parent and child packets are temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-06-30
+evidence_requirements:
+- Child-owned review, pre-integration architecture review, implementation, conformance, drift/churn, validation, closeout, and archive evidence for each implemented child.
+- Fresh parent architecture-review receipt validation evidence before any parent review or delivery claim.
+- Concrete Proposal Program Delivery receipt and evidence-index validation before any clean-delivery claim.
+- Change closeout evidence that reconciles hosted landing, local main sync, source branch cleanup, and terminal proof after the final Git mutation.
+- Cleanup and worktree disposition evidence that separates classification from deletion authority.
+- Validator negative controls covering dirty worktree, final sync false, open blockers, stale receipt digests, and missing delivery evidence.
+- Hermetic test evidence proving validation tests do not dirty tracked generated read models.
+explicit_runtime_non_implementation_statement: |
+  This parent creates planning artifacts only. Durable changes require accepted child packets, child-owned implementation routes, conformance review, drift/churn review, validation, closeout, and archive handling.
+generated_input_authority_impact: |
+  Proposal files, generated outputs, generated read models, prompts, chat history, dashboards, local-only evidence, and host UI state remain non-authoritative. Generated outputs must be refreshed only through canonical generators.
+owner:
+  role: Octon proposal-program postmortem hardening architect
+  accountable_role: human operator / repository owner
+program_execution_mode: sequential
+readiness_projection:
+  publication_freshness_refs:
+  - .octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-program-spine.yml
+release_state: pre-1.0
+risk_posture: High. The corrective work touches lifecycle completion claims and terminal delivery proof; weak fixes can create false confidence.
+rollback_summary: |
+  Reject or supersede this parent before implementation if the decomposition is wrong. After child implementation begins, rollback must happen through each child packet's own promotion targets and retained evidence.
+scope_statement: |
+  Parent coordination only. This program decomposes the postmortem corrective work into sibling child packets. The parent does not implement runtime behavior, refresh stale receipts, run delivery, mutate Git refs, clean residue, update generated outputs, archive proposals, or claim terminal repository hygiene.
+selected_implementation_target: run-program-to-clean-delivery postmortem corrective hardening
+source_lineage:
+- .octon/inputs/exploratory/proposals/architecture/run-program-to-clean-delivery
+- .octon/state/evidence/runs/workflows/20260630T023600Z-run-program-clean-delivery-post-change-closeout-replan
+- .octon/state/evidence/runs/skills/closeout-change/20260630T023314Z-run-program-clean-delivery-parent-lifecycle-change/change-receipt.json
+- .octon/state/evidence/validation/analysis/2026-06-30-closeout-worktree-run-program-to-clean-delivery-parent-lifecycle-residue-handoff.yml
+- .octon/state/evidence/validation/analysis/2026-06-30-closeout-worktree-run-program-to-clean-delivery-parent-closeout-program-hygiene.yml
+validation_gates:
+- validate-proposal-standard.sh for parent and children
+- validate-architecture-proposal.sh for parent and children
+- validate-proposal-program-structure.sh for parent
+- validate-proposal-program-child-readiness.sh after child review acceptance
+- validate-architectural-review-receipts.sh --require-pass for architecture-review freshness
+- validate-proposal-program-delivery-receipt.sh against a concrete receipt path
+- validate-proposal-program-delivery-evidence-index.sh against a concrete index path
+- validate-change-closeout-lifecycle-alignment.sh --verify-live-refs for final Change closeout
+- validate-hosted-no-pr-landing.sh --require-live-remote for branch-no-pr landed or cleaned claims
+- validate-run-program-clean-delivery.sh with receipt-level negative controls

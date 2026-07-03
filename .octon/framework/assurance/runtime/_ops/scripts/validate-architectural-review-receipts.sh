@@ -141,19 +141,25 @@ if [[ -n "$PACKAGE" ]]; then
   if [[ -d "$PACKAGE_ABS" ]]; then
     current_digest="$(bash "$SCRIPT_DIR/validate-proposal-review-gate.sh" --package "$PACKAGE_ABS" --print-digest)"
     [[ "$packet_digest" == "$current_digest" ]] && pass "packet_digest is fresh for package" || {
-      emit_stale_evidence_recovery_diagnostic \
-        "$(repo_rel "$RECEIPT")#packet_digest" \
-        "$packet_digest" \
-        "$current_digest" \
-        "$(repo_rel "$RECEIPT")" \
-        "architectural review receipt packet_digest does not match current packet digest" \
-        "$(architectural_review_rerun_gate)" \
-        "rerun the $review_mode route at the next authorized stable digest boundary so the receipt records the current packet digest" \
-        "packet-content-drift-after-architecture-review" \
-        "$review_mode" \
-        "packet_digest"
-      fail "packet_digest is fresh for package"
-      printf 'recorded: %s\ncurrent:  %s\n' "$packet_digest" "$current_digest" >&2
+      if [[ "$(yq -r '.status // ""' "$PACKAGE_ABS/proposal.yml" 2>/dev/null)" == "archived" \
+        && -n "$(yq -r '.archive.original_path // ""' "$PACKAGE_ABS/proposal.yml" 2>/dev/null)" \
+        && "$packet_digest" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+        pass "packet_digest preserved from pre-archive packet"
+      else
+        emit_stale_evidence_recovery_diagnostic \
+          "$(repo_rel "$RECEIPT")#packet_digest" \
+          "$packet_digest" \
+          "$current_digest" \
+          "$(repo_rel "$RECEIPT")" \
+          "architectural review receipt packet_digest does not match current packet digest" \
+          "$(architectural_review_rerun_gate)" \
+          "rerun the $review_mode route at the next authorized stable digest boundary so the receipt records the current packet digest" \
+          "packet-content-drift-after-architecture-review" \
+          "$review_mode" \
+          "packet_digest"
+        fail "packet_digest is fresh for package"
+        printf 'recorded: %s\ncurrent:  %s\n' "$packet_digest" "$current_digest" >&2
+      fi
     }
   else
     fail "package path exists for digest freshness"

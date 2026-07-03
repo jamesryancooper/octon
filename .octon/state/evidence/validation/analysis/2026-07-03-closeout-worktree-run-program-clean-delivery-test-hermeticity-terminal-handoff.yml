@@ -1,0 +1,1876 @@
+{
+  "schema_version": "closeout-worktree-report-v1",
+  "wrapper_id": "closeout-worktree",
+  "default_work_unit": "Change",
+  "run_id": "closeout-worktree-run-program-clean-delivery-test-hermeticity-terminal-handoff-20260703T080500Z",
+  "observed_change_set_count": 1,
+  "read_only_classification": true,
+  "detection_is_deletion_authority": false,
+  "direct_material_actions_performed": false,
+  "repo_hygiene_cleanup_actions_performed": false,
+  "initial_inventory_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity/reports/worktree-hygiene-classification.md",
+  "residue_classification_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity/reports/worktree-hygiene-classification.md",
+  "final_inventory_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity/reports/worktree-hygiene-classification.md",
+  "selected_candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+  "candidates": [
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "disposition": "foreign",
+      "residue_routing_class": "foreign_manual_review",
+      "ownership": "foreign/manual terminal closeout evidence, generated publication residue, retained route evidence, and prior lifecycle residue outside the test-hermeticity child terminal closeout write scope",
+      "route_hint": "closeout-worktree preserve-and-exclude return for terminal closeout hygiene handoff",
+      "target_lifecycle_outcome": "preserved",
+      "rollback_or_discard_posture": "preserve-only; no deletion, reset, archive relocation, publication, staging, commit, push, cleanup, or Git ref mutation",
+      "boundaries": {
+        "include_paths": [
+          ".codex/commands/proposal-program-delivery.md",
+          ".codex/skills/proposal-program-delivery/SKILL.md",
+          ".cursor/commands/proposal-program-delivery.md",
+          ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh",
+          ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+          ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+          ".octon/generated/cognition/projections/materialized/runs/index.yml",
+          ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-cleanup-disposition/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-cleanup-disposition/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-test-hermeticity/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-test-hermeticity/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-validator-hardening/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-validator-hardening/proposal-program-spine.yml",
+          ".octon/generated/proposals/registry.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/validation-plan.md",
+          ".octon/state/control/extensions/active.yml",
+          ".octon/state/control/extensions/quarantine.yml",
+          ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-architectural-review-receipts.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-architecture-proposal.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-lifecycle-interaction-request.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-implementation-conformance.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-implementation-readiness.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-post-implementation-drift.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-review-gate.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-standard-skip-registry.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-cleanup-disposition-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-cleanup-disposition-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architectural-review-receipts.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architecture-proposal.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-conformance.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-readiness.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-post-implementation-drift.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-review-gate.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-standard-skip-registry.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/terminal-lifecycle-interaction-request-20260703T072500Z.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/terminal-lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-1.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-2.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-3.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-4.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-architecture-review-freshness-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-change-closeout-reconciliation-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-change-closeout-reconciliation-terminal-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-cleanup-disposition-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-cleanup-disposition-terminal-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-delivery-receipt-completion-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-delivery-receipt-completion-terminal-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff-2.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff-3.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-1.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-2.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-3.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-4.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-5.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md",
+          ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml",
+          ".octon/state/evidence/validation/compatibility/extensions/2026-07-03T06-21-11Z-extensions-e539e7c8b239.yml",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-change-closeout-reconciliation/20260703T044557Z/implementation-evidence.md",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0600Z-implementation-validation-summary.tsv",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0604Z-corrected-validation-summary.tsv",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0605Z-post-implementation-validation-summary.tsv",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0606Z-out-of-scope-observation-summary.tsv",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-delivery-receipt-completion/implementation-evidence-2026-07-03.md",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-validator-hardening/2026-07-03T0659Z-post-implementation-validation-summary.tsv"
+        ],
+        "exclude_paths": []
+      },
+      "proposal_program_handoff_authorization": {
+        "authorization_grant": "operator-steering-terminal-closeout-hygiene-preserve-and-exclude",
+        "program_run_id": "lifecycle-proposal-packet-test-hermeticity-20260703",
+        "child_id": "run-program-clean-delivery-test-hermeticity",
+        "route_id": "proposal-packet-terminal-closeout",
+        "interaction_request_ref": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/terminal-lifecycle-interaction-request.json",
+        "interaction_request_digest": "sha256:ba661616b718d59f0e797705ecaa431ad1f4bf955e87e6443a6b7c1023d6c4c8",
+        "classifier_output_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity/reports/worktree-hygiene-classification.md",
+        "classifier_output_digest": "sha256:dea3cc344994db29c14867d5f655e36e0cf195dbd7a478ca25447701afdffdbe",
+        "terminal_receipt_ref": ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-test-hermeticity/terminal-receipt.yml",
+        "terminal_receipt_digest": "sha256:b690e547fa8eab06a901447f1187a933723dd0743606921bdfa82f3a54d62424",
+        "authorized_paths": [
+          ".codex/commands/proposal-program-delivery.md",
+          ".codex/skills/proposal-program-delivery/SKILL.md",
+          ".cursor/commands/proposal-program-delivery.md",
+          ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh",
+          ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh",
+          ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md",
+          ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+          ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+          ".octon/generated/cognition/projections/materialized/runs/index.yml",
+          ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-cleanup-disposition/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-cleanup-disposition/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-test-hermeticity/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-test-hermeticity/proposal-program-spine.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-validator-hardening/proposal-artifact-index.yml",
+          ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-validator-hardening/proposal-program-spine.yml",
+          ".octon/generated/proposals/registry.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/README.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/proposal.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/executable-implementation-prompt.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-conformance-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-run.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/post-implementation-drift-churn-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-closeout.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-terminal-closeout.yml",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/validation.md",
+          ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/validation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/README.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture-proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/acceptance-criteria.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/implementation-plan.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/target-architecture.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/navigation/artifact-catalog.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/navigation/source-of-truth-map.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/proposal.yml",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/resources/source-lineage.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+          ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/validation-plan.md",
+          ".octon/state/control/extensions/active.yml",
+          ".octon/state/control/extensions/quarantine.yml",
+          ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-architectural-review-receipts.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-architecture-proposal.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-lifecycle-interaction-request.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-implementation-conformance.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-implementation-readiness.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-post-implementation-drift.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-review-gate.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-standard-skip-registry.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-cleanup-disposition-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-cleanup-disposition-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architectural-review-receipts.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architecture-proposal.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-conformance.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-readiness.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-post-implementation-drift.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-review-gate.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-standard-skip-registry.log",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/terminal-lifecycle-interaction-request-20260703T072500Z.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/terminal-lifecycle-interaction-request.json",
+          ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/worktree-hygiene-classifier.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-1.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-2.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-3.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-4.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-architecture-review-freshness-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-change-closeout-reconciliation-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-change-closeout-reconciliation-terminal-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-cleanup-disposition-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-cleanup-disposition-terminal-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-delivery-receipt-completion-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-delivery-receipt-completion-terminal-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff-2.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff-3.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff.yml",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-1.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-2.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-3.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-4.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-5.md",
+          ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md",
+          ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml",
+          ".octon/state/evidence/validation/compatibility/extensions/2026-07-03T06-21-11Z-extensions-e539e7c8b239.yml",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-change-closeout-reconciliation/20260703T044557Z/implementation-evidence.md",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0600Z-implementation-validation-summary.tsv",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0604Z-corrected-validation-summary.tsv",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0605Z-post-implementation-validation-summary.tsv",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0606Z-out-of-scope-observation-summary.tsv",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-delivery-receipt-completion/implementation-evidence-2026-07-03.md",
+          ".octon/state/evidence/validation/proposals/run-program-clean-delivery-validator-hardening/2026-07-03T0659Z-post-implementation-validation-summary.tsv"
+        ],
+        "authorized_foreign_fingerprint": "sha256:25acef5d79cac941d7f58306c57a52695214daf53765be2b9db727a7605f4d73",
+        "foreign_fingerprint": "sha256:25acef5d79cac941d7f58306c57a52695214daf53765be2b9db727a7605f4d73",
+        "boundary_digest": "sha256:682db0a03c4d0d8763069eabeecb47ea70436c97033314110a30aa5ec15c9756",
+        "disposition": "preserve-and-exclude-from-child-closeout-blocking",
+        "outside_child_route_write_scope": true,
+        "non_mutating": true,
+        "preserve_and_exclude_from_child_closeout_blocking": true,
+        "parent_summary_not_child_closeout_receipt": true,
+        "child_closeout_authority_preserved": true,
+        "parent_evidence_replaces_child_evidence": false,
+        "forbidden_actions": {
+          "deletion": false,
+          "reset": false,
+          "restore": false,
+          "overwrite": false,
+          "archive_relocation": false,
+          "publication": false,
+          "staging": false,
+          "commit": false,
+          "push": false,
+          "git_ref_mutation": false,
+          "cleaned_claim": false,
+          "archive": false,
+          "branch_cleanup": false,
+          "worktree_cleanup": false,
+          "repo_hygiene_deletion": false,
+          "promotion": false,
+          "hosted_provider_action": false,
+          "child_closeout_receipt_replacement": false,
+          "child_validation_replacement": false
+        }
+      }
+    }
+  ],
+  "retained_residue": [
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".codex/commands/proposal-program-delivery.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".codex/skills/proposal-program-delivery/SKILL.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".cursor/commands/proposal-program-delivery.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/cognition/projections/materialized/runs/index.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-artifact-index.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-program-spine.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal-artifact-index.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal-program-spine.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-cleanup-disposition/proposal-artifact-index.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-cleanup-disposition/proposal-program-spine.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-artifact-index.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-program-spine.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-artifact-index.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-program-spine.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-test-hermeticity/proposal-artifact-index.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-test-hermeticity/proposal-program-spine.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-validator-hardening/proposal-artifact-index.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-validator-hardening/proposal-program-spine.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/generated/proposals/registry.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/executable-implementation-prompt.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-conformance-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-run.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-closeout.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-terminal-closeout.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/validation.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/executable-implementation-prompt.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-conformance-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-run.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-closeout.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/proposal-terminal-closeout.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/validation.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/executable-implementation-prompt.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-conformance-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-run.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-closeout.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/proposal-terminal-closeout.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/support/validation.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/executable-implementation-prompt.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-conformance-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-run.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-closeout.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-terminal-closeout.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/support/validation.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-delivery-receipt-completion/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/executable-implementation-prompt.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-conformance-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/implementation-run.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/post-implementation-drift-churn-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-closeout.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/proposal-terminal-closeout.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/support/validation.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-validator-hardening/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-change-closeout-reconciliation/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/README.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture-proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/acceptance-criteria.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/implementation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/architecture/target-architecture.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/navigation/artifact-catalog.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/navigation/source-of-truth-map.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/proposal.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/resources/source-lineage.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/support/implementation-grade-completeness-review.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-validator-hardening/validation-plan.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/control/extensions/active.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/control/extensions/quarantine.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/lifecycle-interaction-request.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-architectural-review-receipts.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-architecture-proposal.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-lifecycle-interaction-request.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-implementation-conformance.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-implementation-readiness.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-post-implementation-drift.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-review-gate.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/validate-proposal-standard-skip-registry.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-change-closeout-reconciliation-20260703/worktree-hygiene-classifier.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-cleanup-disposition-20260703/lifecycle-interaction-request.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-cleanup-disposition-20260703/worktree-hygiene-classifier.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/lifecycle-interaction-request.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architectural-review-receipts.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architecture-proposal.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-conformance.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-readiness.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-post-implementation-drift.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-review-gate.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-standard-skip-registry.log",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/lifecycle-interaction-request.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-test-hermeticity-20260703/worktree-hygiene-classifier.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/lifecycle-interaction-request.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/terminal-lifecycle-interaction-request-20260703T072500Z.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/terminal-lifecycle-interaction-request.json",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-validator-hardening-20260703/worktree-hygiene-classifier.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-1.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-2.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-3.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal-4.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-architecture-review-freshness-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-change-closeout-reconciliation-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-change-closeout-reconciliation-terminal-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-cleanup-disposition-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-cleanup-disposition-terminal-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-delivery-receipt-completion-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-delivery-receipt-completion-terminal-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff-2.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff-3.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-validator-hardening-terminal-handoff.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-1.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-2.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-3.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-4.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-5.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/compatibility/extensions/2026-07-03T06-21-11Z-extensions-e539e7c8b239.yml",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/proposals/run-program-clean-delivery-change-closeout-reconciliation/20260703T044557Z/implementation-evidence.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0600Z-implementation-validation-summary.tsv",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0604Z-corrected-validation-summary.tsv",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0605Z-post-implementation-validation-summary.tsv",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0606Z-out-of-scope-observation-summary.tsv",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/proposals/run-program-clean-delivery-delivery-receipt-completion/implementation-evidence-2026-07-03.md",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    },
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "path": ".octon/state/evidence/validation/proposals/run-program-clean-delivery-validator-hardening/2026-07-03T0659Z-post-implementation-validation-summary.tsv",
+      "disposition": "foreign/manual terminal closeout residue retained; no cleanup or Git mutation performed"
+    }
+  ],
+  "blockers": [
+    {
+      "candidate_id": "authorized-terminal-foreign-artifacts-current-classifier",
+      "blocker": "current terminal closeout foreign/ambiguous set remains intentionally preserved and outside test-hermeticity child terminal cleanup authority"
+    }
+  ],
+  "final_candidate_dispositions": {
+    "authorized-terminal-foreign-artifacts-current-classifier": {
+      "state": "foreign"
+    }
+  },
+  "iterations": [],
+  "final_residue_classes": {
+    "ignored": 0,
+    "staged": 0,
+    "unstaged_tracked": 0,
+    "untracked": 253,
+    "generated_effective_output": 0,
+    "host_projection": 0,
+    "retained_evidence": 253,
+    "state_control": 0,
+    "release_version": 0,
+    "input_surface": 0,
+    "foreign_manual_review": 253
+  },
+  "worktree_terminal_state": "nonterminal",
+  "next_route_condition": "return lifecycle-interaction evidence to proposal-packet terminal closeout; current terminal foreign/ambiguous set remains preserved and excluded from this child terminal blocker without cleanup or Git mutation"
+}

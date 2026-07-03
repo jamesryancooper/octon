@@ -1,0 +1,443 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-run-program-clean-delivery-delivery-receipt-completion-terminal-handoff-20260703T043000Z
+observed_change_set_count: 3
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-delivery-receipt-completion-1/reports/worktree-hygiene-classification.md"
+residue_classification_ref: ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-delivery-receipt-completion-1/reports/worktree-hygiene-classification.md"
+final_inventory_ref: ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-delivery-receipt-completion-1/reports/worktree-hygiene-classification.md"
+selected_candidate_id: delivery-change
+candidates:
+  - candidate_id: delivery-change
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: delivery-receipt-completion implementation and publication change candidate owned by downstream Change closeout
+    route_hint: closeout-change branch-no-pr after archive authorization
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: preserve for later route-owned branch-no-pr closeout; no cleanup or Git mutation here
+    boundaries:
+      include_paths:
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-branch-no-pr-bounded-authorization-envelope.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh"
+        - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+        - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml"
+        - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+      exclude_paths:
+        - ".git"
+        - ".octon/state"
+        - ".octon/inputs"
+        - ".octon/generated"
+  - candidate_id: packet-archive
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: terminal classifier foreign/manual program-level, generated/publication, prior-child archive, and retained route evidence outside this terminal closeout write authority
+    route_hint: closeout-worktree preserve-and-exclude return
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, archive relocation, publication, staging, commit, push, or Git ref mutation
+    boundaries:
+      include_paths:
+        - ".octon/generated/cognition/projections/materialized/runs/index.yml"
+        - ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml"
+        - ".octon/generated/proposals/registry.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/README.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml"
+        - ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+        - ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-artifact-index.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-program-spine.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-artifact-index.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-program-spine.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-artifact-index.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-program-spine.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/README.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/executable-implementation-prompt.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-conformance-review.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-run.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/post-implementation-drift-churn-review.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/pre-integration-architecture-review.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-closeout.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-review.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-terminal-closeout.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/validation.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/lifecycle-interaction-request.json"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architectural-review-receipts.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architecture-proposal.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-conformance.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-readiness.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-post-implementation-drift.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-review-gate.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-standard-skip-registry.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal.md"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-architecture-review-freshness-handoff.yml"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-1.md"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md"
+      exclude_paths:
+        - ".git"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion"
+    proposal_program_handoff_authorization:
+      authorization_grant: operator-steering-terminal-closeout-preserve-and-exclude
+      program_run_id: lifecycle-proposal-packet-delivery-receipt-completion-20260703
+      child_id: run-program-clean-delivery-delivery-receipt-completion
+      route_id: proposal-packet-terminal-closeout
+      interaction_request_ref: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion/support/proposal-terminal-closeout.yml"
+      classifier_output_ref: ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-delivery-receipt-completion-1/reports/worktree-hygiene-classification.md"
+      classifier_output_digest: "sha256:97de66b5f296de4e2aa875594c76e940764dcd9570825e72917188b7d1922519"
+      authorized_foreign_fingerprint: "sha256:2a8ee93d74abfc2bf432508286b926db9d9dba6a4645a5e7d69350a7f35ea609"
+      foreign_fingerprint: "sha256:2a8ee93d74abfc2bf432508286b926db9d9dba6a4645a5e7d69350a7f35ea609"
+      authorized_paths:
+        - ".octon/generated/cognition/projections/materialized/runs/index.yml"
+        - ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml"
+        - ".octon/generated/proposals/registry.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/README.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml"
+        - ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+        - ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-artifact-index.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-program-spine.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-artifact-index.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-program-spine.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-artifact-index.yml"
+        - ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-program-spine.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/README.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/executable-implementation-prompt.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-conformance-review.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-run.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/post-implementation-drift-churn-review.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/pre-integration-architecture-review.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-closeout.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-review.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-terminal-closeout.yml"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/validation.md"
+        - ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/lifecycle-interaction-request.json"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architectural-review-receipts.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architecture-proposal.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-conformance.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-readiness.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-post-implementation-drift.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-review-gate.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-standard-skip-registry.log"
+        - ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal.md"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-architecture-review-freshness-handoff.yml"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-1.md"
+        - ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md"
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        restore: false
+        overwrite: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        worktree_cleanup: false
+        repo_hygiene_deletion: false
+        promotion: false
+        hosted_provider_action: false
+        cleaned_claim: false
+        child_closeout_receipt_replacement: false
+        child_validation_replacement: false
+  - candidate_id: retained-local
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: ignored local evidence retained for downstream terminal proof only
+    route_hint: repo-hygiene-cleanup only with explicit authorization
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain; no cleanup
+    boundaries:
+      include_paths:
+        - ".octon/state/evidence/local/"
+      exclude_paths:
+        - ".git"
+iterations: []
+final_candidate_dispositions:
+  delivery-change:
+    state: deferred
+  packet-archive:
+    state: foreign
+  retained-local:
+    state: retained
+retained_residue:
+  - candidate_id: packet-archive
+    path: ".octon/generated/cognition/projections/materialized/runs/index.yml"
+    disposition: foreign/manual generated run-health projection preserved for publisher-owned freshness evidence
+  - candidate_id: packet-archive
+    path: ".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml"
+    disposition: foreign/manual generated run-health projection preserved for publisher-owned freshness evidence
+  - candidate_id: packet-archive
+    path: ".octon/generated/proposals/registry.yml"
+    disposition: foreign/manual generated proposal registry preserved for archive/proposal publication freshness
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/README.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md"
+    disposition: foreign/manual prior child source residue preserved outside this child terminal write scope
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/navigation/artifact-catalog.md"
+    disposition: foreign/manual parent program artifact preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/proposal.yml"
+    disposition: foreign/manual parent program artifact preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+    disposition: foreign/manual capability decision evidence preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml"
+    disposition: foreign/manual validation registry evidence preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-artifact-index.yml"
+    disposition: foreign/manual generated proposal artifact projection preserved for publisher-owned freshness evidence
+  - candidate_id: packet-archive
+    path: ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-architecture-review-freshness/proposal-program-spine.yml"
+    disposition: foreign/manual generated proposal artifact projection preserved for publisher-owned freshness evidence
+  - candidate_id: packet-archive
+    path: ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-artifact-index.yml"
+    disposition: foreign/manual generated proposal artifact projection preserved for publisher-owned freshness evidence
+  - candidate_id: packet-archive
+    path: ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-delivery-receipt-completion/proposal-program-spine.yml"
+    disposition: foreign/manual generated proposal artifact projection preserved for publisher-owned freshness evidence
+  - candidate_id: packet-archive
+    path: ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-artifact-index.yml"
+    disposition: foreign/manual generated parent-program artifact projection preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-postmortem-hardening/proposal-program-spine.yml"
+    disposition: foreign/manual generated parent-program artifact projection preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/README.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture-proposal.yml"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/acceptance-criteria.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/implementation-plan.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/architecture/target-architecture.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/artifact-catalog.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/navigation/source-of-truth-map.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/proposal.yml"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/resources/source-lineage.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/executable-implementation-prompt.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-conformance-review.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-grade-completeness-review.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/implementation-run.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/post-implementation-drift-churn-review.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/pre-integration-architecture-review.yml"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-closeout.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-review.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/proposal-terminal-closeout.yml"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/support/validation.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-architecture-review-freshness/validation-plan.md"
+    disposition: foreign/manual archived prior child residue preserved under archive route ownership
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/pre-integration-architecture-review.yml"
+    disposition: foreign/manual parent program review evidence preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/proposal-review.md"
+    disposition: foreign/manual parent program review evidence preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T014537Z.md"
+    disposition: foreign/manual parent program revision evidence preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening/support/revisions/revision-20260703T021319Z.md"
+    disposition: foreign/manual parent program revision evidence preserved outside child-owned terminal authority
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/lifecycle-interaction-request.json"
+    disposition: foreign/manual prior lifecycle interaction evidence retained for audit
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-1783043808679-444c752d/worktree-hygiene-classifier.yml"
+    disposition: foreign/manual prior lifecycle classifier evidence retained for audit
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/lifecycle-interaction-request.json"
+    disposition: foreign/manual delivery-receipt child closeout interaction evidence retained for audit
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architectural-review-receipts.log"
+    disposition: foreign/manual delivery-receipt child validation log retained as evidence
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-architecture-proposal.log"
+    disposition: foreign/manual delivery-receipt child validation log retained as evidence
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-conformance.log"
+    disposition: foreign/manual delivery-receipt child validation log retained as evidence
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-implementation-readiness.log"
+    disposition: foreign/manual delivery-receipt child validation log retained as evidence
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-post-implementation-drift.log"
+    disposition: foreign/manual delivery-receipt child validation log retained as evidence
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-review-gate.log"
+    disposition: foreign/manual delivery-receipt child validation log retained as evidence
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/validate-proposal-standard-skip-registry.log"
+    disposition: foreign/manual delivery-receipt child validation log retained as evidence
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml"
+    disposition: foreign/manual delivery-receipt child classifier evidence retained for audit
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/validation/analysis/2026-07-03-archive-proposal.md"
+    disposition: foreign/manual archive workflow summary evidence retained for audit
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-architecture-review-freshness-handoff.yml"
+    disposition: foreign/manual first-child closeout-worktree handoff evidence retained for audit
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-1.md"
+    disposition: foreign/manual promotion summary evidence retained for audit
+  - candidate_id: packet-archive
+    path: ".octon/state/evidence/validation/analysis/2026-07-03-promote-proposal.md"
+    disposition: foreign/manual promotion summary evidence retained for audit
+  - candidate_id: retained-local
+    path: ".octon/state/evidence/local/"
+    disposition: ignored/local residue retained as non-authoritative local evidence; no cleanup performed
+blockers:
+  - candidate_id: delivery-change
+    blocker: branch-no-pr Change closeout remains ordered after archive handoff and route-owned authorization
+    reason: partition-clean archive readiness may unblock terminal/archive routing but does not authorize Git mutation, hosted landing, branch cleanup, repo hygiene cleanup, or cleaned claims
+    evidence_refs:
+      - ".octon/state/evidence/runs/workflows/2026-07-03-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-delivery-receipt-completion-1/reports/worktree-hygiene-classification.md"
+final_residue_classes:
+  ignored: 1
+  publishable_change: 12
+  publishable_closeout_evidence: 0
+  cleanup_safe_local_residue: 0
+  protected_retained_evidence: 1
+  protected_active_control_state: 0
+  foreign_manual_review: 63
+worktree_terminal_state: nonterminal
+next_route_condition: return partition-clean archive-readiness evidence to proposal-packet-terminal-closeout; downstream Change closeout remains owner for landing, cleanup, sync, terminal proof, and cleaned claim

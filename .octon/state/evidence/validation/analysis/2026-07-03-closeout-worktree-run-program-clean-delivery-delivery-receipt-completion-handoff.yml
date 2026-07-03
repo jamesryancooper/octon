@@ -1,0 +1,124 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-run-program-clean-delivery-delivery-receipt-completion-handoff-20260703T040312Z
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml"
+residue_classification_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml"
+selected_candidate_id: authorized-foreign-artifacts
+candidates:
+  - candidate_id: authorized-foreign-artifacts
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: foreign/manual program-level and prior-child residue outside the delivery-receipt-completion child closeout write scope
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no mutation performed
+    boundaries:
+      include_paths:
+        - ".gitignore"
+        - ".octon/generated"
+        - ".octon/state"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-architectural-review-validators.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-review-gate.sh"
+      exclude_paths:
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-delivery-receipt-completion"
+        - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery"
+        - ".octon/framework/capabilities/runtime/commands/proposal-program-delivery.md"
+        - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery"
+        - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+        - ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests"
+    proposal_program_handoff_authorization:
+      authorization_grant: operator-authorized-foreign-artifact-preserve-and-exclude-for-child-closeout
+      program_run_id: lifecycle-proposal-packet-delivery-receipt-completion-20260703
+      child_id: run-program-clean-delivery-delivery-receipt-completion
+      route_id: closeout-packet
+      interaction_request_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/lifecycle-interaction-request.json"
+      interaction_request_digest: "sha256:eb12d797c6cceb020d41328cbcdd519b45d769a04e89343baf85d3d107cfc525"
+      classifier_output_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml"
+      classifier_output_digest: "sha256:2c23d0967d3bfd402ee8fc9d882ddda7f32e4641c702e5b33c95213db0f5a6f8"
+      authorized_foreign_fingerprint: "sha256:8f81506827f3737077f5a032552481d5538d08184b55d4cb004ef9ffc94853bf"
+      foreign_fingerprint: "sha256:8f81506827f3737077f5a032552481d5538d08184b55d4cb004ef9ffc94853bf"
+      boundary_digest: "sha256:50c91fb311f0aed9825648f0d6a1f04d1afb10fe0ae1a2011e7c1040ade3fa99"
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        restore: false
+        overwrite: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+      authorized_paths:
+        - ".gitignore"
+        - ".octon/generated"
+        - ".octon/state"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness"
+        - ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-architectural-review-validators.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-review-gate.sh"
+iterations: []
+final_candidate_dispositions:
+  authorized-foreign-artifacts:
+    state: foreign
+retained_residue:
+  - candidate_id: authorized-foreign-artifacts
+    path: ".gitignore"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/generated"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/state"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-architecture-review-freshness"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-postmortem-hardening"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/assurance/runtime/_ops/tests/test-architectural-review-validators.sh"
+    disposition: foreign/manual preserved outside child closeout scope
+  - candidate_id: authorized-foreign-artifacts
+    path: ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-review-gate.sh"
+    disposition: foreign/manual preserved outside child closeout scope
+blockers:
+  - candidate_id: authorized-foreign-artifacts
+    blocker: broader program-level and prior-child residue remains intentionally preserved for parent program delivery and is not delivery-receipt-completion child closeout authority
+final_inventory_ref: ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-packet-delivery-receipt-completion-20260703/worktree-hygiene-classifier.yml"
+final_residue_classes:
+  ignored: 0
+  publishable_change: 15
+  publishable_closeout_evidence: 8
+  cleanup_safe_local_residue: 0
+  protected_retained_evidence: 17
+  protected_active_control_state: 58
+  foreign_manual_review: 2299
+worktree_terminal_state: nonterminal
+next_route_condition: return lifecycle-interaction evidence to proposal-packet child closeout preflight; broader residue remains preserved and excluded from this child blocker without cleanup or Git mutation

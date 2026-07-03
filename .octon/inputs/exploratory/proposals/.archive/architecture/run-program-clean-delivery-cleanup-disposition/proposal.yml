@@ -1,0 +1,63 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-cleanup-disposition
+title: Run Program Clean Delivery Cleanup Disposition
+summary: Require classified worktree residue disposition and closeout-worktree receipts before cleanup, preservation, or git-clean-terminal claims.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+- .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-03
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition
+  promotion_evidence:
+  - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+  - .octon/state/evidence/validation/proposals/run-program-clean-delivery-cleanup-disposition/2026-07-03T0605Z-post-implementation-validation-summary.tsv
+  - .octon/state/evidence/validation/analysis/2026-07-03-closeout-worktree-run-program-clean-delivery-cleanup-disposition-handoff.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, implement cleanup disposition after accepted review, and close out with child-owned residue classification and disposition evidence.
+related_proposals:
+- run-program-clean-delivery-postmortem-hardening
+acceptance_criteria_summary: Cleanup and preservation are both receipt-backed; repeated cleanup preflight blockers surface exact residue evidence and route to closeout-worktree instead of blind cleanup cycling.
+authority_class_impact:
+  framework: Future implementation may update closeout-worktree skill, hygiene classifier, cleanup helper, wrapper validator, and tests listed in promotion targets.
+  instance: No direct instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation must retain residue classification and disposition proof for this child only.
+  generated: Generated outputs remain derived-only and must be cleaned, regenerated, or preserved only through governed disposition.
+  inputs: This child packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-06-30
+evidence_requirements:
+- Accepted child proposal review and strict pre-integration architecture review before durable edits.
+- Classifier fixtures for owned, foreign, generated, protected, disposable, and preserve-only residue.
+- Closeout-worktree return evidence with matching fingerprint before cleanup or preservation claims.
+- Negative controls proving detection does not authorize deletion.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+owner:
+  role: Octon cleanup disposition architect
+  accountable_role: human operator / repository owner
+risk_posture: High. Cleanup tooling must avoid deleting protected state, control, evidence, generated, or foreign work without explicit route authorization.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+scope_statement: This child owns cleanup disposition only. It does not implement architecture-review freshness, delivery receipt completion, Change closeout reconciliation, validator chain hardening, or test hermeticity.
+selected_implementation_target: Worktree residue classification, disposition, and closeout-worktree binding for clean delivery.
+source_lineage:
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+- .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- classify-proposal-worktree-hygiene.sh --target <fixture-program> --lifecycle proposal-program
+- validate-closeout-worktree-wrapper.sh --report <report>
+- cleanup-local-run-artifacts.sh --dry-run

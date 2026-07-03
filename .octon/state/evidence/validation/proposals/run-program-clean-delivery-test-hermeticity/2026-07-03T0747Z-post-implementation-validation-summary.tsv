@@ -1,0 +1,12 @@
+command	verdict	summary
+validate-proposal-standard.sh --skip-registry-check	pass	errors=0 warnings=0
+validate-architecture-proposal.sh	pass	errors=0
+validate-proposal-implementation-readiness.sh	pass	errors=0 warnings=0
+validate-proposal-review-gate.sh --require-implementation-authorization	pass	errors=0 warnings=0
+validate-architectural-review-receipts.sh --require-pass	pass	errors=0
+test-classify-proposal-worktree-hygiene.sh	pass	passed=48 failed=0; includes generated run-health mutation-detectable negative control and tracked projection unchanged guard
+test-run-health-read-model.sh	pass	passed=13 failed=0; includes generated run-health mutation-detectable negative control and tracked projection unchanged guard
+promote-proposal	pass	final_verdict=implemented; summary=.octon/state/evidence/validation/analysis/2026-07-03-promote-proposal-5.md
+validate-proposal-implementation-conformance.sh	pass	errors=0 warnings=0
+validate-proposal-post-implementation-drift.sh	pass	errors=0 warnings=0
+git status --short -- .octon/generated/cognition/projections/materialized/runs	retained-preexisting-residue	current workspace has preexisting generated/publication residue; focused guards prove this child added no generated run-health projection delta during tests
