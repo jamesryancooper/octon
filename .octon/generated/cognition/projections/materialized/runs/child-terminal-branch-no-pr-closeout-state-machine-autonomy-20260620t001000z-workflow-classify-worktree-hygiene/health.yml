@@ -1,258 +1,207 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene",
-  "generated_at": "2026-07-02T01:21:50Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.1.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "stale",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:2c6ba93d4f4fc775b82d838f3651d4c9e233d8a0fca656a154c5ad56073fd2bb",
-    "checked_at": "2026-07-02T01:21:50Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene",
-    "evidence_classification": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-contract.yml",
-      "digest": "sha256:fd8b80e5a1159c258b98c6ca695563ad018b72eebef1448b7d4603964e54e8bc",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-manifest.yml",
-      "digest": "sha256:a67835de8298a14166fd44fdde0a7ce63c1e8b2164050c2a7ec046c376d003ec",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.ndjson",
-      "digest": "sha256:d4ce8cb090b8ad05e6bb2c2da24780b1d340314b14b5a76b46aeb5a4eace1cb7",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.manifest.yml",
-      "digest": "sha256:3fe9e5f273edc1957340751dc6cbfc67663180ed4cb568b5642bf29cf68348f0",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/runtime-state.yml",
-      "digest": "sha256:176a1a823d274378910d264216bd101061402de5b988250a2f51ab1c8065429d",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml",
-      "digest": "sha256:e4d757f04851074fe78cda4b5c58e29fc3b6064444404eb6716052d2c73aa20b",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml",
-      "digest": "sha256:a3e974566c844d8cd7f3f17121133036e9224e133b4c5b2da14a23c0d5dd2cf6",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/rollback-posture.yml",
-      "digest": "sha256:167c3709a997717c30a6f486c7eb29e0d524863bc882309b4ac49365d714e866",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/evidence-classification.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/retained-run-evidence.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/replay-pointers.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/interventions/log.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-card.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:6b571b2e9c7b3f7446d1907636b50a921223077b8ebb51b64c5f504bce574b8f",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/handoff.yml",
-      "digest": "sha256:9dff03eb50f36fe65421ae6475317af49ff6e21dcd4b7dfab0597412c4bd958f",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:ad98face50a98656242bfc3e5063f9b620bec88abf2068dc0f54342ec2b479ee",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:0f6094c5235d5a3bb9c8fe5de586e6bc3884f1b6113bfbf2024f909a5827e28a",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "stale",
-    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
-    "next_required_action": "regenerate from current canonical sources"
-  },
-  "lifecycle": {
-    "state": "closed",
-    "decision_state": "allow",
-    "drift_status": "in-sync",
-    "latest_event_hash": "sha256:639846926f62d223376abeca989909a807c7a786fa00b3b624aa6a1a35aa7abe",
-    "latest_sequence": 29
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
-    "route_status": "allow",
-    "pack_status": "allow",
-    "support_status": "supported",
-    "requested_capability_packs": [
-      "repo",
-      "shell",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "authorized",
-    "proof_state": "proof-stale",
-    "human_boundary_state": "none",
-    "active_grants": [
-      ".octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "evidence_classification",
-      "retained_evidence",
-      "replay_pointers",
-      "journal_snapshot",
-      "journal_manifest_snapshot"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "unknown",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "incomplete"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": [
-    {
-      "severity": "error",
-      "code": "journal-ledger-digest-stale",
-      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
-      "refs": [
-        ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.manifest.yml",
-        ".octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.ndjson"
-      ]
-    }
-  ]
-}
+schema_version: run-health-read-model-v1
+run_id: child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene
+generated_at: '2026-07-04T04:08:29Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.2.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:e637764fc120430d511c379b4b40d57eb693b2f459116c0cabf439f0ee46083c
+  checked_at: '2026-07-04T04:08:29Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene
+  evidence_classification: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-contract.yml
+    digest: sha256:fd8b80e5a1159c258b98c6ca695563ad018b72eebef1448b7d4603964e54e8bc
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-manifest.yml
+    digest: sha256:a67835de8298a14166fd44fdde0a7ce63c1e8b2164050c2a7ec046c376d003ec
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.ndjson
+    digest: sha256:d4ce8cb090b8ad05e6bb2c2da24780b1d340314b14b5a76b46aeb5a4eace1cb7
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.manifest.yml
+    digest: sha256:3fe9e5f273edc1957340751dc6cbfc67663180ed4cb568b5642bf29cf68348f0
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/runtime-state.yml
+    digest: sha256:176a1a823d274378910d264216bd101061402de5b988250a2f51ab1c8065429d
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml
+    digest: sha256:e4d757f04851074fe78cda4b5c58e29fc3b6064444404eb6716052d2c73aa20b
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml
+    digest: sha256:a3e974566c844d8cd7f3f17121133036e9224e133b4c5b2da14a23c0d5dd2cf6
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/rollback-posture.yml
+    digest: sha256:167c3709a997717c30a6f486c7eb29e0d524863bc882309b4ac49365d714e866
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:6b571b2e9c7b3f7446d1907636b50a921223077b8ebb51b64c5f504bce574b8f
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/handoff.yml
+    digest: sha256:9dff03eb50f36fe65421ae6475317af49ff6e21dcd4b7dfab0597412c4bd958f
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:2b9342c8ff4e52cc2ae9a60167f6716dc772257a72ca97cc18d86f606c7725ee
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:878d143df4df6a57141119f42a4c9ebe0b884cbe900f31f92364d3dd6cfb06e7
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:639846926f62d223376abeca989909a807c7a786fa00b3b624aa6a1a35aa7abe
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.manifest.yml
+  - .octon/state/control/execution/runs/child-terminal-branch-no-pr-closeout-state-machine-autonomy-20260620t001000z-workflow-classify-worktree-hygiene/events.ndjson

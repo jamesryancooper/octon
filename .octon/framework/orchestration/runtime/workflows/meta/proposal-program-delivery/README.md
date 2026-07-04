@@ -80,7 +80,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `delivery_evidence_index` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-evidence-index.yml`: Compact retained delivery evidence index validated by validate-proposal-program-delivery-evidence-index.sh; evidence-only and non-authorizing.
 - `feature_catalog_drift_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/feature-catalog-drift-receipt.yml`: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 
-Non-canonical order requires a retained `proposal-program-delivery-order-override-receipt-v1` order override receipt. The delivery-readiness-preflight stage writes a retained readiness receipt consumed by later stages. Runner handoff refs are delivery input only and cannot satisfy child packet, archive, generated-publication, cleanup, Change, branch, final sync, or terminal proof gates.
+Non-canonical order requires a retained `proposal-program-delivery-order-override-receipt-v1` order override receipt. The delivery-readiness-preflight stage writes a retained readiness receipt consumed by later stages. Runner handoff refs are delivery input only and cannot satisfy child packet, archive, generated-publication, cleanup, Change, branch, final sync, or terminal proof gates. Compact blocker-remediation receipts handle recoverable retry artifact budgets only; compact summaries remain evidence-only and never replace route-owned receipts. Repeated unchanged no-dispatch or max-step states update the bounded no-dispatch attempt ledger instead of emitting another full compact evidence bundle; the ledger remains evidence-only and never authorizes execution or replaces route-owned receipts.
 
 ## Steps
 
@@ -112,6 +112,8 @@ Non-canonical order requires a retained `proposal-program-delivery-order-overrid
 - [ ] terminal current-state proof shows local main, origin/main, and landed ref equality
 - [ ] delivery receipt validates with validate-proposal-program-delivery-receipt.sh
 - [ ] lifecycle postmortem threshold status is recorded when repeated blocker or recovery thresholds apply
+- [ ] compact blocker-remediation receipts validate repeated fingerprint, repeated full workflow directory, file-count, and byte-count budget triggers when those triggers apply
+- [ ] no-dispatch attempt ledger records unchanged no-dispatch and max-step attempts with key digest, input digest, blocker fingerprint, attempt count, timestamps, and source evidence refs when those attempts repeat
 - [ ] delivery evidence index validates with validate-proposal-program-delivery-evidence-index.sh and remains evidence-only
 - [ ] stop condition taxonomy maps blockers to owning routes or validators and prevents aggregate evidence from authorizing missing target-owned receipts
 

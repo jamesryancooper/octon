@@ -1,0 +1,21 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-run-health-localization
+title: Run Program Clean Delivery Run-Health Localization
+architecture_scope: generated run-health diagnostic and promotion boundary
+decision_type: boundary-change
+status: accepted
+owner: Octon run-health localization architect
+created_date: 2026-07-03
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: Generated read-model publication posture should change coherently with validators and tests.
+child_authority_preserved: yes
+authority_boundary: This child may define diagnostic and promotion rules for run-health projections but may not make generated read models authoritative.
+architecture_drivers:
+  - Validators should not dirty tracked generated projections during ordinary checks.
+  - Run-health projections should support debugging without becoming durable authority by default.
+  - Promotion requires route-owned path, digest, source refs, and freshness.
+constraints:
+  - Do not treat generated run-health projections as policy, runtime, support, or closure authority.
+  - Preserve required evidence in compact receipts, validation summaries, terminal proofs, and evidence indexes.

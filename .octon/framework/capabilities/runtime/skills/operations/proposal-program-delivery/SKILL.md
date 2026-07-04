@@ -73,6 +73,13 @@ terminal proof rule.
 - When repeated blocker, recovery, or long-run thresholds apply, require validated lifecycle postmortem evidence before learned-from completion claims.
 - Route residue deletion only through `repo-hygiene-cleanup` with cleanup authorization.
 - Validate terminal current-state proof and worktree hygiene after the final mutation.
+- Require the aggregate `retained_state_report` to name delivered branch,
+  route-owned delivery branch, dirty-anchor branches, retained local branches,
+  retained worktrees, retained required evidence, local-private evidence,
+  generated diagnostics, deleted residue, excluded residue, manual-review
+  residue, remote mutation status, archive authorization, and final
+  current-state proof. Each row must cite current route-owned evidence or
+  explicitly record `none`.
 - Validate the aggregate receipt with `validate-proposal-program-delivery-receipt.sh`.
 - Require the aggregate receipt to record source receipt refs, digests, disclosure tiers, non-authority classifications, excluded evidence classes, stop condition IDs, owning next routes, highest evidence-backed outcome, clean-worktree route, include-path classification status, lifecycle postmortem status when required, and downgrade rationale.
 - Generate the compact retained delivery evidence index with `generate-proposal-program-delivery-evidence-index.sh`.
@@ -87,6 +94,10 @@ compact `proposal-program-delivery-evidence-index-v1` retained index.
 The aggregate receipt must bind the evidence index by path and validator
 posture without embedding the index digest; the evidence index remains the
 digest-bound artifact for the source receipt and cited refs.
+The aggregate receipt's `retained_state_report` is disclosure only. It separates
+delivered, retained, deleted, excluded, and manual-review state, but it does not
+authorize cleanup, archive movement, branch deletion, remote mutation, generated
+publication, final sync, or terminal hygiene.
 
 ## Boundaries
 

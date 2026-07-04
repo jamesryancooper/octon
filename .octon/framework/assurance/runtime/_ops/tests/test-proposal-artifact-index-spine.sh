@@ -165,6 +165,38 @@ main() {
   make_fixture "$valid_root"
   assert_success "generator writes valid compact artifacts" \
     bash "$GENERATOR" --root "$valid_root" --proposal ".octon/inputs/exploratory/proposals/architecture/fixture-child" --write
+  local generated_spine="$valid_root/.octon/generated/proposals/artifacts/architecture/fixture-child/proposal-program-spine.yml"
+  if python3 - "$generated_spine" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+boundary = json.loads(path.read_text()).get("authority_boundary") or {}
+expected_false = [
+    "authorizes_dispatch",
+    "satisfies_child_gates",
+    "authorizes_closeout",
+    "authorizes_archive",
+    "authorizes_correction",
+    "authorizes_implementation",
+    "authorizes_generated_publication",
+    "replaces_source_evidence",
+    "parent_summary_satisfies_child_receipts",
+    "retained_evidence_authorizes_execution",
+]
+missing = [key for key in expected_false if boundary.get(key) is not False]
+if boundary.get("diagnostic_only") is not True:
+    missing.append("diagnostic_only")
+if missing:
+    print("missing generated spine boundary fields: " + ", ".join(missing), file=sys.stderr)
+    sys.exit(1)
+PY
+  then
+    pass "generated program spine declares diagnostic-only non-authority boundary"
+  else
+    fail "generated program spine declares diagnostic-only non-authority boundary"
+  fi
   assert_success "validator accepts generated compact artifacts" \
     bash "$VALIDATOR" --root "$valid_root" --proposal ".octon/inputs/exploratory/proposals/architecture/fixture-child"
   assert_success "generator check accepts fresh generated artifacts" \

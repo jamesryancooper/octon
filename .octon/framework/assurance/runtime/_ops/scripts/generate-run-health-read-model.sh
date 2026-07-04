@@ -5,10 +5,12 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
-DEFAULT_OUTPUT_ROOT="$OCTON_DIR/generated/cognition/projections/materialized/runs"
-DEFAULT_EVIDENCE_ROOT="$OCTON_DIR/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health"
+PUBLISHED_OUTPUT_ROOT="$OCTON_DIR/generated/cognition/projections/materialized/runs"
+PUBLISHED_EVIDENCE_ROOT="$OCTON_DIR/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health"
+DEFAULT_DIAGNOSTIC_OUTPUT_ROOT="$OCTON_DIR/state/evidence/local/run-health-read-models/projections"
+DEFAULT_DIAGNOSTIC_EVIDENCE_ROOT="$OCTON_DIR/state/evidence/local/run-health-read-models/receipts"
 
-python3 - "$ROOT_DIR" "$OCTON_DIR" "$DEFAULT_OUTPUT_ROOT" "$DEFAULT_EVIDENCE_ROOT" "$@" <<'PY'
+python3 - "$ROOT_DIR" "$OCTON_DIR" "$PUBLISHED_OUTPUT_ROOT" "$PUBLISHED_EVIDENCE_ROOT" "$DEFAULT_DIAGNOSTIC_OUTPUT_ROOT" "$DEFAULT_DIAGNOSTIC_EVIDENCE_ROOT" "$@" <<'PY'
 import argparse
 import hashlib
 import json
@@ -27,11 +29,13 @@ except ImportError:
 
 ROOT_DIR = Path(sys.argv[1])
 OCTON_DIR = Path(sys.argv[2])
-DEFAULT_OUTPUT_ROOT = Path(sys.argv[3])
-DEFAULT_EVIDENCE_ROOT = Path(sys.argv[4])
-ARGV = sys.argv[5:]
+PUBLISHED_OUTPUT_ROOT = Path(sys.argv[3])
+PUBLISHED_EVIDENCE_ROOT = Path(sys.argv[4])
+DEFAULT_DIAGNOSTIC_OUTPUT_ROOT = Path(sys.argv[5])
+DEFAULT_DIAGNOSTIC_EVIDENCE_ROOT = Path(sys.argv[6])
+ARGV = sys.argv[7:]
 
-GENERATOR_VERSION = "1.1.0"
+GENERATOR_VERSION = "1.2.0"
 SCHEMA_REF = ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
 GENERATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
 VALIDATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
@@ -67,11 +71,13 @@ def parse_args():
     )
     parser.add_argument("--run-id", action="append", default=[])
     parser.add_argument("--all-runs", action="store_true")
-    parser.add_argument("--output-root", default=str(DEFAULT_OUTPUT_ROOT))
-    parser.add_argument("--evidence-root", default=str(DEFAULT_EVIDENCE_ROOT))
+    parser.add_argument("--output-root", default=None)
+    parser.add_argument("--evidence-root", default=None)
     parser.add_argument("--fixtures-root", default=None)
     parser.add_argument("--generated-at", default=os.environ.get("OCTON_RUN_HEALTH_GENERATED_AT"))
     parser.add_argument("--no-evidence", action="store_true")
+    parser.add_argument("--publish", action="store_true")
+    parser.add_argument("--owning-route", default=os.environ.get("OCTON_RUN_HEALTH_OWNING_ROUTE"))
     return parser.parse_args(ARGV)
 
 
@@ -1347,7 +1353,18 @@ def write_compact_manifest(output_root, evidence_root, generated_at, outputs):
     return manifest_ref
 
 
-def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned_paths, no_evidence, compact_manifest_ref=None):
+def write_evidence(
+    evidence_root,
+    output_root,
+    generated_at,
+    outputs,
+    published_paths,
+    pruned_paths,
+    no_evidence,
+    publication_mode,
+    owning_route=None,
+    compact_manifest_ref=None,
+):
     if no_evidence:
         return
     records = []
@@ -1356,6 +1373,58 @@ def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned
         digest = sha256_file(resolve_ref(health_ref) or Path(health_ref))
         records.append({**item, "health_digest": digest})
     compact_digest = sha256_file(resolve_ref(compact_manifest_ref)) if compact_manifest_ref else None
+    output_paths = []
+    for ref in unique_path_list(published_paths):
+        output_paths.append(
+            {
+                "path": ref,
+                "digest": sha256_file(resolve_ref(ref)) or "missing",
+            }
+        )
+
+    allowed_consumers = ["operators", "validators"]
+    forbidden_consumers = [
+        "runtime",
+        "policy",
+        "authority",
+        "support-claim-evaluation",
+        "closeout-gates",
+        "archive-gates",
+        "state-reconstruction",
+        "direct-runtime-reads",
+    ]
+    publication = {
+        "mode": publication_mode,
+        "publishable": publication_mode == "explicit_publish",
+        "output_root_ref": repo_ref(output_root) or str(output_root),
+        "evidence_root_ref": repo_ref(evidence_root) or str(evidence_root),
+        "non_authority_classification": "generated_read_model_non_authoritative",
+        "allowed_consumers": allowed_consumers,
+        "forbidden_consumers": forbidden_consumers,
+    }
+    if publication_mode == "explicit_publish":
+        publication["promotion_receipt"] = {
+            "schema_version": "run-health-generation-promotion-receipt-v1",
+            "owning_route": owning_route,
+            "output_paths": output_paths,
+            "source_refs": unique_path_list([GENERATOR_REF, SCHEMA_REF, VALIDATOR_REF]),
+            "freshness": {
+                "mode": "digest-bound",
+                "status": "fresh" if output_paths and all(item["digest"] != "missing" for item in output_paths) else "unknown",
+                "source_digest_algorithm": "sha256",
+                "checked_at": generated_at,
+            },
+            "allowed_consumers": allowed_consumers,
+            "forbidden_consumers": forbidden_consumers,
+            "non_authority_classification": "generated_read_model_non_authoritative",
+        }
+    else:
+        publication["promotion_receipt"] = {
+            "required": False,
+            "status": "not-published",
+            "reason": "diagnostic local-private generation is disposable or regenerable",
+        }
+
     write_yaml(
         evidence_root / "generation.yml",
         {
@@ -1382,6 +1451,7 @@ def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned
             "pruned_paths": unique_path_list(pruned_paths),
             "compact_manifest_ref": compact_manifest_ref,
             "compact_manifest_digest": compact_digest,
+            "publication": publication,
             "outputs": records,
         },
     )
@@ -1408,8 +1478,13 @@ def prune_stale_generated_runs(output_root, live_run_ids):
 def main():
     args = parse_args()
     generated_at = args.generated_at or utc_now()
-    output_root = Path(args.output_root)
-    evidence_root = Path(args.evidence_root)
+    publication_mode = "explicit_publish" if args.publish else "diagnostic_local_private"
+    if args.publish and not args.owning_route:
+        raise SystemExit("--publish requires --owning-route <route-id> or OCTON_RUN_HEALTH_OWNING_ROUTE")
+    default_output_root = PUBLISHED_OUTPUT_ROOT if args.publish else DEFAULT_DIAGNOSTIC_OUTPUT_ROOT
+    default_evidence_root = PUBLISHED_EVIDENCE_ROOT if args.publish else DEFAULT_DIAGNOSTIC_EVIDENCE_ROOT
+    output_root = Path(args.output_root) if args.output_root else default_output_root
+    evidence_root = Path(args.evidence_root) if args.evidence_root else default_evidence_root
 
     if args.fixtures_root:
         results = generate_fixtures(Path(args.fixtures_root), output_root, generated_at)
@@ -1420,7 +1495,18 @@ def main():
         compact_ref = write_compact_manifest(output_root, evidence_root, generated_at, results)
         if compact_ref:
             published_paths.append(compact_ref)
-        write_evidence(evidence_root, generated_at, results, published_paths, [], args.no_evidence, compact_ref)
+        write_evidence(
+            evidence_root,
+            output_root,
+            generated_at,
+            results,
+            published_paths,
+            [],
+            args.no_evidence,
+            publication_mode,
+            args.owning_route,
+            compact_ref,
+        )
         print(f"Generated {len(results)} fixture run-health read models under {output_root}")
         return
 
@@ -1463,7 +1549,18 @@ def main():
     compact_ref = write_compact_manifest(output_root, evidence_root, generated_at, index_outputs)
     if compact_ref:
         published_paths.append(compact_ref)
-    write_evidence(evidence_root, generated_at, index_outputs, published_paths, pruned, args.no_evidence, compact_ref)
+    write_evidence(
+        evidence_root,
+        output_root,
+        generated_at,
+        index_outputs,
+        published_paths,
+        pruned,
+        args.no_evidence,
+        publication_mode,
+        args.owning_route,
+        compact_ref,
+    )
     if pruned:
         print(f"Pruned {len(pruned)} stale run-health read models under {output_root}")
     print(f"Generated {len(outputs)} run-health read models under {output_root}")

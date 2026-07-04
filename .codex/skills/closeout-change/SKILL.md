@@ -277,6 +277,28 @@ approval denial, or cleanup outside a governed route.
   empty-check policy plus retained rationale, the current target pre-ref,
   rollback/discard posture, and no-PR eligibility. It does not bypass platform,
   sandbox, or host safety controls.
+- Hosted `branch-no-pr` landing uses `--execute-authorized-landing` as an
+  explicit receipt-consumption signal. It is not a human approval grant and does
+  not mint landing authority. Use it only when the selected route is
+  `branch-no-pr`, the target lifecycle outcome is `landed` or `cleaned`, a
+  current approved `branch-landing-authorization-v1` receipt matches the exact
+  source ref, remote source ref, target branch, target pre-ref, provider
+  ruleset, required check refs or authorized empty-check sentinel, rollback
+  handle, and no-PR proof, and an execution-environment lane is current for the
+  exact hosted mutation.
+- Successful hosted `branch-no-pr` landing receipts must record
+  `hosted_landing_execution.signal: --execute-authorized-landing`,
+  `authorization_consumed: true`, the consumed `landing_authorization_ref`,
+  execution-lane evidence, source ref, target pre-ref, target post-ref, rollback
+  handle, final sync evidence, and `host_controls_not_bypassed: true`. Chat
+  text, host UI state, GitHub labels/comments, dashboards, generated
+  projections, parent summaries, proposal files, and `--confirm` alone cannot
+  satisfy the execution signal or execution-lane evidence.
+- If Octon authorization validates but the runtime, sandbox, provider, host,
+  remote, or ref-write boundary denies the mutation, record the lower actual
+  outcome with `landing_stop_reason: runtime_approval_denied`,
+  `hosted_landing_execution.execution_lane_status: denied`, blocker evidence,
+  and no `landed`, `cleaned`, or completed-closeout overclaim.
 - When a governed helper reports a runtime, sandbox, provider, host, remote,
   fetch, push, or ref-write boundary, use the helper's governed rerun path in
   an environment authorized for that same operation. Do not bypass platform,
@@ -287,12 +309,37 @@ approval denial, or cleanup outside a governed route.
   `branch-cleanup-authorization-v1` receipt. Never delete protected branches,
   active work branches, unmerged branches, open-PR branches, or branches whose
   evidence and rollback posture are not retained.
+- Branch cleanup reports must label local branch roles as
+  `source-dirty-anchor`, `route-owned-delivery-branch`, `correction`,
+  `cleanup`, `retained-protected`, or `retired-stale` so similarly named dirty
+  anchors are never confused with route-owned delivery branches. A
+  `retired-stale` label requires current ref evidence, not postmortem prose or
+  prior summaries.
+- Completed or `cleaned` Change receipts must include `retained_state_report`
+  rows for delivered branch, route-owned delivery branch, dirty-anchor branches,
+  retained local branches, retained worktrees, retained required evidence,
+  local-private evidence, generated diagnostics, deleted residue, excluded
+  residue, manual-review residue, remote mutation status, archive authorization,
+  and final current-state proof. Broad language such as "source branches
+  deleted" is invalid unless the retained and deleted branch rows name the exact
+  refs and current evidence.
 - Branch cleanup authorization must prove the source branch changes are
   integrated into `origin/main`, local `main` is synchronized to `origin/main`,
   the recorded `landed_ref` is contained in both refs, the source branch is not
   protected, no open PR exists, rollback/discard posture is retained, cleanup
   policy allows the mutation, and host/platform safety controls are not
   bypassed.
+- Stale local branch retirement must additionally prove the candidate branch
+  has zero unique commits relative to the surviving branch, no unresolved
+  upstream, local remote-ref, PR, protected-name/status, active-worktree, or
+  dirty-residue blocker, and a retained rollback note to recreate the local
+  branch from the recorded stale ref. Checked-out dirty stale branches route
+  through local-worktree retirement before any switch or delete action.
+- Before reporting a stale local branch as `retired-stale`, emit or reference a
+  branch-retirement authorization and post-delete verification proving the
+  local branch is absent and the surviving branch/ref remains aligned. Remote
+  deletion remains `not-authorized` unless a separate current receipt
+  authorizes the exact remote ref mutation.
 - If branch cleanup authorization is missing, malformed, stale, denied, or
   mismatched, do not delete or prune refs. Report `landed`, `deferred`, or
   `blocked` with blocker evidence instead of `cleaned`.

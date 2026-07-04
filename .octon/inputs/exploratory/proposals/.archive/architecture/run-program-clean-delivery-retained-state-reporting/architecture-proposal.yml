@@ -1,0 +1,21 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-retained-state-reporting
+title: Run Program Clean Delivery Retained State Reporting
+architecture_scope: final lifecycle report retained-state disclosure
+decision_type: boundary-change
+status: draft
+owner: Octon retained-state reporting architect
+created_date: 2026-07-03
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: Final report semantics should change atomically with receipt schemas, validators, and closeout skills.
+child_authority_preserved: yes
+authority_boundary: This child may define report fields and validators but may not create cleanup, archive, branch deletion, or terminal hygiene authority by report text.
+architecture_drivers:
+  - Operators need exact retained and deleted state, not broad source-branch language.
+  - Reports must distinguish branch roles and evidence disposition classes.
+  - Clean terminal claims must cite current route-owned verification.
+constraints:
+  - Do not infer cleanup from parent summaries or child implementation status.
+  - Do not claim branch deletion, archive authorization, or clean worktree without current evidence.

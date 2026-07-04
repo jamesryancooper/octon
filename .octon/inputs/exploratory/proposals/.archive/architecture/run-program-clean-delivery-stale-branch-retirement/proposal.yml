@@ -1,0 +1,62 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-stale-branch-retirement
+title: Run Program Clean Delivery Stale Branch Retirement
+summary: Add governed stale local branch retirement, branch role labels, and dirty-worktree unanchoring for no-unique-commit branches.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/product/contracts/default-work-unit.yml
+- .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-03
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-stale-branch-retirement
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/2026-07-03-promote-proposal-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-stale-branch-retirement/summary.md
+  - .octon/state/evidence/runs/workflows/2026-07-03-promote-proposal-octon-inputs-exploratory-proposals-architecture-run-program-clean-delivery-stale-branch-retirement/validation.md
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783094500385-fbec6b8f/lifecycle-interactions/run-program-clean-delivery-stale-branch-retirement-closeout-packet-closeout-worktree-report.yml
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783094500385-fbec6b8f/children/run-program-clean-delivery-stale-branch-retirement/worktree-hygiene-preflight-2818db5dc2e825ea673344d2e1da92c66eccf3d3c36be342b8459763ce938d50.stdout.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Review and implement stale local branch retirement only through this child-owned route.
+related_proposals:
+- run-program-clean-delivery-autonomy-hardening
+acceptance_criteria_summary: Local branches with no unique commits are deleted automatically after current evidence proves safe retirement, and dirty checked-out branches route through local-worktree retirement first.
+authority_class_impact:
+  framework: May update default work unit, worktree autonomy, closeout skills, validators, and tests.
+  instance: No direct instance authority changes.
+  state_control: No direct state-control mutation from this packet.
+  state_evidence: Future implementation must retain branch-retirement authorization and verification receipts.
+  generated: Generated outputs remain derived-only.
+  inputs: This child packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-07-03
+evidence_requirements:
+- Current branch, worktree list, status, branch refs, upstream state, open PR state when locally knowable, and protected-name/status checks.
+- Proof that stale branch has no unique commits relative to the surviving branch.
+- Dirty worktree residue classification and disposition before switching away from a checked-out stale branch.
+- Branch-retirement authorization and post-deletion verification receipts.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+owner:
+  role: Octon stale branch retirement architect
+  accountable_role: human operator / repository owner
+risk_posture: High. Incorrect branch retirement could lose committed work or delete protected branch state.
+rollback_summary: Recreate the local branch from the receipt-recorded ref if verification shows the branch was retired incorrectly.
+scope_statement: This child owns stale local branch retirement and branch role labeling only.
+selected_implementation_target: local worktree stale branch retirement route
+source_lineage:
+- PM-003 similar branch names made delivery status confusing
+- PM-007 final reporting overclaimed branch cleanup scope
+- local cleanup of chore/run-program-clean-delivery-postmortem-hardening
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- stale branch retirement fixtures with no unique commits, unique commits, upstream, PR, protected, and dirty checked-out cases

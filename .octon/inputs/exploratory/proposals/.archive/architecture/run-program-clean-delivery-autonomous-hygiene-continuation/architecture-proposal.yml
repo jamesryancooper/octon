@@ -1,0 +1,22 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-autonomous-hygiene-continuation
+title: Run Program Clean Delivery Autonomous Hygiene Continuation
+architecture_scope: recoverable worktree hygiene and ownership blocker continuation
+decision_type: boundary-change
+status: draft
+owner: Octon autonomous hygiene continuation architect
+created_date: 2026-07-03
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: Hygiene continuation changes lifecycle routing semantics and should land with validators and negative controls.
+child_authority_preserved: yes
+authority_boundary: This child may define recoverable blocker routing but may not authorize destructive cleanup or replace target-owned child receipts.
+architecture_drivers:
+  - Artifact ownership and worktree hygiene ambiguity should narrow the route before pausing.
+  - Current fingerprints must be bound before continuation.
+  - Fresh gate reruns must prove the blocker is actually resolved.
+constraints:
+  - Do not delete, reset, archive, stage, commit, push, or mutate refs without route-owned authorization.
+  - Do not treat parent summaries as child-owned evidence.
+  - Human review remains required for unpreservable or destructive cases.

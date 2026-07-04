@@ -38,8 +38,17 @@ Outputs:
 
 The report must list each candidate Change, disposition, delegated
 `closeout-change` run or handoff reference, orchestration iteration, retained
-residue, blocker, final disposition, `residue_routing_class`, and next route
-condition.
+residue, `retained_state_report`, blocker, final disposition,
+`residue_routing_class`, and next route condition.
+
+`retained_state_report` uses the Change receipt row vocabulary for delivered
+branch, route-owned delivery branch, dirty-anchor branches, retained local
+branches, retained worktrees, retained required evidence, local-private
+evidence, generated diagnostics, deleted residue, excluded residue,
+manual-review residue, remote mutation status, archive authorization, and final
+current-state proof. The wrapper may cite target-owned evidence or explicitly
+record `none`, but it must not authorize cleanup, branch deletion, archive
+movement, generated publication, remote mutation, or terminal hygiene.
 
 When candidate boundaries come from a `lifecycle-interaction-request-v1`, the
 request may inform classification and partitioning only. The wrapper must still
@@ -72,6 +81,15 @@ report may cite or summarize those diagnostics only from the delegated
 and target refs when known, expected authorization gate, likely sandbox, host,
 provider, remote, or ref-write blocker, and owning rerun route, and must not
 perform or authorize the mutation.
+
+When a dirty checked-out stale local branch is observed, the wrapper report may
+record it as a local-worktree retirement candidate with branch role
+`source-dirty-anchor`, residue classification, include/exclude boundaries, and
+delegated `closeout-change` handoff. The wrapper must not claim
+`retired-stale`, branch deletion, remote pruning, or safe switch completion
+unless the delegated `closeout-change` receipt proves those facts with
+branch-retirement authorization, post-delete verification, and rollback
+evidence.
 
 Compact wrapper outputs must source the canonical wrapper report, delegated
 Change receipts, and retained evidence by `source_refs` and `source_digests`.

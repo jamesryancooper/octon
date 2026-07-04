@@ -1,0 +1,21 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-compact-blocker-remediation
+title: Run Program Clean Delivery Compact Blocker Remediation
+architecture_scope: lifecycle blocker retry artifact governance
+decision_type: boundary-change
+status: draft
+owner: Octon compact blocker remediation architect
+created_date: 2026-07-03
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: Compact remediation changes the retry model directly and should land coherently.
+child_authority_preserved: yes
+authority_boundary: This child may define compact remediation behavior but may not satisfy parent delivery, cleanup, archive, or child sibling evidence.
+architecture_drivers:
+  - Repeated blocker fingerprints should stop duplicate full artifact trees.
+  - File-count and byte budgets should throttle output, not pause by default.
+  - Compact mode must retain enough evidence to rerun gates and debug failures.
+constraints:
+  - Do not drop required receipts, terminal proofs, validation summaries, or evidence indexes.
+  - Do not treat compact summaries as authority when route-owned receipts are required.

@@ -297,6 +297,7 @@ phases:
       - "retained empty-check-set rationale when no hosted checks are explicitly allowed"
       - "provider no-PR permission"
       - "governed landing authorization receipt matching source ref and target pre-ref"
+      - "authorization-consuming execution signal with execution-lane evidence"
       - "fast-forward/update proof"
       - "origin/main equals landed_ref"
       - "rollback handle"
@@ -304,6 +305,7 @@ phases:
     stop_or_escalation_conditions:
       - "provider requires PR"
       - "governed landing authorization receipt missing, malformed, stale, denied, or mismatched"
+      - "authorization-consuming execution signal missing or not bound to execution-lane evidence"
       - "empty hosted check set lacks retained rationale"
       - "runtime platform, sandbox, or host approval boundary still blocks mutation"
       - "exact-SHA checks fail out of scope"
@@ -469,6 +471,13 @@ structured_downgrade_reasons:
     authorization receipt and a runtime_approval_denied stop reason. The
     authorization is evidence that Octon governance allowed the action; it does
     not bypass external approval controls.
+  hosted_landing_execution_signal: >-
+    The hosted no-PR execution signal is `--execute-authorized-landing`. It
+    consumes a current branch-landing-authorization-v1 receipt for the exact
+    attempt and must be paired with execution-lane evidence. The signal is not
+    a human approval grant, does not make chat or host UI state authoritative,
+    and does not bypass platform, sandbox, provider, host, remote, or ref-write
+    controls.
 non_authority_boundaries:
   - ".octon/inputs/**"
   - "proposal-local files"

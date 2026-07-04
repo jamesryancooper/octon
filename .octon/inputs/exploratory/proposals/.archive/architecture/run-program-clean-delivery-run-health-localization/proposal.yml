@@ -1,0 +1,59 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-run-health-localization
+title: Run Program Clean Delivery Run-Health Localization
+summary: Move speculative run-health projections out of tracked generated state and promote only route-owned final evidence by path and digest.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-03
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-run-health-localization
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/children/run-program-clean-delivery-run-health-localization/delegated-promotion-run-program-clean-delivery-run-health-localization-promote-proposal.yml
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/children/run-program-clean-delivery-run-health-localization/promote-proposal-route-execution.yml
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/children/run-program-clean-delivery-run-health-localization/promote-proposal-attempt-1-workflow-terminal.yml
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/lifecycle-interactions/run-program-clean-delivery-run-health-localization-closeout-packet-closeout-worktree-report.yml
+  - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-1783112176123-f118c03e-run-program-clean-delivery-run-health-localization/worktree-hygiene-current.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Review and implement run-health localization only through this child-owned route.
+related_proposals:
+- run-program-clean-delivery-autonomy-hardening
+acceptance_criteria_summary: Validators and lifecycle retries no longer dirty tracked run-health projections unless an owning publisher emits an explicit promotion and freshness receipt.
+authority_class_impact:
+  framework: May update run-health generator, disclosure validators, clean-delivery validators, and tests.
+  instance: No direct instance authority changes.
+  state_control: No direct state-control mutation from this packet.
+  state_evidence: Future implementation may retain local-private diagnostics and promotion receipts.
+  generated: Future implementation may change generated run-health publication posture.
+  inputs: This child packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-07-03
+evidence_requirements:
+- Diagnostic/local-private classification for speculative run-health outputs.
+- Promotion receipt for any durable generated run-health output, including path, digest, source refs, freshness, and owning route.
+- Negative controls proving validators do not dirty tracked generated run-health files by default.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated run-health outputs remain non-authoritative diagnostic read models unless promoted by route-owned receipt.
+owner:
+  role: Octon run-health localization architect
+  accountable_role: human operator / repository owner
+risk_posture: Medium. Over-localizing diagnostics could reduce operator visibility; over-promoting them could recreate generated-output authority drift.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback route.
+scope_statement: This child owns run-health projection localization and promotion semantics only.
+selected_implementation_target: run-health generated read-model publication posture
+source_lineage:
+- PM-004 generated run-health projections dominated tracked residue
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- generator and validator fixtures proving clean tracked generated state by default

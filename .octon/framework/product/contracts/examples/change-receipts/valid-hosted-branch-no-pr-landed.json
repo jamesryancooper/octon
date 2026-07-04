@@ -37,6 +37,20 @@
     "push_refspec": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:refs/heads/main",
     "fast_forward_only": true
   },
+  "hosted_landing_execution": {
+    "signal": "--execute-authorized-landing",
+    "authorization_consumed": true,
+    "landing_authorization_ref": ".octon/framework/product/contracts/examples/change-receipts/valid-hosted-branch-no-pr-landing-authorization.json",
+    "execution_lane_kind": "pre-approved-command-prefix",
+    "execution_lane_status": "authorized",
+    "execution_lane_evidence_ref": "pre-approved command prefix for git push origin <source>:refs/heads/main",
+    "source_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "target_pre_ref": "9999999999999999999999999999999999999999",
+    "target_post_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "rollback_handle_ref": "revert landed commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa if post-landing verification fails",
+    "final_sync_evidence_ref": "git switch main && git merge --ff-only origin/main",
+    "host_controls_not_bypassed": true
+  },
   "landing_evaluation": {
     "status": "succeeded",
     "provider_ruleset_ref": "github-ruleset:target-route-neutral-main@example",
@@ -120,6 +134,113 @@
       "example-hosted-no-pr-branch-cleanup-deferred"
     ],
     "final_verification_ref": "example-hosted-no-pr-final-main-sync"
+  },
+  "retained_state_report": {
+    "delivered_branch": {
+      "row_kind": "delivered_branch",
+      "subjects": ["origin/main@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+      "disposition": "delivered",
+      "evidence_refs": ["example-hosted-no-pr-final-main-sync"],
+      "retention_or_blocker_reason": "hosted branch-no-pr landing updated origin/main to the landed ref"
+    },
+    "route_owned_delivery_branch": {
+      "row_kind": "route_owned_delivery_branch",
+      "subjects": ["chore/example-no-pr"],
+      "disposition": "retained",
+      "evidence_refs": ["example-hosted-no-pr-branch-cleanup-deferred"],
+      "retention_or_blocker_reason": "source branch cleanup is deferred in the landed example"
+    },
+    "source_dirty_anchor_branches": {
+      "row_kind": "source_dirty_anchor_branches",
+      "subjects": ["none"],
+      "disposition": "not-applicable",
+      "evidence_refs": ["none"],
+      "retention_or_blocker_reason": "example has no dirty-anchor branch"
+    },
+    "retained_local_branches": {
+      "row_kind": "retained_local_branches",
+      "subjects": ["chore/example-no-pr"],
+      "disposition": "retained",
+      "evidence_refs": ["example-hosted-no-pr-branch-cleanup-deferred"],
+      "retention_or_blocker_reason": "branch cleanup is deferred rather than claimed deleted"
+    },
+    "retained_worktrees": {
+      "row_kind": "retained_worktrees",
+      "subjects": ["none"],
+      "disposition": "not-applicable",
+      "evidence_refs": ["none"],
+      "retention_or_blocker_reason": "no retained worktrees are present in this example"
+    },
+    "retained_required_evidence": {
+      "row_kind": "retained_required_evidence",
+      "subjects": [
+        "example-hosted-no-pr-hosted-landing",
+        "example-hosted-no-pr-branch-cleanup-deferred",
+        "example-hosted-no-pr-final-main-sync"
+      ],
+      "disposition": "retained",
+      "evidence_refs": ["example-hosted-no-pr-final-main-sync"],
+      "retention_or_blocker_reason": "landing, deferred cleanup, and final sync evidence remain required"
+    },
+    "local_private_evidence": {
+      "row_kind": "local_private_evidence",
+      "subjects": ["none"],
+      "disposition": "not-applicable",
+      "evidence_refs": ["none"],
+      "retention_or_blocker_reason": "no local-private evidence is needed for this example"
+    },
+    "generated_diagnostics": {
+      "row_kind": "generated_diagnostics",
+      "subjects": ["none"],
+      "disposition": "not-applicable",
+      "evidence_refs": ["none"],
+      "retention_or_blocker_reason": "no generated diagnostics are needed for this example"
+    },
+    "deleted_residue": {
+      "row_kind": "deleted_residue",
+      "subjects": ["none"],
+      "disposition": "not-applicable",
+      "evidence_refs": ["none"],
+      "retention_or_blocker_reason": "branch cleanup is deferred, so no source branch deletion is claimed"
+    },
+    "excluded_residue": {
+      "row_kind": "excluded_residue",
+      "subjects": ["none"],
+      "disposition": "not-applicable",
+      "evidence_refs": ["none"],
+      "retention_or_blocker_reason": "no residue was excluded"
+    },
+    "manual_review_residue": {
+      "row_kind": "manual_review_residue",
+      "subjects": ["none"],
+      "disposition": "not-applicable",
+      "evidence_refs": ["none"],
+      "retention_or_blocker_reason": "no manual-review residue remained"
+    },
+    "remote_mutation_status": {
+      "row_kind": "remote_mutation_status",
+      "subjects": ["origin/main@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+      "disposition": "authorized",
+      "evidence_refs": [
+        ".octon/framework/product/contracts/examples/change-receipts/valid-hosted-branch-no-pr-landing-authorization.json",
+        "example-hosted-no-pr-hosted-landing"
+      ],
+      "retention_or_blocker_reason": "origin/main mutation was authorized by the hosted no-PR landing receipt"
+    },
+    "archive_authorization": {
+      "row_kind": "archive_authorization",
+      "subjects": ["none"],
+      "disposition": "not-authorized",
+      "evidence_refs": ["none"],
+      "retention_or_blocker_reason": "Change closeout receipt does not authorize archive movement"
+    },
+    "final_current_state_proof": {
+      "row_kind": "final_current_state_proof",
+      "subjects": ["example-hosted-no-pr-final-main-sync"],
+      "disposition": "verified",
+      "evidence_refs": ["example-hosted-no-pr-final-main-sync"],
+      "retention_or_blocker_reason": "final sync evidence verifies the landed state while cleanup remains deferred"
+    }
   },
   "closeout_outcome": "completed",
   "created_at": "2026-05-03T00:00:00Z"

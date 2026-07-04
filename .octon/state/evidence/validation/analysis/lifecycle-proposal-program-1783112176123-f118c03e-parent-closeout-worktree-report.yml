@@ -1,0 +1,126 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-proposal-program-1783112176123-f118c03e-parent-closeout-worktree-20260704T033102Z
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+residue_classification_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+final_inventory_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+selected_candidate_id: parent-foreign-residue
+next_route_condition: return to proposal-program lifecycle closeout with parent residue preserved/excluded and child authority preserved
+candidates:
+  - candidate_id: parent-foreign-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: parent foreign/manual residue explicitly authorized for non-mutating preserve/exclude
+    route_hint: closeout-worktree
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, restore, overwrite, staging, commit, push, cleanup, archive, promotion, branch cleanup, hosted provider action, publication, or Git ref mutation
+    boundaries:
+      include_paths: &parent_foreign_paths
+        - .gitignore
+        - .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+        - .octon/framework/product/contracts/examples/change-receipts/valid-direct-main-landed.json
+        - .octon/framework/product/contracts/examples/change-receipts/valid-hosted-branch-no-pr-landed.json
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+      exclude_paths:
+        - child closeout receipts
+        - child validation receipts
+        - archive authorization
+        - child lifecycle outcomes
+    proposal_program_parent_handoff_authorization:
+      authorization_grant: operator-authorized-parent-residue-preserve-and-exclude-for-lifecycle-closeout
+      program_run_id: lifecycle-proposal-program-1783112176123-f118c03e
+      parent_route_id: cleanup-lifecycle-residue
+      cleanup_receipt_ref: .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-autonomy-hardening/support/lifecycle-residue-cleanup.md
+      cleanup_receipt_digest: sha256:18fd97da335828f88beed5c625c9a54a687752a4c8c4d4072ffe9d13f9dc789b
+      cleanup_candidates_digest: sha256:5d83172675089fcdf23ba511b54178e6e133099dc6d635fee2d10d1199fbd3c9
+      residue_fingerprint: sha256:1f06a41143a36057e3566dcd0fd7ac6c81f1a6bc17ae3b919ec3850f498ac7b3
+      authorized_path_set_digest: sha256:474c041b309a56c3089920c3f0d3371b957294e1a14eebfd733a8ea66670be2e
+      classifier_output_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+      classifier_output_digest: sha256:66e6843b57dc539da4a8c78134f0bb6adc1464e0e345a5c40623229b82a5c5a3
+      authorized_foreign_fingerprint: sha256:56021a77cf783b1a26f72f3c02edd64ceb449d08840b43c624e8e166ff1eb93e
+      foreign_fingerprint: sha256:56021a77cf783b1a26f72f3c02edd64ceb449d08840b43c624e8e166ff1eb93e
+      authorized_paths: *parent_foreign_paths
+      disposition: preserve-and-exclude-from-lifecycle-closeout-blocking
+      outside_child_owned_closeout_authority: true
+      separately_partitioned_for_later_legal_closeout: true
+      non_mutating: true
+      preserve_and_exclude_from_lifecycle_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+iterations: []
+final_candidate_dispositions:
+  parent-foreign-residue:
+    state: foreign
+    lifecycle_outcome: preserved
+    non_mutating: true
+    notes: parent residue preserved and excluded from lifecycle closeout blocking by current classifier fingerprint and cleanup receipt context; no clean-worktree claim is made.
+retained_residue:
+  - candidate_id: parent-foreign-residue
+    path: .gitignore
+    disposition: foreign/manual parent residue preserved and excluded from lifecycle closeout blocking
+    status: observed-in-parent-scope
+    residue_class: foreign_manual_review
+    ownership: outside child-owned closeout authority or user-owned/ambiguous repo residue
+    routing: preserve-and-exclude-from-lifecycle-closeout-blocking
+    evidence_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+  - candidate_id: parent-foreign-residue
+    path: .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+    disposition: foreign/manual parent residue preserved and excluded from lifecycle closeout blocking
+    status: observed-in-parent-scope
+    residue_class: foreign_manual_review
+    ownership: outside child-owned closeout authority or user-owned/ambiguous repo residue
+    routing: preserve-and-exclude-from-lifecycle-closeout-blocking
+    evidence_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+  - candidate_id: parent-foreign-residue
+    path: .octon/framework/product/contracts/examples/change-receipts/valid-direct-main-landed.json
+    disposition: foreign/manual parent residue preserved and excluded from lifecycle closeout blocking
+    status: observed-in-parent-scope
+    residue_class: foreign_manual_review
+    ownership: outside child-owned closeout authority or user-owned/ambiguous repo residue
+    routing: preserve-and-exclude-from-lifecycle-closeout-blocking
+    evidence_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+  - candidate_id: parent-foreign-residue
+    path: .octon/framework/product/contracts/examples/change-receipts/valid-hosted-branch-no-pr-landed.json
+    disposition: foreign/manual parent residue preserved and excluded from lifecycle closeout blocking
+    status: observed-in-parent-scope
+    residue_class: foreign_manual_review
+    ownership: outside child-owned closeout authority or user-owned/ambiguous repo residue
+    routing: preserve-and-exclude-from-lifecycle-closeout-blocking
+    evidence_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+  - candidate_id: parent-foreign-residue
+    path: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    disposition: foreign/manual parent residue preserved and excluded from lifecycle closeout blocking
+    status: observed-in-parent-scope
+    residue_class: foreign_manual_review
+    ownership: outside child-owned closeout authority or user-owned/ambiguous repo residue
+    routing: preserve-and-exclude-from-lifecycle-closeout-blocking
+    evidence_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml
+blockers: []
+final_residue_classes:
+  ignored: 0
+  foreign_manual_review: 5
+  cleanup_safe_local_residue: 0
+  protected_retained_evidence: 893
+  protected_active_control_state: 5274
+repo_hygiene_cleanup_outcome: not-applicable
+repo_hygiene_next_route_condition: none; no repo-hygiene cleanup authorized or performed by this wrapper return
+terminal_current_state_proof_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/parent/worktree-hygiene-classification.yml

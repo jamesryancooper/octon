@@ -50,6 +50,14 @@ Receipt outputs must record selected route, target lifecycle outcome, actual
 lifecycle outcome, integration status, publication status, cleanup status,
 durable history, rollback handle, cleanup evidence when cleanup is claimed, and
 structured stop reasons when a target of `landed` or `cleaned` downgrades.
+Completed or `cleaned` receipt outputs must also include
+`retained_state_report` rows for delivered branch, route-owned delivery branch,
+dirty-anchor branches, retained local branches, retained worktrees, retained
+required evidence, local-private evidence, generated diagnostics, deleted
+residue, excluded residue, manual-review residue, remote mutation status,
+archive authorization, and final current-state proof. The rows disclose current
+evidence or `none`; they do not authorize cleanup, branch deletion, archive
+movement, generated publication, remote mutation, or terminal hygiene.
 
 When a permission-sensitive git mutation fails or is denied, receipt or
 retained evidence outputs must include a diagnostic record for the blocked
@@ -82,12 +90,36 @@ validate before `origin/main` mutation and match the source branch, source ref,
 target branch, target pre-ref, provider no-PR proof, exact-SHA check evidence
 or explicit empty-check policy, and rollback/discard posture.
 
+Successful hosted `branch-no-pr` landing receipt outputs must also include
+`hosted_landing_execution`. Its `signal` is
+`--execute-authorized-landing`, which means "consume the current landing
+authorization receipt for this exact attempt"; it is not an approval grant.
+The object must cite the consumed landing authorization, execution-lane
+evidence, source ref, target pre-ref, target post-ref, rollback handle, final
+sync evidence, and `host_controls_not_bypassed: true`. `--confirm`, chat text,
+host UI state, GitHub labels/comments, dashboards, generated projections,
+proposal files, and parent summaries cannot satisfy this execution boundary.
+When a runtime or sandbox boundary denies mutation after Octon authorization
+validates, the receipt must record the lower actual outcome with
+`hosted_landing_execution.execution_lane_status: denied` and
+`landing_stop_reason: runtime_approval_denied`.
+
 For branch cleanup that deletes or prunes local or remote source branch refs,
 receipt outputs must include `cleanup_authorization_ref` pointing to a retained
 `branch-cleanup-authorization-v1` receipt. The authorization receipt must
 validate before cleanup mutation and match the source branch, landed ref,
 local `main`, `origin/main`, no-open-PR proof, rollback/discard posture, and
 cleanup policy proof.
+
+For stale local branch retirement, receipt outputs must include a
+`stale_branch_retirement` section before any branch is reported as
+`retired-stale`. Each retirement receipt must record the candidate branch and
+stale ref, surviving branch and ref, merge-base or equivalent proof input,
+zero unique commits, upstream/local remote-ref/PR/protection checks,
+worktree attachment, dirty-residue disposition, switch authorization when
+needed, local delete authorization, remote mutation status, rollback
+recreation note, and post-delete verification. Report labels alone are not
+authorization or proof.
 
 For branch-no-pr terminal proof after landing, receipt outputs may cite a
 route-owned terminal evidence sink only after landing evidence, final sync

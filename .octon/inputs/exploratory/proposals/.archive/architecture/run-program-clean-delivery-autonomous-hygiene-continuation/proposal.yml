@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-autonomous-hygiene-continuation
+title: Run Program Clean Delivery Autonomous Hygiene Continuation
+summary: Convert recoverable closeout hygiene and ownership blockers into route-owned preserve/exclude continuation instead of default human stops.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-03
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-autonomous-hygiene-continuation
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/run-program-clean-delivery-autonomous-hygiene-continuation/2026-07-03T17-36-05Z/
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783094500385-fbec6b8f/lifecycle-interactions/run-program-clean-delivery-autonomous-hygiene-continuation-closeout-packet-closeout-worktree-return.json
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783094500385-fbec6b8f/lifecycle-interactions/run-program-clean-delivery-autonomous-hygiene-continuation-closeout-packet-closeout-worktree-report.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Review and implement autonomous hygiene continuation only through this child-owned route.
+related_proposals:
+- run-program-clean-delivery-autonomy-hardening
+- run-program-clean-delivery-cleanup-disposition
+acceptance_criteria_summary: Recoverable hygiene blockers produce fresh preserve/exclude evidence, rerun their child or parent gate, and continue downstream without chat stops when current evidence proves safety.
+authority_class_impact:
+  framework: May update closeout-worktree, proposal-program delivery, lifecycle routing, classifiers, validators, and tests.
+  instance: No direct instance authority changes.
+  state_control: Future implementation may read current run control but must not mutate control truth without route authority.
+  state_evidence: Future implementation must retain blocker-resolution receipts and rerun-gate proof.
+  generated: Generated outputs remain derived-only.
+  inputs: This child packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-07-03
+evidence_requirements:
+- Current residue fingerprint and classifier output.
+- Route-owned preserve/exclude receipt for owned, in-scope, retained evidence, generated/publication, foreign, ambiguous, and manual-review classes.
+- Fresh rerun gate verdict before lifecycle continuation.
+- Negative controls for destructive cleanup, unpreservable foreign residue, protected state, stale receipts, and conflicting instructions.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+owner:
+  role: Octon autonomous hygiene continuation architect
+  accountable_role: human operator / repository owner
+risk_posture: High. Incorrect continuation could skip human review for genuinely ambiguous or destructive residue.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback route.
+scope_statement: This child owns recoverable hygiene blocker continuation only.
+selected_implementation_target: closeout-worktree preserve/exclude continuation for proposal-program lifecycle blockers
+source_lineage:
+- PM-002 recoverable blockers were classified as human-required too often
+- .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-closeout-worktree-wrapper.sh with stale-fingerprint preserve/exclude fixtures

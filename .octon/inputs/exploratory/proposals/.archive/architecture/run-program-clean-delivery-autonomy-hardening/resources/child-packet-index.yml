@@ -1,0 +1,159 @@
+schema_version: octon-proposal-program-child-registry-v2
+execution_mode: sequential
+default_child_lifecycle_id: proposal-packet
+children:
+  - child_id: run-program-clean-delivery-compact-blocker-remediation
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation
+    priority: P1
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: terminal
+    phase_id: phase-1
+    group_id: artifact-governance
+    rollback_posture: manual
+    finding_refs:
+      - PM-001
+    write_scopes:
+      - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+      - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+      - .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+      - .octon/framework/assurance/runtime/_ops/tests/
+    validation_strategy:
+      - validate-run-program-clean-delivery.sh --fixture repeated-blocker-fingerprint
+      - validator fixture for file-count and byte-budget throttling
+  - child_id: run-program-clean-delivery-autonomous-hygiene-continuation
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-autonomous-hygiene-continuation
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-compact-blocker-remediation
+    dependency_gate: terminal
+    phase_id: phase-2
+    group_id: hygiene-continuation
+    rollback_posture: manual
+    finding_refs:
+      - PM-002
+    write_scopes:
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+      - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+      - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+      - .octon/framework/assurance/runtime/_ops/tests/
+    validation_strategy:
+      - validate-closeout-worktree-wrapper.sh --fixture stale-fingerprint-preserve-exclude
+      - lifecycle fixture resumes parent after rerun gate passes
+  - child_id: run-program-clean-delivery-stale-branch-retirement
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-stale-branch-retirement
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-autonomous-hygiene-continuation
+    dependency_gate: terminal
+    phase_id: phase-3
+    group_id: local-worktree-retirement
+    rollback_posture: manual
+    finding_refs:
+      - PM-003
+      - PM-007
+    write_scopes:
+      - .octon/framework/product/contracts/default-work-unit.yml
+      - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+      - .octon/framework/assurance/runtime/_ops/tests/
+    validation_strategy:
+      - stale branch fixture proves no unique commits before delete authorization
+      - dirty checked-out stale branch fixture routes through local-worktree retirement
+  - child_id: run-program-clean-delivery-run-health-localization
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-run-health-localization
+    priority: P1
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-stale-branch-retirement
+    dependency_gate: terminal
+    phase_id: phase-4
+    group_id: generated-read-models
+    rollback_posture: manual
+    finding_refs:
+      - PM-004
+    write_scopes:
+      - .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+      - .octon/framework/assurance/runtime/_ops/tests/
+    validation_strategy:
+      - validator rerun does not dirty tracked run-health files
+      - promotion fixture requires route-owned path and digest receipt
+  - child_id: run-program-clean-delivery-no-dispatch-deduplication
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-no-dispatch-deduplication
+    priority: P2
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-run-health-localization
+    dependency_gate: terminal
+    phase_id: phase-5
+    group_id: artifact-governance
+    rollback_posture: manual
+    finding_refs:
+      - PM-005
+    write_scopes:
+      - .octon/framework/engine/runtime/crates/kernel/src/workflow.rs
+      - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+      - .octon/framework/assurance/runtime/_ops/tests/
+    validation_strategy:
+      - repeated no-dispatch fixture updates one attempt ledger
+      - max-step exhaustion fixture emits bounded delta receipt only
+  - child_id: run-program-clean-delivery-retained-state-reporting
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-retained-state-reporting
+    priority: P2
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-no-dispatch-deduplication
+    dependency_gate: terminal
+    phase_id: phase-6
+    group_id: reporting
+    rollback_posture: manual
+    finding_refs:
+      - PM-007
+    write_scopes:
+      - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+      - .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+      - .octon/framework/assurance/runtime/_ops/tests/
+    validation_strategy:
+      - final report fixture requires delivered, retained, deleted, and manual-review rows
+      - overclaimed source-branch cleanup negative control
+  - child_id: run-program-clean-delivery-authorized-hosted-landing
+    path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-authorized-hosted-landing
+    priority: P2
+    required: true
+    deferred: false
+    dependencies:
+      - run-program-clean-delivery-retained-state-reporting
+    dependency_gate: terminal
+    phase_id: phase-7
+    group_id: hosted-landing
+    rollback_posture: manual
+    finding_refs:
+      - PM-006
+    write_scopes:
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+      - .octon/framework/product/contracts/change-closeout-state-machine.yml
+      - .octon/framework/product/contracts/change-receipt-v1.schema.json
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+      - .octon/framework/assurance/runtime/_ops/tests/
+    validation_strategy:
+      - validate-hosted-no-pr-landing.sh --fixture authorized-execute
+      - execution lane fixture validates pre-approved command prefix or equivalent sandbox authority
+      - stale receipt and provider-rule drift negative controls

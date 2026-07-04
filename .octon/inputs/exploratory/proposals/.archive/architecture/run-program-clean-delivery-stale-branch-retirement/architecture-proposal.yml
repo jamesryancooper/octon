@@ -1,0 +1,21 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-stale-branch-retirement
+title: Run Program Clean Delivery Stale Branch Retirement
+architecture_scope: local stale branch retirement and branch role reporting
+decision_type: boundary-change
+status: accepted
+owner: Octon stale branch retirement architect
+created_date: 2026-07-03
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: Branch retirement changes local cleanup authority and should land with exact proof requirements.
+child_authority_preserved: yes
+authority_boundary: This child may define local stale branch retirement but may not authorize remote deletion without an independent current receipt.
+architecture_drivers:
+  - No-unique-commit stale local branches should not remain as confusing anchors.
+  - Dirty checked-out stale branches should route through governed local-worktree retirement.
+  - Branch reports must distinguish dirty anchors from route-owned delivery branches.
+constraints:
+  - Do not delete branches with unique commits, protected status, unresolved upstream-only state, or open PR ownership.
+  - Keep actions local unless a separate receipt authorizes remote mutation.

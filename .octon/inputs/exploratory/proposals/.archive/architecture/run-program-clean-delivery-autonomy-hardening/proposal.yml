@@ -1,0 +1,154 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-autonomy-hardening
+title: Run Program Clean Delivery Autonomy Hardening
+summary: |
+  Create a corrective proposal program that addresses the clean-delivery
+  postmortem audit findings by converting recoverable hygiene, stale-branch,
+  artifact-budget, run-health, hosted-landing, and final-reporting ambiguity
+  into autonomous governed continuation paths with compact receipts and
+  explicit human-review exceptions.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+- .octon/framework/engine/runtime/crates/kernel/src/workflow.rs
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+- .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/
+- .octon/framework/product/contracts/default-work-unit.yml
+- .octon/framework/product/contracts/change-closeout-state-machine.yml
+- .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+- .octon/framework/product/contracts/change-receipt-v1.schema.json
+- .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+- .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+- .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+- .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-04
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-autonomy-hardening
+  promotion_evidence:
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-autonomous-hygiene-continuation/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-autonomous-hygiene-continuation/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-autonomous-hygiene-continuation/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-autonomous-hygiene-continuation/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-compact-blocker-remediation/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-compact-blocker-remediation/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-compact-blocker-remediation/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-compact-blocker-remediation/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-retained-state-reporting/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-retained-state-reporting/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-retained-state-reporting/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-retained-state-reporting/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-run-health-localization/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-run-health-localization/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-run-health-localization/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-run-health-localization/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-stale-branch-retirement/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-stale-branch-retirement/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-stale-branch-retirement/support/post-implementation-drift-churn-review.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-stale-branch-retirement/support/proposal-closeout.md
+lifecycle:
+  temporary: true
+  exit_expectation: |
+    Review this parent program, review and authorize each child packet
+    independently, implement only through child-owned routes, and close out the
+    parent only after child-owned evidence proves the postmortem findings are
+    durably corrected without replacing child authority, Change authority, or
+    delivery authority.
+related_proposals:
+- run-program-clean-delivery-compact-blocker-remediation
+- run-program-clean-delivery-autonomous-hygiene-continuation
+- run-program-clean-delivery-stale-branch-retirement
+- run-program-clean-delivery-run-health-localization
+- run-program-clean-delivery-no-dispatch-deduplication
+- run-program-clean-delivery-retained-state-reporting
+- run-program-clean-delivery-authorized-hosted-landing
+acceptance_criteria_summary: |
+  The program is acceptable when all seven child packets define complete target
+  surfaces, route-owned receipts, validators, negative controls, disposition
+  boundaries, and closeout criteria that make recoverable clean-delivery blockers
+  continue autonomously under governed evidence while keeping human review for
+  unsafe, destructive, external, protected, or unresolved cases.
+authority_class_impact:
+  framework: Coordinates future lifecycle, workflow, closeout, product-contract, validator, generated-output, and test changes through child packets.
+  instance: No direct instance authority changes from this parent.
+  state_control: No state-control mutation from this parent.
+  state_evidence: Future children may define retained evidence requirements, but this parent creates only proposal-local planning evidence.
+  generated: No generated output edits are authorized by this parent.
+  inputs: Parent and child packets are temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-07-03
+evidence_requirements:
+- Child-owned review, pre-integration architecture review, implementation, conformance, drift/churn, validation, closeout, and archive evidence for each implemented child.
+- Compact blocker-remediation receipts binding blocker class, fingerprint, budget state, input freshness, and next governed route.
+- Artifact-budget evidence covering repeated fingerprints, file count, and total bytes with throttling behavior rather than passive human pauses.
+- Worktree-hygiene and stale-local-branch retirement receipts proving classification, no unique commits, upstream/PR state, protected-name checks, and safe switch/delete authority.
+- Run-health projection receipts distinguishing diagnostic read models, local-private retained diagnostics, and route-promoted durable evidence by path and digest.
+- Hosted no-PR landing authorization receipts proving current refs, exact SHA, ruleset state, no-PR status, checks or empty-check-set rationale, rollback handle, and final sync plan.
+- Execution-environment approval-lane evidence proving any autonomous hosted mutation uses pre-approved command prefixes or equivalent sandbox authority in addition to Octon authorization.
+- Final report evidence that separately names delivered branches, retained branches, retained worktrees, retained evidence, deleted residue, and manual-review residue.
+explicit_runtime_non_implementation_statement: |
+  This parent creates planning artifacts only. Durable changes require accepted
+  child packets, child-owned implementation routes, conformance review,
+  drift/churn review, validation, closeout, and archive handling.
+generated_input_authority_impact: |
+  Proposal files, generated outputs, generated read models, prompts, chat
+  history, dashboards, local-only evidence, and host UI state remain
+  non-authoritative. Generated outputs must be refreshed only through canonical
+  generators and promoted only by route-owned receipt when required.
+owner:
+  role: Octon clean-delivery autonomy hardening architect
+  accountable_role: human operator / repository owner
+program_execution_mode: sequential
+readiness_projection:
+  publication_freshness_refs:
+  - .octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-autonomy-hardening/proposal-artifact-index.yml
+  - .octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-autonomy-hardening/proposal-program-spine.yml
+release_state: pre-1.0
+risk_posture: High. The corrective work changes lifecycle continuation, cleanup authority, hosted landing execution, and terminal reporting semantics; weak fixes could either over-delete residue or overclaim autonomous safety.
+rollback_summary: |
+  Reject or supersede this parent before implementation if the decomposition is
+  wrong. After child implementation begins, rollback must happen through each
+  child packet's own promotion targets and retained evidence.
+scope_statement: |
+  Parent coordination only. This program decomposes the postmortem corrective
+  work into sibling child packets. The parent does not implement runtime
+  behavior, run delivery, mutate Git refs, clean residue, update generated
+  outputs, archive proposals, or claim terminal repository hygiene.
+selected_implementation_target: clean-delivery postmortem autonomy and hygiene hardening
+source_lineage:
+- .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-postmortem-hardening
+- .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition
+- .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation
+- .octon/state/evidence/local/runs/skills/retained-state-localization/
+- clean-delivery postmortem audit findings PM-001 through PM-007
+validation_gates:
+- validate-proposal-standard.sh for parent and children
+- validate-architecture-proposal.sh for parent and children
+- validate-proposal-program-structure.sh for parent
+- validate-proposal-program-child-readiness.sh after child review acceptance
+- validate-run-program-clean-delivery.sh with blocker-remediation, artifact-budget, stale-branch, run-health, hosted-landing, and final-report negative controls
+- validate-closeout-worktree-wrapper.sh with current-fingerprint preserve/exclude cases
+- validate-hosted-no-pr-landing.sh with authorization-consuming execution cases

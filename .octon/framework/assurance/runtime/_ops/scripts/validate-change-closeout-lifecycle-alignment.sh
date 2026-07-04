@@ -140,6 +140,135 @@ predicate_evidence_blob() {
   ] | map(select(type == "string")) | join("\n")' "$RECEIPT_PATH"
 }
 
+retained_state_rows=(
+  delivered_branch
+  route_owned_delivery_branch
+  source_dirty_anchor_branches
+  retained_local_branches
+  retained_worktrees
+  retained_required_evidence
+  local_private_evidence
+  generated_diagnostics
+  deleted_residue
+  excluded_residue
+  manual_review_residue
+  remote_mutation_status
+  archive_authorization
+  final_current_state_proof
+)
+
+retained_state_subjects_are_none() {
+  local row="$1"
+  jq -e --arg row "$row" '(.retained_state_report[$row].subjects // []) == ["none"]' "$RECEIPT_PATH" >/dev/null 2>&1
+}
+
+retained_state_evidence_is_none() {
+  local row="$1"
+  jq -e --arg row "$row" '(.retained_state_report[$row].evidence_refs // []) == ["none"]' "$RECEIPT_PATH" >/dev/null 2>&1
+}
+
+retained_state_deleted_residue_is_concrete() {
+  [[ "$(jq -r '.retained_state_report.deleted_residue.disposition // ""' "$RECEIPT_PATH")" == "deleted" ]] &&
+    ! retained_state_subjects_are_none deleted_residue &&
+    ! retained_state_evidence_is_none deleted_residue
+}
+
+validate_retained_state_report() {
+  local terminal_claim="$1"
+  local row row_kind disposition reason evidence_count subject_count forbidden_refs source_cleanup_status
+
+  if jq -e '.retained_state_report | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "retained_state_report declared"
+  else
+    fail "retained_state_report required for final closeout and cleaned claims"
+    return
+  fi
+
+  for row in "${retained_state_rows[@]}"; do
+    if jq -e --arg row "$row" '.retained_state_report[$row] | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+      pass "retained_state_report.$row declared"
+    else
+      fail "retained_state_report.$row missing"
+      continue
+    fi
+
+    row_kind="$(jq -r --arg row "$row" '.retained_state_report[$row].row_kind // ""' "$RECEIPT_PATH")"
+    [[ "$row_kind" == "$row" ]] && pass "retained_state_report.$row row_kind matches" || fail "retained_state_report.$row row_kind must be $row"
+
+    subject_count="$(jq -r --arg row "$row" '(.retained_state_report[$row].subjects // []) | length' "$RECEIPT_PATH")"
+    [[ "$subject_count" -gt 0 ]] && pass "retained_state_report.$row subjects declared" || fail "retained_state_report.$row subjects must be non-empty"
+
+    evidence_count="$(jq -r --arg row "$row" '(.retained_state_report[$row].evidence_refs // []) | length' "$RECEIPT_PATH")"
+    [[ "$evidence_count" -gt 0 ]] && pass "retained_state_report.$row evidence_refs declared" || fail "retained_state_report.$row evidence_refs must be non-empty"
+
+    disposition="$(jq -r --arg row "$row" '.retained_state_report[$row].disposition // ""' "$RECEIPT_PATH")"
+    case "$disposition" in
+      delivered|retained|deleted|excluded|manual-review|not-authorized|not-applicable|blocked|verified|authorized)
+        pass "retained_state_report.$row disposition allowed"
+        ;;
+      *)
+        fail "retained_state_report.$row disposition invalid"
+        ;;
+    esac
+
+    reason="$(jq -r --arg row "$row" '.retained_state_report[$row].retention_or_blocker_reason // ""' "$RECEIPT_PATH")"
+    [[ -n "$reason" ]] && pass "retained_state_report.$row reason declared" || fail "retained_state_report.$row retention_or_blocker_reason missing"
+
+    case "$disposition" in
+      delivered|deleted|verified|authorized)
+        if retained_state_evidence_is_none "$row"; then
+          fail "retained_state_report.$row $disposition disposition requires concrete evidence refs"
+        else
+          pass "retained_state_report.$row $disposition disposition has concrete evidence refs"
+        fi
+        ;;
+    esac
+
+    forbidden_refs="$(jq -r --arg row "$row" '.retained_state_report[$row].evidence_refs[]? // empty' "$RECEIPT_PATH" | grep -E '(\.octon/inputs/exploratory/proposals/|\.octon/generated/|chat|model memory|dashboard|host state|tool availability)' || true)"
+    if [[ -n "$forbidden_refs" ]]; then
+      fail "retained_state_report.$row evidence_refs must not use proposal-local, generated, chat, dashboard, host, model, or tool state as authority"
+    else
+      pass "retained_state_report.$row evidence refs preserve authority boundaries"
+    fi
+  done
+
+  if [[ "$terminal_claim" == "true" ]]; then
+    [[ "$(jq -r '.retained_state_report.final_current_state_proof.disposition // ""' "$RECEIPT_PATH")" == "verified" ]] \
+      && pass "retained-state final current-state proof is verified" \
+      || fail "cleaned retained_state_report final_current_state_proof must be verified"
+    if retained_state_evidence_is_none final_current_state_proof; then
+      fail "cleaned retained_state_report final_current_state_proof requires concrete evidence"
+    else
+      pass "cleaned retained_state_report final current-state proof has evidence"
+    fi
+    for row in source_dirty_anchor_branches retained_local_branches retained_worktrees local_private_evidence generated_diagnostics excluded_residue manual_review_residue; do
+      disposition="$(jq -r --arg row "$row" '.retained_state_report[$row].disposition // ""' "$RECEIPT_PATH")"
+      if [[ "$disposition" != "not-applicable" ]] && ! retained_state_subjects_are_none "$row"; then
+        fail "cleaned closeout cannot hide retained $row under terminal claim"
+      else
+        pass "cleaned closeout has no undispositioned $row"
+      fi
+    done
+  fi
+
+  source_cleanup_status="$(json_value '.source_branch_cleanup.status')"
+  if [[ "$source_cleanup_status" == "completed" ]]; then
+    if ! retained_state_deleted_residue_is_concrete; then
+      fail "completed source_branch_cleanup requires concrete deleted_residue retained-state rows"
+    else
+      pass "completed source_branch_cleanup has concrete deleted_residue retained-state rows"
+    fi
+  fi
+
+  if grep -Eiq 'source branches? deleted|source-branches-deleted' "$RECEIPT_PATH"; then
+    if ! retained_state_deleted_residue_is_concrete; then
+      fail "broad source-branch deletion language requires exact deleted_residue rows"
+    else
+      pass "broad source-branch deletion language is backed by deleted_residue rows"
+    fi
+  fi
+}
+
 looks_like_sha() {
   [[ "$1" =~ ^[0-9a-fA-F]{40}$ ]]
 }
@@ -274,9 +403,19 @@ validate_contracts() {
   require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_stop_reason.enum[] | select(. == "runtime_approval_denied")' "receipt schema models structured cleanup stop reason" "receipt schema must model cleanup_stop_reason"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models governed landing authorization ref" "receipt schema must model landing_authorization_ref"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
+  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing_execution.properties.signal.const == "--execute-authorized-landing"' "receipt schema models hosted landing execution signal" "receipt schema must model --execute-authorized-landing"
+  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing_execution.properties.authorization_consumed.const == true' "receipt schema models hosted landing authorization consumption" "receipt schema must model hosted landing authorization consumption"
+  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing_execution.properties.execution_lane_status.enum[] | select(. == "authorized")' "receipt schema models authorized hosted landing execution lane" "receipt schema must model authorized hosted landing execution lane"
+  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing_execution.properties.execution_lane_status.enum[] | select(. == "denied")' "receipt schema models denied hosted landing execution lane" "receipt schema must model denied hosted landing execution lane"
+  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "hosted_landing_execution")' "receipt schema requires hosted landing execution for branch-no-pr landing" "receipt schema must require hosted_landing_execution for branch-no-pr landing"
   require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_authorization_ref' "receipt schema models governed cleanup authorization ref" "receipt schema must model cleanup_authorization_ref"
   require_jq "$RECEIPT_SCHEMA" '.properties.terminal_current_state_proof_ref' "receipt schema models terminal current-state proof ref" "receipt schema must model terminal_current_state_proof_ref"
   require_jq "$RECEIPT_SCHEMA" '.properties.terminal_current_state_proof_digest."$ref" == "#/$defs/sha256Digest"' "receipt schema models terminal current-state proof digest" "receipt schema must model terminal_current_state_proof_digest"
+  require_jq "$RECEIPT_SCHEMA" '.properties.retained_state_report."$ref" == "#/$defs/retained_state_report"' "receipt schema models retained-state report" "receipt schema must model retained_state_report"
+  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "retained_state_report")' "receipt schema requires retained-state report for terminal claims" "receipt schema must require retained_state_report for terminal claims"
+  require_jq "$RECEIPT_SCHEMA" '."$defs".retained_state_report.required[] | select(. == "retained_local_branches")' "receipt schema requires retained local branch rows" "receipt schema must require retained local branch rows"
+  require_jq "$RECEIPT_SCHEMA" '."$defs".retained_state_report.required[] | select(. == "retained_worktrees")' "receipt schema requires retained worktree rows" "receipt schema must require retained worktree rows"
+  require_jq "$RECEIPT_SCHEMA" '."$defs".retained_state_report.required[] | select(. == "retained_required_evidence")' "receipt schema requires retained evidence rows" "receipt schema must require retained evidence rows"
   require_jq "$RECEIPT_SCHEMA" '.properties.correction_branch_aggregate_receipt_ref' "receipt schema models correction branch aggregate receipt ref" "receipt schema must model correction_branch_aggregate_receipt_ref"
   require_jq "$TERMINAL_PROOF_SCHEMA" '.properties.schema_version.const == "lifecycle-terminal-current-state-proof-v1"' "terminal proof schema has stable version" "terminal proof schema must define lifecycle-terminal-current-state-proof-v1"
   require_jq "$TERMINAL_LOCAL_EVIDENCE_SCHEMA" '.properties.schema_version.const == "terminal-closeout-local-evidence-v1"' "terminal local evidence schema has stable version" "terminal local evidence schema must define terminal-closeout-local-evidence-v1"
@@ -346,7 +485,9 @@ validate_contracts() {
   require_yq "$STATE_MACHINE" '.routine_autonomy.dirty_worktree_partitioning.default_when_unambiguous | test("partition and delegate")' "state machine allows autonomous partition/delegation" "state machine must allow autonomous partition/delegation"
   require_yq "$STATE_MACHINE" '.routine_autonomy.branch_no_pr_cleaned_progression.closeout_change_may_create_task_branch_when[]? | select(. == "candidate boundaries are unambiguous")' "state machine allows branch creation for unambiguous delegated candidates" "state machine must allow branch creation for unambiguous delegated candidates"
   require_yq "$STATE_MACHINE" '.phases[]? | select(.phase_id == "hosted-no-pr-checks-and-landing") | .exit_evidence[]? | select(. == "retained empty-check-set rationale when no hosted checks are explicitly allowed")' "state machine requires empty-check-set rationale at hosted no-PR landing phase exit" "state machine must require empty-check-set rationale at hosted no-PR landing phase exit"
+  require_yq "$STATE_MACHINE" '.phases[]? | select(.phase_id == "hosted-no-pr-checks-and-landing") | .exit_evidence[]? | select(. == "authorization-consuming execution signal with execution-lane evidence")' "state machine requires authorization-consuming execution signal evidence" "state machine must require authorization-consuming execution signal evidence"
   require_yq "$STATE_MACHINE" '.phases[]? | select(.phase_id == "hosted-no-pr-checks-and-landing") | .stop_or_escalation_conditions[]? | select(. == "empty hosted check set lacks retained rationale")' "state machine stops when empty hosted check set lacks rationale" "state machine must stop when empty hosted check set lacks rationale"
+  require_yq "$STATE_MACHINE" '.phases[]? | select(.phase_id == "hosted-no-pr-checks-and-landing") | .stop_or_escalation_conditions[]? | select(. == "authorization-consuming execution signal missing or not bound to execution-lane evidence")' "state machine stops without execution signal evidence" "state machine must stop without execution signal evidence"
   require_yq "$STATE_MACHINE" '.evidence_gates.landed.required[]? | select(. == "retained empty-check-set rationale when hosted checks are explicitly absent")' "state machine landed gate records empty-check-set rationale evidence" "state machine landed gate must record empty-check-set rationale evidence"
   require_yq "$STATE_MACHINE" '.routine_autonomy.residue_authority_routes.eligible_local_run_artifact_residue | test("repo-hygiene-cleanup")' "state machine routes local run residue to repo-hygiene cleanup" "state machine must route local run residue to repo-hygiene cleanup"
   require_yq "$STATE_MACHINE" '.phases[]? | select(.phase_id == "residue-classification")' "state machine contract defines residue classification phase" "state machine contract must define residue classification phase"
@@ -419,6 +560,9 @@ validate_contracts() {
   require_literal "$CLOSEOUT_CHANGE" "push the source branch to origin" "closeout-change requires branch-no-pr origin push" "closeout-change must require branch-no-pr origin push"
   require_literal "$CLOSEOUT_CHANGE" "hosted no-PR landing preflight" "closeout-change requires hosted no-PR preflight" "closeout-change must require hosted no-PR preflight"
   require_literal "$CLOSEOUT_CHANGE" "Post-Landing Cleanup And Sync" "closeout-change requires post-landing cleanup and sync" "closeout-change must require post-landing cleanup and sync"
+  require_literal "$CLOSEOUT_CHANGE" "--execute-authorized-landing" "closeout-change documents authorization-consuming hosted landing execution signal" "closeout-change must document --execute-authorized-landing"
+  require_literal "$CLOSEOUT_CHANGE" "receipt-consumption signal" "closeout-change defines execution signal as receipt consumption" "closeout-change must define execution signal as receipt consumption"
+  require_literal "$CLOSEOUT_CHANGE" "execution-lane evidence" "closeout-change requires execution-lane evidence" "closeout-change must require execution-lane evidence"
   require_literal "$CLOSEOUT_CHANGE" "## Routine Autonomy" "closeout-change documents routine autonomy" "closeout-change must document routine autonomy"
   require_literal "$CLOSEOUT_CHANGE" "create or select a task branch" "closeout-change can create task branches for delegated candidates" "closeout-change must handle branch creation for delegated candidates"
   require_literal "$CLOSEOUT_CHANGE" "Eligible local Octon run/artifact residue" "closeout-change routes local artifact residue out of branch cleanup" "closeout-change must route local artifact residue out of branch cleanup"
@@ -427,10 +571,12 @@ validate_contracts() {
   require_literal "$CLOSEOUT_CHANGE" "Route transition is separate from route selection" "closeout-change separates route selection from transition" "closeout-change must separate route selection from transition"
   require_literal "$CLOSEOUT_CHANGE" "branch_pr_predicate_evidence" "closeout-change requires branch-pr predicate evidence" "closeout-change must require branch_pr_predicate_evidence"
   require_literal "$CLOSEOUT_CHANGE" "Never delete protected" "closeout-change forbids unsafe branch cleanup" "closeout-change must forbid unsafe branch cleanup"
+  require_literal "$CLOSEOUT_CHANGE" "retained_state_report" "closeout-change documents retained-state reporting" "closeout-change must document retained_state_report"
   require_literal "$CLOSEOUT_WORKTREE" 'singular `closeout-change` runs' "closeout-worktree delegates singular closeout-change runs" "closeout-worktree must delegate singular closeout-change runs"
   require_literal "$CLOSEOUT_WORKTREE" "partition autonomously" "closeout-worktree partitions unambiguous candidates autonomously" "closeout-worktree must partition unambiguous candidates autonomously"
   require_literal "$CLOSEOUT_WORKTREE" "Delegate Repo-Hygiene Residue" "closeout-worktree delegates repo-hygiene residue" "closeout-worktree must delegate repo-hygiene residue"
   require_literal "$CLOSEOUT_WORKTREE" "Do not stage, commit, push, open a PR" "closeout-worktree forbids direct material route actions" "closeout-worktree must forbid direct material route actions"
+  require_literal "$CLOSEOUT_WORKTREE" "retained_state_report" "closeout-worktree documents retained-state reporting" "closeout-worktree must document retained_state_report"
   require_literal "$CLOSEOUT_PR" 'Draft/open PR state is `published`, not full closeout' "closeout-pr blocks draft/open full closeout claims" "closeout-pr must block draft/open full closeout claims"
   require_literal "$CLOSEOUT_PR" 'Full PR-backed closeout after merge requires branch cleanup' "closeout-pr requires post-merge branch cleanup" "closeout-pr must require post-merge branch cleanup"
   require_literal "$CLOSEOUT_PR" 'Required branch cleanup or post-cleanup local `main` sync cannot be proven' "closeout-pr escalates unprovable cleanup or sync" "closeout-pr must escalate unprovable cleanup or sync"
@@ -472,7 +618,7 @@ validate_contracts() {
   require_jq "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "branch-local-complete" and .integration_status == "not_landed" and .publication_status == "none" and .closeout_outcome == "continued" and .durable_history.kind == "commit"' "receipt example covers branch-no-pr branch-local completion" "receipt example must cover branch-no-pr branch-local completion"
   require_jq "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" '.selected_route == "branch-no-pr" and .target_lifecycle_outcome == "published-branch" and .lifecycle_outcome == "published-branch" and .publication_status == "pushed-branch" and .integration_status == "not_landed" and .closeout_outcome == "continued"' "receipt example covers branch-no-pr pushed-branch handoff" "receipt example must cover branch-no-pr pushed-branch handoff"
   require_jq "$VALID_BRANCH_PR_READY" '.selected_route == "branch-pr" and .lifecycle_outcome == "ready" and .publication_status == "pr-ready" and .integration_status == "not_landed" and .closeout_outcome == "continued"' "receipt example covers branch-pr ready without landed closeout" "receipt example must cover branch-pr ready without landed closeout"
-  require_jq "$VALID_HOSTED_BRANCH_NO_PR_LANDED" '.selected_route == "branch-no-pr" and .target_lifecycle_outcome == "landed" and .lifecycle_outcome == "landed" and .integration_status == "landed" and .publication_status == "hosted-main-updated" and (.landing_authorization_ref | type == "string" and length > 0) and .hosted_landing.target_post_ref == .landed_ref and .main_alignment.aligned == true' "receipt example covers hosted branch-no-pr landing" "receipt example must cover hosted branch-no-pr landing"
+  require_jq "$VALID_HOSTED_BRANCH_NO_PR_LANDED" '.selected_route == "branch-no-pr" and .target_lifecycle_outcome == "landed" and .lifecycle_outcome == "landed" and .integration_status == "landed" and .publication_status == "hosted-main-updated" and (.landing_authorization_ref | type == "string" and length > 0) and .hosted_landing.target_post_ref == .landed_ref and .hosted_landing_execution.signal == "--execute-authorized-landing" and .hosted_landing_execution.execution_lane_status == "authorized" and .main_alignment.aligned == true' "receipt example covers hosted branch-no-pr landing" "receipt example must cover hosted branch-no-pr landing"
   require_jq "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "landed" and .publication_status == "pushed-branch"' "receipt example covers pushed-only landed overclaim" "receipt example must cover pushed-only landed overclaim"
   require_jq "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "published-branch" and .closeout_outcome == "completed"' "receipt example covers pushed-branch completed-closeout overclaim" "receipt example must cover pushed-branch completed-closeout overclaim"
   require_jq "$INVALID_STALE_REMOTE_BRANCH_REF" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "published-branch" and .remote_branch_ref != ("origin/" + .source_branch_ref + "@" + .durable_history.ref)' "receipt example covers stale remote branch ref" "receipt example must cover stale remote branch ref"
@@ -514,6 +660,89 @@ validate_landing_authorization_ref() {
   fi
   jq -e '.rollback_handle | type == "string" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records rollback handle" || fail "landing authorization requires rollback handle"
   jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization preserves host controls" || fail "landing authorization must preserve host controls"
+}
+
+execution_ref_is_forbidden_authority() {
+  local value="$1"
+  grep -Eiq '(^|[^a-z])(chat|host UI|host state|dashboard|generated projection|generated output|parent summary|proposal file|proposal-local|tool availability|model memory|--confirm)([^a-z]|$)' <<<"$value"
+}
+
+validate_hosted_landing_execution() {
+  local expected_status="$1"
+  local auth_ref execution_auth_ref source_ref target_pre_ref target_post_ref signal lane_status lane_kind lane_ref rollback_ref final_sync_ref push_refspec
+
+  if jq -e '.hosted_landing_execution | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "hosted landing execution signal is recorded"
+  else
+    fail "hosted branch-no-pr landing requires hosted_landing_execution"
+    return
+  fi
+
+  signal="$(json_value '.hosted_landing_execution.signal')"
+  [[ "$signal" == "--execute-authorized-landing" ]] && pass "hosted landing execution signal consumes authorization" || fail "hosted_landing_execution.signal must be --execute-authorized-landing"
+  jq -e '.hosted_landing_execution.authorization_consumed == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "hosted landing execution consumes authorization receipt" || fail "hosted_landing_execution.authorization_consumed must be true"
+
+  auth_ref="$(json_value '.landing_authorization_ref')"
+  execution_auth_ref="$(json_value '.hosted_landing_execution.landing_authorization_ref')"
+  [[ -n "$execution_auth_ref" && "$execution_auth_ref" == "$auth_ref" ]] && pass "hosted landing execution names consumed authorization" || fail "hosted_landing_execution.landing_authorization_ref must match landing_authorization_ref"
+
+  lane_kind="$(json_value '.hosted_landing_execution.execution_lane_kind')"
+  case "$lane_kind" in
+    pre-approved-command-prefix|sandbox-tool-authority-receipt|runtime-denial-receipt)
+      pass "hosted landing execution lane kind is supported"
+      ;;
+    *)
+      fail "hosted_landing_execution.execution_lane_kind is unsupported"
+      ;;
+  esac
+
+  lane_status="$(json_value '.hosted_landing_execution.execution_lane_status')"
+  [[ "$lane_status" == "$expected_status" ]] && pass "hosted landing execution lane status is $expected_status" || fail "hosted_landing_execution.execution_lane_status must be $expected_status"
+
+  lane_ref="$(json_value '.hosted_landing_execution.execution_lane_evidence_ref')"
+  if [[ -n "$lane_ref" ]]; then
+    if execution_ref_is_forbidden_authority "$lane_ref"; then
+      fail "hosted landing execution lane evidence must not rely on --confirm, chat, host UI, generated, proposal, parent summary, model, or tool state"
+    else
+      pass "hosted landing execution lane evidence preserves authority boundaries"
+    fi
+  else
+    fail "hosted_landing_execution.execution_lane_evidence_ref is required"
+  fi
+
+  source_ref="$(json_value '.hosted_landing.source_ref')"
+  [[ -n "$source_ref" ]] || source_ref="$(json_value '.landing_evaluation.source_ref')"
+  [[ -n "$source_ref" ]] || source_ref="$(json_value '.durable_history.ref')"
+  target_pre_ref="$(json_value '.hosted_landing.target_pre_ref')"
+  target_post_ref="$(json_value '.hosted_landing.target_post_ref')"
+
+  if [[ -n "$source_ref" ]]; then
+    [[ "$(json_value '.hosted_landing_execution.source_ref')" == "$source_ref" ]] && pass "hosted landing execution source ref matches landing evidence" || fail "hosted_landing_execution.source_ref must match landing source ref"
+  else
+    fail "hosted landing execution comparison requires source ref evidence"
+  fi
+  if [[ -n "$target_pre_ref" ]]; then
+    [[ "$(json_value '.hosted_landing_execution.target_pre_ref')" == "$target_pre_ref" ]] && pass "hosted landing execution target pre-ref matches hosted landing" || fail "hosted_landing_execution.target_pre_ref must match hosted_landing.target_pre_ref"
+  else
+    json_has_nonempty '.hosted_landing_execution.target_pre_ref' && pass "hosted landing execution records target pre-ref" || fail "hosted_landing_execution.target_pre_ref is required"
+  fi
+
+  rollback_ref="$(json_value '.hosted_landing_execution.rollback_handle_ref')"
+  [[ -n "$rollback_ref" ]] && pass "hosted landing execution records rollback handle" || fail "hosted_landing_execution.rollback_handle_ref is required"
+  jq -e '.hosted_landing_execution.host_controls_not_bypassed == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "hosted landing execution preserves host controls" || fail "hosted_landing_execution.host_controls_not_bypassed must be true"
+
+  if [[ "$expected_status" == "authorized" ]]; then
+    [[ "$(json_value '.hosted_landing_execution.target_post_ref')" == "$target_post_ref" ]] && pass "hosted landing execution target post-ref matches hosted landing" || fail "hosted_landing_execution.target_post_ref must match hosted_landing.target_post_ref"
+    final_sync_ref="$(json_value '.hosted_landing_execution.final_sync_evidence_ref')"
+    [[ -n "$final_sync_ref" ]] && pass "hosted landing execution records final sync evidence" || fail "hosted_landing_execution.final_sync_evidence_ref is required for successful hosted landing"
+  fi
+
+  push_refspec="$(json_value '.hosted_landing.push_refspec')"
+  if [[ "$push_refspec" == +* || "$push_refspec" == *"--force"* || "$push_refspec" == *"force-push"* ]]; then
+    fail "hosted landing push refspec must not require force-push"
+  else
+    pass "hosted landing push refspec is non-force or not applicable"
+  fi
 }
 
 validate_cleanup_authorization_ref() {
@@ -647,6 +876,11 @@ validate_receipt() {
   [[ -n "$integration" ]] && pass "receipt has integration status" || fail "receipt missing integration status"
   [[ -n "$publication" ]] && pass "receipt has publication status" || fail "receipt missing publication status"
   [[ -n "$cleanup" ]] && pass "receipt has cleanup status" || fail "receipt missing cleanup status"
+  if [[ "$closeout_outcome" == "completed" || "$outcome" == "cleaned" || "$cleanup" == "completed" ]]; then
+    validate_retained_state_report "$([[ "$outcome" == "cleaned" ]] && printf true || printf false)"
+  elif jq -e '.retained_state_report | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    validate_retained_state_report "false"
+  fi
 
   if [[ -n "$initial_route" ]]; then
     if [[ "$initial_route" != "$route" ]]; then
@@ -873,6 +1107,7 @@ validate_receipt() {
       json_has_nonempty '.landing_stop_reason' && pass "landing target downgrade has landing_stop_reason" || fail "landing target downgrade requires landing_stop_reason"
       if [[ "$(json_value '.landing_stop_reason')" == "runtime_approval_denied" ]]; then
         validate_downgrade_landing_authorization_ref
+        validate_hosted_landing_execution "denied"
       fi
       [[ "$closeout_outcome" != "completed" ]] && pass "landing target downgrade is not completed closeout" || fail "landing target downgrade must not claim completed closeout"
     fi
@@ -890,6 +1125,7 @@ validate_receipt() {
       jq -e '.landing_evaluation | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "branch-no-pr landed has landing evaluation" || fail "branch-no-pr landed requires landing_evaluation"
       jq -e '.hosted_landing | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "branch-no-pr landed has hosted landing evidence" || fail "branch-no-pr landed requires hosted_landing evidence"
       validate_landing_authorization_ref
+      validate_hosted_landing_execution "authorized"
       json_has_nonempty '.hosted_landing.provider_ruleset_ref' && pass "hosted landing has provider ruleset evidence" || fail "hosted landing requires provider_ruleset_ref"
       json_array_nonempty '.hosted_landing.required_check_refs' && pass "hosted landing has exact-SHA check refs" || fail "hosted landing requires required_check_refs"
       jq -e '.hosted_landing.fast_forward_only == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "hosted landing is fast-forward only" || fail "hosted landing requires fast_forward_only true"

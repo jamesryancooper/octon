@@ -1,0 +1,22 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-authorized-hosted-landing
+title: Run Program Clean Delivery Authorized Hosted Landing
+architecture_scope: cross-domain-architecture
+scope_statement: Hosted no-PR landing authorization consumption across closeout skills, Change contracts, validators, and tests.
+decision_type: boundary-change
+status: accepted
+owner: Octon authorized hosted landing architect
+created_date: 2026-07-03
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: Hosted mutation semantics must change atomically with validators and receipt checks.
+child_authority_preserved: yes
+authority_boundary: This child may define non-interactive receipt consumption but may not bypass missing approvals, force-push controls, provider policies, or stale refs.
+architecture_drivers:
+  - A current authorization receipt should govern execution rather than a chat approval stop.
+  - The execution flag should confirm intentional receipt consumption, not ask for new human approval.
+  - Immediate preflight must validate refs, provider controls, checks, rollback, and final sync.
+constraints:
+  - Do not execute when receipt is missing, stale, denied, externally blocked, policy-incomplete, or destructive beyond receipt scope.
+  - Keep sandbox/tool approval separate unless a pre-approved execution lane exists.

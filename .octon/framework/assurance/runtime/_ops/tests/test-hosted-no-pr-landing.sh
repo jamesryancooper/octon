@@ -80,7 +80,23 @@ attach_valid_landing_authorization() {
     created_at: .created_at
   }' "$receipt" >"$auth"
   tmp="$(mktemp)"
-  jq --arg auth "$auth" '.landing_authorization_ref = $auth' "$receipt" >"$tmp"
+  jq --arg auth "$auth" '
+    .landing_authorization_ref = $auth
+    | .hosted_landing_execution = {
+        signal: "--execute-authorized-landing",
+        authorization_consumed: true,
+        landing_authorization_ref: $auth,
+        execution_lane_kind: "pre-approved-command-prefix",
+        execution_lane_status: "authorized",
+        execution_lane_evidence_ref: "pre-approved command prefix for git push origin <source>:refs/heads/main",
+        source_ref: .hosted_landing.source_ref,
+        target_pre_ref: .hosted_landing.target_pre_ref,
+        target_post_ref: .hosted_landing.target_post_ref,
+        rollback_handle_ref: ((.rollback_handle.kind // "rollback") + ":" + (.rollback_handle.ref // .hosted_landing.source_ref)),
+        final_sync_evidence_ref: (.main_alignment.local_main_sync_evidence_ref // "final local main sync evidence"),
+        host_controls_not_bypassed: true
+      }
+  ' "$receipt" >"$tmp"
   mv "$tmp" "$receipt"
   printf '%s\n' "$auth"
 }
@@ -382,6 +398,34 @@ case_stale_landing_authorization_fails() {
   ! run_hosted_validator "$receipt"
 }
 
+case_missing_execution_signal_fails() {
+  local receipt
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" 'del(.hosted_landing_execution)'
+  ! run_hosted_validator "$receipt"
+}
+
+case_confirm_or_chat_execution_evidence_fails() {
+  local receipt
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" '.hosted_landing_execution.execution_lane_evidence_ref = "chat says --confirm approved this hosted landing"'
+  ! run_hosted_validator "$receipt"
+}
+
+case_missing_execution_lane_evidence_fails() {
+  local receipt
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" 'del(.hosted_landing_execution.execution_lane_evidence_ref)'
+  ! run_hosted_validator "$receipt"
+}
+
+case_force_push_refspec_fails() {
+  local receipt
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" '.hosted_landing.push_refspec = "+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:refs/heads/main"'
+  ! run_hosted_validator "$receipt"
+}
+
 case_pr_metadata_fails() {
   local receipt
   receipt="$(write_file <<'JSON'
@@ -521,6 +565,10 @@ main() {
   assert_success "hosted no-PR receipt missing landing authorization fails" case_missing_landing_authorization_fails
   assert_success "hosted no-PR receipt denied landing authorization fails" case_denied_landing_authorization_fails
   assert_success "hosted no-PR receipt stale landing authorization fails" case_stale_landing_authorization_fails
+  assert_success "hosted no-PR receipt missing execution signal fails" case_missing_execution_signal_fails
+  assert_success "chat or --confirm alone cannot satisfy execution lane" case_confirm_or_chat_execution_evidence_fails
+  assert_success "hosted no-PR receipt missing execution lane evidence fails" case_missing_execution_lane_evidence_fails
+  assert_success "hosted no-PR force-push refspec fails" case_force_push_refspec_fails
   assert_success "PR metadata fails for branch-no-pr hosted landing" case_pr_metadata_fails
   assert_success "current PR-required ruleset passes current expectation" case_current_pr_required_ruleset_passes_current_expectation
   assert_success "route-neutral ruleset passes target expectation" case_route_neutral_ruleset_passes_target_expectation

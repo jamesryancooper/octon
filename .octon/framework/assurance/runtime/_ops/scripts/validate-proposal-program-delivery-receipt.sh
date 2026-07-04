@@ -153,6 +153,136 @@ validate_feature_catalog_drift_gate() {
   fi
 }
 
+retained_state_rows=(
+  delivered_branch
+  route_owned_delivery_branch
+  source_dirty_anchor_branches
+  retained_local_branches
+  retained_worktrees
+  retained_required_evidence
+  local_private_evidence
+  generated_diagnostics
+  deleted_residue
+  excluded_residue
+  manual_review_residue
+  remote_mutation_status
+  archive_authorization
+  final_current_state_proof
+)
+
+retained_state_subjects_are_none() {
+  local row="$1"
+  yq -e "(.retained_state_report.$row.subjects // []) | length == 1 and .[0] == \"none\"" "$RECEIPT_PATH" >/dev/null 2>&1
+}
+
+retained_state_evidence_is_none() {
+  local row="$1"
+  yq -e "(.retained_state_report.$row.evidence_refs // []) | length == 1 and .[0] == \"none\"" "$RECEIPT_PATH" >/dev/null 2>&1
+}
+
+retained_state_deleted_residue_is_concrete() {
+  local disposition
+  disposition="$(scalar '.retained_state_report.deleted_residue.disposition')"
+  [[ "$disposition" == "deleted" ]] &&
+    ! retained_state_subjects_are_none deleted_residue &&
+    ! retained_state_evidence_is_none deleted_residue
+}
+
+validate_retained_state_report() {
+  local terminal_claim="$1"
+  local row row_kind disposition evidence_count subject_count reason forbidden_refs branch_cleanup_performed branch_deleted
+
+  if yq -e '.retained_state_report | tag == "!!map"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "retained_state_report declared"
+  else
+    fail "retained_state_report missing"
+    return
+  fi
+
+  for row in "${retained_state_rows[@]}"; do
+    if yq -e ".retained_state_report.$row | tag == \"!!map\"" "$RECEIPT_PATH" >/dev/null 2>&1; then
+      pass "retained_state_report.$row declared"
+    else
+      fail "retained_state_report.$row missing"
+      continue
+    fi
+
+    row_kind="$(scalar ".retained_state_report.$row.row_kind")"
+    [[ "$row_kind" == "$row" ]] && pass "retained_state_report.$row row_kind matches" || fail "retained_state_report.$row row_kind must be $row"
+
+    subject_count="$(yq -r "(.retained_state_report.$row.subjects // []) | length" "$RECEIPT_PATH" 2>/dev/null || echo 0)"
+    [[ "$subject_count" -gt 0 ]] && pass "retained_state_report.$row subjects declared" || fail "retained_state_report.$row subjects must be non-empty"
+
+    evidence_count="$(yq -r "(.retained_state_report.$row.evidence_refs // []) | length" "$RECEIPT_PATH" 2>/dev/null || echo 0)"
+    [[ "$evidence_count" -gt 0 ]] && pass "retained_state_report.$row evidence_refs declared" || fail "retained_state_report.$row evidence_refs must be non-empty"
+
+    disposition="$(scalar ".retained_state_report.$row.disposition")"
+    case "$disposition" in
+      delivered|retained|deleted|excluded|manual-review|not-authorized|not-applicable|blocked|verified|authorized)
+        pass "retained_state_report.$row disposition allowed"
+        ;;
+      *)
+        fail "retained_state_report.$row disposition invalid"
+        ;;
+    esac
+
+    reason="$(scalar ".retained_state_report.$row.retention_or_blocker_reason")"
+    [[ -n "$reason" && "$reason" != "null" ]] && pass "retained_state_report.$row reason declared" || fail "retained_state_report.$row retention_or_blocker_reason missing"
+
+    case "$disposition" in
+      delivered|deleted|verified|authorized)
+        if retained_state_evidence_is_none "$row"; then
+          fail "retained_state_report.$row $disposition disposition requires concrete evidence refs"
+        else
+          pass "retained_state_report.$row $disposition disposition has concrete evidence refs"
+        fi
+        ;;
+    esac
+
+    forbidden_refs="$(yq -r "(.retained_state_report.$row.evidence_refs // [])[]" "$RECEIPT_PATH" 2>/dev/null | grep -E '(\.octon/inputs/exploratory/proposals/|\.octon/generated/|chat|model memory|dashboard|host state|tool availability)' || true)"
+    if [[ -n "$forbidden_refs" ]]; then
+      fail "retained_state_report.$row evidence_refs must not use proposal-local, generated, chat, dashboard, host, model, or tool state as authority"
+    else
+      pass "retained_state_report.$row evidence refs preserve authority boundaries"
+    fi
+  done
+
+  if [[ "$terminal_claim" == "true" ]]; then
+    require_value '.retained_state_report.final_current_state_proof.disposition' 'verified' "retained state final current-state proof disposition"
+    if retained_state_evidence_is_none final_current_state_proof; then
+      fail "cleaned retained_state_report final_current_state_proof requires concrete evidence"
+    else
+      pass "cleaned retained_state_report final current-state proof has evidence"
+    fi
+    for row in source_dirty_anchor_branches retained_local_branches retained_worktrees local_private_evidence generated_diagnostics excluded_residue manual_review_residue; do
+      disposition="$(scalar ".retained_state_report.$row.disposition")"
+      if [[ "$disposition" != "not-applicable" ]] && ! retained_state_subjects_are_none "$row"; then
+        fail "cleaned delivery cannot hide retained $row under terminal claim"
+      else
+        pass "cleaned delivery has no undispositioned $row"
+      fi
+    done
+  fi
+
+  branch_cleanup_performed="$(scalar '.branch_authorization.branch_cleanup_performed')"
+  branch_deleted="$(scalar '.branch_authorization.branch_deleted')"
+  if [[ "$branch_cleanup_performed" == "true" || "$branch_deleted" == "true" ]]; then
+    if ! retained_state_deleted_residue_is_concrete; then
+      fail "branch cleanup/deletion requires concrete deleted_residue retained-state rows"
+    else
+      pass "branch cleanup/deletion has concrete deleted_residue retained-state rows"
+    fi
+  fi
+
+  if grep -Eiq 'source branches? deleted|source-branches-deleted' "$RECEIPT_PATH"; then
+    if ! retained_state_deleted_residue_is_concrete; then
+      fail "broad source-branch deletion language requires exact deleted_residue rows"
+    else
+      pass "broad source-branch deletion language is backed by deleted_residue rows"
+    fi
+  fi
+}
+
 need_tool jq
 need_tool yq
 
@@ -182,6 +312,7 @@ for token in \
   '"lifecycle_postmortem"' \
   '"child_packet_coverage"' \
   '"terminal_current_state_proof"' \
+  '"retained_state_report"' \
   '"target_owned_evidence_policy"'; do
   grep -Fq "$token" "$SCHEMA_PATH" && pass "schema token present: $token" || fail "schema token missing: $token"
 done
@@ -381,6 +512,7 @@ if [[ -n "$RECEIPT_PATH" ]]; then
     require_bool '.worktree_hygiene.dirty_worktree' 'false' "worktree dirty flag"
     require_value '.worktree_hygiene.verdict' 'pass' "worktree hygiene verdict"
   fi
+  validate_retained_state_report "$([[ "$(scalar '.actual_outcome')" == "cleaned" ]] && printf true || printf false)"
 
   require_scalar '.delivery_evidence_index.ref' "delivery evidence index ref"
   require_value '.delivery_evidence_index.schema_version' 'proposal-program-delivery-evidence-index-v1' "delivery evidence index schema_version"

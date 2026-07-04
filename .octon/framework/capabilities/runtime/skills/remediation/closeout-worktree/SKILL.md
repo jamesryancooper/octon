@@ -151,13 +151,14 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
     Changes, retained candidates, blocked or escalated items, evidence refs,
     repo-hygiene classification refs, delegated repo-hygiene cleanup refs,
     repo-hygiene cleanup authorization refs when available, detached worktree
-    cleanup safety proof when applicable, `worktree_terminal_state`, and next
-    route condition. Also retain compact wrapper views when source evidence is
-    available: `structured-receipt.yml`, `closeout-projection.yml`, optional
-    `publication-summary.yml`, and `expanded-report-request.yml`. These views
-    must cite the wrapper report, delegated `closeout-change` receipts, and
-    retained evidence by digest. They do not replace candidate-owned Change
-    receipts or wrapper validation evidence.
+    cleanup safety proof when applicable, `retained_state_report`,
+    `worktree_terminal_state`, and next route condition. Also retain compact
+    wrapper views when source evidence is available: `structured-receipt.yml`,
+    `closeout-projection.yml`, optional `publication-summary.yml`, and
+    `expanded-report-request.yml`. These views must cite the wrapper report,
+    delegated `closeout-change` receipts, and retained evidence by digest. They
+    do not replace candidate-owned Change receipts or wrapper validation
+    evidence.
 
 ## Wrapper Evidence
 
@@ -165,8 +166,17 @@ Write wrapper reports as `schema_version: closeout-worktree-report-v1`. The
 report must record the initial inventory, read-only residue classification,
 observed candidate count, selected candidate, candidate boundaries,
 orchestration iterations, delegated `closeout-change` evidence, retained
-residue, blockers, final candidate dispositions, final inventory,
-`worktree_terminal_state`, and next-route condition.
+residue, `retained_state_report`, blockers, final candidate dispositions, final
+inventory, `worktree_terminal_state`, and next-route condition.
+
+`retained_state_report` must use the same row vocabulary as Change receipts:
+delivered branch, route-owned delivery branch, dirty-anchor branches, retained
+local branches, retained worktrees, retained required evidence, local-private
+evidence, generated diagnostics, deleted residue, excluded residue,
+manual-review residue, remote mutation status, archive authorization, and final
+current-state proof. The wrapper may summarize only current target-owned
+evidence or record `none`; the report does not authorize cleanup, branch
+deletion, archive movement, generated publication, or terminal hygiene.
 
 Every candidate must include `residue_routing_class` with exactly one of:
 `publishable_change`, `publishable_closeout_evidence`,
@@ -292,6 +302,15 @@ When stale detached Git worktrees are observed, the report must either retain
 them with rationale or cite explicit worktree cleanup safety proof: detached
 HEAD, clean worktree, no active branch, no open PR or branch ownership claim,
 not the current worktree, and removal through Git worktree cleanup policy.
+
+When the current dirty worktree is attached to a stale local branch candidate,
+the wrapper may classify the branch as `source-dirty-anchor` and delegate a
+singular `closeout-change` local-worktree retirement candidate. The wrapper
+must inventory residue, classify include/exclude boundaries, and preserve or
+route required evidence before any switch is attempted. It must not delete or
+mark the branch `retired-stale`; only the delegated `closeout-change` receipt
+may do that after no-unique-commit proof, blocker checks, branch-retirement
+authorization, post-delete verification, and rollback notes exist.
 
 Compact wrapper reporting uses the same structured artifact contract as
 `closeout-change`. `closeout-projection.yml` is the default model-visible

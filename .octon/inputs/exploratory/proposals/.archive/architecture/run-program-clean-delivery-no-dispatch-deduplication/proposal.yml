@@ -1,0 +1,57 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-no-dispatch-deduplication
+title: Run Program Clean Delivery No-Dispatch Deduplication
+summary: Deduplicate no-dispatch and max-step artifact churn by appending bounded attempt metadata for unchanged blocker fingerprints.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/workflow.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-03
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-no-dispatch-deduplication
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/lifecycle-interactions/run-program-clean-delivery-no-dispatch-deduplication-closeout-packet-closeout-worktree-return.json
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/lifecycle-interactions/run-program-clean-delivery-no-dispatch-deduplication-closeout-packet-closeout-worktree-report.yml
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/children/run-program-clean-delivery-no-dispatch-deduplication/worktree-hygiene-preflight-8e86d4c43fcfc44a870fce2a9117144e1bb9d5e4b33be987a7bbf212b7c3c940.stdout.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Review and implement no-dispatch deduplication only through this child-owned route.
+related_proposals:
+- run-program-clean-delivery-autonomy-hardening
+- run-program-clean-delivery-compact-blocker-remediation
+acceptance_criteria_summary: Identical no-dispatch resumptions update one bounded attempt ledger and do not emit duplicate compact evidence sets.
+authority_class_impact:
+  framework: May update workflow retry bookkeeping, program lifecycle output, validators, and tests.
+  instance: No direct instance authority changes.
+  state_control: Future implementation may update run attempt metadata through governed workflow execution.
+  state_evidence: Future implementation must retain bounded no-dispatch attempt evidence.
+  generated: Generated outputs remain derived-only.
+  inputs: This child packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-07-03
+evidence_requirements:
+- Attempt ledger evidence with input digest, blocker fingerprint, attempt count, and timestamp.
+- Negative controls for changed inputs, changed blocker fingerprint, and dispatched route action.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+owner:
+  role: Octon no-dispatch deduplication architect
+  accountable_role: human operator / repository owner
+risk_posture: Medium. Incorrect deduplication could mask forward progress or obscure changed blocker state.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback route.
+scope_statement: This child owns no-dispatch and max-step artifact deduplication only.
+selected_implementation_target: proposal-program lifecycle no-dispatch attempt ledger
+source_lineage:
+- PM-005 max-step resumptions produced repeated compact artifacts without forward action
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-run-program-clean-delivery.sh with no-dispatch deduplication fixtures

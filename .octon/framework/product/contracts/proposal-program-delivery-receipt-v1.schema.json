@@ -28,6 +28,7 @@
     "final_sync",
     "terminal_current_state_proof",
     "worktree_hygiene",
+    "retained_state_report",
     "delivery_evidence_index",
     "clean_worktree_route",
     "lifecycle_postmortem",
@@ -563,6 +564,9 @@
         }
       }
     },
+    "retained_state_report": {
+      "$ref": "#/$defs/retained_state_report"
+    },
     "delivery_evidence_index": {
       "description": "Non-circular binding to the retained compact delivery evidence index. The receipt names the index path and validator posture but does not embed the index digest.",
       "type": "object",
@@ -873,6 +877,114 @@
         "authority_notes": {
           "type": "array",
           "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "retained_state_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "delivered_branch",
+        "route_owned_delivery_branch",
+        "source_dirty_anchor_branches",
+        "retained_local_branches",
+        "retained_worktrees",
+        "retained_required_evidence",
+        "local_private_evidence",
+        "generated_diagnostics",
+        "deleted_residue",
+        "excluded_residue",
+        "manual_review_residue",
+        "remote_mutation_status",
+        "archive_authorization",
+        "final_current_state_proof"
+      ],
+      "properties": {
+        "delivered_branch": { "$ref": "#/$defs/retained_state_report_row" },
+        "route_owned_delivery_branch": { "$ref": "#/$defs/retained_state_report_row" },
+        "source_dirty_anchor_branches": { "$ref": "#/$defs/retained_state_report_row" },
+        "retained_local_branches": { "$ref": "#/$defs/retained_state_report_row" },
+        "retained_worktrees": { "$ref": "#/$defs/retained_state_report_row" },
+        "retained_required_evidence": { "$ref": "#/$defs/retained_state_report_row" },
+        "local_private_evidence": { "$ref": "#/$defs/retained_state_report_row" },
+        "generated_diagnostics": { "$ref": "#/$defs/retained_state_report_row" },
+        "deleted_residue": { "$ref": "#/$defs/retained_state_report_row" },
+        "excluded_residue": { "$ref": "#/$defs/retained_state_report_row" },
+        "manual_review_residue": { "$ref": "#/$defs/retained_state_report_row" },
+        "remote_mutation_status": { "$ref": "#/$defs/retained_state_report_row" },
+        "archive_authorization": { "$ref": "#/$defs/retained_state_report_row" },
+        "final_current_state_proof": { "$ref": "#/$defs/retained_state_report_row" }
+      }
+    },
+    "retained_state_report_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row_kind",
+        "subjects",
+        "disposition",
+        "evidence_refs",
+        "retention_or_blocker_reason"
+      ],
+      "properties": {
+        "row_kind": {
+          "enum": [
+            "delivered_branch",
+            "route_owned_delivery_branch",
+            "source_dirty_anchor_branches",
+            "retained_local_branches",
+            "retained_worktrees",
+            "retained_required_evidence",
+            "local_private_evidence",
+            "generated_diagnostics",
+            "deleted_residue",
+            "excluded_residue",
+            "manual_review_residue",
+            "remote_mutation_status",
+            "archive_authorization",
+            "final_current_state_proof"
+          ]
+        },
+        "subjects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "disposition": {
+          "enum": [
+            "delivered",
+            "retained",
+            "deleted",
+            "excluded",
+            "manual-review",
+            "not-authorized",
+            "not-applicable",
+            "blocked",
+            "verified",
+            "authorized"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "retention_or_blocker_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_notes": {
+          "type": "array",
           "items": {
             "type": "string",
             "minLength": 1

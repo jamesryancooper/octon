@@ -1,258 +1,207 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal",
-  "generated_at": "2026-07-02T01:21:50Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.1.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "stale",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:e805a31c12a427f966e05fd29f3192a5c4d91596d3987cd0f3370e2be8120141",
-    "checked_at": "2026-07-02T01:21:50Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal",
-    "evidence_classification": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-contract.yml",
-      "digest": "sha256:4c5483801af644077ae3491126efebcbfc544e6debd5d139de06fa77e3a3f21b",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-manifest.yml",
-      "digest": "sha256:8db9e8a2bf0b722e7f12311c4b2b0b7296b781dd40c71b7869a0fed258537f3e",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.ndjson",
-      "digest": "sha256:65451c53ed63b964138ed5fed20aca88ee7e22a55bcab3c877d169e5dd6c5bfc",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.manifest.yml",
-      "digest": "sha256:09367b8183ad8ffa28362a675852d49b438df89a004c65439e03c6c8becfdffe",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/runtime-state.yml",
-      "digest": "sha256:e219824b287e0bc05b38d2914d210f98793b0c3b35348527d88334f71c70dcbc",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml",
-      "digest": "sha256:1b2efed368cf58af2ed6f09835c1a7a2730d47cefc859f79f14b3c3b1cf35c16",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml",
-      "digest": "sha256:082814cbefa81a53c958bcf8834b5f685c5194b5b26e065b8da78ae9b5f3c748",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/rollback-posture.yml",
-      "digest": "sha256:160cc0018e2d986a78a94a2861d9895c2fda14c04cac266ee004bea614d45054",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/evidence-classification.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/retained-run-evidence.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/replay-pointers.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/interventions/log.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-card.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:6b571b2e9c7b3f7446d1907636b50a921223077b8ebb51b64c5f504bce574b8f",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/handoff.yml",
-      "digest": "sha256:8a13eaccec719279db9ec74b4f88ccbd9b08566bc3e252fc44e5b7272c6bddf8",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:ad98face50a98656242bfc3e5063f9b620bec88abf2068dc0f54342ec2b479ee",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:0f6094c5235d5a3bb9c8fe5de586e6bc3884f1b6113bfbf2024f909a5827e28a",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "stale",
-    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
-    "next_required_action": "regenerate from current canonical sources"
-  },
-  "lifecycle": {
-    "state": "closed",
-    "decision_state": "allow",
-    "drift_status": "in-sync",
-    "latest_event_hash": "sha256:a6eff3c90e8b776b947e113c186e8de182d81deea3236f584fa19b67e76fb841",
-    "latest_sequence": 29
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
-    "route_status": "allow",
-    "pack_status": "allow",
-    "support_status": "supported",
-    "requested_capability_packs": [
-      "repo",
-      "shell",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "authorized",
-    "proof_state": "proof-stale",
-    "human_boundary_state": "none",
-    "active_grants": [
-      ".octon/state/evidence/control/execution/authority-grant-bundle-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "evidence_classification",
-      "retained_evidence",
-      "replay_pointers",
-      "journal_snapshot",
-      "journal_manifest_snapshot"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "unknown",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "incomplete"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": [
-    {
-      "severity": "error",
-      "code": "journal-ledger-digest-stale",
-      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
-      "refs": [
-        ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.manifest.yml",
-        ".octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.ndjson"
-      ]
-    }
-  ]
-}
+schema_version: run-health-read-model-v1
+run_id: 20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal
+generated_at: '2026-07-04T04:08:29Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.2.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:f1416b0ffb986cc5a48f6e41bfb307f6bde637fa23734cbdd5a0b3214c6e9042
+  checked_at: '2026-07-04T04:08:29Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal
+  evidence_classification: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-contract.yml
+    digest: sha256:4c5483801af644077ae3491126efebcbfc544e6debd5d139de06fa77e3a3f21b
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-manifest.yml
+    digest: sha256:8db9e8a2bf0b722e7f12311c4b2b0b7296b781dd40c71b7869a0fed258537f3e
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.ndjson
+    digest: sha256:65451c53ed63b964138ed5fed20aca88ee7e22a55bcab3c877d169e5dd6c5bfc
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.manifest.yml
+    digest: sha256:09367b8183ad8ffa28362a675852d49b438df89a004c65439e03c6c8becfdffe
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/runtime-state.yml
+    digest: sha256:e219824b287e0bc05b38d2914d210f98793b0c3b35348527d88334f71c70dcbc
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml
+    digest: sha256:1b2efed368cf58af2ed6f09835c1a7a2730d47cefc859f79f14b3c3b1cf35c16
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml
+    digest: sha256:082814cbefa81a53c958bcf8834b5f685c5194b5b26e065b8da78ae9b5f3c748
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/rollback-posture.yml
+    digest: sha256:160cc0018e2d986a78a94a2861d9895c2fda14c04cac266ee004bea614d45054
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:6b571b2e9c7b3f7446d1907636b50a921223077b8ebb51b64c5f504bce574b8f
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/handoff.yml
+    digest: sha256:8a13eaccec719279db9ec74b4f88ccbd9b08566bc3e252fc44e5b7272c6bddf8
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:2b9342c8ff4e52cc2ae9a60167f6716dc772257a72ca97cc18d86f606c7725ee
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:878d143df4df6a57141119f42a4c9ebe0b884cbe900f31f92364d3dd6cfb06e7
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:a6eff3c90e8b776b947e113c186e8de182d81deea3236f584fa19b67e76fb841
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.manifest.yml
+  - .octon/state/control/execution/runs/20260629t145700z-run-program-clean-delivery-operator-surface-promote-workflow-validate-proposal/events.ndjson

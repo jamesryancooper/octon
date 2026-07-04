@@ -1,0 +1,40 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-autonomy-hardening
+title: Run Program Clean Delivery Autonomy Hardening
+architecture_scope: proposal-program lifecycle autonomy, hygiene, evidence budgeting, hosted landing, and reporting
+decision_type: boundary-change
+status: draft
+owner: Octon clean-delivery autonomy hardening architect
+created_date: 2026-07-03
+program_execution_mode: sequential
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: >
+    The repository is pre-1.0 and the corrective work should land as one
+    coherent hardening program with child-owned implementation slices. The
+    target model is a clean-break correction from passive reporting toward
+    autonomous governed continuation; no staged coexistence is required at
+    proposal creation time.
+child_authority_preserved: yes
+authority_boundary: >
+  Parent coordination may sequence, validate, and summarize corrective child
+  work. It must not satisfy child review receipts, child implementation
+  receipts, child validation verdicts, child closeout evidence, child archive
+  metadata, Change delivery receipts, branch cleanup authorization, destructive
+  cleanup authority, or terminal current-state proof.
+architecture_drivers:
+  - Prefer autonomous governed continuation over pausing for recoverable blockers.
+  - Treat human review as the exception for foreign, ambiguous, destructive, external, protected, or conflicting cases.
+  - Use compact blocker-remediation mode when artifact budgets or repeated fingerprints trigger.
+  - Retire stale local branches automatically when current evidence proves no unique committed work and safe local disposition.
+  - Keep diagnostic run-health projections local-private or disposable unless a route-owned receipt promotes them by path and digest.
+  - Treat hosted no-PR landing authorization receipts as governing authority when they are fresh, exact-SHA-bound, and policy-complete.
+  - Separate delivered branches, retained branches, retained worktrees, retained evidence, deleted residue, and manual-review residue in final reports.
+constraints:
+  - Parent evidence remains coordination-only.
+  - Child packets must be sibling packets, not nested directories.
+  - Generated read models and proposal inputs remain non-authoritative.
+  - Cleanup deletion requires route-owned authorization and exact path or path-class scope.
+  - Hosted mutation requires current authorization receipts and must preserve host/provider controls.
+  - Final terminal proof remains owned by Proposal Program Delivery and Change closeout.

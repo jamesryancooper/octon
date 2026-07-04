@@ -1,0 +1,57 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-compact-blocker-remediation
+title: Run Program Clean Delivery Compact Blocker Remediation
+summary: Add compact blocker-remediation mode and artifact-budget triggers for repeated fingerprints, file count, and total bytes.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+- .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-03
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/run-program-clean-delivery-compact-blocker-remediation/2026-07-03T16-39-50Z-implementation-validation.yml
+  - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-1783094500385-fbec6b8f-run-program-clean-delivery-compact-blocker-remediation/worktree-hygiene.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Review and implement compact blocker-remediation only through this child-owned route.
+related_proposals:
+- run-program-clean-delivery-autonomy-hardening
+acceptance_criteria_summary: Recoverable blocker retries emit compact delta receipts and bounded logs once repeated fingerprints, file count, or byte budgets trigger.
+authority_class_impact:
+  framework: May update lifecycle runner, proposal-program workflow profile, validators, and tests.
+  instance: No direct instance authority changes.
+  state_control: No direct state-control mutation from this packet.
+  state_evidence: Future implementation must retain compact remediation receipts and budget evidence.
+  generated: Generated outputs remain derived-only.
+  inputs: This child packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-07-03
+evidence_requirements:
+- Budget receipt covering repeated fingerprint, file count, and total bytes.
+- Compact blocker-remediation receipt binding blocker class, current inputs, current fingerprint, and next route.
+- Negative controls proving compact mode preserves required evidence and blocks when evidence would be lost.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+owner:
+  role: Octon compact blocker remediation architect
+  accountable_role: human operator / repository owner
+risk_posture: High. Incorrect throttling could hide required evidence or continue past an unsafe blocker.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback route.
+scope_statement: This child owns compact blocker-remediation and artifact-budget trigger behavior only.
+selected_implementation_target: proposal-program lifecycle blocker retry artifact governance
+source_lineage:
+- PM-001 blocker handling generated too much residue
+- .octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-postmortem-hardening
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- validate-run-program-clean-delivery.sh with repeated-fingerprint and budget fixtures

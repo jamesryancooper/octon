@@ -180,6 +180,54 @@
         }
       }
     },
+    "compact_blocker_remediation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "repeated_blocker_fingerprint_threshold",
+        "repeated_full_workflow_directory_threshold",
+        "file_count_limit",
+        "total_byte_limit",
+        "compact_continuation_requires_retained_evidence_preservation",
+        "compact_continuation_denied_when_required_receipts_missing",
+        "compact_continuation_denied_when_full_evidence_missing",
+        "compact_summaries_are_authority"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "repeated_blocker_fingerprint_threshold": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "repeated_full_workflow_directory_threshold": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "file_count_limit": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "total_byte_limit": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "compact_continuation_requires_retained_evidence_preservation": {
+          "const": true
+        },
+        "compact_continuation_denied_when_required_receipts_missing": {
+          "const": true
+        },
+        "compact_continuation_denied_when_full_evidence_missing": {
+          "const": true
+        },
+        "compact_summaries_are_authority": {
+          "const": false
+        }
+      }
+    },
     "required_proposal_validators": {
       "type": "array",
       "minItems": 1,

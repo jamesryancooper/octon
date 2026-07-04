@@ -95,6 +95,8 @@ FORBIDDEN_CONSUMERS = {
     "support-claim-evaluation",
 }
 GENERATED_RUN_HEALTH_ROOT = ".octon/generated/cognition/projections/materialized/runs/"
+LOCAL_RUN_HEALTH_ROOT = ".octon/state/evidence/local/run-health-read-models/projections/"
+RUN_HEALTH_REF_ROOTS = (GENERATED_RUN_HEALTH_ROOT, LOCAL_RUN_HEALTH_ROOT)
 GENERATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
 VALIDATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
 
@@ -154,6 +156,14 @@ def is_repo_relative_generated_run_health_ref(value):
     if value.startswith("/") or Path(value).is_absolute():
         return False
     return value.startswith(GENERATED_RUN_HEALTH_ROOT)
+
+
+def is_repo_relative_run_health_ref(value):
+    if not is_non_empty_string(value):
+        return False
+    if value.startswith("/") or Path(value).is_absolute():
+        return False
+    return value.startswith(RUN_HEALTH_REF_ROOTS)
 
 
 def require_object(data, key, failures, context):
@@ -585,8 +595,8 @@ def validate_compact_manifest(path):
             failures.append(f"{context}: run_health[{index}] must be an object")
             continue
         health_ref = item.get("health_ref")
-        if not is_repo_relative_generated_run_health_ref(health_ref):
-            failures.append(f"{context}: run_health[{index}].health_ref must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}")
+        if not is_repo_relative_run_health_ref(health_ref):
+            failures.append(f"{context}: run_health[{index}].health_ref must be repo-relative under a run-health output root")
         if health_ref and health_ref not in source_refs:
             failures.append(f"{context}: run_health[{index}].health_ref must appear in source_refs")
         actual = sha256_path(resolve_ref(health_ref)) if health_ref else None
@@ -601,6 +611,93 @@ def validate_compact_manifest(path):
     if not is_ref_array(data.get("evidence_refs")):
         failures.append(f"{context}: evidence_refs must be a unique string list")
 
+    return failures
+
+
+def validate_publication_block(data, published_set, context):
+    failures = []
+    publication = data.get("publication")
+    if publication is None:
+        return failures
+    if not isinstance(publication, dict):
+        return [f"{context}: publication must be an object when present"]
+
+    mode = publication.get("mode")
+    if mode not in {"diagnostic_local_private", "explicit_publish"}:
+        failures.append(f"{context}: publication.mode is invalid")
+    if publication.get("non_authority_classification") != "generated_read_model_non_authoritative":
+        failures.append(f"{context}: publication non-authority classification is invalid")
+    if "validators" not in set(publication.get("allowed_consumers") or []):
+        failures.append(f"{context}: publication.allowed_consumers must include validators")
+    if not FORBIDDEN_CONSUMERS.issubset(set(publication.get("forbidden_consumers") or [])):
+        failures.append(f"{context}: publication.forbidden_consumers is incomplete")
+
+    promotion = publication.get("promotion_receipt")
+    if mode == "diagnostic_local_private":
+        if publication.get("publishable") is not False:
+            failures.append(f"{context}: diagnostic publication must not be publishable")
+        if isinstance(promotion, dict):
+            if promotion.get("status") != "not-published" or promotion.get("required") is not False:
+                failures.append(f"{context}: diagnostic generation must declare no promotion receipt required")
+        return failures
+
+    if mode != "explicit_publish":
+        return failures
+    if publication.get("publishable") is not True:
+        failures.append(f"{context}: explicit publish mode must declare publishable true")
+    if not isinstance(promotion, dict):
+        failures.append(f"{context}: explicit publish mode requires promotion_receipt")
+        return failures
+    if promotion.get("schema_version") != "run-health-generation-promotion-receipt-v1":
+        failures.append(f"{context}: promotion receipt schema_version is invalid")
+    if not is_non_empty_string(promotion.get("owning_route")):
+        failures.append(f"{context}: promotion receipt requires owning_route")
+
+    output_paths = promotion.get("output_paths")
+    if not isinstance(output_paths, list) or not output_paths:
+        failures.append(f"{context}: promotion receipt requires non-empty output_paths")
+        output_paths = []
+    for index, item in enumerate(output_paths):
+        if not isinstance(item, dict):
+            failures.append(f"{context}: promotion output_paths[{index}] must be an object")
+            continue
+        ref = item.get("path")
+        digest = item.get("digest")
+        if not is_repo_relative_generated_run_health_ref(ref):
+            failures.append(f"{context}: promoted output path must be under {GENERATED_RUN_HEALTH_ROOT}: {ref}")
+            continue
+        if ref not in published_set:
+            failures.append(f"{context}: promoted output path must appear in published_paths: {ref}")
+        actual = sha256_path(resolve_ref(ref))
+        if not is_hash_string(digest):
+            failures.append(f"{context}: promoted output path requires sha256 digest: {ref}")
+        elif actual != digest:
+            failures.append(f"{context}: promoted output digest drift for {ref}: expected {digest}, got {actual}")
+
+    source_refs = promotion.get("source_refs")
+    if not is_ref_array(source_refs):
+        failures.append(f"{context}: promotion receipt source_refs must be a unique string list")
+        source_refs = []
+    for required in (GENERATOR_REF, VALIDATOR_REF, ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"):
+        if required not in source_refs:
+            failures.append(f"{context}: promotion receipt source_refs must include {required}")
+
+    freshness = promotion.get("freshness")
+    if not isinstance(freshness, dict):
+        failures.append(f"{context}: promotion receipt requires freshness object")
+        freshness = {}
+    if freshness.get("mode") != "digest-bound":
+        failures.append(f"{context}: promotion freshness mode must be digest-bound")
+    if freshness.get("status") != "fresh":
+        failures.append(f"{context}: promotion freshness status must be fresh")
+    if freshness.get("source_digest_algorithm") != "sha256":
+        failures.append(f"{context}: promotion freshness must use sha256")
+    if "validators" not in set(promotion.get("allowed_consumers") or []):
+        failures.append(f"{context}: promotion allowed_consumers must include validators")
+    if not FORBIDDEN_CONSUMERS.issubset(set(promotion.get("forbidden_consumers") or [])):
+        failures.append(f"{context}: promotion forbidden_consumers is incomplete")
+    if promotion.get("non_authority_classification") != "generated_read_model_non_authoritative":
+        failures.append(f"{context}: promotion non-authority classification is invalid")
     return failures
 
 
@@ -659,17 +756,19 @@ def validate_generation_receipt(evidence_root):
 
     published_set = set()
     for item in published_paths:
-        if not is_repo_relative_generated_run_health_ref(item):
-            failures.append(f"{context}: published_paths item must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}: {item}")
+        if not is_repo_relative_run_health_ref(item):
+            failures.append(f"{context}: published_paths item must be repo-relative under a run-health output root: {item}")
             continue
         published_set.add(item)
         resolved = resolve_ref(item)
         if resolved is None or not resolved.is_file():
             failures.append(f"{context}: published path missing on disk: {item}")
 
-    index_ref = GENERATED_RUN_HEALTH_ROOT + "index.yml"
-    if published_paths and index_ref not in published_set:
-        failures.append(f"{context}: published_paths must include {index_ref}")
+    publication = data.get("publication") if isinstance(data.get("publication"), dict) else {}
+    output_root_ref = str(publication.get("output_root_ref") or GENERATED_RUN_HEALTH_ROOT.rstrip("/")).rstrip("/")
+    index_ref = output_root_ref + "/index.yml"
+    if published_paths and index_ref not in published_set and not any(str(item).endswith("/index.yml") for item in published_set):
+        failures.append(f"{context}: published_paths must include a run-health index.yml")
 
     pruned_paths = data.get("pruned_paths", [])
     if not isinstance(pruned_paths, list):
@@ -680,8 +779,8 @@ def validate_generation_receipt(evidence_root):
 
     pruned_set = set()
     for item in pruned_paths:
-        if not is_repo_relative_generated_run_health_ref(item):
-            failures.append(f"{context}: pruned_paths item must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}: {item}")
+        if not is_repo_relative_run_health_ref(item):
+            failures.append(f"{context}: pruned_paths item must be repo-relative under a run-health output root: {item}")
             continue
         pruned_set.add(item)
     if published_set & pruned_set:
@@ -690,8 +789,8 @@ def validate_generation_receipt(evidence_root):
     compact_manifest_ref = data.get("compact_manifest_ref")
     compact_manifest_digest = data.get("compact_manifest_digest")
     if compact_manifest_ref:
-        if not is_repo_relative_generated_run_health_ref(compact_manifest_ref):
-            failures.append(f"{context}: compact_manifest_ref must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}")
+        if not is_repo_relative_run_health_ref(compact_manifest_ref):
+            failures.append(f"{context}: compact_manifest_ref must be repo-relative under a run-health output root")
         elif compact_manifest_ref not in published_set:
             failures.append(f"{context}: compact_manifest_ref must appear in published_paths")
         compact_path = resolve_ref(compact_manifest_ref)
@@ -712,12 +811,13 @@ def validate_generation_receipt(evidence_root):
             failures.append(f"{context}: outputs[{index}] must be an object")
             continue
         health_ref = item.get("health_ref")
-        if not is_repo_relative_generated_run_health_ref(health_ref):
-            failures.append(f"{context}: outputs[{index}].health_ref must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}")
+        if not is_repo_relative_run_health_ref(health_ref):
+            failures.append(f"{context}: outputs[{index}].health_ref must be repo-relative under a run-health output root")
             continue
         if health_ref not in published_set:
             failures.append(f"{context}: outputs[{index}].health_ref must appear in published_paths")
 
+    failures.extend(validate_publication_block(data, published_set, context))
     return failures
 
 
@@ -745,6 +845,9 @@ def validate_generator_scope_contract():
         "GENERATED_FRESHNESS_OUTCOMES": "generated freshness outcome list",
         "proposal_local_or_parent_evidence_satisfies_freshness": "proposal-local freshness denial",
         "generated_output_authorizes_closeout_or_archive": "closeout/archive authority denial",
+        "DEFAULT_DIAGNOSTIC_OUTPUT_ROOT": "local-private diagnostic output root",
+        "--publish": "explicit publication flag",
+        "owning_route": "owning route publication binding",
     }
     failures = []
     for token, label in required_tokens.items():

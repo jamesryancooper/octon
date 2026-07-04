@@ -106,7 +106,23 @@ attach_valid_landing_authorization() {
     created_at: .created_at
   }' "$receipt" >"$auth"
   tmp="$(mktemp)"
-  jq --arg auth "$auth" '.landing_authorization_ref = $auth' "$receipt" >"$tmp"
+  jq --arg auth "$auth" '
+    .landing_authorization_ref = $auth
+    | .hosted_landing_execution = {
+        signal: "--execute-authorized-landing",
+        authorization_consumed: true,
+        landing_authorization_ref: $auth,
+        execution_lane_kind: "pre-approved-command-prefix",
+        execution_lane_status: "authorized",
+        execution_lane_evidence_ref: "pre-approved command prefix for git push origin <source>:refs/heads/main",
+        source_ref: .hosted_landing.source_ref,
+        target_pre_ref: .hosted_landing.target_pre_ref,
+        target_post_ref: .hosted_landing.target_post_ref,
+        rollback_handle_ref: ((.rollback_handle.kind // "rollback") + ":" + (.rollback_handle.ref // .hosted_landing.source_ref)),
+        final_sync_evidence_ref: (.main_alignment.local_main_sync_evidence_ref // "final local main sync evidence"),
+        host_controls_not_bypassed: true
+      }
+  ' "$receipt" >"$tmp"
   mv "$tmp" "$receipt"
   printf '%s\n' "$auth"
 }
@@ -139,7 +155,21 @@ attach_downgrade_landing_authorization() {
     created_at: .created_at
   }' "$receipt" >"$auth"
   tmp="$(mktemp)"
-  jq --arg auth "$auth" '.landing_authorization_ref = $auth' "$receipt" >"$tmp"
+  jq --arg auth "$auth" '
+    .landing_authorization_ref = $auth
+    | .hosted_landing_execution = {
+        signal: "--execute-authorized-landing",
+        authorization_consumed: true,
+        landing_authorization_ref: $auth,
+        execution_lane_kind: "runtime-denial-receipt",
+        execution_lane_status: "denied",
+        execution_lane_evidence_ref: "runtime approval boundary denied hosted landing mutation after Octon authorization validated",
+        source_ref: (.landing_evaluation.source_ref // .durable_history.ref),
+        target_pre_ref: "cccccccccccccccccccccccccccccccccccccccc",
+        rollback_handle_ref: ((.rollback_handle.kind // "rollback") + ":" + (.rollback_handle.ref // .durable_history.ref)),
+        host_controls_not_bypassed: true
+      }
+  ' "$receipt" >"$tmp"
   mv "$tmp" "$receipt"
   printf '%s\n' "$auth"
 }
@@ -200,6 +230,118 @@ attach_publishable_evidence_receipt_ref() {
       raw_evidence_not_published: true
     }
   ]' "$receipt" >"$tmp"
+  mv "$tmp" "$receipt"
+}
+
+attach_landed_deferred_retained_state_report() {
+  local receipt="$1"
+  local tmp
+  tmp="$(mktemp)"
+  jq '
+    (.source_branch_ref // "none") as $source |
+    (.landed_ref // "none") as $landed |
+    (.stateful_closeout.final_verification_ref // "final-verification") as $final |
+    (.source_branch_cleanup.evidence_refs[0] // .cleanup_evidence_refs[0] // "cleanup disposition evidence") as $cleanup_evidence |
+    .retained_state_report = {
+      delivered_branch: {
+        row_kind: "delivered_branch",
+        subjects: [("origin/main@" + $landed)],
+        disposition: "delivered",
+        evidence_refs: [$final],
+        retention_or_blocker_reason: "landing evidence records the delivered branch state"
+      },
+      route_owned_delivery_branch: {
+        row_kind: "route_owned_delivery_branch",
+        subjects: [$source],
+        disposition: "retained",
+        evidence_refs: [$cleanup_evidence],
+        retention_or_blocker_reason: "source branch cleanup is deferred in this landed fixture"
+      },
+      source_dirty_anchor_branches: {
+        row_kind: "source_dirty_anchor_branches",
+        subjects: ["none"],
+        disposition: "not-applicable",
+        evidence_refs: ["none"],
+        retention_or_blocker_reason: "no dirty-anchor branch is present in this fixture"
+      },
+      retained_local_branches: {
+        row_kind: "retained_local_branches",
+        subjects: [$source],
+        disposition: "retained",
+        evidence_refs: [$cleanup_evidence],
+        retention_or_blocker_reason: "branch cleanup is deferred and must not be overclaimed"
+      },
+      retained_worktrees: {
+        row_kind: "retained_worktrees",
+        subjects: ["none"],
+        disposition: "not-applicable",
+        evidence_refs: ["none"],
+        retention_or_blocker_reason: "no retained worktree is present in this fixture"
+      },
+      retained_required_evidence: {
+        row_kind: "retained_required_evidence",
+        subjects: [$final],
+        disposition: "retained",
+        evidence_refs: [$final],
+        retention_or_blocker_reason: "final verification remains required evidence"
+      },
+      local_private_evidence: {
+        row_kind: "local_private_evidence",
+        subjects: ["none"],
+        disposition: "not-applicable",
+        evidence_refs: ["none"],
+        retention_or_blocker_reason: "no local-private evidence is present in this fixture"
+      },
+      generated_diagnostics: {
+        row_kind: "generated_diagnostics",
+        subjects: ["none"],
+        disposition: "not-applicable",
+        evidence_refs: ["none"],
+        retention_or_blocker_reason: "no generated diagnostics are present in this fixture"
+      },
+      deleted_residue: {
+        row_kind: "deleted_residue",
+        subjects: ["none"],
+        disposition: "not-applicable",
+        evidence_refs: ["none"],
+        retention_or_blocker_reason: "branch cleanup is deferred, so no source branch deletion is claimed"
+      },
+      excluded_residue: {
+        row_kind: "excluded_residue",
+        subjects: ["none"],
+        disposition: "not-applicable",
+        evidence_refs: ["none"],
+        retention_or_blocker_reason: "no residue is excluded in this fixture"
+      },
+      manual_review_residue: {
+        row_kind: "manual_review_residue",
+        subjects: ["none"],
+        disposition: "not-applicable",
+        evidence_refs: ["none"],
+        retention_or_blocker_reason: "no manual-review residue is present in this fixture"
+      },
+      remote_mutation_status: {
+        row_kind: "remote_mutation_status",
+        subjects: [("origin/main@" + $landed)],
+        disposition: "authorized",
+        evidence_refs: [(.landing_authorization_ref // "landing authorization evidence")],
+        retention_or_blocker_reason: "hosted mutation is backed by landing authorization evidence"
+      },
+      archive_authorization: {
+        row_kind: "archive_authorization",
+        subjects: ["none"],
+        disposition: "not-authorized",
+        evidence_refs: ["none"],
+        retention_or_blocker_reason: "Change closeout does not authorize archive movement"
+      },
+      final_current_state_proof: {
+        row_kind: "final_current_state_proof",
+        subjects: [$final],
+        disposition: "verified",
+        evidence_refs: [$final],
+        retention_or_blocker_reason: "final verification proves the landed state"
+      }
+    }' "$receipt" >"$tmp"
   mv "$tmp" "$receipt"
 }
 
@@ -340,6 +482,7 @@ case_no_pr_landed_receipt_passes() {
 JSON
 )"
   attach_valid_landing_authorization "$receipt" >/dev/null
+  attach_landed_deferred_retained_state_report "$receipt"
   run_validator "$receipt"
 }
 
@@ -691,7 +834,7 @@ case_runtime_denied_cleanup_without_authorization_fails() {
 case_branch_no_pr_cleaned_full_evidence_passes() {
   local receipt
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
-  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason)'
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason) | .retained_state_report.route_owned_delivery_branch.disposition = "deleted" | .retained_state_report.route_owned_delivery_branch.evidence_refs = ["source branch cleanup completed after origin/main containment"] | .retained_state_report.route_owned_delivery_branch.retention_or_blocker_reason = "route-owned delivery branch deleted by governed cleanup" | .retained_state_report.retained_local_branches.subjects = ["none"] | .retained_state_report.retained_local_branches.disposition = "not-applicable" | .retained_state_report.retained_local_branches.evidence_refs = ["none"] | .retained_state_report.retained_local_branches.retention_or_blocker_reason = "no retained local branches remain after governed cleanup" | .retained_state_report.deleted_residue.subjects = [.source_branch_ref, ("origin/" + .source_branch_ref)] | .retained_state_report.deleted_residue.disposition = "deleted" | .retained_state_report.deleted_residue.evidence_refs = ["source branch cleanup completed after origin/main containment"] | .retained_state_report.deleted_residue.retention_or_blocker_reason = "local and remote source branch refs were deleted by governed cleanup" | .retained_state_report.final_current_state_proof.disposition = "verified"'
   attach_valid_cleanup_authorization "$receipt" >/dev/null
   attach_publishable_evidence_receipt_ref "$receipt"
   run_validator "$receipt"
@@ -787,6 +930,34 @@ case_branch_no_pr_landed_rejects_stale_authorization() {
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
   auth="$(attach_valid_landing_authorization "$receipt")"
   rewrite_json_file "$auth" '.source_ref = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_landed_requires_execution_signal() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" 'del(.hosted_landing_execution)'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_landed_rejects_confirm_or_chat_execution_evidence() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.hosted_landing_execution.execution_lane_evidence_ref = "operator chat --confirm says this is okay"'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_landed_requires_execution_lane_evidence() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" 'del(.hosted_landing_execution.execution_lane_evidence_ref)'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_landed_rejects_force_push_refspec() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.hosted_landing.push_refspec = "+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:refs/heads/main"'
   ! run_validator "$receipt"
 }
 
@@ -1371,6 +1542,10 @@ main() {
   assert_success "branch-no-pr landed requires governed landing authorization" case_branch_no_pr_landed_requires_landing_authorization
   assert_success "branch-no-pr landed rejects denied landing authorization" case_branch_no_pr_landed_rejects_denied_authorization
   assert_success "branch-no-pr landed rejects stale landing authorization" case_branch_no_pr_landed_rejects_stale_authorization
+  assert_success "branch-no-pr landed requires execution signal" case_branch_no_pr_landed_requires_execution_signal
+  assert_success "branch-no-pr landed rejects chat or --confirm execution evidence" case_branch_no_pr_landed_rejects_confirm_or_chat_execution_evidence
+  assert_success "branch-no-pr landed requires execution lane evidence" case_branch_no_pr_landed_requires_execution_lane_evidence
+  assert_success "branch-no-pr landed rejects force-push refspec" case_branch_no_pr_landed_rejects_force_push_refspec
   assert_success "branch-pr landed completed closeout with pending cleanup fails" case_branch_pr_landed_completed_pending_cleanup_fails
   assert_success "direct-main blocked then PR without transition authority fails" case_direct_main_blocked_then_pr_without_transition_authority_fails
   assert_success "hosted branch-no-pr blocked then PR without transition authority fails" case_branch_no_pr_blocked_then_pr_without_transition_authority_fails

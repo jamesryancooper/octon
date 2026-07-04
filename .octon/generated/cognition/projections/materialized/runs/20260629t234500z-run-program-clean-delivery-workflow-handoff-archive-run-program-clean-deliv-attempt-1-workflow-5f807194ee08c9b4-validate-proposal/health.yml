@@ -1,258 +1,207 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal",
-  "generated_at": "2026-07-02T01:21:50Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.1.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "stale",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:1a0b0fe88ea5b731f6ee86baa2bed315fe623bfcc7cf77ddce78a99b3c71f649",
-    "checked_at": "2026-07-02T01:21:50Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal",
-    "evidence_classification": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-contract.yml",
-      "digest": "sha256:332ab7bcde17c4e9fb4e3f676956898e28184d46171442f7bcc2733798febdbf",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-manifest.yml",
-      "digest": "sha256:839d781889560e6cf51b9b788a14c85246020a40aa16f43abe284e201195fe55",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.ndjson",
-      "digest": "sha256:02b77216587c208ef710ffad79be83f9d91dafe4ea7996cdd044824819df4b92",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.manifest.yml",
-      "digest": "sha256:45b1660ae2a00f7b787cad63a79afd6390f3d2ebb1915b2c51bab2f1d5314bfc",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/runtime-state.yml",
-      "digest": "sha256:7806ec62b6299e5413da856b78494200e9cea24c79485c851a1a5dd7ff9ea424",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml",
-      "digest": "sha256:e50088185818e8399817f2f4e887d147a6a0ab0c7334d6d901e378fcb99f6be2",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml",
-      "digest": "sha256:783b504ca0e8ff78eaf44a87ba4639c071d2d34348a15712aa23382d48c21021",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/rollback-posture.yml",
-      "digest": "sha256:6d397c5bc313d667da69d6f1fa6f8bec7422637fd3137f5db17aa0db7376d8dd",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/evidence-classification.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/retained-run-evidence.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/replay-pointers.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/interventions/log.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-card.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:6b571b2e9c7b3f7446d1907636b50a921223077b8ebb51b64c5f504bce574b8f",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/handoff.yml",
-      "digest": "sha256:dd376221e8243b85212dc3777ff23aa96ecd450a97a903eb79df454ded04dc9a",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:ad98face50a98656242bfc3e5063f9b620bec88abf2068dc0f54342ec2b479ee",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:0f6094c5235d5a3bb9c8fe5de586e6bc3884f1b6113bfbf2024f909a5827e28a",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "stale",
-    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
-    "next_required_action": "regenerate from current canonical sources"
-  },
-  "lifecycle": {
-    "state": "closed",
-    "decision_state": "allow",
-    "drift_status": "in-sync",
-    "latest_event_hash": "sha256:d305b9d62eefad43432742beddfefdd845d1a90e076d2a1801c40a78653b3c89",
-    "latest_sequence": 29
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
-    "route_status": "allow",
-    "pack_status": "allow",
-    "support_status": "supported",
-    "requested_capability_packs": [
-      "repo",
-      "shell",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "authorized",
-    "proof_state": "proof-stale",
-    "human_boundary_state": "none",
-    "active_grants": [
-      ".octon/state/evidence/control/execution/authority-grant-bundle-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "evidence_classification",
-      "retained_evidence",
-      "replay_pointers",
-      "journal_snapshot",
-      "journal_manifest_snapshot"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "unknown",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "incomplete"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": [
-    {
-      "severity": "error",
-      "code": "journal-ledger-digest-stale",
-      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
-      "refs": [
-        ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.manifest.yml",
-        ".octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.ndjson"
-      ]
-    }
-  ]
-}
+schema_version: run-health-read-model-v1
+run_id: 20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal
+generated_at: '2026-07-04T04:08:29Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.2.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:3f0dfb07c8b924fc3111feb40ea71c5de1fa88769cce12096656b8272035c7c8
+  checked_at: '2026-07-04T04:08:29Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal
+  evidence_classification: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-contract.yml
+    digest: sha256:332ab7bcde17c4e9fb4e3f676956898e28184d46171442f7bcc2733798febdbf
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-manifest.yml
+    digest: sha256:839d781889560e6cf51b9b788a14c85246020a40aa16f43abe284e201195fe55
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.ndjson
+    digest: sha256:02b77216587c208ef710ffad79be83f9d91dafe4ea7996cdd044824819df4b92
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.manifest.yml
+    digest: sha256:45b1660ae2a00f7b787cad63a79afd6390f3d2ebb1915b2c51bab2f1d5314bfc
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/runtime-state.yml
+    digest: sha256:7806ec62b6299e5413da856b78494200e9cea24c79485c851a1a5dd7ff9ea424
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml
+    digest: sha256:e50088185818e8399817f2f4e887d147a6a0ab0c7334d6d901e378fcb99f6be2
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml
+    digest: sha256:783b504ca0e8ff78eaf44a87ba4639c071d2d34348a15712aa23382d48c21021
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/rollback-posture.yml
+    digest: sha256:6d397c5bc313d667da69d6f1fa6f8bec7422637fd3137f5db17aa0db7376d8dd
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:6b571b2e9c7b3f7446d1907636b50a921223077b8ebb51b64c5f504bce574b8f
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/handoff.yml
+    digest: sha256:dd376221e8243b85212dc3777ff23aa96ecd450a97a903eb79df454ded04dc9a
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:2b9342c8ff4e52cc2ae9a60167f6716dc772257a72ca97cc18d86f606c7725ee
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:878d143df4df6a57141119f42a4c9ebe0b884cbe900f31f92364d3dd6cfb06e7
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:d305b9d62eefad43432742beddfefdd845d1a90e076d2a1801c40a78653b3c89
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  proof_state: proof-stale
+  human_boundary_state: none
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.manifest.yml
+  - .octon/state/control/execution/runs/20260629t234500z-run-program-clean-delivery-workflow-handoff-archive-run-program-clean-deliv-attempt-1-workflow-5f807194ee08c9b4-validate-proposal/events.ndjson

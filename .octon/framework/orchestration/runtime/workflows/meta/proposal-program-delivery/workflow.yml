@@ -225,6 +225,10 @@ done_gate:
     - "terminal current-state proof shows local main, origin/main, and landed ref equality"
     - "delivery receipt validates with validate-proposal-program-delivery-receipt.sh"
     - "lifecycle postmortem threshold status is recorded when repeated blocker or recovery thresholds apply"
+    - "compact blocker-remediation receipts validate repeated fingerprint, repeated full workflow directory, file-count, and byte-count budget triggers when those triggers apply"
+    - "compact blocker-remediation evidence is evidence-only and does not satisfy child-owned receipts, parent delivery, archive, cleanup, Change, branch cleanup, generated publication, terminal proof, or proposal status claims"
+    - "no-dispatch attempt ledgers validate repeated unchanged no-dispatch and max-step states with key digest, input digest, blocker fingerprint, bounded attempt metadata, and source evidence refs when those triggers apply"
+    - "no-dispatch attempt ledger evidence is evidence-only and does not satisfy child-owned receipts, parent delivery, archive, cleanup, Change, branch cleanup, generated publication, terminal proof, or proposal status claims"
     - "delivery evidence index validates with validate-proposal-program-delivery-evidence-index.sh and remains evidence-only"
     - "stop_condition_taxonomy maps blockers to owning routes or validators and prevents aggregate evidence from authorizing missing target-owned receipts"
 constraints:
@@ -234,6 +238,8 @@ constraints:
   child_receipts_remain_target_owned: true
   generated_outputs_are_non_authority: true
   runner_handoff_evidence_is_delivery_input_only: true
+  compact_blocker_remediation_evidence_only: true
+  no_dispatch_attempt_ledger_evidence_only: true
   canonical_execution_order_ref: child-before-parent-delivery
   retained_readiness_preflight_required: true
   stop_condition_taxonomy_ref: stop_condition_taxonomy
@@ -298,6 +304,18 @@ stop_condition_taxonomy:
     required_evidence: terminal_current_state_proof_and_cleanup_sync_receipts
     blocked_outcome: blocked:cleaned-proof-gap
     next_route: terminal_proof_repo_hygiene_or_change_closeout
+  - stop_id: SC-011-compact-blocker-remediation-budget
+    machine_condition: repeated_blocker_fingerprint_repeated_full_workflow_directory_file_count_or_byte_count_budget_triggered
+    owning_route_or_validator: lifecycle-runner-and-validate-run-program-clean-delivery
+    required_evidence: compact_blocker_remediation_receipt_with_retained_refs_digests_budget_snapshot_and_next_route_or_human_review
+    blocked_outcome: blocked:compact-remediation-unsafe
+    next_route: child_route_retry_correction_route_or_human_review
+  - stop_id: SC-012-no-dispatch-attempt-deduplication
+    machine_condition: repeated_unchanged_no_dispatch_or_max_step_state
+    owning_route_or_validator: lifecycle-runner-and-validate-run-program-clean-delivery
+    required_evidence: no_dispatch_attempt_ledger_with_key_digest_input_digest_blocker_fingerprint_bounded_attempt_metadata_and_source_refs
+    blocked_outcome: blocked:no-dispatch-ledger-invalid
+    next_route: rerun_lifecycle_or_generate_packet_correction_prompt
 workflow:
   id: proposal-program-delivery
   name: Proposal Program Delivery
@@ -382,6 +400,8 @@ workflow:
         - missing_child_receipt
         - stale_child_receipt
         - parent_summary_substituted_for_child_receipts
+        - compact_remediation_would_drop_required_evidence
+        - repeated_full_workflow_output_threshold_without_compact_receipt
     - id: validate-child-receipts
       title: Validate target-owned child receipts
       asset: stages/05-validate-child-receipts.md
@@ -443,6 +463,10 @@ workflow:
         - aggregate_receipt_omits_source_receipt_digest
         - aggregate_receipt_omits_stop_condition_owner_or_next_route
         - generated_prompt_used_as_authority
+        - compact_summary_used_as_authority
+        - compact_remediation_receipt_missing_when_budget_triggered
+        - no_dispatch_attempt_ledger_missing_when_repeated_no_dispatch_triggered
+        - no_dispatch_attempt_ledger_claims_authority
         - delivery_evidence_index_claims_authority
         - delivery_evidence_index_digest_drift
         - unresolved_blocker

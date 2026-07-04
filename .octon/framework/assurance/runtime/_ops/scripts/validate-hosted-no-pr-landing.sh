@@ -131,11 +131,19 @@ validate_static() {
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "source_ref")' "receipt schema requires hosted source ref" "receipt schema must require hosted source ref"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "target_post_ref")' "receipt schema requires hosted target post-ref" "receipt schema must require hosted target post-ref"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "required_check_refs")' "receipt schema requires hosted required check refs" "receipt schema must require hosted required check refs"
+  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing_execution.properties.signal.const == "--execute-authorized-landing"' "receipt schema models hosted landing execution signal" "receipt schema must model --execute-authorized-landing"
+  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing_execution.properties.authorization_consumed.const == true' "receipt schema models authorization consumption" "receipt schema must model authorization consumption"
+  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing_execution.properties.execution_lane_status.enum[] | select(. == "authorized")' "receipt schema models authorized execution lane status" "receipt schema must model authorized execution lane status"
+  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing_execution.properties.execution_lane_status.enum[] | select(. == "denied")' "receipt schema models denied execution lane status" "receipt schema must model denied execution lane status"
+  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "hosted_landing_execution")' "receipt schema requires execution signal for hosted branch-no-pr landing" "receipt schema must require hosted_landing_execution for hosted branch-no-pr landing"
   require_jq "$RECEIPT_SCHEMA" '.properties.source_branch_integration.required[] | select(. == "evidence_refs")' "receipt schema requires source branch integration evidence refs" "receipt schema must require source branch integration evidence refs"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.origin_fetch_evidence_ref' "receipt schema models post-landing fetch evidence" "receipt schema must model post-landing fetch evidence"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.local_main_sync_evidence_ref' "receipt schema models local main sync evidence" "receipt schema must model local main sync evidence"
   require_literal "$CLOSEOUT_CHANGE" "hosted no-PR landing preflight" "closeout skill requires hosted no-PR preflight" "closeout skill must require hosted no-PR preflight"
   require_literal "$CLOSEOUT_CHANGE" "branch-landing-authorization-v1" "closeout skill requires governed landing authorization" "closeout skill must require governed landing authorization"
+  require_literal "$CLOSEOUT_CHANGE" "--execute-authorized-landing" "closeout skill documents authorization-consuming landing signal" "closeout skill must document --execute-authorized-landing"
+  require_literal "$CLOSEOUT_CHANGE" "receipt-consumption signal" "closeout skill classifies execution signal as receipt consumption" "closeout skill must classify execution signal as receipt consumption"
+  require_literal "$CLOSEOUT_CHANGE" "execution-lane evidence" "closeout skill requires execution-lane evidence" "closeout skill must require execution-lane evidence"
   require_literal "$WORKFLOW_STAGE" "exact source SHA required checks" "workflow requires exact source SHA required checks" "workflow must require exact source SHA required checks"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_authorize_hosted_no_pr.posture == "governed hosted no-PR landing authorization helper"' "worktree contract registers hosted no-PR authorization helper" "worktree contract must register hosted no-PR authorization helper"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land_hosted_no_pr.posture == "fast-forward-only hosted no-PR landing helper requiring governed authorization"' "worktree contract registers hosted no-PR landing helper" "worktree contract must register hosted no-PR landing helper"
@@ -256,6 +264,77 @@ validate_landing_authorization_ref() {
   jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization preserves host controls" || fail "landing authorization must preserve host controls"
 }
 
+execution_ref_is_forbidden_authority() {
+  local value="$1"
+  grep -Eiq '(^|[^a-z])(chat|host UI|host state|dashboard|generated projection|generated output|parent summary|proposal file|proposal-local|tool availability|model memory|--confirm)([^a-z]|$)' <<<"$value"
+}
+
+validate_hosted_landing_execution() {
+  local expected_status="$1"
+  local auth_ref execution_auth_ref source_ref target_pre_ref target_post_ref signal lane_status lane_ref lane_kind rollback_ref final_sync_ref push_refspec
+
+  if jq -e '.hosted_landing_execution | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+    pass "hosted landing execution signal is recorded"
+  else
+    fail "hosted branch-no-pr landing requires hosted_landing_execution"
+    return
+  fi
+
+  signal="$(json_value '.hosted_landing_execution.signal')"
+  [[ "$signal" == "--execute-authorized-landing" ]] && pass "hosted landing execution signal consumes authorization" || fail "hosted_landing_execution.signal must be --execute-authorized-landing"
+  jq -e '.hosted_landing_execution.authorization_consumed == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "hosted landing execution consumes authorization receipt" || fail "hosted_landing_execution.authorization_consumed must be true"
+
+  auth_ref="$(json_value '.landing_authorization_ref')"
+  execution_auth_ref="$(json_value '.hosted_landing_execution.landing_authorization_ref')"
+  [[ -n "$execution_auth_ref" && "$execution_auth_ref" == "$auth_ref" ]] && pass "hosted landing execution names consumed authorization" || fail "hosted_landing_execution.landing_authorization_ref must match landing_authorization_ref"
+
+  lane_kind="$(json_value '.hosted_landing_execution.execution_lane_kind')"
+  case "$lane_kind" in
+    pre-approved-command-prefix|sandbox-tool-authority-receipt|runtime-denial-receipt)
+      pass "hosted landing execution lane kind is supported"
+      ;;
+    *)
+      fail "hosted_landing_execution.execution_lane_kind is unsupported"
+      ;;
+  esac
+
+  lane_status="$(json_value '.hosted_landing_execution.execution_lane_status')"
+  [[ "$lane_status" == "$expected_status" ]] && pass "hosted landing execution lane status is $expected_status" || fail "hosted_landing_execution.execution_lane_status must be $expected_status"
+  lane_ref="$(json_value '.hosted_landing_execution.execution_lane_evidence_ref')"
+  if [[ -n "$lane_ref" ]]; then
+    if execution_ref_is_forbidden_authority "$lane_ref"; then
+      fail "hosted landing execution lane evidence must not rely on --confirm, chat, host UI, generated, proposal, parent summary, model, or tool state"
+    else
+      pass "hosted landing execution lane evidence preserves authority boundaries"
+    fi
+  else
+    fail "hosted_landing_execution.execution_lane_evidence_ref is required"
+  fi
+
+  source_ref="$(json_value '.hosted_landing.source_ref')"
+  target_pre_ref="$(json_value '.hosted_landing.target_pre_ref')"
+  target_post_ref="$(json_value '.hosted_landing.target_post_ref')"
+  [[ "$(json_value '.hosted_landing_execution.source_ref')" == "$source_ref" ]] && pass "hosted landing execution source ref matches hosted landing" || fail "hosted_landing_execution.source_ref must match hosted_landing.source_ref"
+  [[ "$(json_value '.hosted_landing_execution.target_pre_ref')" == "$target_pre_ref" ]] && pass "hosted landing execution target pre-ref matches hosted landing" || fail "hosted_landing_execution.target_pre_ref must match hosted_landing.target_pre_ref"
+
+  rollback_ref="$(json_value '.hosted_landing_execution.rollback_handle_ref')"
+  [[ -n "$rollback_ref" ]] && pass "hosted landing execution records rollback handle" || fail "hosted_landing_execution.rollback_handle_ref is required"
+  jq -e '.hosted_landing_execution.host_controls_not_bypassed == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "hosted landing execution preserves host controls" || fail "hosted_landing_execution.host_controls_not_bypassed must be true"
+
+  if [[ "$expected_status" == "authorized" ]]; then
+    [[ "$(json_value '.hosted_landing_execution.target_post_ref')" == "$target_post_ref" ]] && pass "hosted landing execution target post-ref matches hosted landing" || fail "hosted_landing_execution.target_post_ref must match hosted_landing.target_post_ref"
+    final_sync_ref="$(json_value '.hosted_landing_execution.final_sync_evidence_ref')"
+    [[ -n "$final_sync_ref" ]] && pass "hosted landing execution records final sync evidence" || fail "hosted_landing_execution.final_sync_evidence_ref is required for successful hosted landing"
+  fi
+
+  push_refspec="$(json_value '.hosted_landing.push_refspec')"
+  if [[ "$push_refspec" == +* || "$push_refspec" == *"--force"* || "$push_refspec" == *"force-push"* ]]; then
+    fail "hosted landing push refspec must not require force-push"
+  else
+    pass "hosted landing push refspec is non-force"
+  fi
+}
+
 validate_receipt() {
   [[ -f "$RECEIPT_PATH" ]] || { fail "receipt exists: $RECEIPT_PATH"; return; }
   jq -e '.' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt parses as JSON" || { fail "receipt parses as JSON"; return; }
@@ -304,6 +383,7 @@ validate_receipt() {
   jq -e '.hosted_landing | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has hosted_landing evidence" || fail "branch-no-pr landed/cleaned requires hosted landing evidence"
   jq -e '.landing_evaluation | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has landing evaluation evidence" || fail "branch-no-pr landed/cleaned requires landing_evaluation"
   validate_landing_authorization_ref
+  validate_hosted_landing_execution "authorized"
   jq -e '.main_alignment.aligned == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has final main alignment evidence" || fail "branch-no-pr landed/cleaned requires main_alignment.aligned true"
   json_has_nonempty '.hosted_landing.provider_ruleset_ref' && pass "hosted landing has provider ruleset ref" || fail "hosted landing requires provider_ruleset_ref"
   json_array_nonempty '.hosted_landing.required_check_refs' && pass "hosted landing has required check refs" || fail "hosted landing requires required_check_refs"

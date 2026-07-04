@@ -42,6 +42,14 @@ closeout_evidence_boundaries:
     the final lifecycle history is self-contained. The aggregate receipt is
     evidence-only and never authorizes landing, cleanup, closeout, archive, or
     publication.
+  stale_local_branch_retirement: >-
+    Stale local branches may be reported as retired only when current Git refs
+    prove no unique commits relative to the surviving branch, every upstream,
+    local remote-ref, PR, protected-name/status, worktree attachment, and
+    dirty-residue blocker is absent or resolved, and a branch-retirement
+    authorization plus post-delete verification and rollback note are retained.
+    Report labels, postmortems, generated outputs, host state, or proposal
+    packets never authorize branch retirement.
 worktree_wrapper:
   id: "closeout-worktree"
   display_name: "Closeout Worktree"
@@ -138,6 +146,8 @@ routine_closeout_autonomy:
       - "emit_or_reference_governed_landing_authorization"
       - "land_hosted_main_when_provider_rules_and_authorization_validate"
       - "emit_or_reference_governed_branch_cleanup_authorization"
+      - "inventory_and_label_retained_or_retired_local_branches"
+      - "retire_no_unique_commit_stale_local_branches_only_after_branch_retirement_authorization_and_post_delete_verification"
       - "clean_safe_local_and_remote_source_refs"
       - "fetch_origin_sync_local_main_and_verify_main_alignment"
       - "record_stateful_closeout_receipt"
@@ -149,9 +159,11 @@ routine_closeout_autonomy:
       - "missing_validation_or_rollback_evidence"
       - "provider_requires_pr"
       - "authorization_missing_stale_denied_or_mismatched"
+      - "stale_local_branch_retirement_proof_missing_or_blocked"
       - "runtime_sandbox_provider_or_host_approval_denies_mutation"
   residue_authority_routing:
     branch_refs: "governed branch cleanup authorization through closeout-change"
+    stale_local_branch_retirement: "closeout-change branch-retirement authorization with current no-unique-commit proof, blocker checks, post-delete verification, and rollback notes; remote mutation remains out of scope without a separate current receipt"
     eligible_local_octon_run_artifact_residue: "repo-hygiene-cleanup receipt-backed helper route"
     generated_run_health_projections: "generate-run-health-read-model.sh --all-runs generator/pruning evidence"
     stale_detached_git_worktrees: "git worktree cleanup policy with explicit safety proof: detached, clean, unreferenced, non-active, and not current"
@@ -390,6 +402,9 @@ route_lifecycle_outcomes:
       - "worktree_cleanup_completed_or_not_applicable"
       - "remote_branch_cleanup_completed_or_not_applicable_when_remote_branch_existed"
       - "branch_cleanup_skips_protected_active_unmerged_open_pr_or_unretained_rollback_refs"
+      - "branch_cleanup_reports_include_branch_role_labels_when_local_branch_state_is_retained_or_retired"
+      - "stale_local_branch_retirement_authorization_and_post_delete_verification_when_reporting_retired_stale"
+      - "remote_branch_retirement_not_authorized_without_separate_current_receipt"
       - "local_main_synced_to_origin_main_after_cleanup"
       - "stateful_closeout_evidence"
       - "publishable_evidence_receipt_refs_when_cleanup_evidence_is_hosted_or_shared"
@@ -447,6 +462,9 @@ route_lifecycle_outcomes:
       - "worktree_cleanup_completed_or_not_applicable"
       - "remote_branch_cleanup_completed_or_not_applicable"
       - "branch_cleanup_skips_protected_active_unmerged_open_pr_or_unretained_rollback_refs"
+      - "branch_cleanup_reports_include_branch_role_labels_when_local_branch_state_is_retained_or_retired"
+      - "stale_local_branch_retirement_authorization_and_post_delete_verification_when_reporting_retired_stale"
+      - "remote_branch_retirement_not_authorized_without_separate_current_receipt"
       - "local_main_synced_to_origin_main_after_cleanup"
       - "stateful_closeout_evidence"
       - "publishable_evidence_receipt_refs_when_cleanup_evidence_is_hosted_or_shared"

@@ -1,0 +1,181 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-autonomy-hardening/proposal.yml",
+      "manifest_sha256": "sha256:5f37d43dcd4dc05d2148dc1a815e7bc7cb59b72e435f68c38bc4c393e9bf7ab9",
+      "proposal_id": "run-program-clean-delivery-autonomy-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-autonomy-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-compact-blocker-remediation/proposal.yml",
+      "manifest_sha256": "sha256:a485684413f388514a867f1e5089dcf2d142514db2482ab08dfbe71571a37c86",
+      "proposal_id": "run-program-clean-delivery-compact-blocker-remediation",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-compact-blocker-remediation",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:0a4632ca8b5215be3aed8161d9559951a8216b4df90b50575d10666c2f73b580",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review and implement no-dispatch deduplication only through this child-owned route.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-no-dispatch-deduplication/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/"
+  ],
+  "proposal_id": "run-program-clean-delivery-no-dispatch-deduplication",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 11117,
+      "estimated_tokens": 2780,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/executable-implementation-prompt.md",
+      "sha256": "sha256:bf276b32f01f72079a5781a3eb55385f3ccca2e9e5dc1fc3ca6afe3d92754794"
+    },
+    {
+      "byte_size": 3692,
+      "estimated_tokens": 923,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/implementation-conformance-review.md",
+      "sha256": "sha256:bdd91c0cec9a19000a52c6376fcadee9bdd23648dee4453e2b04b68a14b24253"
+    },
+    {
+      "byte_size": 1315,
+      "estimated_tokens": 329,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:2a400ca8b7ce90ada8e46d3f2057e58015230fb41eea2c389d68d7890000ef20"
+    },
+    {
+      "byte_size": 6714,
+      "estimated_tokens": 1679,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/implementation-run.md",
+      "sha256": "sha256:06e4c4cb6da85fc6997c442c04e9e3b914183fde7d223c6bacfc34896fbf7b65"
+    },
+    {
+      "byte_size": 4503,
+      "estimated_tokens": 1126,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:1510d8142e7b53b389245797db3f23f6dac271c58ff9378aa47c9223d6d07b89"
+    },
+    {
+      "byte_size": 13871,
+      "estimated_tokens": 3468,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/proposal-closeout.md",
+      "sha256": "sha256:622325a572d71d2c200dd661c77dcac503b00c5f4ddd3309c954818b6b7a3b10"
+    },
+    {
+      "byte_size": 5256,
+      "estimated_tokens": 1314,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/proposal-review.md",
+      "sha256": "sha256:ae05a6e4c4a1cd45d19bcc967273ef75eacfbadd89f317528f92eeb358a18220"
+    },
+    {
+      "byte_size": 4171,
+      "estimated_tokens": 1043,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/validation.md",
+      "sha256": "sha256:fc06aedcd87cb8d263890b45cba6e70059d4cdfbade0dbc7ff988a373bd902cc"
+    }
+  ],
+  "related_proposals": [
+    "run-program-clean-delivery-autonomy-hardening",
+    "run-program-clean-delivery-compact-blocker-remediation"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/architecture-proposal.yml": "sha256:01ab1d005f759e9dd1066682203544b0fee0ab1f0ca4893766bfadd614931ce8",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/architecture/acceptance-criteria.md": "sha256:d83c28a0ea18c73cc84ca639cad0988df91b1b68b983b0adfa640b6df64b79fe",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/architecture/implementation-plan.md": "sha256:61ed5e3a947c098a3e170ddf15df1f4bc95fe86ab0934778a0eaf0eb73ccae3f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/navigation/artifact-catalog.md": "sha256:6d0a8298c504e7dbc2300353c77aed42eb0b6797ddc7e67ed8f49235794a8d92",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/navigation/source-of-truth-map.md": "sha256:894784b55e4e457bb92877f4040fe539b224f13c0ffb3c6baed5522cdd60f09c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/proposal.yml": "sha256:9d50f23a5ddaeecd36acfab42e77c0a56e2ce2a2b30dc763318471e5c712ce33",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/executable-implementation-prompt.md": "sha256:bf276b32f01f72079a5781a3eb55385f3ccca2e9e5dc1fc3ca6afe3d92754794",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/implementation-grade-completeness-review.md": "sha256:2a400ca8b7ce90ada8e46d3f2057e58015230fb41eea2c389d68d7890000ef20",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/proposal-review.md": "sha256:ae05a6e4c4a1cd45d19bcc967273ef75eacfbadd89f317528f92eeb358a18220"
+  },
+  "source_lineage": [
+    "PM-005 max-step resumptions produced repeated compact artifacts without forward action"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-no-dispatch-deduplication/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

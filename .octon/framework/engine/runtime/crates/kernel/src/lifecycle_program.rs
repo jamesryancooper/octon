@@ -24,6 +24,8 @@ const PROGRAM_CHECKPOINT_FILE: &str = "program-lifecycle-checkpoint.yml";
 const AGGREGATE_TERMINAL_BLOCKERS_FILE: &str = "aggregate-terminal-blockers.yml";
 const BLOCKER_LEDGER_FILE: &str = "blocker-ledger.yml";
 const RECOVERY_DELTA_SUMMARY_FILE: &str = "recovery-delta-summary.yml";
+const COMPACT_BLOCKER_REMEDIATION_RECEIPT_FILE: &str = "compact-blocker-remediation-receipt.yml";
+const NO_DISPATCH_ATTEMPT_LEDGER_FILE: &str = "no-dispatch-attempt-ledger.yml";
 const PLANNER_STATE_FILE: &str = "planner-state.yml";
 const PROGRAM_CONTEXT_CAPSULE_FILE: &str = "program-context-capsule.yml";
 const COMPACT_COMPLETION_CAPSULE_FILE: &str = "compact-completion-capsule.yml";
@@ -35,6 +37,11 @@ const DEFAULT_PROGRAM_MAX_STEPS: u32 = 20;
 const DEFAULT_PROGRAM_RETRY_MAX_STEPS: u32 = 1;
 const DEFAULT_PROGRAM_RETRY_MAX_CHILD_CONCURRENCY: usize = 1;
 const DEFAULT_MAX_CHILD_CONCURRENCY: usize = 2;
+const DEFAULT_COMPACT_REPEATED_BLOCKER_FINGERPRINT_THRESHOLD: u32 = 1;
+const DEFAULT_COMPACT_REPEATED_FULL_WORKFLOW_DIRECTORY_THRESHOLD: u32 = 1;
+const DEFAULT_COMPACT_ARTIFACT_FILE_COUNT_LIMIT: u64 = 64;
+const DEFAULT_COMPACT_ARTIFACT_TOTAL_BYTE_LIMIT: u64 = 8 * 1024 * 1024;
+const DEFAULT_NO_DISPATCH_RECENT_ATTEMPT_LIMIT: usize = 5;
 const MISSING_CHILD_REGISTRY_DIGEST: &str = "missing-child-registry";
 const INVALID_CHILD_REGISTRY_DIGEST: &str = "invalid-child-registry";
 const REFRESH_PUBLICATION_PROJECTIONS_ACTION: &str = "refresh-publication-projections";
@@ -1026,7 +1033,7 @@ pub(crate) struct ProgramLifecycleRunResult {
     pub final_verdict: String,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 struct ProgramCompactEvidenceAuthorityBoundary {
     replaces_source_evidence: bool,
     authorizes_execution: bool,
@@ -1320,10 +1327,65 @@ struct ProgramCompactCompletionCapsule {
     validation_binding: ProgramCompactValidationBinding,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 struct ProgramCompactArtifactRef {
     artifact_ref: String,
     sha256: String,
+}
+
+#[derive(Clone, Debug)]
+struct ProgramNoDispatchAttemptRecord {
+    repeated: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramNoDispatchAttemptLedger {
+    schema_version: String,
+    schema_ref: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    evidence_only: bool,
+    max_recent_attempts: usize,
+    entry_count: usize,
+    source_evidence_refs: Vec<ProgramCompactArtifactRef>,
+    entries: Vec<ProgramNoDispatchAttemptLedgerEntry>,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramNoDispatchAttemptLedgerEntry {
+    key_digest: String,
+    target: String,
+    route: String,
+    route_owner: String,
+    input_digest: String,
+    blocker_class: String,
+    blocker_fingerprint: String,
+    attempt_count: u64,
+    first_seen_at: String,
+    latest_seen_at: String,
+    latest_event_index: u64,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    latest_event_sha256: Option<String>,
+    source_evidence_refs: Vec<ProgramCompactArtifactRef>,
+    recent_attempts: Vec<ProgramNoDispatchRecentAttempt>,
+    authority_boundary_notice: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramNoDispatchRecentAttempt {
+    attempt_number: u64,
+    recorded_at: String,
+    event_index: u64,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    event_sha256: Option<String>,
+    source_evidence_refs: Vec<ProgramCompactArtifactRef>,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -1332,6 +1394,105 @@ struct ProgramRecoveryBudgetSnapshot {
     max_attempts: u32,
     remaining_attempts: u32,
     exhausted: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactBlockerRemediationReceipt {
+    schema_version: String,
+    schema_ref: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    mode: String,
+    trigger_count: usize,
+    budget_policy: ProgramCompactBlockerBudgetPolicy,
+    entries: Vec<ProgramCompactBlockerRemediationEntry>,
+    retained_evidence_refs: Vec<ProgramCompactArtifactRef>,
+    bounded_log_summary_ref: ProgramCompactArtifactRef,
+    compact_continuation: ProgramCompactContinuationDecision,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    validation_binding: ProgramCompactValidationBinding,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactBlockerBudgetPolicy {
+    repeated_blocker_fingerprint_threshold: u32,
+    repeated_full_workflow_directory_threshold: u32,
+    file_count_limit: u64,
+    total_byte_limit: u64,
+    compact_continuation_requires_retained_evidence_preservation: bool,
+    compact_continuation_denied_when_required_receipts_missing: bool,
+    compact_continuation_denied_when_full_evidence_missing: bool,
+    compact_summaries_are_authority: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactArtifactBudgetLimits {
+    repeated_blocker_fingerprint_threshold: u32,
+    repeated_full_workflow_directory_threshold: u32,
+    file_count_limit: u64,
+    total_byte_limit: u64,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactBlockerBudgetSnapshot {
+    limits: ProgramCompactArtifactBudgetLimits,
+    observed_file_count: u64,
+    observed_total_bytes: u64,
+    attempts_used: u32,
+    remaining_attempts: u32,
+    exhausted: bool,
+    retained_evidence_preserved: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactContinuationDecision {
+    continuation_allowed: bool,
+    requires_retained_evidence_preservation: bool,
+    denies_when_required_receipts_missing: bool,
+    denies_when_full_evidence_missing: bool,
+    evidence_loss_risk: bool,
+    summary_outputs_are_authority: bool,
+    route_owned_recovery_required: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactBlockerRemediationEntry {
+    scope: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    route_id: String,
+    blocker_class: String,
+    trigger_kind: String,
+    trigger_signals: Vec<String>,
+    current_fingerprint: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    prior_matching_fingerprint: Option<String>,
+    budget_snapshot: ProgramCompactBlockerBudgetSnapshot,
+    retained_evidence_refs: Vec<ProgramCompactArtifactRef>,
+    bounded_log_summary_ref: ProgramCompactArtifactRef,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_route: Option<String>,
+    human_review_required: bool,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    blocked_reason: Option<String>,
+    full_output_path_status: String,
+    compact_continuation: ProgramCompactContinuationDecision,
+    authority_boundary_notice: String,
+}
+
+#[derive(Clone, Debug)]
+struct ProgramCompactArtifactBudgetObservation {
+    file_count: u64,
+    total_bytes: u64,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -3085,11 +3246,27 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_run_inputs_and_c
         }) {
             program_route = None;
         } else if program_route.is_none() {
+            let recovery_condition_context = LifecycleConditionContext {
+                blockers: program_blockers
+                    .iter()
+                    .map(|blocker| blocker.blocker_class.clone())
+                    .collect(),
+                cleanup_candidates_present,
+                hygiene_preflight_required: Some(
+                    !closeout_hygiene_suppressions.is_empty()
+                        || program_hygiene_preflight_required(
+                            &context.loaded.contract,
+                            &target_state,
+                        )?,
+                ),
+            };
             program_route = selected_program_recoverable_route(
                 &context.loaded.contract,
                 program,
                 &program_blockers,
-            );
+                &target_state,
+                &recovery_condition_context,
+            )?;
         }
         if program_route
             .as_ref()
@@ -4529,35 +4706,96 @@ fn run_program_lifecycle_single_step(
             rel_display(repo_root, &token_ledger_path).as_str(),
         )]),
     )?;
-    let compact_evidence = write_program_compact_evidence_bundle(
-        repo_root,
-        evidence_root,
-        sanitized_run_id,
-        &token_ledger_path,
-    )?;
-    append_program_event(
-        control_root,
-        evidence_root,
-        sanitized_run_id,
-        "compact-evidence-written",
-        None,
-        None,
-        "program lifecycle compact evidence index and raw-log summaries written",
-        program_event_data([
-            (
-                "evidence_index",
-                rel_display(repo_root, &compact_evidence.evidence_index_path).as_str(),
-            ),
-            (
-                "raw_log_summary",
-                rel_display(repo_root, &compact_evidence.raw_log_summary_path).as_str(),
-            ),
-            (
-                "failing_slice_manifest",
-                rel_display(repo_root, &compact_evidence.failing_slice_manifest_path).as_str(),
-            ),
-        ]),
-    )?;
+    let dispatch_attempted = parent_route_result.is_some()
+        || !child_results.is_empty()
+        || program_recovery_action_attempted;
+    let no_dispatch_attempt = if !dispatch_attempted {
+        Some(record_program_no_dispatch_attempt(
+            repo_root,
+            evidence_root,
+            control_root,
+            sanitized_run_id,
+            target_rel,
+            run_inputs,
+            &plan,
+            &checkpoint,
+            Some(&token_ledger_path),
+            None,
+        )?)
+    } else {
+        None
+    };
+    let should_deduplicate_compact_evidence = no_dispatch_attempt
+        .as_ref()
+        .is_some_and(|attempt| attempt.repeated);
+    let compact_evidence = if should_deduplicate_compact_evidence {
+        if let Some(existing) = existing_program_compact_evidence_bundle(evidence_root) {
+            existing
+        } else {
+            let compact_evidence = write_program_compact_evidence_bundle(
+                repo_root,
+                evidence_root,
+                sanitized_run_id,
+                &token_ledger_path,
+            )?;
+            append_program_event(
+                control_root,
+                evidence_root,
+                sanitized_run_id,
+                "compact-evidence-written",
+                None,
+                None,
+                "program lifecycle compact evidence index and raw-log summaries written",
+                program_event_data([
+                    (
+                        "evidence_index",
+                        rel_display(repo_root, &compact_evidence.evidence_index_path).as_str(),
+                    ),
+                    (
+                        "raw_log_summary",
+                        rel_display(repo_root, &compact_evidence.raw_log_summary_path).as_str(),
+                    ),
+                    (
+                        "failing_slice_manifest",
+                        rel_display(repo_root, &compact_evidence.failing_slice_manifest_path)
+                            .as_str(),
+                    ),
+                ]),
+            )?;
+            compact_evidence
+        }
+    } else {
+        let compact_evidence = write_program_compact_evidence_bundle(
+            repo_root,
+            evidence_root,
+            sanitized_run_id,
+            &token_ledger_path,
+        )?;
+        append_program_event(
+            control_root,
+            evidence_root,
+            sanitized_run_id,
+            "compact-evidence-written",
+            None,
+            None,
+            "program lifecycle compact evidence index and raw-log summaries written",
+            program_event_data([
+                (
+                    "evidence_index",
+                    rel_display(repo_root, &compact_evidence.evidence_index_path).as_str(),
+                ),
+                (
+                    "raw_log_summary",
+                    rel_display(repo_root, &compact_evidence.raw_log_summary_path).as_str(),
+                ),
+                (
+                    "failing_slice_manifest",
+                    rel_display(repo_root, &compact_evidence.failing_slice_manifest_path).as_str(),
+                ),
+            ]),
+        )?;
+        compact_evidence
+    };
     if should_write_program_aggregate_closeout(terminal_outcome.as_deref()) {
         write_program_aggregate_closeout(octon_dir, evidence_root, &checkpoint, &plan)?;
         append_program_event(
@@ -4600,9 +4838,6 @@ fn run_program_lifecycle_single_step(
         &token_ledger_path,
     )?;
 
-    let dispatch_attempted = parent_route_result.is_some()
-        || !child_results.is_empty()
-        || program_recovery_action_attempted;
     let route_execution_mode = if dispatch_attempted {
         "program-adapter-executed"
     } else if options.execute_routes {
@@ -6137,6 +6372,25 @@ fn mark_program_blocked_max_steps(
         evidence_root.join("summary.md"),
         program_lifecycle_summary(run_id, &options.executor, &step.plan, verdict),
     )?;
+    if !step.dispatch_attempted {
+        let repo_root = repo_root_for_octon(octon_dir)?;
+        let target = checkpoint.target.clone();
+        let run_inputs = checkpoint.run_inputs.clone();
+        record_program_no_dispatch_attempt(
+            &repo_root,
+            evidence_root,
+            control_root,
+            run_id,
+            &target,
+            &run_inputs,
+            &step.plan,
+            &checkpoint,
+            None,
+            Some("max-steps-exhausted"),
+        )?;
+        enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
+        write_program_checkpoint_files(&checkpoint_path, evidence_root, &checkpoint)?;
+    }
     step.result.final_verdict = verdict.to_string();
     step.result.terminal_outcome = None;
     step.result.latest_event_offset = count_program_events(control_root)?;
@@ -8899,13 +9153,46 @@ fn plan_program_level_route(
             recovery_route: recovery_route.clone(),
         });
         let fallback = recovery_route
-            .as_ref()
-            .and_then(|route_id| route_by_id(&context.loaded.contract, route_id))
-            .cloned()
-            .map(route_plan_state);
+            .as_deref()
+            .map(|route_id| {
+                ready_program_route_plan_state(
+                    &context.loaded.contract,
+                    target_state,
+                    condition_context,
+                    route_id,
+                )
+            })
+            .transpose()?
+            .flatten();
+        if recovery_route.is_some() && fallback.is_none() {
+            program_blockers.push(ProgramBlocker {
+                blocker_class: "recovery-route-unavailable".to_string(),
+                message: format!(
+                    "program gate {failed_gate_id} fallback route {} is not ready for the current parent state",
+                    recovery_route.as_deref().unwrap_or("unknown")
+                ),
+                recovery_route: None,
+            });
+        }
         return Ok((fallback, gate_results, Some(failed_gate_id)));
     }
     Ok((Some(route_plan_state(route)), gate_results, None))
+}
+
+fn ready_program_route_plan_state(
+    contract: &LifecycleContract,
+    target_state: &TargetState,
+    condition_context: &LifecycleConditionContext,
+    route_id: &str,
+) -> Result<Option<RoutePlanState>> {
+    let Some(route) = route_by_id(contract, route_id) else {
+        return Ok(None);
+    };
+    if route_matches_with_context(route, contract, target_state, condition_context)? {
+        Ok(Some(route_plan_state(route.clone())))
+    } else {
+        Ok(None)
+    }
 }
 
 fn select_program_route_with_parent_handoff_context(
@@ -12530,7 +12817,9 @@ fn selected_program_recoverable_route(
     contract: &LifecycleContract,
     program: &ProgramSpec,
     blockers: &[ProgramBlocker],
-) -> Option<RoutePlanState> {
+    target_state: &TargetState,
+    condition_context: &LifecycleConditionContext,
+) -> Result<Option<RoutePlanState>> {
     for blocker in blockers.iter().filter(|blocker| {
         classify_program_blocker_class(&blocker.blocker_class)
             == ProgramBlockerDisposition::Recoverable
@@ -12548,16 +12837,17 @@ fn selected_program_recoverable_route(
         if recovery_requires_approval(program, &blocker.blocker_class) {
             continue;
         }
-        if let Some(route) = route_by_id(contract, route_id) {
-            let route_state = route_plan_state(route.clone());
+        if let Some(route_state) =
+            ready_program_route_plan_state(contract, target_state, condition_context, route_id)?
+        {
             if validate_autonomous_recovery_envelope_route(recipe, route_id, &route_state).is_err()
             {
                 continue;
             }
-            return Some(route_state);
+            return Ok(Some(route_state));
         }
     }
-    None
+    Ok(None)
 }
 
 fn program_repair_delegation_contract_basis(
@@ -24822,6 +25112,14 @@ fn collect_program_evidence_index_compact_artifacts(
         ("failing-slice-manifest.yml", "failing-slice-manifest"),
         (BLOCKER_LEDGER_FILE, "blocker-ledger"),
         (RECOVERY_DELTA_SUMMARY_FILE, "recovery-delta-summary"),
+        (
+            COMPACT_BLOCKER_REMEDIATION_RECEIPT_FILE,
+            "compact-blocker-remediation-receipt",
+        ),
+        (
+            NO_DISPATCH_ATTEMPT_LEDGER_FILE,
+            "no-dispatch-attempt-ledger",
+        ),
         (PLANNER_STATE_FILE, "planner-state"),
         (PROGRAM_CONTEXT_CAPSULE_FILE, "program-context-capsule"),
         (ROUTE_DECISION_RECEIPT_FILE, "route-decision-receipt"),
@@ -24854,6 +25152,7 @@ fn compact_artifact_source_count(path: &Path) -> Result<usize> {
     let value: serde_yaml::Value = serde_yaml::from_slice(&fs::read(path)?)?;
     Ok(value
         .get("source_refs")
+        .or_else(|| value.get("source_evidence_refs"))
         .and_then(serde_yaml::Value::as_sequence)
         .map(|items| items.len())
         .unwrap_or(0))
@@ -26471,8 +26770,416 @@ fn write_program_blocker_recovery_artifacts(
         serde_yaml::to_string(&recovery_delta)?,
     )?;
     verify_program_compact_artifact_source_refs(repo_root, &recovery_delta_path)?;
+    if let Some(receipt_path) = write_program_compact_blocker_remediation_receipt(
+        repo_root,
+        evidence_root,
+        target_rel,
+        checkpoint,
+        &blocker_entries,
+        &blocker_ledger_path,
+        &recovery_delta_path,
+        failing_slice_manifest_path,
+        &evidence_root.join("raw-log-summary.yml"),
+        generated_at,
+        source_refs,
+        validation_binding,
+    )? {
+        verify_program_compact_artifact_source_refs(repo_root, &receipt_path)?;
+    }
 
     Ok(())
+}
+
+fn write_program_compact_blocker_remediation_receipt(
+    repo_root: &Path,
+    evidence_root: &Path,
+    target_rel: &str,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    blocker_entries: &[ProgramBlockerLedgerEntry],
+    blocker_ledger_path: &Path,
+    recovery_delta_path: &Path,
+    failing_slice_manifest_path: &Path,
+    raw_log_summary_path: &Path,
+    generated_at: &str,
+    source_refs: &[ProgramCompactSourceRef],
+    validation_binding: &ProgramCompactValidationBinding,
+) -> Result<Option<PathBuf>> {
+    let observation = program_compact_artifact_budget_observation(evidence_root)?;
+    let retained_evidence_refs = vec![
+        compact_artifact_ref(repo_root, raw_log_summary_path)?,
+        compact_artifact_ref(repo_root, failing_slice_manifest_path)?,
+        compact_artifact_ref(repo_root, blocker_ledger_path)?,
+        compact_artifact_ref(repo_root, recovery_delta_path)?,
+    ];
+    let bounded_log_summary_ref = compact_artifact_ref(repo_root, raw_log_summary_path)?;
+    let mut entries = program_compact_blocker_remediation_entries(
+        blocker_entries,
+        &observation,
+        &retained_evidence_refs,
+        &bounded_log_summary_ref,
+    );
+    if entries.is_empty() {
+        let budget_signals = program_compact_artifact_budget_trigger_signals(&observation);
+        if budget_signals.is_empty() {
+            return Ok(None);
+        }
+        entries.push(program_compact_artifact_budget_only_entry(
+            target_rel,
+            &observation,
+            budget_signals,
+            &retained_evidence_refs,
+            &bounded_log_summary_ref,
+        ));
+    }
+
+    let compact_continuation = ProgramCompactContinuationDecision {
+        continuation_allowed: entries
+            .iter()
+            .any(|entry| entry.compact_continuation.continuation_allowed),
+        requires_retained_evidence_preservation: true,
+        denies_when_required_receipts_missing: true,
+        denies_when_full_evidence_missing: true,
+        evidence_loss_risk: entries
+            .iter()
+            .any(|entry| entry.compact_continuation.evidence_loss_risk),
+        summary_outputs_are_authority: false,
+        route_owned_recovery_required: true,
+    };
+    let receipt = ProgramCompactBlockerRemediationReceipt {
+        schema_version: "octon-program-compact-blocker-remediation-receipt-v1".to_string(),
+        schema_ref:
+            ".octon/framework/engine/runtime/spec/program-compact-blocker-remediation-receipt-v1.schema.json"
+                .to_string(),
+        run_id: checkpoint.run_id.clone(),
+        lifecycle_id: checkpoint.lifecycle_id.clone(),
+        target: target_rel.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        generated_at: generated_at.to_string(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        mode: "compact-blocker-remediation".to_string(),
+        trigger_count: entries.len(),
+        budget_policy: program_compact_blocker_budget_policy(),
+        entries,
+        retained_evidence_refs,
+        bounded_log_summary_ref,
+        compact_continuation,
+        source_refs: source_refs.to_vec(),
+        validation_binding: validation_binding.clone(),
+        failure_behavior: program_compact_blocker_remediation_failure_behavior(),
+    };
+    let receipt_path = evidence_root.join(COMPACT_BLOCKER_REMEDIATION_RECEIPT_FILE);
+    fs::write(&receipt_path, serde_yaml::to_string(&receipt)?)?;
+    Ok(Some(receipt_path))
+}
+
+fn program_compact_blocker_budget_policy() -> ProgramCompactBlockerBudgetPolicy {
+    ProgramCompactBlockerBudgetPolicy {
+        repeated_blocker_fingerprint_threshold:
+            DEFAULT_COMPACT_REPEATED_BLOCKER_FINGERPRINT_THRESHOLD,
+        repeated_full_workflow_directory_threshold:
+            DEFAULT_COMPACT_REPEATED_FULL_WORKFLOW_DIRECTORY_THRESHOLD,
+        file_count_limit: DEFAULT_COMPACT_ARTIFACT_FILE_COUNT_LIMIT,
+        total_byte_limit: DEFAULT_COMPACT_ARTIFACT_TOTAL_BYTE_LIMIT,
+        compact_continuation_requires_retained_evidence_preservation: true,
+        compact_continuation_denied_when_required_receipts_missing: true,
+        compact_continuation_denied_when_full_evidence_missing: true,
+        compact_summaries_are_authority: false,
+    }
+}
+
+fn program_compact_artifact_budget_limits() -> ProgramCompactArtifactBudgetLimits {
+    ProgramCompactArtifactBudgetLimits {
+        repeated_blocker_fingerprint_threshold:
+            DEFAULT_COMPACT_REPEATED_BLOCKER_FINGERPRINT_THRESHOLD,
+        repeated_full_workflow_directory_threshold:
+            DEFAULT_COMPACT_REPEATED_FULL_WORKFLOW_DIRECTORY_THRESHOLD,
+        file_count_limit: DEFAULT_COMPACT_ARTIFACT_FILE_COUNT_LIMIT,
+        total_byte_limit: DEFAULT_COMPACT_ARTIFACT_TOTAL_BYTE_LIMIT,
+    }
+}
+
+fn program_compact_artifact_budget_observation(
+    evidence_root: &Path,
+) -> Result<ProgramCompactArtifactBudgetObservation> {
+    fn visit(path: &Path, file_count: &mut u64, total_bytes: &mut u64) -> Result<()> {
+        if path.is_file() {
+            *file_count += 1;
+            *total_bytes += fs::metadata(path)?.len();
+            return Ok(());
+        }
+        if !path.is_dir() {
+            return Ok(());
+        }
+        for entry in fs::read_dir(path)? {
+            visit(&entry?.path(), file_count, total_bytes)?;
+        }
+        Ok(())
+    }
+
+    let mut file_count = 0;
+    let mut total_bytes = 0;
+    visit(evidence_root, &mut file_count, &mut total_bytes)?;
+    Ok(ProgramCompactArtifactBudgetObservation {
+        file_count,
+        total_bytes,
+    })
+}
+
+fn program_compact_blocker_remediation_entries(
+    blocker_entries: &[ProgramBlockerLedgerEntry],
+    observation: &ProgramCompactArtifactBudgetObservation,
+    retained_evidence_refs: &[ProgramCompactArtifactRef],
+    bounded_log_summary_ref: &ProgramCompactArtifactRef,
+) -> Vec<ProgramCompactBlockerRemediationEntry> {
+    blocker_entries
+        .iter()
+        .filter_map(|entry| {
+            let trigger_signals = program_compact_blocker_trigger_signals(entry, observation);
+            if trigger_signals.is_empty() {
+                return None;
+            }
+            Some(program_compact_blocker_remediation_entry(
+                entry,
+                observation,
+                trigger_signals,
+                retained_evidence_refs,
+                bounded_log_summary_ref,
+            ))
+        })
+        .collect()
+}
+
+fn program_compact_blocker_trigger_signals(
+    entry: &ProgramBlockerLedgerEntry,
+    observation: &ProgramCompactArtifactBudgetObservation,
+) -> Vec<String> {
+    let mut signals = Vec::new();
+    if entry
+        .prior_fingerprint
+        .as_ref()
+        .is_some_and(|prior| prior == &entry.current_fingerprint)
+    {
+        signals.push("repeated-fingerprint".to_string());
+    }
+    if entry.recovery_budget.attempts_used
+        >= DEFAULT_COMPACT_REPEATED_FULL_WORKFLOW_DIRECTORY_THRESHOLD
+        && entry.recovery_budget.attempts_used > 0
+    {
+        signals.push("repeated-full-workflow-directory".to_string());
+    }
+    signals.extend(program_compact_artifact_budget_trigger_signals(observation));
+    signals.sort();
+    signals.dedup();
+    signals
+}
+
+fn program_compact_artifact_budget_trigger_signals(
+    observation: &ProgramCompactArtifactBudgetObservation,
+) -> Vec<String> {
+    let mut signals = Vec::new();
+    if observation.file_count > DEFAULT_COMPACT_ARTIFACT_FILE_COUNT_LIMIT {
+        signals.push("file-count".to_string());
+    }
+    if observation.total_bytes > DEFAULT_COMPACT_ARTIFACT_TOTAL_BYTE_LIMIT {
+        signals.push("byte-count".to_string());
+    }
+    signals
+}
+
+fn program_compact_blocker_remediation_entry(
+    entry: &ProgramBlockerLedgerEntry,
+    observation: &ProgramCompactArtifactBudgetObservation,
+    trigger_signals: Vec<String>,
+    retained_evidence_refs: &[ProgramCompactArtifactRef],
+    bounded_log_summary_ref: &ProgramCompactArtifactRef,
+) -> ProgramCompactBlockerRemediationEntry {
+    let retained_evidence_preserved = !retained_evidence_refs.is_empty();
+    let route_owned_recovery = entry.recovery_route.is_some();
+    let recoverable = classify_program_blocker_class(&entry.blocker_class)
+        == ProgramBlockerDisposition::Recoverable;
+    let continuation_allowed = retained_evidence_preserved
+        && route_owned_recovery
+        && recoverable
+        && !entry.recovery_budget.exhausted;
+    let compact_continuation = ProgramCompactContinuationDecision {
+        continuation_allowed,
+        requires_retained_evidence_preservation: true,
+        denies_when_required_receipts_missing: true,
+        denies_when_full_evidence_missing: true,
+        evidence_loss_risk: !retained_evidence_preserved,
+        summary_outputs_are_authority: false,
+        route_owned_recovery_required: true,
+    };
+    ProgramCompactBlockerRemediationEntry {
+        scope: entry.scope.clone(),
+        child_id: entry.child_id.clone(),
+        route_id: entry.route_id.clone(),
+        blocker_class: entry.blocker_class.clone(),
+        trigger_kind: compact_trigger_kind(&trigger_signals),
+        trigger_signals: trigger_signals.clone(),
+        current_fingerprint: entry.current_fingerprint.clone(),
+        prior_matching_fingerprint: entry
+            .prior_fingerprint
+            .as_ref()
+            .filter(|prior| *prior == &entry.current_fingerprint)
+            .cloned(),
+        budget_snapshot: program_compact_blocker_budget_snapshot(
+            observation,
+            entry.recovery_budget.attempts_used,
+            entry.recovery_budget.remaining_attempts,
+            entry.recovery_budget.exhausted
+                || trigger_signals
+                    .iter()
+                    .any(|signal| signal != "repeated-fingerprint"),
+            retained_evidence_preserved,
+        ),
+        retained_evidence_refs: retained_evidence_refs.to_vec(),
+        bounded_log_summary_ref: bounded_log_summary_ref.clone(),
+        next_route: entry.recovery_route.clone(),
+        human_review_required: !continuation_allowed,
+        blocked_reason: (!continuation_allowed).then(|| {
+            compact_blocked_reason(entry, retained_evidence_preserved, route_owned_recovery)
+        }),
+        full_output_path_status: compact_full_output_path_status(&trigger_signals),
+        compact_continuation,
+        authority_boundary_notice: compact_blocker_remediation_authority_notice(),
+    }
+}
+
+fn program_compact_artifact_budget_only_entry(
+    target_rel: &str,
+    observation: &ProgramCompactArtifactBudgetObservation,
+    trigger_signals: Vec<String>,
+    retained_evidence_refs: &[ProgramCompactArtifactRef],
+    bounded_log_summary_ref: &ProgramCompactArtifactRef,
+) -> ProgramCompactBlockerRemediationEntry {
+    let retained_evidence_preserved = !retained_evidence_refs.is_empty();
+    ProgramCompactBlockerRemediationEntry {
+        scope: "program".to_string(),
+        child_id: None,
+        route_id: "none".to_string(),
+        blocker_class: "artifact-budget".to_string(),
+        trigger_kind: compact_trigger_kind(&trigger_signals),
+        trigger_signals: trigger_signals.clone(),
+        current_fingerprint: stable_text_digest(&format!(
+            "{target_rel}\n{}\n{}",
+            observation.file_count, observation.total_bytes
+        )),
+        prior_matching_fingerprint: None,
+        budget_snapshot: program_compact_blocker_budget_snapshot(
+            observation,
+            0,
+            0,
+            true,
+            retained_evidence_preserved,
+        ),
+        retained_evidence_refs: retained_evidence_refs.to_vec(),
+        bounded_log_summary_ref: bounded_log_summary_ref.clone(),
+        next_route: None,
+        human_review_required: true,
+        blocked_reason: Some(
+            "artifact budget breached without a classified route-owned blocker".to_string(),
+        ),
+        full_output_path_status: compact_full_output_path_status(&trigger_signals),
+        compact_continuation: ProgramCompactContinuationDecision {
+            continuation_allowed: false,
+            requires_retained_evidence_preservation: true,
+            denies_when_required_receipts_missing: true,
+            denies_when_full_evidence_missing: true,
+            evidence_loss_risk: !retained_evidence_preserved,
+            summary_outputs_are_authority: false,
+            route_owned_recovery_required: true,
+        },
+        authority_boundary_notice: compact_blocker_remediation_authority_notice(),
+    }
+}
+
+fn program_compact_blocker_budget_snapshot(
+    observation: &ProgramCompactArtifactBudgetObservation,
+    attempts_used: u32,
+    remaining_attempts: u32,
+    exhausted: bool,
+    retained_evidence_preserved: bool,
+) -> ProgramCompactBlockerBudgetSnapshot {
+    ProgramCompactBlockerBudgetSnapshot {
+        limits: program_compact_artifact_budget_limits(),
+        observed_file_count: observation.file_count,
+        observed_total_bytes: observation.total_bytes,
+        attempts_used,
+        remaining_attempts,
+        exhausted,
+        retained_evidence_preserved,
+    }
+}
+
+fn compact_trigger_kind(trigger_signals: &[String]) -> String {
+    if trigger_signals.len() > 1 {
+        "combined-budget".to_string()
+    } else {
+        trigger_signals
+            .first()
+            .cloned()
+            .unwrap_or_else(|| "none".to_string())
+    }
+}
+
+fn compact_full_output_path_status(trigger_signals: &[String]) -> String {
+    if trigger_signals
+        .iter()
+        .any(|signal| signal == "repeated-full-workflow-directory")
+    {
+        "fail-closed-after-threshold".to_string()
+    } else if trigger_signals
+        .iter()
+        .any(|signal| signal == "file-count" || signal == "byte-count")
+    {
+        "throttled-by-compact-budget".to_string()
+    } else if trigger_signals
+        .iter()
+        .any(|signal| signal == "repeated-fingerprint")
+    {
+        "deduplicated-unchanged-blocker-output".to_string()
+    } else {
+        "not-triggered".to_string()
+    }
+}
+
+fn compact_blocked_reason(
+    entry: &ProgramBlockerLedgerEntry,
+    retained_evidence_preserved: bool,
+    route_owned_recovery: bool,
+) -> String {
+    if !retained_evidence_preserved {
+        "compact continuation denied because retained evidence refs or digests are missing"
+            .to_string()
+    } else if !route_owned_recovery {
+        "compact continuation denied because no route-owned recovery path is available".to_string()
+    } else if entry.recovery_budget.exhausted {
+        "compact continuation denied because the route recovery attempt budget is exhausted"
+            .to_string()
+    } else {
+        format!(
+            "compact continuation denied because blocker class {} is not autonomously recoverable",
+            entry.blocker_class
+        )
+    }
+}
+
+fn compact_blocker_remediation_authority_notice() -> String {
+    "compact blocker-remediation evidence is evidence-only and does not replace child packet, parent delivery, archive, cleanup, Change, generated-publication, branch cleanup, terminal proof, or proposal status receipts"
+        .to_string()
+}
+
+fn program_compact_blocker_remediation_failure_behavior() -> Vec<String> {
+    let mut behavior = program_recovery_delta_failure_behavior();
+    behavior.extend([
+        "fail-closed-on-required-receipt-loss".to_string(),
+        "fail-closed-on-full-evidence-ref-loss".to_string(),
+        "fail-closed-on-unclassified-blocker".to_string(),
+        "fail-closed-on-compact-summary-authority-substitution".to_string(),
+        "throttle-full-output-on-artifact-budget-breach".to_string(),
+    ]);
+    behavior
 }
 
 fn program_blocker_ledger_entries(
@@ -27930,6 +28637,287 @@ fn program_step_kind_for_plan(
     } else {
         "no-dispatch"
     }
+}
+
+fn record_program_no_dispatch_attempt(
+    repo_root: &Path,
+    evidence_root: &Path,
+    control_root: &Path,
+    run_id: &str,
+    target_rel: &str,
+    run_inputs: &BTreeMap<String, String>,
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    token_ledger_path: Option<&Path>,
+    blocker_class_override: Option<&str>,
+) -> Result<ProgramNoDispatchAttemptRecord> {
+    let ledger_path = evidence_root.join(NO_DISPATCH_ATTEMPT_LEDGER_FILE);
+    let mut ledger = read_program_no_dispatch_attempt_ledger(&ledger_path)?.unwrap_or_else(|| {
+        ProgramNoDispatchAttemptLedger {
+            schema_version: "octon-program-no-dispatch-attempt-ledger-v1".to_string(),
+            schema_ref: ".octon/framework/engine/runtime/spec/program-no-dispatch-attempt-ledger-v1.schema.json".to_string(),
+            run_id: run_id.to_string(),
+            lifecycle_id: checkpoint.lifecycle_id.clone(),
+            target: target_rel.to_string(),
+            producer: "lifecycle-program-controller".to_string(),
+            generated_at: String::new(),
+            authority_boundary: compact_evidence_authority_boundary(),
+            evidence_only: true,
+            max_recent_attempts: DEFAULT_NO_DISPATCH_RECENT_ATTEMPT_LIMIT,
+            entry_count: 0,
+            source_evidence_refs: Vec::new(),
+            entries: Vec::new(),
+            failure_behavior: program_no_dispatch_attempt_failure_behavior(),
+        }
+    });
+    let (route, route_owner) = program_no_dispatch_route(plan);
+    let input_digest = serializable_digest(run_inputs)?;
+    let blocker_class = program_no_dispatch_blocker_class(plan, blocker_class_override);
+    let blocker_fingerprint = parent_route_blocker_fingerprint(plan, &route);
+    let key_digest = program_no_dispatch_attempt_key_digest(
+        target_rel,
+        &route,
+        &input_digest,
+        &blocker_class,
+        &blocker_fingerprint,
+    );
+    let repeated = ledger
+        .entries
+        .iter()
+        .any(|entry| entry.key_digest == key_digest);
+    let recorded_at = now_rfc3339()?;
+    let latest_event_index = effective_checkpoint_event_index(checkpoint);
+    let latest_event_sha256 = checkpoint.latest_event_sha256.clone();
+    let source_evidence_refs = program_no_dispatch_attempt_source_refs(
+        repo_root,
+        evidence_root,
+        control_root,
+        token_ledger_path,
+    )?;
+    let max_recent_attempts = ledger.max_recent_attempts;
+
+    let attempt_count = if let Some(entry) = ledger
+        .entries
+        .iter_mut()
+        .find(|entry| entry.key_digest == key_digest)
+    {
+        entry.attempt_count += 1;
+        entry.latest_seen_at = recorded_at.clone();
+        entry.latest_event_index = latest_event_index;
+        entry.latest_event_sha256 = latest_event_sha256.clone();
+        entry.source_evidence_refs = source_evidence_refs.clone();
+        entry.recent_attempts.push(ProgramNoDispatchRecentAttempt {
+            attempt_number: entry.attempt_count,
+            recorded_at: recorded_at.clone(),
+            event_index: latest_event_index,
+            event_sha256: latest_event_sha256.clone(),
+            source_evidence_refs: source_evidence_refs.clone(),
+        });
+        bound_recent_no_dispatch_attempts(&mut entry.recent_attempts, max_recent_attempts);
+        entry.attempt_count
+    } else {
+        let entry = ProgramNoDispatchAttemptLedgerEntry {
+            key_digest: key_digest.clone(),
+            target: target_rel.to_string(),
+            route: route.clone(),
+            route_owner: route_owner.clone(),
+            input_digest,
+            blocker_class: blocker_class.clone(),
+            blocker_fingerprint: blocker_fingerprint.clone(),
+            attempt_count: 1,
+            first_seen_at: recorded_at.clone(),
+            latest_seen_at: recorded_at.clone(),
+            latest_event_index,
+            latest_event_sha256: latest_event_sha256.clone(),
+            source_evidence_refs: source_evidence_refs.clone(),
+            recent_attempts: vec![ProgramNoDispatchRecentAttempt {
+                attempt_number: 1,
+                recorded_at: recorded_at.clone(),
+                event_index: latest_event_index,
+                event_sha256: latest_event_sha256.clone(),
+                source_evidence_refs: source_evidence_refs.clone(),
+            }],
+            authority_boundary_notice: no_dispatch_attempt_authority_notice(),
+        };
+        ledger.entries.push(entry);
+        1
+    };
+
+    ledger.generated_at = recorded_at.clone();
+    ledger.run_id = run_id.to_string();
+    ledger.lifecycle_id = checkpoint.lifecycle_id.clone();
+    ledger.target = target_rel.to_string();
+    ledger.authority_boundary = compact_evidence_authority_boundary();
+    ledger.evidence_only = true;
+    ledger.max_recent_attempts = DEFAULT_NO_DISPATCH_RECENT_ATTEMPT_LIMIT;
+    ledger.entry_count = ledger.entries.len();
+    ledger.source_evidence_refs = source_evidence_refs;
+    ledger.failure_behavior = program_no_dispatch_attempt_failure_behavior();
+    fs::write(&ledger_path, serde_yaml::to_string(&ledger)?)?;
+
+    let attempt_count_value = attempt_count.to_string();
+    let repeated_value = repeated.to_string();
+    append_program_event(
+        control_root,
+        evidence_root,
+        run_id,
+        "no-dispatch-attempt-ledger-updated",
+        None,
+        None,
+        "program lifecycle no-dispatch attempt ledger updated",
+        program_event_data([
+            ("ledger_path", rel_display(repo_root, &ledger_path).as_str()),
+            ("key_digest", key_digest.as_str()),
+            ("route", route.as_str()),
+            ("route_owner", route_owner.as_str()),
+            ("blocker_class", blocker_class.as_str()),
+            ("blocker_fingerprint", blocker_fingerprint.as_str()),
+            ("attempt_count", attempt_count_value.as_str()),
+            ("repeated_unchanged_key", repeated_value.as_str()),
+            ("evidence_only", "true"),
+        ]),
+    )?;
+
+    Ok(ProgramNoDispatchAttemptRecord { repeated })
+}
+
+fn read_program_no_dispatch_attempt_ledger(
+    path: &Path,
+) -> Result<Option<ProgramNoDispatchAttemptLedger>> {
+    if !path.is_file() {
+        return Ok(None);
+    }
+    Ok(Some(serde_yaml::from_slice(&fs::read(path)?)?))
+}
+
+fn bound_recent_no_dispatch_attempts(
+    attempts: &mut Vec<ProgramNoDispatchRecentAttempt>,
+    max_recent_attempts: usize,
+) {
+    let overflow = attempts.len().saturating_sub(max_recent_attempts.max(1));
+    if overflow > 0 {
+        attempts.drain(0..overflow);
+    }
+}
+
+fn program_no_dispatch_attempt_source_refs(
+    repo_root: &Path,
+    evidence_root: &Path,
+    control_root: &Path,
+    token_ledger_path: Option<&Path>,
+) -> Result<Vec<ProgramCompactArtifactRef>> {
+    let mut refs = Vec::new();
+    for path in [
+        program_retained_checkpoint_path(evidence_root),
+        program_evidence_event_log_path(evidence_root),
+        control_root.join(PROGRAM_CHECKPOINT_FILE),
+        program_control_event_log_path(control_root),
+        evidence_root.join("program-plan.yml"),
+        evidence_root.join("scheduler-decision.yml"),
+        evidence_root.join("run-inputs.yml"),
+        evidence_root.join("summary.md"),
+        evidence_root.join("recovery-log.yml"),
+    ] {
+        if path.is_file() {
+            refs.push(compact_artifact_ref(repo_root, &path)?);
+        }
+    }
+    if let Some(path) = token_ledger_path {
+        if path.is_file() {
+            refs.push(compact_artifact_ref(repo_root, path)?);
+        }
+    }
+    refs.sort_by(|left, right| left.artifact_ref.cmp(&right.artifact_ref));
+    refs.dedup_by(|left, right| left.artifact_ref == right.artifact_ref);
+    Ok(refs)
+}
+
+fn program_no_dispatch_route(plan: &ProgramLifecyclePlanResult) -> (String, String) {
+    if let Some(route) = plan.program_route.as_ref() {
+        return (route.route_id.clone(), "program".to_string());
+    }
+    if !plan.runnable_batch.is_empty() {
+        let routes = plan
+            .runnable_batch
+            .iter()
+            .map(|child_id| {
+                let route_id = plan
+                    .child_states
+                    .get(child_id)
+                    .and_then(|state| state.selected_route.as_ref())
+                    .map(|route| route.route_id.as_str())
+                    .unwrap_or("none");
+                format!("{child_id}:{route_id}")
+            })
+            .collect::<Vec<_>>()
+            .join(",");
+        return (routes, "child".to_string());
+    }
+    ("none".to_string(), "none".to_string())
+}
+
+fn program_no_dispatch_blocker_class(
+    plan: &ProgramLifecyclePlanResult,
+    blocker_class_override: Option<&str>,
+) -> String {
+    if let Some(blocker_class) = blocker_class_override {
+        return blocker_class.to_string();
+    }
+    let mut classes = BTreeSet::new();
+    for blocker in &plan.program_blockers {
+        classes.insert(blocker.blocker_class.clone());
+    }
+    for state in plan.child_states.values() {
+        for blocker in &state.blockers {
+            classes.insert(blocker.blocker_class.clone());
+        }
+    }
+    if classes.is_empty() {
+        "none".to_string()
+    } else {
+        classes.into_iter().collect::<Vec<_>>().join("+")
+    }
+}
+
+fn program_no_dispatch_attempt_key_digest(
+    target_rel: &str,
+    route: &str,
+    input_digest: &str,
+    blocker_class: &str,
+    blocker_fingerprint: &str,
+) -> String {
+    stable_text_digest(&format!(
+        "{target_rel}\n{route}\n{input_digest}\n{blocker_class}\n{blocker_fingerprint}"
+    ))
+}
+
+fn no_dispatch_attempt_authority_notice() -> String {
+    "no-dispatch attempt ledger evidence is evidence-only and does not authorize execution or replace route-owned receipts"
+        .to_string()
+}
+
+fn program_no_dispatch_attempt_failure_behavior() -> Vec<String> {
+    vec![
+        "fail-closed-on-key-digest-missing".to_string(),
+        "fail-closed-on-input-digest-missing".to_string(),
+        "fail-closed-on-blocker-fingerprint-missing".to_string(),
+        "fail-closed-on-unbounded-recent-attempts".to_string(),
+        "fail-closed-on-authority-substitution".to_string(),
+    ]
+}
+
+fn existing_program_compact_evidence_bundle(
+    evidence_root: &Path,
+) -> Option<ProgramCompactEvidenceBundle> {
+    let bundle = ProgramCompactEvidenceBundle {
+        evidence_index_path: evidence_root.join("evidence-index.yml"),
+        raw_log_summary_path: evidence_root.join("raw-log-summary.yml"),
+        failing_slice_manifest_path: evidence_root.join("failing-slice-manifest.yml"),
+    };
+    (bundle.evidence_index_path.is_file()
+        && bundle.raw_log_summary_path.is_file()
+        && bundle.failing_slice_manifest_path.is_file())
+    .then_some(bundle)
 }
 
 fn write_program_aggregate_terminal_blockers_if_needed(
@@ -32272,6 +33260,7 @@ routes:
                 - manifest_status: "draft"
                 - manifest_status: "in-review"
                 - manifest_status: "accepted"
+                - manifest_status: "implemented"
                 - manifest_status: "rejected"
             - receipt_stale: "proposal-review"
   - route_id: "revise-proposal-program"
@@ -34224,6 +35213,58 @@ packs:
     }
 
     #[test]
+    fn child_readiness_failure_does_not_dispatch_unready_program_correction_prompt() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture =
+            program_review_fixture("program-child-readiness-correction-unready", "accepted");
+        fixture.write_parent_review_receipt("accepted", "sha256:live");
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            ".octon/framework/assurance/runtime/_ops/scripts/fail-program-child-readiness.sh",
+            "#!/usr/bin/env bash\nprintf 'child proposal readiness failed\\n' >&2\nexit 1\n",
+        );
+
+        let contract_path = fixture.root.join(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+        );
+        let contract = fs::read_to_string(&contract_path).unwrap();
+        let contract = contract.replace(
+            "  recovery_policy:\n    max_recovery_attempts: 2\n    serialize_write_scope_conflicts: true\n",
+            "  recovery_policy:\n    max_recovery_attempts: 2\n    serialize_write_scope_conflicts: true\n    handlers:\n      validation-failed:\n        recovery_route_id: \"generate-program-correction-prompt\"\n        max_attempts: 1\n        replan_after_attempt: true\n        human_required: false\n",
+        );
+        let contract = contract.replace(
+            "  - validator_id: \"program-child-proposal-readiness\"\n    argv: [\"bash\", \".octon/framework/assurance/runtime/_ops/scripts/pass-program-gate.sh\", \"--package\", \"{{target}}\"]",
+            "  - validator_id: \"program-child-proposal-readiness\"\n    argv: [\"bash\", \".octon/framework/assurance/runtime/_ops/scripts/fail-program-child-readiness.sh\", \"--package\", \"{{target}}\"]",
+        );
+        fs::write(&contract_path, contract).unwrap();
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert!(plan.program_gate_results.iter().any(|result| {
+            result.gate_id == "program-child-proposal-readiness" && !result.passed
+        }));
+        assert!(plan.program_blockers.iter().any(|blocker| {
+            blocker.blocker_class == "validation-failed"
+                && blocker.message.contains("program-child-proposal-readiness")
+        }));
+        assert_ne!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("generate-program-correction-prompt")
+        );
+        assert!(
+            plan.runnable_batch.iter().any(|child_id| child_id == "a"),
+            "child-owned route should remain dispatchable when the parent correction prompt is not route-ready"
+        );
+    }
+
+    #[test]
     fn program_review_workflow_routes_implementation_run_to_promote() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-review-promote", "accepted");
@@ -35298,7 +36339,7 @@ completion_observed: true
     }
 
     #[test]
-    fn program_review_workflow_implemented_state_ignores_accepted_review_churn() {
+    fn program_review_workflow_implemented_state_refreshes_stale_accepted_review() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-review-implemented-churn", "implemented");
         fixture.write_parent_review_receipt("accepted", "sha256:old");
@@ -35310,11 +36351,38 @@ completion_observed: true
         )
         .unwrap();
 
-        assert_program_route(&plan, "generate-program-verification-prompt");
+        assert_program_route(&plan, "review-proposal-program");
         assert!(plan
             .program_gate_results
             .iter()
             .all(|result| result.gate_id != "program-review-authorization"));
+    }
+
+    #[test]
+    fn blocked_program_verification_with_stale_parent_review_routes_back_to_review() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = program_review_fixture(
+            "program-verification-blocked-stale-parent-review",
+            "implemented",
+        );
+        fixture.write_parent_review_receipt("accepted", "sha256:old");
+        fixture.write_program_verification_prompt_receipt();
+        fixture.write_parent_aggregate_verification_receipts("blocked", "yes");
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_program_route(&plan, "review-proposal-program");
+        assert_ne!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("run-program-verification-and-correction-loop")
+        );
     }
 
     #[test]
@@ -38569,6 +39637,65 @@ routes:
         )
         .unwrap();
         assert!(!summary.contains("program-adapter-executed"));
+
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/execute-loop-zero-steps"),
+        )
+        .unwrap();
+        let first_compact_count = events
+            .iter()
+            .filter(|event| event.event_type == "compact-evidence-written")
+            .count();
+        assert_eq!(first_compact_count, 1);
+
+        let second_result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("execute-loop-zero-steps".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(0),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            second_result.final_verdict,
+            "step-budget-exhausted-continuable"
+        );
+        let events_after_second = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/execute-loop-zero-steps"),
+        )
+        .unwrap();
+        assert_eq!(
+            events_after_second
+                .iter()
+                .filter(|event| event.event_type == "compact-evidence-written")
+                .count(),
+            first_compact_count,
+            "repeated zero-step no-dispatch must not duplicate full compact evidence"
+        );
+        let ledger: ProgramNoDispatchAttemptLedger = serde_yaml::from_slice(
+            &fs::read(fixture.octon_dir.join(
+                "state/evidence/runs/workflows/execute-loop-zero-steps/no-dispatch-attempt-ledger.yml",
+            ))
+            .unwrap(),
+        )
+        .unwrap();
+        assert!(ledger.entries.iter().any(|entry| {
+            entry.blocker_class == "max-steps-exhausted" && entry.attempt_count == 2
+        }));
     }
 
     #[test]
@@ -38638,6 +39765,67 @@ routes:
             )
             .unwrap();
         assert!(recovery_log.is_empty());
+
+        let first_compact_count = events
+            .iter()
+            .filter(|event| event.event_type == "compact-evidence-written")
+            .count();
+        assert_eq!(first_compact_count, 1);
+
+        let second_result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("execute-loop-no-dispatch".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(20),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        assert_eq!(second_result.final_verdict, "planned");
+        assert_eq!(second_result.route_execution_mode, "none");
+
+        let events_after_second = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/execute-loop-no-dispatch"),
+        )
+        .unwrap();
+        let compact_count_after_second = events_after_second
+            .iter()
+            .filter(|event| event.event_type == "compact-evidence-written")
+            .count();
+        assert_eq!(
+            compact_count_after_second, first_compact_count,
+            "repeated unchanged no-dispatch must not emit another full compact evidence bundle"
+        );
+        assert!(events_after_second.iter().any(|event| {
+            event.event_type == "no-dispatch-attempt-ledger-updated"
+                && event.data.get("repeated_unchanged_key").map(String::as_str) == Some("true")
+                && event.data.get("attempt_count").map(String::as_str) == Some("2")
+        }));
+        let ledger: ProgramNoDispatchAttemptLedger = serde_yaml::from_slice(
+            &fs::read(fixture.octon_dir.join(
+                "state/evidence/runs/workflows/execute-loop-no-dispatch/no-dispatch-attempt-ledger.yml",
+            ))
+            .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(ledger.entry_count, 1);
+        assert_eq!(ledger.entries[0].attempt_count, 2);
+        assert_eq!(ledger.entries[0].route, "none");
+        assert_eq!(ledger.entries[0].blocker_class, "deferred");
+        assert_eq!(ledger.entries[0].recent_attempts.len(), 2);
+        assert!(ledger.evidence_only);
+        assert!(!ledger.entries[0].source_evidence_refs.is_empty());
     }
 
     #[test]
@@ -39407,6 +40595,61 @@ routes:
         assert!(delta
             .read_before_raw_history
             .contains(&RECOVERY_DELTA_SUMMARY_FILE.to_string()));
+
+        let observation = ProgramCompactArtifactBudgetObservation {
+            file_count: DEFAULT_COMPACT_ARTIFACT_FILE_COUNT_LIMIT + 1,
+            total_bytes: DEFAULT_COMPACT_ARTIFACT_TOTAL_BYTE_LIMIT + 1,
+        };
+        let retained_ref = ProgramCompactArtifactRef {
+            artifact_ref: "raw-log-summary.yml".to_string(),
+            sha256: "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+                .to_string(),
+        };
+        let remediation_entries = program_compact_blocker_remediation_entries(
+            &entries,
+            &observation,
+            std::slice::from_ref(&retained_ref),
+            &retained_ref,
+        );
+        let remediation_entry = remediation_entries
+            .iter()
+            .find(|entry| entry.blocker_class == "publication-drift")
+            .unwrap();
+        let trigger_signals = remediation_entry
+            .trigger_signals
+            .iter()
+            .map(String::as_str)
+            .collect::<BTreeSet<_>>();
+        assert_eq!(remediation_entry.trigger_kind, "combined-budget");
+        assert!(trigger_signals.contains("repeated-fingerprint"));
+        assert!(trigger_signals.contains("repeated-full-workflow-directory"));
+        assert!(trigger_signals.contains("file-count"));
+        assert!(trigger_signals.contains("byte-count"));
+        assert_eq!(
+            remediation_entry.prior_matching_fingerprint.as_deref(),
+            Some(entry.current_fingerprint.as_str())
+        );
+        assert_eq!(
+            remediation_entry.full_output_path_status,
+            "fail-closed-after-threshold"
+        );
+        assert_eq!(
+            remediation_entry
+                .budget_snapshot
+                .limits
+                .repeated_blocker_fingerprint_threshold,
+            DEFAULT_COMPACT_REPEATED_BLOCKER_FINGERPRINT_THRESHOLD
+        );
+        assert_eq!(
+            remediation_entry.budget_snapshot.observed_file_count,
+            DEFAULT_COMPACT_ARTIFACT_FILE_COUNT_LIMIT + 1
+        );
+        assert!(remediation_entry.budget_snapshot.exhausted);
+        assert!(!remediation_entry.compact_continuation.continuation_allowed);
+        assert!(remediation_entry.human_review_required);
+        assert!(remediation_entry
+            .authority_boundary_notice
+            .contains("evidence-only"));
     }
 
     #[test]

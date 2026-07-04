@@ -31,6 +31,13 @@ operating_model:
   stale_or_dirty_source_default: "select a route-owned clean worktree from current origin/main before reconstruction, staging, commit, push, landing, sync, cleanup, or branch deletion"
   include_path_classification_required_before_broad_stage_all: true
   branch_role: "isolation mechanism selected by Change route"
+  branch_role_labels:
+    source-dirty-anchor: "dirty or stale source branch used only as an anchor until residue is classified and dispositioned"
+    route-owned-delivery-branch: "selected Change route branch that owns delivery, landing, cleanup, and sync evidence"
+    correction: "post-primary correction branch with route-owned aggregate receipt evidence"
+    cleanup: "branch used only for authorized cleanup or hygiene delivery"
+    retained-protected: "local branch retained because protected name/status or equivalent blocker makes deletion unsafe"
+    retired-stale: "local branch deleted only after current no-unique-commit proof, ownership blocker checks, authorization, verification, and rollback evidence"
   pr_role: "optional publication and review output selected by Change route"
   github_authority: "projection-only"
   route_requirements:
@@ -131,6 +138,8 @@ closeout:
       - "required post-landing checks and closeout evidence are complete"
       - "obsolete local and remote source branches are safely deleted or cleanup is explicitly deferred"
       - "protected, active, unmerged, open-PR, and unretained-rollback branches are not deleted"
+      - "stale local branches with no unique commits are retired only after upstream, local remote-ref, PR, protected, worktree, dirty-residue, authorization, verification, and rollback proof"
+      - "cleanup reports label every retained or retired local branch as source-dirty-anchor, route-owned-delivery-branch, correction, cleanup, retained-protected, or retired-stale"
       - "origin is fetched after cleanup"
       - "local main is fast-forwarded to origin/main"
       - "local main, origin/main, and landed_ref are aligned"
@@ -151,12 +160,15 @@ closeout:
       - "state-control"
       - "release-version"
       - "input-surface"
+      - "local-branch-retirement"
     cleanup_requires:
       - "origin-main-containment"
       - "patch-equivalence"
       - "tracked-replacement"
       - "explicit-ignored-local-residue"
       - "validator-proof"
+      - "branch-retirement-authorization"
+      - "post-delete-verification"
 helpers:
   git_wt_new:
     route_guard: "branch-no-pr or branch-pr only"
@@ -211,6 +223,7 @@ helpers:
       - "requires landed ref containment in local main and origin/main"
       - "requires no protected source branch and no open PR"
       - "requires retained rollback posture"
+      - "requires no unique commits and no unresolved upstream, local remote-ref, PR, protected, active-worktree, or dirty-residue blocker before stale local branch retirement"
   git_branch_cleanup:
     route_guard: "branch-no-pr or branch-pr only"
     posture: "branch and worktree cleanup helper requiring governed branch-cleanup authorization"
@@ -220,6 +233,8 @@ helpers:
       - "requires branch-cleanup-authorization-v1 before mutating cleanup"
       - "requires origin/main containment before deleting local or remote refs"
       - "blocks cleanup when no-open-PR proof cannot be completed or an open PR exists"
+      - "requires branch-retirement authorization and post-delete verification before reporting any local branch as retired-stale"
+      - "refuses remote branch deletion for stale-retirement unless a separate current remote-mutation receipt authorizes the exact ref"
       - "syncs local main to origin/main after cleanup unless explicitly skipped"
 validation:
   drift_classes:
@@ -244,6 +259,9 @@ validation:
     - "landed branch closeout reported complete while branch cleanup is pending"
     - "post-landing closeout reported complete without local main synced to origin/main"
     - "branch cleanup deletes protected, active, unmerged, open-PR, or unretained-rollback branches"
+    - "branch cleanup reports retired-stale without current no-unique-commit proof, blocker checks, authorization, post-delete verification, and rollback notes"
+    - "dirty checked-out stale branch is deleted before local-worktree retirement records residue disposition and safe switch evidence"
+    - "remote stale branch deletion is performed from local branch-retirement evidence without a separate current receipt"
     - "dirty or stale source branch proceeds without route-owned clean worktree selection"
     - "broad stage-all, reconstruction, staging, or commit occurs without include-path classification"
   scenario_lanes:

@@ -206,6 +206,18 @@ is_local_only_or_generated_ref() {
   esac
 }
 
+is_generated_run_health_ref() {
+  local ref="$1"
+  case "$ref" in
+    .octon/generated/cognition/projections/materialized/runs/*|generated/cognition/projections/materialized/runs/*|*/.octon/generated/cognition/projections/materialized/runs/*|*/generated/cognition/projections/materialized/runs/*)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 is_terminal_local_ref() {
   local ref="$1"
   [[ "$ref" == .octon/state/evidence/local/terminal-closeout/* ]]
@@ -271,6 +283,8 @@ validate_terminal_proof_ref() {
   [[ -n "$ref" ]] || return 0
   if is_terminal_local_ref "$ref"; then
     validate_terminal_local_ref "$file"
+  elif is_generated_run_health_ref "$ref"; then
+    fail "terminal current-state proof ref uses generated run-health projection without promotion receipt: $ref"
   elif is_local_only_or_generated_ref "$ref"; then
     fail "terminal current-state proof ref uses non-publishable evidence ref: $ref"
   else
@@ -322,7 +336,11 @@ validate_change_receipt() {
   while IFS= read -r ref; do
     [[ -n "$ref" ]] || continue
     if is_local_only_or_generated_ref "$ref"; then
-      fail "hosted/shared closeout depends on non-publishable evidence ref: $ref"
+      if is_generated_run_health_ref "$ref"; then
+        fail "hosted/shared closeout depends on generated run-health projection without promotion receipt: $ref"
+      else
+        fail "hosted/shared closeout depends on non-publishable evidence ref: $ref"
+      fi
       found_forbidden=$((found_forbidden + 1))
     fi
   done < <(jq -r '

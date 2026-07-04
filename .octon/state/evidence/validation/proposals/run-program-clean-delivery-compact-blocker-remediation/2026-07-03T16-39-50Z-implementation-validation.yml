@@ -1,0 +1,138 @@
+schema_version: implementation-validation-evidence-v1
+proposal_id: run-program-clean-delivery-compact-blocker-remediation
+run_id: lifecycle-proposal-program-1783094500385-fbec6b8f-run-program-clean-delivery-compact-blocker-remediation
+recorded_at: 2026-07-03T16:39:50Z
+recorded_by: codex
+route_id: run-packet-implementation
+verdict: pass
+profile_selection:
+  release_state: pre-1.0
+  change_profile: atomic
+  transitional_exception: false
+  rationale: pre-1.0 default profile selected for a bounded child implementation route.
+changed_files:
+  durable_promotion_targets:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/README.md
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/04-run-or-resume-child-lifecycles.md
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/stages/09-emit-delivery-receipt.md
+    - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+    - .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+    - .octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh
+    - .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+  packet_local_receipts:
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation/support/implementation-run.md
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation/support/implementation-conformance-review.md
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation/support/post-implementation-drift-churn-review.md
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation/support/validation.md
+    - .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation/navigation/artifact-catalog.md
+  retained_evidence:
+    - .octon/state/evidence/validation/proposals/run-program-clean-delivery-compact-blocker-remediation/2026-07-03T16-39-50Z-implementation-validation.yml
+diff_summary:
+  durable_scope: 9 files changed before packet-local receipts were added.
+  durable_stat: 996 insertions and 13 deletions across lifecycle runner, delivery workflow, profile schema, clean-delivery validator, and focused tests.
+  scope_note: Packet-local support receipts and retained evidence are lifecycle evidence, not durable runtime authority.
+implementation_summary:
+  - Added compact blocker-remediation receipt materialization in the lifecycle program runner when repeated blocker fingerprints, repeated full workflow directories, file count limits, byte limits, or combined artifact budget signals appear.
+  - Bound compact receipts to retained evidence references, digests, bounded log summaries, budget snapshots, continuation decisions, and evidence-only authority notices.
+  - Added delivery profile schema keys for compact blocker-remediation policy without making the block required for existing profile evidence.
+  - Extended clean-delivery validation with compact receipt checks and negative controls for missing retained evidence digests, evidence-loss continuation, unclassified blockers, authority substitution, and repeated full-output path continuation.
+  - Updated proposal-program-delivery workflow documentation and done-gates to treat compact remediation as recoverable retry artifact governance only.
+commands:
+  - command: cargo fmt --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml --all
+    exit_code: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-run-program-clean-delivery-validator.sh
+    exit_code: 0
+    summary: pass=23 fail=0
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+    exit_code: 0
+    summary: pass=54 fail=0
+  - command: cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel blocker_ledger_records_stable_id_fingerprints_and_recovery_budget
+    exit_code: 0
+    summary: 1 passed; pre-existing time format deprecation warnings observed.
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh
+    exit_code: 0
+    summary: Passed=56 Failed=0; pre-existing time format deprecation warnings observed.
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery-workflow.sh
+    exit_code: 0
+    summary: errors=0
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery-profile.sh
+    exit_code: 0
+    summary: pass=54 fail=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-program-clean-delivery.sh
+    exit_code: 0
+    summary: errors=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+    exit_code: 0
+    summary: errors=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation --skip-registry-check
+    exit_code: 0
+    summary: errors=0 warnings=1 before packet-local receipt catalog update.
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation
+    exit_code: 0
+    summary: errors=0 warnings=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation
+    exit_code: 0
+    summary: errors=0 warnings=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation --require-implementation-authorization
+    exit_code: 0
+    summary: errors=0 warnings=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh --receipt .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation/support/pre-integration-architecture-review.yml --package .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-compact-blocker-remediation --mode pre-integration-architecture-review --require-pass
+    exit_code: 0
+    summary: errors=0
+positive_controls:
+  - Focused clean-delivery validator fixture covers repeated-fingerprint, repeated-full-workflow-directory, file-count, and byte-count compact trigger signals in one valid compact blocker-remediation receipt.
+  - Lifecycle runner unit test asserts repeated blocker fingerprint and combined artifact-budget trigger signals for blocker recovery artifacts.
+  - Proposal-program delivery workflow/profile wrappers continue to pass after compact policy additions.
+negative_controls:
+  - Evidence-loss continuation is rejected.
+  - Missing retained evidence digest is rejected.
+  - Unclassified blocker continuation is rejected.
+  - Compact summary authority substitution is rejected.
+  - Repeated full-output threshold without fail-closed path status is rejected.
+compact_budget_trigger_coverage:
+  repeated_fingerprint: covered
+  repeated_full_workflow_directory: covered
+  file_count: covered
+  byte_count: covered
+  combined_artifact_budget: covered
+authority_boundary:
+  compact_receipts_are_authority: false
+  compact_summaries_are_authority: false
+  proposal_local_receipts_are_authority: false
+  generated_outputs_are_authority: false
+  retained_full_evidence_required: true
+  source_full_evidence_digest_bound: true
+evidence_preservation:
+  retained_full_evidence_refs_required: true
+  retained_full_evidence_digests_required: true
+  bounded_log_summary_digest_required: true
+  compact_continuation_denied_when_required_receipts_missing: true
+  compact_continuation_denied_when_full_evidence_missing: true
+rollback_posture:
+  mode: target-scoped-atomic
+  summary: Revert only this packet's task edits in declared promotion targets and retain failed validation evidence if compact remediation hides evidence, widens authority, weakens validators, or fails negative controls.
+repository_reconnaissance_receipt:
+  inspected_packet: true
+  inspected_declared_promotion_targets: true
+  inspected_existing_validators: true
+  unrelated_dirty_worktree_observed: true
+minimality_anti_bloat_receipt:
+  new_dependency_added: false
+  generated_publication_performed: false
+  unrelated_refactor_performed: false
+  support_artifacts_added_for_lifecycle_gate: true
+dependency_receipt:
+  dependency_changes: none
+cleanup_pass:
+  deletions_performed: false
+  dependency_cleanup_performed: false
+  generated_output_publication_performed: false
+final_state:
+  proposal_status_after_route: accepted
+  closeout_claim_made: false
+  archive_claim_made: false
+  implemented_status_claim_made: false
+  branch_cleanup_claim_made: false
+  clean_worktree_claim_made: false

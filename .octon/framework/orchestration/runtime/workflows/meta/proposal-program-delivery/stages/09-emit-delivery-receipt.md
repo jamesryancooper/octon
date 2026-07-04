@@ -13,6 +13,9 @@ Required checks:
 - The aggregate receipt records a non-circular retained evidence-index binding by path and validator posture, not by index digest.
 - The retained evidence index records refs, digests, disclosure tiers, route, outcome, validator results, and non-authority classification only.
 - The retained evidence index does not authorize delivery, archive, landing, cleanup, execution, child lifecycle outcomes, or child receipt replacement.
+- Compact blocker-remediation receipts are validated when repeated fingerprint, repeated full workflow directory, file-count, or byte-count budget triggers apply; they remain evidence-only and cannot satisfy child-owned, delivery, archive, cleanup, Change, branch cleanup, generated-publication, terminal-proof, or proposal-status receipts.
+- No-dispatch attempt ledgers are validated when repeated unchanged no-dispatch or max-step states apply; they remain evidence-only and cannot satisfy child-owned, delivery, archive, cleanup, Change, branch cleanup, generated-publication, terminal-proof, or proposal-status receipts.
+- Compact continuation is denied when required receipts, retained full evidence refs, blocker classification, or route-owned recovery proof would be lost.
 - Open blockers prevent downstream outcome claims.
 - The receipt records the highest outcome that has current passing owning evidence.
 - Aggregate receipt, readiness projection, parent summary, or evidence index substitution for child-owned evidence emits `SC-009-parent-summary-substitution`.

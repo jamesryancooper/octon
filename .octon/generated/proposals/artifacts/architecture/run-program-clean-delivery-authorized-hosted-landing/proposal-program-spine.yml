@@ -1,0 +1,182 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-autonomy-hardening/proposal.yml",
+      "manifest_sha256": "sha256:5f37d43dcd4dc05d2148dc1a815e7bc7cb59b72e435f68c38bc4c393e9bf7ab9",
+      "proposal_id": "run-program-clean-delivery-autonomy-hardening",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-autonomy-hardening",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation/proposal.yml",
+      "manifest_sha256": "sha256:28e6f3158c10e02574351854dbc0d874a27d370cfbfb3f099766b3712c99a1e3",
+      "proposal_id": "run-program-clean-delivery-change-closeout-reconciliation",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-change-closeout-reconciliation",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:a38fe3d6a45f8d0c0cf7176b0152cc24553d39e958cce2b4db19fb403340c60d",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review and implement authorization-consuming hosted landing only through this child-owned route.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/run-program-clean-delivery-authorized-hosted-landing/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+    ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+    ".octon/framework/product/contracts/change-receipt-v1.schema.json",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/"
+  ],
+  "proposal_id": "run-program-clean-delivery-authorized-hosted-landing",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 25641,
+      "estimated_tokens": 6411,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/executable-implementation-prompt.md",
+      "sha256": "sha256:dba492417b45030ee1d97500b6eb49fc5c50442fa861e96ffef994bf2699fec2"
+    },
+    {
+      "byte_size": 4239,
+      "estimated_tokens": 1060,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/implementation-conformance-review.md",
+      "sha256": "sha256:b76ca6378be48c3e028182e5735eaf0059c89e1d3d531449555b238fc07def1f"
+    },
+    {
+      "byte_size": 1454,
+      "estimated_tokens": 364,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:07ad551009e5e2f91e247ca14d0360e0d1aaf0b7560ad8ab317ce87d351220b1"
+    },
+    {
+      "byte_size": 6835,
+      "estimated_tokens": 1709,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/implementation-run.md",
+      "sha256": "sha256:4068d255bb13ff8f344fca52ea77909101caf65ef2850769f8b275f5381b8acd"
+    },
+    {
+      "byte_size": 3685,
+      "estimated_tokens": 922,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:47c532a55eaebae9104f52822d7d496ffc08becf2a1a8ce32aae03c13205f182"
+    },
+    {
+      "byte_size": 15664,
+      "estimated_tokens": 3916,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/proposal-closeout.md",
+      "sha256": "sha256:26a0ef79c62c73afe6fd7b0509d34ffab767950a5e27b3bcb6105eaa8a9705a6"
+    },
+    {
+      "byte_size": 5769,
+      "estimated_tokens": 1443,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/proposal-review.md",
+      "sha256": "sha256:a5756474104ea240dd46ba6febbed0832f0c720778d3a3151e7c5499e0903d16"
+    },
+    {
+      "byte_size": 7848,
+      "estimated_tokens": 1962,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/validation.md",
+      "sha256": "sha256:2945738a0604322981f6fb476b536bbe5236b48ab91080756f26a026bd690b9f"
+    }
+  ],
+  "related_proposals": [
+    "run-program-clean-delivery-autonomy-hardening",
+    "run-program-clean-delivery-change-closeout-reconciliation"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/architecture-proposal.yml": "sha256:8b7bf66497d79e81be6a615b8bd74a1500ca9433e768fcf6828f6b269bb8a628",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/architecture/acceptance-criteria.md": "sha256:dab62e74f5e041d029890bd3a44bfa49ce16d70f40a2afd95019228719a8b0f5",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/architecture/implementation-plan.md": "sha256:9aeb7a1fa2f3436b3f36be950f7b9f3ac663b3eedbb6ef761d0346c156398eac",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/navigation/artifact-catalog.md": "sha256:22cdaa40ecac1824b84ea2254c7d58640c6daa5ed89eb574e342eea637d17e38",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/navigation/source-of-truth-map.md": "sha256:42426f3ebf21fbedaae38ccb56d2353f23006a786dd2118723ee4f9981fef494",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/proposal.yml": "sha256:e30aba576b9e2f05d2271c47f58283000fb129e68ed62446eba5bb425e1015cf",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/executable-implementation-prompt.md": "sha256:dba492417b45030ee1d97500b6eb49fc5c50442fa861e96ffef994bf2699fec2",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/implementation-grade-completeness-review.md": "sha256:07ad551009e5e2f91e247ca14d0360e0d1aaf0b7560ad8ab317ce87d351220b1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/proposal-review.md": "sha256:a5756474104ea240dd46ba6febbed0832f0c720778d3a3151e7c5499e0903d16"
+  },
+  "source_lineage": [
+    "PM-006 hosted landing had sufficient Octon authorization but still required execution-environment approval"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-authorized-hosted-landing/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

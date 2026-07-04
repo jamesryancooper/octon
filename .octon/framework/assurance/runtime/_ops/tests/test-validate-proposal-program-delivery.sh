@@ -113,6 +113,16 @@ child_execution:
   replan_after_material_changes: true
   target_owned_receipts_required: true
   parent_summary_satisfies_child_receipts: false
+compact_blocker_remediation:
+  enabled: true
+  repeated_blocker_fingerprint_threshold: 1
+  repeated_full_workflow_directory_threshold: 1
+  file_count_limit: 64
+  total_byte_limit: 8388608
+  compact_continuation_requires_retained_evidence_preservation: true
+  compact_continuation_denied_when_required_receipts_missing: true
+  compact_continuation_denied_when_full_evidence_missing: true
+  compact_summaries_are_authority: false
 required_proposal_validators:
   - validate-proposal-review-gate.sh
   - validate-proposal-implementation-readiness.sh
@@ -316,6 +326,119 @@ worktree_hygiene:
   evidence_ref: .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T000000Z/worktree-hygiene.log
   dirty_worktree: false
   verdict: pass
+retained_state_report:
+  delivered_branch:
+    row_kind: delivered_branch
+    subjects:
+      - main@0000000000000000000000000000000000000000
+    disposition: delivered
+    evidence_refs:
+      - .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T000000Z/final-sync.log
+    retention_or_blocker_reason: delivered by final sync evidence
+  route_owned_delivery_branch:
+    row_kind: route_owned_delivery_branch
+    subjects:
+      - test-proposal-program-delivery-branch
+    disposition: deleted
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/test/branch-cleanup-authorization.json
+    retention_or_blocker_reason: deleted after governed branch cleanup authorization
+  source_dirty_anchor_branches:
+    row_kind: source_dirty_anchor_branches
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: no dirty anchor branches remained in this fixture
+  retained_local_branches:
+    row_kind: retained_local_branches
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: no retained local branches remained after cleanup
+  retained_worktrees:
+    row_kind: retained_worktrees
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: no retained worktrees remained after terminal proof
+  retained_required_evidence:
+    row_kind: retained_required_evidence
+    subjects:
+      - .octon/state/evidence/runs/workflows/test/proposal-program-delivery-evidence-index.yml
+    disposition: retained
+    evidence_refs:
+      - .octon/state/evidence/runs/workflows/test/proposal-program-delivery-evidence-index.yml
+    retention_or_blocker_reason: retained delivery evidence remains required proof
+  local_private_evidence:
+    row_kind: local_private_evidence
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: no local-private evidence remained in this fixture
+  generated_diagnostics:
+    row_kind: generated_diagnostics
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: no generated diagnostics remained in this fixture
+  deleted_residue:
+    row_kind: deleted_residue
+    subjects:
+      - test-proposal-program-delivery-branch
+    disposition: deleted
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/test/branch-cleanup-authorization.json
+    retention_or_blocker_reason: route-owned delivery branch deleted by governed cleanup
+  excluded_residue:
+    row_kind: excluded_residue
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: no excluded residue remained in this fixture
+  manual_review_residue:
+    row_kind: manual_review_residue
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: no manual-review residue remained in this fixture
+  remote_mutation_status:
+    row_kind: remote_mutation_status
+    subjects:
+      - origin/main@0000000000000000000000000000000000000000
+    disposition: authorized
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/test/landing-authorization.json
+    retention_or_blocker_reason: hosted mutation authorized by route-owned landing receipt
+  archive_authorization:
+    row_kind: archive_authorization
+    subjects:
+      - .octon/state/evidence/runs/workflows/test/archive-receipt.yml
+    disposition: authorized
+    evidence_refs:
+      - .octon/state/evidence/runs/workflows/test/archive-receipt.yml
+    retention_or_blocker_reason: archive handoff authorized by child-owned receipt
+  final_current_state_proof:
+    row_kind: final_current_state_proof
+    subjects:
+      - .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T000000Z/terminal-current-state-proof.log
+    disposition: verified
+    evidence_refs:
+      - .octon/state/evidence/validation/proposals/proposal-program-delivery/20260614T000000Z/terminal-current-state-proof.log
+    retention_or_blocker_reason: terminal current-state proof was fresh after final mutation
 delivery_evidence_index:
   ref: .octon/state/evidence/runs/workflows/test/proposal-program-delivery-evidence-index.yml
   schema_version: proposal-program-delivery-evidence-index-v1
@@ -458,6 +581,10 @@ mutate_receipt_expect_fail "branch cleanup without authorization" '.branch_autho
 mutate_receipt_expect_fail "repo hygiene deletion without cleanup authorization" '.lifecycle_residue_cleanup.cleanup_performed = true | .lifecycle_residue_cleanup.cleanup_authorization_refs = []'
 mutate_receipt_expect_fail "missing terminal current-state proof" 'del(.terminal_current_state_proof.evidence_ref)'
 mutate_receipt_expect_fail "dirty worktree cleaned overclaim" '.worktree_hygiene.dirty_worktree = true'
+mutate_receipt_expect_fail "missing retained state report" 'del(.retained_state_report)'
+mutate_receipt_expect_fail "missing retained evidence row" 'del(.retained_state_report.retained_required_evidence)'
+mutate_receipt_expect_fail "retained state generated evidence authority fails" '.retained_state_report.final_current_state_proof.evidence_refs = [".octon/generated/cognition/projections/materialized/runs/test/health.yml"]'
+mutate_receipt_expect_fail "source branch deletion without deleted residue rows fails" '.retained_state_report.deleted_residue.disposition = "not-applicable" | .retained_state_report.deleted_residue.subjects = ["none"] | .retained_state_report.deleted_residue.evidence_refs = ["none"] | .retained_state_report.route_owned_delivery_branch.retention_or_blocker_reason = "source branches deleted"'
 mutate_receipt_expect_fail "main origin landed ref mismatch" '.final_sync.main_origin_landed_ref_equal = false'
 mutate_receipt_expect_fail "missing delivery evidence index binding" 'del(.delivery_evidence_index)'
 mutate_receipt_expect_fail "delivery evidence index not validated" '.delivery_evidence_index.validator_verdict = "not-run"'

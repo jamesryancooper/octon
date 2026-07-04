@@ -1,0 +1,63 @@
+schema_version: proposal-v1
+proposal_id: run-program-clean-delivery-retained-state-reporting
+title: Run Program Clean Delivery Retained State Reporting
+summary: Add final report schema fields that prevent overclaiming branch cleanup, worktree hygiene, retained evidence, and generated/local-private residue disposition.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+- .octon/framework/product/contracts/change-receipt-v1.schema.json
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-07-04
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-retained-state-reporting
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/run-program-clean-delivery-retained-state-reporting/2026-07-03T23-17-17Z/validation-run.md
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/lifecycle-interactions/run-program-clean-delivery-retained-state-reporting-closeout-packet-closeout-worktree-return.json
+  - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1783112176123-f118c03e/lifecycle-interactions/run-program-clean-delivery-retained-state-reporting-closeout-packet-closeout-worktree-report.yml
+  - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-1783112176123-f118c03e-run-program-clean-delivery-retained-state-reporting/worktree-hygiene-current.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Review and implement retained-state reporting only through this child-owned route.
+related_proposals:
+- run-program-clean-delivery-autonomy-hardening
+- run-program-clean-delivery-stale-branch-retirement
+acceptance_criteria_summary: Final reports separate delivered branch, retained branches, retained worktrees, retained evidence, deleted residue, and manual-review residue without using broad source-branch cleanup claims.
+authority_class_impact:
+  framework: May update proposal-program delivery, closeout-change, closeout-worktree, receipt schemas, validators, and tests.
+  instance: No direct instance authority changes.
+  state_control: No direct state-control mutation from this packet.
+  state_evidence: Future implementation must retain final reporting and verification evidence.
+  generated: Generated outputs remain derived-only.
+  inputs: This child packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-07-03
+evidence_requirements:
+- Final report rows for delivered branch, route-owned delivery branch, retained local anchors, retained worktrees, retained evidence, generated/local-private residue, deleted residue, and manual-review residue.
+- Verification evidence backing any `cleaned`, branch-deleted, archive-authorized, or terminal hygiene claim.
+- Negative controls for overclaimed source branch cleanup and unclassified retained state.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and host UI state remain non-authoritative.
+owner:
+  role: Octon retained-state reporting architect
+  accountable_role: human operator / repository owner
+risk_posture: Medium. Reporting mistakes do not directly mutate state but can mislead operators about delivered, retained, or dirty state.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback route.
+scope_statement: This child owns final report and receipt disclosure fields for retained state only.
+selected_implementation_target: proposal-program delivery and Change closeout final report schemas
+source_lineage:
+- PM-007 final reporting overclaimed branch cleanup scope
+- PM-003 similar branch names made delivery status confusing
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- final report schema validator with overclaim negative controls

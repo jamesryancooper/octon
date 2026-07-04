@@ -97,6 +97,17 @@ run_fixture_generator_at() {
       --evidence-root "$evidence_root" >/dev/null
 }
 
+run_fixture_publish_generator() {
+  local repo_root="$1"
+  OCTON_DIR_OVERRIDE="$repo_root/.octon" \
+    OCTON_ROOT_DIR="$repo_root" \
+    OCTON_RUN_HEALTH_GENERATED_AT="2026-04-24T00:00:00Z" \
+    bash "$GENERATOR" \
+      --fixtures-root "$repo_root/fixtures" \
+      --publish \
+      --owning-route "test-run-health-publish" >/dev/null
+}
+
 run_fixture_validator() {
   local repo_root="$1"
   local output_root evidence_root
@@ -161,6 +172,86 @@ case_generation_receipt_includes_compact_manifest() {
   yq -e '.consumer.forbidden_consumers[] | select(. == "runtime")' "$compact_file" >/dev/null
   yq -e '.failure_behavior.fail_closed_on[] | select(. == "source-digest-mismatch")' "$compact_file" >/dev/null
   yq -e '.validation.failing_slice_count > 0' "$compact_file" >/dev/null
+}
+
+case_default_generation_is_local_private() {
+  local tmp before diagnostic_root receipt
+  tmp="$(create_fixture_repo)"
+  mkdir -p "$tmp/$GENERATED_RUN_HEALTH_REF/baseline"
+  printf 'baseline\n' >"$tmp/$GENERATED_RUN_HEALTH_REF/baseline/health.yml"
+  git -C "$tmp" init -q
+  git -C "$tmp" config user.email "octon-test@example.invalid"
+  git -C "$tmp" config user.name "Octon Test"
+  git -C "$tmp" add .
+  git -C "$tmp" commit -qm generated-run-health-baseline
+  before="$(generated_run_health_status_for_root "$tmp")"
+
+  OCTON_DIR_OVERRIDE="$tmp/.octon" \
+    OCTON_ROOT_DIR="$tmp" \
+    OCTON_RUN_HEALTH_GENERATED_AT="2026-04-24T00:00:00Z" \
+    bash "$GENERATOR" \
+      --fixtures-root "$tmp/fixtures" >/dev/null
+
+  diagnostic_root="$tmp/.octon/state/evidence/local/run-health-read-models/projections"
+  receipt="$tmp/.octon/state/evidence/local/run-health-read-models/receipts/generation.yml"
+  [[ -f "$diagnostic_root/index.yml" ]]
+  [[ -f "$receipt" ]]
+  [[ "$(yq -r '.publication.mode' "$receipt")" == "diagnostic_local_private" ]]
+  [[ "$(generated_run_health_status_for_root "$tmp")" == "$before" ]]
+}
+
+case_explicit_publish_emits_promotion_receipt() {
+  local tmp receipt
+  tmp="$(create_fixture_repo)"
+  run_fixture_publish_generator "$tmp"
+  receipt="$tmp/.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+  [[ -f "$tmp/$GENERATED_RUN_HEALTH_REF/index.yml" ]]
+  yq -e '.publication.mode == "explicit_publish"' "$receipt" >/dev/null
+  yq -e '.publication.publishable == true' "$receipt" >/dev/null
+  yq -e '.publication.promotion_receipt.schema_version == "run-health-generation-promotion-receipt-v1"' "$receipt" >/dev/null
+  yq -e '.publication.promotion_receipt.owning_route == "test-run-health-publish"' "$receipt" >/dev/null
+  yq -e '.publication.promotion_receipt.output_paths[] | select(.path == ".octon/generated/cognition/projections/materialized/runs/index.yml" and (.digest | test("^sha256:[0-9a-f]{64}$")))' "$receipt" >/dev/null
+  yq -e '.publication.promotion_receipt.freshness.status == "fresh"' "$receipt" >/dev/null
+  yq -e '.publication.promotion_receipt.allowed_consumers[] | select(. == "validators")' "$receipt" >/dev/null
+  yq -e '.publication.promotion_receipt.forbidden_consumers[] | select(. == "runtime")' "$receipt" >/dev/null
+  yq -e '.publication.promotion_receipt.non_authority_classification == "generated_read_model_non_authoritative"' "$receipt" >/dev/null
+  OCTON_DIR_OVERRIDE="$tmp/.octon" \
+    OCTON_ROOT_DIR="$tmp" \
+    bash "$VALIDATOR" \
+      --no-live \
+      --fixtures-root "$tmp/fixtures" \
+      --fixture-output-root "$tmp/$GENERATED_RUN_HEALTH_REF" \
+      --evidence-root "$tmp/.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health" >/dev/null
+}
+
+case_explicit_publish_missing_owner_fails() {
+  local tmp receipt
+  tmp="$(create_fixture_repo)"
+  run_fixture_publish_generator "$tmp"
+  receipt="$tmp/.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+  yq -i 'del(.publication.promotion_receipt.owning_route)' "$receipt"
+  ! OCTON_DIR_OVERRIDE="$tmp/.octon" \
+    OCTON_ROOT_DIR="$tmp" \
+    bash "$VALIDATOR" \
+      --no-live \
+      --fixtures-root "$tmp/fixtures" \
+      --fixture-output-root "$tmp/$GENERATED_RUN_HEALTH_REF" \
+      --evidence-root "$tmp/.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health" >/dev/null
+}
+
+case_explicit_publish_digest_mutation_fails() {
+  local tmp receipt
+  tmp="$(create_fixture_repo)"
+  run_fixture_publish_generator "$tmp"
+  receipt="$tmp/.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+  yq -i '.publication.promotion_receipt.output_paths[0].digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"' "$receipt"
+  ! OCTON_DIR_OVERRIDE="$tmp/.octon" \
+    OCTON_ROOT_DIR="$tmp" \
+    bash "$VALIDATOR" \
+      --no-live \
+      --fixtures-root "$tmp/fixtures" \
+      --fixture-output-root "$tmp/$GENERATED_RUN_HEALTH_REF" \
+      --evidence-root "$tmp/.octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health" >/dev/null
 }
 
 case_non_authority_mutation_fails() {
@@ -317,6 +408,10 @@ main() {
   assert_success "fixture statuses validate" case_fixture_statuses_validate
   assert_success "generation receipt includes published paths and index" case_generation_receipt_includes_published_paths_and_index
   assert_success "generation receipt includes compact manifest" case_generation_receipt_includes_compact_manifest
+  assert_success "default generation is local private" case_default_generation_is_local_private
+  assert_success "explicit publish emits promotion receipt" case_explicit_publish_emits_promotion_receipt
+  assert_success "explicit publish missing owner fails closed" case_explicit_publish_missing_owner_fails
+  assert_success "explicit publish digest mutation fails closed" case_explicit_publish_digest_mutation_fails
   assert_success "non-authority mutation fails closed" case_non_authority_mutation_fails
   assert_success "source digest mutation fails closed" case_digest_mutation_fails
   assert_success "generation receipt invalid published paths fail closed" case_generation_receipt_invalid_published_paths_fail

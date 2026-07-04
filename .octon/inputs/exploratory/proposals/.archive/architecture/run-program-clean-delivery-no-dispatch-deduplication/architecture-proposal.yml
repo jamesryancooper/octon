@@ -1,0 +1,21 @@
+schema_version: architecture-proposal-v1
+proposal_id: run-program-clean-delivery-no-dispatch-deduplication
+title: Run Program Clean Delivery No-Dispatch Deduplication
+architecture_scope: workflow retry output deduplication
+decision_type: boundary-change
+status: draft
+owner: Octon no-dispatch deduplication architect
+created_date: 2026-07-03
+profile_selection_receipt:
+  release_state: pre-1.0
+  change_profile: atomic
+  rationale: Retry bookkeeping is a direct lifecycle behavior change and should land coherently.
+child_authority_preserved: yes
+authority_boundary: This child may define no-dispatch deduplication but may not suppress evidence for actual route dispatch or changed inputs.
+architecture_drivers:
+  - Identical no-dispatch runs should not create repeated evidence trees.
+  - Changed inputs or changed blocker fingerprints must create fresh evidence.
+  - Attempt counts should remain auditable and bounded.
+constraints:
+  - Do not deduplicate across changed target, route, blocker class, or input digest.
+  - Do not replace required route-owned receipts.
