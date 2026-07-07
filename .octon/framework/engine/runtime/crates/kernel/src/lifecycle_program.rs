@@ -81,6 +81,7 @@ const OPERATION_CLASS_REFRESH_GENERATED_PROJECTION: &str = "refresh-generated-pr
 const OPERATION_CLASS_CLEANUP_CURRENT_RUN_ARTIFACT: &str = "cleanup-current-run-artifact";
 const OPERATION_CLASS_RETRY_CHILD_ROUTE: &str = "retry-child-route";
 const OPERATION_CLASS_EXECUTE_CHILD_ROUTE: &str = "execute-child-route";
+const OPERATION_CLASS_EXECUTE_PARENT_ROUTE: &str = "execute-parent-route";
 const OPERATION_CLASS_PROGRAM_RECOVERY_ACTION: &str = "program-recovery-action";
 const OPERATION_CLASS_CLOSEOUT_READINESS: &str = "closeout-readiness";
 const AUTONOMOUS_RECOVERY_ENVELOPE_NAME: &str = "autonomous-recovery-envelope";
@@ -116,6 +117,8 @@ const INPUT_PROGRAM_CHILD_WORKTREE_HYGIENE_CLASSIFIER_REF: &str =
     "program_child_worktree_hygiene_classifier_ref";
 const INPUT_PROGRAM_CHILD_WORKTREE_HYGIENE_FOREIGN_FINGERPRINT: &str =
     "program_child_worktree_hygiene_foreign_fingerprint";
+const INPUT_ROUTE_WRITE_LEASE_REF: &str = "route_write_lease_ref";
+const INPUT_ROUTE_WRITE_LEASE_DIGEST: &str = "route_write_lease_digest";
 const PROGRAM_HANDOFF_PROFILE_ID: &str = "program-child-batch-handoff";
 const LIFECYCLE_INTERACTION_REQUEST_SCHEMA: &str = "lifecycle-interaction-request-v1";
 const LIFECYCLE_INTERACTION_RETURN_SCHEMA: &str = "lifecycle-interaction-return-v1";
@@ -711,6 +714,103 @@ struct AuthorityZoneDecision {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     forbidden_authority_consumers: Vec<String>,
     decided_at: String,
+}
+
+#[derive(Clone, Debug)]
+struct ProgramRouteWriteLeaseBinding {
+    ref_path: String,
+    digest: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramRouteWriteLeaseEvidence {
+    schema_version: String,
+    program_run_id: String,
+    subject_kind: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    route_id: String,
+    operation_class: String,
+    status: String,
+    include_paths: Vec<String>,
+    exclude_paths: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    write_scope_digest: Option<String>,
+    lease_digest: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    authority_zone_decision_ref: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    authority_zone_decision_digest: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    authority_zone: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    artifact_class: Option<String>,
+    authority_boundary: String,
+    route_dispatch_authority: String,
+    parent_summary_not_child_receipt: bool,
+    freeze_or_delivery_authority: bool,
+    forbidden_authority_consumers: Vec<String>,
+    recorded_at: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramPollutedRunFreezeEvidence {
+    schema_version: String,
+    program_run_id: String,
+    status: String,
+    freeze_reason: String,
+    blocker_class: String,
+    child_id: String,
+    route_id: String,
+    previous_start_event_index: u64,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    previous_start_event_sha256: Option<String>,
+    blocker_evidence_ref: String,
+    blocker_evidence_digest: String,
+    event_log_ref: String,
+    event_log_digest: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    checkpoint_ref: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    checkpoint_digest: Option<String>,
+    child_receipt_refs: Vec<ProgramChildTerminalEvidenceSourceRef>,
+    missing_child_receipt_refs: Vec<String>,
+    deliverable_partition: ProgramPollutedRunDeliverablePartition,
+    successor_run_requirements: ProgramPollutedRunSuccessorRequirements,
+    authority_boundary: String,
+    freeze_evidence_authorizes_delivery: bool,
+    freeze_evidence_authorizes_mutation: bool,
+    parent_summary_satisfies_child_receipts: bool,
+    recorded_at: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramPollutedRunDeliverablePartition {
+    route_owned_include_paths: Vec<String>,
+    excluded_paths: Vec<String>,
+    partition_status: String,
+    foreign_or_manual_residue_policy: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramPollutedRunSuccessorRequirements {
+    clean_successor_run_required: bool,
+    baseline_required: String,
+    ownership_classification_required: String,
+    route_write_lease_required: String,
+    carried_child_receipts_required: String,
+    missing_or_stale_child_receipts_behavior: String,
+    rollback_posture: String,
+    publication_and_landing_route: String,
 }
 
 #[derive(Clone, Debug)]
@@ -4329,8 +4429,39 @@ fn run_program_lifecycle_single_step(
                 &completion_blocker,
             )?;
             let evidence_path_rel = rel_display(repo_root, &evidence_path);
+            let freeze_evidence_path = write_polluted_run_freeze_evidence(
+                repo_root,
+                control_root,
+                evidence_root,
+                sanitized_run_id,
+                &plan,
+                &completion_blocker,
+                &evidence_path,
+            )?;
+            let freeze_evidence_path_rel = rel_display(repo_root, &freeze_evidence_path);
             let previous_start_event_index =
                 completion_blocker.previous_start_event_index.to_string();
+            append_program_event(
+                control_root,
+                evidence_root,
+                sanitized_run_id,
+                "polluted-run-freeze-recorded",
+                Some(&completion_blocker.child_id),
+                Some(&completion_blocker.route_id),
+                "program lifecycle froze a polluted child route run before any further mutation",
+                program_step_event_data(
+                    step_context.as_ref(),
+                    "child-batch-dispatch",
+                    [
+                        ("blocker_class", BLOCKER_CHILD_ROUTE_COMPLETION_NOT_OBSERVED),
+                        ("freeze_evidence_path", freeze_evidence_path_rel.as_str()),
+                        ("blocker_evidence_path", evidence_path_rel.as_str()),
+                        ("freeze_authorizes_delivery", "false"),
+                        ("freeze_authorizes_mutation", "false"),
+                        ("successor_run_required", "true"),
+                    ],
+                ),
+            )?;
             append_program_event(
                 control_root,
                 evidence_root,
@@ -4348,15 +4479,20 @@ fn run_program_lifecycle_single_step(
                             BLOCKER_CHILD_ROUTE_COMPLETION_NOT_OBSERVED,
                         ),
                         ("evidence_path", evidence_path_rel.as_str()),
+                        ("freeze_evidence_path", freeze_evidence_path_rel.as_str()),
                         ("previous_start_event_index", previous_start_event_index.as_str()),
                     ],
                 ),
             )?;
-            child_results = vec![child_route_completion_blocked_summary(
+            let mut blocked_summary = child_route_completion_blocked_summary(
                 sanitized_run_id,
                 &completion_blocker,
                 evidence_path,
-            )?];
+            )?;
+            blocked_summary
+                .evidence_paths
+                .push(rel_path_string(&freeze_evidence_path));
+            child_results = vec![blocked_summary];
             plan.runnable_batch.clear();
             plan.program_route = None;
             plan.aggregate_state = "blocked".to_string();
@@ -6112,6 +6248,150 @@ fn child_route_completion_blocked_summary(
         evidence_paths: vec![rel_path_string(&evidence_path)],
         worktree_hygiene_foreign_fingerprint: None,
     })
+}
+
+fn child_receipt_refs_for_polluted_run_freeze(
+    state: &ProgramChildPlanState,
+) -> (Vec<ProgramChildTerminalEvidenceSourceRef>, Vec<String>) {
+    let refs = state
+        .terminal_evidence_summary
+        .as_ref()
+        .map(|summary| summary.source_refs.clone())
+        .unwrap_or_default();
+    let mut ref_roles = BTreeSet::new();
+    let mut missing = Vec::new();
+    for source_ref in &refs {
+        ref_roles.insert(source_ref.role.clone());
+        if source_ref.path.trim().is_empty() {
+            missing.push(format!("{}:missing-source-ref-path", source_ref.role));
+        } else if !is_safe_repo_relative(&source_ref.path) {
+            missing.push(format!("{}:unsafe-source-ref-path", source_ref.role));
+        }
+        if source_ref.digest.trim().is_empty() {
+            missing.push(format!("{}:missing-source-ref-digest", source_ref.role));
+        }
+    }
+    for (receipt_id, digest) in &state.receipt_digests {
+        if !ref_roles.contains(receipt_id) {
+            missing.push(format!(
+                "{receipt_id}:{digest}:digest-carried-without-source-ref"
+            ));
+        }
+    }
+    if refs.is_empty() {
+        missing.push("child-terminal-evidence-source-refs:none-observed".to_string());
+    }
+    missing.sort();
+    missing.dedup();
+    (refs, missing)
+}
+
+fn write_polluted_run_freeze_evidence(
+    repo_root: &Path,
+    control_root: &Path,
+    evidence_root: &Path,
+    program_run_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+    blocker: &ProgramChildRouteCompletionBlocker,
+    blocker_evidence_path: &Path,
+) -> Result<PathBuf> {
+    let state = plan.child_states.get(&blocker.child_id).with_context(|| {
+        format!(
+            "missing child state for polluted run freeze {}",
+            blocker.child_id
+        )
+    })?;
+    let event_log_path = program_control_event_log_path(control_root);
+    if !event_log_path.is_file() {
+        bail!("polluted run freeze requires existing program event log");
+    }
+    let checkpoint_path = control_root.join(PROGRAM_CHECKPOINT_FILE);
+    let (checkpoint_ref, checkpoint_digest) = if checkpoint_path.is_file() {
+        (
+            Some(rel_display(repo_root, &checkpoint_path)),
+            Some(file_digest(&checkpoint_path)?),
+        )
+    } else {
+        (None, None)
+    };
+    let (child_receipt_refs, missing_child_receipt_refs) =
+        child_receipt_refs_for_polluted_run_freeze(state);
+    let root = evidence_root.join("polluted-run-freezes");
+    fs::create_dir_all(&root)?;
+    let path = root.join(format!(
+        "{}-{}-polluted-run-freeze.yml",
+        sanitize_run_id(&blocker.child_id)?,
+        sanitize_run_id(&blocker.route_id)?
+    ));
+    let evidence = ProgramPollutedRunFreezeEvidence {
+        schema_version: "octon-program-polluted-run-freeze-v1".to_string(),
+        program_run_id: program_run_id.to_string(),
+        status: "frozen".to_string(),
+        freeze_reason:
+            "selected child route has prior start evidence without observed terminal completion"
+                .to_string(),
+        blocker_class: BLOCKER_CHILD_ROUTE_COMPLETION_NOT_OBSERVED.to_string(),
+        child_id: blocker.child_id.clone(),
+        route_id: blocker.route_id.clone(),
+        previous_start_event_index: blocker.previous_start_event_index,
+        previous_start_event_sha256: blocker.previous_start_event_sha256.clone(),
+        blocker_evidence_ref: rel_display(repo_root, blocker_evidence_path),
+        blocker_evidence_digest: file_digest(blocker_evidence_path)?,
+        event_log_ref: rel_display(repo_root, &event_log_path),
+        event_log_digest: file_digest(&event_log_path)?,
+        checkpoint_ref,
+        checkpoint_digest,
+        child_receipt_refs,
+        missing_child_receipt_refs,
+        deliverable_partition: ProgramPollutedRunDeliverablePartition {
+            route_owned_include_paths: child_route_write_lease_include_paths(program_run_id, state)?,
+            excluded_paths: child_route_write_lease_exclude_paths(
+                program_run_id,
+                plan,
+                &blocker.child_id,
+            )?,
+            partition_status:
+                "polluted run frozen; deliverable paths may be carried only into a clean successor route after ownership is reclassified"
+                    .to_string(),
+            foreign_or_manual_residue_policy:
+                "foreign, manual, protected, generated-only, and ambiguous residue remains excluded and requires owning closeout-worktree or cleanup authorization"
+                    .to_string(),
+        },
+        successor_run_requirements: ProgramPollutedRunSuccessorRequirements {
+            clean_successor_run_required: true,
+            baseline_required:
+                "successor run must record worktree-baseline.yml before recovery dispatch"
+                    .to_string(),
+            ownership_classification_required:
+                "successor run must bind route-write-lease include/exclude paths and classify any residue before mutation"
+                    .to_string(),
+            route_write_lease_required:
+                "successor run must bind octon-program-route-write-lease-v1 before child route dispatch"
+                    .to_string(),
+            carried_child_receipts_required:
+                "child-owned receipt refs must be carried by source ref plus digest; parent summaries and generated outputs are insufficient"
+                    .to_string(),
+            missing_or_stale_child_receipts_behavior:
+                "missing, stale, unsafe, or digest-mismatched child receipt refs remain blockers in the successor run"
+                    .to_string(),
+            rollback_posture: state
+                .rollback_posture
+                .clone()
+                .unwrap_or_else(|| "not-declared".to_string()),
+            publication_and_landing_route:
+                "normal Change closeout owns publication, landing, final sync, branch cleanup, and terminal hygiene"
+                    .to_string(),
+        },
+        authority_boundary:
+            "polluted-run freeze is evidence-only; it preserves facts for a clean successor and does not authorize delivery, mutation, cleanup, publication, archive, closeout, or terminal truth"
+                .to_string(),
+        freeze_evidence_authorizes_delivery: false,
+        freeze_evidence_authorizes_mutation: false,
+        parent_summary_satisfies_child_receipts: false,
+        recorded_at: now_rfc3339()?,
+    };
+    fs::write(&path, serde_yaml::to_string(&evidence)?)?;
+    Ok(path)
 }
 
 fn write_parent_route_replan_loop_blocker_evidence(
@@ -10032,6 +10312,293 @@ fn write_authority_zone_decision(
     let path = root.join(format!("{file_stem}.yml"));
     fs::write(&path, serde_yaml::to_string(decision)?)?;
     Ok(rel_path_string(&path))
+}
+
+fn route_write_lease_run_evidence_prefix(run_id: &str) -> Result<String> {
+    Ok(format!(
+        ".octon/state/evidence/runs/workflows/{}",
+        sanitize_run_id(run_id)?
+    ))
+}
+
+fn route_write_lease_run_control_prefix(run_id: &str) -> Result<String> {
+    Ok(format!(
+        ".octon/state/control/execution/runs/{}",
+        sanitize_run_id(run_id)?
+    ))
+}
+
+fn normalize_route_write_lease_path(raw: &str, field: &str) -> Result<String> {
+    let normalized = raw
+        .trim()
+        .trim_start_matches("./")
+        .trim_end_matches('/')
+        .to_string();
+    if !is_safe_repo_relative(&normalized) {
+        bail!("route write lease {field} contains unsafe path: {raw}");
+    }
+    Ok(normalized)
+}
+
+fn normalize_route_write_lease_paths(paths: Vec<String>, field: &str) -> Result<Vec<String>> {
+    let mut normalized = BTreeSet::new();
+    for path in paths {
+        normalized.insert(normalize_route_write_lease_path(&path, field)?);
+    }
+    Ok(normalized.into_iter().collect())
+}
+
+fn parent_route_write_lease_include_paths(
+    program_run_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+) -> Result<Vec<String>> {
+    let evidence_prefix = route_write_lease_run_evidence_prefix(program_run_id)?;
+    let control_prefix = route_write_lease_run_control_prefix(program_run_id)?;
+    normalize_route_write_lease_paths(
+        vec![
+            plan.target.clone(),
+            format!("{evidence_prefix}/parent"),
+            format!("{control_prefix}/parent"),
+        ],
+        "include_paths",
+    )
+}
+
+fn parent_route_write_lease_exclude_paths(
+    program_run_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+) -> Result<Vec<String>> {
+    let evidence_prefix = route_write_lease_run_evidence_prefix(program_run_id)?;
+    let control_prefix = route_write_lease_run_control_prefix(program_run_id)?;
+    let mut paths = vec![
+        ".git".to_string(),
+        ".octon/generated".to_string(),
+        format!("{evidence_prefix}/children"),
+        format!("{control_prefix}/children"),
+    ];
+    for state in plan.child_states.values() {
+        paths.push(state.target.clone());
+    }
+    normalize_route_write_lease_paths(paths, "exclude_paths")
+}
+
+fn child_route_write_lease_include_paths(
+    program_run_id: &str,
+    state: &ProgramChildPlanState,
+) -> Result<Vec<String>> {
+    validate_program_id_field(&state.child_id, "route write lease child_id")?;
+    let evidence_prefix = route_write_lease_run_evidence_prefix(program_run_id)?;
+    let control_prefix = route_write_lease_run_control_prefix(program_run_id)?;
+    let mut paths = state.write_scopes.clone();
+    paths.push(format!("{evidence_prefix}/children/{}", state.child_id));
+    paths.push(format!("{control_prefix}/children/{}", state.child_id));
+    normalize_route_write_lease_paths(paths, "include_paths")
+}
+
+fn child_route_write_lease_exclude_paths(
+    program_run_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+    child_id: &str,
+) -> Result<Vec<String>> {
+    validate_program_id_field(child_id, "route write lease child_id")?;
+    let evidence_prefix = route_write_lease_run_evidence_prefix(program_run_id)?;
+    let control_prefix = route_write_lease_run_control_prefix(program_run_id)?;
+    let mut paths = vec![
+        ".git".to_string(),
+        ".octon/generated".to_string(),
+        format!("{evidence_prefix}/parent"),
+        format!("{control_prefix}/parent"),
+    ];
+    for (other_child_id, state) in &plan.child_states {
+        if other_child_id == child_id {
+            continue;
+        }
+        validate_program_id_field(other_child_id, "route write lease sibling child_id")?;
+        paths.push(state.target.clone());
+        paths.push(format!("{evidence_prefix}/children/{other_child_id}"));
+        paths.push(format!("{control_prefix}/children/{other_child_id}"));
+    }
+    normalize_route_write_lease_paths(paths, "exclude_paths")
+}
+
+fn route_write_lease_digest(
+    program_run_id: &str,
+    subject_kind: &str,
+    child_id: Option<&str>,
+    route_id: &str,
+    operation_class: &str,
+    include_paths: &[String],
+    exclude_paths: &[String],
+    write_scope_digest: Option<&str>,
+    authority_zone_decision_digest: Option<&str>,
+) -> Result<String> {
+    let mut input = BTreeMap::new();
+    input.insert("program_run_id", program_run_id.to_string());
+    input.insert("subject_kind", subject_kind.to_string());
+    input.insert("child_id", child_id.unwrap_or("parent").to_string());
+    input.insert("route_id", route_id.to_string());
+    input.insert("operation_class", operation_class.to_string());
+    input.insert("include_paths", include_paths.join("\n"));
+    input.insert("exclude_paths", exclude_paths.join("\n"));
+    input.insert(
+        "write_scope_digest",
+        write_scope_digest.unwrap_or("none").to_string(),
+    );
+    input.insert(
+        "authority_zone_decision_digest",
+        authority_zone_decision_digest.unwrap_or("none").to_string(),
+    );
+    Ok(stable_text_digest(&serde_yaml::to_string(&input)?))
+}
+
+fn write_program_route_write_lease(
+    evidence_root: &Path,
+    program_run_id: &str,
+    subject_kind: &str,
+    child_id: Option<&str>,
+    route_id: &str,
+    operation_class: &str,
+    include_paths: Vec<String>,
+    exclude_paths: Vec<String>,
+    write_scope_digest: Option<&str>,
+    authority_decision: Option<&AuthorityZoneDecision>,
+    authority_decision_ref: Option<&str>,
+) -> Result<ProgramRouteWriteLeaseBinding> {
+    validate_program_id_field(route_id, "route write lease route_id")?;
+    if let Some(child_id) = child_id {
+        validate_program_id_field(child_id, "route write lease child_id")?;
+    }
+    let include_paths = normalize_route_write_lease_paths(include_paths, "include_paths")?;
+    if include_paths.is_empty() {
+        bail!("route write lease requires at least one include path");
+    }
+    let exclude_paths = normalize_route_write_lease_paths(exclude_paths, "exclude_paths")?;
+    if subject_kind == "child" && write_scope_digest.is_none() {
+        bail!("child route write lease requires a write_scope_digest");
+    }
+    if let Some(decision) = authority_decision {
+        if decision.run_id != program_run_id {
+            bail!("route write lease authority decision run_id mismatch");
+        }
+        if decision.route_id.as_deref() != Some(route_id) {
+            bail!("route write lease authority decision route_id mismatch");
+        }
+        if decision.child_id.as_deref() != child_id {
+            bail!("route write lease authority decision child_id mismatch");
+        }
+        if decision.operation_class != operation_class {
+            bail!("route write lease authority decision operation_class mismatch");
+        }
+        if decision.write_scope_digest.as_deref() != write_scope_digest {
+            bail!("route write lease authority decision write_scope_digest mismatch");
+        }
+    }
+    let authority_zone_decision_digest = authority_decision.map(serializable_digest).transpose()?;
+    let lease_digest = route_write_lease_digest(
+        program_run_id,
+        subject_kind,
+        child_id,
+        route_id,
+        operation_class,
+        &include_paths,
+        &exclude_paths,
+        write_scope_digest,
+        authority_zone_decision_digest.as_deref(),
+    )?;
+    let evidence = ProgramRouteWriteLeaseEvidence {
+        schema_version: "octon-program-route-write-lease-v1".to_string(),
+        program_run_id: program_run_id.to_string(),
+        subject_kind: subject_kind.to_string(),
+        child_id: child_id.map(str::to_string),
+        route_id: route_id.to_string(),
+        operation_class: operation_class.to_string(),
+        status: "bound".to_string(),
+        include_paths,
+        exclude_paths,
+        write_scope_digest: write_scope_digest.map(str::to_string),
+        lease_digest,
+        authority_zone_decision_ref: authority_decision_ref.map(str::to_string),
+        authority_zone_decision_digest,
+        authority_zone: authority_decision.map(|decision| decision.authority_zone.clone()),
+        artifact_class: authority_decision.map(|decision| decision.artifact_class.clone()),
+        authority_boundary:
+            "route write lease records route-scoped include/exclude paths before dispatch; it does not authorize mutation outside the selected route or replace source authority"
+                .to_string(),
+        route_dispatch_authority:
+            "dispatch-preflight-only; nested route, child receipts, promotion, archive, closeout, cleanup, delivery, and terminal truth remain separately governed"
+                .to_string(),
+        parent_summary_not_child_receipt: true,
+        freeze_or_delivery_authority: false,
+        forbidden_authority_consumers: vec![
+            "child-receipt-substitution".to_string(),
+            "parent-summary-substitution".to_string(),
+            "archive-authorization".to_string(),
+            "promotion-authorization".to_string(),
+            "cleanup-authorization".to_string(),
+            "delivery-authorization".to_string(),
+            "terminal-truth".to_string(),
+        ],
+        recorded_at: now_rfc3339()?,
+    };
+    let root = evidence_root.join("route-write-leases");
+    fs::create_dir_all(&root)?;
+    let subject = child_id.unwrap_or("parent");
+    let path = root.join(format!(
+        "{}-{}.yml",
+        sanitize_run_id(subject)?,
+        sanitize_run_id(route_id)?
+    ));
+    fs::write(&path, serde_yaml::to_string(&evidence)?)?;
+    Ok(ProgramRouteWriteLeaseBinding {
+        ref_path: rel_path_string(&path),
+        digest: file_digest(&path)?,
+    })
+}
+
+fn write_parent_route_write_lease(
+    evidence_root: &Path,
+    program_run_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+    route_id: &str,
+) -> Result<ProgramRouteWriteLeaseBinding> {
+    write_program_route_write_lease(
+        evidence_root,
+        program_run_id,
+        "parent",
+        None,
+        route_id,
+        OPERATION_CLASS_EXECUTE_PARENT_ROUTE,
+        parent_route_write_lease_include_paths(program_run_id, plan)?,
+        parent_route_write_lease_exclude_paths(program_run_id, plan)?,
+        None,
+        None,
+        None,
+    )
+}
+
+fn write_child_route_write_lease(
+    evidence_root: &Path,
+    program_run_id: &str,
+    plan: &ProgramLifecyclePlanResult,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    operation_class: &str,
+    authority_decision: &AuthorityZoneDecision,
+    authority_decision_ref: &str,
+) -> Result<ProgramRouteWriteLeaseBinding> {
+    write_program_route_write_lease(
+        evidence_root,
+        program_run_id,
+        "child",
+        Some(&state.child_id),
+        route_id,
+        operation_class,
+        child_route_write_lease_include_paths(program_run_id, state)?,
+        child_route_write_lease_exclude_paths(program_run_id, plan, &state.child_id)?,
+        authority_decision.write_scope_digest.as_deref(),
+        Some(authority_decision),
+        Some(authority_decision_ref),
+    )
 }
 
 fn recovery_recipe_allows_authority_decision(
@@ -15184,6 +15751,37 @@ fn execute_parent_program_route(
     let parent_control_root = control_root.join("parent");
     fs::create_dir_all(&parent_evidence_root)?;
     fs::create_dir_all(&parent_control_root)?;
+    let parent_route_write_lease = write_parent_route_write_lease(
+        &parent_evidence_root,
+        program_run_id,
+        plan,
+        &route.route_id,
+    )?;
+    append_program_event(
+        control_root,
+        evidence_root,
+        program_run_id,
+        "parent-route-write-lease-bound",
+        None,
+        Some(&route.route_id),
+        "program parent route write lease bound before workflow dispatch",
+        program_step_event_data(
+            step_context.as_ref(),
+            "parent-route-dispatch",
+            [
+                (
+                    "route_write_lease_ref",
+                    parent_route_write_lease.ref_path.as_str(),
+                ),
+                (
+                    "route_write_lease_digest",
+                    parent_route_write_lease.digest.as_str(),
+                ),
+                ("child_owned_paths_excluded", "true"),
+                ("route_write_lease_authority", "dispatch-preflight-only"),
+            ],
+        ),
+    )?;
     let loaded = load_lifecycle_contract(octon_dir, &plan.lifecycle_id)?;
     let mut program_repair_basis = None;
     if let Some(program) = loaded.contract.program.as_ref() {
@@ -15263,6 +15861,14 @@ fn execute_parent_program_route(
     } else {
         run_inputs.clone()
     };
+    parent_run_inputs.insert(
+        INPUT_ROUTE_WRITE_LEASE_REF.to_string(),
+        parent_route_write_lease.ref_path.clone(),
+    );
+    parent_run_inputs.insert(
+        INPUT_ROUTE_WRITE_LEASE_DIGEST.to_string(),
+        parent_route_write_lease.digest.clone(),
+    );
     bind_parent_promotion_evidence_input(&repo_root, plan, &mut parent_run_inputs)?;
     let request = lifecycle_execution_request_for_route(
         octon_dir,
@@ -16106,16 +16712,17 @@ fn build_child_execution_jobs(
             } else {
                 route_delegation_contract_basis
             };
+            let operation_class = if blocker_class.is_some() {
+                OPERATION_CLASS_RETRY_CHILD_ROUTE
+            } else {
+                OPERATION_CLASS_EXECUTE_CHILD_ROUTE
+            };
             let authority_decision = child_route_authority_decision(
                 repo_root,
                 program_run_id,
                 state,
                 &route.route_id,
-                if blocker_class.is_some() {
-                    OPERATION_CLASS_RETRY_CHILD_ROUTE
-                } else {
-                    OPERATION_CLASS_EXECUTE_CHILD_ROUTE
-                },
+                operation_class,
             );
             let invocation_authority = invocation_authority_for_child_route(
                 &options.invocation_authority,
@@ -16129,7 +16736,51 @@ fn build_child_execution_jobs(
             );
             let authority_decision_path =
                 write_authority_zone_decision(evidence_root, &authority_decision)?;
+            let route_write_lease = write_child_route_write_lease(
+                &child_evidence_root,
+                program_run_id,
+                plan,
+                state,
+                &route.route_id,
+                operation_class,
+                &authority_decision,
+                &authority_decision_path,
+            )?;
+            append_program_event(
+                control_root,
+                evidence_root,
+                program_run_id,
+                "child-route-write-lease-bound",
+                Some(child_id),
+                Some(&route.route_id),
+                "program child route write lease bound before workflow dispatch",
+                event_data([
+                    ("route_write_lease_ref", route_write_lease.ref_path.as_str()),
+                    (
+                        "route_write_lease_digest",
+                        route_write_lease.digest.as_str(),
+                    ),
+                    ("authority_decision", authority_decision_path.as_str()),
+                    (
+                        "write_scope_digest",
+                        authority_decision
+                            .write_scope_digest
+                            .as_deref()
+                            .unwrap_or("none"),
+                    ),
+                    ("sibling_and_parent_paths_excluded", "true"),
+                    ("route_write_lease_authority", "dispatch-preflight-only"),
+                ]),
+            )?;
             let mut child_run_inputs = run_inputs.clone();
+            child_run_inputs.insert(
+                INPUT_ROUTE_WRITE_LEASE_REF.to_string(),
+                route_write_lease.ref_path.clone(),
+            );
+            child_run_inputs.insert(
+                INPUT_ROUTE_WRITE_LEASE_DIGEST.to_string(),
+                route_write_lease.digest.clone(),
+            );
             if let Some(report_ref) = closeout_hygiene_preflight.accepted_report_ref.as_ref() {
                 let return_ref_count = if let Some(return_ref) =
                     closeout_hygiene_preflight.accepted_return_ref.as_ref()
@@ -30362,6 +31013,81 @@ mod tests {
             AUTHORITY_ZONE_CURRENT_RUN_AGENT_ARTIFACT
         );
         assert!(current_run_artifact.autonomous_allowed);
+    }
+
+    #[test]
+    fn parent_route_write_lease_excludes_child_owned_surfaces() {
+        let mut child_states = BTreeMap::new();
+        let mut child_a = child_state("a", Vec::new());
+        child_a.target = "parent/children/a".to_string();
+        child_a.write_scopes = vec![
+            "parent/children/a".to_string(),
+            "framework/a.md".to_string(),
+        ];
+        child_states.insert("a".to_string(), child_a);
+        let mut child_b = child_state("b", Vec::new());
+        child_b.target = "parent/children/b".to_string();
+        child_states.insert("b".to_string(), child_b);
+        let mut plan = program_plan_with_children(child_states, vec!["a"]);
+        plan.target = "parent".to_string();
+
+        let includes = parent_route_write_lease_include_paths("run-1", &plan).unwrap();
+        let excludes = parent_route_write_lease_exclude_paths("run-1", &plan).unwrap();
+
+        assert!(includes.iter().any(|path| path == "parent"));
+        assert!(includes
+            .iter()
+            .any(|path| path == ".octon/state/evidence/runs/workflows/run-1/parent"));
+        assert!(excludes.iter().any(|path| path == "parent/children/a"));
+        assert!(excludes.iter().any(|path| path == "parent/children/b"));
+        assert!(excludes
+            .iter()
+            .any(|path| path == ".octon/state/evidence/runs/workflows/run-1/children"));
+        assert!(excludes
+            .iter()
+            .any(|path| path == ".octon/state/control/execution/runs/run-1/children"));
+    }
+
+    #[test]
+    fn child_route_write_lease_binds_scope_and_excludes_parent_and_siblings() {
+        let mut child_states = BTreeMap::new();
+        let mut child_a = child_state("a", Vec::new());
+        child_a.target = "parent/children/a".to_string();
+        child_a.write_scopes = vec![
+            "parent/children/a".to_string(),
+            "framework/a.md".to_string(),
+        ];
+        child_states.insert("a".to_string(), child_a);
+        let mut child_b = child_state("b", Vec::new());
+        child_b.target = "parent/children/b".to_string();
+        child_states.insert("b".to_string(), child_b);
+        let plan = program_plan_with_children(child_states, vec!["a"]);
+        let state = plan.child_states.get("a").unwrap();
+
+        let includes = child_route_write_lease_include_paths("run-1", state).unwrap();
+        let excludes = child_route_write_lease_exclude_paths("run-1", &plan, "a").unwrap();
+
+        assert!(includes.iter().any(|path| path == "parent/children/a"));
+        assert!(includes.iter().any(|path| path == "framework/a.md"));
+        assert!(includes
+            .iter()
+            .any(|path| path == ".octon/state/evidence/runs/workflows/run-1/children/a"));
+        assert!(excludes
+            .iter()
+            .any(|path| path == ".octon/state/evidence/runs/workflows/run-1/parent"));
+        assert!(excludes.iter().any(|path| path == "parent/children/b"));
+        assert!(excludes
+            .iter()
+            .any(|path| path == ".octon/state/control/execution/runs/run-1/children/b"));
+    }
+
+    #[test]
+    fn route_write_lease_rejects_unsafe_paths() {
+        let error =
+            normalize_route_write_lease_paths(vec!["../outside".to_string()], "include_paths")
+                .expect_err("unsafe lease path should fail closed");
+
+        assert!(error.to_string().contains("unsafe path"));
     }
 
     #[test]
@@ -47843,10 +48569,78 @@ children:
                 && event.child_id.as_deref() == Some("a")
                 && event.route_id.as_deref() == Some(&summary.route_id)
         }));
+        let freeze_event = events
+            .iter()
+            .find(|event| {
+                event.event_type == "polluted-run-freeze-recorded"
+                    && event.child_id.as_deref() == Some("a")
+                    && event.route_id.as_deref() == Some(&summary.route_id)
+            })
+            .expect("polluted run freeze should be recorded before blocked completion");
+        assert_eq!(
+            freeze_event
+                .data
+                .get("freeze_authorizes_delivery")
+                .map(String::as_str),
+            Some("false")
+        );
+        assert_eq!(
+            freeze_event
+                .data
+                .get("successor_run_required")
+                .map(String::as_str),
+            Some("true")
+        );
         assert!(summary
             .evidence_paths
             .iter()
             .any(|path| path.contains("child-route-completion-not-observed")));
+        let freeze_ref = summary
+            .evidence_paths
+            .iter()
+            .find(|path| path.contains("polluted-run-freeze"))
+            .expect("blocked summary should retain polluted-run freeze evidence");
+        let freeze_path = PathBuf::from(freeze_ref);
+        let freeze_path = if freeze_path.is_absolute() {
+            freeze_path
+        } else {
+            fixture.root.join(freeze_path)
+        };
+        let freeze: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(freeze_path).unwrap()).unwrap();
+        assert_eq!(
+            freeze
+                .get("schema_version")
+                .and_then(serde_yaml::Value::as_str),
+            Some("octon-program-polluted-run-freeze-v1")
+        );
+        assert_eq!(
+            freeze
+                .get("freeze_evidence_authorizes_delivery")
+                .and_then(serde_yaml::Value::as_bool),
+            Some(false)
+        );
+        assert_eq!(
+            freeze
+                .get("successor_run_requirements")
+                .and_then(|value| value.get("clean_successor_run_required"))
+                .and_then(serde_yaml::Value::as_bool),
+            Some(true)
+        );
+        let carried_child_refs = freeze
+            .get("child_receipt_refs")
+            .and_then(serde_yaml::Value::as_sequence)
+            .map(|refs| !refs.is_empty())
+            .unwrap_or(false);
+        let missing_child_refs = freeze
+            .get("missing_child_receipt_refs")
+            .and_then(serde_yaml::Value::as_sequence)
+            .map(|refs| !refs.is_empty())
+            .unwrap_or(false);
+        assert!(
+            carried_child_refs || missing_child_refs,
+            "freeze evidence must either carry child receipt refs or name missing refs as blockers"
+        );
     }
 
     #[test]

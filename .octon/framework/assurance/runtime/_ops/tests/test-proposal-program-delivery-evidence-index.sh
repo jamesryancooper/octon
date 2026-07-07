@@ -199,6 +199,121 @@ worktree_hygiene:
   evidence_ref: .octon/state/evidence/local/terminal-proof/program-delivery/worktree-hygiene.yml
   dirty_worktree: false
   verdict: pass
+retained_state_report:
+  delivered_branch:
+    row_kind: delivered_branch
+    subjects:
+      - program-delivery-branch
+    disposition: delivered
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/program-delivery/change-closeout-receipt.yml
+    retention_or_blocker_reason: delivered branch retained in closeout receipt
+  route_owned_delivery_branch:
+    row_kind: route_owned_delivery_branch
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: current clean worktree route did not create a route-owned worktree branch
+  source_dirty_anchor_branches:
+    row_kind: source_dirty_anchor_branches
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: clean fixture has no source dirty anchor branches
+  retained_local_branches:
+    row_kind: retained_local_branches
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: clean fixture has no retained local branches
+  retained_worktrees:
+    row_kind: retained_worktrees
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: clean fixture has no retained worktrees
+  retained_required_evidence:
+    row_kind: retained_required_evidence
+    subjects:
+      - program-delivery-required-evidence
+    disposition: retained
+    evidence_refs:
+      - .octon/state/evidence/validation/proposals/program-delivery/profile.yml
+      - .octon/state/evidence/runs/workflows/program-delivery/parent-lifecycle.yml
+    retention_or_blocker_reason: retained evidence is required for delivery proof reconstruction
+  local_private_evidence:
+    row_kind: local_private_evidence
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: fixture does not retain local-private evidence as authority
+  generated_diagnostics:
+    row_kind: generated_diagnostics
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: fixture does not rely on generated diagnostics as authority
+  deleted_residue:
+    row_kind: deleted_residue
+    subjects:
+      - program-delivery-route-branch
+    disposition: deleted
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/program-delivery/branch-cleanup-authorization.json
+    retention_or_blocker_reason: branch cleanup deletion is authorized and retained
+  excluded_residue:
+    row_kind: excluded_residue
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: fixture has no excluded residue
+  manual_review_residue:
+    row_kind: manual_review_residue
+    subjects:
+      - none
+    disposition: not-applicable
+    evidence_refs:
+      - none
+    retention_or_blocker_reason: fixture has no manual-review residue
+  remote_mutation_status:
+    row_kind: remote_mutation_status
+    subjects:
+      - program-delivery-remote-mutation-status
+    disposition: retained
+    evidence_refs:
+      - .octon/state/evidence/runs/skills/closeout-change/program-delivery/landing-authorization.json
+    retention_or_blocker_reason: remote mutation status is retained in landing authorization evidence
+  archive_authorization:
+    row_kind: archive_authorization
+    subjects:
+      - example-program-archive
+    disposition: authorized
+    evidence_refs:
+      - .octon/state/evidence/runs/workflows/program-delivery/archive-receipt.yml
+    retention_or_blocker_reason: archive authorization is retained separately from delivery authority
+  final_current_state_proof:
+    row_kind: final_current_state_proof
+    subjects:
+      - program-delivery-terminal-state
+    disposition: verified
+    evidence_refs:
+      - .octon/state/evidence/local/terminal-proof/program-delivery/terminal-current-state-proof.yml
+      - .octon/state/evidence/local/terminal-proof/program-delivery/worktree-hygiene.yml
+    retention_or_blocker_reason: terminal proof and worktree hygiene are retained for cleaned outcome
 delivery_evidence_index:
   ref: .octon/state/evidence/runs/workflows/program-delivery/proposal-program-delivery-evidence-index.yml
   schema_version: proposal-program-delivery-evidence-index-v1
@@ -267,6 +382,21 @@ make_blocked_receipt() {
     .worktree_hygiene.evidence_ref = "not-run" |
     .worktree_hygiene.dirty_worktree = true |
     .worktree_hygiene.verdict = "not-run" |
+    .retained_state_report.delivered_branch.subjects = ["none"] |
+    .retained_state_report.delivered_branch.disposition = "blocked" |
+    .retained_state_report.delivered_branch.evidence_refs = [".octon/state/evidence/runs/workflows/program-delivery/git-index-write-denied.yml"] |
+    .retained_state_report.delivered_branch.retention_or_blocker_reason = "delivery branch was not delivered because git index writes were denied" |
+    .retained_state_report.deleted_residue.subjects = ["none"] |
+    .retained_state_report.deleted_residue.disposition = "not-applicable" |
+    .retained_state_report.deleted_residue.evidence_refs = ["none"] |
+    .retained_state_report.deleted_residue.retention_or_blocker_reason = "blocked delivery did not delete branch residue" |
+    .retained_state_report.remote_mutation_status.disposition = "blocked" |
+    .retained_state_report.remote_mutation_status.evidence_refs = [".octon/state/evidence/runs/workflows/program-delivery/git-index-write-denied.yml"] |
+    .retained_state_report.remote_mutation_status.retention_or_blocker_reason = "remote mutation was blocked before landing" |
+    .retained_state_report.final_current_state_proof.subjects = ["none"] |
+    .retained_state_report.final_current_state_proof.disposition = "blocked" |
+    .retained_state_report.final_current_state_proof.evidence_refs = [".octon/state/evidence/runs/workflows/program-delivery/git-index-write-denied.yml"] |
+    .retained_state_report.final_current_state_proof.retention_or_blocker_reason = "terminal proof was not available for blocked delivery" |
     .blockers = [{"class":"git-index-write-denied","evidence_ref":".octon/state/evidence/runs/workflows/program-delivery/git-index-write-denied.yml","status":"open"}]
   ' "$receipt"
 }
