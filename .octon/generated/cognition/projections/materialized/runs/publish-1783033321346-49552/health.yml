@@ -1,205 +1,256 @@
-schema_version: run-health-read-model-v1
-run_id: publish-1783033321346-49552
-generated_at: '2026-07-04T04:08:29Z'
-generator:
-  id: generate-run-health-read-model.sh
-  version: 1.2.0
-  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-  allowed_consumers:
-  - operators
-  - validators
-  forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
-freshness:
-  mode: digest-bound
-  status: stale
-  source_digest_algorithm: sha256
-  combined_source_digest: sha256:40fcd76ef0eb3e586e172459ee2cbb538840cac63197083dabaedfb74b9d4885
-  checked_at: '2026-07-04T04:08:29Z'
-  expires_at: null
-  freshness_refs:
-  - .octon/state/control/execution/runs/publish-1783033321346-49552/events.manifest.yml
-canonical_refs:
-  run_contract: .octon/state/control/execution/runs/publish-1783033321346-49552/run-contract.yml
-  run_manifest: .octon/state/control/execution/runs/publish-1783033321346-49552/run-manifest.yml
-  events_journal: .octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson
-  events_manifest: .octon/state/control/execution/runs/publish-1783033321346-49552/events.manifest.yml
-  runtime_state: .octon/state/control/execution/runs/publish-1783033321346-49552/runtime-state.yml
-  authority_decision: .octon/state/evidence/control/execution/authority-decision-publish-1783033321346-49552.yml
-  authority_bundle: .octon/state/control/execution/runs/publish-1783033321346-49552/authority/grant-bundle.yml
-  approval_request: null
-  approval_grants: []
-  exception_leases: []
-  revocations: []
-  rollback_posture: .octon/state/control/execution/runs/publish-1783033321346-49552/rollback-posture.yml
-  evidence_root: .octon/state/evidence/runs/publish-1783033321346-49552
-  evidence_classification: .octon/state/evidence/runs/publish-1783033321346-49552/evidence-classification.yml
-  retained_evidence: .octon/state/evidence/runs/publish-1783033321346-49552/retained-run-evidence.yml
-  replay_pointers: .octon/state/evidence/runs/publish-1783033321346-49552/replay-pointers.yml
-  intervention_log: .octon/state/evidence/runs/publish-1783033321346-49552/interventions/log.yml
-  disclosure_run_card: .octon/state/evidence/disclosure/runs/publish-1783033321346-49552/run-card.yml
-  support_targets: .octon/instance/governance/support-targets.yml
-  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-  run_continuity: .octon/state/continuity/runs/publish-1783033321346-49552/handoff.yml
-source_digests:
-  run_contract:
-    ref: .octon/state/control/execution/runs/publish-1783033321346-49552/run-contract.yml
-    digest: sha256:fb44f96237bb84fec429bad5590293dd07e49561c1e625ccd64349d5aa055d81
-    status: present
-  run_manifest:
-    ref: .octon/state/control/execution/runs/publish-1783033321346-49552/run-manifest.yml
-    digest: sha256:fade7ad46354853b34ac2988720f2a22bbd81e014a075856b1dc3815d763477d
-    status: present
-  events_journal:
-    ref: .octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson
-    digest: sha256:cd803f1f2dd0de85aae914f632c67bd3428be5620a2af348b0f982f0556e7f07
-    status: present
-  events_manifest:
-    ref: .octon/state/control/execution/runs/publish-1783033321346-49552/events.manifest.yml
-    digest: sha256:48b9f3b3bf1d3b73682c24d55e125caa2b1af5a69bfc68598b6130eb1f688f8c
-    status: present
-  runtime_state:
-    ref: .octon/state/control/execution/runs/publish-1783033321346-49552/runtime-state.yml
-    digest: sha256:d9deaed06c27aae4cf00a196444408f391741291322a2c082935e424c54f1924
-    status: present
-  authority_decision:
-    ref: .octon/state/evidence/control/execution/authority-decision-publish-1783033321346-49552.yml
-    digest: sha256:c3a6b450cee1754e0146cc2fb8daf11d3d120bf8b183ec307d088a226cbfe6b1
-    status: present
-  authority_bundle:
-    ref: .octon/state/control/execution/runs/publish-1783033321346-49552/authority/grant-bundle.yml
-    digest: sha256:f946b9b8a9468ac55c5e5ed91c673133663ff81ca0c84efd8edc146596fc68c2
-    status: present
-  approval_request:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  approval_grants:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  exception_leases:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  revocations:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  rollback_posture:
-    ref: .octon/state/control/execution/runs/publish-1783033321346-49552/rollback-posture.yml
-    digest: sha256:11e5d6c43e10702584bf6f7c3825874bb77102caa0dd194aa0afe62bdfe83e37
-    status: present
-  evidence_root:
-    ref: .octon/state/evidence/runs/publish-1783033321346-49552
-    digest: missing
-    status: missing
-  evidence_classification:
-    ref: .octon/state/evidence/runs/publish-1783033321346-49552/evidence-classification.yml
-    digest: missing
-    status: missing
-  retained_evidence:
-    ref: .octon/state/evidence/runs/publish-1783033321346-49552/retained-run-evidence.yml
-    digest: missing
-    status: missing
-  replay_pointers:
-    ref: .octon/state/evidence/runs/publish-1783033321346-49552/replay-pointers.yml
-    digest: missing
-    status: missing
-  intervention_log:
-    ref: .octon/state/evidence/runs/publish-1783033321346-49552/interventions/log.yml
-    digest: missing
-    status: missing
-  disclosure_run_card:
-    ref: .octon/state/evidence/disclosure/runs/publish-1783033321346-49552/run-card.yml
-    digest: missing
-    status: missing
-  support_targets:
-    ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-    status: present
-  support_reconciliation:
-    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:6b571b2e9c7b3f7446d1907636b50a921223077b8ebb51b64c5f504bce574b8f
-    status: present
-  run_continuity:
-    ref: .octon/state/continuity/runs/publish-1783033321346-49552/handoff.yml
-    digest: sha256:97d0f7d1d53b818a728a5dde0c3c5ab9300069367aa959c465fee6cef68677ed
-    status: present
-  runtime_route_bundle:
-    ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:2b9342c8ff4e52cc2ae9a60167f6716dc772257a72ca97cc18d86f606c7725ee
-    status: present
-  pack_routes:
-    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:878d143df4df6a57141119f42a4c9ebe0b884cbe900f31f92364d3dd6cfb06e7
-    status: present
-  schema:
-    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb
-    status: present
-  operator_read_model_contract:
-    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f
-    status: present
-health:
-  status: stale
-  summary: Run-health sources are stale relative to their digest-bound freshness checks.
-  next_required_action: regenerate from current canonical sources
-lifecycle:
-  state: closed
-  decision_state: allow
-  drift_status: in-sync
-  latest_event_hash: sha256:2ba6ffe8a5fb19ed2b310fc3171e3106a59e3f5f12f10901e5b2ded645baa11f
-  latest_sequence: 37
-support:
-  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-  route_status: allow
-  pack_status: allow
-  support_status: supported
-  requested_capability_packs:
-  - telemetry
-authorization:
-  status: authorized
-  proof_state: proof-stale
-  human_boundary_state: none
-  active_grants:
-  - .octon/state/control/execution/runs/publish-1783033321346-49552/authority/grant-bundle.yml
-  open_approvals: []
-  active_exceptions: []
-  active_revocations: []
-evidence:
-  completeness: incomplete
-  missing_required:
-  - evidence_classification
-  - retained_evidence
-  - replay_pointers
-  - journal_snapshot
-  - journal_manifest_snapshot
-rollback:
-  status: ready
-  hard_reset_required: false
-intervention:
-  status: unknown
-  undisclosed_count: 0
-  records: []
-disclosure:
-  status: incomplete
-closure:
-  status: not-ready
-diagnostics:
-- severity: error
-  code: journal-ledger-digest-stale
-  message: events.manifest.yml ledger_digest does not match events.ndjson.
-  refs:
-  - .octon/state/control/execution/runs/publish-1783033321346-49552/events.manifest.yml
-  - .octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson
+{
+  "schema_version": "run-health-read-model-v1",
+  "run_id": "publish-1783033321346-49552",
+  "generated_at": "2026-07-07T00:00:00Z",
+  "generator": {
+    "id": "generate-run-health-read-model.sh",
+    "version": "1.2.0",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  },
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false,
+    "allowed_consumers": [
+      "operators",
+      "validators"
+    ],
+    "forbidden_consumers": [
+      "runtime",
+      "policy",
+      "authority",
+      "support-claim-evaluation",
+      "state-reconstruction",
+      "direct-runtime-reads"
+    ]
+  },
+  "freshness": {
+    "mode": "digest-bound",
+    "status": "stale",
+    "source_digest_algorithm": "sha256",
+    "combined_source_digest": "sha256:cf9417372a98c5e729ffb0b82c4515503a563744640e34d5d14af4daee0c3eb4",
+    "checked_at": "2026-07-07T00:00:00Z",
+    "expires_at": null,
+    "freshness_refs": [
+      ".octon/state/control/execution/runs/publish-1783033321346-49552/events.manifest.yml"
+    ]
+  },
+  "canonical_refs": {
+    "run_contract": ".octon/state/control/execution/runs/publish-1783033321346-49552/run-contract.yml",
+    "run_manifest": ".octon/state/control/execution/runs/publish-1783033321346-49552/run-manifest.yml",
+    "events_journal": ".octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson",
+    "events_manifest": ".octon/state/control/execution/runs/publish-1783033321346-49552/events.manifest.yml",
+    "runtime_state": ".octon/state/control/execution/runs/publish-1783033321346-49552/runtime-state.yml",
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-publish-1783033321346-49552.yml",
+    "authority_bundle": ".octon/state/control/execution/runs/publish-1783033321346-49552/authority/grant-bundle.yml",
+    "approval_request": null,
+    "approval_grants": [],
+    "exception_leases": [],
+    "revocations": [],
+    "rollback_posture": ".octon/state/control/execution/runs/publish-1783033321346-49552/rollback-posture.yml",
+    "evidence_root": ".octon/state/evidence/runs/publish-1783033321346-49552",
+    "evidence_classification": ".octon/state/evidence/runs/publish-1783033321346-49552/evidence-classification.yml",
+    "retained_evidence": ".octon/state/evidence/runs/publish-1783033321346-49552/retained-run-evidence.yml",
+    "replay_pointers": ".octon/state/evidence/runs/publish-1783033321346-49552/replay-pointers.yml",
+    "intervention_log": ".octon/state/evidence/runs/publish-1783033321346-49552/interventions/log.yml",
+    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/publish-1783033321346-49552/run-card.yml",
+    "support_targets": ".octon/instance/governance/support-targets.yml",
+    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    "run_continuity": ".octon/state/continuity/runs/publish-1783033321346-49552/handoff.yml"
+  },
+  "source_digests": {
+    "run_contract": {
+      "ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/run-contract.yml",
+      "digest": "sha256:fb44f96237bb84fec429bad5590293dd07e49561c1e625ccd64349d5aa055d81",
+      "status": "present"
+    },
+    "run_manifest": {
+      "ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/run-manifest.yml",
+      "digest": "sha256:fade7ad46354853b34ac2988720f2a22bbd81e014a075856b1dc3815d763477d",
+      "status": "present"
+    },
+    "events_journal": {
+      "ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson",
+      "digest": "sha256:cd803f1f2dd0de85aae914f632c67bd3428be5620a2af348b0f982f0556e7f07",
+      "status": "present"
+    },
+    "events_manifest": {
+      "ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/events.manifest.yml",
+      "digest": "sha256:48b9f3b3bf1d3b73682c24d55e125caa2b1af5a69bfc68598b6130eb1f688f8c",
+      "status": "present"
+    },
+    "runtime_state": {
+      "ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/runtime-state.yml",
+      "digest": "sha256:d9deaed06c27aae4cf00a196444408f391741291322a2c082935e424c54f1924",
+      "status": "present"
+    },
+    "authority_decision": {
+      "ref": ".octon/state/evidence/control/execution/authority-decision-publish-1783033321346-49552.yml",
+      "digest": "sha256:c3a6b450cee1754e0146cc2fb8daf11d3d120bf8b183ec307d088a226cbfe6b1",
+      "status": "present"
+    },
+    "authority_bundle": {
+      "ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/authority/grant-bundle.yml",
+      "digest": "sha256:f946b9b8a9468ac55c5e5ed91c673133663ff81ca0c84efd8edc146596fc68c2",
+      "status": "present"
+    },
+    "approval_request": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "approval_grants": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "exception_leases": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "revocations": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "rollback_posture": {
+      "ref": ".octon/state/control/execution/runs/publish-1783033321346-49552/rollback-posture.yml",
+      "digest": "sha256:11e5d6c43e10702584bf6f7c3825874bb77102caa0dd194aa0afe62bdfe83e37",
+      "status": "present"
+    },
+    "evidence_root": {
+      "ref": ".octon/state/evidence/runs/publish-1783033321346-49552",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "evidence_classification": {
+      "ref": ".octon/state/evidence/runs/publish-1783033321346-49552/evidence-classification.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "retained_evidence": {
+      "ref": ".octon/state/evidence/runs/publish-1783033321346-49552/retained-run-evidence.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "replay_pointers": {
+      "ref": ".octon/state/evidence/runs/publish-1783033321346-49552/replay-pointers.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "intervention_log": {
+      "ref": ".octon/state/evidence/runs/publish-1783033321346-49552/interventions/log.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "disclosure_run_card": {
+      "ref": ".octon/state/evidence/disclosure/runs/publish-1783033321346-49552/run-card.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "support_targets": {
+      "ref": ".octon/instance/governance/support-targets.yml",
+      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "status": "present"
+    },
+    "support_reconciliation": {
+      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      "digest": "sha256:6c5dd1980bcf5ad565331cbc5a3472d7a0cd5a5eeea2f881bc419fdb6e92aec6",
+      "status": "present"
+    },
+    "run_continuity": {
+      "ref": ".octon/state/continuity/runs/publish-1783033321346-49552/handoff.yml",
+      "digest": "sha256:97d0f7d1d53b818a728a5dde0c3c5ab9300069367aa959c465fee6cef68677ed",
+      "status": "present"
+    },
+    "runtime_route_bundle": {
+      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "digest": "sha256:2b9342c8ff4e52cc2ae9a60167f6716dc772257a72ca97cc18d86f606c7725ee",
+      "status": "present"
+    },
+    "pack_routes": {
+      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      "digest": "sha256:878d143df4df6a57141119f42a4c9ebe0b884cbe900f31f92364d3dd6cfb06e7",
+      "status": "present"
+    },
+    "schema": {
+      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
+      "digest": "sha256:67a13edff349b59320710bba8d7779bb63e56f845e0903200e4967e7ea9cb6bb",
+      "status": "present"
+    },
+    "operator_read_model_contract": {
+      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      "digest": "sha256:a4ad83765f57c98e057465f6134a3922ee643721398e2fce4553421f9d1de70f",
+      "status": "present"
+    }
+  },
+  "health": {
+    "status": "stale",
+    "summary": "Run-health sources are stale relative to their digest-bound freshness checks.",
+    "next_required_action": "regenerate from current canonical sources"
+  },
+  "lifecycle": {
+    "state": "closed",
+    "decision_state": "allow",
+    "drift_status": "in-sync",
+    "latest_event_hash": "sha256:2ba6ffe8a5fb19ed2b310fc3171e3106a59e3f5f12f10901e5b2ded645baa11f",
+    "latest_sequence": 37
+  },
+  "support": {
+    "tuple": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "route_status": "allow",
+    "pack_status": "allow",
+    "support_status": "supported",
+    "requested_capability_packs": [
+      "telemetry"
+    ]
+  },
+  "authorization": {
+    "status": "authorized",
+    "proof_state": "proof-stale",
+    "human_boundary_state": "none",
+    "active_grants": [
+      ".octon/state/control/execution/runs/publish-1783033321346-49552/authority/grant-bundle.yml"
+    ],
+    "open_approvals": [],
+    "active_exceptions": [],
+    "active_revocations": []
+  },
+  "evidence": {
+    "completeness": "incomplete",
+    "missing_required": [
+      "evidence_classification",
+      "retained_evidence",
+      "replay_pointers",
+      "journal_snapshot",
+      "journal_manifest_snapshot"
+    ]
+  },
+  "rollback": {
+    "status": "ready",
+    "hard_reset_required": false
+  },
+  "intervention": {
+    "status": "unknown",
+    "undisclosed_count": 0,
+    "records": []
+  },
+  "disclosure": {
+    "status": "incomplete"
+  },
+  "closure": {
+    "status": "not-ready"
+  },
+  "diagnostics": [
+    {
+      "severity": "error",
+      "code": "journal-ledger-digest-stale",
+      "message": "events.manifest.yml ledger_digest does not match events.ndjson.",
+      "refs": [
+        ".octon/state/control/execution/runs/publish-1783033321346-49552/events.manifest.yml",
+        ".octon/state/control/execution/runs/publish-1783033321346-49552/events.ndjson"
+      ]
+    }
+  ]
+}

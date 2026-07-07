@@ -1,5 +1,5 @@
 schema_version: support-target-proof-refresh-v1
-validated_at: "2026-04-23T14:06:35Z"
+validated_at: "2026-07-07T00:00:00Z"
 proofing_receipt_ref: .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proofing.yml
 support_bundle_refs:
   - .octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml
@@ -8,3 +8,9 @@ support_bundle_refs:
   - .octon/state/evidence/validation/support-targets/repo-shell-boundary-sensitive-en.yml
   - .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
   - .octon/state/evidence/validation/support-targets/frontier-studio-boundary-sensitive-es.yml
+validation_refs:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-executability.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh
+outcome: pass

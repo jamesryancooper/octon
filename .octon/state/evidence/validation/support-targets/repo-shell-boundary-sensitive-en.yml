@@ -15,8 +15,8 @@ support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/repo
 generated_at: "2026-04-21T23:30:00Z"
 freshness:
   status: current
-  reviewed_at: "2026-04-21T23:30:00Z"
-  review_due_at: "2026-06-30T00:00:00Z"
+  reviewed_at: "2026-07-07T00:00:00Z"
+  review_due_at: "2026-09-30T00:00:00Z"
 command_or_evaluator: validator://validate-proof-bundle-executability
 evaluator_version: executable-proof-bundle-v1
 input_digests:
@@ -29,6 +29,7 @@ pass_fail_criteria:
   - "negative controls continue to prove non-live posture"
 receipt_refs:
   - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proofing.yml
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proof-refresh.yml
 result: pass
 proof_planes:
   - plane_id: structural
