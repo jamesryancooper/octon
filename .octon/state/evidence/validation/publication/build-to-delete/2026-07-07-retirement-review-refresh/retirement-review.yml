@@ -1,0 +1,24 @@
+schema_version: build-to-delete-review-evidence-v1
+review_id: retirement-review
+contract_ref: .octon/instance/governance/contracts/retirement-review.yml
+owner: Octon governance
+status: approved
+reviewed_at: "2026-07-07T20:01:30Z"
+triggered_by:
+  - Scheduled retirement review refresh after 2026-06-30 review horizon
+  - Mainline CI claim-readiness recovery for build-to-delete governance
+summary: >-
+  Every retained projection, shim, mirror, or superseded release bundle remains
+  owner-backed, explicitly non-authoritative, linked to the current closeout
+  review regime, and next reviewed by 2026-09-30.
+counts:
+  permanent_projection: 1
+  retained_noncritical: 2
+  historical_retained_noncritical: 5
+  retired: 3
+findings: []
+evidence_refs:
+  - .octon/instance/governance/retirement/claim-gate.yml
+  - .octon/instance/governance/contracts/retirement-registry.yml
+  - .octon/instance/governance/contracts/closeout-reviews.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-07-07-retirement-review-refresh/ablation-deletion-receipt.yml

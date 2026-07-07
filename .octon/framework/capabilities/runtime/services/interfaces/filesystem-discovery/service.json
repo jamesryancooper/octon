@@ -13,7 +13,7 @@
   "entry": "service.wasm",
   "format_version": "service-manifest-v1",
   "integrity": {
-    "wasm_sha256": "3db753eab1e1f8825c686c76fe96037d0ae77be22e3850df7d4cea438e344e5d"
+    "wasm_sha256": "0fd165e9ed9ceb8aee8c6df63e58b6a9df8e84d438b1b246fb8117991b7c2917"
   },
   "limits": {
     "max_concurrency": 1,

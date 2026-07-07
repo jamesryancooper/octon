@@ -1,0 +1,19 @@
+schema_version: build-to-delete-review-evidence-v1
+review_id: support-target-review
+contract_ref: .octon/instance/governance/contracts/support-target-review.yml
+owner: Octon governance
+status: approved
+reviewed_at: "2026-07-07T20:01:30Z"
+triggered_by:
+  - Scheduled retirement review refresh after 2026-06-30 review horizon
+  - Mainline CI claim-readiness recovery for build-to-delete governance
+summary: >-
+  The admitted support envelope remains unchanged by this review refresh. No
+  new tuples, adapters, locales, contexts, or capability-pack admissions are
+  introduced while extending build-to-delete retirement coverage.
+findings: []
+evidence_refs:
+  - .octon/instance/governance/support-targets.yml
+  - .octon/instance/governance/support-target-admissions/**
+  - .octon/instance/governance/support-dossiers/**
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh

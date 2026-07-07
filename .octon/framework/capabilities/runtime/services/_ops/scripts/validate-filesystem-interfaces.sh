@@ -25,6 +25,15 @@ export OCTON_SUPPORT_MODEL_ADAPTER="${OCTON_SUPPORT_MODEL_ADAPTER:-repo-local-go
 export OCTON_SUPPORT_LANGUAGE_RESOURCE_TIER="${OCTON_SUPPORT_LANGUAGE_RESOURCE_TIER:-reference-owned}"
 export OCTON_SUPPORT_LOCALE_TIER="${OCTON_SUPPORT_LOCALE_TIER:-english-primary}"
 SMOKE_ROOT=".octon/framework/capabilities/runtime/services/interfaces"
+WATCH_STATE_DIR=".octon/generated/.tmp/capabilities/filesystem-watch-validation"
+
+cleanup_watch_state() {
+  rm -rf "$REPO_ROOT/$WATCH_STATE_DIR"
+  rm -f "$REPO_ROOT/.octon/engine/_ops/state/watch/filesystem-watch_validate.json"
+}
+
+trap cleanup_watch_state EXIT
+cleanup_watch_state
 
 errors=0
 validate_slo="${FILESYSTEM_INTERFACES_VALIDATE_SLO:-0}"
@@ -216,7 +225,7 @@ if ! has_payload_match '"frontier_node_ids"[[:space:]]*:' "$DISCOVER_OUT"; then
 fi
 
 # Smoke test watch polling service invocation.
-WATCH_PAYLOAD="$(printf '{"root":"%s","state_key":"filesystem-watch:validate","max_events":25,"max_files":100000}' "$SMOKE_ROOT")"
+WATCH_PAYLOAD="$(printf '{"root":"%s","state_key":"filesystem-watch:validate","state_dir":"%s","max_events":25,"max_files":100000}' "$SMOKE_ROOT" "$WATCH_STATE_DIR")"
 WATCH_OUT="$("$RUNTIME_RUN" tool interfaces/filesystem-watch watch.poll --json "$WATCH_PAYLOAD")"
 if ! has_payload_match '"cursor"[[:space:]]*:[[:space:]]*"watch-[a-f0-9]{16}"' "$WATCH_OUT"; then
   echo "ERROR: watch-poll smoke test failed"

@@ -1,0 +1,20 @@
+schema_version: build-to-delete-review-evidence-v1
+review_id: drift-review
+contract_ref: .octon/instance/governance/contracts/drift-review.yml
+owner: Octon governance
+status: approved
+reviewed_at: "2026-07-07T20:01:30Z"
+triggered_by:
+  - Scheduled retirement review refresh after 2026-06-30 review horizon
+  - Mainline CI claim-readiness recovery for build-to-delete governance
+summary: >-
+  Historical, compatibility, and projection-only surfaces remain inventoried,
+  non-authoritative, and outside the mandatory ingress and live claim paths.
+  The refresh extends review coverage without admitting any new authority path.
+findings: []
+evidence_refs:
+  - .octon/instance/ingress/manifest.yml
+  - .octon/framework/constitution/contracts/registry.yml
+  - .octon/instance/governance/non-authority-register.yml
+  - .octon/instance/governance/retirement-register.yml
+  - .octon/instance/governance/contracts/retirement-registry.yml

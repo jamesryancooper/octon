@@ -307,6 +307,7 @@ write_reference_scan_paths() {
       .octon/state/evidence/control/execution/authority-decision-*.yml|\
       .octon/state/evidence/control/execution/authority-grant-bundle-*.yml|\
       .octon/state/evidence/external-index/runs/*.yml|\
+      .octon/state/evidence/runs/services/tool-*/*|\
       .octon/state/evidence/runs/skills/closeout-worktree/*|\
       .octon/state/evidence/runs/skills/closeout-packet/*|\
       .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/*|\
@@ -403,6 +404,16 @@ def retained_match_is_non_liveness(match):
 
 
 def retained_operational_source_is_non_liveness(rel):
+    if rel.startswith(".octon/state/control/execution/runs/tool-"):
+        return True
+    if rel.startswith(".octon/state/continuity/runs/tool-"):
+        return True
+    if rel.startswith(".octon/state/evidence/control/execution/authority-decision-tool-"):
+        return True
+    if rel.startswith(".octon/state/evidence/control/execution/authority-grant-bundle-tool-"):
+        return True
+    if rel.startswith(".octon/state/evidence/external-index/runs/tool-"):
+        return True
     if rel.startswith(".octon/state/control/execution/runs/lifecycle-proposal-"):
         return True
     if rel.startswith(".octon/state/continuity/runs/lifecycle-proposal-"):
@@ -822,6 +833,44 @@ closed_workflow_run_residue_run_id() {
   return 1
 }
 
+is_terminal_tool_run_id() {
+  local run_id="$1"
+  [[ "$run_id" =~ ^tool-[0-9]+-[0-9]+$ ]] || return 1
+
+  local control_dir="$ROOT_DIR/.octon/state/control/execution/runs/$run_id"
+  local runtime_state="$control_dir/runtime-state.yml"
+  if [[ -f "$runtime_state" ]]; then
+    grep -Eq '^[[:space:]]*state:[[:space:]]*(closed|denied|failed)([[:space:]]|$)' "$runtime_state" || return 1
+    return 0
+  fi
+
+  local outcome="$ROOT_DIR/.octon/state/evidence/runs/services/$run_id/outcome.json"
+  [[ -f "$outcome" ]] || return 1
+  grep -Eq '"status"[[:space:]]*:[[:space:]]*"(succeeded|failed|denied)"' "$outcome" || return 1
+}
+
+terminal_tool_run_residue_run_id() {
+  local rel="$1"
+  local run_id=""
+
+  case "$rel" in
+    .octon/state/evidence/runs/services/tool-*/*)
+      run_id="${rel#.octon/state/evidence/runs/services/}"
+      run_id="${run_id%%/*}"
+      ;;
+    *)
+      run_id="$(run_id_for_control_residue_path "$rel")" || return 1
+      ;;
+  esac
+
+  if is_terminal_tool_run_id "$run_id"; then
+    printf '%s\n' "$run_id"
+    return 0
+  fi
+
+  return 1
+}
+
 run_id_for_control_residue_path() {
   local rel="$1"
   local run_id=""
@@ -997,6 +1046,12 @@ classify_path() {
   local closed_run_id
   if closed_run_id="$(closed_workflow_run_residue_run_id "$rel")"; then
     set_classification "local_run_residue" "cleanup_candidate" "unreferenced closed workflow-engine run residue: $closed_run_id"
+    return
+  fi
+
+  local terminal_tool_run_id
+  if terminal_tool_run_id="$(terminal_tool_run_residue_run_id "$rel")"; then
+    set_classification "local_run_residue" "cleanup_candidate" "unreferenced terminal service tool invocation residue: $terminal_tool_run_id"
     return
   fi
 

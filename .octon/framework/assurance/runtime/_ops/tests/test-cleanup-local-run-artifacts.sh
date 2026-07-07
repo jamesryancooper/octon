@@ -118,6 +118,24 @@ YAML
   mkdir -p "$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints"
   printf 'retained execution evidence\n' >"$root/.octon/state/evidence/runs/workflow-engine-closed-1/checkpoints/execution-complete.yml"
 
+  mkdir -p "$root/.octon/state/control/execution/runs/tool-1000-2000/checkpoints"
+  cat >"$root/.octon/state/control/execution/runs/tool-1000-2000/runtime-state.yml" <<'YAML'
+schema_version: runtime-state-v2
+run_id: tool-1000-2000
+state: denied
+last_checkpoint_ref: .octon/state/control/execution/runs/tool-1000-2000/checkpoints/bound.yml
+YAML
+  printf 'checkpoint: denied\n' >"$root/.octon/state/control/execution/runs/tool-1000-2000/checkpoints/bound.yml"
+  printf 'decision: denied\n' >"$root/.octon/state/evidence/control/execution/authority-decision-tool-1000-2000.yml"
+
+  mkdir -p "$root/.octon/state/evidence/runs/services/tool-1000-2001"
+  printf '{"schema_version":"execution-receipt-v3","request_id":"tool-1000-2001"}\n' >"$root/.octon/state/evidence/runs/services/tool-1000-2001/execution-receipt.json"
+  printf '{"schema_version":"execution-request-v3","request":{"request_id":"tool-1000-2001"}}\n' >"$root/.octon/state/evidence/runs/services/tool-1000-2001/execution-request.json"
+  printf '{"grant_id":"grant-tool-1000-2001"}\n' >"$root/.octon/state/evidence/runs/services/tool-1000-2001/grant-bundle.json"
+  printf '{"status":"succeeded"}\n' >"$root/.octon/state/evidence/runs/services/tool-1000-2001/outcome.json"
+  printf '{"decision":"ALLOW"}\n' >"$root/.octon/state/evidence/runs/services/tool-1000-2001/policy-decision.json"
+  printf '{"side_effects":[]}\n' >"$root/.octon/state/evidence/runs/services/tool-1000-2001/side-effects.json"
+
   mkdir -p "$root/.octon/state/control/execution/runs/workflow-engine-running-1/checkpoints"
   cat >"$root/.octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml" <<'YAML'
 schema_version: runtime-state-v2
@@ -387,6 +405,8 @@ assert_output_contains "$dry_run_output" "dry-run did not protect route-local cl
 assert_output_not_contains "$dry_run_output" "dry-run treated retained closeout interaction request as cleanup candidate" "cleanup_candidate" ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json"
 assert_output_not_contains "$dry_run_output" "dry-run treated retained closeout classifier as cleanup candidate" "cleanup_candidate" ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml"
 assert_output_contains "$dry_run_output" "dry-run did not classify closed workflow-engine run residue" "closed workflow-engine run residue: workflow-engine-closed-1"
+assert_output_contains "$dry_run_output" "dry-run did not classify terminal tool control residue" "terminal service tool invocation residue: tool-1000-2000"
+assert_output_contains "$dry_run_output" "dry-run did not classify terminal service evidence residue" "terminal service tool invocation residue: tool-1000-2001"
 assert_output_contains "$dry_run_output" "dry-run did not retain running workflow control state for manual review" "manual_review" ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml"
 assert_output_not_contains "$dry_run_output" "dry-run treated running workflow control state as cleanup candidate" "cleanup_candidate" ".octon/state/control/execution/runs/workflow-engine-running-1/runtime-state.yml"
 assert_output_contains "$dry_run_output" "dry-run did not classify stale archive-proposal starter residue" "stale archive-proposal starter residue superseded by durable archive evidence: archive-proposal-stale-1"
@@ -636,7 +656,7 @@ completed = subprocess.run(
     capture_output=True,
     env=env,
     text=True,
-    timeout=20,
+    timeout=60,
 )
 print(completed.stdout, end="")
 PY

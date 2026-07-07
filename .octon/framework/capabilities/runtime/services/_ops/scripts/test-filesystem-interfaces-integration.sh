@@ -10,15 +10,29 @@ OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 RUNTIME_RUN="$OCTON_DIR/framework/engine/runtime/run"
 export OCTON_RUNTIME_PREFER_SOURCE="${OCTON_RUNTIME_PREFER_SOURCE:-1}"
-STATE_DIR_BASE=".octon/generated/effective/capabilities/filesystem-snapshots"
+STATE_DIR_BASE=".octon/generated/.tmp/engine/filesystem-snapshots-integration"
 STATE_DIR="${FILESYSTEM_INTERFACES_STATE_DIR:-$STATE_DIR_BASE/integration-$$}"
 SNAPSHOT_ROOT=".octon/framework/capabilities/runtime/services/interfaces"
 TARGET_NODE="file:.octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/SERVICE.md"
 TARGET_DIR_NODE="dir:.octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot"
 HAS_RG=false
+BROKEN_DIR=""
+BADFMT_DIR=""
+INCOMPLETE_DIR=""
+STAGING_DIR=""
+LOCK_FILE=""
 
 cleanup() {
   rm -rf "$REPO_ROOT/$STATE_DIR"
+  for cleanup_path in "$BROKEN_DIR" "$BADFMT_DIR" "$INCOMPLETE_DIR" "$STAGING_DIR"; do
+    if [[ -n "$cleanup_path" ]]; then
+      rm -rf "$cleanup_path"
+    fi
+  done
+  if [[ -n "$LOCK_FILE" ]]; then
+    rm -f "$LOCK_FILE"
+  fi
+  rm -f "$REPO_ROOT/.octon/engine/_ops/state/watch/filesystem-watch_integration.json"
 }
 trap cleanup EXIT
 
@@ -125,7 +139,6 @@ BADFMT_DIR="$REPO_ROOT/$STATE_DIR/$BADFMT_ID"
 INCOMPLETE_DIR="$REPO_ROOT/$STATE_DIR/$INCOMPLETE_ID"
 STAGING_DIR="$REPO_ROOT/$STATE_DIR/.staging-snap-cleanup-test"
 LOCK_FILE="$REPO_ROOT/$STATE_DIR/.snapshot-build.lock"
-trap 'rm -rf "$BROKEN_DIR" "$BADFMT_DIR" "$INCOMPLETE_DIR" "$STAGING_DIR"; rm -f "$LOCK_FILE"' EXIT
 mkdir -p "$BROKEN_DIR"
 printf '{"snapshot_id":"%s"}\n' "$BROKEN_ID" > "$BROKEN_DIR/manifest.json"
 
@@ -171,7 +184,7 @@ fi
 LIMIT_OUT="$(run_op snapshot.build "$(printf '{"root":"%s","state_dir":"%s","set_current":false,"max_files":1}' "$SNAPSHOT_ROOT" "$STATE_DIR")")"
 assert_contains "$LIMIT_OUT" '"code"[[:space:]]*:[[:space:]]*"ERR_FILESYSTEM_INTERFACES_LIMIT_EXCEEDED"' "snapshot.build max_files cap should trigger ERR_FILESYSTEM_INTERFACES_LIMIT_EXCEEDED"
 
-WATCH_OUT="$(run_op watch.poll '{"root":".octon/framework/capabilities/runtime/services/interfaces","state_key":"filesystem-watch:integration","max_events":30,"max_files":100000}')"
+WATCH_OUT="$(run_op watch.poll "$(printf '{"root":".octon/framework/capabilities/runtime/services/interfaces","state_key":"filesystem-watch:integration","state_dir":"%s/watch","max_events":30,"max_files":100000}' "$STATE_DIR")")"
 assert_contains "$WATCH_OUT" '"cursor"[[:space:]]*:[[:space:]]*"watch-[a-f0-9]{16}"' "watch.poll missing deterministic cursor"
 assert_contains "$WATCH_OUT" '"summary"[[:space:]]*:' "watch.poll missing summary payload"
 
