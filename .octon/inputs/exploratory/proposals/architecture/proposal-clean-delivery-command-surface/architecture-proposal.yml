@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: clean-delivery command surface
+decision_type: new-surface
+status: draft
+owner: Octon clean-delivery command architect
+created_date: 2026-07-06
+summary: Adds a first-class operator invocation for proposal-program clean delivery while preserving lifecycle runner authority.
+architecture_drivers:
+  - Operators should not need to assemble a long incantation from multiple docs.
+  - Clean-delivery request semantics should be explicit.
+  - Existing handoff-only defaults must stay visible and intentional.
+constraints:
+  - Command must delegate to the lifecycle runner.
+  - Command must preserve bounded route execution controls.
+  - Command must not bypass delivery admission or closeout routes.

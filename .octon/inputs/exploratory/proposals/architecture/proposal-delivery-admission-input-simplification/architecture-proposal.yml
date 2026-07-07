@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program delivery admission input simplification
+decision_type: surface-refactor
+status: draft
+owner: Octon delivery admission architect
+created_date: 2026-07-06
+summary: Makes delivery admission inputs discoverable and resumable without changing delivery workflow authority.
+architecture_drivers:
+  - Operators need to know which admission inputs are missing.
+  - Resume should reuse only fresh target-bound workflow evidence.
+  - Readiness preflight and include-path classification need explicit visibility.
+constraints:
+  - Do not infer missing profile or run id from chat or model memory.
+  - Do not weaken child-before-parent delivery order.
+  - Do not bypass Change closeout or cleanup authorization.

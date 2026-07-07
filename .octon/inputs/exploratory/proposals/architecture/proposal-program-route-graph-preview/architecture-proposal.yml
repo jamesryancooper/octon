@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program route graph preview
+decision_type: new-surface
+status: draft
+owner: Octon proposal-program route graph architect
+created_date: 2026-07-06
+summary: Adds an operator-visible route graph for proposal-program lifecycle planning without changing route ownership.
+architecture_drivers:
+  - Operators need to know what will run before enabling route execution.
+  - Review/revise loops and blocked alternatives need to be visible.
+  - Route graph output must remain diagnostic and non-authorizing.
+constraints:
+  - Do not change default handoff-only behavior.
+  - Do not treat route graph output as a receipt.
+  - Preserve child-owned receipt and route authority.

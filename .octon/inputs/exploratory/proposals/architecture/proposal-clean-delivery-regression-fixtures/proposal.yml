@@ -1,0 +1,56 @@
+schema_version: proposal-v1
+proposal_id: proposal-clean-delivery-regression-fixtures
+title: Clean Delivery Regression Fixtures
+summary: Add regression fixtures proving the full proposal-program clean-delivery route shape, blocked/resume behavior, and authority boundaries.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/kernel/"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+status: draft
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only regression fixtures after explicit implementation authorization.
+related_proposals:
+  - proposal-program-clean-delivery-operator-surface
+  - proposal-clean-delivery-command-surface
+  - proposal-program-route-graph-preview
+  - proposal-architecture-review-route-visibility
+  - proposal-delivery-admission-input-simplification
+  - proposal-lifecycle-route-naming-and-doc-alignment
+selected_implementation_target: Proposal-program clean-delivery regression fixture matrix.
+scope_statement: This child owns tests and fixtures only. It does not add command behavior, route graph behavior, delivery admission behavior, or docs behavior except as needed to validate accepted children.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable tests or fixtures.
+generated_input_authority_impact: Fixtures prove behavior and boundaries. They do not authorize lifecycle transitions.
+authority_class_impact:
+  framework: May add runtime and assurance tests.
+  instance: No instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Future test output may be retained validation evidence.
+  generated: No generated output authority change.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Full route shape fixture for clean-delivery happy path.
+  - Blocked fixtures for missing review, stale architecture review, missing delivery profile, dirty source, missing Change closeout, and missing cleanup proof.
+  - Resume fixtures proving checkpoints and run ids remain stable.
+  - Negative controls proving route graph, docs, and generated summaries cannot satisfy receipts.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "full regression fixture suite"
+acceptance_criteria_summary: Regression fixtures are acceptable when they prove expected clean-delivery route shape and fail closed on missing authority or evidence.
+risk_posture: Low to medium. Fixture gaps could hide route regressions.
+rollback_summary: Revert or supersede tests and fixtures owned by this child.
+owner:
+  role: Octon clean-delivery regression architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-06
+source_lineage:
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"

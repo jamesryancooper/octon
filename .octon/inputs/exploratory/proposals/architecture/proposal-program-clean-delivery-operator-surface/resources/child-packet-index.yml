@@ -1,0 +1,160 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "sequential"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "proposal-program-route-graph-preview"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "terminal"
+    phase_id: "phase-1"
+    group_id: "route-graph"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+    validation_strategy:
+      - "route graph fixture tests"
+      - "negative controls proving route graph output is non-authoritative"
+    seed_role: "first-child"
+  - child_id: "proposal-architecture-review-route-visibility"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-route-graph-preview"
+    dependency_gate: "terminal"
+    phase_id: "phase-2"
+    group_id: "architecture-review"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/"
+      - ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "architecture proposal route graph fixtures"
+      - "strict pre-integration architecture receipt freshness tests"
+    seed_role: "follow-on"
+  - child_id: "proposal-delivery-admission-input-simplification"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-route-graph-preview"
+    dependency_gate: "terminal"
+    phase_id: "phase-3"
+    group_id: "delivery-admission"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+      - ".octon/framework/product/contracts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    validation_strategy:
+      - "delivery profile and readiness preflight binding tests"
+      - "negative controls for fabricated admission evidence"
+    seed_role: "follow-on"
+  - child_id: "proposal-clean-delivery-command-surface"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-route-graph-preview"
+      - "proposal-delivery-admission-input-simplification"
+    dependency_gate: "terminal"
+    phase_id: "phase-4"
+    group_id: "command-surface"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/"
+      - ".octon/framework/capabilities/runtime/commands/"
+      - ".octon/framework/capabilities/runtime/skills/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+    validation_strategy:
+      - "command expansion tests"
+      - "handoff-only default preservation tests"
+    seed_role: "follow-on"
+  - child_id: "proposal-lifecycle-host-projection-normalization"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-clean-delivery-command-surface"
+      - "proposal-delivery-admission-input-simplification"
+    dependency_gate: "terminal"
+    phase_id: "phase-5"
+    group_id: "host-projections"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/commands/"
+      - ".octon/framework/capabilities/runtime/skills/"
+      - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+      - ".octon/framework/assurance/governance/suites/host-projection-parity.yml"
+      - ".octon/framework/product/features/catalog.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+    validation_strategy:
+      - "host projection parity checks"
+      - "route id to command and skill mapping checks"
+      - "compatibility alias grep sweeps"
+      - "negative controls proving host projections are non-authoritative"
+    seed_role: "follow-on"
+  - child_id: "proposal-lifecycle-route-naming-and-doc-alignment"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-clean-delivery-command-surface"
+      - "proposal-architecture-review-route-visibility"
+      - "proposal-delivery-admission-input-simplification"
+      - "proposal-lifecycle-host-projection-normalization"
+    dependency_gate: "terminal"
+    phase_id: "phase-6"
+    group_id: "naming-docs"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/commands/"
+      - ".octon/framework/capabilities/runtime/skills/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+    validation_strategy:
+      - "docs and command surface consistency checks"
+      - "route id to operator label mapping tests"
+    seed_role: "follow-on"
+  - child_id: "proposal-clean-delivery-regression-fixtures"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-clean-delivery-command-surface"
+      - "proposal-program-route-graph-preview"
+      - "proposal-architecture-review-route-visibility"
+      - "proposal-delivery-admission-input-simplification"
+      - "proposal-lifecycle-route-naming-and-doc-alignment"
+      - "proposal-lifecycle-host-projection-normalization"
+    dependency_gate: "terminal"
+    phase_id: "phase-7"
+    group_id: "regression-fixtures"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+    validation_strategy:
+      - "full route shape fixture matrix"
+      - "blocked and resume regression tests"
+      - "authority-boundary negative controls"
+    seed_role: "follow-on"

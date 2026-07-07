@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: clean-delivery regression fixtures
+decision_type: new-surface
+status: draft
+owner: Octon clean-delivery regression architect
+created_date: 2026-07-06
+summary: Adds tests and fixtures that prove clean-delivery route behavior and authority boundaries.
+architecture_drivers:
+  - Operator-surface improvements need regression proof.
+  - Blocked and resume behavior need explicit coverage.
+  - Non-authority read models need negative controls.
+constraints:
+  - Fixtures must not become runtime authority.
+  - Tests must prove current ownership boundaries.
+  - Keep tests aligned with accepted child behavior.

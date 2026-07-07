@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: architecture-review route visibility
+decision_type: surface-refactor
+status: draft
+owner: Octon architecture-review visibility architect
+created_date: 2026-07-06
+summary: Exposes required architecture-review receipt state in lifecycle route graph output without changing gate authority.
+architecture_drivers:
+  - Architecture-review blockers should be visible before delivery.
+  - Missing or stale receipts need owning workflow guidance.
+  - Diagnostic status must remain separate from receipt authority.
+constraints:
+  - Do not make architecture review unconditional for non-architecture proposals.
+  - Do not allow route graph status to satisfy `validate-architectural-review-receipts.sh`.
+  - Preserve current strict receipt freshness semantics.

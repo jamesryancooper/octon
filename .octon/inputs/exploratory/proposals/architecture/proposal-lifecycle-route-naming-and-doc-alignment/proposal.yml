@@ -1,0 +1,55 @@
+schema_version: proposal-v1
+proposal_id: proposal-lifecycle-route-naming-and-doc-alignment
+title: Lifecycle Route Naming And Doc Alignment
+summary: Align proposal-program route ids, command names, runner messages, and docs so operators can understand review, revision, delivery, and clean-delivery behavior.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/capabilities/runtime/commands/"
+  - ".octon/framework/capabilities/runtime/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+status: draft
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only naming and documentation alignment after explicit implementation authorization.
+related_proposals:
+  - proposal-program-clean-delivery-operator-surface
+  - proposal-clean-delivery-command-surface
+  - proposal-architecture-review-route-visibility
+  - proposal-delivery-admission-input-simplification
+selected_implementation_target: Proposal-program lifecycle naming and documentation alignment.
+scope_statement: This child owns docs, route label clarity, and command help alignment only. It does not change lifecycle authority, route semantics, or delivery gates unless explicitly accepted.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable docs or command metadata changes.
+generated_input_authority_impact: Docs and command help are explanatory and non-authoritative. They cannot override effective lifecycle contracts or workflow receipts.
+authority_class_impact:
+  framework: May update capability docs and lifecycle context docs.
+  instance: No instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: No state evidence mutation beyond later validation evidence.
+  generated: No generated output authority change unless separately published by accepted routes.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Search proof for route ids, command ids, skill ids, and operator aliases.
+  - Documentation consistency checks after updates.
+  - Negative controls proving docs do not redefine lifecycle authority.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "docs and command consistency checks"
+acceptance_criteria_summary: Naming and docs alignment is acceptable when operator labels and route ids are consistently mapped without casual authority renaming.
+risk_posture: Low to medium. Documentation drift can mislead operators.
+rollback_summary: Revert or supersede docs and command metadata changes owned by this child.
+owner:
+  role: Octon lifecycle naming and docs architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-06
+source_lineage:
+  - ".codex/commands/"
+  - ".codex/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"

@@ -1,0 +1,18 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal-program clean-delivery operator surface
+decision_type: new-surface
+status: draft
+owner: Octon clean-delivery operator surface architect
+created_date: 2026-07-06
+summary: Coordinates operator-facing lifecycle improvements that make clean delivery visible and invocable without weakening fail-closed receipt authority.
+architecture_drivers:
+  - Operators need one explicit way to request proposal-program clean delivery.
+  - Route graph and loop status need to be visible before mutation.
+  - Architecture-review requirements need to be visible before they block promotion or delivery.
+  - Delivery admission inputs need discoverable binding without treating generated or proposal-local outputs as authority.
+  - Naming and docs need to match runtime route selection.
+constraints:
+  - Bare `proposal-program` lifecycle runs remain handoff-only unless an accepted child changes that policy.
+  - "`target_outcome=cleaned` remains a request and never a cleaned claim."
+  - Child receipts, review verdicts, promotion targets, archive metadata, and terminal proof remain child-owned.
+  - Delivery, Change closeout, closeout-worktree, and repo-hygiene cleanup authority boundaries remain intact.

@@ -1,0 +1,15 @@
+schema_version: architecture-proposal-v1
+architecture_scope: lifecycle route naming and documentation alignment
+decision_type: surface-refactor
+status: draft
+owner: Octon lifecycle naming and docs architect
+created_date: 2026-07-06
+summary: Aligns operator-facing names and docs with effective lifecycle route ids and command behavior.
+architecture_drivers:
+  - Operators need consistent route names and command names.
+  - Alias boundaries need explicit disclosure.
+  - Docs should distinguish handoff, request, execution, and cleaned claim.
+constraints:
+  - Do not rename authority surfaces without migration and compatibility handling.
+  - Do not make docs normative over effective contracts.
+  - Preserve alias non-authority boundaries.

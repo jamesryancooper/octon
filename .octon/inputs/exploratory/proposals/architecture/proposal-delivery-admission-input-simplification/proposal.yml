@@ -1,0 +1,50 @@
+schema_version: proposal-v1
+proposal_id: proposal-delivery-admission-input-simplification
+title: Delivery Admission Input Simplification
+summary: Simplify operator discovery and binding of proposal-program delivery admission inputs while preserving delivery profile, readiness preflight, and evidence authority.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: draft
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only delivery admission input discovery and binding improvements after explicit implementation authorization.
+related_proposals:
+  - proposal-program-clean-delivery-operator-surface
+  - proposal-program-route-graph-preview
+selected_implementation_target: Proposal-program delivery admission input discovery and binding.
+scope_statement: This child owns delivery admission UX and validation clarity only. It does not change delivery order policy, child receipt authority, Change closeout authority, or cleanup authorization.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable workflow, contract, or test changes.
+generated_input_authority_impact: Generated summaries or route graph output may help operators find inputs but cannot satisfy delivery profile, run id, readiness preflight, or child receipt requirements.
+authority_class_impact:
+  framework: May update delivery workflow docs, profile contracts, and validation tests.
+  instance: No instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Future delivery admission evidence remains workflow-owned.
+  generated: No generated output authority change.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Tests for missing, stale, and contradictory delivery profile/run-id inputs.
+  - Tests proving readiness preflight remains required before expensive continuation or mutation.
+  - Negative controls for fabricated runner handoff refs and proposal-local admission substitutes.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "delivery admission validation fixtures"
+acceptance_criteria_summary: Delivery admission simplification is acceptable when operators can see required inputs and blockers clearly without weakening delivery gates.
+risk_posture: Medium. Bad simplification could imply authorization or suppress blockers.
+rollback_summary: Revert or supersede delivery admission docs, workflow, contract, or test changes owned by this child.
+owner:
+  role: Octon delivery admission architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-06
+source_lineage:
+  - ".codex/commands/proposal-program-delivery.md"
+  - ".codex/commands/octon-proposal-run-program-delivery.md"
+  - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml"
+  - ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"

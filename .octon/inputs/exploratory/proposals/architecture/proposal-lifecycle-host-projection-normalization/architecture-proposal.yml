@@ -1,0 +1,17 @@
+schema_version: architecture-proposal-v1
+architecture_scope: proposal lifecycle host projection normalization
+decision_type: surface-refactor
+status: draft
+owner: Octon lifecycle host projection architect
+created_date: 2026-07-06
+summary: Establishes a source-owned naming and projection model for proposal lifecycle commands and skills across Codex, Claude, and Cursor.
+architecture_drivers:
+  - Operators need one predictable vocabulary for proposal packet, proposal program, delivery, closeout, and cleanup surfaces.
+  - Host projection differences need explicit manifest-backed support rationale.
+  - Generated host projections must remain derived from source manifests and publication scripts.
+  - Compatibility aliases need a declared retirement posture before any operator-facing rename.
+constraints:
+  - Do not treat `.codex`, `.claude`, or `.cursor` projection files as authored authority.
+  - Do not casually rename route ids, workflow ids, receipt schemas, or prompt-set ids.
+  - Do not drop existing operator aliases without compatibility evidence and a deprecation plan.
+  - Do not widen host support claims beyond declared adapter support and validator coverage.
