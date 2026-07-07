@@ -1,0 +1,43 @@
+   Compiling time-macros v0.2.31
+    Checking octon_runtime_bus v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/runtime_bus)
+    Checking octon_authorized_effects v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/authorized_effects)
+    Checking octon_replay_store v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/replay_store)
+   Compiling octon_studio v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/studio)
+    Checking time v0.3.53
+    Checking octon_telemetry_sink v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/telemetry_sink)
+    Checking jsonschema v0.17.1
+    Checking octon_runtime_resolver v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/runtime_resolver)
+    Checking octon_assurance_tools v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/assurance_tools)
+    Checking octon_lifecycle_executor v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/lifecycle_executor)
+    Checking octon_core v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/core)
+    Checking policy_engine v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/policy_engine)
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+   --> policy_engine/src/lib.rs:962:38
+    |
+962 |     let format = format_description::parse("[year]-[month]-[day]")?;
+    |                                      ^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+
+    Checking octon_wasm_host v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/wasm_host)
+warning: `policy_engine` (lib test) generated 1 warning (1 duplicate)
+warning: `policy_engine` (lib) generated 1 warning
+    Checking octon_authority_engine v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/authority_engine)
+    Checking octon_kernel v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/kernel)
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/pipeline.rs:1870:38
+     |
+1870 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+     |
+     = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/workflow.rs:9856:38
+     |
+9856 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+
+warning: `octon_kernel` (bin "octon") generated 2 warnings
+warning: `octon_kernel` (bin "octon" test) generated 2 warnings (2 duplicates)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 11.96s

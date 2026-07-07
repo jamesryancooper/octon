@@ -1,0 +1,301 @@
+    Checking octon_runtime_resolver v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/runtime_resolver)
+runtime_bus/src/lib.rs:642:1: warning: this function has too many arguments (10/7)
+runtime_bus/src/lib.rs:793:1: warning: this function has too many arguments (9/7)
+    Checking policy_engine v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/policy_engine)
+replay_store/src/lib.rs:312:1: warning: this `impl` can be derived
+warning: `octon_runtime_bus` (lib) generated 2 warnings
+warning: `octon_replay_store` (lib) generated 1 warning (run `cargo clippy --fix --lib -p octon_replay_store` to apply 1 suggestion)
+    Checking octon_assurance_tools v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/assurance_tools)
+replay_store/src/lib.rs:878:5: warning: this function has too many arguments (8/7)
+warning: `octon_runtime_bus` (lib test) generated 2 warnings (2 duplicates)
+warning: `octon_replay_store` (lib test) generated 2 warnings (1 duplicate)
+   Compiling octon_studio v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/studio)
+policy_engine/src/lib.rs:962:38: warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+runtime_resolver/src/handles.rs:207:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_path`
+runtime_resolver/src/handles.rs:208:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_sha`
+runtime_resolver/src/handles.rs:209:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `generation_id`
+runtime_resolver/src/handles.rs:210:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `publication_status`
+runtime_resolver/src/handles.rs:216:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:226:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:236:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:246:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:256:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:274:28: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `freshness_mode`
+runtime_resolver/src/handles.rs:284:41: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `non_authority`
+runtime_resolver/src/handles.rs:351:59: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `source_ref`
+runtime_resolver/src/handles.rs:414:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_path`
+runtime_resolver/src/handles.rs:415:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_sha`
+runtime_resolver/src/handles.rs:416:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `generation_id`
+runtime_resolver/src/handles.rs:417:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `publication_status`
+runtime_resolver/src/handles.rs:423:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:432:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:441:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `generation_id`
+runtime_resolver/src/handles.rs:442:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_path`
+runtime_resolver/src/handles.rs:443:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_sha`
+runtime_resolver/src/handles.rs:444:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `publication_status`
+runtime_resolver/src/handles.rs:504:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_path`
+runtime_resolver/src/handles.rs:505:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_sha`
+runtime_resolver/src/handles.rs:506:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `generation_id`
+runtime_resolver/src/handles.rs:507:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `publication_status`
+runtime_resolver/src/handles.rs:513:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:522:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:531:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `generation_id`
+runtime_resolver/src/handles.rs:532:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_path`
+runtime_resolver/src/handles.rs:533:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_sha`
+runtime_resolver/src/handles.rs:534:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `publication_status`
+runtime_resolver/src/handles.rs:614:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_path`
+runtime_resolver/src/handles.rs:615:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `receipt_sha`
+runtime_resolver/src/handles.rs:616:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `generation_id`
+runtime_resolver/src/handles.rs:617:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `publication_status`
+runtime_resolver/src/handles.rs:623:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:633:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:643:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:653:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/handles.rs:663:9: warning: this expression creates a reference which is immediately dereferenced by the compiler
+runtime_resolver/src/lib.rs:731:22: warning: using `contains()` instead of `iter().any()` is more efficient: help: try: `values.contains(&"excluded")`
+warning: `octon_runtime_resolver` (lib) generated 42 warnings (29 duplicates) (run `cargo clippy --fix --lib -p octon_runtime_resolver` to apply 13 suggestions)
+    Checking octon_core v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/core)
+    Checking octon_lifecycle_executor v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/lifecycle_executor)
+warning: `octon_runtime_resolver` (lib test) generated 42 warnings (13 duplicates) (run `cargo clippy --fix --lib -p octon_runtime_resolver --tests` to apply 29 suggestions)
+assurance_tools/src/ci_latency.rs:611:23: warning: redundant closure: help: replace the closure with the function itself: `workflow_metric_cmp`
+assurance_tools/src/main.rs:2026:25: warning: derefed type is same as origin: help: try: `findings`
+assurance_tools/src/main.rs:3521:1: warning: this function has too many arguments (9/7)
+assurance_tools/src/main.rs:3955:1: warning: this function has too many arguments (8/7)
+assurance_tools/src/main.rs:4021:1: warning: this function has too many arguments (8/7)
+warning: `octon_assurance_tools` (bin "octon-assurance") generated 5 warnings (run `cargo clippy --fix --bin "octon-assurance" -p octon_assurance_tools` to apply 2 suggestions)
+warning: `octon_assurance_tools` (bin "octon-assurance" test) generated 5 warnings (5 duplicates)
+lifecycle_executor/src/authorization.rs:44:6: warning: the `Err`-variant returned from this function is very large: the `Err`-variant is at least 416 bytes
+lifecycle_executor/src/authorization.rs:156:6: warning: the `Err`-variant returned from this function is very large: the `Err`-variant is at least 416 bytes
+lifecycle_executor/src/authorization.rs:364:6: warning: the `Err`-variant returned from this function is very large: the `Err`-variant is at least 416 bytes
+lifecycle_executor/src/adapter.rs:429:1: warning: items after a test module
+lifecycle_executor/src/codex.rs:225:1: warning: this function has too many arguments (14/7)
+lifecycle_executor/src/codex.rs:577:9: warning: unneeded `return` statement
+lifecycle_executor/src/codex.rs:701:1: warning: this function has too many arguments (9/7)
+lifecycle_executor/src/context_pack.rs:125:32: warning: unnecessary closure used to substitute value for `Option::None`
+lifecycle_executor/src/codex.rs:960:9: warning: call to `set_readonly` with argument `false`
+policy_engine/src/lib.rs:560:1: warning: this `impl` can be derived
+core/src/execution_integrity.rs:871:34: warning: manually reimplementing `div_ceil`: help: consider using `.div_ceil()`: `prompt_bytes.max(1).div_ceil(4)`
+core/src/execution_integrity.rs:1026:35: warning: using `contains()` instead of `iter().any()` is more efficient: help: try: `rule.ports.contains(&target.port)`
+core/src/jsonlines.rs:20:8: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `line.len()`
+lifecycle_executor/src/prompt_bundle.rs:262:41: warning: this manual char comparison can be written more succinctly: help: consider using an array of `char`: `['-', '*']`
+lifecycle_executor/src/observer.rs:336:1: warning: items after a test module
+core/src/orchestration.rs:998:14: warning: this `.filter_map(..)` can be written more simply using `.map(..)`
+core/src/orchestration.rs:1758:22: warning: the borrowed expression implements the required traits: help: change this to: `missions_dir`
+core/src/orchestration.rs:1758:79: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `missions_dir`
+core/src/orchestration.rs:1760:75: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `missions_dir`
+policy_engine/src/lib.rs:2081:16: warning: this boolean expression can be simplified
+core/src/orchestration.rs:2326:9: warning: used `assert_eq!` with a literal bool
+policy_engine/src/lib.rs:2194:1: warning: this function has too many arguments (9/7)
+policy_engine/src/lib.rs:2205:5: warning: this `let...else` may be rewritten with the `?` operator: help: replace it with: `let config = policy.acp.docs_gate.as_ref()?;`
+policy_engine/src/lib.rs:2281:1: warning: this function has too many arguments (9/7)
+policy_engine/src/lib.rs:2292:5: warning: this `let...else` may be rewritten with the `?` operator: help: replace it with: `let config = policy.acp.telemetry_gate.as_ref()?;`
+policy_engine/src/lib.rs:2383:1: warning: this function has too many arguments (9/7)
+policy_engine/src/lib.rs:2394:5: warning: this `let...else` may be rewritten with the `?` operator: help: replace it with: `let config = policy.acp.flag_metadata_gate.as_ref()?;`
+policy_engine/src/lib.rs:2560:30: warning: this `map_or` can be simplified
+policy_engine/src/lib.rs:2679:5: warning: this `let...else` may be rewritten with the `?` operator: help: replace it with: `let config = policy.attestations.owner_attestation.as_ref()?;`
+lifecycle_executor/src/workflow_leaf.rs:843:1: warning: this function has too many arguments (10/7)
+policy_engine/src/lib.rs:4506:1: warning: this function has too many arguments (9/7)
+policy_engine/src/lib.rs:4535:1: warning: this function has too many arguments (8/7)
+policy_engine/src/lib.rs:4793:5: warning: enclosing `Ok` and `?` operator are unneeded
+policy_engine/src/lib.rs:4800:5: warning: enclosing `Ok` and `?` operator are unneeded
+policy_engine/src/lib.rs:4810:5: warning: enclosing `Ok` and `?` operator are unneeded
+warning: `octon_lifecycle_executor` (lib) generated 9 warnings (run `cargo clippy --fix --lib -p octon_lifecycle_executor` to apply 3 suggestions)
+warning: `octon_core` (lib) generated 7 warnings (run `cargo clippy --fix --lib -p octon_core` to apply 6 suggestions)
+    Checking octon_wasm_host v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/wasm_host)
+warning: `octon_core` (lib test) generated 8 warnings (7 duplicates) (run `cargo clippy --fix --lib -p octon_core --tests` to apply 1 suggestion)
+warning: `policy_engine` (lib) generated 16 warnings (1 duplicate) (run `cargo clippy --fix --lib -p policy_engine` to apply 6 suggestions)
+warning: `octon_lifecycle_executor` (lib test) generated 12 warnings (9 duplicates) (run `cargo clippy --fix --lib -p octon_lifecycle_executor --tests` to apply 2 suggestions)
+warning: `policy_engine` (lib test) generated 16 warnings (15 duplicates)
+wasm_host/src/host_api.rs:62:24: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: read-range max-bytes too large")`
+wasm_host/src/host_api.rs:70:24: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: write too large")`
+wasm_host/src/host_api.rs:80:17: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: create-file-exclusive payload too large")`
+wasm_host/src/host_api.rs:88:37: warning: this operation has no effect: help: consider reducing it to: `1024`
+wasm_host/src/host_api.rs:93:49: warning: this operation has no effect: help: consider reducing it to: `1024`
+wasm_host/src/host_api.rs:244:36: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: response too large")`
+wasm_host/src/host_api.rs:288:22: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: {}", e)`
+wasm_host/src/host_api.rs:302:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: missing http method")`
+wasm_host/src/host_api.rs:325:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: invalid http method '{}'", method)`
+wasm_host/src/host_api.rs:334:24: warning: useless conversion to the same type: `wasmtime::Error`
+wasm_host/src/host_api.rs:339:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: url must start with http://")`
+wasm_host/src/host_api.rs:349:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: url missing host")`
+wasm_host/src/host_api.rs:352:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: userinfo is not supported")`
+wasm_host/src/host_api.rs:373:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: url path contains invalid characters")`
+wasm_host/src/host_api.rs:396:24: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: empty ipv6 host")`
+wasm_host/src/host_api.rs:404:24: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: malformed authority")`
+wasm_host/src/host_api.rs:412:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: empty host")`
+wasm_host/src/host_api.rs:415:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: ipv6 hosts must use brackets")`
+wasm_host/src/host_api.rs:418:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: malformed host")`
+wasm_host/src/host_api.rs:431:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: missing url port")`
+wasm_host/src/host_api.rs:435:22: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: invalid url port '{}'", port_text)`
+wasm_host/src/host_api.rs:449:32: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("TIMEOUT: http request timed out")`
+wasm_host/src/host_api.rs:459:9: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: no resolved address for '{authority}'")`
+wasm_host/src/host_api.rs:509:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: http header name cannot be empty")`
+wasm_host/src/host_api.rs:531:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: invalid http header name '{}'", name)`
+wasm_host/src/host_api.rs:538:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("INVALID_INPUT: invalid http header value")`
+wasm_host/src/host_api.rs:592:24: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: truncated response body")`
+wasm_host/src/host_api.rs:600:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: response body too large")`
+wasm_host/src/host_api.rs:610:20: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: invalid status line")`
+wasm_host/src/host_api.rs:616:22: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: invalid status code")`
+wasm_host/src/host_api.rs:646:24: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: truncated chunked response")`
+wasm_host/src/host_api.rs:650:24: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: response body too large")`
+wasm_host/src/host_api.rs:654:24: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: malformed chunk terminator")`
+wasm_host/src/host_api.rs:671:5: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: {err}")`
+wasm_host/src/host_api.rs:677:13: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("TIMEOUT: http request timed out")`
+wasm_host/src/host_api.rs:679:14: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("HTTP_ERROR: {err}")`
+wasm_host/src/invoke.rs:42:5: warning: this function has too many arguments (10/7)
+wasm_host/src/invoke.rs:89:12: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `input_json.len()`
+wasm_host/src/invoke.rs:96:34: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `input_json.len()`
+wasm_host/src/invoke.rs:186:12: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `out_json.len()`
+wasm_host/src/invoke.rs:193:35: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `out_json.len()`
+wasm_host/src/kv_store.rs:62:5: warning: struct `KvStore` has a public `len` method, but no `is_empty` method
+wasm_host/src/kv_store.rs:169:5: warning: this can be `std::io::Error::other(_)`
+wasm_host/src/kv_store.rs:190:9: warning: used `assert_eq!` with a literal bool
+wasm_host/src/policy.rs:31:17: warning: useless conversion to the same type: `wasmtime::Error`: help: consider removing `.into()`: `anyhow::anyhow!("CAPABILITY_DENIED: missing {cap}")`
+wasm_host/src/run_component.rs:9:1: warning: this function has too many arguments (8/7)
+wasm_host/src/run_component.rs:43:13: warning: manually reimplementing `div_ceil`: help: consider using `.div_ceil()`: `timeout_ms.div_ceil(tick_ms)`
+wasm_host/src/scoped_fs.rs:125:12: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `text.len()`
+wasm_host/src/scoped_fs.rs:162:24: warning: this can be `std::io::Error::other(_)`
+wasm_host/src/scoped_fs.rs:192:30: warning: this can be `std::io::Error::other(_)`
+wasm_host/src/scoped_fs.rs:209:30: warning: this can be `std::io::Error::other(_)`
+wasm_host/src/scoped_fs.rs:280:24: warning: this can be `std::io::Error::other(_)`
+wasm_host/src/scoped_fs.rs:308:24: warning: this can be `std::io::Error::other(_)`
+wasm_host/src/scoped_fs.rs:523:24: warning: this can be `std::io::Error::other(_)`
+wasm_host/src/scoped_fs.rs:594:5: warning: this can be `std::io::Error::other(_)`
+warning: `octon_wasm_host` (lib test) generated 55 warnings (45 duplicates) (run `cargo clippy --fix --lib -p octon_wasm_host --tests` to apply 9 suggestions)
+warning: `octon_wasm_host` (lib) generated 54 warnings (9 duplicates) (run `cargo clippy --fix --lib -p octon_wasm_host` to apply 43 suggestions)
+    Checking octon_authority_engine v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/authority_engine)
+studio/src/app_state.rs:103:1: warning: all variants have the same postfix: `Id`
+studio/src/app_state.rs:1462:9: warning: unneeded `return` statement
+studio/src/app_state.rs:1540:9: warning: unneeded `return` statement
+warning: `octon_studio` (bin "octon-studio") generated 3 warnings (run `cargo clippy --fix --bin "octon-studio" -p octon_studio` to apply 2 suggestions)
+warning: `octon_studio` (bin "octon-studio" test) generated 3 warnings (3 duplicates)
+authority_engine/src/implementation/authority.rs:98:14: warning: used consecutive `str::replace` call: help: replace with: `replace(['-', ' '], "_")`
+authority_engine/src/implementation/authority.rs:172:1: warning: this function has too many arguments (9/7)
+authority_engine/src/implementation/authority.rs:363:1: warning: this function has too many arguments (13/7)
+authority_engine/src/implementation/autonomy.rs:217:5: warning: this `if` statement can be collapsed
+authority_engine/src/implementation/effects.rs:1179:1: warning: this function has too many arguments (12/7)
+authority_engine/src/implementation/execution.rs:944:9: warning: this `if` statement can be collapsed
+authority_engine/src/implementation/execution.rs:1048:82: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `path`
+authority_engine/src/implementation/execution.rs:3276:84: warning: this `if` has identical blocks
+authority_engine/src/implementation/execution.rs:3321:1: warning: this function has too many arguments (13/7)
+authority_engine/src/implementation/execution.rs:3608:1: warning: this function has too many arguments (8/7)
+authority_engine/src/implementation/policy.rs:281:1: warning: this function has too many arguments (14/7)
+authority_engine/src/implementation/policy.rs:675:1: warning: this function has too many arguments (14/7)
+authority_engine/src/implementation/effects.rs:1765:1: warning: items after a test module
+authority_engine/src/implementation/runtime_state.rs:2087:1: warning: this function has too many arguments (12/7)
+authority_engine/src/implementation/support.rs:485:1: warning: this function has too many arguments (8/7)
+authority_engine/src/implementation/runtime_state.rs:1671:49: warning: useless use of `vec!`
+authority_engine/src/implementation/runtime_state.rs:1189:1: warning: items after a test module
+warning: `octon_authority_engine` (lib) generated 15 warnings (run `cargo clippy --fix --lib -p octon_authority_engine` to apply 5 suggestions)
+    Checking octon_kernel v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/kernel)
+authority_engine/src/implementation/tests.rs:214:9: warning: redundant redefinition of a binding `receipt_rel`
+warning: `octon_authority_engine` (lib test) generated 18 warnings (15 duplicates) (run `cargo clippy --fix --lib -p octon_authority_engine --tests` to apply 2 suggestions)
+kernel/src/pipeline.rs:1870:38: warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+kernel/src/workflow.rs:9856:38: warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+kernel/src/commands/engagement.rs:1608:1: warning: this function has too many arguments (9/7)
+kernel/src/commands/engagement.rs:1804:5: warning: enclosing `Ok` and `?` operator are unneeded
+kernel/src/commands/evolution.rs:1176:5: warning: enclosing `Ok` and `?` operator are unneeded
+kernel/src/commands/evolution.rs:1200:1: warning: this function has too many arguments (8/7)
+kernel/src/commands/mission.rs:139:12: warning: matching on `Some` with `ok()` is redundant
+kernel/src/commands/mission.rs:2019:1: warning: this function has too many arguments (9/7)
+kernel/src/commands/mission.rs:3040:1: warning: this function has too many arguments (9/7)
+kernel/src/commands/mission.rs:3975:5: warning: enclosing `Ok` and `?` operator are unneeded
+kernel/src/commands/stewardship.rs:1461:1: warning: this function has too many arguments (8/7)
+kernel/src/commands/stewardship.rs:2194:5: warning: enclosing `Ok` and `?` operator are unneeded
+kernel/src/commands/stewardship.rs:2240:1: warning: this function has too many arguments (8/7)
+kernel/src/commands/trust.rs:1394:5: warning: enclosing `Ok` and `?` operator are unneeded
+kernel/src/commands/mod.rs:61:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:3843:1: warning: this function has too many arguments (10/7)
+kernel/src/lifecycle_program.rs:4955:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `repo_root`
+kernel/src/lifecycle_program.rs:4971:9: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `repo_root`
+kernel/src/lifecycle_program.rs:4996:38: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `repo_root`
+kernel/src/lifecycle_program.rs:4996:50: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `evidence_root`
+kernel/src/lifecycle_program.rs:4997:42: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `repo_root`
+kernel/src/lifecycle_program.rs:4998:41: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `repo_root`
+kernel/src/lifecycle_program.rs:4998:85: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `control_root`
+kernel/src/lifecycle_program.rs:5345:1: warning: this function has too many arguments (12/7)
+kernel/src/lifecycle_program.rs:5704:31: warning: unnecessary closure used to substitute value for `Option::None`
+kernel/src/lifecycle_program.rs:6611:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:7802:28: warning: this `map_or` can be simplified
+kernel/src/lifecycle_program.rs:10162:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:10424:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:10454:1: warning: this function has too many arguments (11/7)
+kernel/src/lifecycle_program.rs:10579:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:10695:1: warning: this function has too many arguments (10/7)
+kernel/src/lifecycle_program.rs:11909:31: warning: this `if` has identical blocks
+kernel/src/lifecycle_program.rs:12307:13: warning: this boolean expression can be simplified
+kernel/src/lifecycle_program.rs:12386:23: warning: writing `&mut Vec` instead of `&mut [_]` involves a new object where a slice will do: help: change this to: `&mut [ProgramBlocker]`
+kernel/src/lifecycle_program.rs:12505:8: warning: this boolean expression can be simplified
+kernel/src/lifecycle_program.rs:12543:23: warning: writing `&mut Vec` instead of `&mut [_]` involves a new object where a slice will do: help: change this to: `&mut [ProgramBlocker]`
+kernel/src/lifecycle_program.rs:13075:14: warning: usage of `bool::then` in `filter_map`: help: use `filter` then `map` instead: `filter(|&child_id| runnable_child(program, child_states, child_id)).map(|child_id| child_id.clone())`
+kernel/src/lifecycle_program.rs:13087:14: warning: usage of `bool::then` in `filter_map`: help: use `filter` then `map` instead: `filter(|&child_id| runnable_child(program, child_states, child_id)).map(|child_id| child_id.clone())`
+kernel/src/lifecycle_program.rs:13271:5: warning: this boolean expression can be simplified
+kernel/src/lifecycle_program.rs:13794:1: warning: this function has too many arguments (11/7)
+kernel/src/lifecycle_program.rs:13917:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:14146:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:14494:1: warning: this function has too many arguments (11/7)
+kernel/src/lifecycle_program.rs:14626:20: warning: equality checks against false can be replaced by a negation
+kernel/src/lifecycle_program.rs:14639:20: warning: equality checks against false can be replaced by a negation
+kernel/src/lifecycle_program.rs:14668:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:14713:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:15542:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:15637:1: warning: this function has too many arguments (11/7)
+kernel/src/lifecycle_program.rs:15706:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:16577:1: warning: this function has too many arguments (14/7)
+kernel/src/lifecycle_program.rs:16624:1: warning: this function has too many arguments (10/7)
+kernel/src/lifecycle_program.rs:17378:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:17874:8: warning: this boolean expression can be simplified
+kernel/src/lifecycle_program.rs:17962:26: warning: redundant closure: help: replace the closure with the function itself: `is_safe_repo_relative`
+kernel/src/lifecycle_program.rs:18133:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:18716:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:20808:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:20978:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:21055:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:21250:19: warning: very complex type used. Consider factoring parts into `type` definitions
+kernel/src/lifecycle_program.rs:21712:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:22076:1: warning: this function has too many arguments (11/7)
+kernel/src/lifecycle_program.rs:22269:1: warning: this function has too many arguments (12/7)
+kernel/src/lifecycle_program.rs:22649:40: warning: unnecessary closure used to substitute value for `Option::None`
+kernel/src/lifecycle_program.rs:23085:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:23205:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:25203:1: warning: this function has too many arguments (16/7)
+kernel/src/lifecycle_program.rs:25349:1: warning: this function has too many arguments (16/7)
+kernel/src/lifecycle_program.rs:25812:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:25953:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:26317:1: warning: this function has too many arguments (9/7)
+kernel/src/lifecycle_program.rs:27348:1: warning: this function has too many arguments (10/7)
+kernel/src/lifecycle_program.rs:27444:1: warning: this function has too many arguments (12/7)
+kernel/src/lifecycle_program.rs:28875:1: warning: this function has too many arguments (8/7)
+kernel/src/lifecycle_program.rs:29146:9: warning: this `if` statement can be collapsed
+kernel/src/lifecycle_program.rs:29292:1: warning: this function has too many arguments (10/7)
+kernel/src/lifecycle_program.rs:30008:55: warning: taken reference of right operand
+kernel/src/lifecycle.rs:2143:78: warning: this expression creates a reference which is immediately dereferenced by the compiler: help: change this to: `right.0`
+kernel/src/lifecycle.rs:2279:1: warning: this function has too many arguments (13/7)
+kernel/src/lifecycle.rs:3584:33: warning: this boolean expression can be simplified: help: try: `value.as_bool().unwrap_or(false) != target_state.target_exists`
+kernel/src/lifecycle.rs:4130:1: warning: this function has too many arguments (16/7)
+kernel/src/lifecycle.rs:4746:14: warning: the borrowed expression implements the required traits: help: change this to: `Value::String(field.to_string())`
+kernel/src/pipeline.rs:1106:17: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `rendered.len()`
+kernel/src/workflow.rs:714:1: warning: this function has too many arguments (16/7)
+kernel/src/workflow.rs:4744:1: warning: this function has too many arguments (12/7)
+kernel/src/workflow.rs:5327:5: warning: this `if` statement can be collapsed
+kernel/src/workflow.rs:5799:1: warning: this function has too many arguments (11/7)
+kernel/src/workflow.rs:5870:1: warning: this function has too many arguments (17/7)
+kernel/src/workflow.rs:6004:1: warning: this function has too many arguments (11/7)
+kernel/src/workflow.rs:6037:1: warning: this function has too many arguments (8/7)
+kernel/src/workflow.rs:6087:1: warning: this function has too many arguments (21/7)
+kernel/src/workflow.rs:7144:21: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `prompt_markdown.len()`
+kernel/src/workflow.rs:7300:25: warning: field assignment outside of initializer for an instance created with Default::default()
+kernel/src/workflow.rs:7430:5: warning: this function has too many arguments (10/7)
+kernel/src/workflow.rs:7499:5: warning: this function has too many arguments (11/7)
+kernel/src/workflow.rs:7569:5: warning: this function has too many arguments (11/7)
+kernel/src/workflow.rs:7641:5: warning: this function has too many arguments (10/7)
+kernel/src/workflow.rs:7708:5: warning: this function has too many arguments (9/7)
+kernel/src/workflow.rs:8986:1: warning: this function has too many arguments (10/7)
+kernel/src/lifecycle_program.rs:7502:21: warning: useless use of `vec!`
+warning: `octon_kernel` (bin "octon") generated 102 warnings (run `cargo clippy --fix --bin "octon" -p octon_kernel` to apply 33 suggestions)
+kernel/src/lifecycle_program.rs:39431:13: warning: this call to `clone` can be replaced with `std::slice::from_ref`: help: try: `std::slice::from_ref(&material_blocker)`
+kernel/src/lifecycle_program.rs:42640:63: warning: this `if` has identical blocks
+kernel/src/lifecycle_program.rs:43506:9: warning: used `assert_eq!` with a literal bool
+kernel/src/lifecycle_program.rs:35759:28: warning: useless use of `vec!`: help: you can use an array directly: `[index_ref, published_health, pruned_health]`
+warning: `octon_kernel` (bin "octon" test) generated 106 warnings (102 duplicates) (run `cargo clippy --fix --bin "octon" -p octon_kernel --tests` to apply 2 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 12.21s

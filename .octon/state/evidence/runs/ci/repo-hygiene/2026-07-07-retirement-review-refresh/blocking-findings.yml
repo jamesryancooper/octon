@@ -1,0 +1,6 @@
+schema_version: repo-hygiene-blocking-findings-v1
+audit_id: "2026-07-07-retirement-review-refresh"
+mode: "audit"
+generated_at: "2026-07-07T22:42:17Z"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+findings: []

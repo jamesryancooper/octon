@@ -1,0 +1,31 @@
+Analyzing dependencies of crates in this directory...
+cargo-machete found the following unused dependencies in this directory:
+octon_studio -- ./studio/Cargo.toml:
+	walkdir
+octon_telemetry_sink -- ./telemetry_sink/Cargo.toml:
+	thiserror
+octon_authority_engine -- ./authority_engine/Cargo.toml:
+	octon_wasm_host
+octon_runtime_resolver -- ./runtime_resolver/Cargo.toml:
+	serde_json
+octon_wasm_host -- ./wasm_host/Cargo.toml:
+	serde
+	wit-bindgen
+	wit-bindgen-rt
+policy_engine -- ./policy_engine/Cargo.toml:
+	thiserror
+octon_kernel -- ./kernel/Cargo.toml:
+	thiserror
+
+If you believe cargo-machete has detected an unused dependency incorrectly,
+you can add the dependency to the list of dependencies to ignore in the
+`[package.metadata.cargo-machete]` section of the appropriate Cargo.toml.
+For example:
+
+[package.metadata.cargo-machete]
+ignored = ["prost"]
+
+You can also try running it with the `--with-metadata` flag for better accuracy,
+though this may modify your Cargo.lock files.
+
+Done!

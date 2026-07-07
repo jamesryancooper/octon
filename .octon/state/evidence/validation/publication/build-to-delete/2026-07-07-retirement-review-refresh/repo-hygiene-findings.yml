@@ -1,25 +1,37 @@
 schema_version: repo-hygiene-packet-attachment-v1
-generated_at: "2026-07-07T20:01:30Z"
+generated_at: "2026-07-07T22:44:54Z"
 policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
-audit_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-07-07-retirement-review-refresh
+audit_ref: .octon/state/evidence/runs/ci/repo-hygiene/2026-07-07-retirement-review-refresh
 latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-07-07-retirement-review-refresh
-active_release_id: 2026-07-07-retirement-review-refresh
-active_release_root: .octon/state/evidence/validation/publication/build-to-delete/2026-07-07-retirement-review-refresh
+active_release_id: 2026-04-18-frontier-governance-bounded-complete
+active_release_root: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete
 current_governance_review_ref: .octon/state/evidence/governance/build-to-delete/2026-07-07-retirement-review-refresh/retirement-claim-review.yml
 summary:
-  total_findings: 0
+  total_findings: 298
   blocking_findings: 0
   high_confidence_blocking_findings: 0
   required_detector_failures: 0
   packetization_ready: true
-  findings_by_class: []
-  findings_by_action: []
-  findings_by_confidence: []
+  findings_by_class:
+    - class: rust-static-deadness
+      count: 269
+    - class: rust-dependency-deadness
+      count: 28
+    - class: artifact-bloat
+      count: 1
+  findings_by_action:
+    - action: needs-ablation-before-delete
+      count: 298
+  findings_by_confidence:
+    - confidence: low
+      count: 270
+    - confidence: medium
+      count: 28
 artifact_refs:
-  repo_hygiene_policy: .octon/instance/governance/policies/repo-hygiene.yml
-  repo_hygiene_validator: .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
-  closeout_review_set: .octon/instance/governance/contracts/closeout-reviews.yml
-  retirement_registry: .octon/instance/governance/contracts/retirement-registry.yml
-  retirement_claim_review: .octon/state/evidence/governance/build-to-delete/2026-07-07-retirement-review-refresh/retirement-claim-review.yml
+  audit_summary: .octon/state/evidence/runs/ci/repo-hygiene/2026-07-07-retirement-review-refresh/audit-summary.yml
+  findings: .octon/state/evidence/runs/ci/repo-hygiene/2026-07-07-retirement-review-refresh/findings.yml
+  blocking_findings: .octon/state/evidence/runs/ci/repo-hygiene/2026-07-07-retirement-review-refresh/blocking-findings.yml
+  summary: .octon/state/evidence/runs/ci/repo-hygiene/2026-07-07-retirement-review-refresh/summary.md
+  host_tools: .octon/state/evidence/runs/ci/repo-hygiene/2026-07-07-retirement-review-refresh/host-tools.yml
 blocking_findings: []
 governance_relevant_findings: []
