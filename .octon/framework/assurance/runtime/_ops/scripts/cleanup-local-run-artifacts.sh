@@ -404,6 +404,16 @@ def retained_match_is_non_liveness(match):
 
 
 def retained_operational_source_is_non_liveness(rel):
+    if rel.startswith(".octon/state/control/execution/runs/publish-"):
+        return True
+    if rel.startswith(".octon/state/continuity/runs/publish-"):
+        return True
+    if rel.startswith(".octon/state/evidence/control/execution/authority-decision-publish-"):
+        return True
+    if rel.startswith(".octon/state/evidence/control/execution/authority-grant-bundle-publish-"):
+        return True
+    if rel.startswith(".octon/state/evidence/external-index/runs/publish-"):
+        return True
     if rel.startswith(".octon/state/control/execution/runs/tool-"):
         return True
     if rel.startswith(".octon/state/continuity/runs/tool-"):
