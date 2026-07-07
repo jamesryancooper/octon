@@ -27614,7 +27614,6 @@ fn program_compact_blocker_trigger_signals(
     }
     if entry.recovery_budget.attempts_used
         >= DEFAULT_COMPACT_REPEATED_FULL_WORKFLOW_DIRECTORY_THRESHOLD
-        && entry.recovery_budget.attempts_used > 0
     {
         signals.push("repeated-full-workflow-directory".to_string());
     }
