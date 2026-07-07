@@ -22,11 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - name: Install jq and yq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
-          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64
-          sudo chmod +x /usr/local/bin/yq
+        uses: ./.github/actions/setup-linux-system-tooling
+        with:
+          packages: jq
+          yq-version: v4.44.3
       - name: Run drift checks
         run: |
           chmod +x .octon/framework/assurance/scripts/*.sh

@@ -1,0 +1,41 @@
+name: Setup Linux system tooling
+description: Install apt packages and yq after removing unstable hosted-runner apt sources.
+
+inputs:
+  packages:
+    description: Space-separated apt packages to install.
+    required: false
+    default: ""
+  yq-version:
+    description: yq release tag to install.
+    required: false
+    default: v4.50.1
+
+runs:
+  using: composite
+  steps:
+    - name: Remove unstable hosted apt sources
+      shell: bash
+      run: |
+        set -euo pipefail
+        shopt -s nullglob
+        for source_file in /etc/apt/sources.list.d/*; do
+          if sudo grep -Eq 'packages\.microsoft\.com|azure-cli' "$source_file"; then
+            sudo rm -f "$source_file"
+          fi
+        done
+
+    - name: Install apt packages
+      if: ${{ inputs.packages != '' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        sudo apt-get update
+        sudo apt-get install -y ${{ inputs.packages }}
+
+    - name: Install yq
+      shell: bash
+      run: |
+        set -euo pipefail
+        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${{ inputs.yq-version }}/yq_linux_amd64
+        sudo chmod +x /usr/local/bin/yq

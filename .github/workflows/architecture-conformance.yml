@@ -164,11 +164,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install system tooling
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ripgrep
-          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_linux_amd64
-          sudo chmod +x /usr/local/bin/yq
+        uses: ./.github/actions/setup-linux-system-tooling
+        with:
+          packages: ripgrep
 
       - name: Validate runtime effective state
         run: |
