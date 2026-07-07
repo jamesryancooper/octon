@@ -28,7 +28,7 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:0362f9af872bfc57d9bab74f5993d0052b2f5ae7a416e81e11a1ef271a508f20",
+    "combined_source_digest": "sha256:a00b258ebb95ac4748b66eaf7969ef68f5fc3d599803f971e419a7a9157aa4de",
     "checked_at": "2026-07-07T00:00:00Z",
     "expires_at": null,
     "freshness_refs": [
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:6c5dd1980bcf5ad565331cbc5a3472d7a0cd5a5eeea2f881bc419fdb6e92aec6",
+      "digest": "sha256:d5e2a0f57b54ea72d0ce2eb3c7010ebc3e60e9f6325487462c85dcc01deabd83",
       "status": "present"
     },
     "run_continuity": {
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:2b9342c8ff4e52cc2ae9a60167f6716dc772257a72ca97cc18d86f606c7725ee",
+      "digest": "sha256:420a81328f9911e5422911912f7c2cbe53cc1ad5b61bfaa191db957095845ecd",
       "status": "present"
     },
     "pack_routes": {
