@@ -29,3 +29,28 @@ Each child must pass:
 - Cleanup detection cannot authorize deletion.
 - A repeated route with unchanged blocker evidence must stop.
 - A polluted run cannot mutate deliverable or foreign residue after freeze.
+
+## Current Code Refresh Validation
+
+The 2026-07-06 refresh in `support/current-code-refresh.md` distinguishes
+landed behavior, validator-covered behavior, and remaining gaps. The minimum
+credible validation set for the refresh is:
+
+- parent proposal validators:
+  `validate-proposal-standard.sh`,
+  `validate-architecture-proposal.sh`, and
+  `validate-proposal-program-structure.sh`;
+- closeout-worktree handoff validators:
+  `validate-closeout-worktree-wrapper.sh` and
+  `test-closeout-worktree-wrapper.sh`;
+- lifecycle residue and loop-control validators:
+  `test-proposal-lifecycle-residue-fingerprint.sh` and targeted
+  `lifecycle_program` tests for unchanged cleanup fingerprints;
+- lifecycle contract and child-authority validators:
+  `test-validate-lifecycle-contracts.sh`,
+  `validate-proposal-program-readiness-projection.sh`, and delivery
+  profile/evidence-index validators when delivery receipts are available.
+
+The refresh itself does not satisfy any child-owned validator verdict. Child
+packets must update or close their own validation posture through child-owned
+routes.

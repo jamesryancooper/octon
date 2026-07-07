@@ -20,6 +20,8 @@ Child authority is preserved through sibling packet ownership.
 | Source lineage or child registry | `resources/child-packet-index.md` |
 | Source lineage or child registry | `resources/child-packet-index.yml` |
 | Source lineage or child registry | `resources/source-lineage.md` |
+| Current-code landed, validator-covered, and gap status | `support/current-code-refresh.md` |
 | Proposal-local receipt or creation evidence | `support/implementation-grade-completeness-review.md` |
 | Proposal-local receipt or creation evidence | `support/program-creation.md` |
+| Parent-local revision evidence | `support/revisions/proposal-program-execution-resilience-current-code-refresh-20260706.md` |
 | Reader orientation | `validation-plan.md` |

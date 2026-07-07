@@ -16,3 +16,12 @@ The parent is coordination lineage only. It does not implement durable lifecycle
 ## Program Boundary
 
 The staged PR plan is deliberate. PR 1 addresses the immediate repeated cleanup-loop blocker. PRs 2 through 4 harden the ownership and rescue model without turning the whole design into one large implementation patch.
+
+## Current Code Refresh
+
+`support/current-code-refresh.md` records a 2026-07-06 comparison against the
+current repository. The goals still apply, but substantial loop-control,
+worktree-baseline, child-receipt-boundary, and closeout-worktree handoff
+behavior now appears present in current code. The remaining real gaps are
+proposal lineage reconciliation, polluted-run freeze proof, and route-scoped
+write-lease coverage proof.
