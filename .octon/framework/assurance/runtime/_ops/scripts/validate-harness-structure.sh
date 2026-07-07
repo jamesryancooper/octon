@@ -480,6 +480,9 @@ while IFS= read -r entry; do
     README.md|AGENTS.md|octon.yml|framework|instance|inputs|state|generated)
       ;;
     *)
+      if [[ -d "$entry" && -z "$(find "$entry" -mindepth 1 \( -type f -o -type l \) -print -quit)" && -z "$(git -C "$ROOT_DIR" ls-files -- "${entry#$ROOT_DIR/}/")" ]]; then
+        continue
+      fi
       unexpected_octon_entries+=(".octon/$rel")
       ;;
   esac

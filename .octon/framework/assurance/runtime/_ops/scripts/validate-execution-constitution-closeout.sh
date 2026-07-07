@@ -153,8 +153,8 @@ main() {
   require_yq '.status == "approved"' "$BUILD_TO_DELETE_REVIEWS/adapter-review.yml" "adapter review receipt is approved"
   require_yq '.status == "approved"' "$BUILD_TO_DELETE_REVIEWS/retirement-review.yml" "retirement review receipt is approved"
   require_yq '.status == "completed"' "$BUILD_TO_DELETE_REVIEWS/ablation-deletion-receipt.yml" "ablation deletion receipt is completed"
-  require_yq '.targets_evaluated[] | select(.target_id == "runtime-agent-soul-overlays" and .decision == "delete")' "$BUILD_TO_DELETE_REVIEWS/ablation-deletion-receipt.yml" "ablation receipt records deleted SOUL overlays"
-  require_yq '.targets_evaluated[] | select(.target_id == "label-native-authority-lane-projections" and .decision == "delete")' "$BUILD_TO_DELETE_REVIEWS/ablation-deletion-receipt.yml" "ablation receipt records deleted label projections"
+  require_yq '.targets_evaluated[] | select(.target_id == "runtime-agent-soul-overlays" and ((.decision == "delete") or (.decision == "already-retired")) and .status_after_review == "retired")' "$BUILD_TO_DELETE_REVIEWS/ablation-deletion-receipt.yml" "ablation receipt records retired SOUL overlays"
+  require_yq '.targets_evaluated[] | select(.target_id == "label-native-authority-lane-projections" and ((.decision == "delete") or (.decision == "already-retired")) and .status_after_review == "retired")' "$BUILD_TO_DELETE_REVIEWS/ablation-deletion-receipt.yml" "ablation receipt records retired label projections"
 
   require_yq '.continuity_run_path == ".octon/state/continuity/runs/run-wave3-runtime-bridge-20260327/"' "$RUN3" "Wave 3 run projection points at run continuity root"
   require_yq '.continuity_run_path == ".octon/state/continuity/runs/run-wave4-benchmark-evaluator-20260327/"' "$RUN4" "Wave 4 run projection points at run continuity root"

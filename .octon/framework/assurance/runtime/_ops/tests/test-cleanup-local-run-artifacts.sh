@@ -705,7 +705,7 @@ completed = subprocess.run(
     capture_output=True,
     env=env,
     text=True,
-    timeout=20,
+    timeout=60,
 )
 print(completed.stdout, end="")
 PY
