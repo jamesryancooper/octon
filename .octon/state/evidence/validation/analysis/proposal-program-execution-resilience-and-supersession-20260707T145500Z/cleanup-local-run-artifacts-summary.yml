@@ -1,0 +1,15 @@
+summary:
+  mode: dry-run
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 1900
+  manual_review: 23
+  git_status_digest: sha256:5692e085c67366bbac1def44b70ef502cb202084c5de9f3b03abfac36e3b80f9
+  classification_digest: sha256:7a0abb02883dd51d45c2b2c9d32ec9c31a9e3a68368128fd46e477568d988e7e
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:aeeb64d3e281d6518167c045f065441eb4f5a29f81c5d7e528e295216558ef94
+  manual_review_paths_digest: sha256:fe0dd39d80e7c0c1a5d657acaa241941758e6d201eef4e88dadab055dd25ef1e
+  reference_scan_status: complete
+  reference_scan_pattern_count: 1900
+  reference_scan_pattern_limit: 2000
+[OK] dry-run complete; rerun with --confirm or --authorization <receipt.json> to remove cleanup candidates only

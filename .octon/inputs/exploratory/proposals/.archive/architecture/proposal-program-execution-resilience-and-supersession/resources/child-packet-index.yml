@@ -1,0 +1,113 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "sequential"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "proposal-program-loop-breaker"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "terminal"
+    phase_id: "phase-1"
+    group_id: "loop-control"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+    validation_strategy:
+      - "cargo test -p kernel lifecycle_program::tests::repeated_recovery_route_stops_on_unchanged_blocker_fingerprint"
+      - "validate-proposal-program-readiness-projection.sh --package <fixture-program>"
+      - "validate-proposal-lifecycle-terminal-freshness.sh --proposal <fixture-program> --targeted"
+      - "test-proposal-lifecycle-residue-fingerprint.sh"
+    seed_role: "first-child"
+  - child_id: "proposal-program-ownership-baseline-and-leases"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases"
+    priority: "P0"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-loop-breaker"
+    dependency_gate: "terminal"
+    phase_id: "phase-2"
+    group_id: "ownership-control"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/engine/runtime/spec/proposal-program-readiness-projection-v1.md"
+      - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+      - ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+    validation_strategy:
+      - "cargo test -p kernel lifecycle_program::tests::route_write_lease_blocks_foreign_path_mutation"
+      - "classify-proposal-worktree-hygiene.sh --target <fixture-program> --lifecycle proposal-program"
+      - "validate-proposal-program-child-readiness.sh --package <fixture-program>"
+      - "validate-proposal-program-readiness-projection.sh --package <fixture-program>"
+    seed_role: "follow-on"
+  - child_id: "proposal-program-supersession-rescue-path"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-ownership-baseline-and-leases"
+    dependency_gate: "terminal"
+    phase_id: "phase-3"
+    group_id: "rescue-delivery"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/"
+      - ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/"
+      - ".octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json"
+      - ".octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json"
+      - ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json"
+      - ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+    validation_strategy:
+      - "cargo test -p kernel lifecycle_program::tests::polluted_run_freeze_preserves_child_receipt_refs"
+      - "validate-proposal-program-delivery-profile.sh --profile <profile>"
+      - "validate-proposal-program-delivery-receipt.sh --receipt <receipt>"
+      - "validate-proposal-program-delivery-workflow.sh"
+    seed_role: "follow-on"
+  - child_id: "closeout-worktree-autonomous-partition-evidence"
+    path: ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence"
+    priority: "P1"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-supersession-rescue-path"
+    dependency_gate: "terminal"
+    phase_id: "phase-4"
+    group_id: "partition-evidence"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh"
+      - ".octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json"
+      - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+    validation_strategy:
+      - "validate-closeout-worktree-wrapper.sh"
+      - "validate-closeout-worktree-wrapper.sh --report <partition-report>"
+      - "test-closeout-worktree-wrapper.sh"
+      - "classify-proposal-worktree-hygiene.sh --target <fixture-program> --lifecycle proposal-program"
+    seed_role: "follow-on"

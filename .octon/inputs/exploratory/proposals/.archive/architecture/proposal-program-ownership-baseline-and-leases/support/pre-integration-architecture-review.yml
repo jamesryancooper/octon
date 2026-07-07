@@ -1,0 +1,30 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "pre-integration-proposal-program-ownership-baseline-and-leases-20260707T124700Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases"
+packet_digest: "sha256:f4bd79c1cf11b4c31b54f82589029029399da77839b82ba8d59956ac53a5682d"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+blockers: []
+mode_specific_coverage:
+  architecture_scope: "proposal-program ownership control"
+  promotion_target_boundaries: "covered"
+  authority_boundaries: "covered"
+  lease_narrows_authority_only: "yes"
+  child_authority_preserved: "yes"
+  parent_summary_substitution_rejected: "yes"
+  generated_outputs_non_authority: "yes"

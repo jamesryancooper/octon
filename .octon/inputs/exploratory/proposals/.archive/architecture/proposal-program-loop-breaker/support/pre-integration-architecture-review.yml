@@ -1,0 +1,30 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "pre-integration-proposal-program-loop-breaker-20260707T124700Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker"
+packet_digest: "sha256:394924988e282649e629cfa46e44601df6271daf7a8f51d2630cf052e1c8db45"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/support/proposal-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+blockers: []
+mode_specific_coverage:
+  architecture_scope: "proposal-program loop control"
+  promotion_target_boundaries: "covered"
+  authority_boundaries: "covered"
+  child_authority_preserved: "yes"
+  parent_summary_substitution_rejected: "yes"
+  generated_outputs_non_authority: "yes"
+  cleanup_archive_publication_mutation_authority_excluded: "yes"

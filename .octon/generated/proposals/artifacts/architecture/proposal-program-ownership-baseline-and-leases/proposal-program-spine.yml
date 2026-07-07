@@ -1,0 +1,189 @@
+{
+  "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
+    "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-resilience-and-supersession/proposal.yml",
+      "manifest_sha256": "sha256:bbaa4be10396d64b4d8676c23fa4fa798d29a15b9befc864bafba57b99acb54c",
+      "proposal_id": "proposal-program-execution-resilience-and-supersession",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-resilience-and-supersession",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:f4bd79c1cf11b4c31b54f82589029029399da77839b82ba8d59956ac53a5682d",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators prove owned, leased, and foreign classification before mutation.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-ownership-baseline-and-leases/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/engine/runtime/spec/proposal-program-readiness-projection-v1.md",
+    ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "proposal_id": "proposal-program-ownership-baseline-and-leases",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 5702,
+      "estimated_tokens": 1426,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/executable-implementation-prompt.md",
+      "sha256": "sha256:2c482e478b7d9ff2a97bc06e7698985a5a84c54b98d9b34604fdb925143a4d03"
+    },
+    {
+      "byte_size": 3725,
+      "estimated_tokens": 932,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-conformance-review.md",
+      "sha256": "sha256:fc058f3822acaeec67fa3ea683b1cb990c7335e50e13e5d916f1720b6126b987"
+    },
+    {
+      "byte_size": 2688,
+      "estimated_tokens": 672,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:31637ca1a3ec57b8598c546f085e6ba8452b758e0ad80a4fd462cea37a1f1000"
+    },
+    {
+      "byte_size": 5911,
+      "estimated_tokens": 1478,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-run.md",
+      "sha256": "sha256:bcbad9ba84e5531a5b1d9c31e724de85137fe13cfb3298971598e20b1cfe7f5c"
+    },
+    {
+      "byte_size": 3735,
+      "estimated_tokens": 934,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:e746cca3852a2e5b05cd95fd9db0c105a0c82e1c79583509b88b9f97ba3de288"
+    },
+    {
+      "byte_size": 4694,
+      "estimated_tokens": 1174,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-closeout.md",
+      "sha256": "sha256:2d2e9ae36ecc665ff08769a1a1c13ae87e553d2bcdc67b279c562bd542685791"
+    },
+    {
+      "byte_size": 2118,
+      "estimated_tokens": 530,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-review.md",
+      "sha256": "sha256:45b6625e33302f1cee9b076c13c1025f70b1eac8783b81551c0d110729ad7ab8"
+    },
+    {
+      "byte_size": 3835,
+      "estimated_tokens": 959,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/validation.md",
+      "sha256": "sha256:67ce4341fe9761e0e4c0fa68a46f5f489387688556718d9e61bf839a5ed42071"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-execution-resilience-and-supersession"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/architecture-proposal.yml": "sha256:af60c101ec89faf32ae9987b56e3a08daf9ba568cd73f4f30c7dcb22ea9706a4",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/architecture/acceptance-criteria.md": "sha256:172a06ad038d6c18967fb1d23d4dc4e6dfda667c27e4418b369fdbbcffb6cdb0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/architecture/implementation-plan.md": "sha256:a5d4b802bf8d624066608b8485b936adff49c404abce7b8c23d996026cb8d867",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/navigation/artifact-catalog.md": "sha256:1b3f0241c675368139f1f0dcfa16a02a8bc09320080d5ec4b16e2400ad68a38a",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/navigation/source-of-truth-map.md": "sha256:b6f769b82008c023dcc74661c99dc178df25814b3d04ff6115d0113be9e37212",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/proposal.yml": "sha256:1eb934ac08698d7f85268ea489576988f9e233270df5db9ad8c452bdd9868ca2",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/executable-implementation-prompt.md": "sha256:2c482e478b7d9ff2a97bc06e7698985a5a84c54b98d9b34604fdb925143a4d03",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-grade-completeness-review.md": "sha256:31637ca1a3ec57b8598c546f085e6ba8452b758e0ad80a4fd462cea37a1f1000",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-review.md": "sha256:45b6625e33302f1cee9b076c13c1025f70b1eac8783b81551c0d110729ad7ab8"
+  },
+  "source_lineage": [
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

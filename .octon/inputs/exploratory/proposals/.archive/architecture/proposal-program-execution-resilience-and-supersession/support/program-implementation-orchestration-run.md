@@ -1,0 +1,30 @@
+schema_version: program-implementation-orchestration-run-v1
+verdict: pass
+implemented_at: 2026-07-07T14:26:03.667039Z
+promotion_evidence_count: 16
+child_authority_preserved: yes
+required_child_count: 4
+terminal_child_count: 4
+child_receipt_summary_count: 16
+parent_summary_not_child_evidence: true
+child_receipts_remain_child_owned: true
+archive_authority_granted: no
+cleanup_authority_granted: no
+git_mutation_authority_granted: no
+child_receipt_refs:
+  - closeout-worktree-autonomous-partition-evidence:implementation-conformance:.octon/inputs/exploratory/proposals/.archive/architecture/closeout-worktree-autonomous-partition-evidence/support/implementation-conformance-review.md
+  - closeout-worktree-autonomous-partition-evidence:implementation-run:.octon/inputs/exploratory/proposals/.archive/architecture/closeout-worktree-autonomous-partition-evidence/support/implementation-run.md
+  - closeout-worktree-autonomous-partition-evidence:post-implementation-drift:.octon/inputs/exploratory/proposals/.archive/architecture/closeout-worktree-autonomous-partition-evidence/support/post-implementation-drift-churn-review.md
+  - closeout-worktree-autonomous-partition-evidence:proposal-closeout:.octon/inputs/exploratory/proposals/.archive/architecture/closeout-worktree-autonomous-partition-evidence/support/proposal-closeout.md
+  - proposal-program-loop-breaker:implementation-conformance:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/implementation-conformance-review.md
+  - proposal-program-loop-breaker:implementation-run:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/implementation-run.md
+  - proposal-program-loop-breaker:post-implementation-drift:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/post-implementation-drift-churn-review.md
+  - proposal-program-loop-breaker:proposal-closeout:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/proposal-closeout.md
+  - proposal-program-ownership-baseline-and-leases:implementation-conformance:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-conformance-review.md
+  - proposal-program-ownership-baseline-and-leases:implementation-run:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-run.md
+  - proposal-program-ownership-baseline-and-leases:post-implementation-drift:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/post-implementation-drift-churn-review.md
+  - proposal-program-ownership-baseline-and-leases:proposal-closeout:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-closeout.md
+  - proposal-program-supersession-rescue-path:implementation-conformance:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/implementation-conformance-review.md
+  - proposal-program-supersession-rescue-path:implementation-run:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/implementation-run.md
+  - proposal-program-supersession-rescue-path:post-implementation-drift:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/post-implementation-drift-churn-review.md
+  - proposal-program-supersession-rescue-path:proposal-closeout:.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/proposal-closeout.md

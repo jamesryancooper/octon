@@ -1,0 +1,85 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-supersession-rescue-path
+title: Proposal Program Supersession Rescue Path
+summary: Add polluted-run freeze, deliverable partitioning, child-owned receipt carry-forward, and clean successor-run or normal Change closeout routing.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+- .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+- .octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json
+- .octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json
+- .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+- .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+status: archived
+archive:
+  archived_at: 2026-07-07
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path
+  promotion_evidence:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+  - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+  - .octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json
+  - .octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json
+  - .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+  - .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+  - .octon/framework/assurance/runtime/_ops/tests/
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators prove polluted-run freeze and successor delivery preserve child-owned receipts.
+related_proposals:
+- proposal-program-execution-resilience-and-supersession
+acceptance_criteria_summary: A polluted proposal-program run freezes safely, partitions deliverable changes, carries validated child-owned receipts by ref and digest, then creates a clean successor run or routes deliverables through normal closeout without mutating foreign residue.
+authority_class_impact:
+  framework: Future implementation may update lifecycle planner code, delivery workflow, delivery skill, delivery validators, product contracts, and tests listed in promotion targets.
+  instance: No instance authority changes planned.
+  state_control: Future implementation may write successor-run control state only through authorized run-contract routes.
+  state_evidence: Future implementation may define polluted-run freeze and carry-forward evidence for this child only.
+  generated: Generated outputs remain derived-only and must not be hand-edited.
+  inputs: This child packet is non-authoritative proposal lineage.
+change_profile: atomic
+created_date: 2026-06-22
+evidence_requirements:
+- Accepted proposal review and strict pre-integration architecture review before durable edits.
+- Polluted-run freeze evidence with non-authority classification.
+- Deliverable partition evidence separating owned changes from foreign/manual residue.
+- Child-owned receipt carry-forward refs and digests.
+- Successor-run or normal Change closeout routing evidence.
+- Negative controls proving polluted-run evidence cannot authorize mutation or replace child receipts.
+explicit_runtime_non_implementation_statement: This child packet does not implement durable behavior until a later accepted implementation route.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and local-only evidence remain non-authoritative.
+owner:
+  role: Octon proposal-program rescue architect
+  accountable_role: human operator / repository owner
+risk_posture: High. Supersession must preserve evidence lineage without laundering polluted-run state into authority.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+scope_statement: This child owns rescue delivery only. It depends on ownership baseline and does not implement closeout-worktree partition report behavior.
+selected_implementation_target: Supersede polluted proposal-program runs into clean successor or Change closeout paths without losing child-owned evidence.
+source_lineage:
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+- .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- cargo test -p kernel lifecycle_program::tests::polluted_run_freeze_preserves_child_receipt_refs
+- validate-proposal-program-delivery-profile.sh --profile <profile>
+- validate-proposal-program-delivery-receipt.sh --receipt <receipt>
+- validate-proposal-program-delivery-workflow.sh

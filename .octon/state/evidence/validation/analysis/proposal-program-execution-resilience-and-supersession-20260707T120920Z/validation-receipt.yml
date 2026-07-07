@@ -1,0 +1,92 @@
+schema_version: proposal-program-reconciliation-validation-receipt-v1
+receipt_id: proposal-program-execution-resilience-and-supersession-reconciliation-20260707T120920Z
+emitted_at: "2026-07-07T12:09:20Z"
+target_program: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+evidence_only: true
+parent_summary_satisfies_child_receipts: false
+terminal_disposition: not-terminal
+not_terminal_reasons:
+  - all four child manifests remain in-review
+  - child-owned terminal receipts were not found in retained evidence/control/continuity roots
+  - route-write-lease and polluted-run freeze implementation proof does not substitute for child-owned closeout receipts
+commands:
+  - command: cargo test -p octon_kernel residue_cleanup_
+    cwd: .octon/framework/engine/runtime/crates
+    result: pass
+    summary: 4 passed, 0 failed; includes unchanged and changed residue fingerprint cases
+  - command: cargo test -p octon_kernel program_worktree_baseline_
+    cwd: .octon/framework/engine/runtime/crates
+    result: pass
+    summary: 2 passed, 0 failed; baseline blocks fresh dirty unleased run and records leased/foreign paths
+  - command: cargo test -p octon_kernel route_write_lease
+    cwd: .octon/framework/engine/runtime/crates
+    result: pass
+    summary: 3 passed, 0 failed; parent/child route write leases bind include/exclude paths and reject unsafe paths
+  - command: cargo test -p octon_kernel unfinished_selected_child_route_start_blocks_redispatch
+    cwd: .octon/framework/engine/runtime/crates
+    result: pass
+    summary: 1 passed, 0 failed; interrupted child route emits polluted-run freeze evidence and blocks redispatch
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-residue-fingerprint.sh
+    result: pass
+    summary: proposal lifecycle residue fingerprint tracks cleanup candidates and ignores retained manual-review residue
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+    result: pass
+    summary: Passed 63, Failed 0
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh
+    result: pass
+    summary: Passed 207, Failed 0
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-delivery.sh
+    result: pass
+    summary: pass=58 fail=0
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh
+    result: pass
+    summary: passed=13 failed=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write
+    result: pass
+    summary: refresh_status written; Registry generation summary errors=0
+  - command: env OCTON_PROPOSAL_REGISTRY_PROJECTION_ONLY=1 bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check
+    result: pass
+    summary: refresh_status fresh; next_owning_route none; Registry generation summary errors=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+    result: pass
+    summary: errors=0 warnings=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+    result: pass
+    summary: errors=0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+    result: pass
+    summary: errors=0 warnings=0
+  - command: child packet standard, architecture, and implementation-readiness validators for all four children
+    result: pass
+    summary: each registry-declared child package returned errors=0 and warnings=0 where applicable
+generated_registry:
+  refreshed_by: .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write
+  expected_output_digest: sha256:adfe8d4e5bc625809e9815c1c49d0cab3fb89a9243a4c271e5ceb0764d38264f
+  current_output_digest: sha256:adfe8d4e5bc625809e9815c1c49d0cab3fb89a9243a4c271e5ceb0764d38264f
+  refresh_status: fresh
+supersession_gap_probe:
+  command: rg -n "polluted_run_freeze_preserves_child_receipt_refs|polluted_run|freeze_preserves|successor_run|successor-run|clean successor" .octon/framework/engine/runtime/crates/kernel/src .octon/framework/assurance/runtime/_ops/tests .octon/framework/product/contracts .octon/framework/orchestration/runtime/workflows
+  result: no_matches
+  implication: initial probe found no prior implementation; runtime now adds octon-program-polluted-run-freeze-v1 evidence and an interrupted-route regression
+implemented_during_reconciliation:
+  - route_write_lease:
+      schema_version: octon-program-route-write-lease-v1
+      files:
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+      proof:
+        - cargo test -p octon_kernel route_write_lease
+        - cargo test -p octon_kernel program_worktree_baseline_
+      authority_boundary: dispatch-preflight-only; does not replace child receipts, promotion, archive, cleanup, delivery, or terminal authority
+  - polluted_run_freeze:
+      schema_version: octon-program-polluted-run-freeze-v1
+      files:
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+      proof:
+        - cargo test -p octon_kernel unfinished_selected_child_route_start_blocks_redispatch
+      authority_boundary: evidence-only freeze; does not authorize delivery, mutation, cleanup, publication, archive, closeout, or terminal truth
+changed_files_from_this_reconciliation:
+  - .octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/generated/proposals/registry.yml
+  - .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T120920Z/reconciliation-summary.md
+  - .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T120920Z/validation-receipt.yml

@@ -1,0 +1,73 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-loop-breaker
+title: Proposal Program Loop Breaker
+summary: Add blocker fingerprints, repeated-route detection, cleanup terminality, publication-drift priority, and token or attempt caps for proposal-program recovery.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+- .octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+status: archived
+archive:
+  archived_at: 2026-07-07
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker
+  promotion_evidence:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-residue-fingerprint.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators prove repeated-route loop breaking.
+related_proposals:
+- proposal-program-execution-resilience-and-supersession
+acceptance_criteria_summary: Repeated recovery routes stop when blocker fingerprints are unchanged, cleanup becomes terminal for unchanged cleanup blockers, publication drift routes before cleanup when drift is the blocker, and token or attempt budgets force a bounded route.
+authority_class_impact:
+  framework: Future implementation may update lifecycle planner code, validators, tests, and residue fingerprint helpers listed in promotion targets.
+  instance: No instance authority changes planned.
+  state_control: No state-control mutation from this proposal packet.
+  state_evidence: Future implementation may define retained blocker, route-decision, and token-budget evidence for this child only.
+  generated: Generated outputs remain derived-only and must not be hand-edited.
+  inputs: This child packet is non-authoritative proposal lineage.
+change_profile: atomic
+created_date: 2026-06-22
+evidence_requirements:
+- Accepted proposal review and strict pre-integration architecture review before durable edits.
+- Blocker fingerprint fixture coverage for unchanged and changed blocker evidence.
+- Repeated-route detection evidence for cleanup loops and non-cleanup recovery routes.
+- Token and attempt budget evidence showing stage-only or blocked routing after exhaustion.
+- Negative controls proving parent evidence cannot reset child-owned blocker state.
+explicit_runtime_non_implementation_statement: This child packet does not implement durable behavior until a later accepted implementation route.
+generated_input_authority_impact: Generated outputs, proposal paths, prompts, chat history, dashboards, and local-only evidence remain non-authoritative.
+owner:
+  role: Octon proposal-program loop-control architect
+  accountable_role: human operator / repository owner
+risk_posture: High. Loop breaking must avoid hiding genuinely changed recovery evidence.
+rollback_summary: Revert or supersede only this child packet's durable promotion targets through its own rollback and correction route.
+scope_statement: This child owns the immediate loop-control PR only. Ownership baselines, supersession, and closeout-worktree partition reports remain separate child packets.
+selected_implementation_target: Block repeated proposal-program recovery routes when blocker evidence is unchanged.
+source_lineage:
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- cargo test -p kernel lifecycle_program::tests::repeated_recovery_route_stops_on_unchanged_blocker_fingerprint
+- validate-proposal-program-readiness-projection.sh --package <fixture-program>
+- validate-proposal-lifecycle-terminal-freshness.sh --proposal <fixture-program> --targeted
+- test-proposal-lifecycle-residue-fingerprint.sh

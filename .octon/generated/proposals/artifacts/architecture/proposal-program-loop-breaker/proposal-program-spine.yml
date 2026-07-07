@@ -1,0 +1,187 @@
+{
+  "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
+    "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-resilience-and-supersession/proposal.yml",
+      "manifest_sha256": "sha256:bbaa4be10396d64b4d8676c23fa4fa798d29a15b9befc864bafba57b99acb54c",
+      "proposal_id": "proposal-program-execution-resilience-and-supersession",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-resilience-and-supersession",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:394924988e282649e629cfa46e44601df6271daf7a8f51d2630cf052e1c8db45",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators prove repeated-route loop breaking.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-loop-breaker/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-readiness-projection.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "proposal_id": "proposal-program-loop-breaker",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 5341,
+      "estimated_tokens": 1336,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/executable-implementation-prompt.md",
+      "sha256": "sha256:6cb34773ec0cd0503e5b58dc7f9ed7d877a73bf16d3e5895cfb83ed96ee343ea"
+    },
+    {
+      "byte_size": 3055,
+      "estimated_tokens": 764,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/implementation-conformance-review.md",
+      "sha256": "sha256:1482d8a395e9b35b4feb4e68ea2b47be953cd55cddfb60a7c767c48be1ed49f8"
+    },
+    {
+      "byte_size": 2610,
+      "estimated_tokens": 653,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:aa3a48eac6fa30fff632338a257495cfcd5b0fe1d3f048641df442c864557a35"
+    },
+    {
+      "byte_size": 3485,
+      "estimated_tokens": 872,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/implementation-run.md",
+      "sha256": "sha256:3646c006323afc909836bf41b2a9b1fcff74cca6e599bee8ebe442664939e212"
+    },
+    {
+      "byte_size": 3248,
+      "estimated_tokens": 812,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:4fa023d7c140ad72c91b0795cd324df5c85e2faa815deec633f63f9fe8ce89e3"
+    },
+    {
+      "byte_size": 5284,
+      "estimated_tokens": 1321,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/proposal-closeout.md",
+      "sha256": "sha256:0e5632bf96e0fb91f69a784670b4fbce01f5543c861a7d7f8017043eb7c795da"
+    },
+    {
+      "byte_size": 2132,
+      "estimated_tokens": 533,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/proposal-review.md",
+      "sha256": "sha256:7f7ac36c8a4ef1f67aff8fca9136a75bb546c53f631ba6656aa140b32551636d"
+    },
+    {
+      "byte_size": 1750,
+      "estimated_tokens": 438,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/validation.md",
+      "sha256": "sha256:663e60d063ffefc7701fb9ecec5e9d1bb9886e4b12cd3f3199705a47fe7d7001"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-execution-resilience-and-supersession"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/architecture-proposal.yml": "sha256:4ebf6b7c2b39fcad5e993ad33edad8a282bb8af3e4373b0c43cc26c2aa8714c3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/architecture/acceptance-criteria.md": "sha256:7accd40c33a3831d57633d4c0ac81774975dcec0c2a56c86321bf5e2dcb67dc0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/architecture/implementation-plan.md": "sha256:e8ed479b65947fd17f8af574e063b72b63e5f8a25c99d343f910767ee7adcd7f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/navigation/artifact-catalog.md": "sha256:7a40250c429e22561569ab6d2ffebad62218fe8774589793dd36306a0c432a4c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/navigation/source-of-truth-map.md": "sha256:b6f769b82008c023dcc74661c99dc178df25814b3d04ff6115d0113be9e37212",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/proposal.yml": "sha256:21957b17e4c236ab31d02e97febca2170dd8fea370a0d61af49ea274288e6cc3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/executable-implementation-prompt.md": "sha256:6cb34773ec0cd0503e5b58dc7f9ed7d877a73bf16d3e5895cfb83ed96ee343ea",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/implementation-grade-completeness-review.md": "sha256:aa3a48eac6fa30fff632338a257495cfcd5b0fe1d3f048641df442c864557a35",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/proposal-review.md": "sha256:7f7ac36c8a4ef1f67aff8fca9136a75bb546c53f631ba6656aa140b32551636d"
+  },
+  "source_lineage": [
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

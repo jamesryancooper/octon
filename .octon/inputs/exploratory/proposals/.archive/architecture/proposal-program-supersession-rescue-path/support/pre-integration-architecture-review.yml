@@ -1,0 +1,30 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "pre-integration-proposal-program-supersession-rescue-path-20260707T124700Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path"
+packet_digest: "sha256:0a12933eba0b70fd676beb81803507f63f0fcd35809bcb0c8a08dc825685bd25"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/proposal-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+blockers: []
+mode_specific_coverage:
+  architecture_scope: "proposal-program supersession and rescue delivery"
+  promotion_target_boundaries: "covered"
+  authority_boundaries: "covered"
+  freeze_non_authorizing: "yes"
+  child_authority_preserved: "yes"
+  parent_summary_substitution_rejected: "yes"
+  generated_outputs_non_authority: "yes"

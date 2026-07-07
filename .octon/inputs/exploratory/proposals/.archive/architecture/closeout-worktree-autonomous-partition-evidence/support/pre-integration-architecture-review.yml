@@ -1,0 +1,30 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "pre-integration-closeout-worktree-autonomous-partition-evidence-20260707T124700Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence"
+packet_digest: "sha256:ea8b81e272c34bb13c57a370cc4123226b4ca5198ff7c3359efa18b4bede5211"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/implementation-grade-completeness-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/proposal-review.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+blockers: []
+mode_specific_coverage:
+  architecture_scope: "closeout-worktree partition evidence"
+  promotion_target_boundaries: "covered"
+  authority_boundaries: "covered"
+  partition_report_non_mutating: "yes"
+  child_authority_preserved: "yes"
+  change_receipt_replacement_rejected: "yes"
+  generated_outputs_non_authority: "yes"

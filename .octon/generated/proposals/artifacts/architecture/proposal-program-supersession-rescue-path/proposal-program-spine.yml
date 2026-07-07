@@ -1,0 +1,192 @@
+{
+  "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
+    "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-resilience-and-supersession/proposal.yml",
+      "manifest_sha256": "sha256:bbaa4be10396d64b4d8676c23fa4fa798d29a15b9befc864bafba57b99acb54c",
+      "proposal_id": "proposal-program-execution-resilience-and-supersession",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-resilience-and-supersession",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:0a12933eba0b70fd676beb81803507f63f0fcd35809bcb0c8a08dc825685bd25",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child packet independently, authorize implementation only after accepted review and strict architecture review, retain child-owned evidence, and close out only after validators prove polluted-run freeze and successor delivery preserve child-owned receipts.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-program-supersession-rescue-path/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/",
+    ".octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/",
+    ".octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json",
+    ".octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json",
+    ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "proposal_id": "proposal-program-supersession-rescue-path",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 6501,
+      "estimated_tokens": 1626,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/executable-implementation-prompt.md",
+      "sha256": "sha256:e7160b865edfd57b899e94744788805d75c351847fdaf4aca7c01b4e7793c269"
+    },
+    {
+      "byte_size": 4892,
+      "estimated_tokens": 1223,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/implementation-conformance-review.md",
+      "sha256": "sha256:a432dc243d40329a0fdbe804896cce88db3715ac280ead77b226cfada748e08f"
+    },
+    {
+      "byte_size": 2805,
+      "estimated_tokens": 702,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:bb07efa5f520567797b7827d259cdf33b5590ad2f42b11ccfada2a30bb7ea597"
+    },
+    {
+      "byte_size": 5401,
+      "estimated_tokens": 1351,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/implementation-run.md",
+      "sha256": "sha256:ccc58217f9de86fa3394917fd37802e816e06c46af3bf2efa450631c20a40c85"
+    },
+    {
+      "byte_size": 4701,
+      "estimated_tokens": 1176,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:222da58b20fafdd8104b12a8abc3d796f8670a0b6a50f6f7aac0c9dd38dee71a"
+    },
+    {
+      "byte_size": 4936,
+      "estimated_tokens": 1234,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/proposal-closeout.md",
+      "sha256": "sha256:3b7c464e550211c5c780376b88e306e141a49e3e646cecaf5f5444bc83b7d89a"
+    },
+    {
+      "byte_size": 2447,
+      "estimated_tokens": 612,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/proposal-review.md",
+      "sha256": "sha256:b49f23a6b21c99eda7221bf0dbd03ab445cf7c3457cee510fe46aa7345130b82"
+    },
+    {
+      "byte_size": 1905,
+      "estimated_tokens": 477,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/validation.md",
+      "sha256": "sha256:064b569f4c39e57b131b441b7b9ffa2e2c8b96e4c258868d87b90a509c602721"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-execution-resilience-and-supersession"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/architecture-proposal.yml": "sha256:0016b53874734c02e12bc227797dbd6339dff365bd6b658ea75419e38dd3408d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/architecture/acceptance-criteria.md": "sha256:8e7f5c47a3cbd50ae1d9acfe6ef4a6ae7e5d5088e8bd3560c77255dce1a2ad99",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/architecture/implementation-plan.md": "sha256:98d760d0ddab4d7f522c555b8388b777bf3b6af35fa2aeb0185bd453f7a31bc8",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/navigation/artifact-catalog.md": "sha256:fd01f21d3dc4ac60bec964df1d1a8ca9facb363e510baa994753b02e6d1b73ba",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/navigation/source-of-truth-map.md": "sha256:1cc5ac731e560d5ad7a26f2c579109af238ba6a0dfaa32e17a9255d3efade988",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/proposal.yml": "sha256:a30a4b7063940c6cb6bc347f49eea5a8edb47664183b0d7a25c29857158eb94e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/executable-implementation-prompt.md": "sha256:e7160b865edfd57b899e94744788805d75c351847fdaf4aca7c01b4e7793c269",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/implementation-grade-completeness-review.md": "sha256:bb07efa5f520567797b7827d259cdf33b5590ad2f42b11ccfada2a30bb7ea597",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/proposal-review.md": "sha256:b49f23a6b21c99eda7221bf0dbd03ab445cf7c3457cee510fe46aa7345130b82"
+  },
+  "source_lineage": [
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml",
+    ".octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path/support/proposal-review.md"
+  ],
+  "status": "archived"
+}
