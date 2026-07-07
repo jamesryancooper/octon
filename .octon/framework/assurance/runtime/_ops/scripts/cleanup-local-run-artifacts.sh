@@ -343,6 +343,78 @@ excluded_source_prefixes = (
     ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/",
 )
 
+
+def non_liveness_reference_source(rel):
+    """Path-list diagnostics are evidence about residue, not liveness refs."""
+    if rel.startswith(".octon/state/evidence/runs/skills/closeout-worktree/") and rel.endswith("/report.yml"):
+        return True
+    if rel.startswith(".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/") and rel.endswith("/worktree-hygiene.yml"):
+        return True
+    if rel.startswith(".octon/state/evidence/runs/workflows/"):
+        if rel.startswith(".octon/state/evidence/runs/workflows/lifecycle-proposal-program-"):
+            name = rel.rsplit("/", 1)[-1]
+            if name in {
+                "action-slice-ledger.yml",
+                "blocker-ledger.yml",
+                "compact-completion-capsule.yml",
+                "model-routing-receipt.yml",
+                "no-dispatch-attempt-ledger.yml",
+                "planner-state.yml",
+                "program-context-capsule.yml",
+                "recovery-delta-summary.yml",
+                "route-decision-receipt.yml",
+            }:
+                return True
+        if rel.endswith("/reports/worktree-hygiene-classification.md"):
+            return True
+        if rel.endswith("/reports/classify-worktree-hygiene-report.md"):
+            return True
+        if rel.endswith("/worktree-baseline.yml"):
+            return True
+        if "/workflow-execution/" in rel and (
+            rel.endswith("/execution-request.json")
+            or rel.endswith("/execution-receipt.json")
+            or rel.endswith("/grant-bundle.json")
+            or rel.endswith("/side-effects.json")
+        ):
+            return True
+        if "/stages/" in rel and (
+            rel.endswith("/execution-request.json")
+            or rel.endswith("/execution-receipt.json")
+            or rel.endswith("/grant-bundle.json")
+            or rel.endswith("/side-effects.json")
+        ):
+            return True
+    if rel.startswith(".octon/state/evidence/validation/analysis/"):
+        name = rel.rsplit("/", 1)[-1]
+        if name.endswith("worktree-hygiene.yml"):
+            return True
+        if "closeout-worktree-" in name and (
+            name.endswith("-archive-readiness.yml")
+            or name.endswith("-parent-handoff.yml")
+            or name.endswith("-parent-closeout-handoff.yml")
+        ):
+            return True
+    return False
+
+
+def retained_match_is_non_liveness(match):
+    return match == ".DS_Store" or match.endswith("/.DS_Store")
+
+
+def retained_operational_source_is_non_liveness(rel):
+    if rel.startswith(".octon/state/control/execution/runs/lifecycle-proposal-"):
+        return True
+    if rel.startswith(".octon/state/continuity/runs/lifecycle-proposal-"):
+        return True
+    if rel.startswith(".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-"):
+        return True
+    if rel.startswith(".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-"):
+        return True
+    if rel.startswith(".octon/state/evidence/external-index/runs/lifecycle-proposal-"):
+        return True
+    return False
+
 try:
     candidates = sorted(
         {
@@ -506,8 +578,14 @@ try:
     for rel in sources:
         if mode == "retained" and any(rel.startswith(prefix) for prefix in excluded_source_prefixes):
             continue
+        if non_liveness_reference_source(rel):
+            continue
+        if mode == "retained" and retained_operational_source_is_non_liveness(rel):
+            continue
         for match in scan_bytes(read_rel_file(rel)):
             if mode == "retained" and rel == match:
+                continue
+            if mode == "retained" and retained_match_is_non_liveness(match):
                 continue
             matches.add(match)
 except RuntimeError as exc:

@@ -1,0 +1,170 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-proposal-program-ownership-baseline-and-leases-archive-readiness-20260707T135000Z
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases
+target_lifecycle_outcome: archive-ready
+observed_change_set_count: 3
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/2026-07-07-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-ownership-baseline-and-leases/reports/worktree-hygiene-classification.md
+residue_classification_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+final_inventory_ref: .octon/state/evidence/runs/workflows/2026-07-07-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-ownership-baseline-and-leases/reports/worktree-hygiene-classification.md
+selected_candidate_id: ownership-delivery-change
+candidates:
+  - candidate_id: ownership-delivery-change
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: coherent ownership implementation, proposal lifecycle, generated proposal metadata, and retained validation evidence candidate for later Change closeout
+    route_hint: closeout-change after child packet archive and remaining program child lifecycle receipts are terminal
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve for later Change closeout; closeout-worktree performs no staging, commit, push, landing, archive, deletion, or cleaned claim
+    boundaries:
+      include_paths:
+        - .octon/framework
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/architecture
+        - .octon/inputs/exploratory/proposals/.archive
+        - .octon/state/evidence/decisions
+      exclude_paths:
+        - .git
+        - .octon/state/control/execution
+        - .octon/state/continuity
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs/workflows
+        - .octon/state/evidence/runs/skills
+        - .octon/state/evidence/validation/analysis
+    lifecycle_closeout_authority:
+      completed_program_run_id: lifecycle-proposal-packet-1783431235028-fc72add6
+      program_target: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases
+      completed_program_summary_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-1783431235028-fc72add6/summary.md
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-closeout.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/implementation-run.md
+        - .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-1783431235028-fc72add6/summary.md
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-ownership-baseline-and-leases-20260707T134000Z/report.yml
+  - candidate_id: ownership-retained-operational-run-state
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: raw control, continuity, workflow, lifecycle, and tool-run evidence preserved outside child packet authority and outside cleanup authority
+    route_hint: preserve-and-exclude return to proposal-packet terminal closeout; later Change closeout remains final worktree owner
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: retain; no deletion, cleanup, archive, git mutation, or cleaned claim authorized by this report
+    boundaries:
+      include_paths:
+        - .octon/state/control/execution
+        - .octon/state/continuity
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs/workflows
+        - .octon/state/evidence/runs/skills
+        - .octon/state/evidence/validation/analysis
+      exclude_paths:
+        - .git
+    proposal_program_handoff_authorization:
+      outside_child_route_write_scope: true
+      authorization_grant: Terminal closeout preserves raw/local operational run state without treating it as child packet authority or cleanup material.
+      child_id: proposal-program-ownership-baseline-and-leases
+      route_id: closeout-worktree
+      interaction_request_ref: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-closeout.md
+      classifier_output_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+      classifier_output_digest: sha256:7ae68226389d02f5ce49e150ac5ea6f3a285f9e5504d2fefd4b4705f04d00499
+      authorized_foreign_fingerprint: sha256:82631e7bd252cb15ae852457f103042c7bd9fc2b6c2bab2e434696a835f093ec
+      foreign_fingerprint: sha256:82631e7bd252cb15ae852457f103042c7bd9fc2b6c2bab2e434696a835f093ec
+      authorized_paths:
+        - .octon/state/control/execution
+        - .octon/state/continuity
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs/workflows
+        - .octon/state/evidence/runs/skills
+        - .octon/state/evidence/validation/analysis
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        worktree_cleanup: false
+        repo_hygiene_deletion: false
+        promotion: false
+        hosted_provider_action: false
+        cleaned_claim: false
+        child_closeout_receipt_replacement: false
+        child_validation_replacement: false
+  - candidate_id: ownership-retained-local-evidence
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: local-private retained evidence residue, if present, remains outside packet authority and outside cleanup authority
+    route_hint: repo-hygiene-cleanup only with future owning cleanup authorization; no action in packet closeout
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain; closeout-worktree performed no deletion or cleanup
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/local/
+      exclude_paths:
+        - .git
+iterations: []
+final_candidate_dispositions:
+  ownership-delivery-change:
+    state: deferred
+  ownership-retained-operational-run-state:
+    state: foreign
+  ownership-retained-local-evidence:
+    state: retained
+retained_residue:
+  - candidate_id: ownership-retained-operational-run-state
+    path: .octon/state/control/execution
+    disposition: foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: ownership-retained-operational-run-state
+    path: .octon/state/continuity
+    disposition: foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: ownership-retained-operational-run-state
+    path: .octon/state/evidence/control
+    disposition: foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: ownership-retained-operational-run-state
+    path: .octon/state/evidence/external-index
+    disposition: foreign/manual external index residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: ownership-retained-operational-run-state
+    path: .octon/state/evidence/runs/workflows
+    disposition: foreign/manual workflow run evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: ownership-retained-operational-run-state
+    path: .octon/state/evidence/runs/skills
+    disposition: foreign/manual skill run evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: ownership-retained-operational-run-state
+    path: .octon/state/evidence/validation/analysis
+    disposition: foreign/manual validation analysis evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: ownership-retained-local-evidence
+    path: .octon/state/evidence/local/
+    disposition: local retained validation evidence sink preserved without mutation, cleanup, archive, publication, or cleaned claim
+blockers:
+  - candidate_id: ownership-delivery-change
+    blocker: delivery change remains for final Change closeout after child archive readiness
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 705
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+worktree_terminal_state: nonterminal
+next_route_condition: return to proposal-program-ownership-baseline-and-leases archive readiness; delivery Change closeout remains owner of publishable branch state

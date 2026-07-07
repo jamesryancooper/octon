@@ -1,0 +1,107 @@
+schema_version: closeout-worktree-report-v1
+run_id: closeout-worktree-proposal-program-ownership-baseline-and-leases-20260707T134000Z
+wrapper_id: closeout-worktree
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+residue_classification_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+final_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+selected_candidate_id: ownership-child-closeout-foreign-preserve
+candidates:
+  - candidate_id: ownership-child-closeout-foreign-preserve
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: outside proposal-program-ownership-baseline-and-leases child closeout route; preserved as sibling, archived-child, parent, generated, and retained lifecycle residue
+    route_hint: closeout-worktree-preserve
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, staging, commit, push, publication, archive, branch cleanup, git ref mutation, or cleaned claim
+    boundaries:
+      include_paths:
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence
+        - .octon/state
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+        - .octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh
+    proposal_program_handoff_authorization:
+      child_id: proposal-program-ownership-baseline-and-leases
+      route_id: closeout-packet
+      interaction_request_ref: manual-program-child-closeout-handoff/proposal-program-ownership-baseline-and-leases-20260707T134000Z
+      classifier_output_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+      classifier_output_digest: sha256:7ae68226389d02f5ce49e150ac5ea6f3a285f9e5504d2fefd4b4705f04d00499
+      authorized_foreign_fingerprint: sha256:82631e7bd252cb15ae852457f103042c7bd9fc2b6c2bab2e434696a835f093ec
+      foreign_fingerprint: sha256:82631e7bd252cb15ae852457f103042c7bd9fc2b6c2bab2e434696a835f093ec
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      authorized_paths:
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence
+        - .octon/state
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+        promotion: false
+        child_receipt_replacement: false
+        child_validation_replacement: false
+        archive_authorization_replacement: false
+        lifecycle_outcome_replacement: false
+iterations: []
+final_candidate_dispositions:
+  ownership-child-closeout-foreign-preserve:
+    state: foreign
+retained_residue:
+  - candidate_id: ownership-child-closeout-foreign-preserve
+    path: .octon/generated/proposals
+    disposition: foreign/manual generated proposal registry residue preserved outside ownership child closeout authority
+  - candidate_id: ownership-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+    disposition: foreign/manual archived sibling child evidence preserved outside ownership child closeout authority
+  - candidate_id: ownership-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+    disposition: foreign/manual parent program evidence preserved outside ownership child closeout authority
+  - candidate_id: ownership-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path
+    disposition: foreign/manual sibling child evidence preserved outside ownership child closeout authority
+  - candidate_id: ownership-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence
+    disposition: foreign/manual sibling child evidence preserved outside ownership child closeout authority
+  - candidate_id: ownership-child-closeout-foreign-preserve
+    path: .octon/state
+    disposition: foreign/manual retained lifecycle control and evidence preserved outside ownership child closeout authority
+blockers: []
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 705
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program-ownership-baseline-and-leases closeout-packet with preserved-by-closeout-worktree hygiene disposition only

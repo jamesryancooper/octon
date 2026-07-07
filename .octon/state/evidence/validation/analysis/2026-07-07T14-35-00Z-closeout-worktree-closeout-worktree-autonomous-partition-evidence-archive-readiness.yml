@@ -1,0 +1,172 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-closeout-worktree-autonomous-partition-evidence-archive-readiness-20260707T143500Z
+target: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence
+target_lifecycle_outcome: archive-ready
+observed_change_set_count: 3
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/2026-07-07-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-closeout-worktree-autonomous-partition-evidence/reports/worktree-hygiene-classification.md
+residue_classification_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+final_inventory_ref: .octon/state/evidence/runs/workflows/2026-07-07-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-closeout-worktree-autonomous-partition-evidence/reports/worktree-hygiene-classification.md
+selected_candidate_id: closeout-worktree-delivery-change
+candidates:
+  - candidate_id: closeout-worktree-delivery-change
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: coherent closeout-worktree partition implementation, proposal lifecycle, generated proposal metadata, local repo metadata, and retained validation evidence candidate for later Change closeout
+    route_hint: closeout-change after child packet archive and parent program lifecycle receipts are terminal
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve for later Change closeout; closeout-worktree performs no staging, commit, push, landing, archive, deletion, or cleaned claim
+    boundaries:
+      include_paths:
+        - .gitignore
+        - .octon/framework
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/architecture
+        - .octon/inputs/exploratory/proposals/.archive
+        - .octon/state/evidence/decisions
+      exclude_paths:
+        - .git
+        - .octon/state/control/execution
+        - .octon/state/continuity
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs/workflows
+        - .octon/state/evidence/runs/skills
+        - .octon/state/evidence/validation/analysis
+    lifecycle_closeout_authority:
+      completed_program_run_id: lifecycle-proposal-packet-1783433277759-cb8c4ae8
+      program_target: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence
+      completed_program_summary_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-1783433277759-cb8c4ae8/summary.md
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/proposal-closeout.md
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/implementation-run.md
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/proposal-terminal-closeout.yml
+        - .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-1783433277759-cb8c4ae8/summary.md
+        - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/report.yml
+  - candidate_id: closeout-worktree-retained-operational-run-state
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: raw control, continuity, workflow, lifecycle, and tool-run evidence preserved outside child packet authority and outside cleanup authority
+    route_hint: preserve-and-exclude return to proposal-packet terminal closeout; later Change closeout remains final worktree owner
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: retain; no deletion, cleanup, archive, git mutation, or cleaned claim authorized by this report
+    boundaries:
+      include_paths:
+        - .octon/state/control/execution
+        - .octon/state/continuity
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs/workflows
+        - .octon/state/evidence/runs/skills
+        - .octon/state/evidence/validation/analysis
+      exclude_paths:
+        - .git
+    proposal_program_handoff_authorization:
+      outside_child_route_write_scope: true
+      authorization_grant: Terminal closeout preserves raw/local operational run state without treating it as child packet authority or cleanup material.
+      child_id: closeout-worktree-autonomous-partition-evidence
+      route_id: closeout-worktree
+      interaction_request_ref: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/proposal-closeout.md
+      classifier_output_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+      classifier_output_digest: sha256:fa7a066c797c2bed822a6b169d1fcb046138e05cc0dea261ac93d022bfcaf02a
+      authorized_foreign_fingerprint: sha256:44c153f15bcf95d4144cf827e84a127df796758fd0dddda5aac59bfd8a1e9301
+      foreign_fingerprint: sha256:44c153f15bcf95d4144cf827e84a127df796758fd0dddda5aac59bfd8a1e9301
+      authorized_paths:
+        - .octon/state/control/execution
+        - .octon/state/continuity
+        - .octon/state/evidence/control
+        - .octon/state/evidence/external-index
+        - .octon/state/evidence/runs/workflows
+        - .octon/state/evidence/runs/skills
+        - .octon/state/evidence/validation/analysis
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        worktree_cleanup: false
+        repo_hygiene_deletion: false
+        promotion: false
+        hosted_provider_action: false
+        cleaned_claim: false
+        child_closeout_receipt_replacement: false
+        child_validation_replacement: false
+  - candidate_id: closeout-worktree-retained-local-evidence
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: local-private retained evidence residue, if present, remains outside packet authority and outside cleanup authority
+    route_hint: repo-hygiene-cleanup only with future owning cleanup authorization; no action in packet closeout
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain; closeout-worktree performed no deletion or cleanup
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/local/
+      exclude_paths:
+        - .git
+iterations: []
+final_candidate_dispositions:
+  closeout-worktree-delivery-change:
+    state: deferred
+  closeout-worktree-retained-operational-run-state:
+    state: foreign
+  closeout-worktree-retained-local-evidence:
+    state: retained
+retained_residue:
+  - candidate_id: closeout-worktree-retained-operational-run-state
+    path: .octon/state/control/execution
+    disposition: foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: closeout-worktree-retained-operational-run-state
+    path: .octon/state/continuity
+    disposition: foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: closeout-worktree-retained-operational-run-state
+    path: .octon/state/evidence/control
+    disposition: foreign/manual operational run-state residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: closeout-worktree-retained-operational-run-state
+    path: .octon/state/evidence/external-index
+    disposition: foreign/manual external index residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: closeout-worktree-retained-operational-run-state
+    path: .octon/state/evidence/runs/workflows
+    disposition: foreign/manual workflow run evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: closeout-worktree-retained-operational-run-state
+    path: .octon/state/evidence/runs/skills
+    disposition: foreign/manual skill run evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: closeout-worktree-retained-operational-run-state
+    path: .octon/state/evidence/validation/analysis
+    disposition: foreign/manual validation analysis evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: closeout-worktree-retained-local-evidence
+    path: .octon/state/evidence/local/
+    disposition: local retained validation evidence sink preserved without mutation, cleanup, archive, publication, or cleaned claim
+blockers:
+  - candidate_id: closeout-worktree-delivery-change
+    blocker: delivery change remains for final Change closeout after child archive readiness
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 1529
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+worktree_terminal_state: nonterminal
+next_route_condition: return to closeout-worktree-autonomous-partition-evidence archive readiness; delivery Change closeout remains owner of publishable branch state

@@ -1,0 +1,128 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-proposal-program-execution-resilience-and-supersession-parent-handoff-20260707T150000Z
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+target_lifecycle_outcome: preserved
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T145500Z/parent-worktree-hygiene.yml
+residue_classification_ref: .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T145500Z/parent-worktree-hygiene.yml
+final_inventory_ref: .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T145500Z/parent-worktree-hygiene.yml
+selected_candidate_id: parent-lifecycle-residue-preserve-exclude
+candidates:
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: parent lifecycle residue outside child closeout authority and outside cleanup deletion authority; preserved for later legal closeout partitioning
+    route_hint: return to proposal-program lifecycle closeout with preserve/exclude evidence
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no mutation performed
+    boundaries:
+      include_paths:
+        - .gitignore
+        - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/report.yml
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-loop-breaker-20260707T132500Z/report.yml
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-ownership-baseline-and-leases-20260707T134000Z/report.yml
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-supersession-rescue-path-20260707T141000Z/report.yml
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-supersession-rescue-path-20260707T141000Z/worktree-hygiene.yml
+      exclude_paths:
+        - child closeout receipts
+        - child validation receipts
+        - child terminal closeout receipts
+        - child archive metadata
+        - archive authorization
+        - cleanup deletion
+        - git mutation
+    proposal_program_parent_handoff_authorization:
+      authorization_grant: parent cleanup receipt explicitly requires non-mutating closeout-worktree preservation before lifecycle closeout can proceed
+      program_run_id: lifecycle-proposal-program-execution-resilience-parent-closeout-20260707T150000Z
+      parent_route_id: cleanup-lifecycle-residue
+      cleanup_receipt_ref: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession/support/lifecycle-residue-cleanup.md
+      cleanup_receipt_digest: sha256:8e2bb9301ec66d6cf694737bac7d593a12d18db87a841ac431bf81f51d745c42
+      classifier_output_ref: .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T145500Z/parent-worktree-hygiene.yml
+      classifier_output_digest: sha256:81227d7a71580f4cd51469d8896cb65c92f8efe500b9331a60f8574b684f9d26
+      cleanup_helper_summary_ref: .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T145500Z/cleanup-local-run-artifacts-summary.yml
+      cleanup_helper_summary_digest: sha256:0625375d7b239efcab1198478b0896e0c6d051872eec20fbfc92cfae49e4ca9b
+      cleanup_helper_classification_digest: sha256:7a0abb02883dd51d45c2b2c9d32ec9c31a9e3a68368128fd46e477568d988e7e
+      residue_fingerprint: sha256:c73a61d3018be431c5bc4901f7e84d138edeaf7c2555cf5ab6b2fa6dbb6c2bec
+      authorized_foreign_fingerprint: sha256:e83f845c3acbd38d652f63a6d07d983fcf17308c3833a287aad4116ffcbd9b03
+      foreign_fingerprint: sha256:e83f845c3acbd38d652f63a6d07d983fcf17308c3833a287aad4116ffcbd9b03
+      authorized_paths:
+        - .gitignore
+        - .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/report.yml
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-loop-breaker-20260707T132500Z/report.yml
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-ownership-baseline-and-leases-20260707T134000Z/report.yml
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-supersession-rescue-path-20260707T141000Z/report.yml
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-supersession-rescue-path-20260707T141000Z/worktree-hygiene.yml
+      disposition: preserve-and-exclude-from-lifecycle-closeout-blocking
+      outside_child_owned_closeout_authority: true
+      separately_partitioned_for_later_legal_closeout: true
+      non_mutating: true
+      preserve_and_exclude_from_lifecycle_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      parent_evidence_replaces_child_evidence: false
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        worktree_cleanup: false
+        repo_hygiene_deletion: false
+        promotion: false
+        hosted_provider_action: false
+        cleaned_claim: false
+        child_closeout_receipt_replacement: false
+        child_validation_replacement: false
+iterations: []
+final_candidate_dispositions:
+  parent-lifecycle-residue-preserve-exclude:
+    state: foreign
+retained_residue:
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .gitignore
+    disposition: foreign/manual residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/report.yml
+    disposition: foreign/manual skill report residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-loop-breaker-20260707T132500Z/report.yml
+    disposition: foreign/manual skill report residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-ownership-baseline-and-leases-20260707T134000Z/report.yml
+    disposition: foreign/manual skill report residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .octon/state/evidence/runs/skills/closeout-worktree/proposal-program-supersession-rescue-path-20260707T141000Z/report.yml
+    disposition: foreign/manual skill report residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+    disposition: foreign/manual closeout classifier residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+    disposition: foreign/manual closeout classifier residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-ownership-baseline-and-leases-20260707T134000Z/worktree-hygiene.yml
+    disposition: foreign/manual closeout classifier residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: parent-lifecycle-residue-preserve-exclude
+    path: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-supersession-rescue-path-20260707T141000Z/worktree-hygiene.yml
+    disposition: foreign/manual closeout classifier residue preserved without mutation, cleanup, archive, publication, or cleaned claim
+blockers: []
+final_residue_classes:
+  ignored: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program lifecycle closeout with child authority preserved

@@ -258,7 +258,7 @@ local_artifact_hygiene:
     - "path matches a known local residue or stale publication-attempt pattern"
     - "optional --cleanup-path selections are a subset of current cleanup candidates and are covered by the receipt cleanup path-set digest"
     - "path is not tracked by git"
-    - "path is not referenced by any tracked control, evidence, generated, governance, workflow, or documentation file"
+    - "path is not referenced by any tracked control, evidence, generated, governance, workflow, or documentation file except diagnostic hygiene/classification path-list reports, workflow baselines, workflow execution request/receipt/grant-bundle/side-effects, program lifecycle planning diagnostics, and stage execution request, receipt, grant-bundle, or side-effect payloads that enumerate residue or support-target paths without asserting liveness"
     - "helper revalidates git refs, status digest, classification digest, cleanup path-set digest, protected paths digest, and manual-review paths digest immediately before deletion"
     - "generated run-health projections are rejected by generic cleanup and routed to generate-run-health-read-model.sh --all-runs generator-owned pruning with pruned_paths evidence"
   classifications:
@@ -283,6 +283,7 @@ local_artifact_hygiene:
     local_filesystem_metadata:
       criteria:
         - "untracked, unreferenced .DS_Store files"
+        - "retained workflow or hygiene evidence may mention excluded .DS_Store noise without making that metadata a liveness dependency; tracked source references still block cleanup"
       action: "safe-to-delete through the dry-run-first local artifact helper"
     stale_unreferenced_publication_attempt:
       criteria:
@@ -293,6 +294,8 @@ local_artifact_hygiene:
       criteria:
         - "untracked publish-* or service-build-* run/control/continuity/external-index artifacts"
         - "untracked lifecycle-proposal-* runner control, continuity, authority-decision, authority-grant, and external-index artifacts that are unreferenced by tracked files"
+        - "internal references from untracked lifecycle-proposal-* operational state to sibling lifecycle operational files do not make that residue live; active runs remain protected by active-run-id routing"
+        - "references inside closeout-worktree, proposal-lifecycle worktree-hygiene, workflow hygiene-classification, workflow baseline, workflow execution request/receipt/grant-bundle/side-effects, program lifecycle planning diagnostics, workflow stage execution request/receipt/grant-bundle/side-effects, or validation-analysis hygiene path-list reports are diagnostic residue evidence and do not by themselves keep raw lifecycle control state live"
         - "untracked closed workflow-engine run control, continuity, authority-decision, authority-grant, and external-index artifacts whose runtime-state is closed, whose execution-complete checkpoint is materialized, whose durable run evidence root exists, and whose paths are unreferenced by tracked files"
         - "untracked closeout-worktree, closeout-packet, and proposal-lifecycle closeout-packet skill run logs that are unreferenced by tracked files and have a publishable wrapper or Change receipt elsewhere"
         - "untracked runtime-agent-quorum checkpoint or evidence artifacts"

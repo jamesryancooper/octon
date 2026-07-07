@@ -1,0 +1,131 @@
+schema_version: closeout-worktree-report-v1
+run_id: closeout-worktree-closeout-worktree-autonomous-partition-evidence-20260707T143000Z
+wrapper_id: closeout-worktree
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+residue_classification_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+final_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+selected_candidate_id: closeout-worktree-child-closeout-foreign-preserve
+candidates:
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: outside closeout-worktree-autonomous-partition-evidence child closeout route; preserved as parent, sibling-child, archived-child, generated, retained lifecycle, and local manual residue
+    route_hint: closeout-worktree-preserve
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, staging, commit, push, publication, archive, branch cleanup, git ref mutation, or cleaned claim
+    boundaries:
+      include_paths:
+        - .gitignore
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+        - .octon/state
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+        - .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+        - .octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json
+        - .octon/framework/product/contracts/change-closeout-state-machine.yml
+    proposal_program_handoff_authorization:
+      child_id: closeout-worktree-autonomous-partition-evidence
+      route_id: closeout-packet
+      interaction_request_ref: manual-program-child-closeout-handoff/closeout-worktree-autonomous-partition-evidence-20260707T143000Z
+      classifier_output_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/closeout-worktree-autonomous-partition-evidence-20260707T143000Z/worktree-hygiene.yml
+      classifier_output_digest: sha256:fa7a066c797c2bed822a6b169d1fcb046138e05cc0dea261ac93d022bfcaf02a
+      authorized_foreign_fingerprint: sha256:44c153f15bcf95d4144cf827e84a127df796758fd0dddda5aac59bfd8a1e9301
+      foreign_fingerprint: sha256:44c153f15bcf95d4144cf827e84a127df796758fd0dddda5aac59bfd8a1e9301
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      authorized_paths:
+        - .gitignore
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+        - .octon/state
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+        promotion: false
+        child_receipt_replacement: false
+        child_validation_replacement: false
+        archive_authorization_replacement: false
+        lifecycle_outcome_replacement: false
+iterations: []
+final_candidate_dispositions:
+  closeout-worktree-child-closeout-foreign-preserve:
+    state: foreign
+retained_residue:
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .gitignore
+    disposition: foreign/manual local residue preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/generated/proposals
+    disposition: foreign/manual generated proposal registry residue preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+    disposition: foreign/manual archived sibling child evidence preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases
+    disposition: foreign/manual archived sibling child evidence preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-supersession-rescue-path
+    disposition: foreign/manual archived sibling child evidence preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker
+    disposition: foreign/manual active-path removal from archived sibling child preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases
+    disposition: foreign/manual active-path removal from archived sibling child preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path
+    disposition: foreign/manual active-path removal from archived sibling child preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+    disposition: foreign/manual parent program evidence preserved outside closeout-worktree child closeout authority
+  - candidate_id: closeout-worktree-child-closeout-foreign-preserve
+    path: .octon/state
+    disposition: foreign/manual retained lifecycle control and evidence preserved outside closeout-worktree child closeout authority
+blockers: []
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 1529
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to closeout-worktree-autonomous-partition-evidence closeout-packet with preserved-by-closeout-worktree hygiene disposition only

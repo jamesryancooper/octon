@@ -1,0 +1,177 @@
+schema_version: closeout-worktree-report-v1
+run_id: closeout-worktree-proposal-program-loop-breaker-20260707T132500Z
+wrapper_id: closeout-worktree
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+residue_classification_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+final_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+selected_candidate_id: loop-breaker-child-closeout-foreign-preserve
+candidates:
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: outside proposal-program-loop-breaker child closeout route; preserved as sibling and parent lifecycle residue
+    route_hint: closeout-worktree-preserve
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, staging, commit, push, publication, archive, branch cleanup, git ref mutation, or cleaned claim
+    boundaries:
+      include_paths:
+        - .octon/generated/proposals/registry.yml
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/navigation/artifact-catalog.md
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/proposal.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/navigation/artifact-catalog.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/proposal.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/navigation/artifact-catalog.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/proposal.yml
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/executable-implementation-prompt.md
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/pre-integration-architecture-review.yml
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/proposal-review.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/executable-implementation-prompt.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/pre-integration-architecture-review.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-review.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/executable-implementation-prompt.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/pre-integration-architecture-review.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/proposal-review.md
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+        - .octon/state/evidence/validation/analysis/2026-07-07-promote-proposal.md
+        - .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T120920Z/reconciliation-summary.md
+        - .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T120920Z/validation-receipt.yml
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+        - .octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh
+    proposal_program_handoff_authorization:
+      child_id: proposal-program-loop-breaker
+      route_id: closeout-packet
+      interaction_request_ref: manual-program-child-closeout-handoff/proposal-program-loop-breaker-20260707T132500Z
+      classifier_output_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+      classifier_output_digest: sha256:9482f0bde370f76ede0079c27a4be4e986282ef1996e8ac5a5f1038398f68dc9
+      authorized_foreign_fingerprint: sha256:03f7c735d9894b69ce23703de37d66629e9181f4b0a3e78fddb12bf0ad2e30f3
+      foreign_fingerprint: sha256:03f7c735d9894b69ce23703de37d66629e9181f4b0a3e78fddb12bf0ad2e30f3
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      authorized_paths:
+        - .octon/generated/proposals/registry.yml
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/navigation/artifact-catalog.md
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/proposal.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/navigation/artifact-catalog.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/proposal.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/navigation/artifact-catalog.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/proposal.yml
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/executable-implementation-prompt.md
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/pre-integration-architecture-review.yml
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/proposal-review.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/executable-implementation-prompt.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/pre-integration-architecture-review.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-review.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/executable-implementation-prompt.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/pre-integration-architecture-review.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/proposal-review.md
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+        - .octon/state/evidence/validation/analysis/2026-07-07-promote-proposal.md
+        - .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T120920Z/reconciliation-summary.md
+        - .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T120920Z/validation-receipt.yml
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+        promotion: false
+        child_receipt_replacement: false
+        child_validation_replacement: false
+        archive_authorization_replacement: false
+        lifecycle_outcome_replacement: false
+iterations: []
+final_candidate_dispositions:
+  loop-breaker-child-closeout-foreign-preserve:
+    state: foreign
+retained_residue:
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/generated/proposals/registry.yml
+    disposition: foreign/manual preserved outside loop-breaker child closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/navigation/artifact-catalog.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/proposal.yml
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/navigation/artifact-catalog.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/proposal.yml
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/navigation/artifact-catalog.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/proposal.yml
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/executable-implementation-prompt.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/pre-integration-architecture-review.yml
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/support/proposal-review.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/executable-implementation-prompt.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/pre-integration-architecture-review.yml
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases/support/proposal-review.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/executable-implementation-prompt.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/pre-integration-architecture-review.yml
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/support/proposal-review.md
+    disposition: foreign/manual sibling child evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-loop-breaker-20260707T132500Z/worktree-hygiene.yml
+    disposition: foreign/manual retained classifier evidence preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/state/evidence/validation/analysis/2026-07-07-promote-proposal.md
+    disposition: foreign/manual retained parent or promotion analysis preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T120920Z/reconciliation-summary.md
+    disposition: foreign/manual retained parent analysis preserved outside loop-breaker closeout authority
+  - candidate_id: loop-breaker-child-closeout-foreign-preserve
+    path: .octon/state/evidence/validation/analysis/proposal-program-execution-resilience-and-supersession-20260707T120920Z/validation-receipt.yml
+    disposition: foreign/manual retained parent validation receipt preserved outside loop-breaker closeout authority
+blockers: []
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 20
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program-loop-breaker closeout-packet with preserved-by-closeout-worktree hygiene disposition only

@@ -1,0 +1,133 @@
+schema_version: closeout-worktree-report-v1
+run_id: closeout-worktree-proposal-program-supersession-rescue-path-20260707T141000Z
+wrapper_id: closeout-worktree
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-supersession-rescue-path-20260707T141000Z/worktree-hygiene.yml
+residue_classification_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-supersession-rescue-path-20260707T141000Z/worktree-hygiene.yml
+final_inventory_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-supersession-rescue-path-20260707T141000Z/worktree-hygiene.yml
+selected_candidate_id: supersession-child-closeout-foreign-preserve
+candidates:
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: outside proposal-program-supersession-rescue-path child closeout route; preserved as parent, sibling-child, archived-child, generated, retained lifecycle, and local manual residue
+    route_hint: closeout-worktree-preserve
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve-only; no deletion, reset, staging, commit, push, publication, archive, branch cleanup, git ref mutation, or cleaned claim
+    boundaries:
+      include_paths:
+        - .gitignore
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence
+        - .octon/state
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-supersession-rescue-path/
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+        - .octon/framework/assurance/runtime/_ops/tests/test-proposal-program-delivery-evidence-index.sh
+        - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/
+        - .octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/
+        - .octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json
+        - .octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json
+        - .octon/framework/product/contracts/proposal-program-delivery-profile-v1.schema.json
+        - .octon/framework/product/contracts/proposal-program-delivery-receipt-v1.schema.json
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+    proposal_program_handoff_authorization:
+      child_id: proposal-program-supersession-rescue-path
+      route_id: closeout-packet
+      interaction_request_ref: manual-program-child-closeout-handoff/proposal-program-supersession-rescue-path-20260707T141000Z
+      classifier_output_ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-program-supersession-rescue-path-20260707T141000Z/worktree-hygiene.yml
+      classifier_output_digest: sha256:e3c571b975842f596473da2fbdefd03358a6ae7a971d0b1e9e2e29ab73d4e5d7
+      authorized_foreign_fingerprint: sha256:2b4782a4ef963621cf2cc7e245bcfbcd2425157fccb6545455c88d83fca98722
+      foreign_fingerprint: sha256:2b4782a4ef963621cf2cc7e245bcfbcd2425157fccb6545455c88d83fca98722
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      outside_child_route_write_scope: true
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      authorized_paths:
+        - .gitignore
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+        - .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence
+        - .octon/state
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        cleaned_claim: false
+        promotion: false
+        child_receipt_replacement: false
+        child_validation_replacement: false
+        archive_authorization_replacement: false
+        lifecycle_outcome_replacement: false
+iterations: []
+final_candidate_dispositions:
+  supersession-child-closeout-foreign-preserve:
+    state: foreign
+retained_residue:
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .gitignore
+    disposition: foreign/manual local residue preserved outside supersession child closeout authority
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .octon/generated/proposals
+    disposition: foreign/manual generated proposal registry residue preserved outside supersession child closeout authority
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker
+    disposition: foreign/manual archived sibling child evidence preserved outside supersession child closeout authority
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-ownership-baseline-and-leases
+    disposition: foreign/manual archived sibling child evidence preserved outside supersession child closeout authority
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker
+    disposition: foreign/manual active-path removal from archived sibling child preserved outside supersession child closeout authority
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-ownership-baseline-and-leases
+    disposition: foreign/manual active-path removal from archived sibling child preserved outside supersession child closeout authority
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/proposal-program-execution-resilience-and-supersession
+    disposition: foreign/manual parent program evidence preserved outside supersession child closeout authority
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence
+    disposition: foreign/manual sibling child evidence preserved outside supersession child closeout authority
+  - candidate_id: supersession-child-closeout-foreign-preserve
+    path: .octon/state
+    disposition: foreign/manual retained lifecycle control and evidence preserved outside supersession child closeout authority
+blockers: []
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 1129
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: return to proposal-program-supersession-rescue-path closeout-packet with preserved-by-closeout-worktree hygiene disposition only

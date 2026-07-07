@@ -84,13 +84,14 @@ LOCK
 
   mkdir -p "$root/.octon/state/control/execution/runs/lifecycle-proposal-program-1"
   printf 'checkpoint: local\n' >"$root/.octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+  printf 'ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml\n' >"$root/.octon/state/control/execution/runs/lifecycle-proposal-program-1/run-manifest.yml"
 
   mkdir -p "$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow"
   printf 'handoff: local\n' >"$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/handoff.yml"
 
   mkdir -p "$root/.octon/state/evidence/control/execution"
-  printf 'decision: local\n' >"$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
-  printf 'grant: local\n' >"$root/.octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1.yml"
+  printf 'decision_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1/run-manifest.yml\n' >"$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
+  printf 'grant_ref: .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml\n' >"$root/.octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1.yml"
 
   mkdir -p "$root/.octon/state/evidence/external-index/runs"
   printf 'external-index: local\n' >"$root/.octon/state/evidence/external-index/runs/lifecycle-proposal-program-1.yml"
@@ -194,9 +195,113 @@ source_refs:
     ref: .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml
 YAML
 
+  cat >"$root/.octon/state/evidence/validation/analysis/2026-07-07T00-00-00Z-closeout-worktree-fixture-archive-readiness.yml" <<'YAML'
+schema_version: closeout-worktree-report-v1
+retained_residue:
+  - path: .octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml
+    disposition: diagnostic residue path listing only
+YAML
+
   mkdir -p "$root/.octon/inputs/exploratory/proposals/fixture-local"
   printf 'local finder metadata\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
   printf 'proposal input must stay\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/proposal.yml"
+
+  mkdir -p "$root/.octon/state/evidence/runs/workflows/process-incoming-intake-fixture"
+  cat >"$root/.octon/state/evidence/runs/workflows/process-incoming-intake-fixture/decision.md" <<'MARKDOWN'
+## Intake Validator Findings
+
+- excluded_noise:
+  - .octon/inputs/exploratory/proposals/fixture-local/.DS_Store
+MARKDOWN
+
+  mkdir -p "$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/reports"
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/worktree-baseline.yml" <<'YAML'
+untracked:
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml
+YAML
+  mkdir -p "$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/workflow-execution"
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/workflow-execution/execution-request.json" <<'JSON'
+{
+  "support_target_tuple_ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml#support_target"
+}
+JSON
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/workflow-execution/execution-receipt.json" <<'JSON'
+{
+  "effect_tokens": [
+    ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+  ]
+}
+JSON
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/workflow-execution/grant-bundle.json" <<'JSON'
+{
+  "governing_refs": {
+    "run_checkpoint_ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+  }
+}
+JSON
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/workflow-execution/side-effects.json" <<'JSON'
+{
+  "side_effect_paths": [
+    ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+  ]
+}
+JSON
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/reports/classify-worktree-hygiene-report.md" <<'MARKDOWN'
+- `.octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml`
+MARKDOWN
+  mkdir -p "$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/stages/promote-proposal"
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/stages/promote-proposal/execution-request.json" <<'JSON'
+{
+  "support_target_tuple_ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml#support_target"
+}
+JSON
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/stages/promote-proposal/execution-receipt.json" <<'JSON'
+{
+  "mutated_paths": [
+    ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+  ]
+}
+JSON
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/stages/promote-proposal/grant-bundle.json" <<'JSON'
+{
+  "governing_refs": {
+    "run_checkpoint_ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+  }
+}
+JSON
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-fixture/stages/promote-proposal/side-effects.json" <<'JSON'
+{
+  "side_effect_paths": [
+    ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+  ]
+}
+JSON
+
+  mkdir -p "$root/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-fixture"
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-fixture/program-context-capsule.yml" <<'YAML'
+source_refs:
+  - artifact_role: program-control-checkpoint-diagnostic
+    artifact_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml
+    required: false
+YAML
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-fixture/route-decision-receipt.yml" <<'YAML'
+resume_source_refs:
+  source_refs:
+    - artifact_role: program-control-checkpoint-diagnostic
+      artifact_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml
+      required: false
+YAML
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-fixture/compact-completion-capsule.yml" <<'YAML'
+source_refs:
+  - artifact_role: program-control-checkpoint-diagnostic
+    artifact_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml
+    required: false
+YAML
+  cat >"$root/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-fixture/no-dispatch-attempt-ledger.yml" <<'YAML'
+attempts:
+  - artifact_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml
+    required: false
+YAML
 
   printf 'manual: true\n' >"$root/.octon/state/evidence/validation/analysis/manual.yml"
 
@@ -275,6 +380,7 @@ dry_run_output="$(bash "$HELPER" --root "$root")"
 assert_output_contains "$dry_run_output" "dry-run did not report cleanup candidates" "cleanup_candidate"
 assert_output_contains "$dry_run_output" "dry-run did not classify stale receipt" ".octon/state/evidence/validation/publication/capabilities/stale.yml"
 assert_output_contains "$dry_run_output" "dry-run did not classify lifecycle runner residue" "proposal lifecycle runner residue"
+assert_output_not_contains "$dry_run_output" "dry-run treated diagnostic hygiene path listing as a liveness reference" "protected" ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
 assert_output_contains "$dry_run_output" "dry-run did not classify closeout skill run residue" "closeout skill run residue"
 assert_output_contains "$dry_run_output" "dry-run did not protect route-local closeout interaction request referenced by retained evidence" "protected" ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/lifecycle-interaction-request.json"
 assert_output_contains "$dry_run_output" "dry-run did not protect route-local closeout classifier referenced by retained evidence" "protected" ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/lifecycle-proposal-program-fixture-child/worktree-hygiene.yml"
