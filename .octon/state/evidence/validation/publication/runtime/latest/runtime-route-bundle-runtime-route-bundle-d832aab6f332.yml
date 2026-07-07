@@ -1,9 +1,9 @@
 schema_version: "octon-compact-receipt-pointer-v1"
 producer_id: "runtime-route-bundle"
 generation_id: "runtime-route-bundle-d832aab6f332"
-receipt_content_sha256: "sha256:9370635d1e09c064802b8933fd0dae516e6fa5053c2b79c71ae3b1d140bf8124"
-receipt_path: ".octon/state/evidence/validation/publication/runtime/by-digest/runtime-route-bundle/9370635d1e09c064802b8933fd0dae516e6fa5053c2b79c71ae3b1d140bf8124.yml"
-receipt_sha256: "sha256:673e28dfbaebbc4a96a2a7afe261e021d6b0121a5c2425d7f5f89a455623017e"
+receipt_content_sha256: "sha256:2c4805b494046125234b9d52daf2e5a34e3ae004200e301e1c8046d529923279"
+receipt_path: ".octon/state/evidence/validation/publication/runtime/by-digest/runtime-route-bundle/2c4805b494046125234b9d52daf2e5a34e3ae004200e301e1c8046d529923279.yml"
+receipt_sha256: "sha256:8900d11bf4f60f898e6beb7002e0476e84f9adc38f5cea27850b18ccfa45639e"
 retained_full_receipt: true
 non_authority_classification: "retained-evidence-index"
 authority_boundaries:
