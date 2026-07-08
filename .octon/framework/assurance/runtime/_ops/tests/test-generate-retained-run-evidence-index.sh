@@ -39,6 +39,24 @@ assert_failure() {
   fi
 }
 
+assert_retrieval_metrics() {
+  local index="$1"
+  python3 - "$index" <<'PY'
+import json
+import pathlib
+import sys
+
+index = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+metrics = index.get("retrieval_metrics") or {}
+if metrics.get("metric_authority") != "evidence-only":
+    raise SystemExit("retrieval metrics are not evidence-only")
+if metrics.get("indexed_ref_count", 0) <= 0:
+    raise SystemExit("indexed_ref_count is missing or empty")
+if metrics.get("terminal_evidence_ref_count", 0) <= 0:
+    raise SystemExit("terminal_evidence_ref_count is missing or empty")
+PY
+}
+
 write_file() {
   local path="$1"
   shift
@@ -124,6 +142,8 @@ main() {
     bash "$VALIDATOR" \
       --root "$valid_root" \
       --index ".octon/state/evidence/runs/test-child-retained-index/retained-run-evidence-index.yml"
+  assert_success "materialized retained index reports retrieval metrics" \
+    assert_retrieval_metrics "$valid_root/.octon/state/evidence/runs/test-child-retained-index/retained-run-evidence-index.yml"
 
   local archived_root="$tmp/archived"
   make_child_fixture "$archived_root" ".octon/inputs/exploratory/proposals/.archive/architecture/test-child" pass archived

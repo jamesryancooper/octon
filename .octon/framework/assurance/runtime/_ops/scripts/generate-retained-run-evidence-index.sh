@@ -331,6 +331,15 @@ indexed_refs.extend(validation_refs)
 indexed_refs.extend(rollback_refs)
 indexed_refs.extend(extra_refs)
 
+ref_class_counts = {}
+for indexed_ref in indexed_refs:
+    ref_class = indexed_ref.get("ref_class") or "unknown"
+    ref_class_counts[ref_class] = ref_class_counts.get(ref_class, 0) + 1
+terminal_evidence_ref_count = sum(
+    len(records)
+    for records in (child_refs, validation_refs, rollback_refs)
+)
+
 index = {
     "schema_version": "retained-run-evidence-index-v1",
     "subject": {
@@ -356,6 +365,19 @@ index = {
         "cleanup": [],
     },
     "indexed_refs": indexed_refs,
+    "retrieval_metrics": {
+        "metric_authority": "evidence-only",
+        "indexed_ref_count": len(indexed_refs),
+        "terminal_evidence_ref_count": terminal_evidence_ref_count,
+        "control_ref_count": 0,
+        "substitute_workflow_ref_count": len(substitute_refs),
+        "retained_evidence_ref_count": (
+            ref_class_counts.get("retained-evidence", 0)
+            + ref_class_counts.get("retained-workflow-evidence", 0)
+        ),
+        "proposal_local_ref_count": ref_class_counts.get("proposal-local", 0),
+        "generated_ref_count": ref_class_counts.get("generated", 0),
+    },
     "freshness": {
         "mode": "digest-bound",
         "source_digest_required": True,

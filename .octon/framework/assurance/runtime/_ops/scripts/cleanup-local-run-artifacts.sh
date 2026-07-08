@@ -1233,10 +1233,54 @@ count_lines() {
   fi
 }
 
+count_rows_by_disposition_kind() {
+  local disposition="$1"
+  local kind="$2"
+  awk -F '\t' -v disposition="$disposition" -v kind="$kind" '
+    $1 == disposition && $2 == kind { count++ }
+    END { print count + 0 }
+  ' "$CLASSIFICATION_ROWS"
+}
+
+count_protected_rows_by_kind() {
+  local kind="$1"
+  awk -F '\t' -v kind="$kind" '
+    ($1 == "protected" || $1 == "protected_referenced") && $2 == kind { count++ }
+    END { print count + 0 }
+  ' "$CLASSIFICATION_ROWS"
+}
+
+count_rows_by_disposition_prefix() {
+  local disposition="$1"
+  local prefix="$2"
+  awk -F '\t' -v disposition="$disposition" -v prefix="$prefix" '
+    $1 == disposition && index($3, prefix) == 1 { count++ }
+    END { print count + 0 }
+  ' "$CLASSIFICATION_ROWS"
+}
+
+count_protected_rows_by_prefix() {
+  local prefix="$1"
+  awk -F '\t' -v prefix="$prefix" '
+    ($1 == "protected" || $1 == "protected_referenced") && index($3, prefix) == 1 { count++ }
+    END { print count + 0 }
+  ' "$CLASSIFICATION_ROWS"
+}
+
 eligible_cleanup_count="$(count_lines "$CLEANUP_PATHS")"
 cleanup_count="$(count_lines "$SELECTED_CLEANUP_PATHS")"
 protected_count="$(count_lines "$PROTECTED_PATHS")"
 manual_count="$(count_lines "$MANUAL_PATHS")"
+cleanup_local_run_residue_count="$(count_rows_by_disposition_kind cleanup_candidate local_run_residue)"
+cleanup_generated_scratch_output_count="$(count_rows_by_disposition_kind cleanup_candidate generated_scratch_output)"
+cleanup_stale_publication_count="$(count_rows_by_disposition_kind cleanup_candidate stale_unreferenced_publication_attempt)"
+cleanup_local_filesystem_metadata_count="$(count_rows_by_disposition_kind cleanup_candidate local_filesystem_metadata)"
+manual_retained_evidence_count="$(count_rows_by_disposition_kind manual_review retained_evidence)"
+manual_control_state_count="$(count_rows_by_disposition_prefix manual_review .octon/state/control/)"
+manual_continuity_state_count="$(count_rows_by_disposition_prefix manual_review .octon/state/continuity/)"
+protected_retained_evidence_count="$(count_protected_rows_by_kind retained_evidence)"
+protected_control_state_count="$(count_protected_rows_by_prefix .octon/state/control/)"
+protected_continuity_state_count="$(count_protected_rows_by_prefix .octon/state/continuity/)"
 
 write_authorization_receipt() {
   local out="$1"
@@ -1586,8 +1630,18 @@ echo "summary:"
 echo "  mode: $mode"
 echo "  cleanup_candidates: $cleanup_count"
 echo "  eligible_cleanup_candidates: $eligible_cleanup_count"
+echo "  cleanup_local_run_residue: $cleanup_local_run_residue_count"
+echo "  cleanup_generated_scratch_output: $cleanup_generated_scratch_output_count"
+echo "  cleanup_stale_unreferenced_publication_attempt: $cleanup_stale_publication_count"
+echo "  cleanup_local_filesystem_metadata: $cleanup_local_filesystem_metadata_count"
 echo "  protected_referenced: $protected_count"
+echo "  protected_retained_evidence: $protected_retained_evidence_count"
+echo "  protected_control_state: $protected_control_state_count"
+echo "  protected_continuity_state: $protected_continuity_state_count"
 echo "  manual_review: $manual_count"
+echo "  manual_review_retained_evidence: $manual_retained_evidence_count"
+echo "  manual_review_control_state: $manual_control_state_count"
+echo "  manual_review_continuity_state: $manual_continuity_state_count"
 echo "  git_status_digest: $GIT_STATUS_DIGEST"
 echo "  classification_digest: $CLASSIFICATION_DIGEST"
 echo "  cleanup_path_set_digest: $CLEANUP_PATH_SET_DIGEST"

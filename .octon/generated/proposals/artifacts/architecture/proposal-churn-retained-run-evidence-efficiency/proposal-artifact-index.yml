@@ -1,5 +1,5 @@
 {
-  "artifact_count": 9,
+  "artifact_count": 19,
   "artifacts": [
     {
       "byte_size": 3051,
@@ -7,7 +7,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "README.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/README.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/README.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -26,7 +26,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/acceptance-criteria.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/acceptance-criteria.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -46,7 +46,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/implementation-plan.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/implementation-plan.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -66,7 +66,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/target-architecture.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/target-architecture.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -86,7 +86,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "architecture-proposal.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture-proposal.yml",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
@@ -100,19 +100,19 @@
       "stage_role": "spine"
     },
     {
-      "byte_size": 310,
-      "estimated_tokens": 78,
+      "byte_size": 736,
+      "estimated_tokens": 184,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "navigation/artifact-catalog.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/artifact-catalog.md",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "artifact-catalog",
-      "sha256": "sha256:55d629a9acc19b5319ee595072ebf9edfc9cd5326797975bc1b690a9140d9ba3",
+      "sha256": "sha256:97b7a004e76cafcccb302126ff9d93601cc0d77d9165b3dbb1ad2b1c5345cbef",
       "stage_relevance": [
         "all-routes"
       ],
@@ -124,7 +124,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "navigation/source-of-truth-map.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/source-of-truth-map.md",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
@@ -138,19 +138,19 @@
       "stage_role": "spine"
     },
     {
-      "byte_size": 4140,
-      "estimated_tokens": 1035,
+      "byte_size": 4815,
+      "estimated_tokens": 1204,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "proposal.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/proposal.yml",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "proposal-manifest",
-      "sha256": "sha256:223c81b61006d80d98e2b2fc3fc5eb27e1fa4f5564ce0c7f442adf141b415e1d",
+      "sha256": "sha256:3b550f4e19c88ac400d65d6313db4738dc8f06d81aff25582d7dfaafdfde709c",
       "stage_relevance": [
         "all-routes"
       ],
@@ -162,7 +162,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/deferred-disposition.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/deferred-disposition.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/deferred-disposition.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -174,15 +174,227 @@
         "support-review"
       ],
       "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4441,
+      "estimated_tokens": 1111,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/executable-implementation-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/executable-implementation-prompt.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "executable-implementation-prompt",
+      "sha256": "sha256:2261ffa6167f837ed5bc014726b96b28ffc3574157106fcd56bdf0811a68ce56",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 3585,
+      "estimated_tokens": 897,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-conformance-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-conformance-review",
+      "sha256": "sha256:dbac0edf6f4f05527ee2194b42e3605382d45c1856736bbf2fbce51368dcb825",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 3712,
+      "estimated_tokens": 928,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-grade-completeness-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "implementation-grade-completeness-review",
+      "sha256": "sha256:eeb4f358b70467c3736c689a8ca9d23c5a9488cd4634e15ae72563825a4c55df",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2847,
+      "estimated_tokens": 712,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-run.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-run.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-run",
+      "sha256": "sha256:efef24ce73c655814130d6a8f96c0ad229a4242bc6dce659edb6007bf21c9add",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 3472,
+      "estimated_tokens": 868,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/post-implementation-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/post-implementation-drift-churn-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "post-implementation-drift-churn-review",
+      "sha256": "sha256:dc6b52d79aa9283545ceecbd9340fa85778e9aad272cc604a67eff71216814d9",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 4059,
+      "estimated_tokens": 1015,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/pre-integration-architecture-review.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/pre-integration-architecture-review.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "pre-integration-architecture-review",
+      "sha256": "sha256:8e61a5019123082cc090d570b21f7a6e55b4dcffb180cf18e595353945622062",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 1447,
+      "estimated_tokens": 362,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:2a81b860c227c3e4f76a9162e971aea05abfac5342bec17d73de1dc60cd5c987",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2526,
+      "estimated_tokens": 632,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/proposal-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-review",
+      "sha256": "sha256:83238cc440a0863fa06dbc2cd6b6ec6b2234788be7c6af4ff0e267ba66d8ce92",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 14567,
+      "estimated_tokens": 3642,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:00c42c858bdfa3369ab0775c6738b6bd0506acb6cc9a36d50539a78bc3ca36bf",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2349,
+      "estimated_tokens": 588,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/validation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/validation.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "validation",
+      "sha256": "sha256:b1ccb36694d094130ad9fc2c51abb18692f94ae97dffdac1d9a8e21dbb786226",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
     }
   ],
   "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
     "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
     "generated_output_authority": "derived-only",
     "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
     "proposal_input_authority": "non-authoritative",
     "raw_evidence_retained": true,
-    "replaces_source_evidence": false
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
   },
   "compact_outputs": [
     {
@@ -215,7 +427,7 @@
   "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
   "proposal_id": "proposal-churn-retained-run-evidence-efficiency",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -226,20 +438,26 @@
   },
   "schema_version": "octon-proposal-artifact-index-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture-proposal.yml": "sha256:2ca8789efab5b3b185db7c97795d6ea3958e1407c0d37e1e0fc1f1f7552f46b8",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/acceptance-criteria.md": "sha256:4f43a33e0790e9844c2fdfbac16ee68003ebe0e5e21ba31fd8b22a9153baa94f",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/implementation-plan.md": "sha256:44cf790adf7d7e93fe07598005f5cab8e5345afa0d8bdbdf8f1634ec0424d55d",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/artifact-catalog.md": "sha256:55d629a9acc19b5319ee595072ebf9edfc9cd5326797975bc1b690a9140d9ba3",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/source-of-truth-map.md": "sha256:914205bc2dca5cf71be90eb0d708473f0a6c143babf92259ef2cc62cfcc91cdd",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/proposal.yml": "sha256:223c81b61006d80d98e2b2fc3fc5eb27e1fa4f5564ce0c7f442adf141b415e1d"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture-proposal.yml": "sha256:2ca8789efab5b3b185db7c97795d6ea3958e1407c0d37e1e0fc1f1f7552f46b8",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/acceptance-criteria.md": "sha256:4f43a33e0790e9844c2fdfbac16ee68003ebe0e5e21ba31fd8b22a9153baa94f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/implementation-plan.md": "sha256:44cf790adf7d7e93fe07598005f5cab8e5345afa0d8bdbdf8f1634ec0424d55d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/artifact-catalog.md": "sha256:97b7a004e76cafcccb302126ff9d93601cc0d77d9165b3dbb1ad2b1c5345cbef",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/source-of-truth-map.md": "sha256:914205bc2dca5cf71be90eb0d708473f0a6c143babf92259ef2cc62cfcc91cdd",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/proposal.yml": "sha256:3b550f4e19c88ac400d65d6313db4738dc8f06d81aff25582d7dfaafdfde709c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/executable-implementation-prompt.md": "sha256:2261ffa6167f837ed5bc014726b96b28ffc3574157106fcd56bdf0811a68ce56",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-grade-completeness-review.md": "sha256:eeb4f358b70467c3736c689a8ca9d23c5a9488cd4634e15ae72563825a4c55df",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/proposal-review.md": "sha256:83238cc440a0863fa06dbc2cd6b6ec6b2234788be7c6af4ff0e267ba66d8ce92"
   },
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/proposal.yml"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/proposal-review.md"
   ],
   "targeted_dependency_refs": [
     {
@@ -263,31 +481,31 @@
       "source_field": "proposal.yml#related_proposals"
     },
     {
-      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
-      "manifest_sha256": "sha256:80e35c9b91a8d18775d67c4fe4ecd0c5ab45fc1e38f89eb9137730032ef87bdd",
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition/proposal.yml",
+      "manifest_sha256": "sha256:bb77c0c972c9eced6733c7e6fb8be142a26ceed08e8117d0fe77eb5016c33af7",
       "proposal_id": "run-program-clean-delivery-cleanup-disposition",
       "proposal_kind": "architecture",
-      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/run-program-clean-delivery-cleanup-disposition",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/run-program-clean-delivery-cleanup-disposition",
       "ref_type": "related_proposal",
       "required": true,
       "source_field": "proposal.yml#related_proposals"
     },
     {
-      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker/proposal.yml",
-      "manifest_sha256": "sha256:6ddba2b8efe21c736f764040d99df5909e4ad970ae2e37a08aeb82e878f85226",
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker/proposal.yml",
+      "manifest_sha256": "sha256:21957b17e4c236ab31d02e97febca2170dd8fea370a0d61af49ea274288e6cc3",
       "proposal_id": "proposal-program-loop-breaker",
       "proposal_kind": "architecture",
-      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-loop-breaker",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-loop-breaker",
       "ref_type": "related_proposal",
       "required": true,
       "source_field": "proposal.yml#related_proposals"
     },
     {
-      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence/proposal.yml",
-      "manifest_sha256": "sha256:24ceef6002790a9b0df5435043a9c92cbed92b606422bdd06a98db0b650cbb41",
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-worktree-autonomous-partition-evidence/proposal.yml",
+      "manifest_sha256": "sha256:ea75a898201ee6945c49ba14759e576a64fbab9f36f83cefef3b9ccf494a4798",
       "proposal_id": "closeout-worktree-autonomous-partition-evidence",
       "proposal_kind": "architecture",
-      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/closeout-worktree-autonomous-partition-evidence",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/closeout-worktree-autonomous-partition-evidence",
       "ref_type": "related_proposal",
       "required": true,
       "source_field": "proposal.yml#related_proposals"

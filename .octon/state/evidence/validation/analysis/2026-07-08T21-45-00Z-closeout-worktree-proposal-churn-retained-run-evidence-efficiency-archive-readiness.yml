@@ -1,0 +1,165 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-proposal-churn-retained-run-evidence-efficiency-20260708T214500Z
+target: .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency
+target_lifecycle_outcome: archive-ready
+observed_change_set_count: 3
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/worktree-hygiene-classifier.yml
+residue_classification_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/worktree-hygiene-classifier.yml
+final_inventory_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/worktree-hygiene-classifier.yml
+selected_candidate_id: proposal-churn-delivery-change
+candidates:
+  - candidate_id: proposal-churn-delivery-change
+    disposition: deferred
+    residue_routing_class: publishable_change
+    ownership: retained-run-evidence efficiency implementation, packet support receipts, generated read models, and canonical publication refreshes that must be landed by the downstream branch-no-pr Change closeout route
+    route_hint: closeout-change after archive-proposal relocates the implemented packet
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserve for branch-no-pr Change closeout; closeout-worktree performs no staging, commit, push, archive, deletion, cleanup, or cleaned claim
+    boundaries:
+      include_paths:
+        - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/generate-retained-run-evidence-index.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-retained-run-evidence-index.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-generate-retained-run-evidence-index.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-retained-run-evidence-index.sh
+        - .octon/framework/engine/runtime/spec/evidence-store-v1.md
+        - .octon/generated/effective
+        - .octon/generated/proposals
+        - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency
+        - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/control/extensions/quarantine.yml
+        - .octon/state/evidence/decisions
+        - .octon/state/evidence/validation/compatibility/extensions
+        - .octon/state/evidence/validation/extensions
+        - .octon/state/evidence/validation/publication
+      exclude_paths:
+        - .git
+        - .octon/state/evidence/runs/workflows
+        - .octon/state/evidence/runs/skills
+        - .octon/state/evidence/validation/analysis
+        - .octon/state/evidence/local
+    lifecycle_closeout_authority:
+      completed_program_run_id: proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+      program_target: .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency
+      completed_program_summary_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/promote-proposal/summary.md
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-run.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-conformance-review.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/post-implementation-drift-churn-review.md
+        - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/proposal-closeout.md
+        - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/promote-proposal/summary.md
+  - candidate_id: proposal-churn-retained-operational-evidence
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: workflow, skill-run, and closeout-worktree evidence preserved as retained evidence and excluded from child packet authority
+    route_hint: preserve-and-exclude return to proposal-packet terminal closeout; later Change closeout remains final worktree owner
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: retain without deletion, cleanup, archive, Git mutation, or cleaned claim
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+        - .octon/state/evidence/validation/analysis/2026-07-08T21-45-00Z-closeout-worktree-proposal-churn-retained-run-evidence-efficiency-archive-readiness.yml
+      exclude_paths:
+        - .git
+    proposal_program_handoff_authorization:
+      outside_child_route_write_scope: true
+      authorization_grant: Terminal closeout preserves workflow-owned and skill-owned retained evidence without treating it as child packet authority or cleanup material.
+      child_id: proposal-churn-retained-run-evidence-efficiency
+      route_id: closeout-worktree
+      interaction_request_ref: .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/proposal-closeout.md
+      classifier_output_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/worktree-hygiene-classifier.yml
+      classifier_output_digest: sha256:e720738765d703cf088b6c334e736e93985d114d60d0f1024a6a0de44110af51
+      authorized_foreign_fingerprint: sha256:ad71c755833bd30a14afaf6153ef1140fcc09ef48921c984477bbf93c8d784a4
+      foreign_fingerprint: sha256:ad71c755833bd30a14afaf6153ef1140fcc09ef48921c984477bbf93c8d784a4
+      authorized_paths:
+        - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+        - .octon/state/evidence/runs/skills/closeout-worktree/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+        - .octon/state/evidence/validation/analysis/2026-07-08T21-45-00Z-closeout-worktree-proposal-churn-retained-run-evidence-efficiency-archive-readiness.yml
+      disposition: preserve-and-exclude-from-child-closeout-blocking
+      non_mutating: true
+      preserve_and_exclude_from_child_closeout_blocking: true
+      parent_summary_not_child_closeout_receipt: true
+      child_closeout_authority_preserved: true
+      forbidden_actions:
+        deletion: false
+        reset: false
+        staging: false
+        commit: false
+        push: false
+        publication: false
+        archive: false
+        branch_cleanup: false
+        git_ref_mutation: false
+        worktree_cleanup: false
+        repo_hygiene_deletion: false
+        promotion: false
+        hosted_provider_action: false
+        cleaned_claim: false
+        child_closeout_receipt_replacement: false
+        child_validation_replacement: false
+  - candidate_id: proposal-churn-retained-local-evidence
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: local-private retained evidence sink, if present, remains outside packet authority and outside cleanup authority
+    route_hint: preserve local-private retained evidence; no action in packet terminal closeout
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain; closeout-worktree performed no deletion or cleanup
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/local/
+      exclude_paths:
+        - .git
+iterations: []
+final_candidate_dispositions:
+  proposal-churn-delivery-change:
+    state: deferred
+  proposal-churn-retained-operational-evidence:
+    state: foreign
+  proposal-churn-retained-local-evidence:
+    state: retained
+retained_residue:
+  - candidate_id: proposal-churn-retained-operational-evidence
+    path: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+    disposition: foreign/manual workflow run evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: proposal-churn-retained-operational-evidence
+    path: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+    disposition: foreign/manual repo-hygiene evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: proposal-churn-retained-operational-evidence
+    path: .octon/state/evidence/runs/skills/closeout-worktree/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+    disposition: foreign/manual closeout-worktree evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: proposal-churn-retained-operational-evidence
+    path: .octon/state/evidence/validation/analysis/2026-07-08T21-45-00Z-closeout-worktree-proposal-churn-retained-run-evidence-efficiency-archive-readiness.yml
+    disposition: foreign/manual partition analysis evidence preserved without mutation, cleanup, archive, publication, or cleaned claim
+  - candidate_id: proposal-churn-retained-local-evidence
+    path: .octon/state/evidence/local/
+    disposition: local private retained evidence sink preserved without mutation, cleanup, archive, publication, or cleaned claim
+blockers:
+  - candidate_id: proposal-churn-delivery-change
+    blocker: delivery change remains for archive-proposal relocation and downstream branch-no-pr Change closeout
+final_residue_classes:
+  ignored: 0
+  staged: 0
+  unstaged_tracked: 21
+  untracked: 63
+  generated_effective_output: 6
+  host_projection: 0
+  retained_evidence: 47
+  state_control: 2
+  release_version: 0
+  input_surface: 1
+worktree_terminal_state: nonterminal
+next_route_condition: archive-proposal followed by closeout-change branch-no-pr landing and cleanup

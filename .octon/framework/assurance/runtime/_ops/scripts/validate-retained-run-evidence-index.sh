@@ -178,6 +178,51 @@ for record in indexed_refs:
     if ref:
         indexed_by_ref.setdefault(ref, record)
 
+ref_class_counts = {}
+for record in indexed_refs:
+    ref_class = record.get("ref_class") or "unknown"
+    ref_class_counts[ref_class] = ref_class_counts.get(ref_class, 0) + 1
+
+terminal_evidence_ref_count = sum(
+    len(records)
+    for records in terminal.values()
+    if isinstance(records, list)
+)
+
+metrics = index.get("retrieval_metrics")
+if isinstance(metrics, dict):
+    ok("retrieval metrics present")
+else:
+    fail("retrieval_metrics must be an object")
+    metrics = {}
+
+require_equal(metrics.get("metric_authority"), "evidence-only", "retrieval metrics authority")
+
+expected_metrics = {
+    "indexed_ref_count": len(indexed_refs),
+    "terminal_evidence_ref_count": terminal_evidence_ref_count,
+    "control_ref_count": len(control_refs),
+    "substitute_workflow_ref_count": len(substitute_refs),
+    "retained_evidence_ref_count": (
+        ref_class_counts.get("retained-evidence", 0)
+        + ref_class_counts.get("retained-workflow-evidence", 0)
+    ),
+    "proposal_local_ref_count": ref_class_counts.get("proposal-local", 0),
+    "generated_ref_count": ref_class_counts.get("generated", 0),
+}
+
+for metric_name, expected in expected_metrics.items():
+    value = metrics.get(metric_name)
+    if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+        ok(f"retrieval metric {metric_name} is non-negative")
+    else:
+        fail(f"retrieval metric {metric_name} must be a non-negative integer")
+        continue
+    if value == expected:
+        ok(f"retrieval metric {metric_name} matches indexed evidence")
+    else:
+        fail(f"retrieval metric {metric_name} mismatch: expected {expected}, found {value}")
+
 def iter_nested_refs():
     for source_name, records in (
         ("control_refs", control_refs),

@@ -1,0 +1,39 @@
+schema_version: repo-hygiene-cleanup-summary-v1
+receipt_id: repo-hygiene-cleanup-proposal-churn-retained-run-evidence-efficiency-20260708T000000Z
+emitted_at: "2026-07-08T21:28:00Z"
+route: authorization
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+authorization_receipt_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/authorization.json
+authorization_receipt_digest: sha256:fe1506e8daf204a410506a8c31dafd113a3102d338c5f0cb57847b2db90c13c8
+helper_summary:
+  cleanup_candidates: 28
+  eligible_cleanup_candidates: 28
+  cleanup_local_run_residue: 28
+  cleanup_generated_scratch_output: 0
+  cleanup_stale_unreferenced_publication_attempt: 0
+  cleanup_local_filesystem_metadata: 0
+  protected_referenced: 43
+  protected_retained_evidence: 43
+  protected_control_state: 0
+  protected_continuity_state: 0
+  manual_review: 0
+  manual_review_retained_evidence: 0
+  manual_review_control_state: 0
+  manual_review_continuity_state: 0
+  git_status_digest: sha256:3d1e82a86b470574b56215bb2c72b7c3cd13970fefaafa1ba2a9670fed021ca1
+  classification_digest: sha256:1a85a6f68c53434a25c4abe021f658dd9690556caef4e3de1cfb1fa3f9d5d901
+  cleanup_path_set_digest: sha256:b386e623c4609ffcf8898d9ebe8205c4b5f48103f250abe0abe238f86a601e6a
+  protected_paths_digest: sha256:b9711ce1330643ac8372afd5e61aa60c538c4d6dbf3cd105a9355c2c32ff5f49
+  manual_review_paths_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  reference_scan_status: complete
+  reference_scan_pattern_count: 71
+  reference_scan_pattern_limit: 2000
+cleanup_result:
+  deleted_count: 28
+  retained_protected_count: 43
+  retained_manual_review_count: 0
+  unauthorized_deletion_performed: false
+redaction_posture: summary counts and digests only; raw deleted and retained path lists are not embedded in this publishable receipt
+local_evidence_ref: not-published
+blocker: none

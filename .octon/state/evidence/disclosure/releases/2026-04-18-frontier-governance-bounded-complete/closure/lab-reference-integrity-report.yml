@@ -1,0 +1,11 @@
+schema_version: octon-lab-reference-integrity-v1
+release_id: 2026-04-18-frontier-governance-bounded-complete
+status: pass
+summary:
+  authored_scenarios_checked: 6
+  dossier_refs_checked: 10
+  admission_refs_checked: 16
+  proof_refs_checked: 10
+  unresolved_refs: 0
+violations: []
+generated_at: "2026-04-18T12:00:00Z"

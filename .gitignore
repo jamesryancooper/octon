@@ -290,6 +290,8 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-proposal-artifact-compaction/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-receipt-fanout-compaction/
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-receipt-fanout-compaction/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-host-projection-idempotency/
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-host-projection-idempotency/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-tmp-engine-cache-hygiene/

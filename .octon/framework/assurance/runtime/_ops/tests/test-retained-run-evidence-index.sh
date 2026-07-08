@@ -109,6 +109,11 @@ indexed.extend([
     record(generated, "generated-read-model", "generated", "derived-only"),
     record(proposal, "proposal-context", "proposal-local", "non-authoritative"),
 ])
+ref_class_counts = {}
+for item in indexed:
+    ref_class = item.get("ref_class", "unknown")
+    ref_class_counts[ref_class] = ref_class_counts.get(ref_class, 0) + 1
+terminal_evidence_ref_count = sum(len(records) for records in terminal.values())
 
 index = {
     "schema_version": "retained-run-evidence-index-v1",
@@ -128,6 +133,19 @@ index = {
     "substitute_workflow_refs": substitute_refs,
     "terminal_evidence_refs": terminal,
     "indexed_refs": indexed,
+    "retrieval_metrics": {
+        "metric_authority": "evidence-only",
+        "indexed_ref_count": len(indexed),
+        "terminal_evidence_ref_count": terminal_evidence_ref_count,
+        "control_ref_count": len(control_refs),
+        "substitute_workflow_ref_count": len(substitute_refs),
+        "retained_evidence_ref_count": (
+            ref_class_counts.get("retained-evidence", 0)
+            + ref_class_counts.get("retained-workflow-evidence", 0)
+        ),
+        "proposal_local_ref_count": ref_class_counts.get("proposal-local", 0),
+        "generated_ref_count": ref_class_counts.get("generated", 0),
+    },
     "freshness": {
         "mode": "digest-bound",
         "source_digest_required": True,
@@ -219,6 +237,12 @@ main() {
   mutate_json "$proposal_auth_root/retained-run-evidence-index.yml" "\nfor item in data['indexed_refs']:\n    if item['ref_class'] == 'proposal-local':\n        item['authority_use'] = 'evidence-only'\n"
   assert_failure "proposal-local refs claiming authority fail closed" \
     bash "$VALIDATOR" --root "$proposal_auth_root" --index retained-run-evidence-index.yml
+
+  local metric_mismatch_root="$tmp/metric-mismatch"
+  make_fixture "$metric_mismatch_root" direct
+  mutate_json "$metric_mismatch_root/retained-run-evidence-index.yml" "data['retrieval_metrics']['indexed_ref_count'] += 1"
+  assert_failure "retrieval metric mismatches fail closed" \
+    bash "$VALIDATOR" --root "$metric_mismatch_root" --index retained-run-evidence-index.yml
 
   echo
   echo "$TEST_NAME: passed=$pass_count failed=$fail_count"

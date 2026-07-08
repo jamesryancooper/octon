@@ -1,0 +1,204 @@
+schema_version: proposal-packet-terminal-closeout-receipt-v1
+terminal_run_id: proposal-churn-retained-run-evidence-efficiency-terminal-closeout-20260708T214500Z
+terminalized_at: "2026-07-08T21:45:00Z"
+packet:
+  proposal_id: proposal-churn-retained-run-evidence-efficiency
+  path: .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency
+  proposal_kind: architecture
+  status: implemented
+target_outcome: archive-ready
+terminal_verdict: archive-ready
+archive_ready: yes
+profile:
+  profile_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/profile.yml
+  profile_digest: sha256:c52b477d726344d413df0aca0bab0a6d3842b2e2ad846014307c1cfb54b6792e
+  profile_validation_evidence_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/profile-validation.yml
+state_ledger:
+  - state_id: bind-profile
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/bind-profile-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/bind-profile/outcome.json
+  - state_id: verify-durable-implementation-state
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/verify-durable-implementation-state-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/verify-durable-implementation-state/outcome.json
+  - state_id: verify-implementation-conformance
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/verify-implementation-conformance-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/verify-implementation-conformance/outcome.json
+  - state_id: verify-post-implementation-drift
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/verify-post-implementation-drift-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/verify-post-implementation-drift/outcome.json
+  - state_id: validate-feature-catalog-drift
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/validate-feature-catalog-drift-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/validate-feature-catalog-drift/outcome.json
+  - state_id: validate-publication-freshness
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/validate-publication-freshness-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/validate-publication-freshness/outcome.json
+  - state_id: classify-repo-hygiene
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/classify-repo-hygiene-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/classify-repo-hygiene/outcome.json
+  - state_id: classify-worktree-hygiene
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/classify-worktree-hygiene-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/classify-worktree-hygiene/outcome.json
+  - state_id: run-evidence-only-reviews
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/run-evidence-only-reviews-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/run-evidence-only-reviews/outcome.json
+  - state_id: resolve-git-github-route
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/resolve-git-github-route-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/resolve-git-github-route/outcome.json
+  - state_id: emit-terminal-receipt
+    state_verdict: pass
+    output_evidence_refs:
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/emit-terminal-receipt-report.md
+      - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/stages/emit-terminal-receipt/outcome.json
+durable_implementation_state_evidence_refs:
+  - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-run.md
+  - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/promote-proposal/summary.md
+  - .octon/state/evidence/runs/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/retained-run-evidence-index.yml
+implementation:
+  conformance_receipt_ref: .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-conformance-review.md
+  conformance_validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh
+  conformance_fresh: true
+  post_implementation_drift_receipt_ref: .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/post-implementation-drift-churn-review.md
+  post_implementation_drift_validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh
+  post_implementation_drift_fresh: true
+feature_catalog_drift:
+  receipt_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/validate-feature-catalog-drift-report.md
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh
+  fresh: true
+  verdict: pass
+  outcome: no-change
+  unresolved_count: 0
+  affected_feature_ids: []
+  required_documentation_actions: []
+  authority_notes:
+    - feature catalog drift validation is evidence-only and non-authorizing
+publication_freshness:
+  validators:
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/validate-publication-freshness-report.md
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/validate-publication-freshness-report.md
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+      evidence_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/validate-publication-freshness-report.md
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh
+      evidence_ref: .octon/state/evidence/validation/publication/capabilities/2026-07-08T21-31-50Z-capabilities-d786b161c3f9.yml
+      verdict: pass
+      fresh: true
+    - validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+      evidence_ref: .octon/state/evidence/validation/publication/extensions/2026-07-08T21-15-13Z-extensions-e539e7c8b239.yml
+      verdict: pass
+      fresh: true
+  publisher_refresh_receipts:
+    - .octon/state/evidence/validation/publication/capabilities/2026-07-08T21-31-50Z-capabilities-d786b161c3f9.yml
+    - .octon/state/evidence/validation/publication/extensions/2026-07-08T21-15-13Z-extensions-e539e7c8b239.yml
+  rerun_evidence_refs:
+    - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/validate-publication-freshness-report.md
+  direct_generated_output_edit_used: false
+generated_input_non_authority:
+  validation_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+  proposal_inputs_non_authority: true
+  generated_outputs_non_authority: true
+  generated_prompts_non_authority: true
+  host_state_non_authority: true
+  chat_state_non_authority: true
+  tool_state_non_authority: true
+  model_memory_non_authority: true
+run_health:
+  validation_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+  verdict: pass
+capability_publication:
+  validation_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh
+  verdict: pass
+extension_publication:
+  validation_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+  verdict: pass
+repo_hygiene:
+  classification_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/classify-repo-hygiene-report.md
+  cleanup_performed: true
+  cleanup_authorization_refs:
+    - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/authorization.json
+    - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/authorization-capability-refresh.json
+  unauthorized_deletion_performed: false
+worktree_hygiene:
+  classification_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/worktree-hygiene-classifier.yml
+  verdict: blocked
+  foreign_or_ambiguous_count: 57
+  dirty_worktree: true
+  retained_fixture_path_count: 0
+  fixture_retention_refs: []
+evidence_only_reviews:
+  post_integration_architecture_review_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/run-evidence-only-reviews-report.md
+  post_integration_architecture_review_authority: evidence-only
+  packet_terminal_evaluator_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/emit-terminal-receipt-report.md
+  packet_terminal_evaluator_authority: evidence-only
+  lifecycle_postmortem_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/reports/run-evidence-only-reviews-report.md
+  lifecycle_postmortem_authority: evidence-only
+git_github_route:
+  route_ref: closeout-change
+  mutation_delegated: true
+  branch_no_pr: true
+  exact_sha_checks_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/exact-sha-checks.yml
+  landing_authorization_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/branch-landing-authorization.json
+  branch_cleanup_required: true
+  branch_cleanup_authorization_ref: .octon/state/evidence/runs/skills/closeout-change/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/branch-cleanup-authorization.json
+archive_boundary:
+  archive_owner_ref: .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml
+  relocation_performed: false
+blocker:
+  class: none
+  detail: no blocker
+  failing_evidence_ref: not-applicable
+  next_canonical_route: archive-proposal
+partition_clean_archive_readiness:
+  enabled: true
+  mode: partition-clean-for-archive-readiness
+  does_not_authorize_archive: true
+  does_not_authorize_git_mutation: true
+  does_not_authorize_cleaned_claim: true
+  order_override_receipt_ref: .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/order-override.yml
+  order_override_receipt_digest: sha256:a23b2c2a3e84d250727fd8fb1b1410c988d1e1a9add3080021957ea42abe7187
+  closeout_worktree_report_ref: .octon/state/evidence/validation/analysis/2026-07-08T21-45-00Z-closeout-worktree-proposal-churn-retained-run-evidence-efficiency-archive-readiness.yml
+  lifecycle_interaction_return_ref: .octon/state/evidence/runs/skills/closeout-worktree/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/lifecycle-interaction-return.json
+retained_evidence_inventory:
+  - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-run.md
+  - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-conformance-review.md
+  - .octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency/support/post-implementation-drift-churn-review.md
+  - .octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/terminal/order-override.yml
+expected_no_new_evidence_loop: true
+target_owned_evidence_policy:
+  cites_target_owned_evidence: true
+  aggregate_receipt_replaces_target_owned_receipts: false
+non_authority_declarations:
+  proposal_inputs: non-authority
+  generated_outputs: derived-only-non-authority
+  generated_prompts: non-authority
+  host_state: non-authority
+  dashboards: non-authority
+  chat: non-authority
+  tool_state: non-authority
+  model_memory: non-authority

@@ -95,6 +95,14 @@ must be retained, promoted, or escalated; they must not be deleted as local
 residue and must not satisfy closeout evidence unless a durable retained
 evidence reference points to them.
 
+Dry-run and authorization summaries must expose cleanup candidates separately
+from retained evidence, control state, and continuity state. At minimum, the
+summary reports local-run, generated-scratch, stale-publication, and local
+metadata cleanup counts, plus protected and manual-review counts for retained
+evidence, control state, and continuity state. These counts are routing and
+inspection evidence only; they do not authorize deletion, replace retained
+receipts, or mutate control truth.
+
 ## Minimum Consequential Run Bundle
 
 Each consequential run must retain enough material to regenerate its RunCard
@@ -133,6 +141,7 @@ Run evidence bundles may include compact evidence views to reduce repeated
 model-visible raw-log context:
 
 - `evidence-index.yml`
+- `retained-run-evidence-index.yml`
 - `raw-log-summary.yml`
 - `failing-slice-manifest.yml`
 
@@ -151,6 +160,14 @@ line ranges that can be reconstructed from the retained source ref after
 verifying the source digest. A stale, missing, or digest-mismatched compact view
 fails closed; it must not be used to repair, overwrite, delete, or replace the
 raw retained evidence.
+
+`retained-run-evidence-index.yml` records discovery-only refs to implemented or
+archived-implemented proposal packet evidence, materialization validation,
+rollback posture, and source digests. It must include retrieval metrics for
+indexed refs, terminal evidence refs, control refs, substitute workflow refs,
+retained evidence refs, proposal-local refs, and generated refs. Metrics are
+evidence-only inspection aids and must fail closed when they disagree with the
+indexed refs.
 
 ## Structured Closeout And Publication Views
 

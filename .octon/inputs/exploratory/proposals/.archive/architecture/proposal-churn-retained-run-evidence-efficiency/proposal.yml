@@ -10,7 +10,16 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-retained-run-evidence-index.sh"
   - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/"
-status: draft
+status: archived
+archive:
+  archived_at: "2026-07-08T21:55:00Z"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: ".octon/inputs/exploratory/proposals/architecture/proposal-churn-retained-run-evidence-efficiency"
+  promotion_evidence:
+    - ".octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/promote-proposal/summary.md"
+    - ".octon/state/evidence/runs/workflows/proposal-churn-retained-run-evidence-efficiency-20260708T000000Z/promote-proposal/validation.yml"
+    - ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-churn-retained-run-evidence-efficiency/support/implementation-run.md"
 change_profile: atomic
 release_state: pre-1.0
 lifecycle:
