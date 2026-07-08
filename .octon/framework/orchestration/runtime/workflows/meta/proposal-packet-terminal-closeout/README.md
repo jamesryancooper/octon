@@ -101,8 +101,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] profile validates under proposal-packet-terminal-closeout-profile-v1
 - [ ] state ledger records all eleven workflow states
 - [ ] implementation conformance and post-implementation drift validators pass before archive-ready
-- [ ] feature-catalog-drift validates with validate-feature-catalog-drift-closeout.sh before archive-ready
-- [ ] unresolved feature-catalog drift blocks archive-ready and records next owning lifecycle
+- [ ] feature catalog drift validates with validate-feature-catalog-drift-closeout.sh before archive-ready
+- [ ] unresolved feature-catalog drift blocks archive-ready and records next owning documentation route without authorizing catalog mutation
 - [ ] pre-terminal publication freshness bundle covers capability, extension, runtime route, host projection, proposal registry, proposal artifact, and runtime-effective handle freshness or is blocked with owner route
 - [ ] repo-hygiene and worktree hygiene are classified
 - [ ] post-integration architecture review and terminal evaluator outputs are evidence-only
