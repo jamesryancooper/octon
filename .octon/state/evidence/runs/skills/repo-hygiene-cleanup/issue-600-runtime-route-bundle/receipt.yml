@@ -1,0 +1,39 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+receipt_id: "issue-600-runtime-route-bundle-cleanup"
+route: "repo-hygiene-cleanup"
+cleanup_reason: "Remove untracked local publication run residue after refreshing the runtime route bundle for issue 600."
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+authorization_receipt_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/issue-600-runtime-route-bundle/authorization.json"
+authorization_result: "approved"
+deleted_count: 26
+retained_protected_count: 1
+retained_manual_review_count: 0
+helper_summary:
+  mode: "authorization"
+  cleanup_candidates: 26
+  eligible_cleanup_candidates: 26
+  cleanup_local_run_residue: 26
+  cleanup_generated_scratch_output: 0
+  cleanup_stale_unreferenced_publication_attempt: 0
+  cleanup_local_filesystem_metadata: 0
+  protected_referenced: 1
+  protected_retained_evidence: 1
+  protected_control_state: 0
+  protected_continuity_state: 0
+  manual_review: 0
+  manual_review_retained_evidence: 0
+  manual_review_control_state: 0
+  manual_review_continuity_state: 0
+  reference_scan_status: "complete"
+  reference_scan_pattern_count: 27
+  reference_scan_pattern_limit: 2000
+digests:
+  git_status_digest: "sha256:f8dd90cc044d3d8e961e56d995c1049c25cc917c24053102893325a705daad1c"
+  classification_digest: "sha256:07b783355394df2a9b90f03525691bbb3286392af7fe66572cdf5e6ffe993e06"
+  cleanup_path_set_digest: "sha256:c4df2cb18e1d9ed0fa51dda934ebb482fbad34016af06f15072d4ec6c4c8346f"
+  protected_paths_digest: "sha256:39a61124ae0dc4e9ed0c76b672b8dab5b2f30003993ccf6129d4961f254dda0b"
+  manual_review_paths_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+protected_retained_evidence_ref: ".octon/state/evidence/validation/publication/runtime/by-digest/runtime-route-bundle/1ed8bb15c200de32d3183e16fa1b66002acb790844de1c7fc9ae6eccfccdcf54.yml"
+redaction_posture: "Summary receipt omits raw deleted path list; exact authorized path set is retained in the authorization receipt."
+blocker: "none"
