@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.102](https://github.com/jamesryancooper/octon/compare/octon-v0.6.101...octon-v0.6.102) (2026-07-08)
+
+
+### Features
+
+* **governance:** add efficiency evaluator ([6ac0c45](https://github.com/jamesryancooper/octon/commit/6ac0c45b29fe738d17811db0ec7bf9cdfb340ba4))
+* **lifecycle:** add clean delivery program operator surface ([aa11af6](https://github.com/jamesryancooper/octon/commit/aa11af634cdcfca79d5d7ac4b82f1ce30a1c75d9))
+
+
+### Bug Fixes
+
+* **runtime:** refresh effective route digests ([00df99b](https://github.com/jamesryancooper/octon/commit/00df99bd24dd51695c83cfc6becf29ffa5daa4bf)), closes [#596](https://github.com/jamesryancooper/octon/issues/596)
+
 ## [0.6.101](https://github.com/jamesryancooper/octon/compare/octon-v0.6.100...octon-v0.6.101) (2026-07-08)
 
 
