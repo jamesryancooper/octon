@@ -111,28 +111,9 @@ tmp="$(mktemp "${TMPDIR:-/tmp}/governance-efficiency-evidence.XXXXXX")"
   done <<<"$receipt_specs"
 
   child_count=0
-  terminal_child_count=0
+  terminal_child_count="unknown"
   if [[ -f "$TARGET_ABS/resources/child-packet-index.yml" ]]; then
     child_count="$(yq -r '(.children // []) | length' "$TARGET_ABS/resources/child-packet-index.yml" 2>/dev/null || echo 0)"
-    for ((index=0; index<child_count; index++)); do
-      child_path="$(yq -r ".children[$index].path // \"\"" "$TARGET_ABS/resources/child-packet-index.yml" 2>/dev/null || true)"
-      [[ -n "$child_path" ]] || continue
-      child_abs="$ROOT_DIR/$child_path"
-      child_archive_abs=""
-      if [[ "$child_path" == .octon/inputs/exploratory/proposals/*/* ]]; then
-        suffix="${child_path#.octon/inputs/exploratory/proposals/}"
-        child_archive_abs="$ROOT_DIR/.octon/inputs/exploratory/proposals/.archive/$suffix"
-      fi
-      child_status=""
-      if [[ -f "$child_abs/proposal.yml" ]]; then
-        child_status="$(yq -r '.status // ""' "$child_abs/proposal.yml" 2>/dev/null || true)"
-      elif [[ -n "$child_archive_abs" && -f "$child_archive_abs/proposal.yml" ]]; then
-        child_status="$(yq -r '.status // ""' "$child_archive_abs/proposal.yml" 2>/dev/null || true)"
-      fi
-      if [[ "$child_status" == "implemented" || "$child_status" == "archived" ]]; then
-        terminal_child_count=$((terminal_child_count + 1))
-      fi
-    done
   fi
 
   printf 'summary:\n'
