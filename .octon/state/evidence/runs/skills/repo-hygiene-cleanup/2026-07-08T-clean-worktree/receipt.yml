@@ -1,0 +1,45 @@
+schema_version: repo-hygiene-cleanup-publishable-receipt-v1
+run_id: 2026-07-08T-clean-worktree
+created_at: "2026-07-08T20:35:26Z"
+route: authorization-receipt
+policy_ref: .octon/instance/governance/policies/repo-hygiene.yml
+helper_ref: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+authorization_receipt_ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/2026-07-08T-clean-worktree/cleanup-authorization.json
+authorization_receipt_disclosure: local-private
+
+summary:
+  cleanup_candidates: 4756
+  eligible_cleanup_candidates: 4756
+  deleted_count: 4756
+  protected_referenced: 0
+  manual_review_retained: 2
+  reference_scan_status: complete
+  reference_scan_pattern_count: 4756
+  reference_scan_pattern_limit: 20000
+
+digests:
+  git_status_digest: sha256:1fc84a4d061d4e0467d802efaa9a31b8a1fbd2e664fe9f04d1f6bf1411693974
+  classification_digest: sha256:d98cdfdf3905f86e9a3711e35a620d975901d075fff264dc9f4b28b43995e398
+  cleanup_path_set_digest: sha256:2ab40c86a07131c72eeb3841ed994f58f311a713e8597435b99ba2602a840d0b
+  protected_paths_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  manual_review_paths_digest: sha256:e1b841feb37ba6455db7a4e494e084af2304fbf4b75864b23993607680e4d362
+
+retained_manual_review:
+  - path: .octon/state/evidence/runs/skills/refine-prompt/2026-07-08T17:28:58Z.md
+    class: retained_evidence
+    disposition: retained_for_commit
+    rationale: Refined prompt run log for the issue and PR closeout.
+  - path: .octon/state/evidence/validation/hosted-no-pr/2026-07-08T18-24-00Z-gh-596-runtime-effective-digest-drift-landing-authorization.json
+    class: retained_evidence
+    disposition: retained_for_commit
+    rationale: Hosted no-PR landing authorization for the #596 runtime recovery.
+
+additional_retained:
+  - path: .octon/framework/scaffolding/practices/prompts/2026-07-08T17:28:58Z-refined.md
+    class: refined_prompt
+    disposition: retained_for_commit
+    rationale: User-referenced refined prompt and closeout input.
+
+redaction_posture: Raw helper rows, deleted path lists, and local-private authorization payloads are not published.
+rollback_posture: The deleted local-run residue and Cargo target cache are rebuildable local outputs; retained evidence is source-controlled and should be reverted through normal Git history if needed.
+blocker: none
