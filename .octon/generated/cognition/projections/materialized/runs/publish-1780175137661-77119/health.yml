@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "publish-1780175137661-77119",
-  "generated_at": "2026-07-08T01:52:25Z",
+  "generated_at": "2026-07-08T18:57:55Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:37822bd19161566d3a15bdbfadf539fa6e6797f838b14d3d35ee5689f72c0aee",
-    "checked_at": "2026-07-08T01:52:25Z",
+    "combined_source_digest": "sha256:fbd1803f0e132050e608bd663bb1df0b2f66f1e81688d020387004ea4d41ceaa",
+    "checked_at": "2026-07-08T18:57:55Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/publish-1780175137661-77119/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:d5e2a0f57b54ea72d0ce2eb3c7010ebc3e60e9f6325487462c85dcc01deabd83",
+      "digest": "sha256:d03975d433ab40bbc5e089234f2e619a8cd5fd903efcbd316959e69ed12a4268",
       "status": "present"
     },
     "run_continuity": {
@@ -166,12 +166,12 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:1761150613c8b5d9f3048743a2ecd2e33cd86830272fb01d015b001184c94dc9",
+      "digest": "sha256:097528dd02153a8a759197e0fbaadd92988515a748ff842cf784fafa0fc33a3a",
       "status": "present"
     },
     "pack_routes": {
       "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:73a8144420e832be7870e68e019f0da2e364a13862fa13ec55392672e14d3090",
+      "digest": "sha256:3ef29d3383e96eee8fee21b91d2d2b2abef16600f392acc5b1be8855edda5723",
       "status": "present"
     },
     "schema": {
