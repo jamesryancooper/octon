@@ -7,7 +7,7 @@ exceptions:
     owner: agency/operations
     reason: "Cost budget checks are advisory by design and intentionally non-fail-closed."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-build-mcp-server-broad-write-scope
     scope: skill
     target: build-mcp-server
@@ -15,7 +15,7 @@ exceptions:
     owner: agency/meta
     reason: "MCP scaffolding may need to materialize project files across the selected target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-python-scaffold-package-broad-write-scope
     scope: skill
     target: python-scaffold-package
@@ -23,7 +23,7 @@ exceptions:
     owner: agency/foundations
     reason: "Foundation scaffolding skills materialize multiple bootstrap files across the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-python-contract-first-api-broad-write-scope
     scope: skill
     target: python-contract-first-api
@@ -31,7 +31,7 @@ exceptions:
     owner: agency/foundations
     reason: "Contract-first API scaffolding writes coordinated artifacts across the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-python-test-harness-broad-write-scope
     scope: skill
     target: python-test-harness
@@ -39,7 +39,7 @@ exceptions:
     owner: agency/foundations
     reason: "Test harness scaffolding writes fixtures, scripts, and config files across the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-python-dev-toolchain-broad-write-scope
     scope: skill
     target: python-dev-toolchain
@@ -47,7 +47,7 @@ exceptions:
     owner: agency/foundations
     reason: "Dev toolchain scaffolding updates multiple root-level build and lint files."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-python-infra-manifest-broad-write-scope
     scope: skill
     target: python-infra-manifest
@@ -55,7 +55,7 @@ exceptions:
     owner: agency/foundations
     reason: "Infra manifest scaffolding generates coordinated runtime, deployment, and environment files."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-python-contributor-guide-broad-write-scope
     scope: skill
     target: python-contributor-guide
@@ -63,7 +63,7 @@ exceptions:
     owner: agency/foundations
     reason: "Contributor-guide generation can update multiple documentation files in the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-swift-scaffold-package-broad-write-scope
     scope: skill
     target: swift-scaffold-package
@@ -71,7 +71,7 @@ exceptions:
     owner: agency/foundations
     reason: "Swift package scaffolding creates root package files and project modules across the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-swift-data-layer-broad-write-scope
     scope: skill
     target: swift-data-layer
@@ -79,7 +79,7 @@ exceptions:
     owner: agency/foundations
     reason: "Data layer scaffolding writes model, persistence, and tests across the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-swift-cli-interface-broad-write-scope
     scope: skill
     target: swift-cli-interface
@@ -87,7 +87,7 @@ exceptions:
     owner: agency/foundations
     reason: "CLI interface scaffolding writes commands, parsing, and package wiring across the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-swift-daemon-service-broad-write-scope
     scope: skill
     target: swift-daemon-service
@@ -95,7 +95,7 @@ exceptions:
     owner: agency/foundations
     reason: "Daemon service scaffolding writes runtime and launch artifacts across the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-swift-test-harness-broad-write-scope
     scope: skill
     target: swift-test-harness
@@ -103,7 +103,7 @@ exceptions:
     owner: agency/foundations
     reason: "Swift test harness scaffolding writes test utilities and config files across the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30
   - id: skill-swift-contributor-guide-broad-write-scope
     scope: skill
     target: swift-contributor-guide
@@ -111,4 +111,4 @@ exceptions:
     owner: agency/foundations
     reason: "Contributor-guide generation can update multiple docs and templates in the target workspace."
     created: 2026-02-19
-    expires: 2026-06-30
+    expires: 2026-09-30

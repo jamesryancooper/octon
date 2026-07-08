@@ -1,0 +1,46 @@
+schema_version: "repo-hygiene-cleanup-receipt-v1"
+receipt_id: "main-runtime-health-lease-refresh-cleanup"
+route: "repo-hygiene-cleanup"
+cleanup_reason: "Remove untracked local runtime-agent quorum residue produced while validating the main runtime health and deny-by-default lease refresh."
+helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+authorization_receipt_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/main-runtime-health-lease-refresh/authorization.json"
+authorization_result: "approved"
+deleted_count: 4
+retained_protected_count: 1
+retained_manual_review_count: 0
+helper_summary:
+  mode: "authorization"
+  cleanup_candidates: 4
+  eligible_cleanup_candidates: 4
+  cleanup_local_run_residue: 4
+  cleanup_generated_scratch_output: 0
+  cleanup_stale_unreferenced_publication_attempt: 0
+  cleanup_local_filesystem_metadata: 0
+  protected_referenced: 0
+  protected_retained_evidence: 0
+  protected_control_state: 0
+  protected_continuity_state: 0
+  manual_review: 0
+  manual_review_retained_evidence: 0
+  manual_review_control_state: 0
+  manual_review_continuity_state: 0
+  reference_scan_status: "empty"
+  reference_scan_pattern_count: 0
+  reference_scan_pattern_limit: 2000
+digests:
+  git_status_digest: "sha256:39340a73c1cd9e2e20ae2bb5411c646233b02db1efa2924ac277179680e5df45"
+  classification_digest: "sha256:2347d8ae4d4643731084c6f23a650a23018ed661791bdc8c0fb20e9d35ecb114"
+  cleanup_path_set_digest: "sha256:d87ed2bc93087ef6812c10508733732fda50fe666c4d64437d656bc4210e22ab"
+  protected_paths_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  manual_review_paths_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+post_cleanup_summary:
+  cleanup_candidates: 0
+  eligible_cleanup_candidates: 0
+  protected_referenced: 1
+  manual_review: 0
+  git_status_digest: "sha256:a25c45d5cccbaca9126f1b646a512df9a7a78d4bf201cff5731f725a78106090"
+  classification_digest: "sha256:17589ae5b0b7f0fa75d9cc4cd5b4dd550ccb0725a8d6572ddeaeace8b5c7fc6e"
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+redaction_posture: "Summary receipt omits raw deleted path list; exact authorized path set is retained in the authorization receipt."
+blocker: "none"
