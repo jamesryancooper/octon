@@ -161,6 +161,18 @@ marker exists. Program child human-boundary blocks should route operators
 through typed human exception grant controls while preserving adapter-level
 delegation proof enforcement.
 
+Program retry is a bounded continuation of an existing program checkpoint.
+`octon lifecycle program retry --run-id <program-run>` enables route execution
+for the retained run and accepts retry-attempt controls: `--max-steps`,
+`--timeout-seconds`, and `--max-child-concurrency`. Supplied controls override
+checkpointed execution limits for that attempt only; omitted controls inherit
+retained checkpoint limits when present and otherwise keep the safe one-step and
+single-child retry defaults. Retry controls do not change run identity,
+lifecycle identity, target binding, registry binding, run inputs, checkpoint
+identity, event truth, child ownership, approvals, blockers, cancellation,
+worktree baseline, freshness gates, dependency gates, or child-owned evidence
+gates.
+
 ## Completion Invariants
 
 - A route may complete only from route-specific evidence: expected receipt

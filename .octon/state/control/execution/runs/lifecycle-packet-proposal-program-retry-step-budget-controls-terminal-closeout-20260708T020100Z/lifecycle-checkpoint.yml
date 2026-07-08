@@ -1,0 +1,30 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708T020100Z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls
+current_state: proposal-packet-terminal-closeout
+current_phase: packet-terminal-closeout
+completed_states: []
+last_route: proposal-packet-terminal-closeout
+loop_counts: {}
+phase_counts:
+  packet-terminal-closeout: 2
+last_phase_transition: phase-entered:packet-terminal-closeout
+phase_blockers:
+  final_verdict: blocked-max-steps
+receipt_digests:
+  proposal-review: sha256:d3eff48d30fd6809e902512dba9e078b84dd0ccaa0b36d2ed553fe720178966b
+last_validator_results: []
+run_inputs:
+  lifecycle_interaction_return_refs: .octon/state/evidence/runs/workflows/proposal-packet-delivery-proposal-program-retry-step-budget-controls-20260708T013000Z/lifecycle-interaction-return.json
+  target_outcome: archive-ready
+interaction_request_refs: []
+interaction_return_refs:
+- .octon/state/evidence/runs/workflows/proposal-packet-delivery-proposal-program-retry-step-budget-controls-20260708T013000Z/lifecycle-interaction-return.json
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-max-steps
+resume_instruction: octon lifecycle resume --run-id lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708T020100Z

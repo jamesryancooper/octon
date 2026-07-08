@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:53e7ebeb9047092e0de99713bc9557e07b19f6803b607e438cbf9b09ca62e07d
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal/replay/manifest.yml
+  recorded_at: 2026-07-08T01:25:12.808021Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:9dc61600b3a9d75e9ce5effffea2704832897ea34e41cb35280ab32be7fe38c5
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal/replay/manifest.yml
+  recorded_at: 2026-07-08T01:25:12.808021Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-promote-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-08T01:25:12.808021Z

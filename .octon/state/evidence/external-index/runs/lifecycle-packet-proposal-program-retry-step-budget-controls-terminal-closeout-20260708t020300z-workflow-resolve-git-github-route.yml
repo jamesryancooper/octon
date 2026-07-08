@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:aa9a2b462f6d6b121150aa5d7ff0ba1843c814d8af22d1f64a811f607822222b
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-07-08T02:04:52.243187Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:bbef3db9ab8886c2a4490f59bee579064f84e666ca3075c3d837eb73fd54d792
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/replay/manifest.yml
+  recorded_at: 2026-07-08T02:04:52.243187Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-08T02:04:52.243187Z

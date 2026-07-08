@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:0b9cbc9fb4f6b5c59703a05ff8fc3a369d9dbee0f7fe61da25e0dabba3cbdade
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-07-08T02:04:50.049801Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:8d63f593193077e0c29ed94cab1df0d84326122222f5f895fb1b3102375b0bdb
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews/replay/manifest.yml
+  recorded_at: 2026-07-08T02:04:50.049801Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-run-evidence-only-reviews
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-08T02:04:50.049801Z

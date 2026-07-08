@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708T020600Z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708T020600Z/context/context-pack.json
+route_id: archive-proposal
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708T020600Z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-07-08T02:06:43.33398Z
+validity_state: valid

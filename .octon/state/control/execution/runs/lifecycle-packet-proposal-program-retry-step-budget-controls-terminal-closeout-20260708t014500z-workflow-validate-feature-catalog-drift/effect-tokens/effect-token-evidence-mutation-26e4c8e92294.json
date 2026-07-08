@@ -1,0 +1,70 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-evidence-mutation-26e4c8e92294",
+    "token_type": "AuthorizedEffect<EvidenceMutation>",
+    "effect_kind": "evidence-mutation",
+    "run_id": "lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift",
+    "request_id": "lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift",
+    "grant_id": "grant-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift.yml",
+    "run_control_root": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift",
+    "run_evidence_root": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-d832aab6f332:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "70354e3f6ad55ab654d107d7637d3dea7b7cc884f035a6a3b645369b4aa9590f",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-d832aab6f332",
+    "runtime_effective_freshness_mode": "digest_bound",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/by-digest/runtime-route-bundle/65693654c4dd236477fdacf1eb9f1116c97a584b50c116a843f64927e8ccdbf9.yml",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "admitted-live-claim",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-07-08-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-retry-step-budget-controls/stages/validate-feature-catalog-drift",
+    "scope_envelope": {
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-07-08-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-retry-step-budget-controls"
+      ],
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-07-08T01:36:19.042096Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift/effect-tokens/effect-token-evidence-mutation-26e4c8e92294.json",
+    "journal_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-26e4c8e92294",
+    "token_digest": "sha256:bdeb83bd9297086d8a35ee81f5672d16e1bd76e78e13c3f7ab691646a955ec8a"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 2,
+  "issued_event_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-26e4c8e92294",
+  "last_event_ref": ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-26e4c8e92294",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-validate-feature-catalog-drift/receipts/effect-tokens/effect-token-evidence-mutation-26e4c8e92294/consumption-625776ce70f3.json",
+  "last_consumed_at": "2026-07-08T01:36:19.855288Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::finalize_execution:evidence",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-07-08-proposal-packet-terminal-closeout-octon-inputs-exploratory-proposals-architecture-proposal-program-retry-step-budget-controls/stages/validate-feature-catalog-drift",
+  "rejection_reason_codes": []
+}

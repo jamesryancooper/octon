@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:58014ce3bb3f2936eaeee042793616c8f18d6c37d07ca4fdbafffced7fdb348a
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow/replay/manifest.yml
+  recorded_at: 2026-07-08T02:06:50.869276Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:aaf36c9662443d1f94ee25da2fb414b3a5d53a64079572b6410216a60f70468b
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow/replay/manifest.yml
+  recorded_at: 2026-07-08T02:06:50.869276Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-08T02:06:50.869276Z

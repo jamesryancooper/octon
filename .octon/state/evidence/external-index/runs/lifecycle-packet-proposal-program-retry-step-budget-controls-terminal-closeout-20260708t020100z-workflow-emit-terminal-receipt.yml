@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:30278108f233762a6b8a3e79961fcdc66425704e106acfa98cd69611d6618480
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/replay/manifest.yml
+  recorded_at: 2026-07-08T01:58:58.543352Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:875ae37805b5122313aa639f9c082a11d851d8fb07686771267d7730d6a90e30
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/replay/manifest.yml
+  recorded_at: 2026-07-08T01:58:58.543352Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-08T01:58:58.543352Z

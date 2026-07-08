@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow-archive-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow-archive-proposal/context/context-pack.json
+context_pack_sha256: sha256:e656da3204c912274ad477fcceff46186c7c5719ba63ec86dde275b94c2e381b
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow-archive-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:7ffef55eafafb8b545ed9525e5bf875a63e28f659df698d81e06083dba721de7
+receipt_sha256: sha256:7a498819733656ee0337aafad8bff3c3e1a6fe9cb780d14d7b5cb312c7a37671
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-archive-20260708t020600z-workflow-archive-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-07-08T02:06:47.776681Z
+validity_state: valid

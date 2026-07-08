@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+ledger_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:f53dbb4a881ef34e7ce9ceec465fd07c27e7ae0b3b42875f222374ea9db0611a
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  sequence: 1
+  event_hash: sha256:8a7f753f0a12350bd84ace858ffd3385feac6a20d3db2d23afc05fb3d85ad08a
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  sequence: 29
+  event_hash: sha256:ce83dbe09caa82fed69ba9c429dc65d6ecc79945eeab412298db4416c03dd377
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:8a7f753f0a12350bd84ace858ffd3385feac6a20d3db2d23afc05fb3d85ad08a
+  tail_event_hash: sha256:ce83dbe09caa82fed69ba9c429dc65d6ecc79945eeab412298db4416c03dd377
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  context_pack_ref: evt-context-pack-bound-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  disclosure_ref: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-2cd178e09dd2
+  run_contract_ref: evt-001-run-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  run_manifest_ref: evt-002-run-bound-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  runtime_state_ref: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  stage_attempt_ref: evt-stage-started-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-emit-terminal-receipt
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:ce83dbe09caa82fed69ba9c429dc65d6ecc79945eeab412298db4416c03dd377
+  materialized_at: 2026-07-08T01:58:58.543352Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-07-08T01:58:59.382569Z

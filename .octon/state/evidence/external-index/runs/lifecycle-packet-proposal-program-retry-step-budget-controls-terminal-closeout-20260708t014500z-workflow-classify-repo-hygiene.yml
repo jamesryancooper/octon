@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:2cdaf7f02d9fe1420b4e6f4429c250197cfefbd9f157c728dc9232b2daf71a3e
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-07-08T01:38:04.379237Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:32c24c40dc41aa987340bfd98a6c035e9a666a2df0c61eed07dc7914b506ee9e
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/replay/manifest.yml
+  recorded_at: 2026-07-08T01:38:04.379237Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-08T01:38:04.379237Z

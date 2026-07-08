@@ -1,0 +1,9 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708T014500Z
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls
+reason: terminal-closeout-in-process-run-stalled-without-terminal-receipt
+cancelled_at: 2026-07-08T01:38:25.309076Z
+cancellation_token: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708T014500Z/cancellation.yml
+checkpoint_path: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708T014500Z/lifecycle-checkpoint.yml

@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:520ce75db042ff57cd22459ac27d90baa57c31266db2660b6a7103d86a4bc3de
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/replay/manifest.yml
+  recorded_at: 2026-07-08T02:03:06.770047Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:173f000fc2f10995d3982ca58ee4a0cf1d9bbf1053fef82492ebb93cfd60ddc3
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/replay/manifest.yml
+  recorded_at: 2026-07-08T02:03:06.770047Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-08T02:03:06.770047Z

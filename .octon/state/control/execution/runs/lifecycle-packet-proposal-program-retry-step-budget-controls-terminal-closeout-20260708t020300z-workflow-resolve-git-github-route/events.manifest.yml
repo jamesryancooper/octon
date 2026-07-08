@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+ledger_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:b0840eb4ac55b937e0cb429f423ff97ee56b37e262d3cb78a682b536abe2bb0d
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  sequence: 1
+  event_hash: sha256:3bcb34425aa91f473c92bcc5951ee3dd79525678d0e76f3fd8c442744a64a0c5
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  sequence: 29
+  event_hash: sha256:8fa579f2e0f2e5bf2474f6e3ef006e2d686f236a6dc18dd118e8782e71f911d0
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:3bcb34425aa91f473c92bcc5951ee3dd79525678d0e76f3fd8c442744a64a0c5
+  tail_event_hash: sha256:8fa579f2e0f2e5bf2474f6e3ef006e2d686f236a6dc18dd118e8782e71f911d0
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  context_pack_ref: evt-context-pack-bound-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  disclosure_ref: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-27b8a1d87aaf
+  run_contract_ref: evt-001-run-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  run_manifest_ref: evt-002-run-bound-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  runtime_state_ref: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  stage_attempt_ref: evt-stage-started-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-resolve-git-github-route
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:8fa579f2e0f2e5bf2474f6e3ef006e2d686f236a6dc18dd118e8782e71f911d0
+  materialized_at: 2026-07-08T02:04:52.243187Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-07-08T02:04:53.067076Z

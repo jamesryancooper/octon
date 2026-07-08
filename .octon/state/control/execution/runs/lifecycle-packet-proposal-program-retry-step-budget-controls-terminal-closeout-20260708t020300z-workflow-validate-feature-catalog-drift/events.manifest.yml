@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+ledger_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:91a5894994ad9fd2443a029f7d39bc458ebced2ed937a86bec027dcbc7b32178
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  sequence: 1
+  event_hash: sha256:389c82f663d02497b40f732d23469a06feea3f113877f20ea74b06e208dfa4c7
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  sequence: 29
+  event_hash: sha256:f606653597a005409cc5cbe7bb65aa9f00640c796340085a0ddb747f7359a93e
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:389c82f663d02497b40f732d23469a06feea3f113877f20ea74b06e208dfa4c7
+  tail_event_hash: sha256:f606653597a005409cc5cbe7bb65aa9f00640c796340085a0ddb747f7359a93e
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  context_pack_ref: evt-context-pack-bound-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  disclosure_ref: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-1a1d82b6a752
+  run_contract_ref: evt-001-run-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  run_manifest_ref: evt-002-run-bound-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  runtime_state_ref: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  stage_attempt_ref: evt-stage-started-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-validate-feature-catalog-drift
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:f606653597a005409cc5cbe7bb65aa9f00640c796340085a0ddb747f7359a93e
+  materialized_at: 2026-07-08T02:03:06.770047Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-07-08T02:03:07.608467Z

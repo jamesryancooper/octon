@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+ledger_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:a297e82683eb43d75e322e24c42bcaa8b21338fe84bf5e10939119e439871acd
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  sequence: 1
+  event_hash: sha256:c1aa4d19779e74e890d8083c714c7e695507d508f1b474ed353289bdfe8a5f5e
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  sequence: 29
+  event_hash: sha256:e2f341d9de6a429bde39ccbc13eedbdb5ddd404bfb43e6d06acc2ae6d04e8cf7
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:c1aa4d19779e74e890d8083c714c7e695507d508f1b474ed353289bdfe8a5f5e
+  tail_event_hash: sha256:e2f341d9de6a429bde39ccbc13eedbdb5ddd404bfb43e6d06acc2ae6d04e8cf7
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  context_pack_ref: evt-context-pack-bound-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  disclosure_ref: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-a2c48c498629
+  run_contract_ref: evt-001-run-created-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  run_manifest_ref: evt-002-run-bound-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  runtime_state_ref: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  stage_attempt_ref: evt-stage-started-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:e2f341d9de6a429bde39ccbc13eedbdb5ddd404bfb43e6d06acc2ae6d04e8cf7
+  materialized_at: 2026-07-08T01:59:00.219423Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-07-08T01:59:01.055945Z

@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "uec-global-ci-observe-read-20260404",
-  "generated_at": "2026-07-07T00:00:00Z",
+  "generated_at": "2026-07-08T01:52:25Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "fresh",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:39c02447fa10211ebe82fa18dddbeb0852f21f574a24cea987ed417f252a961b",
-    "checked_at": "2026-07-07T00:00:00Z",
+    "combined_source_digest": "sha256:807194bd4949ba14a5921218e8681a00599227c63f9794cc45c1c6c73b61377a",
+    "checked_at": "2026-07-08T01:52:25Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/events.manifest.yml"
@@ -166,12 +166,12 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:420a81328f9911e5422911912f7c2cbe53cc1ad5b61bfaa191db957095845ecd",
+      "digest": "sha256:1761150613c8b5d9f3048743a2ecd2e33cd86830272fb01d015b001184c94dc9",
       "status": "present"
     },
     "pack_routes": {
       "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:878d143df4df6a57141119f42a4c9ebe0b884cbe900f31f92364d3dd6cfb06e7",
+      "digest": "sha256:73a8144420e832be7870e68e019f0da2e364a13862fa13ec55392672e14d3090",
       "status": "present"
     },
     "schema": {

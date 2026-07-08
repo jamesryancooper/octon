@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-classify-repo-hygiene/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-classify-repo-hygiene/context/context-pack.json
+context_pack_sha256: sha256:ccfa6b0dd8320e7a8ddede824a552514b4f0ac46ab7581fc0dd9f29e52847966
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-classify-repo-hygiene/context/model-visible-context.json
+model_visible_context_sha256: sha256:818ea6a5ebf4192f40a224fd66163cfdbeb7baadd1c2f04dc60008647ee5a3f7
+receipt_sha256: sha256:fbeacdad7771cf40d1b831744081c912355dcfeb47ae956f30c9fa2a1e75ce92
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-classify-repo-hygiene
+schema_version: active-context-pack-v1
+updated_at: 2026-07-08T02:04:41.512904Z
+validity_state: valid

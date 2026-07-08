@@ -1334,6 +1334,15 @@ pub(crate) enum LifecycleProgramCmd {
         /// Optional child id to retry.
         #[arg(long = "child")]
         child: Option<String>,
+        /// Maximum plan-execute-replan steps for this retry attempt.
+        #[arg(long = "max-steps")]
+        max_steps: Option<u32>,
+        /// Per-route executor timeout in seconds for this retry attempt.
+        #[arg(long = "timeout-seconds")]
+        timeout_seconds: Option<u64>,
+        /// Maximum concurrent child route executors for this retry attempt.
+        #[arg(long = "max-child-concurrency")]
+        max_child_concurrency: Option<usize>,
     },
     /// Cancel a retained program run.
     Cancel {
@@ -2478,6 +2487,46 @@ mod tests {
                 }
             }
         ));
+
+        let retry = Cli::try_parse_from([
+            "octon",
+            "lifecycle",
+            "program",
+            "retry",
+            "--run-id",
+            "program-test",
+            "--child",
+            "child-a",
+            "--max-steps",
+            "3",
+            "--timeout-seconds",
+            "120",
+            "--max-child-concurrency",
+            "2",
+        ])
+        .expect("lifecycle program retry budget controls should parse successfully");
+        match retry.cmd {
+            Command::Lifecycle {
+                cmd:
+                    LifecycleCmd::Program {
+                        cmd:
+                            LifecycleProgramCmd::Retry {
+                                run_id,
+                                child,
+                                max_steps,
+                                timeout_seconds,
+                                max_child_concurrency,
+                            },
+                    },
+            } => {
+                assert_eq!(run_id, "program-test");
+                assert_eq!(child.as_deref(), Some("child-a"));
+                assert_eq!(max_steps, Some(3));
+                assert_eq!(timeout_seconds, Some(120));
+                assert_eq!(max_child_concurrency, Some(2));
+            }
+            _ => panic!("parsed command should be lifecycle program retry"),
+        }
 
         for args in [
             [

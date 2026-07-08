@@ -136,6 +136,11 @@ operators through `octon lifecycle program approve --run-id <program-run>
 non-machine-provable boundaries. Consuming an already-bound grant records
 grant-consumption evidence and still requires a retained delegation proof
 before route dispatch.
+`octon lifecycle program retry --run-id <program-run>` resumes a retained
+program checkpoint with execute-routes enabled. It may be bounded for a single
+retry attempt with `--max-steps`, `--timeout-seconds`, and
+`--max-child-concurrency`; omitted values inherit checkpointed execution limits
+when present and otherwise keep the safe one-step/single-child retry posture.
 
 ## Publication
 

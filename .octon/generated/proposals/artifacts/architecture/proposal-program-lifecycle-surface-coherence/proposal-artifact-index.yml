@@ -540,12 +540,22 @@
     }
   ],
   "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
     "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
     "generated_output_authority": "derived-only",
     "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
     "proposal_input_authority": "non-authoritative",
     "raw_evidence_retained": true,
-    "replaces_source_evidence": false
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
   },
   "compact_outputs": [
     {

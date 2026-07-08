@@ -1,0 +1,8 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708T014500Z/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708T014500Z/context/context-pack.json
+route_id: proposal-packet-terminal-closeout
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708T014500Z
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-07-08T01:35:26.54464Z
+validity_state: valid

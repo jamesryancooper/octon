@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/run-manifest.yml
+current_stage_attempt_id: classify-repo-hygiene--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene/rollback-posture.yml
+last_applied_event_id: evt-run-closed-lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-repo-hygiene
+last_applied_sequence: 29
+last_applied_event_hash: sha256:001a7a7eb1b8d8b45b6a54fad747544f63b6e42e462f4bab007d0db8749da7c6
+materialized_at: 2026-07-08T01:38:05.286656Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-07-08T01:38:03.271269Z
+updated_at: 2026-07-08T01:38:05.286656Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-verify-post-implementation-drift/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-verify-post-implementation-drift/context/context-pack.json
+context_pack_sha256: sha256:299d9d2ef87fae96b9f72bc009c1a690b69c04f228d6a30c48eaf54f1ed164bc
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-verify-post-implementation-drift/context/model-visible-context.json
+model_visible_context_sha256: sha256:c11ef2acf12d7ea4eed038115e5e5ea716a339e35411f15bbb6736adb9c36d50
+receipt_sha256: sha256:f2a25298c0fe0fef397f91f884cdacb09241cf52d60b800be546958e39be8c4c
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-verify-post-implementation-drift
+schema_version: active-context-pack-v1
+updated_at: 2026-07-08T01:35:36.274034Z
+validity_state: valid

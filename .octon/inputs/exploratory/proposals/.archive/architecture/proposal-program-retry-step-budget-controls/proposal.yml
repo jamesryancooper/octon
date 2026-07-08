@@ -1,0 +1,66 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-retry-step-budget-controls
+title: Proposal Program Retry Step Budget Controls
+summary: Add bounded retry-time execution controls to the proposal-program lifecycle retry command so continuable runs can advance more than one route without bypassing existing gates.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/main.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/README.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md
+status: archived
+archive:
+  archived_at: 2026-07-08
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls
+  promotion_evidence:
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/README.md
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md
+lifecycle:
+  temporary: true
+  exit_expectation: Review independently, implement bounded retry controls if accepted, and close out through packet-owned validation evidence.
+related_proposals:
+- proposal-program-lifecycle-surface-coherence
+acceptance_criteria_summary: Operators can continue an existing proposal-program lifecycle retry with a bounded multi-step budget while existing fail-closed gates and child-owned authority boundaries remain intact.
+authority_class_impact:
+  framework: Future implementation may update lifecycle CLI parsing, command dispatch, program retry execution options, in-source regression tests, and lifecycle documentation.
+  instance: No direct instance authority changes planned.
+  state_control: Future implementation must not hand-edit retained checkpoints or event logs; retry behavior must operate through normal controller execution.
+  state_evidence: Future implementation must retain validation evidence proving retry controls remain bounded and gate-preserving.
+  generated: Generated outputs remain derived-only.
+  inputs: This packet is temporary proposal lineage only.
+change_profile: atomic
+created_date: 2026-07-01
+evidence_requirements:
+- Accepted proposal review and strict pre-integration architecture review before durable edits.
+- Evidence that `lifecycle program retry` accepts bounded `--max-steps` without requiring a new run id.
+- Evidence that omitted retry options preserve current behavior.
+- Evidence that retry-time overrides cannot change lifecycle id, target, run inputs, child ownership, authority boundaries, or gate outcomes.
+- Evidence that documentation names the operational workaround and the durable retry controls.
+explicit_runtime_non_implementation_statement: This packet does not change runtime behavior until a later accepted implementation route promotes durable changes.
+generated_input_authority_impact: Proposal paths, generated outputs, prompts, and host projections remain non-authoritative.
+owner:
+  role: Octon proposal-program lifecycle runtime architect
+  accountable_role: human operator / repository owner
+risk_posture: Medium. The implementation touches lifecycle command dispatch and retry semantics; regressions could accidentally bypass stop conditions if tests are too shallow.
+rollback_summary: Revert the CLI option additions, retry option plumbing, documentation changes, and associated tests through this packet's rollback or correction route.
+scope_statement: This packet owns retry-time budget controls for `octon lifecycle program retry`. It does not alter proposal-program child ordering, child ownership, delivery semantics, closeout, archive, cleanup, or terminal proof.
+selected_implementation_target: Proposal-program lifecycle retry command and retry execution options.
+source_lineage:
+- .octon/framework/engine/runtime/crates/kernel/src/main.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+validation_gates:
+- validate-proposal-standard.sh
+- validate-architecture-proposal.sh
+- validate-proposal-implementation-readiness.sh
+- kernel regression tests for lifecycle program retry budget controls

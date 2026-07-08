@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-07-08T01:35:33.493916Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-verify-implementation-conformance-baseline
+route_taken: allow
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-verify-implementation-conformance
+schema_version: run-retry-record-v1
+stage_attempt_id: verify-implementation-conformance--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-verify-implementation-conformance/stage-attempts/verify-implementation-conformance--initial.yml

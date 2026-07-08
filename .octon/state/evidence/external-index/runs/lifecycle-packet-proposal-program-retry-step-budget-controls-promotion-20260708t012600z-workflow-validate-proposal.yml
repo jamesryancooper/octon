@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:02ee2c4cbd509797e358168e1599130380c860625267e3b0442d88d5c568a59b
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-07-08T01:25:09.397534Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:8c97990c5d78c4d1940efa27c44abcf7117cf319d88072e9d19883a3c922f739
+  entry_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-07-08T01:25:09.397534Z
+  run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-08T01:25:09.397534Z

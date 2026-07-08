@@ -1,5 +1,5 @@
 {
-  "artifact_count": 13,
+  "artifact_count": 20,
   "artifacts": [
     {
       "byte_size": 825,
@@ -7,7 +7,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "README.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/README.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/README.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -26,7 +26,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/acceptance-criteria.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture/acceptance-criteria.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -46,7 +46,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/implementation-plan.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture/implementation-plan.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -66,7 +66,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "architecture/target-architecture.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture/target-architecture.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
@@ -86,7 +86,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "architecture-proposal.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture-proposal.yml",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
@@ -100,57 +100,57 @@
       "stage_role": "spine"
     },
     {
-      "byte_size": 895,
-      "estimated_tokens": 224,
+      "byte_size": 1761,
+      "estimated_tokens": 441,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "navigation/artifact-catalog.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/navigation/artifact-catalog.md",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "artifact-catalog",
-      "sha256": "sha256:ba80bcdf44419a9bade3be25b0315d2b6d7c9390849f4775930d6021a2b3e389",
+      "sha256": "sha256:8db8505381088973ef1de2b360eb51efb4fefadf9527c364d886f8d7cf122eaf",
       "stage_relevance": [
         "all-routes"
       ],
       "stage_role": "spine"
     },
     {
-      "byte_size": 709,
-      "estimated_tokens": 178,
+      "byte_size": 1361,
+      "estimated_tokens": 341,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "navigation/source-of-truth-map.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/navigation/source-of-truth-map.md",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "source-of-truth-map",
-      "sha256": "sha256:e9f9d39461889e556a38c7bf5bdc835e986e557367eef674602c6666bf04c614",
+      "sha256": "sha256:ea56cea1ee67c2d223b3385aea4e8065ca1b356fd669a293497438c85b52d668",
       "stage_relevance": [
         "all-routes"
       ],
       "stage_role": "spine"
     },
     {
-      "byte_size": 4285,
-      "estimated_tokens": 1072,
+      "byte_size": 4938,
+      "estimated_tokens": 1235,
       "freshness_state": "digest-bound",
       "inclusion_mode": "compact-default",
       "packet_relative_path": "proposal.yml",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/proposal.yml",
       "read_raw_only_if": [
         "manifest-digest-mismatch",
         "status-or-target-dispute",
         "validator-dispute"
       ],
       "role": "proposal-manifest",
-      "sha256": "sha256:f3003e29057c10b49f93af13806543314789d3a9de4f6c6ec82cb70a873c2fb6",
+      "sha256": "sha256:7f10f555fc0248a369a85b39a3056b72d6b707a63e6fba1d65d594eb97a9a332",
       "stage_relevance": [
         "all-routes"
       ],
@@ -162,7 +162,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "resources/source-lineage.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/resources/source-lineage.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/resources/source-lineage.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -176,19 +176,40 @@
       "stage_role": "optional-reference"
     },
     {
-      "byte_size": 300,
-      "estimated_tokens": 75,
+      "byte_size": 7024,
+      "estimated_tokens": 1756,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/executable-implementation-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/executable-implementation-prompt.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "executable-implementation-prompt",
+      "sha256": "sha256:bad21d37c03c7bce8445b21b8c764efdcaf3934269909336249a6d244b13427f",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 4739,
+      "estimated_tokens": 1185,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/implementation-conformance-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/implementation-conformance-review.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
         "validator-dispute"
       ],
       "role": "implementation-conformance-review",
-      "sha256": "sha256:027c282868d55cc016e83d9bacdf2ffdb36ab33d9a29cd01f7c419d27a5a038e",
+      "sha256": "sha256:be34a08ea13cf598501d4ebb6dd6161ac2212daf26a229ff6b055969bca4e0c5",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -202,7 +223,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "annex-ref",
       "packet_relative_path": "support/implementation-grade-completeness-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md",
       "read_raw_only_if": [
         "receipt-freshness-dispute",
         "evidence-audit-request",
@@ -217,19 +238,138 @@
       "stage_role": "evidence-annex"
     },
     {
-      "byte_size": 318,
-      "estimated_tokens": 80,
+      "byte_size": 2113,
+      "estimated_tokens": 529,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-run.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/implementation-run.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-run",
+      "sha256": "sha256:58b37f035bfe6cfa8a3abad3dbb30aea63b553998b94e81daea6c372cccc4abc",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 4202,
+      "estimated_tokens": 1051,
       "freshness_state": "digest-bound",
       "inclusion_mode": "current-stage",
       "packet_relative_path": "support/post-implementation-drift-churn-review.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/post-implementation-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/post-implementation-drift-churn-review.md",
       "read_raw_only_if": [
         "current-route-needs-full-context",
         "slice-digest-mismatch",
         "validator-dispute"
       ],
       "role": "post-implementation-drift-churn-review",
-      "sha256": "sha256:4e6a40a0cfee7eb74efb449be448ded64db711bb6a38f4a01b81f0a09c1d84fc",
+      "sha256": "sha256:d43026111924f2b92650272044491e2349959a96079d7e9905b87d1eb3644dbf",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 4778,
+      "estimated_tokens": 1195,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/pre-integration-architecture-review.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/pre-integration-architecture-review.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "pre-integration-architecture-review",
+      "sha256": "sha256:988fca301c26ea3c6fa3e6fdb428e284797dd9e21a7e24bea12fc8f720208f3d",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 3698,
+      "estimated_tokens": 925,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:691a6b6d3458883ffa66614ccb0d90251f84eb213c2e4a37e039aaa4221f78c0",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 3649,
+      "estimated_tokens": 913,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/proposal-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-review",
+      "sha256": "sha256:be8b5a2545b7708567a93b91a1153f36aee5b0a77ab2ee0782a3cde0a807366e",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 33811,
+      "estimated_tokens": 8453,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:92b1bc477746bc03f9d3c58640d8ea13aa00fd38f9093c206c75b755cfce2651",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 1755,
+      "estimated_tokens": 439,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/validation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/validation.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "validation",
+      "sha256": "sha256:efe8cd04c899321f773f5a0534117bf353c8adb9225160e8d0c3e3b04fe77420",
       "stage_relevance": [
         "run-packet-implementation",
         "verify",
@@ -243,7 +383,7 @@
       "freshness_state": "digest-bound",
       "inclusion_mode": "handle-only",
       "packet_relative_path": "validation-plan.md",
-      "path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/validation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/validation-plan.md",
       "read_raw_only_if": [
         "operator-audit-request",
         "context-gap",
@@ -258,12 +398,22 @@
     }
   ],
   "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
     "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
     "generated_output_authority": "derived-only",
     "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
     "proposal_input_authority": "non-authoritative",
     "raw_evidence_retained": true,
-    "replaces_source_evidence": false
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
   },
   "compact_outputs": [
     {
@@ -296,7 +446,7 @@
   "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
   "proposal_id": "proposal-program-retry-step-budget-controls",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -307,22 +457,26 @@
   },
   "schema_version": "octon-proposal-artifact-index-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture-proposal.yml": "sha256:865246e4fa495279fff898ace962c8737948656bc37783b5fff58259c249c409",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/acceptance-criteria.md": "sha256:fbf2cd9875f5f7251d6d0a80c53344d80d76e1019627ff2fab12d6f0f73b4b1e",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/implementation-plan.md": "sha256:a8e224ebddcaca0c8ffdb757b71c37f18f1d22d2b949fce0f47d6a05c4ecdb49",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/artifact-catalog.md": "sha256:ba80bcdf44419a9bade3be25b0315d2b6d7c9390849f4775930d6021a2b3e389",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/source-of-truth-map.md": "sha256:e9f9d39461889e556a38c7bf5bdc835e986e557367eef674602c6666bf04c614",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/proposal.yml": "sha256:f3003e29057c10b49f93af13806543314789d3a9de4f6c6ec82cb70a873c2fb6",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md": "sha256:b821bf1c31dc060fde35acc4871a9ce4ba67bd4f34d12f3dabdc1f4dcd47c0c3"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture-proposal.yml": "sha256:865246e4fa495279fff898ace962c8737948656bc37783b5fff58259c249c409",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture/acceptance-criteria.md": "sha256:fbf2cd9875f5f7251d6d0a80c53344d80d76e1019627ff2fab12d6f0f73b4b1e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture/implementation-plan.md": "sha256:a8e224ebddcaca0c8ffdb757b71c37f18f1d22d2b949fce0f47d6a05c4ecdb49",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/navigation/artifact-catalog.md": "sha256:8db8505381088973ef1de2b360eb51efb4fefadf9527c364d886f8d7cf122eaf",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/navigation/source-of-truth-map.md": "sha256:ea56cea1ee67c2d223b3385aea4e8065ca1b356fd669a293497438c85b52d668",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/proposal.yml": "sha256:7f10f555fc0248a369a85b39a3056b72d6b707a63e6fba1d65d594eb97a9a332",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/executable-implementation-prompt.md": "sha256:bad21d37c03c7bce8445b21b8c764efdcaf3934269909336249a6d244b13427f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md": "sha256:b821bf1c31dc060fde35acc4871a9ce4ba67bd4f34d12f3dabdc1f4dcd47c0c3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/proposal-review.md": "sha256:be8b5a2545b7708567a93b91a1153f36aee5b0a77ab2ee0782a3cde0a807366e"
   },
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/support/proposal-review.md"
   ],
   "targeted_dependency_refs": [
     {

@@ -1,0 +1,17 @@
+schema_version: run-rollback-posture-v1
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-verify-implementation-conformance
+reversibility_class: reversible
+rollback_strategy: rollback
+rollback_ref: null
+rollback_handle: null
+compensation_handle: null
+recovery_window: null
+contamination_state: clean
+retry_record_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-verify-implementation-conformance/retry-records/baseline.yml
+contamination_record_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020300z-workflow-verify-implementation-conformance/contamination/current.yml
+resume_allowed: true
+reset_action: No reset required; canonical run evidence remained coherent.
+invalidated_artifacts: []
+hard_reset_required: false
+posture_source: run-contract-default
+updated_at: 2026-07-08T02:02:20.406417Z

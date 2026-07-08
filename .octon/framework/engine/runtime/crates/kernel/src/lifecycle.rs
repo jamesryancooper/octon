@@ -1203,9 +1203,23 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
                 )?;
                 println!("{}", serde_yaml::to_string(&result)?);
             }
-            LifecycleProgramCmd::Retry { run_id, child } => {
-                let result =
-                    lifecycle_program::retry_program_lifecycle_run(&octon_dir, &run_id, child)?;
+            LifecycleProgramCmd::Retry {
+                run_id,
+                child,
+                max_steps,
+                timeout_seconds,
+                max_child_concurrency,
+            } => {
+                let result = lifecycle_program::retry_program_lifecycle_run(
+                    &octon_dir,
+                    &run_id,
+                    lifecycle_program::ProgramLifecycleRetryOptions {
+                        child,
+                        max_steps,
+                        timeout_seconds,
+                        max_child_concurrency,
+                    },
+                )?;
                 println!("{}", serde_yaml::to_string(&result)?);
             }
             LifecycleProgramCmd::Cancel { run_id, reason } => {

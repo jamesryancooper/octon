@@ -368,4 +368,6 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/closeout-worktree-autonomous-partition-evidence/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-resilience-and-supersession/
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-execution-resilience-and-supersession/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-retry-step-budget-controls/**
 .octon/inputs/exploratory/proposals/.DS_Store

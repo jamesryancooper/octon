@@ -6923,10 +6923,18 @@ pub(crate) fn approve_program_lifecycle_child_route(
     })
 }
 
+#[derive(Clone, Debug, Default)]
+pub(crate) struct ProgramLifecycleRetryOptions {
+    pub child: Option<String>,
+    pub max_steps: Option<u32>,
+    pub timeout_seconds: Option<u64>,
+    pub max_child_concurrency: Option<usize>,
+}
+
 pub(crate) fn retry_program_lifecycle_run(
     octon_dir: &Path,
     run_id: &str,
-    child: Option<String>,
+    options: ProgramLifecycleRetryOptions,
 ) -> Result<ProgramLifecycleRunResult> {
     let checkpoint = read_program_checkpoint_for_run(octon_dir, run_id)?
         .with_context(|| format!("missing program lifecycle checkpoint for run {run_id}"))?;
@@ -6939,17 +6947,18 @@ pub(crate) fn retry_program_lifecycle_run(
             executor: executor_kind_from_checkpoint(checkpoint.executor.as_deref()),
             max_iterations: None,
             execute_routes: true,
-            max_steps: checkpoint
+            max_steps: options
                 .max_steps
-                .filter(|steps| *steps > 0)
+                .or_else(|| checkpoint.max_steps.filter(|steps| *steps > 0))
                 .or(Some(DEFAULT_PROGRAM_RETRY_MAX_STEPS)),
-            timeout_seconds: None,
-            max_child_concurrency: checkpoint
+            timeout_seconds: options.timeout_seconds.or(checkpoint.timeout_seconds),
+            max_child_concurrency: options
                 .max_child_concurrency
+                .or(checkpoint.max_child_concurrency)
                 .or(Some(DEFAULT_PROGRAM_RETRY_MAX_CHILD_CONCURRENCY)),
             invocation_authority: "unattended".to_string(),
             run_inputs: checkpoint.run_inputs,
-            program_child_filter: child,
+            program_child_filter: options.child,
         },
     )
 }
@@ -38600,9 +38609,15 @@ children:
             "operator approved child implementation",
         )
         .unwrap();
-        let retry =
-            retry_program_lifecycle_run(&fixture.octon_dir, "approval-consumed", Some("a".into()))
-                .unwrap();
+        let retry = retry_program_lifecycle_run(
+            &fixture.octon_dir,
+            "approval-consumed",
+            ProgramLifecycleRetryOptions {
+                child: Some("a".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
         assert!(
             retry
                 .child_results
@@ -40144,9 +40159,12 @@ routes:
         )
         .unwrap();
 
-        let retry =
-            retry_program_lifecycle_run(&fixture.octon_dir, "retry-default-step-bound", None)
-                .unwrap();
+        let retry = retry_program_lifecycle_run(
+            &fixture.octon_dir,
+            "retry-default-step-bound",
+            ProgramLifecycleRetryOptions::default(),
+        )
+        .unwrap();
 
         assert_eq!(retry.final_verdict, "step-budget-exhausted-continuable");
         assert_eq!(
@@ -40205,9 +40223,12 @@ routes:
                 .unwrap();
         assert_eq!(planned_checkpoint.max_steps, Some(0));
 
-        let retry =
-            retry_program_lifecycle_run(&fixture.octon_dir, "retry-zero-step-checkpoint", None)
-                .unwrap();
+        let retry = retry_program_lifecycle_run(
+            &fixture.octon_dir,
+            "retry-zero-step-checkpoint",
+            ProgramLifecycleRetryOptions::default(),
+        )
+        .unwrap();
 
         assert_eq!(retry.final_verdict, "step-budget-exhausted-continuable");
         assert_eq!(
@@ -40223,6 +40244,146 @@ routes:
                 .unwrap()
                 .unwrap();
         assert_eq!(checkpoint.max_steps, Some(DEFAULT_PROGRAM_RETRY_MAX_STEPS));
+    }
+
+    #[test]
+    fn program_retry_accepts_explicit_multi_step_budget() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("retry-explicit-step-bound", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("retry-explicit-step-bound".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let retry = retry_program_lifecycle_run(
+            &fixture.octon_dir,
+            "retry-explicit-step-bound",
+            ProgramLifecycleRetryOptions {
+                max_steps: Some(2),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+
+        assert_eq!(retry.final_verdict, "step-budget-exhausted-continuable");
+        assert_eq!(
+            retry
+                .child_results
+                .iter()
+                .map(|summary| summary.route_id.as_str())
+                .collect::<Vec<_>>(),
+            vec![
+                "generate-packet-implementation-prompt",
+                "run-packet-implementation"
+            ]
+        );
+        assert!(fixture
+            .root
+            .join("children/a/support/implementation-run.md")
+            .is_file());
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "retry-explicit-step-bound")
+                .unwrap()
+                .unwrap();
+        assert_eq!(checkpoint.max_steps, Some(2));
+    }
+
+    #[test]
+    fn program_retry_inherits_and_overrides_checkpoint_execution_limits() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("retry-checkpoint-limits", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("retry-checkpoint-limits".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: Some(1),
+                timeout_seconds: Some(42),
+                max_child_concurrency: Some(2),
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        retry_program_lifecycle_run(
+            &fixture.octon_dir,
+            "retry-checkpoint-limits",
+            ProgramLifecycleRetryOptions::default(),
+        )
+        .unwrap();
+        let inherited =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "retry-checkpoint-limits")
+                .unwrap()
+                .unwrap();
+        assert_eq!(inherited.max_steps, Some(1));
+        assert_eq!(inherited.timeout_seconds, Some(42));
+        assert_eq!(inherited.max_child_concurrency, Some(2));
+
+        let override_retry = retry_program_lifecycle_run(
+            &fixture.octon_dir,
+            "retry-checkpoint-limits",
+            ProgramLifecycleRetryOptions {
+                max_steps: Some(2),
+                timeout_seconds: Some(9),
+                max_child_concurrency: Some(1),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+
+        assert_eq!(
+            override_retry
+                .child_results
+                .iter()
+                .map(|summary| summary.route_id.as_str())
+                .collect::<Vec<_>>(),
+            vec!["run-packet-implementation", "promote-proposal"]
+        );
+        let overridden =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "retry-checkpoint-limits")
+                .unwrap()
+                .unwrap();
+        assert_eq!(overridden.max_steps, Some(2));
+        assert_eq!(overridden.timeout_seconds, Some(9));
+        assert_eq!(overridden.max_child_concurrency, Some(1));
     }
 
     #[test]
@@ -42464,9 +42625,15 @@ routes:
         assert_eq!(approval.action, "approve");
         assert!(fixture.root.join(&approval.evidence_path).is_file());
 
-        let retry =
-            retry_program_lifecycle_run(&fixture.octon_dir, "operator-control", Some("a".into()))
-                .unwrap();
+        let retry = retry_program_lifecycle_run(
+            &fixture.octon_dir,
+            "operator-control",
+            ProgramLifecycleRetryOptions {
+                child: Some("a".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
         assert_eq!(retry.run_id, "operator-control");
 
         let cancelled = cancel_program_lifecycle_run(
@@ -42480,9 +42647,15 @@ routes:
             .octon_dir
             .join("state/control/execution/runs/operator-control/cancellation.yml")
             .is_file());
-        let retry_after_cancel =
-            retry_program_lifecycle_run(&fixture.octon_dir, "operator-control", Some("a".into()))
-                .unwrap();
+        let retry_after_cancel = retry_program_lifecycle_run(
+            &fixture.octon_dir,
+            "operator-control",
+            ProgramLifecycleRetryOptions {
+                child: Some("a".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
         assert_eq!(retry_after_cancel.final_verdict, "cancelled");
         assert_eq!(retry_after_cancel.route_execution_mode, "none");
         assert!(retry_after_cancel.child_results.is_empty());
