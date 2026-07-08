@@ -44,7 +44,7 @@ _Generated README from canonical workflow `proposal-packet-delivery`._
 ## Usage
 
 ```text
-/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>
+/octon-proposal-run-packet-delivery
 ```
 
 ## Purpose
@@ -70,8 +70,6 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## Failure Conditions
 
 - Required inputs are missing or invalid.
-- Required admission inputs are presented as optional without a named,
-  evidence-backed derivation.
 - The canonical workflow contract or stage assets are missing.
 - Verification criteria are not satisfied.
 
@@ -105,8 +103,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] proposal review/readiness gates and implementation authorization are fresh before implementation
 - [ ] run-packet-implementation owns implementation execution and target-owned receipts remain authoritative
 - [ ] implementation conformance and post-implementation drift/churn pass before promotion
-- [ ] feature-catalog-drift validates with validate-feature-catalog-drift-closeout.sh before promotion or completed delivery
-- [ ] unresolved feature-catalog drift blocks completed delivery and records next owning lifecycle
+- [ ] feature catalog drift validates with validate-feature-catalog-drift-closeout.sh before promotion, closeout, delivery, or cleaned claims
+- [ ] unresolved feature-catalog drift blocks completed delivery and records the next owning documentation route without authorizing catalog mutation
 - [ ] promote-proposal owns implemented status and promotion receipt evidence
 - [ ] closeout-packet owns proposal-closeout.md and archive authorization
 - [ ] partition-clean archive readiness requires a validating proposal-packet-delivery-order-override receipt, closeout-worktree report, and lifecycle-interaction-return

@@ -41,7 +41,7 @@ _Generated README from canonical workflow `proposal-program-delivery`._
 ## Usage
 
 ```text
-/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
+/proposal-program-delivery
 ```
 
 ## Purpose
@@ -67,8 +67,6 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## Failure Conditions
 
 - Required inputs are missing or invalid.
-- Required admission inputs are presented as optional without a named,
-  evidence-backed derivation.
 - The canonical workflow contract or stage assets are missing.
 - Verification criteria are not satisfied.
 
@@ -79,8 +77,6 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `delivery_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-receipt.yml`: Aggregate proposal-program-delivery-receipt output validated by validate-proposal-program-delivery-receipt.sh.
 - `delivery_evidence_index` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/proposal-program-delivery-evidence-index.yml`: Compact retained delivery evidence index validated by validate-proposal-program-delivery-evidence-index.sh; evidence-only and non-authorizing.
 - `feature_catalog_drift_receipt` -> `/.octon/state/evidence/runs/workflows/{{date}}-proposal-program-delivery-{{slug}}/feature-catalog-drift-receipt.yml`: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
-
-Non-canonical order requires a retained `proposal-program-delivery-order-override-receipt-v1` order override receipt. The delivery-readiness-preflight stage writes a retained readiness receipt consumed by later stages. Runner handoff refs are delivery input only and cannot satisfy child packet, archive, generated-publication, cleanup, Change, branch, final sync, or terminal proof gates. Compact blocker-remediation receipts handle recoverable retry artifact budgets only; compact summaries remain evidence-only and never replace route-owned receipts. Repeated unchanged no-dispatch or max-step states update the bounded no-dispatch attempt ledger instead of emitting another full compact evidence bundle; the ledger remains evidence-only and never authorizes execution or replaces route-owned receipts.
 
 ## Steps
 
@@ -98,13 +94,15 @@ Non-canonical order requires a retained `proposal-program-delivery-order-overrid
 ## Verification Gate
 
 - [ ] profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim
+- [ ] admission diagnostics distinguish required delivery inputs from forbidden substitutes before expensive continuation or mutation
 - [ ] profile and workflow evidence record target_outcome, release state, order policy, PR policy, stash policy, runner handoff refs when supplied, include-path classification state, and retained preflight refs
-- [ ] execution_order_policy enforces child-before-parent-delivery unless a valid order override receipt is retained
-- [ ] delivery-readiness-preflight records a retained readiness receipt before expensive continuation
+- [ ] execution_order_policy enforces child-before-parent-delivery unless a valid target-bound order override receipt is retained
+- [ ] delivery-readiness-preflight passes before expensive child lifecycle continuation or parent delivery
 - [ ] child packet receipts remain target-owned and parent summary evidence does not replace them
-- [ ] feature-catalog-drift validates with validate-feature-catalog-drift-closeout.sh before completed delivery
-- [ ] unresolved child or parent feature-catalog drift blocks completed delivery and records next owning lifecycle
+- [ ] feature catalog drift validates with validate-feature-catalog-drift-closeout.sh before parent closeout, delivery, or cleaned claims
+- [ ] unresolved child or parent feature-catalog drift blocks completed delivery and records next owning documentation routes without replacing child receipts
 - [ ] closeout-change or closeout-worktree owns Change closeout and any hosted mutation
+- [ ] git mutation preflight passes before branch-local commit, push, hosted no-PR landing, sync, cleanup, or branch deletion
 - [ ] dirty or stale source posture selects a route-owned clean worktree with include-path classification before reconstruction, broad stage-all, staging, or commit
 - [ ] branch landing authorization exists before landed, synced, or cleaned claims
 - [ ] branch cleanup authorization exists before source branch cleanup claims
@@ -113,9 +111,11 @@ Non-canonical order requires a retained `proposal-program-delivery-order-overrid
 - [ ] delivery receipt validates with validate-proposal-program-delivery-receipt.sh
 - [ ] lifecycle postmortem threshold status is recorded when repeated blocker or recovery thresholds apply
 - [ ] compact blocker-remediation receipts validate repeated fingerprint, repeated full workflow directory, file-count, and byte-count budget triggers when those triggers apply
-- [ ] no-dispatch attempt ledger records unchanged no-dispatch and max-step attempts with key digest, input digest, blocker fingerprint, attempt count, timestamps, and source evidence refs when those attempts repeat
+- [ ] compact blocker-remediation evidence is evidence-only and does not satisfy child-owned receipts, parent delivery, archive, cleanup, Change, branch cleanup, generated publication, terminal proof, or proposal status claims
+- [ ] no-dispatch attempt ledgers validate repeated unchanged no-dispatch and max-step states with key digest, input digest, blocker fingerprint, bounded attempt metadata, and source evidence refs when those triggers apply
+- [ ] no-dispatch attempt ledger evidence is evidence-only and does not satisfy child-owned receipts, parent delivery, archive, cleanup, Change, branch cleanup, generated publication, terminal proof, or proposal status claims
 - [ ] delivery evidence index validates with validate-proposal-program-delivery-evidence-index.sh and remains evidence-only
-- [ ] stop condition taxonomy maps blockers to owning routes or validators and prevents aggregate evidence from authorizing missing target-owned receipts
+- [ ] stop_condition_taxonomy maps blockers to owning routes or validators and prevents aggregate evidence from authorizing missing target-owned receipts
 
 ## References
 

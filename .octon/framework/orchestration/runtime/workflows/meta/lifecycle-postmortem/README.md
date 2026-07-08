@@ -86,7 +86,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] id: postmortem-output-validated
 - [ ] description: Any supplied evaluator report or structured output passes the lifecycle-postmortem validator before being treated as usable evidence.
 - [ ] id: proposal-program-delivery-threshold-bound
-- [ ] description: Proposal-program delivery postmortems required by repeated blocker, recovery, or long-run thresholds bind evaluation.yml, report.md, readiness-summary.md, evidence-map.yml, and digest-bound retained evidence refs before learned-from completion claims.
+- [ ] description: Proposal-program delivery postmortems that are required by repeated blocker, recovery, or long-run thresholds bind evaluation.yml, report.md, readiness-summary.md, evidence-map.yml, and digest-bound retained evidence refs before learned-from completion claims.
 - [ ] id: full-postmortem-contract-complete
 - [ ] description: Any supplied evaluator report and structured output preserve the full eighteen-section rigorous postmortem contract.
 
