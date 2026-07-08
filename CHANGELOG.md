@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.6.100](https://github.com/jamesryancooper/octon/compare/octon-v0.6.99...octon-v0.6.100) (2026-07-08)
+
+
+### Features
+
+* **churn:** reduce producer-generated churn ([53cde5a](https://github.com/jamesryancooper/octon/commit/53cde5aa74b503362e354d124878cc65cfbb0c65))
+* **program:** bind route write leases ([9ac0b97](https://github.com/jamesryancooper/octon/commit/9ac0b970b6c9df77b57ac5487a0797b58e8a9e4c))
+
+
+### Bug Fixes
+
+* **ci:** harden hosted runner apt setup ([6cf3152](https://github.com/jamesryancooper/octon/commit/6cf315219fe8362f6d8c306aff8888793d300461))
+* **governance:** refresh runtime effective read models ([24a7e09](https://github.com/jamesryancooper/octon/commit/24a7e092f3ddc03e54c8a1935e880f6e01f2ae73))
+* **governance:** refresh validation packet bindings ([55a1ec6](https://github.com/jamesryancooper/octon/commit/55a1ec60196b920a3c23d40b46aead7e4c582d9b))
+* **governance:** retain repo-hygiene audit attachment ([3f7a16f](https://github.com/jamesryancooper/octon/commit/3f7a16f4c532fce24024d662a5056963ce02fcc0))
+* **hygiene:** classify publish run residue as non-liveness ([ea00adc](https://github.com/jamesryancooper/octon/commit/ea00adc879e1a38e888d4a4d13beec02a8cf06f4))
+* **proposal-lifecycle:** advance program closeout routing ([234cd7e](https://github.com/jamesryancooper/octon/commit/234cd7ef117b80b8ec5860cfd5dcdd99538b748d))
+* **repo-hygiene:** fail closed on reference scan errors ([cb86e83](https://github.com/jamesryancooper/octon/commit/cb86e838f1bc72588e976b9347536ad6064561b4))
+* **repo-hygiene:** optimize reference scanning ([7b26abe](https://github.com/jamesryancooper/octon/commit/7b26abe1ec8dde5f21f41ff4eded6dfdb808d132))
+* **repo-hygiene:** unblock terminal residue cleanup ([c161209](https://github.com/jamesryancooper/octon/commit/c161209949e462c39c5f9918879613851e6e76c7))
+* **runtime:** remove redundant compact blocker guard ([81f2afe](https://github.com/jamesryancooper/octon/commit/81f2afe543f40df77a14818074cbf8a4b93c1a44))
+* **runtime:** restore mainline validation ([3af8eb3](https://github.com/jamesryancooper/octon/commit/3af8eb3e1887d365b1d63166fdf3448a6a7fea7a))
+
 ## [0.6.99](https://github.com/jamesryancooper/octon/compare/octon-v0.6.98...octon-v0.6.99) (2026-06-30)
 
 
