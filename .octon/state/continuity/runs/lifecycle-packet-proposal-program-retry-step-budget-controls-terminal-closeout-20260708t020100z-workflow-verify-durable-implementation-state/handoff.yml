@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-verify-durable-implementation-state
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-verify-durable-implementation-state/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-verify-durable-implementation-state/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-verify-durable-implementation-state/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-verify-durable-implementation-state/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-verify-durable-implementation-state/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-verify-durable-implementation-state/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow-verify-durable-implementation-state/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: verify-durable-implementation-state--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t020100z-workflow/run-contract.yml
+next_action: null
+updated_at: 2026-07-08T01:56:21.207788Z

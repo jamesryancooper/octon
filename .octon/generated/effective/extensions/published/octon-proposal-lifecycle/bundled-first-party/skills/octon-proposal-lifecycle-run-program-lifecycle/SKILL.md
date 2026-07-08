@@ -100,6 +100,12 @@ Executor behavior:
   approve --run-id <program-run> --child <child> --route <route> --reason
   <reason>`, followed by program retry or lifecycle resume. Approval remains
   enforced by the adapter.
+- `octon lifecycle program retry --run-id <program-run>` continues an existing
+  checkpoint with execute-routes enabled. It accepts `--max-steps`,
+  `--timeout-seconds`, and `--max-child-concurrency` for one bounded retry
+  attempt. Supplied values override checkpointed execution limits for that
+  attempt; omitted values inherit retained checkpoint limits when present, then
+  fall back to the safe one-step/single-child retry defaults.
 - `octon lifecycle cancel --run-id <run> --reason <text>` is the shared durable
   cancellation control. `octon lifecycle program cancel` remains a compatibility
   alias. Cancelled runs must not dispatch selected parent or child routes.

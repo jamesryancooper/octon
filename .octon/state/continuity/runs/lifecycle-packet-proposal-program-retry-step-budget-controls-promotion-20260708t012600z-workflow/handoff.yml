@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-promotion-20260708t012600z-workflow/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-07-08T01:25:14.555744Z

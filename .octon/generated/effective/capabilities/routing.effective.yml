@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-060c1c0f6b10
-published_at: 2026-07-08T00:07:41Z
+generation_id: capabilities-24a3bbc49b8e
+published_at: 2026-07-08T01:50:28Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-07-08T00-07-41Z-capabilities-060c1c0f6b10.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-07-08T01-50-28Z-capabilities-24a3bbc49b8e.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: e5df43f79b69ad5bfb1cfd84adbd9cd1f37d1cc36b201308ebfd01bc553acbb3
+  extensions_catalog_sha256: 54a91cbcd31ba685eee0c4e9396826fe7e550e6cf27a648327a7cd0dc17544f4
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 12edb338ba5b3d61cce163e1c0144b681329f399f39089d2a37060a4770bc346
+  extensions_generation_lock_sha256: 596c586a2ce93d73dcdd54ef8d660146eca814679c1c4c4fa01dc85bf66adedb
   extensions_generation_id: extensions-e539e7c8b239
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
