@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.101](https://github.com/jamesryancooper/octon/compare/octon-v0.6.100...octon-v0.6.101) (2026-07-08)
+
+
+### Features
+
+* **lifecycle:** add program retry budget controls ([756b9b7](https://github.com/jamesryancooper/octon/commit/756b9b76d414975c59e2915d737cffb613abda52))
+
 ## [0.6.100](https://github.com/jamesryancooper/octon/compare/octon-v0.6.99...octon-v0.6.100) (2026-07-08)
 
 
