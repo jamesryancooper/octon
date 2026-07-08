@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/governance-efficiency-report-v1.schema.json",
+  "title": "Octon Governance Efficiency Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_role",
+    "report_id",
+    "generated_at",
+    "non_authority_classification",
+    "producer",
+    "consumer",
+    "target",
+    "authority_boundaries",
+    "evidence_inputs",
+    "findings",
+    "uncertainty",
+    "validation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-governance-efficiency-report-v1"
+    },
+    "artifact_role": {
+      "const": "governance-efficiency-report"
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*(@[A-Za-z0-9._:-]+)?$"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "non_authority_classification": {
+      "const": "advisory-only"
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "entrypoint_ref", "owner"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "entrypoint_ref": {"type": "string", "minLength": 1},
+        "owner": {"type": "string", "minLength": 1}
+      }
+    },
+    "consumer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_consumers", "forbidden_consumers"],
+      "properties": {
+        "allowed_consumers": {"$ref": "#/$defs/non_empty_string_array"},
+        "forbidden_consumers": {
+          "type": "array",
+          "minItems": 9,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "target_kind"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "target_kind": {
+          "type": "string",
+          "enum": ["proposal-packet", "proposal-program", "lifecycle-evidence", "mixed"]
+        }
+      }
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorizes_review",
+        "authorizes_validation",
+        "authorizes_closeout",
+        "authorizes_cleanup",
+        "authorizes_archive",
+        "authorizes_terminal_proof",
+        "authorizes_policy_mutation",
+        "authorizes_lifecycle_transition",
+        "replaces_child_receipts"
+      ],
+      "properties": {
+        "authorizes_review": {"const": false},
+        "authorizes_validation": {"const": false},
+        "authorizes_closeout": {"const": false},
+        "authorizes_cleanup": {"const": false},
+        "authorizes_archive": {"const": false},
+        "authorizes_terminal_proof": {"const": false},
+        "authorizes_policy_mutation": {"const": false},
+        "authorizes_lifecycle_transition": {"const": false},
+        "replaces_child_receipts": {"const": false}
+      }
+    },
+    "evidence_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "observed", "evidence_class"],
+        "properties": {
+          "ref": {"type": "string", "minLength": 1},
+          "observed": {"type": "boolean"},
+          "evidence_class": {
+            "type": "string",
+            "enum": [
+              "proposal-review",
+              "implementation-run",
+              "implementation-conformance",
+              "post-implementation-drift",
+              "validation",
+              "closeout",
+              "terminal-proof",
+              "archive-metadata",
+              "retained-run-evidence",
+              "other"
+            ]
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "finding_id",
+          "category",
+          "risk_covered",
+          "latency_cost",
+          "evidence_refs",
+          "confidence",
+          "recommendation",
+          "recommendation_authority",
+          "requires_follow_up_proposal"
+        ],
+        "properties": {
+          "finding_id": {"type": "string", "pattern": "^GE-[0-9]{3}$"},
+          "category": {
+            "type": "string",
+            "enum": ["latency", "redundancy", "automation", "batching", "risk-based", "uncertainty"]
+          },
+          "risk_covered": {"type": "string", "minLength": 1},
+          "latency_cost": {"type": "string", "minLength": 1},
+          "evidence_refs": {"$ref": "#/$defs/non_empty_string_array"},
+          "confidence": {"type": "string", "enum": ["low", "medium", "high", "unknown"]},
+          "recommendation": {"type": "string", "minLength": 1},
+          "recommendation_authority": {"const": "advisory-only"},
+          "requires_follow_up_proposal": {"const": true}
+        }
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missing_evidence_count", "partial_evidence_count", "notes"],
+      "properties": {
+        "missing_evidence_count": {"type": "integer", "minimum": 0},
+        "partial_evidence_count": {"type": "integer", "minimum": 0},
+        "notes": {"$ref": "#/$defs/non_empty_string_array"}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validators_run", "negative_controls"],
+      "properties": {
+        "validators_run": {"$ref": "#/$defs/non_empty_string_array"},
+        "negative_controls": {"$ref": "#/$defs/non_empty_string_array"}
+      }
+    }
+  },
+  "$defs": {
+    "non_empty_string_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

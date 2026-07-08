@@ -1,0 +1,12 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/workflows/governance-efficiency-program-20260708T000002Z/parent/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/workflows/governance-efficiency-program-20260708T000002Z/parent/context/context-pack.json
+context_pack_sha256: sha256:7431dc7bc7b9c262c6c8f48071f7461e1a22ab7992ed2eaff4fd084c87c94074
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/workflows/governance-efficiency-program-20260708T000002Z/parent/context/model-visible-context.json
+model_visible_context_sha256: sha256:e26102c606793235efed1e2917bd3a78b24d1a905afaba3eda7c3edd7b0841f1
+receipt_sha256: sha256:66774cf48e3dd199b05e44985d9d3443fd3d6d710be307a02c5f2a253808214e
+route_id: review-program
+run_id: governance-efficiency-program-20260708T000002Z
+schema_version: active-context-pack-v1
+updated_at: 2026-07-08T16:37:46.674492Z
+validity_state: valid

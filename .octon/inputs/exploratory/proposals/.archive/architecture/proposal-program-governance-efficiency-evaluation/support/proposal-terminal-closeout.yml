@@ -1,0 +1,19 @@
+schema_version: proposal-program-terminal-closeout-receipt-v1
+receipt_id: proposal-program-governance-efficiency-evaluation-terminal-20260708T172000Z
+proposal_id: proposal-program-governance-efficiency-evaluation
+terminal_verdict: archive-ready
+archive_ready: yes
+closed_at: 2026-07-08T17:20:00Z
+child_authority_preserved: true
+parent_summary_satisfies_child_receipts: false
+advisory_output_used_as_gate: false
+required_child_count: 5
+terminal_child_count: 5
+archived_child_count: 5
+evidence_refs:
+  - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-governance-efficiency-evaluation/support/proposal-closeout.md
+  - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-governance-efficiency-report-contract/support/proposal-terminal-closeout.yml
+  - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-governance-efficiency-evidence-collector/support/proposal-terminal-closeout.yml
+  - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-governance-efficiency-scoring-and-classification/support/proposal-terminal-closeout.yml
+  - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-governance-efficiency-operator-surface/support/proposal-terminal-closeout.yml
+  - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-governance-efficiency-validation-and-documentation/support/proposal-terminal-closeout.yml

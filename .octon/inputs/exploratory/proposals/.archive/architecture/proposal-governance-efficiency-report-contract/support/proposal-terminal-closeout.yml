@@ -1,0 +1,13 @@
+schema_version: proposal-packet-terminal-closeout-receipt-v1
+terminal_run_id: governance-efficiency-report-contract-terminal-20260708T165500Z
+terminalized_at: "2026-07-08T16:55:00Z"
+packet:
+  proposal_id: proposal-governance-efficiency-report-contract
+  path: .octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-report-contract
+  proposal_kind: architecture
+  status: implemented
+target_outcome: archive-ready
+terminal_verdict: archive-ready
+archive_ready: yes
+child_authority_preserved: true
+advisory_output_used_as_gate: false

@@ -1,0 +1,69 @@
+schema_version: proposal-v1
+proposal_id: proposal-governance-efficiency-validation-and-documentation
+title: Governance Efficiency Validation And Documentation
+summary: Add regression validation and documentation for the governance efficiency evaluator, including advisory-only behavior, authority boundaries, report interpretation, and safe follow-up routes for recommendations.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+  - ".octon/framework/product/features/catalog.yml"
+status: archived
+archive:
+  archived_at: 2026-07-08
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-governance-efficiency-validation-and-documentation
+  promotion_evidence:
+    - .octon/framework/assurance/runtime/_ops/tests/test-validate-governance-efficiency-report.sh
+    - .octon/framework/assurance/runtime/_ops/tests/test-collect-governance-efficiency-evidence.sh
+    - .octon/framework/assurance/runtime/_ops/tests/test-evaluate-governance-efficiency.sh
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-governance-efficiency-extension.sh
+    - .octon/framework/product/features/catalog.yml
+    - .octon/framework/product/features/governance-efficiency-evaluation.md
+    - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-governance-efficiency-validation-and-documentation/support/implementation-run.md
+    - .octon/inputs/exploratory/proposals/.archive/architecture/proposal-governance-efficiency-validation-and-documentation/support/validation.md
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement validation and documentation only after the report, collector, scoring, and operator-surface children reach terminal outcomes.
+related_proposals:
+  - proposal-program-governance-efficiency-evaluation
+  - proposal-governance-efficiency-report-contract
+  - proposal-governance-efficiency-evidence-collector
+  - proposal-governance-efficiency-scoring-and-classification
+  - proposal-governance-efficiency-operator-surface
+selected_implementation_target: Governance efficiency evaluator validation and documentation.
+scope_statement: This child owns regression validation and documentation. It does not change the evaluator contract, collector, scoring rules, or operator entrypoint except to document and validate their accepted behavior.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable validation and documentation changes.
+generated_input_authority_impact: Documentation and validation must state that evaluator output remains advisory and cannot authorize lifecycle transitions.
+authority_class_impact:
+  framework: May add regression tests and catalog documentation for advisory evaluator behavior.
+  instance: No instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: May cite retained evidence examples in documentation without replacing evidence authority.
+  generated: No generated output authority change.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Regression tests proving advisory-only behavior.
+  - Documentation explaining interpretation, uncertainty, and follow-up proposal routes.
+  - Negative controls for misuse as delivery, closeout, archive, cleanup, or terminal evidence.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "advisory-only regression tests"
+  - "documentation coverage checks"
+acceptance_criteria_summary: Validation and documentation are acceptable when users can interpret reports safely and tests prove evaluator output cannot replace lifecycle authority.
+risk_posture: Medium. Poor documentation can turn advisory findings into informal gates or unsafe simplification pressure.
+rollback_summary: Revert or supersede only validation, documentation, and catalog updates owned by this child.
+owner:
+  role: Octon governance efficiency validation and documentation architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-01
+source_lineage:
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+  - ".octon/framework/product/features/catalog.yml"

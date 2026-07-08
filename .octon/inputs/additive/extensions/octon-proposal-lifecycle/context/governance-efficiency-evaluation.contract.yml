@@ -1,0 +1,22 @@
+schema_version: "octon-extension-context-v1"
+context_id: "governance-efficiency-evaluation"
+context_role: "advisory-analysis-only"
+non_authority_classification: "publication-input-only"
+core_contract_ref: ".octon/framework/product/contracts/governance-efficiency-report-v1.schema.json"
+core_validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-governance-efficiency-report.sh"
+optional_operator_surfaces:
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/governance-efficiency-evaluate.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/governance-efficiency-evaluation/SKILL.md"
+forbidden_authority_claims:
+  - "review-authorization"
+  - "validation-gate"
+  - "closeout"
+  - "cleanup"
+  - "archive"
+  - "terminal-proof"
+  - "policy-mutation"
+  - "lifecycle-transition"
+  - "child-receipt-substitution"
+notes:
+  - "The evaluator is optional operator access and never a proposal lifecycle gate."
+  - "Recommendations require a future accepted proposal before mutation."

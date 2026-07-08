@@ -1,0 +1,42 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: governance-efficiency-program-20260708T000000Z
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-governance-efficiency-evaluation
+executor: auto
+invocation_authority: unattended
+timeout_seconds: null
+max_steps: null
+max_child_concurrency: null
+child_registry_digest: sha256:9207421dc10620e92a0d22bc2ece6552a1ee5e2175954e9392b19ec16935d12e
+execution_mode: sequential
+run_inputs:
+  target_outcome: cleaned
+scheduler_decision: []
+child_states: {}
+recovery_attempts: {}
+program_recovery_action_attempts: {}
+recovery_progress_fingerprints: {}
+closeout_hygiene_suppressions: {}
+residue_cleanup_attempts: {}
+worktree_baseline_ref: .octon/state/evidence/runs/workflows/governance-efficiency-program-20260708T000000Z/worktree-baseline.yml
+interaction_request_refs: []
+interaction_return_refs: []
+approvals: []
+program_recovery_recipe_validation_status: null
+program_recovery_recipe_validation_failures: []
+program_recovery_recipe_blocker_class: null
+program_recovery_recipe_route_id: null
+program_recovery_recipe_delegation_contract_basis: null
+latest_event_offset: 2
+latest_event_index: 2
+latest_event_sha256: sha256:bf599bfc5e81599020281374b9612052e357c45d94bb57f1a75f88d206bc6917
+event_log_sha256: sha256:6ccb46a40759f3e5b52923c75d64a5c5889ca3d19d83a7f0cb5f71034b8e40a1
+derived_from_event_index: 2
+atomic_barrier_state: null
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-human
+resume_instruction: octon lifecycle resume --run-id governance-efficiency-program-20260708T000000Z
